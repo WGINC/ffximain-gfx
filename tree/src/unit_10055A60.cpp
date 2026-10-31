@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10056160  (unit unit_10055A60: no unit evidence of its own; in the gap between 0x10055A50 (CMoPathObject) and 0x100562A0 (CMoSphRes) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70
 XI_API long double __thiscall Unit10055A60_MinOf10055F60OverIndexPairs(void * self_, undefined4 * param_2, float * param_3)
 {
   int iVar1;
@@ -40,7 +40,7 @@ XI_API long double __thiscall Unit10055A60_MinOf10055F60OverIndexPairs(void * se
 }
 
 // FUNCTION: FFXIMAIN 0x10056260  (unit unit_10055A60: no unit evidence of its own; in the gap between 0x10055A50 (CMoPathObject) and 0x100562A0 (CMoSphRes) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API char ** __cdecl CMoRabRes_GetRuntimeClass(void)
 {
   return &CMoRabRes_classdesc;

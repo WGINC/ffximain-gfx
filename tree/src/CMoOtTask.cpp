@@ -4,28 +4,28 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10042650  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void CMoOtTask::vf011()
 {
   ;
 }
 
 // FUNCTION: FFXIMAIN 0x10044870  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoOtTask::GetRuntimeClass_variant0()
 {
   return &CMoOtTask_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10055560  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoOtTask::GetRuntimeClass_variant1()
 {
   return &CMoOtTask_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10055570  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoOtTask::Constructor(void * self)
 {
   uint64_t uVar1;
@@ -39,7 +39,7 @@ uint64_t __thiscall CMoOtTask::Constructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10055640  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoOtTask::Clear(void * self)
 {
   *(uint32_t *)((int)self + 8) = 0;

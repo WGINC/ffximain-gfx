@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100106C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __cdecl CAtelIdleTask::UpdateFrame()
 {
   uint32_t uVar1;
@@ -24,7 +24,7 @@ uint32_t __cdecl CAtelIdleTask::UpdateFrame()
 }
 
 // FUNCTION: FFXIMAIN 0x100142B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __cdecl CAtelIdleTask::Create()
 {
   undefined4 *self;
@@ -50,7 +50,7 @@ undefined4 __cdecl CAtelIdleTask::Create()
 }
 
 // FUNCTION: FFXIMAIN 0x10014330  (unit CAtelIdleTask: class model places it in CAtelIdleTask)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall fn_10014330(void * self_, undefined4 param_1)
 {
   orig::CMoTask_Destructor_v1(self_);

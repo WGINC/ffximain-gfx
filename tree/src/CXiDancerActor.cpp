@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100AB700  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CXiDancerActor::Construct(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, uint32_t param_4)
 {
   orig::CXiSkeletonActor_Constructor_1Arg(self,0);
@@ -16,7 +16,7 @@ undefined4 __thiscall CXiDancerActor::Construct(void * self, undefined4 param_1,
 }
 
 // FUNCTION: FFXIMAIN 0x100AB750  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CXiDancerActor::InitBind(void * self, undefined4 param_1, undefined4 param_2, undefined4 * param_3, uint32_t param_4)
 {
   void *pvVar1;
@@ -45,7 +45,7 @@ void __thiscall CXiDancerActor::InitBind(void * self, undefined4 param_1, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x100AB830  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CXiDancerActor::SetPosition(void * self, undefined4 * param_1)
 {
   void *this_00;
@@ -63,7 +63,7 @@ void __thiscall CXiDancerActor::SetPosition(void * self, undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100AB880  (unit CXiDancerActor: between 0x100AB6E0 (class model places it in CXiDancerActor) and 0x100ABC10 (class model places it in CXiDancerActor), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiDancerActor_SetAnglesWrapped(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 * param_2)
 {
   float *pfVar1;
@@ -120,7 +120,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiDancerActor_SetAnglesW
 }
 
 // FUNCTION: FFXIMAIN 0x100AB9A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CXiDancerActor::ApplyStateBlock(void * self, void * param_1, undefined4 * param_2, undefined4 * param_3, undefined4 * param_4)
 {
   short sVar1;

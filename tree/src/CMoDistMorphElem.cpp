@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003F440  (placed by IDB name)
-// GATE: PASS -- 100 trials, 61 returned normally, 180 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 61 returned normally, 180 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 61
 int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, char a7)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -162,7 +162,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
 }
 
 // FUNCTION: FFXIMAIN 0x1003F8A0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 63 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 63
 _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -327,14 +327,14 @@ LABEL_13:
 }
 
 // FUNCTION: FFXIMAIN 0x10043580  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoDistMorphElem::GetRuntimeClass()
 {
   return &CMoDistMorphElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10052E20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoDistMorphElem::Construct(void * self)
 {
   uint64_t uVar1;
@@ -346,14 +346,14 @@ uint64_t __thiscall CMoDistMorphElem::Construct(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10052E40  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 BOOL CMoDistMorphElem::vf012(int a1)
 {
   return a1 == 6;
 }
 
 // FUNCTION: FFXIMAIN 0x10052E50  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoDistMorphElem::set_field_1C0(int a2)
 {
   this->field_1C0 = a2;
@@ -361,7 +361,7 @@ int CMoDistMorphElem::set_field_1C0(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10052E60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoDistMorphElem::ScalarDeletingDtor(char a2)
 {
   orig::CXi471011C8_VT_1032AC90_Dtor((int *)this);

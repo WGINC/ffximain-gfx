@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10072A70  (unit unit_10072A50: no unit evidence of its own; in the gap between 0x10072A30 (CMoTask_VT_1032C908) and 0x10072D00 (CMoResourceMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10072A50_Step(void * self_)
 {
   uint32_t *puVar1;
@@ -103,7 +103,7 @@ LAB_10072c21:
 }
 
 // FUNCTION: FFXIMAIN 0x10072C30  (unit unit_10072A50: no unit evidence of its own; in the gap between 0x10072A30 (CMoTask_VT_1032C908) and 0x10072D00 (CMoResourceMng) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint64_t __thiscall Unit10072A50_Start(void * self_, undefined4 * param_1, undefined4 param_2)
 {
   uint32_t uVar1;

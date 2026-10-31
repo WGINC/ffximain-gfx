@@ -87,7 +87,7 @@ XI_API char __cdecl BeginEffectOffscreenPass(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10054F80  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API float * __stdcall EndEffectOffscreenPass(float *a1, int a2)
 {
   orig::CMoDX_SetViewMatrix((_DWORD ***)g_pResourceMng, (const void *)(g_pResourceMng + 2896));
@@ -100,7 +100,7 @@ XI_API float * __stdcall EndEffectOffscreenPass(float *a1, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10054FC0  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit100548D0_Init(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1032b6d8;
@@ -110,7 +110,7 @@ XI_API void __thiscall Unit100548D0_Init(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100550F0  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __attribute__((stdcall, regparm(3))) Unit100548D0_FreeSplineSet(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   int iVar1;
@@ -128,7 +128,7 @@ XI_API void __attribute__((stdcall, regparm(3))) Unit100548D0_FreeSplineSet(unde
 }
 
 // FUNCTION: FFXIMAIN 0x10055240  (unit unit_100548D0: no unit evidence of its own; in the gap between 0x100548C0 (CMoLfdElem) and 0x10055290 (CMoOT) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall LinkNode_Init(void * self_)
 {
   *(uint32_t *)((int)self_ + 0x14) = 0;

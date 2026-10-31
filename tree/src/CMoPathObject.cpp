@@ -3,7 +3,7 @@
 #include "CMoPathObject.hpp"
 
 // FUNCTION: FFXIMAIN 0x10055A50  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoPathObject::GetRuntimeClass()
 {
   return &CMoPathObject_classdesc;

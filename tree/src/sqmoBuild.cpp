@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102851C0  (unit sqmoBuild: asserts sqmoBuild.c)
-// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95
 XI_API int __cdecl SqmoBuild_ReadFrameChannel(undefined4 * param_1, int param_2)
 {
   int *piVar1;
@@ -50,7 +50,7 @@ XI_API int __cdecl SqmoBuild_ReadFrameChannel(undefined4 * param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102852E0  (unit sqmoBuild: asserts sqmoBuild.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl SqmoBuild_ReadKeyChannel(undefined4 * param_1, int param_2)
 {
   int *piVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1006EF70  (unit unit_1006E710: no unit evidence of its own; in the gap between 0x1006E6B0 (CMoProcessor) and 0x1006F5B0 (CMoProcessor_VT_1032C298) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Processor_InitIdentityMatrices(void * self_)
 {
   int iVar1;
@@ -63,7 +63,7 @@ XI_API void __thiscall Processor_InitIdentityMatrices(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1006F0A0  (unit unit_1006E710: no unit evidence of its own; in the gap between 0x1006E6B0 (CMoProcessor) and 0x1006F5B0 (CMoProcessor_VT_1032C298) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API __attribute__((target("sse,fpmath=sse"))) float * __thiscall Mat4x4_SafeTranspose(void * self_, float * param_1, undefined4 param_2, float * param_3)
 {
   float fVar1;

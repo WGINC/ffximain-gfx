@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1001DBD0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoResource_VT_1032C8AC::ReleaseTexture(void * self)
 {
   void *this_00;
@@ -25,7 +25,7 @@ undefined4 __thiscall CMoResource_VT_1032C8AC::ReleaseTexture(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1001DC20  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoResource_VT_1032C8AC::vf004(int a2)
 {
   *this->field_14 = a2;
@@ -33,7 +33,7 @@ int CMoResource_VT_1032C8AC::vf004(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10071A40  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 unsigned int ** CMoResource_VT_1032C8AC::ScalarDeletingDtor(char a2)
 {
   orig::CMoResource_Destructor((unsigned int **)this);

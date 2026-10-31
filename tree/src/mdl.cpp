@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1026E900  (unit mdl: asserts mdl.c)
-// GATE: PASS -- 100 trials, 23 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 23 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 23
 XI_API void __cdecl mdl_1026E900(void)
 {
   int iVar1;
@@ -49,7 +49,7 @@ XI_API void __cdecl mdl_1026E900(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1026EBF0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96
 XI_API int __cdecl Mdl_Register(int param_1, undefined4 param_2)
 {
   char *pcVar1;
@@ -81,7 +81,7 @@ XI_API int __cdecl Mdl_Register(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026ECC0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44
 XI_API undefined4 __cdecl Mdl_FreeAllSlots(void)
 {
   uint32_t *puVar1;
@@ -157,7 +157,7 @@ LAB_1026ed70:
 }
 
 // FUNCTION: FFXIMAIN 0x1026EE00  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 35 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 35 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 35
 XI_API void __cdecl Mdl_ClearSlotFlags(void)
 {
   int iVar1;
@@ -179,7 +179,7 @@ XI_API void __cdecl Mdl_ClearSlotFlags(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1026EF00  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 97 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 97
 XI_API int __cdecl Mdl_ChannelRegister(int param_1, undefined4 param_2)
 {
   int iVar1;
@@ -207,7 +207,7 @@ XI_API int __cdecl Mdl_ChannelRegister(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026F160  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58
 XI_API undefined4 __cdecl Mdl_FindNthItemB0001(int param_1, int param_2)
 {
   int iVar1;
@@ -235,7 +235,7 @@ XI_API undefined4 __cdecl Mdl_FindNthItemB0001(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026F1B0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 49 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 49 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 49
 XI_API undefined4 __cdecl Mdl_ReleaseEntries(void)
 {
   uint32_t *puVar1;
@@ -255,7 +255,7 @@ XI_API undefined4 __cdecl Mdl_ReleaseEntries(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1026F4F0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Mdl_GetEntryTable(int * param_1, int * param_2)
 {
   if ((0 < DAT_1099aed8) && (DAT_1099aedc != 0)) {
@@ -271,7 +271,7 @@ XI_API undefined4 __cdecl Mdl_GetEntryTable(int * param_1, int * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026F580  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 83 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 83
 XI_API void __cdecl Mdl_QueryEntryFlag(int param_1, undefined4 * param_2)
 {
   orig::Unit10284F90_GetValueByItemKind(*(int **)(param_1 * 0xc0 + 0xb4 + DAT_1099aedc),&param_1);
@@ -283,7 +283,7 @@ XI_API void __cdecl Mdl_QueryEntryFlag(int param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026F7B0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 84 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 84 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 84
 XI_API void __cdecl Mdl_GetEntryWord0(int param_1, undefined4 * param_2)
 {
   *param_2 = *(uint32_t *)(param_1 * 0xc0 + DAT_1099aedc);
@@ -291,7 +291,7 @@ XI_API void __cdecl Mdl_GetEntryWord0(int param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026F900  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76
 XI_API void __cdecl Mdl_SetChannelActive(int param_1, uint32_t param_2, int param_3)
 {
   uint32_t uVar1;
@@ -339,7 +339,7 @@ LAB_1026f979:
 }
 
 // FUNCTION: FFXIMAIN 0x1026F9A0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 80
 XI_API void __cdecl Mdl_UpdateEntryFlags(int param_1, uint32_t param_2, int param_3)
 {
   uint32_t *puVar1;
@@ -360,7 +360,7 @@ XI_API void __cdecl Mdl_UpdateEntryFlags(int param_1, uint32_t param_2, int para
 }
 
 // FUNCTION: FFXIMAIN 0x1026F9E0  (unit mdl: between 0x1026E900 (asserts mdl.c) and 0x1026FC60 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 80
 XI_API void __cdecl Mdl_SetChannelFlag80(int param_1, int param_2)
 {
   int iVar1;
@@ -387,7 +387,7 @@ XI_API void __cdecl Mdl_SetChannelFlag80(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026FE60  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70
 XI_API void __cdecl Mdl_CountSlotsFlag40(int * param_1)
 {
   uint8_t *pbVar1;
@@ -415,7 +415,7 @@ XI_API void __cdecl Mdl_CountSlotsFlag40(int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026FEA0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86
 XI_API void __cdecl Mdl_FindNthFlag40(int param_1, int * param_2)
 {
   int iVar1;
@@ -441,7 +441,7 @@ XI_API void __cdecl Mdl_FindNthFlag40(int param_1, int * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026FEF0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70
 XI_API void __cdecl Mdl_CountSlotsFlag80(int * param_1)
 {
   int iVar1;
@@ -466,7 +466,7 @@ XI_API void __cdecl Mdl_CountSlotsFlag80(int * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026FF30  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86
 XI_API void __cdecl Mdl_FindNthNegative(int param_1, int * param_2)
 {
   int iVar1;
@@ -492,7 +492,7 @@ XI_API void __cdecl Mdl_FindNthNegative(int param_1, int * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026FF80  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67
 XI_API undefined4 __cdecl Mdl_ComputeSlotBounds(int param_1, float * param_2)
 {
   int iVar1;
@@ -539,7 +539,7 @@ XI_API undefined4 __cdecl Mdl_ComputeSlotBounds(int param_1, float * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102700C0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70
 XI_API undefined4 __cdecl Mdl_LinkB0001ItemRefs(int param_1, int param_2, undefined4 param_3)
 {
   int iVar1;
@@ -598,7 +598,7 @@ XI_API undefined4 __cdecl Mdl_LinkB0001ItemRefs(int param_1, int param_2, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x102701B0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76
 XI_API void __cdecl Mdl_SetSlotLock(int param_1, uint32_t param_2, undefined4 * param_3, uint32_t param_4, int param_5)
 {
   uint32_t *puVar1;
@@ -627,7 +627,7 @@ XI_API void __cdecl Mdl_SetSlotLock(int param_1, uint32_t param_2, undefined4 * 
 }
 
 // FUNCTION: FFXIMAIN 0x10270240  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Mdl_GetSlotPtrs(int param_1, undefined4 * param_2, int * param_3)
 {
   if (param_2 != (undefined4 *)0x0) {
@@ -640,7 +640,7 @@ XI_API void __cdecl Mdl_GetSlotPtrs(int param_1, undefined4 * param_2, int * par
 }
 
 // FUNCTION: FFXIMAIN 0x10270290  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Mdl_GetSlotWord0(int param_1, undefined4 * param_2)
 {
   if (param_2 != (undefined4 *)0x0) {
@@ -650,7 +650,7 @@ XI_API void __cdecl Mdl_GetSlotWord0(int param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102703C0  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 80 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 80
 XI_API void __cdecl Mdl_UpdateSlotFlags(int param_1, uint32_t param_2, int param_3)
 {
   uint32_t *puVar1;
@@ -669,7 +669,7 @@ XI_API void __cdecl Mdl_UpdateSlotFlags(int param_1, uint32_t param_2, int param
 }
 
 // FUNCTION: FFXIMAIN 0x10270410  (unit mdl: between 0x1026FC60 (asserts mdl.c) and 0x10270690 (asserts mdl.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 75 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 75
 XI_API void __cdecl Mdl_SetSlotVisible(int param_1, int param_2)
 {
   int iVar1;
@@ -697,7 +697,7 @@ XI_API void __cdecl Mdl_SetSlotVisible(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10270690  (unit mdl: asserts mdl.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Mdl_ReleaseSlotPtr(int param_1)
 {
   int iVar1;

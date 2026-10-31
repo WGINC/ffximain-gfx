@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10291360  (unit sqskJoint: asserts sqskJoint.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __cdecl SqskJoint_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqskJoint_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10291390  (unit sqskJoint: between 0x10291360 (asserts sqskJoint.c) and 0x10291430 (asserts sqskJoint.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqskJoint_Init(undefined4 * param_1)
 {
   orig::SqxfXformM_Init(param_1);
@@ -37,7 +37,7 @@ XI_API void __cdecl SqskJoint_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10291460  (unit sqskJoint: between 0x10291430 (asserts sqskJoint.c) and 0x10291470 (name sqskJoint_Dump), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqskJoint_Nop(void)
 {
   return;

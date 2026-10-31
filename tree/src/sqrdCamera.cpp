@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10291110  (unit sqrdCamera: between 0x102910E0 (asserts sqrdCamera.c) and 0x10291170 (name sqrdCameraPrint), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqrdCamera_Init(undefined4 * param_1)
 {
   *param_1 = 0x70001;
@@ -22,7 +22,7 @@ XI_API void __cdecl SqrdCamera_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102911E0  (unit sqrdCamera: name sqrdCamera_Apply)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl sqrdCamera_Apply(int param_1)
 {
   orig::Unit102822A0_SetPerspective(*(float *)(param_1 + 0x14),*(float *)(param_1 + 0x18),*(float *)(param_1 + 0x1c));

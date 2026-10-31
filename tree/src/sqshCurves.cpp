@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102ACF20  (unit sqshCurves: asserts sqshCurves.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __cdecl SqshCurves_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqshCurves_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102ACF40  (unit sqshCurves: between 0x102ACF20 (asserts sqshCurves.c) and 0x102ACFC0 (asserts sqshCurves.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqshCurves_Init(undefined4 * param_1)
 {
   *param_1 = 0xa0002;
@@ -41,7 +41,7 @@ XI_API void __cdecl SqshCurves_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102AD1D0  (unit sqshCurves: asserts sqshCurves.c)
-// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 79 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 79
 XI_API void __cdecl SqshCurves_ComputeNormals(int param_1, undefined4 xi_s2)
 {
   int iVar1;
@@ -97,7 +97,7 @@ XI_API void __cdecl SqshCurves_ComputeNormals(int param_1, undefined4 xi_s2)
 }
 
 // FUNCTION: FFXIMAIN 0x102AD770  (unit sqshCurves: asserts sqshCurves.c)
-// GATE: PASS -- 100 trials, 73 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 73 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 73
 XI_API undefined4 __cdecl SqshCurves_ComputeTangents(int param_1, undefined4 xi_s2)
 {
   uint32_t *puVar1;
@@ -184,7 +184,7 @@ XI_API undefined4 __cdecl SqshCurves_ComputeTangents(int param_1, undefined4 xi_
 }
 
 // FUNCTION: FFXIMAIN 0x102AD990  (unit sqshCurves: asserts sqshCurves.c)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85
 XI_API void __cdecl SqshCurves_RebuildIndex(int param_1)
 {
   undefined4 *puVar1;

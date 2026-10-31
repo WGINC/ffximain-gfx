@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003E6A0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoD3aElem::GetRuntimeClass_variant0()
 {
   return &CMoD3aElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x1003EB30  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoD3aElem::vf18()
 {
   int ** self = reinterpret_cast<int **>(this);  // byte-exact view for the rest
@@ -23,21 +23,21 @@ int * CMoD3aElem::vf18()
 }
 
 // FUNCTION: FFXIMAIN 0x1003EE50  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoD3aElem::GetRuntimeClass_variant1()
 {
   return &CMoD3aElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x1003EF00  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoD3aElem::GetRuntimeClass_variant2()
 {
   return &CMoD3aElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10052C90  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoD3aElem::Init(void * self)
 {
   uint64_t uVar1;
@@ -48,7 +48,7 @@ uint64_t __thiscall CMoD3aElem::Init(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10052CB0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoD3aElem::ScalarDeletingDtor(char a2)
 {
   orig::CMoElemFamily_SharedCleanup((int *)this);

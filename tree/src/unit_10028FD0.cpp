@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10028FD0  (unit unit_10028FD0: no unit evidence of its own; in the gap between 0x10028FC0 (CYyMenuMemory) and 0x10029240 (CYyLowerMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __cdecl Mem_AllocFromArea(int param_1, undefined4 param_2)
 {
   undefined4 *puVar1;
@@ -64,7 +64,7 @@ XI_API undefined4 * __cdecl Mem_AllocFromArea(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10029150  (unit unit_10028FD0: no unit evidence of its own; in the gap between 0x10028FC0 (CYyMenuMemory) and 0x10029240 (CYyLowerMemory) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit10028FD0_CallListByKind(undefined4 param_1)
 {
   switch(xi_sw(param_1)) {

@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10047C30  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoGeneratorClone::InitCloneFromSource(_DWORD *a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -26,7 +26,7 @@ int CMoGeneratorClone::InitCloneFromSource(_DWORD *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10047CE0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 32 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 32 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 32
 _DWORD * CMoGeneratorClone::FixupClonedPointers()
 {
   int self = reinterpret_cast<int>(this);  // byte-exact view for the rest
@@ -159,7 +159,7 @@ LABEL_49:
 }
 
 // FUNCTION: FFXIMAIN 0x100480D0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 74 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 74 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoGeneratorClone::Release(void * self)
 {
   int *this_00;
@@ -174,7 +174,7 @@ void __thiscall CMoGeneratorClone::Release(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10048140  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoGeneratorClone::UnlinkElemListA(void * self, int param_1)
 {
   if (*(int *)(param_1 + 0x14c) == 0) {
@@ -191,7 +191,7 @@ void __thiscall CMoGeneratorClone::UnlinkElemListA(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10048220  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 27 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 27
 void __thiscall CMoGeneratorClone::ResolveCmdTargets(void * self)
 {
   uint8_t *puVar1;
@@ -903,7 +903,7 @@ LAB_1004907c:
 }
 
 // FUNCTION: FFXIMAIN 0x100492F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 70 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 70
 uint32_t * __thiscall CMoGeneratorClone::FindCmdByType(void * self, uint32_t param_1)
 {
   uint32_t *puVar1;
@@ -925,7 +925,7 @@ uint32_t * __thiscall CMoGeneratorClone::FindCmdByType(void * self, uint32_t par
 }
 
 // FUNCTION: FFXIMAIN 0x10049520  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 1 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 1
 void __thiscall CMoGeneratorClone::CopyType1Dwords(void * self, uint32_t * param_1)
 {
   uint32_t *puVar1;
@@ -940,7 +940,7 @@ void __thiscall CMoGeneratorClone::CopyType1Dwords(void * self, uint32_t * param
 }
 
 // FUNCTION: FFXIMAIN 0x10049570  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoGeneratorClone::ResolveTarget(void * self)
 {
   int iVar1;
@@ -1011,7 +1011,7 @@ undefined4 __thiscall CMoGeneratorClone::ResolveTarget(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1004E470  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoGeneratorClone::TestFlag20000000(void * self)
 {
   uint32_t uVar1;
@@ -1021,7 +1021,7 @@ undefined4 __thiscall CMoGeneratorClone::TestFlag20000000(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1004E720  (placed by IDB name)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77
 void CMoGeneratorClone::ExecuteCmdList(int a2)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -1127,7 +1127,7 @@ LABEL_20:
 }
 
 // FUNCTION: FFXIMAIN 0x10052960  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoGeneratorClone::SetFlagBit0At17B(void * self, undefined4 param_1)
 {
   *(uint32_t *)((int)self + 0x17b) = param_1 & 1 | *(uint32_t *)((int)self + 0x17b) & 0xfffffffe;
@@ -1135,7 +1135,7 @@ void __thiscall CMoGeneratorClone::SetFlagBit0At17B(void * self, undefined4 para
 }
 
 // FUNCTION: FFXIMAIN 0x10052980  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoGeneratorClone::SetFlagBit1At17B(void * self, undefined4 param_1)
 {
   *(uint32_t *)((int)self + 0x17b) = (param_1 & 1) * 2 ^ *(uint32_t *)((int)self + 0x17b) & 0xfffffffd;
@@ -1143,7 +1143,7 @@ void __thiscall CMoGeneratorClone::SetFlagBit1At17B(void * self, undefined4 para
 }
 
 // FUNCTION: FFXIMAIN 0x10053450  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoGeneratorClone::CopyParams(void * self, int param_1)
 {
   int iVar1;
@@ -1226,7 +1226,7 @@ void __thiscall CMoGeneratorClone::CopyParams(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100536C0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44
 int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -1293,7 +1293,7 @@ int CMoGeneratorClone::CreateInstance(_DWORD *a2, _DWORD *a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x10053E00  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoGeneratorClone::InitDefaultParams()
 {
   _DWORD *v2;
@@ -1313,7 +1313,7 @@ int CMoGeneratorClone::InitDefaultParams()
 }
 
 // FUNCTION: FFXIMAIN 0x100542F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 72 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 72 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoGeneratorClone::Destructor(void * self)
 {
   char xi_frame[12] __attribute__((aligned(4)));

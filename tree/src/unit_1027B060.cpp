@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1027B060  (unit unit_1027B060: no unit evidence of its own; in the gap between 0x1027AFB0 (sqQuat) and 0x1027B580 (sqskSkeleton) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027B060_NegateInPlace(float * param_1)
 {
   *param_1 = (float)-(long double)*param_1;
@@ -13,7 +13,7 @@ XI_API void __cdecl Unit1027B060_NegateInPlace(float * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1027B080  (unit unit_1027B060: no unit evidence of its own; in the gap between 0x1027AFB0 (sqQuat) and 0x1027B580 (sqskSkeleton) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027B060_RotateVec(float * param_1, float * param_2, float * param_3)
 {
   long double fVar1;
@@ -49,7 +49,7 @@ XI_API void __cdecl Unit1027B060_RotateVec(float * param_1, float * param_2, flo
 }
 
 // FUNCTION: FFXIMAIN 0x1027B170  (unit unit_1027B060: no unit evidence of its own; in the gap between 0x1027AFB0 (sqQuat) and 0x1027B580 (sqskSkeleton) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027B060_Mul(float * param_1, float * param_2, float * param_3)
 {
   *param_1 = (float)(((long double)param_3[3] * (long double)*param_2 +
@@ -72,7 +72,7 @@ XI_API void __cdecl Unit1027B060_Mul(float * param_1, float * param_2, float * p
 }
 
 // FUNCTION: FFXIMAIN 0x1027B480  (unit unit_1027B060: no unit evidence of its own; in the gap between 0x1027AFB0 (sqQuat) and 0x1027B580 (sqskSkeleton) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Sq_PrintFloat4Indented(float * xi_s1, undefined4 xi_s2, undefined4 xi_s3)
 {
   orig::Sq_PrintIndent(xi_s3,xi_s3);

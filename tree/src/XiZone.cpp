@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100BA080  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __cdecl XiZone::RestoreSavedFields()
 {
   if (DAT_10488978 != 0) {
@@ -16,14 +16,14 @@ void __cdecl XiZone::RestoreSavedFields()
 }
 
 // FUNCTION: FFXIMAIN 0x10177CD0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int XiZone::DrawMarkerForward(float *a2, int a3, float a4)
 {
   return orig::Dbg_DrawWireMesh((int)(*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), a2, a3, a4);
 }
 
 // FUNCTION: FFXIMAIN 0x10184C90  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int XiZone::DrawGroundShadowQuad(int a1, int a2, int a3)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -105,7 +105,7 @@ int XiZone::DrawGroundShadowQuad(int a1, int a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10185CA0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 65 returned normally, 1635 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 65 returned normally, 1635 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 65
 int XiZone::DrawDecalOnTriangles(float *a1, float *a2, IDirect3DBaseTexture8 *a3, float a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -658,7 +658,7 @@ LABEL_67:
 }
 
 // FUNCTION: FFXIMAIN 0x101889C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __cdecl XiZone::FindSubArea(int param_1)
 {
   int iVar1;
@@ -672,7 +672,7 @@ int __cdecl XiZone::FindSubArea(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x101889E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56
 void __thiscall XiZone::UpdateTree(void * self)
 {
   void *this_00;
@@ -688,7 +688,7 @@ void __thiscall XiZone::UpdateTree(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10188A10  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56
 void __thiscall XiZone::DestroyChildList(void * self)
 {
   void *pvVar1;
@@ -709,7 +709,7 @@ void __thiscall XiZone::DestroyChildList(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10188A50  (unit XiZone: between 0x101889C0 (name XiZone_FindSubArea) and 0x10188B70 (name XiZone_GetDirLights), both within 4 KB)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77
 XI_API uint32_t __thiscall Env_RampWindStrength(void * self_)
 {
   uint32_t *puVar1;
@@ -753,7 +753,7 @@ XI_API uint32_t __thiscall Env_RampWindStrength(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10188B10  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall XiZone::TestHeadFlag(void * self)
 {
   uint8_t *pbVar1;
@@ -780,7 +780,7 @@ uint32_t __thiscall XiZone::TestHeadFlag(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10188B70  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall XiZone::GetDirLights(void * self, undefined4 * param_1, undefined4 * param_2)
 {
   long double fVar1;
@@ -843,7 +843,7 @@ void __thiscall XiZone::GetDirLights(void * self, undefined4 * param_1, undefine
 }
 
 // FUNCTION: FFXIMAIN 0x1018B130  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __cdecl XiZone::GetInstance()
 {
   void *self;
@@ -860,7 +860,7 @@ void __cdecl XiZone::GetInstance()
 }
 
 // FUNCTION: FFXIMAIN 0x1018B170  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * __thiscall XiZone::Constructor(void * self)
 {
   uint32_t xi_eax;
@@ -939,7 +939,7 @@ void * __thiscall XiZone::Constructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1018B5E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall XiZone::SetTreeState1BC(void * self, int param_1)
 {
   uint32_t xi_eax;
@@ -963,7 +963,7 @@ void __thiscall XiZone::SetTreeState1BC(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1018B620  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall XiZone::ResetState(void * self)
 {
   int iVar1;
@@ -989,7 +989,7 @@ void __thiscall XiZone::ResetState(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1018B860  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall XiZone::DrawScene(void * self)
 {
   int *piVar1;
@@ -1012,7 +1012,7 @@ void __thiscall XiZone::DrawScene(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1018B8B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __stdcall XiZone::Call10036170(int param_1)
 {
   orig::Unit10035B00_SetCurrent10463914(param_1);
@@ -1020,7 +1020,7 @@ void __stdcall XiZone::Call10036170(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1018B8F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 long double __thiscall XiZone::ComputeFogDistance(void * self, undefined4 param_2)
 {
   uint8_t bVar1;
@@ -1048,7 +1048,7 @@ long double __thiscall XiZone::ComputeFogDistance(void * self, undefined4 param_
 }
 
 // FUNCTION: FFXIMAIN 0x1018B960  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall XiZone::GetDirLightsForArea(void * self, undefined4 * param_1, undefined4 * param_2, int param_3)
 {
   void *this_00;
@@ -1065,7 +1065,7 @@ void __thiscall XiZone::GetDirLightsForArea(void * self, undefined4 * param_1, u
 }
 
 // FUNCTION: FFXIMAIN 0x1018B9A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall XiZone::GetDirLight(void * self, undefined4 * param_1, undefined4 param_2, int param_3)
 {
   void *this_00;
@@ -1082,7 +1082,7 @@ void __thiscall XiZone::GetDirLight(void * self, undefined4 * param_1, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x1018B9E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall XiZone::GetAmbient(void * self, uint32_t * param_1, int param_2, int param_3)
 {
   void *this_00;
@@ -1099,7 +1099,7 @@ void __thiscall XiZone::GetAmbient(void * self, uint32_t * param_1, int param_2,
 }
 
 // FUNCTION: FFXIMAIN 0x1018BA20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall XiZone::GetFog(void * self, uint32_t * param_1, float * param_2, float * param_3, undefined4 param_4, int param_5)
 {
   void *this_00;
@@ -1116,7 +1116,7 @@ void __thiscall XiZone::GetFog(void * self, uint32_t * param_1, float * param_2,
 }
 
 // FUNCTION: FFXIMAIN 0x1018BAE0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall XiZone::SetPtr1D8FromTable(void * self, uint32_t param_1)
 {
   if (1 < param_1) {

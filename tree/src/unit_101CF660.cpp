@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x101CF660  (unit unit_101CF660: no unit evidence of its own; in the gap between 0x101CF650 (YkJpeg) and 0x101D08C0 (YkJpeg) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 47 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 47 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 47
 XI_API void __thiscall Unit101CF660_BuildTables(void * self_, int param_1)
 {
   short sVar1;
@@ -89,7 +89,7 @@ LAB_101cf692:
 }
 
 // FUNCTION: FFXIMAIN 0x101CF820  (unit unit_101CF660: no unit evidence of its own; in the gap between 0x101CF650 (YkJpeg) and 0x101D08C0 (YkJpeg) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 7 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 7
 XI_API void __stdcall Unit101CF660_BuildCodeTable(int param_1, int param_2, int param_3, int param_4)
 {
   uint8_t bVar1;
@@ -116,7 +116,7 @@ XI_API void __stdcall Unit101CF660_BuildCodeTable(int param_1, int param_2, int 
 }
 
 // FUNCTION: FFXIMAIN 0x101D0860  (unit unit_101CF660: no unit evidence of its own; in the gap between 0x101CF650 (YkJpeg) and 0x101D08C0 (YkJpeg) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit101CF660_Reset(void * self_)
 {
   *(uint32_t *)((int)self_ + 8) = 0;
@@ -128,7 +128,7 @@ XI_API void __thiscall Unit101CF660_Reset(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x101D0880  (unit unit_101CF660: no unit evidence of its own; in the gap between 0x101CF650 (YkJpeg) and 0x101D08C0 (YkJpeg) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit101CF660_Free(void * self_)
 {
   if (*(int *)((int)self_ + 8) != 0) {

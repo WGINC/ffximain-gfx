@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1006B480  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CMoTask_VT_10329C70::vf8(void * self)
 {
   uint32_t uVar1;
@@ -26,7 +26,7 @@ uint32_t __thiscall CMoTask_VT_10329C70::vf8(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1006B4C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 _DWORD * __stdcall CMoTask_VT_10329C70::vf1(_DWORD *a1)
 {
   _DWORD *result;

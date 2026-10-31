@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102960A0  (unit unit_10296080: no unit evidence of its own; in the gap between 0x10296020 (sqmoChannelMotion) and 0x102960F0 (sqmoIO) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit10296080_CreateWithOwner(int param_1, undefined4 param_2)
 {
   undefined4 *puVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x102924F0  (unit sqmoPlaybackChannel: asserts sqmoPlaybackChannel.c)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __cdecl SqmoPlaybackChannel_Create(void)
 {
   undefined4 *puVar1;
@@ -14,7 +14,7 @@ XI_API undefined4 * __cdecl SqmoPlaybackChannel_Create(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10292520  (unit sqmoPlaybackChannel: between 0x102924F0 (asserts sqmoPlaybackChannel.c) and 0x102925A0 (asserts sqmoPlaybackChannel.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqmoPlaybackChannel_Init(undefined4 * param_1)
 {
   *param_1 = 0x50003;
@@ -44,7 +44,7 @@ XI_API void __cdecl SqmoPlaybackChannel_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10293000  (unit sqmoPlaybackChannel: between 0x10292F80 (asserts sqmoPlaybackChannel.c) and 0x10293040 (asserts sqmoPlaybackChannel.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqmoPlaybackChannel_Update(int param_1, int param_2)
 {
   orig::SqmoUtil_MarkSlot(*(int *)(param_1 + 0x50),*(int *)(param_1 + 0x1c),param_2,

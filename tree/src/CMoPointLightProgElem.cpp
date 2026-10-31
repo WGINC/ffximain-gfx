@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100562E0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoPointLightProgElem::GetRuntimeClass()
 {
   return &CMoPointLightProgElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100562F0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoPointLightProgElem::Construct(void * self, uint32_t param_1, undefined4 param_2)
 {
   orig::CMoElem_Constructor(self);
@@ -30,14 +30,14 @@ uint64_t __thiscall CMoPointLightProgElem::Construct(void * self, uint32_t param
 }
 
 // FUNCTION: FFXIMAIN 0x10056360  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 BOOL CMoPointLightProgElem::vf012(int a1)
 {
   return a1 == 11;
 }
 
 // FUNCTION: FFXIMAIN 0x10056370  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoPointLightProgElem::ScalarDeletingDtor(char a2)
 {
   orig::CMoPointLightProgElem_Destructor(this);
@@ -47,7 +47,7 @@ int * CMoPointLightProgElem::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10056400  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoPointLightProgElem::Update(void * self)
 {
   int iVar1;

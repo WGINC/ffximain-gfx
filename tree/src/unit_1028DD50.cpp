@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1028DE10  (unit unit_1028DD50: no unit evidence of its own; in the gap between 0x1028DD20 (sqmdSnap) and 0x1028E150 (sqsnScene) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1028DD50_CreateRef(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   undefined4 *puVar1;

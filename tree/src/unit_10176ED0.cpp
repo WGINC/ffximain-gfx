@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10176F60  (unit unit_10176ED0: no unit evidence of its own; in the gap between 0x10176EC0 (CMoResource_VT_10336698) and 0x10176F80 (CMoResource_VT_103366C4) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __attribute__((stdcall, regparm(3))) fn_10176F60(uint32_t xi_eax_unused, undefined4 xi_edx, undefined4 * param_1)
 {
   orig::FUN_10071d80(param_1,xi_edx);

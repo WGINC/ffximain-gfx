@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10049330  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 69
 XI_API uint32_t * __thiscall Unit10048000_FindRecordByType(void * self_, uint32_t param_1)
 {
   uint32_t *puVar1;
@@ -25,14 +25,14 @@ XI_API uint32_t * __thiscall Unit10048000_FindRecordByType(void * self_, uint32_
 }
 
 // FUNCTION: FFXIMAIN 0x100493B0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetShort22ViaPtrE4(void * self_)
 {
   return (int)*(short *)(*(int *)((int)self_ + 0xe4) + 0x22);
 }
 
 // FUNCTION: FFXIMAIN 0x100493C0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76
 XI_API uint8_t * __thiscall fn_100493C0(void * self_)
 {
   uint32_t *puVar1;
@@ -47,7 +47,7 @@ XI_API uint8_t * __thiscall fn_100493C0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1004A870  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API bool __cdecl GateEffectBoxProjection(int a1, int a2, __int16 a3, __int16 *a4)
 {
   __int16 v5; // fps
@@ -94,14 +94,14 @@ XI_API bool __cdecl GateEffectBoxProjection(int a1, int a2, __int16 a3, __int16 
 }
 
 // FUNCTION: FFXIMAIN 0x1004E210  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetSelf(void * self_)
 {
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E250  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10048000_SetByte(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2)
 {
   *(uint8_t *)self_ = (uint8_t)param_2;
@@ -109,63 +109,63 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10048000_SetByte(unde
 }
 
 // FUNCTION: FFXIMAIN 0x1004E260  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetSelfPlus2(void * self_)
 {
   return (int)self_ + 2;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E270  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetSelfPlus1(void * self_)
 {
   return (int)self_ + 1;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E280  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_ReturnThisA(void * self_)
 {
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E290  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetSelfPlus3(void * self_)
 {
   return (int)self_ + 3;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E2A0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetByte2Ptr(void * self_)
 {
   return (int)self_ + 2;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E2B0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetByte1Ptr(void * self_)
 {
   return (int)self_ + 1;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E2C0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_ReturnThisB(void * self_)
 {
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E2D0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetByte3Ptr(void * self_)
 {
   return (int)self_ + 3;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E320  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_CopyDwords(void * self_, undefined4 * param_1)
 {
   *(uint32_t *)self_ = *param_1;
@@ -175,7 +175,7 @@ XI_API void __thiscall Unit10048000_CopyDwords(void * self_, undefined4 * param_
 }
 
 // FUNCTION: FFXIMAIN 0x1004E360  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Accumulate(void * self_, float * param_1)
 {
   *(float *)self_ = (float)((long double)*param_1 + (long double)*(float *)self_);
@@ -185,14 +185,14 @@ XI_API void __thiscall Unit10048000_Accumulate(void * self_, float * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1004E3B0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint64_t __thiscall Unit10048000_IsFirstDwordNotEqual(void * self_, int param_1)
 {
   return ((uint64_t)(((uint64_t)(uint32_t)(param_1) << 32) | (uint32_t)((uint32_t)(*(int *)self_ != param_1))));
 }
 
 // FUNCTION: FFXIMAIN 0x1004E3F0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Pool_FreeSlot(void * self_)
 {
   uint32_t uVar1;
@@ -208,14 +208,14 @@ XI_API undefined4 __thiscall Pool_FreeSlot(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1004E490  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __thiscall Unit10048000_GetBits13To18Shl2(void * self_)
 {
   return *(uint32_t *)self_ >> 0xb & 0xfc;
 }
 
 // FUNCTION: FFXIMAIN 0x1004E4E0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __thiscall Unit10048000_EvaluateWithMode4(void * self_, float param_2)
 {
   void *this_00;
@@ -234,7 +234,7 @@ XI_API long double __thiscall Unit10048000_EvaluateWithMode4(void * self_, float
 }
 
 // FUNCTION: FFXIMAIN 0x1004E630  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API double __cdecl ScaleElemVisibilityByProbe(int a1, int a2, __int16 *a3)
 {
   int v4;
@@ -268,14 +268,14 @@ XI_API double __cdecl ScaleElemVisibilityByProbe(int a1, int a2, __int16 *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x100527B0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetByte(void * self_)
 {
   return (uint32_t)*(uint8_t *)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100527C0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_SetDwords(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   *(uint32_t *)((int)self_ + 0x30) = param_1;
@@ -286,7 +286,7 @@ XI_API void __thiscall Unit10048000_SetDwords(void * self_, undefined4 param_1, 
 }
 
 // FUNCTION: FFXIMAIN 0x100527E0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_CallProcessorSlot49(void * self_, undefined4 xi_s1)
 {
   orig::MoProcessor_CallVSlot49_v1(self_);
@@ -294,14 +294,14 @@ XI_API void __thiscall Unit10048000_CallProcessorSlot49(void * self_, undefined4
 }
 
 // FUNCTION: FFXIMAIN 0x100527F0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit10048000_ReturnThis(void * self_)
 {
   return self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10052800  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set3Dwords(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   *(uint32_t *)self_ = param_1;
@@ -311,7 +311,7 @@ XI_API void __thiscall Unit10048000_Set3Dwords(void * self_, undefined4 param_1,
 }
 
 // FUNCTION: FFXIMAIN 0x10052820  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_SubInto(void * self_, float * param_1, float * param_2)
 {
   float fVar1;
@@ -330,7 +330,7 @@ XI_API undefined4 __thiscall Unit10048000_SubInto(void * self_, float * param_1,
 }
 
 // FUNCTION: FFXIMAIN 0x10052870  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_SetDwordAndCopyOut(void * self_, undefined4 * param_1, undefined4 param_2)
 {
   *(uint32_t *)self_ = param_2;
@@ -339,7 +339,7 @@ XI_API undefined4 __thiscall Unit10048000_SetDwordAndCopyOut(void * self_, undef
 }
 
 // FUNCTION: FFXIMAIN 0x10052880  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_SetDword(void * self_, undefined4 param_1)
 {
   *(uint32_t *)self_ = param_1;
@@ -347,28 +347,28 @@ XI_API void __thiscall Unit10048000_SetDword(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10052890  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetDwordThroughPtr(void * self_)
 {
   return **(uint32_t **)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100528A0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetDword(void * self_)
 {
   return *(uint32_t *)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100528B0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetPtr30(void * self_)
 {
   return (int)self_ + 0x30;
 }
 
 // FUNCTION: FFXIMAIN 0x100528C0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_SetPtrAndGetDword(void * self_, undefined4 * param_1)
 {
   *(undefined4 **)self_ = param_1;
@@ -379,14 +379,14 @@ XI_API undefined4 __thiscall Unit10048000_SetPtrAndGetDword(void * self_, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x100528E0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetFirstDeref(void * self_)
 {
   return **(uint32_t **)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x100528F0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetDwordThroughPtrOrZero(void * self_)
 {
   if (*(uint32_t **)self_ != (uint32_t *)0x0) {
@@ -396,14 +396,14 @@ XI_API undefined4 __thiscall Unit10048000_GetDwordThroughPtrOrZero(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10052900  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetPtrB90(void * self_)
 {
   return (int)self_ + 0xb90;
 }
 
 // FUNCTION: FFXIMAIN 0x10052910  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall MoProcessor_PopFreeIndex(void * self_)
 {
   uint32_t uVar1;
@@ -415,14 +415,14 @@ XI_API void __thiscall MoProcessor_PopFreeIndex(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10052940  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetFirst(void * self_)
 {
   return *(uint32_t *)self_;
 }
 
 // FUNCTION: FFXIMAIN 0x10052950  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetWordAt176(void * self_)
 {
   uint32_t xi_entry_eax = 0;
@@ -431,14 +431,14 @@ XI_API undefined4 __thiscall Unit10048000_GetWordAt176(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100529A0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetPtr188(void * self_)
 {
   return (int)self_ + 0x188;
 }
 
 // FUNCTION: FFXIMAIN 0x100529B0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_SetLow2Bits17B(void * self_, uint32_t param_1)
 {
   *(uint32_t *)((int)self_ + 0x17b) =
@@ -447,7 +447,7 @@ XI_API void __thiscall Unit10048000_SetLow2Bits17B(void * self_, uint32_t param_
 }
 
 // FUNCTION: FFXIMAIN 0x100529D0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set179Byte(void * self_, undefined4 param_1)
 {
   *(uint8_t *)((int)self_ + 0x179) = (uint8_t)param_1;
@@ -455,7 +455,7 @@ XI_API void __thiscall Unit10048000_Set179Byte(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100529E0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_SetFields300And130(void * self_, undefined4 param_1, undefined4 param_2)
 {
   *(uint32_t *)((int)self_ + 300) = param_1;
@@ -464,14 +464,14 @@ XI_API void __thiscall Unit10048000_SetFields300And130(void * self_, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x10052A00  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __thiscall Unit10048000_GetFloat300(void * self_)
 {
   return (long double)*(float *)((int)self_ + 300);
 }
 
 // FUNCTION: FFXIMAIN 0x10052A10  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set172Short(void * self_, undefined4 param_1)
 {
   *(uint16_t *)((int)self_ + 0x172) = (uint16_t)param_1;
@@ -479,7 +479,7 @@ XI_API void __thiscall Unit10048000_Set172Short(void * self_, undefined4 param_1
 }
 
 // FUNCTION: FFXIMAIN 0x10052A20  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set120(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x120) = param_1;
@@ -487,7 +487,7 @@ XI_API void __thiscall Unit10048000_Set120(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10052A30  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set124(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x124) = param_1;
@@ -495,21 +495,21 @@ XI_API void __thiscall Unit10048000_Set124(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10052A40  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __thiscall Unit10048000_GetFloat120(void * self_)
 {
   return (long double)*(float *)((int)self_ + 0x120);
 }
 
 // FUNCTION: FFXIMAIN 0x10052A50  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __thiscall Unit10048000_GetFloat124(void * self_)
 {
   return (long double)*(float *)((int)self_ + 0x124);
 }
 
 // FUNCTION: FFXIMAIN 0x10052A60  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint64_t __cdecl Unit10048000_AllocWithFallback(int param_1, int param_2)
 {
   uint64_t uVar1;
@@ -519,7 +519,7 @@ XI_API uint64_t __cdecl Unit10048000_AllocWithFallback(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10052A80  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_TestFn473F0(void * self_)
 {
   int iVar1;
@@ -529,7 +529,7 @@ XI_API undefined4 __thiscall Unit10048000_TestFn473F0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10052A90  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_HasFlags4And8(void * self_)
 {
   uint32_t uVar1;
@@ -544,14 +544,14 @@ XI_API int __thiscall Unit10048000_HasFlags4And8(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10052AB0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_Get9C(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0x9c);
 }
 
 // FUNCTION: FFXIMAIN 0x10052AC0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set9C(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 0x9c) = param_1;
@@ -559,49 +559,49 @@ XI_API void __thiscall Unit10048000_Set9C(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10052AD0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetC4(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0xc4);
 }
 
 // FUNCTION: FFXIMAIN 0x10052AE0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetPtrDE(void * self_)
 {
   return (int)self_ + 0xde;
 }
 
 // FUNCTION: FFXIMAIN 0x10052AF0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_IsA4NonZero(void * self_)
 {
   return (uint32_t)(*(int *)((int)self_ + 0xa4) != 0);
 }
 
 // FUNCTION: FFXIMAIN 0x10052B00  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_GetA4(void * self_)
 {
   return *(uint32_t *)((int)self_ + 0xa4);
 }
 
 // FUNCTION: FFXIMAIN 0x10052B10  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetPtr78(void * self_)
 {
   return (int)self_ + 0x78;
 }
 
 // FUNCTION: FFXIMAIN 0x10052B20  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit10048000_GetPtr84(void * self_)
 {
   return (int)self_ + 0x84;
 }
 
 // FUNCTION: FFXIMAIN 0x10052B30  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10048000_CopyF4Out(void * self_, undefined4 * param_1)
 {
   *param_1 = *(uint32_t *)((int)self_ + 0xf4);
@@ -609,7 +609,7 @@ XI_API undefined4 __thiscall Unit10048000_CopyF4Out(void * self_, undefined4 * p
 }
 
 // FUNCTION: FFXIMAIN 0x10052B40  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set0(void * self_, undefined4 param_1)
 {
   *(uint32_t *)self_ = param_1;
@@ -617,7 +617,7 @@ XI_API void __thiscall Unit10048000_Set0(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10052B50  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set4(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 4) = param_1;
@@ -625,7 +625,7 @@ XI_API void __thiscall Unit10048000_Set4(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10052B60  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set8(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 8) = param_1;
@@ -633,7 +633,7 @@ XI_API void __thiscall Unit10048000_Set8(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10052B70  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_SetFloat8FromRadians(void * self_, float param_1)
 {
   *(float *)((int)self_ + 8) = (float)((long double)param_1 * (long double)0.318319261074066162109375f);
@@ -641,7 +641,7 @@ XI_API void __thiscall Unit10048000_SetFloat8FromRadians(void * self_, float par
 }
 
 // FUNCTION: FFXIMAIN 0x10052B80  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_SetFloat8FromByte(void * self_, int param_1)
 {
   *(float *)((int)self_ + 8) = (float)((long double)param_1 * (long double)0.0039215688593685626983642578125f);
@@ -649,7 +649,7 @@ XI_API void __thiscall Unit10048000_SetFloat8FromByte(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10052B90  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_SetFloat8Scaled120(void * self_, float param_1)
 {
   *(float *)((int)self_ + 8) = (float)((long double)param_1 * (long double)0.008333333767950534820556640625f);
@@ -657,7 +657,7 @@ XI_API void __thiscall Unit10048000_SetFloat8Scaled120(void * self_, float param
 }
 
 // FUNCTION: FFXIMAIN 0x10052BA0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_SetField8Dword(void * self_, undefined4 param_1)
 {
   *(uint32_t *)((int)self_ + 8) = param_1;
@@ -665,7 +665,7 @@ XI_API void __thiscall Unit10048000_SetField8Dword(void * self_, undefined4 para
 }
 
 // FUNCTION: FFXIMAIN 0x10052BB0  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit10048000_Set46Short(void * self_, undefined4 param_1)
 {
   *(uint16_t *)((int)self_ + 0x46) = (uint16_t)param_1;

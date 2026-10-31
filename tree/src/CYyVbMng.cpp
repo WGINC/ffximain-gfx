@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003B210  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 105 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 105 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CYyVbMng::AcquireVertexBuffer(int a2, int a3, int a4, int a5, int *a6, char a7)
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -110,7 +110,7 @@ LABEL_26:
 }
 
 // FUNCTION: FFXIMAIN 0x1003B3C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __stdcall CYyVbMng::ReleaseVertexBuffer(int * param_1)
 {
   int *piVar1;

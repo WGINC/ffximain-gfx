@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10252CC0  (unit StTrigger: name StTrigger_ProcessOpcodesUpToTime)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl StTrigger_ProcessOpcodesUpToTime(uint32_t * param_1, uint32_t param_2, int param_3, undefined4 * param_4)
 {
   int *piVar1;
@@ -101,7 +101,7 @@ LAB_10252e08:
 }
 
 // FUNCTION: FFXIMAIN 0x10252EA0  (unit StTrigger: between 0x10252CC0 (name StTrigger_ProcessOpcodesUpToTime) and 0x10252F00 (name StTrigger_RegisterCallbacks), both within 4 KB)
-// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95
 XI_API int __cdecl StTrigger_FindIndexAtLeast(uint32_t * param_1, int param_2, int param_3)
 {
   int *piVar1;
@@ -132,7 +132,7 @@ XI_API int __cdecl StTrigger_FindIndexAtLeast(uint32_t * param_1, int param_2, i
 }
 
 // FUNCTION: FFXIMAIN 0x10252F00  (unit StTrigger: name StTrigger_RegisterCallbacks)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StTrigger_RegisterCallbacks(int param_1, uint32_t param_2, uint32_t param_3)
 {
   int iVar1;

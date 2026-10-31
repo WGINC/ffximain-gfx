@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100AD660  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 30 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 30
 XI_API void __cdecl fn_100AD660(undefined4 param_1, undefined4 * param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, char * param_7)
 {
   uint8_t *puVar1;
@@ -34,7 +34,7 @@ XI_API void __cdecl fn_100AD660(undefined4 param_1, undefined4 * param_2, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x100AD6D0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 18 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 18 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 18
 XI_API void __cdecl XiEvent_Spawn(undefined4 param_1, undefined4 * param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, char * param_7, undefined4 param_8, undefined4 param_9)
 {
   uint8_t *puVar1;
@@ -66,7 +66,7 @@ XI_API void __cdecl XiEvent_Spawn(undefined4 param_1, undefined4 * param_2, unde
 }
 
 // FUNCTION: FFXIMAIN 0x100AD7C0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl XiEvent_IsIdOutsideList(void)
 {
   uint32_t xi_entry_eax = 0;
@@ -103,14 +103,14 @@ XI_API undefined4 __cdecl XiEvent_IsIdOutsideList(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100AE350  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl XiEvent_GetGlobalDword(void)
 {
   return (int)DAT_104896e4;
 }
 
 // FUNCTION: FFXIMAIN 0x100AE3A0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl XiEvent_ResetPending(void)
 {
   if (DAT_1047d3ec != '\0') {
@@ -127,7 +127,7 @@ XI_API void __cdecl XiEvent_ResetPending(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100AE3F0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 15 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 15 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl XiEvent_ResetActersAndGlobals(void)
 {
   char cVar1;
@@ -315,7 +315,7 @@ LAB_100ae529:
 }
 
 // FUNCTION: FFXIMAIN 0x100AEC20  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl _EventDataReadCallBack(undefined4 MemPtr, int resultLen, uint8_t * userData)
 {
   uint64_t uVar1;
@@ -332,7 +332,7 @@ XI_API undefined4 __cdecl _EventDataReadCallBack(undefined4 MemPtr, int resultLe
 }
 
 // FUNCTION: FFXIMAIN 0x100BD5F0  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall XiEvent_RestoreActer(void * self_)
 {
   void *this_00;
@@ -370,7 +370,7 @@ XI_API void __thiscall XiEvent_RestoreActer(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100BD760  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t * __cdecl XiEvent_GetSingleton(void)
 {
   if ((DAT_1048a2e1 & 1) == 0) {
@@ -382,7 +382,7 @@ XI_API uint8_t * __cdecl XiEvent_GetSingleton(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100C2E20  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, char * param_5, undefined4 param_6, undefined4 param_7)
 {
   undefined4 uVar1;
@@ -480,21 +480,21 @@ XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x100C3020  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100ACAB0_GetWordBFE(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0xbfe))));
 }
 
 // FUNCTION: FFXIMAIN 0x100C3030  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100ACAB0_GetWordC00(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   return ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0xc00))));
 }
 
 // FUNCTION: FFXIMAIN 0x100C3050  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit100ACAB0_FreeData(void * self_)
 {
   if (*(LPVOID *)((int)self_ + 0x40) != (LPVOID)0x0) {
@@ -504,7 +504,7 @@ XI_API void __thiscall Unit100ACAB0_FreeData(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100C3060  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit100ACAB0_Init(void * self_, undefined4 * param_1, undefined4 param_2, uint16_t * param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, undefined4 param_8)
 {
   int iVar1;
@@ -538,7 +538,7 @@ XI_API void * __thiscall Unit100ACAB0_Init(void * self_, undefined4 * param_1, u
 }
 
 // FUNCTION: FFXIMAIN 0x100C3190  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t * __cdecl Unit100ACAB0_GetSingleton(void)
 {
   if ((DAT_1048a2e0 & 1) == 0) {
@@ -550,7 +550,7 @@ XI_API uint8_t * __cdecl Unit100ACAB0_GetSingleton(void)
 }
 
 // FUNCTION: FFXIMAIN 0x100C3200  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit100ACAB0_SetFlag8(void * self_)
 {
   *(uint32_t *)((int)self_ + 8) = 1;
@@ -558,14 +558,14 @@ XI_API void __thiscall Unit100ACAB0_SetFlag8(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100C3210  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit100ACAB0_HasItems(void * self_)
 {
   return (uint32_t)(*(int *)((int)self_ + 8) != 0);
 }
 
 // FUNCTION: FFXIMAIN 0x100C3220  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API undefined4 __thiscall Unit100ACAB0_Clear(void * self_)
 {
   void *pvVar1;
@@ -587,7 +587,7 @@ XI_API undefined4 __thiscall Unit100ACAB0_Clear(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100C3260  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit100ACAB0_Append(void * self_, int param_1)
 {
   *(uint32_t *)(param_1 + 0x5c) = 0;
@@ -604,7 +604,7 @@ XI_API void __thiscall Unit100ACAB0_Append(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100C3300  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 52 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 52
 XI_API void __thiscall Unit100ACAB0_AddEvent(void * self_, undefined4 * param_1, void * param_2, uint16_t * param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6)
 {
   uint32_t xi_entry_eax = 0;
@@ -647,7 +647,7 @@ XI_API void __thiscall Unit100ACAB0_AddEvent(void * self_, undefined4 * param_1,
 }
 
 // FUNCTION: FFXIMAIN 0x100C3480  (unit unit_100ACAB0_XiEvent: no unit evidence of its own; in the gap between 0x100ACA30 (XiDoorActor) and 0x100C3890 (XiLiftActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 85 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85
 XI_API undefined4 __thiscall Unit100ACAB0_StepTimedMessage(void * self_)
 {
   short sVar1;

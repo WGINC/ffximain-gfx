@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003FCB0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoDistModelElem::IsDistortedMode(void * self)
 {
   uint32_t xi_entry_eax = 0;
@@ -20,14 +20,14 @@ undefined4 __thiscall CMoDistModelElem::IsDistortedMode(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003FCE0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CMoDistModelElem::GetVertexBase(void * self)
 {
   return (int)self + 0x38;
 }
 
 // FUNCTION: FFXIMAIN 0x1003FCF0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CMoDistModelElem::GetDataEnd(void * self)
 {
   uint8_t bVar1;
@@ -60,7 +60,7 @@ int __thiscall CMoDistModelElem::GetDataEnd(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10040220  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 59 returned normally, 104 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 59 returned normally, 104 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 59
 undefined4 __thiscall CMoDistModelElem::DrawBatches(void * self, uint32_t * param_1, int param_2)
 {
   int iVar1;
@@ -213,7 +213,7 @@ undefined4 __thiscall CMoDistModelElem::DrawBatches(void * self, uint32_t * para
 }
 
 // FUNCTION: FFXIMAIN 0x10040670  (placed by IDB name)
-// GATE: PASS -- 100 trials, 85 returned normally, 160 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 85 returned normally, 160 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 85
 int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -406,14 +406,14 @@ LABEL_49:
 }
 
 // FUNCTION: FFXIMAIN 0x100431A0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoDistModelElem::GetRuntimeClass()
 {
   return &CMoDistModelElem_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x100431B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 388 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 388 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoDistModelElem::Draw()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -455,7 +455,7 @@ int CMoDistModelElem::Draw()
 }
 
 // FUNCTION: FFXIMAIN 0x10052F20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint64_t __thiscall CMoDistModelElem::Init(void * self)
 {
   uint64_t uVar1;
@@ -467,14 +467,14 @@ uint64_t __thiscall CMoDistModelElem::Init(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10052F40  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 BOOL CMoDistModelElem::vf012(int a1)
 {
   return a1 == 4;
 }
 
 // FUNCTION: FFXIMAIN 0x10052F50  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoDistModelElem::set_field_194(int a2)
 {
   (*(unsigned __int32 *)((char *)this + 0x194)) = a2;
@@ -482,7 +482,7 @@ int CMoDistModelElem::set_field_194(int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10052F60  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoDistModelElem::ScalarDeletingDtor(char a2)
 {
   orig::CMoElemFamily_SharedCleanup((int *)this);

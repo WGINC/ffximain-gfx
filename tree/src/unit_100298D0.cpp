@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10029A50  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 104 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 104 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl CreateSharedVertexBuffers(void)
 {
   int result;
@@ -69,7 +69,7 @@ LABEL_7:
 }
 
 // FUNCTION: FFXIMAIN 0x10029B60  (unit unit_100298D0: no unit evidence of its own; in the gap between 0x100298C0 (CYyModel) and 0x10029CB0 (CYyModelDt) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 124 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 124 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API void __cdecl Unit100298D0_ReleaseAll(void)
 {
   int *a1;

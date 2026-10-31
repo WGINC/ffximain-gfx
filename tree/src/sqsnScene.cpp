@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1028E1B0  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 26 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 26
 XI_API void __cdecl SqsnScene_Free(int param_1)
 {
   int iVar1;
@@ -84,7 +84,7 @@ XI_API void __cdecl SqsnScene_Free(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1028E350  (unit sqsnScene: between 0x1028E1B0 (asserts sqsnScene.c) and 0x1028E3B0 (name sqsnScenePrint), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_Init(undefined4 * param_1)
 {
   *param_1 = 0x100001;
@@ -110,7 +110,7 @@ XI_API void __cdecl SqsnScene_Init(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1028EBF0  (unit sqsnScene: between 0x1028E3B0 (name sqsnScenePrint) and 0x1028ED00 (asserts sqsnScene.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_SetItemFloat14(int param_1, int param_2, float param_3)
 {
   *(float *)(*(int *)(param_1 + 0x48) + 0x14 + param_2 * 0x2c) = (float)(long double)param_3;
@@ -118,7 +118,7 @@ XI_API void __cdecl SqsnScene_SetItemFloat14(int param_1, int param_2, float par
 }
 
 // FUNCTION: FFXIMAIN 0x1028EC30  (unit sqsnScene: between 0x1028E3B0 (name sqsnScenePrint) and 0x1028ED00 (asserts sqsnScene.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl SqsnScene_SetEntryField8(int param_1, int param_2, undefined4 param_3)
 {
   *(uint32_t *)(*(int *)(param_1 + 0x48) + 8 + param_2 * 0x2c) = param_3;
@@ -126,7 +126,7 @@ XI_API undefined4 __cdecl SqsnScene_SetEntryField8(int param_1, int param_2, und
 }
 
 // FUNCTION: FFXIMAIN 0x1028EC50  (unit sqsnScene: between 0x1028E3B0 (name sqsnScenePrint) and 0x1028ED00 (asserts sqsnScene.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_SetItemByte19(int param_1, int param_2, undefined4 param_3)
 {
   *(uint8_t *)(*(int *)(param_1 + 0x48) + 0x19 + param_2 * 0x2c) = (uint8_t)param_3;
@@ -134,7 +134,7 @@ XI_API void __cdecl SqsnScene_SetItemByte19(int param_1, int param_2, undefined4
 }
 
 // FUNCTION: FFXIMAIN 0x1028ECC0  (unit sqsnScene: between 0x1028E3B0 (name sqsnScenePrint) and 0x1028ED00 (asserts sqsnScene.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_SetByteAt28(int param_1, int param_2, undefined4 param_3)
 {
   *(uint8_t *)(param_2 + *(int *)(param_1 + 0x28)) = (uint8_t)param_3;
@@ -142,7 +142,7 @@ XI_API void __cdecl SqsnScene_SetByteAt28(int param_1, int param_2, undefined4 p
 }
 
 // FUNCTION: FFXIMAIN 0x1028ECE0  (unit sqsnScene: between 0x1028E3B0 (name sqsnScenePrint) and 0x1028ED00 (asserts sqsnScene.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_SetItemByte18(int param_1, int param_2, undefined4 param_3)
 {
   *(uint8_t *)(*(int *)(param_1 + 0x48) + 0x18 + param_2 * 0x2c) = (uint8_t)param_3;
@@ -150,7 +150,7 @@ XI_API void __cdecl SqsnScene_SetItemByte18(int param_1, int param_2, undefined4
 }
 
 // FUNCTION: FFXIMAIN 0x1028ED00  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77
 XI_API int __cdecl SqsnScene_AddCamera(int param_1, undefined4 param_2, undefined4 param_3)
 {
   int iVar1;
@@ -167,7 +167,7 @@ XI_API int __cdecl SqsnScene_AddCamera(int param_1, undefined4 param_2, undefine
 }
 
 // FUNCTION: FFXIMAIN 0x1028ED50  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 67 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 67
 XI_API int __cdecl SqsnScene_AddLight(int param_1, undefined4 param_2, undefined4 param_3)
 {
   int iVar1;
@@ -188,7 +188,7 @@ XI_API int __cdecl SqsnScene_AddLight(int param_1, undefined4 param_2, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x1028EDE0  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 31 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 31
 XI_API int __cdecl SqsnScene_LayerAddItem(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, int param_5)
 {
   int iVar1;
@@ -254,7 +254,7 @@ XI_API int __cdecl SqsnScene_LayerAddItem(int param_1, undefined4 param_2, undef
 }
 
 // FUNCTION: FFXIMAIN 0x1028EFB0  (unit sqsnScene: between 0x1028EDE0 (asserts sqsnScene.c) and 0x1028EFF0 (asserts sqsnScene.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_LayerInit(undefined4 * param_1)
 {
   if (param_1 != (undefined4 *)0x0) {
@@ -275,7 +275,7 @@ XI_API void __cdecl SqsnScene_LayerInit(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1028F130  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 76 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 76
 XI_API int __cdecl SqsnScene_AddShadow(int param_1, undefined4 param_2)
 {
   int iVar1;
@@ -304,7 +304,7 @@ XI_API int __cdecl SqsnScene_AddShadow(int param_1, undefined4 param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1028F220  (unit sqsnScene: between 0x1028F130 (asserts sqsnScene.c) and 0x1028F2E0 (asserts sqsnScene.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_SetItemDword28(int param_1, int param_2, undefined4 param_3)
 {
   *(uint32_t *)(*(int *)(param_1 + 0x40) + 0x28 + param_2 * 0x30) = param_3;
@@ -312,7 +312,7 @@ XI_API void __cdecl SqsnScene_SetItemDword28(int param_1, int param_2, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x1028F2E0  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 81
 XI_API void __cdecl SqsnScene_ItemAddLight(int param_1, uint32_t param_2, undefined4 param_3)
 {
   int iVar1;
@@ -331,7 +331,7 @@ XI_API void __cdecl SqsnScene_ItemAddLight(int param_1, uint32_t param_2, undefi
 }
 
 // FUNCTION: FFXIMAIN 0x1028F350  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 81
 XI_API void __cdecl SqsnScene_ItemAddShadowLight(int param_1, uint32_t param_2, undefined4 param_3)
 {
   int iVar1;
@@ -350,7 +350,7 @@ XI_API void __cdecl SqsnScene_ItemAddShadowLight(int param_1, uint32_t param_2, 
 }
 
 // FUNCTION: FFXIMAIN 0x1028F3C0  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 86 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 86
 XI_API void __cdecl SqsnScene_ShadowAddMember(int param_1, int param_2, undefined4 param_3)
 {
   int iVar1;
@@ -370,7 +370,7 @@ XI_API void __cdecl SqsnScene_ShadowAddMember(int param_1, int param_2, undefine
 }
 
 // FUNCTION: FFXIMAIN 0x1028F430  (unit sqsnScene: between 0x1028F3C0 (asserts sqsnScene.c) and 0x1028F5F0 (name sqsnScene_1028F5F0), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl SqsnScene_GetEntryAddr(int param_1, uint32_t param_2)
 {
   return (param_2 & 0x7fff) * 0x90 +
@@ -378,7 +378,7 @@ XI_API int __cdecl SqsnScene_GetEntryAddr(int param_1, uint32_t param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1028F4A0  (unit sqsnScene: between 0x1028F3C0 (asserts sqsnScene.c) and 0x1028F5F0 (name sqsnScene_1028F5F0), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_SetCursorIfInRange(int param_1, int param_2)
 {
   if (param_2 < *(int *)(param_1 + 0x14)) {
@@ -388,7 +388,7 @@ XI_API void __cdecl SqsnScene_SetCursorIfInRange(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1028F4C0  (unit sqsnScene: between 0x1028F3C0 (asserts sqsnScene.c) and 0x1028F5F0 (name sqsnScene_1028F5F0), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_DrawMatrixShape(undefined4 param_1, int * param_2)
 {
   orig::sqgxMatrixShape_v1((uint32_t *)param_2[1]);
@@ -397,7 +397,7 @@ XI_API void __cdecl SqsnScene_DrawMatrixShape(undefined4 param_1, int * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1028F5F0  (unit sqsnScene: name sqsnScene_1028F5F0)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
 XI_API void __cdecl sqsnScene_1028F5F0(int param_1, int param_2, int param_3)
 {
   int iVar1;
@@ -447,7 +447,7 @@ LAB_1028f62e:
 }
 
 // FUNCTION: FFXIMAIN 0x1028F6E0  (unit sqsnScene: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 33 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 33 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 33
 XI_API void __cdecl SqsnScene_SetupLayerLights(int * param_1, int param_2)
 {
   int *piVar1;
@@ -528,7 +528,7 @@ XI_API void __cdecl SqsnScene_SetupLayerLights(int * param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1028F8C0  (unit sqsnScene: between 0x1028F5F0 (name sqsnScene_1028F5F0) and 0x1028FDD0 (name sqsnSceneLayerDraw), both within 4 KB)
-// GATE: PASS -- 100 trials, 64 returned normally, 267 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 64 returned normally, 267 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 64
 XI_API void __cdecl sqsnSceneDraw(int a1)
 {
   int v2;
@@ -773,7 +773,7 @@ LABEL_54:
 }
 
 // FUNCTION: FFXIMAIN 0x1028FDD0  (unit sqsnScene: name sqsnSceneLayerDraw)
-// GATE: PASS -- 100 trials, 47 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 47 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 47
 XI_API void __cdecl sqsnSceneLayerDraw(int * param_1, int param_2)
 {
   int *piVar1;
@@ -847,7 +847,7 @@ XI_API void __cdecl sqsnSceneLayerDraw(int * param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1028FF80  (unit sqsnScene: between 0x1028FDD0 (name sqsnSceneLayerDraw) and 0x1028FFF0 (name sqsnSceneLayerDrawShadowed), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_DrawFadeSprite(int param_1)
 {
   int iVar1;
@@ -864,7 +864,7 @@ XI_API void __cdecl SqsnScene_DrawFadeSprite(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1028FFF0  (unit sqsnScene: name sqsnSceneLayerDrawShadowed)
-// GATE: PASS -- 100 trials, 36 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 36 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 36
 XI_API void __cdecl sqsnSceneLayerDrawShadowed(int * param_1, int param_2)
 {
   int iVar1;
@@ -982,7 +982,7 @@ XI_API void __cdecl sqsnSceneLayerDrawShadowed(int * param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102902C0  (unit sqsnScene: name sqsnSceneLayerSnapShotComposite)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl sqsnSceneLayerSnapShotComposite(int param_1, int param_2)
 {
   int iVar1;
@@ -1041,14 +1041,14 @@ XI_API void __cdecl sqsnSceneLayerSnapShotComposite(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10290430  (unit sqsnScene: between 0x102902C0 (name sqsnSceneLayerSnapShotComposite) and 0x10290440 (name sqsnSceneLayerSort), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsnScene_NoOp(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x10290440  (unit sqsnScene: name sqsnSceneLayerSort)
-// GATE: PASS -- 100 trials, 42 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 42 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 42
 XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
 {
   int iVar1;
@@ -1133,7 +1133,7 @@ XI_API void __cdecl sqsnSceneLayerSort(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10290610  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 81 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 81
 XI_API void __cdecl SqsnScene_Preallocate(int param_1, int param_2, int param_3, int param_4, int param_5)
 {
   undefined4 *puVar1;
@@ -1216,7 +1216,7 @@ XI_API void __cdecl SqsnScene_Preallocate(int param_1, int param_2, int param_3,
 }
 
 // FUNCTION: FFXIMAIN 0x102907C0  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92
 XI_API void __cdecl SqsnScene_LayerPreallocate(int param_1, int param_2, int param_3)
 {
   int iVar1;
@@ -1237,7 +1237,7 @@ XI_API void __cdecl SqsnScene_LayerPreallocate(int param_1, int param_2, int par
 }
 
 // FUNCTION: FFXIMAIN 0x10290840  (unit sqsnScene: asserts sqsnScene.c)
-// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 95 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 95
 XI_API void __cdecl SqsnScene_ShadowPreallocate(int param_1, int param_2, int param_3)
 {
   undefined4 *puVar1;

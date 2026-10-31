@@ -3,7 +3,7 @@
 #include "Obj_104E1BF8.hpp"
 
 // FUNCTION: FFXIMAIN 0x10120590  (placed by callers pass the object in dword_104E1BF8 as this (3 of 3 call sites); static object (never assigned; methods called on its address); class not identified)
-// GATE: PASS -- 100 trials, 100 returned normally, 67 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 67 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char Obj_104E1BF8::ShapeMng_BindFontTexture(int a2, _DWORD *a3, _DWORD *a4)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest
@@ -68,7 +68,7 @@ char Obj_104E1BF8::ShapeMng_BindFontTexture(int a2, _DWORD *a3, _DWORD *a4)
 }
 
 // FUNCTION: FFXIMAIN 0x101207B0  (placed by callers pass the object in dword_104E1BF8 as this (1 of 1 call sites); static object (never assigned; methods called on its address); class not identified)
-// GATE: PASS -- 100 trials, 100 returned normally, 66 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 66 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char Obj_104E1BF8::ShapeMng_BindDmgNumTexture(int a2, _DWORD *a3, _DWORD *a4)
 {
   int * self = reinterpret_cast<int *>(this);  // byte-exact view for the rest

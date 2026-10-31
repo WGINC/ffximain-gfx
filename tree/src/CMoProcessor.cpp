@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1006CE70  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 _DWORD * CMoProcessor::InitRotationMatrices()
 {
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
@@ -48,7 +48,7 @@ _DWORD * CMoProcessor::InitRotationMatrices()
 }
 
 // FUNCTION: FFXIMAIN 0x1006D3E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __stdcall CMoProcessor::TransposeInPlace(int param_1)
 {
   float fVar1;
@@ -80,7 +80,7 @@ void __stdcall CMoProcessor::TransposeInPlace(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006D580  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 long double __stdcall CMoProcessor::LengthSafe(float * param_1)
 {
   uint8_t bVar1;
@@ -96,7 +96,7 @@ long double __stdcall CMoProcessor::LengthSafe(float * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1006E6B0  (placed by IDB name)
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
@@ -118,7 +118,7 @@ int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
 }
 
 // FUNCTION: FFXIMAIN 0x1006E970  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 56 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 56
 CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, int a3, int a4, const void *a5)
 {
   CMoProcessor *result;
@@ -212,7 +212,7 @@ CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, in
 }
 
 // FUNCTION: FFXIMAIN 0x1006ED10  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 60 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 60 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 60
 void __thiscall CMoProcessor::CalcScreenBoundsAndVisible(void * self, float * param_1, float * param_2, float param_3, float param_4, float param_5, undefined4 xi_s6, undefined4 xi_s7)
 {
   long double fVar1;
@@ -336,7 +336,7 @@ void __thiscall CMoProcessor::CalcScreenBoundsAndVisible(void * self, float * pa
 }
 
 // FUNCTION: FFXIMAIN 0x1006F800  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 __attribute__((target("sse,fpmath=sse"))) float * __stdcall CMoProcessor::MulPointVec3(float * param_1, float * param_2, float * param_3)
 {
   float fVar1;
@@ -369,7 +369,7 @@ __attribute__((target("sse,fpmath=sse"))) float * __stdcall CMoProcessor::MulPoi
 }
 
 // FUNCTION: FFXIMAIN 0x1006FAE0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoProcessor::BuildRotationXYZ(void * self, undefined4 param_1, float param_2, float param_3, float param_4)
 {
   int iVar1;
@@ -404,7 +404,7 @@ undefined4 __thiscall CMoProcessor::BuildRotationXYZ(void * self, undefined4 par
 }
 
 // FUNCTION: FFXIMAIN 0x1006FC40  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoProcessor::SetRotationFromAngles(void * self, undefined4 param_1, float param_2, float param_3, float param_4)
 {
   int iVar1;

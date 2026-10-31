@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1021D930  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __thiscall Unit1021D930_InitAndMarkReady(void * self_, undefined4 param_1)
 {
   uint32_t uVar1;
@@ -17,7 +17,7 @@ XI_API uint32_t __thiscall Unit1021D930_InitAndMarkReady(void * self_, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x1021D980  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Movie_Update(void * self_)
 {
   int *piVar1;
@@ -31,7 +31,7 @@ XI_API undefined4 __thiscall Movie_Update(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1021D9A0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1021D930_ReleaseReturnTrue(undefined4 xi_eax)
 {
   orig::Unit1021D930_NoOp();
@@ -39,7 +39,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1021D930_ReleaseReturnT
 }
 
 // FUNCTION: FFXIMAIN 0x1021DD20  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 177 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 177 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API int * __stdcall Unit1021D930_Assign(int * param_1, int * param_2)
 {
   int *a1;
@@ -56,14 +56,14 @@ XI_API int * __stdcall Unit1021D930_Assign(int * param_1, int * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1021DDC0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_NoOp(void)
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1021DDF0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Movie_GetCurrentTexture(void * self_)
 {
   return *(uint32_t *)
@@ -72,7 +72,7 @@ XI_API undefined4 __thiscall Movie_GetCurrentTexture(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1021DE10  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_Release(void * self_)
 {
   int *a1;
@@ -85,7 +85,7 @@ XI_API void __thiscall Unit1021D930_Release(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1021DE20  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 78 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_ReleaseComPtr(void * self_)
 {
   int *a1;
@@ -98,7 +98,7 @@ XI_API void __thiscall Unit1021D930_ReleaseComPtr(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1021DE30  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_QueryInterface10385E80(void * self_, undefined4 param_1)
 {
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)**(uint32_t **)self_)))(*(uint32_t **)self_,&DAT_10385e80,param_1);
@@ -106,7 +106,7 @@ XI_API void __thiscall Unit1021D930_QueryInterface10385E80(void * self_, undefin
 }
 
 // FUNCTION: FFXIMAIN 0x1021DE50  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_QueryInterface10385E90(void * self_, undefined4 param_1)
 {
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)**(uint32_t **)self_)))(*(uint32_t **)self_,&DAT_10385e90,param_1);
@@ -114,7 +114,7 @@ XI_API void __thiscall Unit1021D930_QueryInterface10385E90(void * self_, undefin
 }
 
 // FUNCTION: FFXIMAIN 0x1021DE70  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_QueryInterface10385EA0(void * self_, undefined4 param_1)
 {
   ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)**(uint32_t **)self_)))(*(uint32_t **)self_,&DAT_10385ea0,param_1);
@@ -122,7 +122,7 @@ XI_API void __thiscall Unit1021D930_QueryInterface10385EA0(void * self_, undefin
 }
 
 // FUNCTION: FFXIMAIN 0x1021DE90  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_ConstructWithBase(void * self_, undefined4 param_1, undefined4 * param_2)
 {
   orig::Unit1025C9E0_DerivedCtor(self_,&DAT_10385eb0,0,param_1,param_2);
@@ -142,7 +142,7 @@ XI_API void * __thiscall Unit1021D930_ConstructWithBase(void * self_, undefined4
 }
 
 // FUNCTION: FFXIMAIN 0x1021E060  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 55 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 55 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Movie_CreateFrameTextures(Vt_1033BE90 *self_, int a2)
 {
   int v2;
@@ -190,7 +190,7 @@ XI_API int __thiscall Movie_CreateFrameTextures(Vt_1033BE90 *self_, int a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1021E3B0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 9 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 9 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 9
 XI_API int __cdecl Unit1021D930_FindByName(uint8_t * param_1, int param_2)
 {
   uint8_t bVar1;
@@ -234,7 +234,7 @@ LAB_1021e40b:
 }
 
 // FUNCTION: FFXIMAIN 0x1021E480  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl Unit1021D930_FindForIds(short * param_1, int * param_2, int param_3)
 {
   short *psVar1;
@@ -262,7 +262,7 @@ XI_API int __cdecl Unit1021D930_FindForIds(short * param_1, int * param_2, int p
 }
 
 // FUNCTION: FFXIMAIN 0x1021E4D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl ShapeMng_FindShapes(int * param_1, undefined4 * param_2)
 {
   int iVar1;
@@ -280,7 +280,7 @@ XI_API void __cdecl ShapeMng_FindShapes(int * param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1021E500  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 55 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 55 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 55
 XI_API void __cdecl Unit1021D930_ClearArrays(undefined4 * param_1, undefined4 * param_2, uint32_t param_3)
 {
   uint32_t uVar1;
@@ -311,7 +311,7 @@ XI_API void __cdecl Unit1021D930_ClearArrays(undefined4 * param_1, undefined4 * 
 }
 
 // FUNCTION: FFXIMAIN 0x1021E550  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 60 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 60
 XI_API int __cdecl Unit1021D930_UpdateIndexList(int param_1, int param_2, int param_3, int param_4, int param_5, uint8_t * param_6)
 {
   int iVar1;
@@ -385,7 +385,7 @@ LAB_1021e637:
 }
 
 // FUNCTION: FFXIMAIN 0x1021E670  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __cdecl Unit1021D930_IsIdInTable10485A30(undefined4 param_1)
 {
   short *psVar1;
@@ -401,7 +401,7 @@ XI_API uint32_t __cdecl Unit1021D930_IsIdInTable10485A30(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1021E690  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_ResetFields(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1033bf54;
@@ -415,7 +415,7 @@ XI_API void __thiscall Unit1021D930_ResetFields(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1021E760  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 44 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 44
 XI_API void __thiscall Unit1021D930_Init(void * self_, undefined4 param_1, int param_2, uint32_t param_3, undefined4 param_4)
 {
   uint32_t uVar1;
@@ -461,7 +461,7 @@ XI_API void __thiscall Unit1021D930_Init(void * self_, undefined4 param_1, int p
 }
 
 // FUNCTION: FFXIMAIN 0x1021E870  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 69 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 69
 XI_API void __cdecl Unit1021D930_RotateBytesByBitCount(int param_1, int param_2)
 {
   uint8_t bVar1;
@@ -521,7 +521,7 @@ switchD_1021e989_default:
 }
 
 // FUNCTION: FFXIMAIN 0x1021ED90  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_CallPanel1021F240And102203B0(void)
 {
   uint64_t uVar1;
@@ -538,7 +538,7 @@ XI_API void __cdecl Unit1021D930_CallPanel1021F240And102203B0(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1021EDC0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __attribute__((cdecl, regparm(1))) Unit1021D930_CallPanel1021EF10(undefined4 xi_eax)
 {
   if (DAT_10666e84_as_v0 != (void *)0x0) {
@@ -549,7 +549,7 @@ XI_API void __attribute__((cdecl, regparm(1))) Unit1021D930_CallPanel1021EF10(un
 }
 
 // FUNCTION: FFXIMAIN 0x1021EDD0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1021D930_Call1021EF30If10666E84(undefined4 xi_eax)
 {
   uint32_t uVar1;
@@ -562,7 +562,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1021D930_Call1021EF30If
 }
 
 // FUNCTION: FFXIMAIN 0x1021EDE0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Menu_GetPanelByte0D(void)
 {
   if (DAT_10666e84 != 0) {
@@ -572,7 +572,7 @@ XI_API undefined4 __cdecl Menu_GetPanelByte0D(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1021EE00  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Menu_SetPanelWord28(undefined4 param_1)
 {
   int iVar1;
@@ -585,7 +585,7 @@ XI_API undefined4 __cdecl Menu_SetPanelWord28(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1021EE20  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Menu_SetPanelWord2A(undefined4 param_1)
 {
   if (DAT_10666e84 != 0) {
@@ -595,7 +595,7 @@ XI_API void __cdecl Menu_SetPanelWord2A(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1021EE70  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Menu_SetPanelMetrics(float param_1, float param_2, undefined4 param_3)
 {
   int iVar1;
@@ -611,7 +611,7 @@ XI_API void __cdecl Menu_SetPanelMetrics(float param_1, float param_2, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x1021EEB0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit1021D930_InitFieldsDTo38(void * self_)
 {
   uint8_t *puVar1;
@@ -639,7 +639,7 @@ XI_API undefined4 __thiscall Unit1021D930_InitFieldsDTo38(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1021EF10  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit1021D930_SetFlagDAndField1C(void * self_)
 {
   uint32_t uVar1;
@@ -653,7 +653,7 @@ XI_API undefined4 __thiscall Unit1021D930_SetFlagDAndField1C(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1021EF60  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Unit1021D930_SetPanelMetricsByKind(undefined4 param_1, undefined4 param_2, undefined4 param_3)
 {
   uint32_t uVar1;
@@ -699,7 +699,7 @@ switchD_1021efac_caseD_6:
 }
 
 // FUNCTION: FFXIMAIN 0x1021F030  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __stdcall ActerBuff_FindNearest(float * param_1, int * param_2)
 {
   float fVar1;
@@ -749,7 +749,7 @@ XI_API long double __stdcall ActerBuff_FindNearest(float * param_1, int * param_
 }
 
 // FUNCTION: FFXIMAIN 0x1021F140  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __stdcall ActerBuff_CollectNearby(int param_1, undefined4 param_2)
 {
   long double fVar1;
@@ -806,7 +806,7 @@ LAB_1021f20b:
 }
 
 // FUNCTION: FFXIMAIN 0x1021F360  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Unit1021D930_GetWindowRect(short * param_1)
 {
   uint8_t **ppuVar1;
@@ -846,7 +846,7 @@ XI_API void __stdcall Unit1021D930_GetWindowRect(short * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1021F410  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_DrawPanelForActor(void * self_)
 {
   uint8_t bVar1;
@@ -880,7 +880,7 @@ XI_API void __thiscall Unit1021D930_DrawPanelForActor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1021F480  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Unit1021D930_DrawActorPanelFigures(int param_1)
 {
   uint16_t uVar1;
@@ -1080,7 +1080,7 @@ LAB_1021f539:
 }
 
 // FUNCTION: FFXIMAIN 0x1021F950  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_DrawEntryRows(void * self_, undefined4 xi_s1)
 {
   uint32_t uVar1;
@@ -1125,7 +1125,7 @@ XI_API void __thiscall Unit1021D930_DrawEntryRows(void * self_, undefined4 xi_s1
 }
 
 // FUNCTION: FFXIMAIN 0x1021FA90  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __stdcall Unit1021D930_DrawLabelledRow(int param_1, int param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, undefined4 param_6, undefined4 param_7, uint8_t * param_8)
 {
   uint32_t uVar1;
@@ -1138,7 +1138,7 @@ XI_API undefined4 __stdcall Unit1021D930_DrawLabelledRow(int param_1, int param_
 }
 
 // FUNCTION: FFXIMAIN 0x1021FB10  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Unit1021D930_DrawTwoDigitValue(int param_1, undefined4 param_2, undefined4 xi_s3)
 {
   char xi_frame[36] __attribute__((aligned(4)));
@@ -1157,7 +1157,7 @@ XI_API void __stdcall Unit1021D930_DrawTwoDigitValue(int param_1, undefined4 par
 }
 
 // FUNCTION: FFXIMAIN 0x1021FB80  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Unit1021D930_DrawBarRow(int param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5, uint8_t * param_6)
 {
   orig::Unit101C72E0_DrawEasedPercentItem1A(param_1 + 0x10,param_2 + 7,param_5,param_6);
@@ -1167,7 +1167,7 @@ XI_API void __stdcall Unit1021D930_DrawBarRow(int param_1, undefined4 param_2, u
 }
 
 // FUNCTION: FFXIMAIN 0x1021FBD0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 58 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 58
 XI_API void __stdcall Unit1021D930_DrawNameRows(undefined4 param_1, undefined4 param_2, int param_3, int param_4, int param_5, int param_6)
 {
   int iVar1;
@@ -1223,7 +1223,7 @@ XI_API void __stdcall Unit1021D930_DrawNameRows(undefined4 param_1, undefined4 p
 }
 
 // FUNCTION: FFXIMAIN 0x1021FCE0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall ActerBuff_DrawNearby(void * self_)
 {
   int iVar1;
@@ -1274,7 +1274,7 @@ XI_API void __thiscall ActerBuff_DrawNearby(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1021FE10  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_DrawStrongholdPanel(void * self_)
 {
   void *this_00;
@@ -1417,7 +1417,7 @@ XI_API void __thiscall Unit1021D930_DrawStrongholdPanel(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102201A0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Unit1021D930_DrawLabelBar(int param_1, undefined4 param_2, void * param_3, float param_4, undefined4 param_5)
 {
   orig::FUN_1011fb60(param_3,param_1,param_2,0x80808080,0,0);
@@ -1427,7 +1427,7 @@ XI_API void __stdcall Unit1021D930_DrawLabelBar(int param_1, undefined4 param_2,
 }
 
 // FUNCTION: FFXIMAIN 0x102201F0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_DrawGameTime(void * self_, int param_1, int param_2)
 {
   void *pvVar1;
@@ -1476,7 +1476,7 @@ XI_API void __thiscall Unit1021D930_DrawGameTime(void * self_, int param_1, int 
 }
 
 // FUNCTION: FFXIMAIN 0x10220350  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit1021D930_RefreshTargetGridText(void * self_)
 {
   char cVar1;
@@ -1501,7 +1501,7 @@ XI_API int __thiscall Unit1021D930_RefreshTargetGridText(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10220C20  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __cdecl Camera_GetWrappedYaw(void)
 {
   int iVar1;
@@ -1528,7 +1528,7 @@ XI_API long double __cdecl Camera_GetWrappedYaw(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10220C80  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl ShapeMng_FillMenuShapes(void)
 {
   uint8_t *puVar1;
@@ -1550,14 +1550,14 @@ XI_API void __cdecl ShapeMng_FillMenuShapes(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10220CF0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Menu_GetTableEntry(int param_1, int param_2)
 {
   return *(uint32_t *)(*(int *)(&DAT_10666e88)[param_1] + param_2 * 4);
 }
 
 // FUNCTION: FFXIMAIN 0x10220D10  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Menu_GetGlobalTableEntry(int param_1)
 {
   if (DAT_106218f4 == (int *)0x0) {
@@ -1567,7 +1567,7 @@ XI_API undefined4 __cdecl Menu_GetGlobalTableEntry(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10220FD0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_InitPanelState(void * self_)
 {
   uint8_t *puVar1;
@@ -1598,7 +1598,7 @@ XI_API void * __thiscall Unit1021D930_InitPanelState(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10221030  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall fn_10221030(void * self_, uint8_t * param_1, int param_2)
 {
   char cVar1;
@@ -1692,7 +1692,7 @@ LAB_10221160:
 }
 
 // FUNCTION: FFXIMAIN 0x102211B0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Entry_ClearText(void * self_, int param_1)
 {
   char *pcVar1;
@@ -1719,7 +1719,7 @@ XI_API undefined4 __thiscall Entry_ClearText(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10221300  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall KaHelpMes_ResetLoadMes(void * self_, uint32_t id)
 {
   *(uint32_t *)((int)self_ + 100) = *(uint32_t *)((int)self_ + 100) & ~id;
@@ -1727,7 +1727,7 @@ XI_API void __thiscall KaHelpMes_ResetLoadMes(void * self_, uint32_t id)
 }
 
 // FUNCTION: FFXIMAIN 0x102214D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit1021D930_Draw(int *self_)
 {
   unsigned __int8 *RenderTargetTop;
@@ -1797,7 +1797,7 @@ XI_API int __thiscall Unit1021D930_Draw(int *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10221680  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall fn_10221680(void * self_)
 {
   char cVar1;
@@ -1863,7 +1863,7 @@ LAB_102216ab:
 }
 
 // FUNCTION: FFXIMAIN 0x10221740  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __thiscall Unit1021D930_IsDone(void * self_)
 {
   if (*(uint32_t *)((int)self_ + 100) != 0) {
@@ -1879,7 +1879,7 @@ XI_API uint32_t __thiscall Unit1021D930_IsDone(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102217A0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_InitMenuShapes(void)
 {
   orig::ShapeMng_FillMenuShapes();
@@ -1889,7 +1889,7 @@ XI_API void __cdecl Unit1021D930_InitMenuShapes(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102217C0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_Construct(void * self_)
 {
   orig::Unit100D7420_ClearWords((void *)((int)self_ + 4));
@@ -1906,7 +1906,7 @@ XI_API void * __thiscall Unit1021D930_Construct(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10221900  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_InitRect(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4)
 {
   orig::Unit1021D930_AllocEntriesAndSetCounts(self_,param_1,0,param_2,param_3,param_4);
@@ -1914,7 +1914,7 @@ XI_API void __thiscall Unit1021D930_InitRect(void * self_, undefined4 param_1, u
 }
 
 // FUNCTION: FFXIMAIN 0x10221920  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 66 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 66 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 66
 XI_API undefined4 __thiscall Unit1021D930_AllocEntriesAndSetCounts(void * self_, undefined4 param_1, undefined4 param_2, int param_3, int param_4, int param_5)
 {
   int *piVar1;
@@ -1980,7 +1980,7 @@ XI_API undefined4 __thiscall Unit1021D930_AllocEntriesAndSetCounts(void * self_,
 }
 
 // FUNCTION: FFXIMAIN 0x10221A80  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 1255224 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 54 returned normally, 1255224 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54
 XI_API undefined4 __thiscall Unit1021D930_SetCountAndRebuild(void * self_, int param_1, undefined4 param_2)
 {
   int iVar1;
@@ -2049,7 +2049,7 @@ XI_API undefined4 __thiscall Unit1021D930_SetCountAndRebuild(void * self_, int p
 }
 
 // FUNCTION: FFXIMAIN 0x10221BE0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_GetWindowLocate(void * self_, int * param_1, int * param_2)
 {
   char xi_frame[8] __attribute__((aligned(4)));
@@ -2071,7 +2071,7 @@ XI_API void __thiscall Unit1021D930_GetWindowLocate(void * self_, int * param_1,
 }
 
 // FUNCTION: FFXIMAIN 0x10221F50  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 87 returned normally, 128594 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 87 returned normally, 128594 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 87
 XI_API undefined4 __thiscall Unit1021D930_RunRowCallbacks(void * self_)
 {
   uint32_t uVar1;
@@ -2167,7 +2167,7 @@ XI_API undefined4 __thiscall Unit1021D930_RunRowCallbacks(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10222110  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_SetMode(void * self_, undefined4 param_1)
 {
   uint64_t uVar1;
@@ -2190,7 +2190,7 @@ LAB_1022213f:
 }
 
 // FUNCTION: FFXIMAIN 0x10222960  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_CreateSubsystems(void)
 {
   undefined4 *puVar1;
@@ -2261,7 +2261,7 @@ XI_API void __cdecl Unit1021D930_CreateSubsystems(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10222C10  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96
 XI_API uint32_t __cdecl Unit1021D930_ResolveAlias(uint32_t param_1)
 {
   char cVar1;
@@ -2287,7 +2287,7 @@ XI_API uint32_t __cdecl Unit1021D930_ResolveAlias(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10222C90  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93
 XI_API int __cdecl Unit1021D930_GetSlotInfo(undefined4 param_1, undefined4 * param_2)
 {
   char cVar1;
@@ -2340,7 +2340,7 @@ XI_API int __cdecl Unit1021D930_GetSlotInfo(undefined4 param_1, undefined4 * par
 }
 
 // FUNCTION: FFXIMAIN 0x10222DF0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_Call102250F0(void)
 {
   orig::FUN_102250f0();
@@ -2459,7 +2459,7 @@ LAB_10223026:
 }
 
 // FUNCTION: FFXIMAIN 0x10223040  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __cdecl Unit1021D930_FindByTypeIndex(uint32_t param_1, undefined4 param_2)
 {
   uint16_t *puVar1;
@@ -2490,7 +2490,7 @@ XI_API uint32_t __cdecl Unit1021D930_FindByTypeIndex(uint32_t param_1, undefined
 }
 
 // FUNCTION: FFXIMAIN 0x102231F0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __cdecl fn_102231F0(uint32_t param_1)
 {
   uint32_t xi_entry_eax = 0;
@@ -2513,7 +2513,7 @@ XI_API uint32_t __cdecl fn_102231F0(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10223240  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 57 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 82 returned normally, 57 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82
 XI_API uint32_t __cdecl fn_10223240(char * param_1, undefined4 param_2, int param_3, int param_4)
 {
   char cVar1;
@@ -2568,7 +2568,7 @@ LAB_1022332a:
 }
 
 // FUNCTION: FFXIMAIN 0x10223360  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl fn_10223360(undefined4 param_1)
 {
   uint32_t uVar1;
@@ -2581,7 +2581,7 @@ XI_API undefined4 __cdecl fn_10223360(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10223390  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 94 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 94
 XI_API undefined4 __cdecl fn_10223390(int param_1, uint32_t param_2)
 {
   uint32_t uVar1;
@@ -2600,7 +2600,7 @@ XI_API undefined4 __cdecl fn_10223390(int param_1, uint32_t param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x102233E0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl fn_102233E0(int param_1)
 {
   int iVar1;
@@ -2658,7 +2658,7 @@ LAB_10223475:
 }
 
 // FUNCTION: FFXIMAIN 0x10223760  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl fn_10223760(int param_1)
 {
   int iVar1;
@@ -2685,7 +2685,7 @@ XI_API void __cdecl fn_10223760(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x102238E0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_ConstructFromScene(void * self_)
 {
   uint32_t uVar1;
@@ -2704,7 +2704,7 @@ XI_API void * __thiscall Unit1021D930_ConstructFromScene(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10223930  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t * __cdecl Unit1021D930_GetObjectOnce(void)
 {
   if ((DAT_10666ea8 & 1) == 0) {
@@ -2716,7 +2716,7 @@ XI_API uint8_t * __cdecl Unit1021D930_GetObjectOnce(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102239A0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_Ctor102239A0(void * self_)
 {
   orig::FUN_10257860(self_);
@@ -2725,7 +2725,7 @@ XI_API void * __thiscall Unit1021D930_Ctor102239A0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102239C0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_LoadFromFile(void * self_)
 {
   uint8_t bVar1;
@@ -2782,7 +2782,7 @@ LAB_10223a3a:
 }
 
 // FUNCTION: FFXIMAIN 0x10223BB0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_InitAndRegister(void * self_)
 {
   orig::Unit1021D930_ClearArrays(self_,(uint32_t *)((int)self_ + 0x160),0xb00);
@@ -2794,7 +2794,7 @@ XI_API void * __thiscall Unit1021D930_InitAndRegister(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10223C00  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl fn_10223C00(int param_1, undefined4 * param_2)
 {
   int iVar1;
@@ -2809,7 +2809,7 @@ XI_API undefined4 __cdecl fn_10223C00(int param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10223C90  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API char __thiscall Unit1021D930_Refresh(void * self_)
 {
   int iVar1;
@@ -2836,7 +2836,7 @@ XI_API char __thiscall Unit1021D930_Refresh(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10223E60  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_ConstructFillMinus1(void * self_)
 {
   int iVar1;
@@ -2853,7 +2853,7 @@ XI_API void * __thiscall Unit1021D930_ConstructFillMinus1(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10224120  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92
 XI_API uint32_t __thiscall fn_10224120(void * self_, int param_1)
 {
   int *piVar1;
@@ -2866,7 +2866,7 @@ XI_API uint32_t __thiscall fn_10224120(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10224160  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
 XI_API int __thiscall fn_10224160(void * self_, int param_1)
 {
   int iVar1;
@@ -2885,7 +2885,7 @@ XI_API int __thiscall fn_10224160(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10225090  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit1021D930_FindByteIndex(void * self_, uint32_t param_1)
 {
   int iVar1;
@@ -2904,7 +2904,7 @@ XI_API int __thiscall Unit1021D930_FindByteIndex(void * self_, uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10225120  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 77 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 77
 XI_API int __thiscall Unit1021D930_ComputeCount(void * self_, int param_1, int param_2, undefined4 xi_s3)
 {
   short sVar1;
@@ -2937,7 +2937,7 @@ XI_API int __thiscall Unit1021D930_ComputeCount(void * self_, int param_1, int p
 }
 
 // FUNCTION: FFXIMAIN 0x10225220  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 82 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 82
 XI_API int __thiscall Unit1021D930_ComputeDelta(void * self_, int param_1, int param_2, undefined4 xi_s3)
 {
   short sVar1;
@@ -2963,7 +2963,7 @@ XI_API int __thiscall Unit1021D930_ComputeDelta(void * self_, int param_1, int p
 }
 
 // FUNCTION: FFXIMAIN 0x102254D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_ConstructSetGlobals(void * self_)
 {
   orig::Unit1021D930_Construct(self_);
@@ -2984,7 +2984,7 @@ XI_API void * __thiscall Unit1021D930_ConstructSetGlobals(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10226080  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_InitIndexMap128(void * self_)
 {
   int iVar1;
@@ -3001,7 +3001,7 @@ XI_API void * __thiscall Unit1021D930_InitIndexMap128(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102260C0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl fn_102260C0(int param_1, int param_2)
 {
   int iVar1;
@@ -3017,7 +3017,7 @@ XI_API void __cdecl fn_102260C0(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10226180  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t * __cdecl Unit1021D930_GetObject106670C8Once(void)
 {
   if ((DAT_10667140 & 1) == 0) {
@@ -3029,7 +3029,7 @@ XI_API uint8_t * __cdecl Unit1021D930_GetObject106670C8Once(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102261F0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_Ctor102261F0(void * self_)
 {
   orig::FUN_10257860(self_);
@@ -3038,7 +3038,7 @@ XI_API void * __thiscall Unit1021D930_Ctor102261F0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10226210  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_LoadDMsgTable(void * self_)
 {
   uint8_t bVar1;
@@ -3087,7 +3087,7 @@ LAB_10226285:
 }
 
 // FUNCTION: FFXIMAIN 0x10226540  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_Call10226E30(void)
 {
   orig::FUN_10226e30();
@@ -3095,7 +3095,7 @@ XI_API void __cdecl Unit1021D930_Call10226E30(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10226550  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_ConstructZeroFields(void * self_)
 {
   orig::Unit1021D930_Construct(self_);
@@ -3106,7 +3106,7 @@ XI_API void * __thiscall Unit1021D930_ConstructZeroFields(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10226C80  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_InitIndexMap64(void * self_)
 {
   int iVar1;
@@ -3123,7 +3123,7 @@ XI_API void * __thiscall Unit1021D930_InitIndexMap64(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10227000  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 97 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 97 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl fn_10227000(char * param_1)
 {
   char cVar1;
@@ -3152,7 +3152,7 @@ XI_API int __cdecl fn_10227000(char * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10227080  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_Alloc1800(void * self_)
 {
   uint64_t uVar1;
@@ -3167,7 +3167,7 @@ XI_API void * __thiscall Unit1021D930_Alloc1800(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102271B0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_ConstructAllocEntries(void * self_)
 {
   orig::FUN_10257860(self_);
@@ -3177,7 +3177,7 @@ XI_API void * __thiscall Unit1021D930_ConstructAllocEntries(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102271D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_LoadNamedEntries(void * self_)
 {
   uint8_t bVar1;
@@ -3229,7 +3229,7 @@ LAB_10227267:
 }
 
 // FUNCTION: FFXIMAIN 0x10227750  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_CreateAndLoadEntries(void)
 {
   uint64_t uVar1;
@@ -3260,7 +3260,7 @@ XI_API void __cdecl Unit1021D930_CreateAndLoadEntries(void)
 }
 
 // FUNCTION: FFXIMAIN 0x102278B0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_ConstructBuffersAt68(void * self_)
 {
   int iVar1;
@@ -3287,7 +3287,7 @@ XI_API void * __thiscall Unit1021D930_ConstructBuffersAt68(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10227F70  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 51 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 51 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 51
 XI_API void __cdecl Unit1021D930_DrawMovie(int param_1, undefined4 param_2, int param_3, undefined4 param_4, int param_5)
 {
   int iVar1;
@@ -3329,7 +3329,7 @@ XI_API void __cdecl Unit1021D930_DrawMovie(int param_1, undefined4 param_2, int 
 }
 
 // FUNCTION: FFXIMAIN 0x10228080  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 66 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 66 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 66
 XI_API undefined4 __cdecl Unit1021D930_DrawTimeLeftText(int param_1, undefined4 param_2, int param_3, int param_4, int param_5)
 {
   int iVar1;
@@ -3387,7 +3387,7 @@ LAB_1022816d:
 }
 
 // FUNCTION: FFXIMAIN 0x102281C0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_ClearHeaderFields(void * self_)
 {
   *(uint32_t *)self_ = 0;
@@ -3397,7 +3397,7 @@ XI_API void __thiscall Unit1021D930_ClearHeaderFields(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10228200  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_ConstructBuffersAt8(void * self_)
 {
   void *this_00;
@@ -3424,7 +3424,7 @@ XI_API void * __thiscall Unit1021D930_ConstructBuffersAt8(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10228440  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89
 XI_API undefined4 __thiscall Unit1021D930_DrawTargetEntryIcons(void * self_)
 {
   uint32_t *puVar1;
@@ -3669,7 +3669,7 @@ LAB_1022855b:
 }
 
 // FUNCTION: FFXIMAIN 0x10229430  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_InitGlobals(void)
 {
   undefined4 *self_;
@@ -3697,7 +3697,7 @@ XI_API void __cdecl Unit1021D930_InitGlobals(void)
 }
 
 // FUNCTION: FFXIMAIN 0x10229670  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_ConstructInitAt64(void * self_)
 {
   orig::Unit1021D930_Construct(self_);
@@ -3719,7 +3719,7 @@ XI_API void * __thiscall Unit1021D930_ConstructInitAt64(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1022A6D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit1021D930_ClearMenu(void * self_)
 {
   uint64_t uVar1;
@@ -3731,7 +3731,7 @@ XI_API undefined4 __thiscall Unit1021D930_ClearMenu(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1022AF80  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1021D930_TestBitForId(uint32_t param_1)
 {
   uint32_t uVar1;
@@ -3744,7 +3744,7 @@ XI_API undefined4 __cdecl Unit1021D930_TestBitForId(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1022AFB0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 22 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 22 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 22
 XI_API void __cdecl Unit1021D930_GetBitIndexForId(int param_1, uint32_t * param_2, int * param_3)
 {
   uint8_t *self_;
@@ -3758,7 +3758,7 @@ XI_API void __cdecl Unit1021D930_GetBitIndexForId(int param_1, uint32_t * param_
 }
 
 // FUNCTION: FFXIMAIN 0x1022AFF0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1021D930_IsBitSetForId(undefined4 param_1)
 {
   int iVar1;
@@ -3768,7 +3768,7 @@ XI_API undefined4 __cdecl Unit1021D930_IsBitSetForId(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1022B080  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_InitSubsystems(void)
 {
   undefined4 *puVar1;
@@ -3826,7 +3826,7 @@ XI_API void __cdecl Unit1021D930_InitSubsystems(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1022B260  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_ClearCounters(void)
 {
   int iVar1;
@@ -3842,7 +3842,7 @@ XI_API void __cdecl Unit1021D930_ClearCounters(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1022B290  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_TickCounters(void)
 {
   uint32_t uVar1;
@@ -3873,7 +3873,7 @@ XI_API void __cdecl Unit1021D930_TickCounters(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1022B2F0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl Unit1021D930_GetMinutesCeil(int param_1)
 {
   if ((-1 < param_1) && (param_1 < 0x401)) {
@@ -3883,7 +3883,7 @@ XI_API int __cdecl Unit1021D930_GetMinutesCeil(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1022B3B0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_SetTimerSeconds(undefined4 param_1)
 {
   DAT_106679e0 = (short)param_1 * 0x3c;
@@ -3891,7 +3891,7 @@ XI_API void __cdecl Unit1021D930_SetTimerSeconds(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1022B430  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 71 returned normally, 15 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 71 returned normally, 15 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 71
 XI_API int __cdecl Unit1021D930_FindTableIdByText(char * param_1, int param_2, undefined4 param_3)
 {
   int iVar1;
@@ -3963,7 +3963,7 @@ XI_API int __cdecl Unit1021D930_FindTableIdByText(char * param_1, int param_2, u
 }
 
 // FUNCTION: FFXIMAIN 0x1022B7D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1021D930_IsEntryAvailable(int param_1)
 {
   uint32_t uVar1;
@@ -3992,7 +3992,7 @@ LAB_1022b849:
 }
 
 // FUNCTION: FFXIMAIN 0x1022B850  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl fn_1022B850(int param_1)
 {
   int iVar1;
@@ -4026,7 +4026,7 @@ XI_API void __cdecl fn_1022B850(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1022B8E0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl fn_1022B8E0(int param_1, uint8_t * param_2, uint8_t * param_3, uint8_t * param_4, short * param_5, int * param_6, uint8_t * param_7, uint8_t * param_8)
 {
   char cVar1;
@@ -4227,7 +4227,7 @@ LAB_1022bc88:
 }
 
 // FUNCTION: FFXIMAIN 0x1022BD50  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_CtorVt1033C50C(void * self_)
 {
   uint32_t uVar1;
@@ -4246,7 +4246,7 @@ XI_API void * __thiscall Unit1021D930_CtorVt1033C50C(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1022BDA0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t * __cdecl Unit1021D930_GetSingleton(void)
 {
   if ((DAT_10667a64 & 1) == 0) {
@@ -4258,7 +4258,7 @@ XI_API uint8_t * __cdecl Unit1021D930_GetSingleton(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1022BE10  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_SingletonCtor(void * self_)
 {
   orig::FUN_10257860(self_);
@@ -4267,7 +4267,7 @@ XI_API void * __thiscall Unit1021D930_SingletonCtor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1022BE30  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_LoadMessageTable(void * self_)
 {
   uint8_t bVar1;
@@ -4324,7 +4324,7 @@ LAB_1022beaa:
 }
 
 // FUNCTION: FFXIMAIN 0x1022BF00  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit1021D930_GetRowFirstCell(void * self_, uint32_t param_1)
 {
   short *psVar1;
@@ -4334,7 +4334,7 @@ XI_API undefined4 __thiscall Unit1021D930_GetRowFirstCell(void * self_, uint32_t
 }
 
 // FUNCTION: FFXIMAIN 0x1022BFB0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_MixDatCtor(void * self_)
 {
   orig::Unit1021D930_ClearArrays(self_,(uint32_t *)((int)self_ + 0x80),0x400);
@@ -4346,7 +4346,7 @@ XI_API void * __thiscall Unit1021D930_MixDatCtor(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1022C000  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl fn_1022C000(int param_1, undefined4 * param_2)
 {
   int iVar1;
@@ -4363,7 +4363,7 @@ XI_API undefined4 __cdecl fn_1022C000(int param_1, undefined4 * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1022C350  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C510(void * self_)
 {
   orig::Unit1021D930_Construct(self_);
@@ -4372,7 +4372,7 @@ XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C510(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1022C730  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92
 XI_API uint32_t __thiscall fn_1022C730(void * self_, int param_1)
 {
   int *piVar1;
@@ -4385,7 +4385,7 @@ XI_API uint32_t __thiscall fn_1022C730(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1022C770  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 98 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 98
 XI_API int __thiscall fn_1022C770(void * self_, int param_1)
 {
   int iVar1;
@@ -4401,7 +4401,7 @@ XI_API int __thiscall fn_1022C770(void * self_, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1022D290  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl fn_1022D290(int * param_1, uint8_t * param_2, uint8_t * param_3, uint8_t * param_4, short * param_5, int * param_6, undefined4 param_7, uint8_t * param_8)
 {
   uint8_t uVar1;
@@ -4451,7 +4451,7 @@ XI_API undefined4 __cdecl fn_1022D290(int * param_1, uint8_t * param_2, uint8_t 
 }
 
 // FUNCTION: FFXIMAIN 0x1022D370  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API char __cdecl fn_1022D370(int param_1)
 {
   char cVar1;
@@ -4545,7 +4545,7 @@ switchD_1022d430_default:
 }
 
 // FUNCTION: FFXIMAIN 0x1022D510  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl fn_1022D510(int param_1)
 {
   int xi_eax;
@@ -4592,7 +4592,7 @@ switchD_1022d540_default:
 }
 
 // FUNCTION: FFXIMAIN 0x1022DB80  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C5C0(void * self_)
 {
   orig::Unit1021D930_Construct(self_);
@@ -4602,7 +4602,7 @@ XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C5C0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1022EC50  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_ReadChunkDirectory(void)
 {
   int iVar1;
@@ -4663,7 +4663,7 @@ XI_API void __cdecl Unit1021D930_ReadChunkDirectory(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1022ED00  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_Clear(void * self_)
 {
   *(uint32_t *)self_ = 0;
@@ -4673,7 +4673,7 @@ XI_API void __thiscall Unit1021D930_Clear(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x1022ED30  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_Alloc(void * self_, int param_1, int param_2)
 {
   int iVar1;
@@ -4692,7 +4692,7 @@ XI_API void __thiscall Unit1021D930_Alloc(void * self_, int param_1, int param_2
 }
 
 // FUNCTION: FFXIMAIN 0x1022ED70  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 93 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93
 XI_API undefined4 __thiscall Unit1021D930_Append(void * self_, char * param_1)
 {
   char cVar1;
@@ -4727,7 +4727,7 @@ XI_API undefined4 __thiscall Unit1021D930_Append(void * self_, char * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1022EEE0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint8_t __thiscall Unit1021D930_LoadStringTable(void * self_, int param_1)
 {
   uint8_t bVar1;
@@ -4850,7 +4850,7 @@ LAB_1022ef7c:
 }
 
 // FUNCTION: FFXIMAIN 0x1022F240  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1021D930_ReadChunk(undefined4 param_1)
 {
   int iVar1;
@@ -4868,7 +4868,7 @@ XI_API undefined4 __cdecl Unit1021D930_ReadChunk(undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1022F3D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1021D930_CreateMessagePanels(void)
 {
   undefined4 *self_;
@@ -4934,7 +4934,7 @@ XI_API void __cdecl Unit1021D930_CreateMessagePanels(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1022F610  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C6B0(void * self_)
 {
   orig::Unit1021D930_Construct(self_);
@@ -4944,7 +4944,7 @@ XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C6B0(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102303B0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_CtorVt1033C718(void * self_)
 {
   *(uint32_t *)((int)self_ + 4) = 0;
@@ -4960,7 +4960,7 @@ XI_API void * __thiscall Unit1021D930_CtorVt1033C718(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10230410  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_Reset(void * self_)
 {
   int iVar1;
@@ -4985,7 +4985,7 @@ XI_API void __thiscall Unit1021D930_Reset(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10233BE0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C720(void * self_)
 {
   orig::Unit1021D930_Construct(self_);
@@ -4995,7 +4995,7 @@ XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C720(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x102340A0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C788(void * self_)
 {
   orig::Unit1021D930_Construct(self_);
@@ -5005,7 +5005,7 @@ XI_API void * __thiscall Unit1021D930_PanelCtorVt1033C788(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10234610  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall fn_10234610(void * self_, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
   *(uint32_t *)((int)self_ + 4) = param_2;
@@ -5023,7 +5023,7 @@ XI_API undefined4 __thiscall fn_10234610(void * self_, undefined4 param_1, undef
 }
 
 // FUNCTION: FFXIMAIN 0x10234660  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_DrawProgressBar(void * self_)
 {
   int iVar1;
@@ -5075,7 +5075,7 @@ XI_API void __thiscall Unit1021D930_DrawProgressBar(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10234910  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Unit1021D930_SendMenuEventByKind(void * self_)
 {
   char cVar1;
@@ -5124,7 +5124,7 @@ XI_API void __thiscall Unit1021D930_SendMenuEventByKind(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10234A00  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __thiscall Unit1021D930_ComputeClampedIndex(void * self_, undefined4 xi_s1, undefined4 xi_s2)
 {
   int iVar1;
@@ -5152,7 +5152,7 @@ XI_API int __thiscall Unit1021D930_ComputeClampedIndex(void * self_, undefined4 
 }
 
 // FUNCTION: FFXIMAIN 0x10234A70  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint64_t __thiscall Unit1021D930_SetPair(void * self_, undefined4 param_1, undefined4 param_2)
 {
   *(uint32_t *)self_ = param_1;

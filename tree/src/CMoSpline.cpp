@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10063450  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoSpline::GetRuntimeClass()
 {
   return &CMoSpline_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10063460  (unit CMoSpline: stores CMoSpline vtable (ctor/dtor))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall CMoSpline_Construct(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_CMoSpline_GetRuntimeClass_1032c088;
@@ -24,7 +24,7 @@ XI_API undefined4 __thiscall CMoSpline_Construct(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10063480  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoSpline::ScalarDeletingDtor(char a2)
 {
   orig::CMoSpline_Destructor((int *)this);
@@ -34,7 +34,7 @@ int * CMoSpline::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100634A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoSpline::Destructor(void * self)
 {
   *(uint8_t ***)self = &PTR_CMoSpline_GetRuntimeClass_1032c088;
@@ -43,7 +43,7 @@ void __thiscall CMoSpline::Destructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100634B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoSpline::Init(void * self, int param_1, uint32_t param_2, undefined4 param_3, undefined4 param_4)
 {
   undefined4 *puVar1;
@@ -76,7 +76,7 @@ void __thiscall CMoSpline::Init(void * self, int param_1, uint32_t param_2, unde
 }
 
 // FUNCTION: FFXIMAIN 0x10063550  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoSpline::FreeBuffers(void * self)
 {
   int iVar1;
@@ -104,7 +104,7 @@ void __thiscall CMoSpline::FreeBuffers(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100635B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 38 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 38 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 38
 void __thiscall CMoSpline::BuildSegmentTables(void * self)
 {
   float *pfVar1;
@@ -276,7 +276,7 @@ LAB_10063717:
 }
 
 // FUNCTION: FFXIMAIN 0x10063B20  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 11 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 11 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoSpline::ReleaseRef(void * self)
 {
   int *this_00;
@@ -295,21 +295,21 @@ void __thiscall CMoSpline::ReleaseRef(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10063B50  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 78 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 78 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 78
 int * __thiscall CMoSpline::GetWrapped(void * self, int param_1)
 {
   return (int *)((param_1 % *(int *)self + 1) * 0x10 + (int)self);
 }
 
 // FUNCTION: FFXIMAIN 0x10063B70  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CMoSpline::GetData(void * self)
 {
   return (int)self + 0x10;
 }
 
 // FUNCTION: FFXIMAIN 0x10063B80  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 89 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89
 undefined4 __thiscall CMoSpline::EnsureSamples(void * self)
 {
   int iVar1;
@@ -355,7 +355,7 @@ undefined4 __thiscall CMoSpline::EnsureSamples(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10063C30  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoSpline::SetValue(void * self, float * param_1, undefined4 param_2)
 {
   void *this_00;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1026E3D0  (unit unit_1026E3D0: no unit evidence of its own; in the gap between 0x1026E350 (sqrdLight) and 0x1026E900 (mdl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqgxContext_StoreVec14(int param_1)
 {
   char xi_frame[12] __attribute__((aligned(4)));
@@ -19,7 +19,7 @@ XI_API void __cdecl SqgxContext_StoreVec14(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026E400  (unit unit_1026E3D0: no unit evidence of its own; in the gap between 0x1026E350 (sqrdLight) and 0x1026E900 (mdl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StAvatar_InitGlobals1099AEB8(void)
 {
   _DAT_1099aeb8 = 1;
@@ -37,7 +37,7 @@ XI_API undefined4 __cdecl StAvatar_InitGlobals1099AEB8(void)
 }
 
 // FUNCTION: FFXIMAIN 0x1026E460  (unit unit_1026E3D0: no unit evidence of its own; in the gap between 0x1026E350 (sqrdLight) and 0x1026E900 (mdl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 47 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 47 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 47
 XI_API void __cdecl StAvatar_AllocArrays(int param_1, int param_2)
 {
   int iVar1;
@@ -73,7 +73,7 @@ XI_API void __cdecl StAvatar_AllocArrays(int param_1, int param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1026E530  (unit unit_1026E3D0: no unit evidence of its own; in the gap between 0x1026E350 (sqrdLight) and 0x1026E900 (mdl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl StAvatar_InitModel(undefined4 * param_1)
 {
   param_1[0x22] = 0xffffffff;
@@ -90,7 +90,7 @@ XI_API undefined4 __cdecl StAvatar_InitModel(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1026E590  (unit unit_1026E3D0: no unit evidence of its own; in the gap between 0x1026E350 (sqrdLight) and 0x1026E900 (mdl) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 35 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 35 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 35
 XI_API void __cdecl StAvatar_UpdateModels(undefined4 param_1)
 {
   int iVar1;

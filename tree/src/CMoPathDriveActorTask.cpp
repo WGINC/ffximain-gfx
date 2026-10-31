@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10056940  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoPathDriveActorTask::GetRuntimeClass()
 {
   return &CMoPathDriveActorTask_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x1005E9C0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 89 returned normally, 41 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 89 returned normally, 41 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 89
 undefined4 __thiscall CMoPathDriveActorTask::vf8(void * self)
 {
   float *pfVar1;
@@ -186,7 +186,7 @@ LAB_1005ec5a:
 }
 
 // FUNCTION: FFXIMAIN 0x1005EEF0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 80 returned normally, 12 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 80 returned normally, 12 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 80
 undefined4 __thiscall CMoPathDriveActorTask::ApplyFraction(void * self, undefined4 param_1)
 {
   void *this_00;
@@ -348,14 +348,14 @@ LAB_1005f289:
 }
 
 // FUNCTION: FFXIMAIN 0x100630A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoPathDriveActorTask::vf011()
 {
   return (int)orig::CMoLockColorDriveTask_GetRuntimeClass();
 }
 
 // FUNCTION: FFXIMAIN 0x100630B0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoPathDriveActorTask::vf012(int a1)
 {
   Vt_1032B9D0 * self = reinterpret_cast<Vt_1032B9D0 *>(this);  // byte-exact view for the rest

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1029ADF0  (unit unit_1029ADF0: no unit evidence of its own; in the gap between 0x1029ABD0 (sqinBuild) and 0x1029B100 (sqmdSort) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl SqskSkeleton_BuildSQO(char * param_1, undefined4 param_2)
 {
   char *pcVar1;
@@ -40,7 +40,7 @@ XI_API undefined4 __cdecl SqskSkeleton_BuildSQO(char * param_1, undefined4 param
 }
 
 // FUNCTION: FFXIMAIN 0x1029AF20  (unit unit_1029ADF0: no unit evidence of its own; in the gap between 0x1029ABD0 (sqinBuild) and 0x1029B100 (sqmdSort) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96
 XI_API int __cdecl SqskSkeleton_BuildBinary(int param_1, int param_2, int param_3)
 {
   float *pfVar1;

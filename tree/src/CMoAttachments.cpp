@@ -4,14 +4,14 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003B530  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CMoAttachments::GetRuntimeClass()
 {
   return &CMoAttachments_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x1003B540  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * __thiscall CMoAttachments::Construct(void * self)
 {
   orig::ActorHandle_Constructor_v1((void *)((int)self + 0x14));
@@ -22,28 +22,28 @@ void * __thiscall CMoAttachments::Construct(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B570  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char CMoAttachments::vf004()
 {
   return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x1003B580  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char CMoAttachments::vf005()
 {
   return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x1003B590  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoAttachments::vf006()
 {
   return 0;
 }
 
 // FUNCTION: FFXIMAIN 0x1003B5A0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 _DWORD * CMoAttachments::ScalarDeletingDtor(char a2)
 {
   orig::ReleaseSubObjectIfPresent(this);
@@ -53,7 +53,7 @@ _DWORD * CMoAttachments::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B640  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoAttachments::Reset(void * self)
 {
   uint32_t uVar1;
@@ -69,7 +69,7 @@ undefined4 __thiscall CMoAttachments::Reset(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B690  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoAttachments::ResetAll(void * self)
 {
   uint32_t uVar1;
@@ -88,7 +88,7 @@ undefined4 __thiscall CMoAttachments::ResetAll(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B6D0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoAttachments::GetCaster(void * self)
 {
   int iVar1;
@@ -107,7 +107,7 @@ undefined4 __thiscall CMoAttachments::GetCaster(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B700  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoAttachments::GetTarget(void * self)
 {
   int iVar1;
@@ -126,7 +126,7 @@ undefined4 __thiscall CMoAttachments::GetTarget(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B750  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoAttachments::ClearCaster(void * self, undefined4 param_1)
 {
   if ((char)param_1 != '\0') {
@@ -138,7 +138,7 @@ void __thiscall CMoAttachments::ClearCaster(void * self, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B780  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoAttachments::ClearTarget(void * self, undefined4 param_1)
 {
   if ((char)param_1 != '\0') {
@@ -150,7 +150,7 @@ void __thiscall CMoAttachments::ClearTarget(void * self, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B7B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 65 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 65 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoAttachments::SetCaster(void * self, int param_1)
 {
   uint32_t uVar1;
@@ -179,7 +179,7 @@ void __thiscall CMoAttachments::SetCaster(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B830  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 65 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 65 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoAttachments::SetTarget(void * self, int param_1)
 {
   int iVar1;
@@ -210,7 +210,7 @@ undefined4 __thiscall CMoAttachments::SetTarget(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B8B0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CMoAttachments::FindKindInChain(void * self)
 {
   char cVar1;
@@ -240,7 +240,7 @@ int __thiscall CMoAttachments::FindKindInChain(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B900  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int __thiscall CMoAttachments::FindKindFromRoot(void * self)
 {
   char cVar1;
@@ -270,7 +270,7 @@ int __thiscall CMoAttachments::FindKindFromRoot(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B980  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API long double __cdecl fn_1003B980(int param_1, float * param_2, float * param_3)
 {
   long double fVar1;
@@ -294,7 +294,7 @@ XI_API long double __cdecl fn_1003B980(int param_1, float * param_2, float * par
 }
 
 // FUNCTION: FFXIMAIN 0x1003BD90  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 99 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 void __cdecl CMoAttachments::SetMappedSlot(undefined4 param_1, undefined4 param_2, int * param_3)
 {
   switch(xi_sw(param_2)) {
@@ -324,7 +324,7 @@ void __cdecl CMoAttachments::SetMappedSlot(undefined4 param_1, undefined4 param_
 }
 
 // FUNCTION: FFXIMAIN 0x1003BE10  (unit CMoAttachments: between 0x1003B5A0 (class model places it in CMoAttachments) and 0x1003C6D0 (class model places it in CMoAttachments), both within 4 KB)
-// GATE: PASS -- 100 trials, 96 returned normally, 87 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 96 returned normally, 87 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 96
 XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, int a3, int a4)
 {
   int ScratchMatrixStackTop;
@@ -663,7 +663,7 @@ LABEL_63:
 }
 
 // FUNCTION: FFXIMAIN 0x1003C6E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 71 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoAttachments::NotifyCaster(void * self)
 {
   uint64_t uVar1;
@@ -677,7 +677,7 @@ void __thiscall CMoAttachments::NotifyCaster(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003C700  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 71 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 71 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoAttachments::NotifyTarget(void * self)
 {
   uint64_t uVar1;
@@ -691,7 +691,7 @@ void __thiscall CMoAttachments::NotifyTarget(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x10085D50  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CMoAttachments::PushCasterLink(void * self, int param_1)
 {
   *(uint32_t *)(param_1 + 0x2c) = *(uint32_t *)((int)self + 0x68);
@@ -700,7 +700,7 @@ void __thiscall CMoAttachments::PushCasterLink(void * self, int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10085D60  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoAttachments::PushTargetLink(void * self, int param_1)
 {
   *(uint32_t *)(param_1 + 0x30) = *(uint32_t *)((int)self + 0x6c);

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10003890  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// NOT VERIFIED -- INCONCLUSIVE
+// GATE: PASS -- 100 trials, 3 returned normally, 9441 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz INCONCLUSIVE 0, town PASS 3, town2 PASS 3, combat PASS 3, zonetoinn PASS 3
 XI_API void __thiscall Unit10003890_DrawActorAxes(_DWORD *self_)
 {
   int v2;
@@ -77,7 +77,7 @@ XI_API void __thiscall Unit10003890_DrawActorAxes(_DWORD *self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10005600  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Input_SetFlagToggle(void * self_, undefined4 param_1)
 {
   char cVar1;
@@ -105,7 +105,7 @@ XI_API void __thiscall Input_SetFlagToggle(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10005660  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall Input_InitState(void * self_)
 {
   int iVar1;
@@ -151,7 +151,7 @@ XI_API void * __thiscall Input_InitState(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100059C0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Input_MapAxisLow(uint32_t param_1)
 {
   uint16_t uVar1;
@@ -169,7 +169,7 @@ XI_API undefined4 __cdecl Input_MapAxisLow(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10005A00  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Input_MapAxisHigh(uint32_t param_1)
 {
   uint16_t uVar1;
@@ -187,7 +187,7 @@ XI_API undefined4 __cdecl Input_MapAxisHigh(uint32_t param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x10007830  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit10003890_FindMapValue(char * param_1, undefined4 param_2, undefined4 param_3)
 {
   char cVar1;
@@ -213,7 +213,7 @@ XI_API undefined4 __cdecl Unit10003890_FindMapValue(char * param_1, undefined4 p
 }
 
 // FUNCTION: FFXIMAIN 0x10007860  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __stdcall Input_HandleChar(uint32_t param_1, undefined4 xi_s2)
 {
   uint8_t bVar1;
@@ -387,7 +387,7 @@ LAB_100079f4:
 }
 
 // FUNCTION: FFXIMAIN 0x10007E20  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 370 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 370 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall DirectInput_InstallKeyboard(void * self_)
 {
   uint32_t *a3;
@@ -431,7 +431,7 @@ XI_API undefined4 __thiscall DirectInput_InstallKeyboard(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10007EF0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 15 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 15 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
 {
   _DWORD *v2;
@@ -515,7 +515,7 @@ XI_API char __thiscall DirectInput_InstallMouse(_DWORD **self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10008020  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall fn_10008020(void * self_)
 {
   char cVar1;
@@ -758,7 +758,7 @@ XI_API void __thiscall fn_10008020(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x100083D0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 125 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 125 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall DirectInput_InstallJoystick(void * self_)
 {
   int *piVar1;
@@ -892,7 +892,7 @@ LAB_10008752:
 }
 
 // FUNCTION: FFXIMAIN 0x10008770  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 92 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 92
 XI_API undefined4 __thiscall DirectInput_ReleaseDevice(void * self_, int param_1)
 {
   if (param_1 < 0) {
@@ -909,7 +909,7 @@ XI_API undefined4 __thiscall DirectInput_ReleaseDevice(void * self_, int param_1
 }
 
 // FUNCTION: FFXIMAIN 0x100087D0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 146 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 146 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API void __stdcall Input_SetActive(int param_1, int param_2, undefined4 xi_s3)
 {
   int *piVar1;
@@ -938,7 +938,7 @@ XI_API void __stdcall Input_SetActive(int param_1, int param_2, undefined4 xi_s3
 }
 
 // FUNCTION: FFXIMAIN 0x10008830  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Input_IsCursorActive(void * self_, uint32_t param_1)
 {
   int iVar1;
@@ -956,7 +956,7 @@ XI_API undefined4 __thiscall Input_IsCursorActive(void * self_, uint32_t param_1
 }
 
 // FUNCTION: FFXIMAIN 0x100088F0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 53 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 53
 XI_API void __thiscall Input_DispatchButtons(void * self_)
 {
   int iVar1;
@@ -1015,7 +1015,7 @@ LAB_10008959:
 }
 
 // FUNCTION: FFXIMAIN 0x100089D0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 46 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall DirectInput_PollMouse(void * self_)
 {
   uint32_t *a4;
@@ -1066,7 +1066,7 @@ XI_API void __thiscall DirectInput_PollMouse(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10008D90  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54
 XI_API undefined4 __thiscall XInput_ProbeDll(void * self_)
 {
   char *a1;
@@ -1116,7 +1116,7 @@ XI_API undefined4 __thiscall XInput_ProbeDll(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10008E10  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 54 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 54
 XI_API undefined4 __thiscall XInput_LoadFunctions(void * self_)
 {
   uint32_t xi_entry_eax = 0;
@@ -1137,7 +1137,7 @@ XI_API undefined4 __thiscall XInput_LoadFunctions(void * self_)
 }
 
 // FUNCTION: FFXIMAIN 0x10008EA0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 6
 XI_API undefined4 __stdcall Unit10003890_CallPtr10456550IfEnabled(undefined4 param_1, undefined4 param_2)
 {
   uint32_t uVar1;
@@ -1150,7 +1150,7 @@ XI_API undefined4 __stdcall Unit10003890_CallPtr10456550IfEnabled(undefined4 par
 }
 
 // FUNCTION: FFXIMAIN 0x10008F00  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned
+// GATE: PASS -- 100 trials, 6 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); thin evidence: few trials returned; gates: fuzz PASS 6
 XI_API undefined4 __stdcall Unit10003890_CallPtr10456558IfEnabled(undefined4 param_1)
 {
   uint32_t uVar1;

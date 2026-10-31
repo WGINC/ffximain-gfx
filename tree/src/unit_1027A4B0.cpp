@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1027A6F0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027A4B0_SetIdentityFwd(undefined4 * param_1)
 {
   orig::Unit1027A4B0_SetIdentity(param_1);
@@ -11,7 +11,7 @@ XI_API void __cdecl Unit1027A4B0_SetIdentityFwd(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1027A700  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1027A4B0_Copy(undefined4 * param_1, undefined4 * param_2)
 {
   uint32_t uVar1;
@@ -25,7 +25,7 @@ XI_API undefined4 __cdecl Unit1027A4B0_Copy(undefined4 * param_1, undefined4 * p
 }
 
 // FUNCTION: FFXIMAIN 0x1027A720  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027A4B0_Set(float * param_1, float param_2, float param_3, float param_4, float param_5)
 {
   param_1[1] = param_3;
@@ -36,7 +36,7 @@ XI_API void __cdecl Unit1027A4B0_Set(float * param_1, float param_2, float param
 }
 
 // FUNCTION: FFXIMAIN 0x1027A9D0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027A4B0_ToMatrix3(float * param_1, float * param_2)
 {
   long double fVar1;
@@ -85,7 +85,7 @@ XI_API void __cdecl Unit1027A4B0_ToMatrix3(float * param_1, float * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1027AAE0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1027A4B0_QuatFromEuler(float * param_1, float param_2, float param_3, float param_4)
 {
   long double fVar1;
@@ -117,7 +117,7 @@ XI_API undefined4 __cdecl Unit1027A4B0_QuatFromEuler(float * param_1, float para
 }
 
 // FUNCTION: FFXIMAIN 0x1027ABA0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027A4B0_FromRotationX(float * param_1, float param_2)
 {
   long double fVar1;
@@ -132,7 +132,7 @@ XI_API void __cdecl Unit1027A4B0_FromRotationX(float * param_1, float param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1027ABD0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027A4B0_FromRotationY(undefined4 * param_1, float param_2)
 {
   long double fVar1;
@@ -147,7 +147,7 @@ XI_API void __cdecl Unit1027A4B0_FromRotationY(undefined4 * param_1, float param
 }
 
 // FUNCTION: FFXIMAIN 0x1027AC00  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027A4B0_FromRotationZ(undefined4 * param_1, float param_2)
 {
   long double fVar1;
@@ -162,7 +162,7 @@ XI_API void __cdecl Unit1027A4B0_FromRotationZ(undefined4 * param_1, float param
 }
 
 // FUNCTION: FFXIMAIN 0x1027AC30  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027A4B0_FromAxisAngle(float * param_1, float * param_2, float param_3)
 {
   long double fVar1;
@@ -177,7 +177,7 @@ XI_API void __cdecl Unit1027A4B0_FromAxisAngle(float * param_1, float * param_2,
 }
 
 // FUNCTION: FFXIMAIN 0x1027AE50  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027A4B0_SetIdentity(undefined4 * param_1)
 {
   *param_1 = 0;
@@ -188,7 +188,7 @@ XI_API void __cdecl Unit1027A4B0_SetIdentity(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1027AEF0  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Unit1027A4B0_Negate(float * param_1)
 {
   *param_1 = (float)-(long double)*param_1;
@@ -199,7 +199,7 @@ XI_API void __cdecl Unit1027A4B0_Negate(float * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1027AF20  (unit unit_1027A4B0: no unit evidence of its own; in the gap between 0x1027A2F0 (sqmdModel) and 0x1027AFB0 (sqQuat) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit1027A4B0_NormalizeVec4(float * param_1)
 {
   uint16_t uVar1;

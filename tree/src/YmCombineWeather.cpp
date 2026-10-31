@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1018AA50  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __cdecl fn_1018AA50(undefined4 * param_1, undefined4 param_2)
 {
   uint32_t *puVar1;
@@ -36,7 +36,7 @@ LAB_1018aab0:
 }
 
 // FUNCTION: FFXIMAIN 0x1018AAC0  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind5A(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   uint32_t uVar1;
@@ -46,7 +46,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind
 }
 
 // FUNCTION: FFXIMAIN 0x1018AAE0  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __cdecl fn_1018AAE0(undefined4 * param_1)
 {
   uint32_t *puVar1;
@@ -76,7 +76,7 @@ LAB_1018ab31:
 }
 
 // FUNCTION: FFXIMAIN 0x1018AB40  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind5B(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
   uint32_t uVar1;
@@ -86,7 +86,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmCombineWeather_FindKind
 }
 
 // FUNCTION: FFXIMAIN 0x1018AB60  (unit YmCombineWeather: between 0x1018A7A0 (stores YmCombineWeather vtable (ctor/dtor)) and 0x1018ABF0 (stores YmCombineWeather vtable (ctor/dtor)), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __cdecl fn_1018AB60(undefined4 * param_1)
 {
   uint32_t *puVar1;
@@ -116,7 +116,7 @@ LAB_1018aba9:
 }
 
 // FUNCTION: FFXIMAIN 0x1018ABF0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall YmCombineWeather::Release(void * self)
 {
   uint8_t bVar1;

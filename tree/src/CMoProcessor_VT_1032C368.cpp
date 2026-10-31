@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1006D3B0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 float * CMoProcessor_VT_1032C368::vf012(float *a1, float *a2, float a3)
 {
   *a1 = a3 * *a2 + *a1;
@@ -14,14 +14,14 @@ float * CMoProcessor_VT_1032C368::vf012(float *a1, float *a2, float a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1006D4D0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); float result equal at its declared precision (the original returns ST0 unrounded); gates: fuzz PASS 100
 double CMoProcessor_VT_1032C368::vf014(float *a1, float *a2)
 {
   return a1[2] * a2[2] + a1[1] * a2[1] + *a1 * *a2;
 }
 
 // FUNCTION: FFXIMAIN 0x1006D680  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 float * CMoProcessor_VT_1032C368::vf042(float *a1, float *a2, float *a3)
 {
   *a1 = *a2 + *a3;
@@ -31,7 +31,7 @@ float * CMoProcessor_VT_1032C368::vf042(float *a1, float *a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1006D6B0  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 float * CMoProcessor_VT_1032C368::vf043(float *a1, float *a2, float *a3)
 {
   *a1 = *a2 * *a3;
@@ -41,7 +41,7 @@ float * CMoProcessor_VT_1032C368::vf043(float *a1, float *a2, float *a3)
 }
 
 // FUNCTION: FFXIMAIN 0x1006D720  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __stdcall CMoProcessor_VT_1032C368::TransformPoint(float * param_1, float * param_2, float * param_3)
 {
   long double fVar1;
@@ -64,7 +64,7 @@ undefined4 __stdcall CMoProcessor_VT_1032C368::TransformPoint(float * param_1, f
 }
 
 // FUNCTION: FFXIMAIN 0x1006D980  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 float * CMoProcessor_VT_1032C368::vf021(float *a1, float *a2, float *a3, float a4)
 {
   *a1 = (*a3 - *a2) * a4 + *a2;
@@ -74,7 +74,7 @@ float * CMoProcessor_VT_1032C368::vf021(float *a1, float *a2, float *a3, float a
 }
 
 // FUNCTION: FFXIMAIN 0x1006DCF0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoProcessor_VT_1032C368::RotationFromAnglesZYX(void * self, undefined4 param_1, float param_2, float param_3, float param_4)
 {
   int iVar1;
@@ -168,7 +168,7 @@ undefined4 __thiscall CMoProcessor_VT_1032C368::RotationFromAnglesZYX(void * sel
 }
 
 // FUNCTION: FFXIMAIN 0x1006E140  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __stdcall CMoProcessor_VT_1032C368::RotationY(undefined4 * param_1, float param_2)
 {
   int iVar1;
@@ -214,7 +214,7 @@ undefined4 __stdcall CMoProcessor_VT_1032C368::RotationY(undefined4 * param_1, f
 }
 
 // FUNCTION: FFXIMAIN 0x1006E260  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __stdcall CMoProcessor_VT_1032C368::RotationZ(undefined4 * param_1, float param_2)
 {
   int iVar1;
@@ -260,7 +260,7 @@ undefined4 __stdcall CMoProcessor_VT_1032C368::RotationZ(undefined4 * param_1, f
 }
 
 // FUNCTION: FFXIMAIN 0x1006E380  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 200 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CMoProcessor_VT_1032C368::RotationFromAnglesXYZ(void * self, undefined4 param_1, float param_2, float param_3, float param_4)
 {
   int iVar1;

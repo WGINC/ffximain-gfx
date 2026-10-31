@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1000D3F0  (unit CEnv: between 0x1000D3D0 (stores CEnv vtable (ctor/dtor)) and 0x1000D400 (name CEnv_DetectCpuFeatures), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall j_CEnv_UpdateDualTargetMode(void * self_, undefined4 xi_s1)
 {
   orig::FUN_1000d630(self_, xi_s1);
@@ -12,14 +12,14 @@ XI_API void __thiscall j_CEnv_UpdateDualTargetMode(void * self_, undefined4 xi_s
 }
 
 // FUNCTION: FFXIMAIN 0x1000D620  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __cdecl CEnv::Nop()
 {
   return;
 }
 
 // FUNCTION: FFXIMAIN 0x1000D630  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CEnv::UpdateStereoMode(void * self, undefined4 xi_s1)
 {
   short sVar1;
@@ -38,7 +38,7 @@ void __thiscall CEnv::UpdateStereoMode(void * self, undefined4 xi_s1)
 }
 
 // FUNCTION: FFXIMAIN 0x1000D660  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CEnv::IsStereoMode(void * self)
 {
   return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)*(int *)((int)self + 0x18) >> 8)) << 8) | (uint8_t)(*(int *)((int)self + 0x18) != 0)));

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10083620  (unit unit_100833F0: no unit evidence of its own; in the gap between 0x100833C0 (CXiActor) and 0x100848E0 (CXiActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 93 returned normally, 227 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 93 returned normally, 227 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 93
 XI_API int * __cdecl Target_FindNearestOnLocalPositiveX(undefined4 param_1, undefined4 param_2)
 {
   int iVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100C3FF0  (unit unit_100C3FF0: no unit evidence of its own; in the gap between 0x100C3FD0 (XiFurnitureActor) and 0x100C4190 (XiModelActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall fn_100C3FF0(void * self_, undefined4 * param_1)
 {
   void *this_00;
@@ -24,7 +24,7 @@ XI_API void __thiscall fn_100C3FF0(void * self_, undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x100C4050  (unit unit_100C3FF0: no unit evidence of its own; in the gap between 0x100C3FD0 (XiFurnitureActor) and 0x100C4190 (XiModelActor) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall fn_100C4050(void * self_, undefined4 * param_1)
 {
   float *pfVar1;

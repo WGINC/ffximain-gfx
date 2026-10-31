@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1027DB80  (unit chn: between 0x1027DB50 (asserts chn.c) and 0x1027DBE0 (asserts chn.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Chn_ReleaseRefs(uint32_t * param_1)
 {
   if (param_1[0x2f] != 0) {
@@ -23,7 +23,7 @@ XI_API void __cdecl Chn_ReleaseRefs(uint32_t * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1027DCC0  (unit chn: between 0x1027DBE0 (asserts chn.c) and 0x1027E0A0 (asserts chn.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t * __cdecl Chn_RegisterItem(uint32_t * param_1, uint32_t param_2)
 {
   int iVar1;
@@ -55,7 +55,7 @@ XI_API uint32_t * __cdecl Chn_RegisterItem(uint32_t * param_1, uint32_t param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x1027DD70  (unit chn: between 0x1027DBE0 (asserts chn.c) and 0x1027E0A0 (asserts chn.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Chn_ForwardIfFlag2(uint8_t * param_1, undefined4 xi_s2)
 {
   if ((*param_1 & 2) != 0) {
@@ -66,7 +66,7 @@ XI_API void __cdecl Chn_ForwardIfFlag2(uint8_t * param_1, undefined4 xi_s2)
 }
 
 // FUNCTION: FFXIMAIN 0x1027DF70  (unit chn: between 0x1027DBE0 (asserts chn.c) and 0x1027E0A0 (asserts chn.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl Chn_GetSubIndex(int param_1)
 {
   int *piVar1;
@@ -84,7 +84,7 @@ XI_API int __cdecl Chn_GetSubIndex(int param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1027E060  (unit chn: between 0x1027DBE0 (asserts chn.c) and 0x1027E0A0 (asserts chn.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Chn_InitDefaults(undefined4 * param_1)
 {
   *param_1 = 1;
@@ -102,7 +102,7 @@ XI_API void __cdecl Chn_InitDefaults(undefined4 * param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1027E0D0  (unit chn: between 0x1027E0A0 (asserts chn.c) and 0x1027E0F0 (asserts chn.c), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl Chn_ReleaseIfSet(int param_1)
 {
   if (*(int *)(param_1 + 0x1c) != 0) {

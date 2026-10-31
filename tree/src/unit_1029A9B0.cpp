@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1029AA80  (unit unit_1029A9B0: no unit evidence of its own; in the gap between 0x1029A710 (sqinSkin) and 0x1029ABD0 (sqinBuild) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl SqinBuild_BuildSQO(undefined4 param_1, char * param_2, undefined4 param_3)
 {
   char *pcVar1;

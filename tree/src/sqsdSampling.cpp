@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10299090  (unit sqsdSampling: between 0x10298FF0 (asserts sqsdSampling.c) and 0x10299250 (name sqsdSampling_BakeOntoShape), both within 4 KB)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl SqsdSampling_DrawPasses(int param_1, int * param_2)
 {
   uint32_t uVar1;
@@ -80,7 +80,7 @@ XI_API void __cdecl SqsdSampling_DrawPasses(int param_1, int * param_2)
 }
 
 // FUNCTION: FFXIMAIN 0x10299250  (unit sqsdSampling: name sqsdSampling_BakeOntoShape)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl sqsdSampling_BakeOntoShape(int param_1, int param_2)
 {
   undefined4 *puVar1;

@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x100531D0  (unit unit_100531D0: no unit evidence of its own; in the gap between 0x100531B0 (CMoNullProgElem) and 0x10053350 (CMoTask_VT_1032B654) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 99 returned normally, 59 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 99 returned normally, 59 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 99
 XI_API undefined4 __thiscall SharedConditionalStateReset(void * self_)
 {
   undefined4 uVar1;

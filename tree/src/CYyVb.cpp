@@ -4,7 +4,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x1003B420  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CYyVb::Init(void * self)
 {
   *(uint8_t ***)self = &PTR_CYyVb_GetRuntimeClass_1032aae0;
@@ -13,7 +13,7 @@ undefined4 __thiscall CYyVb::Init(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B430  (unit CYyVb: class model places it in CYyVb)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void * __thiscall CYyVb_ScalarDelete(void * self_, undefined4 param_1)
 {
   orig::CYyVb_Destroy(self_);
@@ -24,7 +24,7 @@ XI_API void * __thiscall CYyVb_ScalarDelete(void * self_, undefined4 param_1)
 }
 
 // FUNCTION: FFXIMAIN 0x1003B450  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * __thiscall CYyVb::Constructor(void * self, undefined4 param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
 {
   *(uint8_t ***)self = &PTR_CYyVb_GetRuntimeClass_1032aae0;
@@ -40,7 +40,7 @@ void * __thiscall CYyVb::Constructor(void * self, undefined4 param_1, undefined4
 }
 
 // FUNCTION: FFXIMAIN 0x1003B4A0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 80 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CYyVb::Destroy(void * self)
 {
   int *a1;

@@ -4,21 +4,21 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10039770  (placed by tree manifest; does not use this)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CYyTexBase::GetRuntimeClass_variant0()
 {
   return &CYyTexBase_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10039780  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 char ** __cdecl CYyTexBase::GetRuntimeClass_variant1()
 {
   return &CYyTexBase_classdesc;
 }
 
 // FUNCTION: FFXIMAIN 0x10039830  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void * __thiscall CYyTexBase::Constructor(void * self)
 {
   int iVar1;
@@ -44,7 +44,7 @@ void * __thiscall CYyTexBase::Constructor(void * self)
 }
 
 // FUNCTION: FFXIMAIN 0x100398B0  (placed by tree manifest)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 _DWORD * CYyTexBase::ScalarDeletingDtor(char a2)
 {
   orig::CYyTexBase_Destructor(this);
@@ -54,7 +54,7 @@ _DWORD * CYyTexBase::ScalarDeletingDtor(char a2)
 }
 
 // FUNCTION: FFXIMAIN 0x100398E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 void __thiscall CYyTexBase::SetName(void * self, undefined4 * param_1)
 {
   *(uint32_t *)((int)self + 0xc) = *param_1;

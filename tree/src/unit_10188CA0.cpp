@@ -3,7 +3,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 // FUNCTION: FFXIMAIN 0x10188CA0  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall ZoneMap_FillDirLight(void * self_, undefined4 * param_1, int param_2)
 {
   float *pfVar1;
@@ -80,7 +80,7 @@ LAB_10188dd7:
 }
 
 // FUNCTION: FFXIMAIN 0x10188E00  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
 {
   __int64 v3; // rax
@@ -175,7 +175,7 @@ XI_API _DWORD * __thiscall Env_ComputeAmbient(char *self_, _DWORD *a2, int a3)
 }
 
 // FUNCTION: FFXIMAIN 0x10188FA0  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
 {
   float *AmbientColorPtr;
@@ -257,7 +257,7 @@ XI_API float * __thiscall Env_ComputeAmbientFloat4(char *self_, float *a2)
 }
 
 // FUNCTION: FFXIMAIN 0x10189120  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Env_ComputeFog(void * self_, uint32_t * param_1, float * param_2, float * param_3, int param_4)
 {
   float *pfVar1;
@@ -327,7 +327,7 @@ LAB_10189287:
 }
 
 // FUNCTION: FFXIMAIN 0x101893B0  (unit unit_10188CA0: no unit evidence of its own; in the gap between 0x10188B70 (XiZone) and 0x101893D0 (CMoResource_VT_103367E8) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build)
+// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 * __attribute__((stdcall, regparm(3))) WeatherRes_Construct(uint32_t xi_eax_unused, undefined4 xi_edx, undefined4 * param_1)
 {
   orig::FUN_10071d80(param_1,xi_edx);

@@ -455,14 +455,24 @@ static HRESULT __stdcall buf_unlock(void *self) {
   return hr;
 }
 
-/* the world's render target as CDx holds it when the call is made: [g_pCDx] + 0x194 (sceneTargetA; docs/RENDERER.md
-   section 9, read in the game's push/pop code). Recorded as SetRenderTarget's hash, so trace_diff.py can find where
-   the world pass ends -- ffxi_world_draw's rule: a pop that lowers the depth while that target is bound -- and the
-   trace measures the rule (is the target set away from it by the pop's call site, 0x1000A2F6?). 0 if unreadable. */
+/* the world's render target, as CDx holds it when the call is made: [g_pCDx] + 0x194 is a texture (IDirect3DTexture8:
+   the game passes it to its push 0x10009E20, and Post_Afterimage indexes it as an array of them; the 31 Oct trace
+   showed the stored value never equals a bound surface), so what is recorded is its level-0 surface
+   (GetSurfaceLevel, vtable slot 15 in d3d8.h order, data/com_spec.json; the reference it adds is released at once).
+   Recorded as SetRenderTarget's hash, so trace_diff.py can find where the world pass ends -- ffxi_world_draw's rule:
+   a pop that lowers the depth while that target is bound -- and the trace measures the rule (is the target set away
+   from it by the pop's call, 0x1000A2F6, return address 0x1000A2F9?). 0 if unreadable or not a texture's surface. */
+typedef long (__stdcall *GetSurfaceLevel_t)(void *tex, unsigned level, void **surf);
+typedef unsigned long (__stdcall *Release_t)(void *obj);
 static uint32_t world_target(void) {
   uint32_t *g = (uint32_t *)(uintptr_t)(G_PCDX + g_rel);
   if (IsBadReadPtr(g, 4) || !*g || IsBadReadPtr((void *)(uintptr_t)(*g + 0x194), 4)) return 0;
-  return *(uint32_t *)(uintptr_t)(*g + 0x194);
+  void *tex = (void *)(uintptr_t)*(uint32_t *)(uintptr_t)(*g + 0x194);
+  if (!tex || IsBadReadPtr(tex, 4) || IsBadReadPtr(*(void **)tex, 16 * 4)) return 0;
+  void **vt = *(void ***)tex, *surf = 0;
+  if (((GetSurfaceLevel_t)vt[15])(tex, 0, &surf) < 0 || !surf) return 0;
+  ((Release_t)(*(void ***)surf)[2])(surf);
+  return (uint32_t)(uintptr_t)surf;
 }
 
 static void trace_call(int slot, uint32_t *a, uint32_t site) {

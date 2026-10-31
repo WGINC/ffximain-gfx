@@ -407,5 +407,5 @@ whole-frame differential (#131), work inserted into the world pass on the D3D11 
 The measurement (31 Oct): d3dprof.c records `[g_pCDx]+0x194` as the hash of every SetRenderTarget in a trace, and
 `kit/d3dprof/trace_diff.py --part world` cuts each frame at the first SetRenderTarget away from that target while it is
 bound, printing the cut's call site. The rule holds in a trace where that site is the pop's in every unswapped frame
-(return address 0x1000A2F9). No trace with the field exists yet. A trace of 13 Oct (before the field) shows the pushes
+(return address 0x1000A2F9). The first trace with it (31 Oct) showed +0x194 holds a texture, not the surface bound (the value never matched a SetRenderTarget surface); the kit now records that texture's level-0 surface (HISTORY 31 Oct, evening). Not yet measured. A trace of 13 Oct (before the field) shows the pushes
 (return 0x10009F5A) and pops (0x1000A2F9) in pairs within each frame.

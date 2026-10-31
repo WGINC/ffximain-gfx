@@ -3924,3 +3924,23 @@ exports, the crashing one among them. make_manifest.py now refuses those functio
 4,792 listed, 580 swapped by default. Kit test: 257 checks pass (one run's sampler timing check failed and passed
 on rerun, as before). Open: rebase those literals at the source, which needs a definitive rule for which literal is an
 address -- the game's relocation table (an operand the game itself relocates is an address) -- and a tree round.
+
+**31 Oct (evening): the first A/B traces from the game with the swaps on (pending_31oct, second build).** No crash, no
+visual oddity reported; 580 functions swapped, two traces written (town, standing; a busy scene, the owner perhaps
+moving). trace_diff.py, swapped frames against their unswapped neighbours, with the unswapped frames as control:
+- busy scene: no finding more frequent in swapped frames than in the control (the ones listed occur in 1 of 8 swapped
+  frames, or as often in the control);
+- town: every swapped frame has fewer occlusion queries (scene brackets 10 in every unswapped frame, 6 and 7 in
+  alternate swapped ones; about 10 fewer DrawPrimitiveUP of about 2,040). Each is one pass of Occlusion_DrawQuery
+  (0x1006C530) under Occlusion_QueryScreenRectImpl. The game's code decides when: PerActor_FourBucketStaggeredUpdate
+  (0x100CBDE0, running as the game's code in this kit) queries for an actor only when `[[0x104568FC]+0x34] % 4`
+  (0x10014D50, then 0x100CC58F) equals the actor's +0x9F0. Flipping the swaps every frame put swapped frames always on
+  counter values 1 and 3 mod 4 and unswapped ones on 0 and 2, and the control (frames two apart) shares that parity, so
+  this difference is the trace's design meeting the game's schedule, not the reconstruction -- if +0x34 advances once
+  a frame, which is not checked here; the trace's period-4 pattern in the swapped frames (6, 7, 6, 7) agrees. Next
+  session (kit/sessions/pending_01nov) traces in halves of 4 frames (`trace_alternate=0`), each covering all four
+  values.
+- world-pass split: no frame was cut. CDx +0x194 holds a texture, not a surface (the game passes it to its push
+  0x10009E20; Post_Afterimage indexes +0x194 as an array of them), so its value never equalled a bound target
+  (12ACAD98 in this trace). d3dprof.c now records that texture's level-0 surface (GetSurfaceLevel, slot 15). The
+  section 9 reading "the world's target at +0x194" stands for the texture; the rule is still to be measured.

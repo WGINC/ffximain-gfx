@@ -4028,5 +4028,9 @@ these nine, the other 230 give the game's own frame on all four dumps (town2 to 
 Mat4_PostMultiply sums the same four products as the original in another order (the original adds pf[0]*m2 +
 m1*pf[-4], then m0*pf[-8], then pf[4]*m3, 0x10027D2B-0x10027D4C; Ghidra printed the sum from the last term), and x87
 addition is not associative: combat's byte 87 against 86. The gate's fuzzed trials do not separate a last-bit
-difference. The others are not read yet. Until a rule keeps the original's association order, the nine are left out
+difference. MotionQueList_ProcessAll 0x1001A3E0 is at the game's bytes
+under VC6 (vc6_sweep.json, rule ge0): the same source compiled by VC6 is the original's code, so its difference is the
+GCC build's, not the translation's (the likely mechanism, x87 intermediates kept and spilled at 80 bits where VC6's
+code stores them at their declared width, is not checked). Frame_Render (gate PASS on full coverage) changes one dword
+at 0x2934460C (low bytes 0xEC 0xEA against 0x60 0xE4); not read. The others are not read yet. Until a rule keeps the original's association order, the nine are left out
 of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, block traces, facts=1).

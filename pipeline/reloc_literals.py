@@ -63,7 +63,7 @@ def main(out, bounds_out=None):
         stats['ambiguous'] += sum(1 for r in seen.values() if r == {True, False})
         ra = {v for v in rets if False not in seen.get(v, ())}
         stats['return_addresses'] += len(ra - vals)
-        if bounds_out:
+        if True:                  # counted in every run, so the stats are the same with or without BOUNDS
             b = {}
             for L in {v + d for v in vals for d in (-1, 1)} - set(seen):
                 rs = [L + d for d in (-1, 1) if L + d in vals]

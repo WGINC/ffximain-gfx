@@ -520,7 +520,7 @@ XI_API undefined4 __thiscall Unit10253A20_GetRowCount(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __thiscall Unit10253A20_IsBound(void * self_)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)*(int *)((int)self_ + 4) >> 8)) << 8) | (uint8_t)(*(int *)((int)self_ + 4) != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)*(int *)((int)self_ + 4) >> 8))) << 8) | (uint8_t)(*(int *)((int)self_ + 4) != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10257B60  (unit unit_10253A20: no unit evidence of its own; in the gap between 0x102539E0 (XiPng) and 0x1025C900 (XiPng) -- an unnamed source file)
@@ -2421,7 +2421,7 @@ XI_API int __cdecl Unit10253A20_WrapLine(int param_1, uint32_t param_2, char * p
     pcVar11 = (char *)&DAT_10353e04;
     do {
       cVar6 = *pcVar11;
-      pcVar11[param_1 + iVar9 + -0x10353e04] = cVar6;
+      pcVar11[param_1 + iVar9 + -(int)XI_GAME(0x10353E04u)] = cVar6;
       pcVar11 = pcVar11 + 1;
     } while (cVar6 != '\0');
   }
@@ -2518,7 +2518,7 @@ LAB_1025b849:
           puVar3 = (uint8_t *)(iVar9 + uVar14 + param_1);
           do {
             cVar6 = *pcVar11;
-            (puVar3 + -0x10353e04)[(int)pcVar11] = cVar6;
+            (puVar3 + -(int)XI_GAME(0x10353E04u))[(int)pcVar11] = cVar6;
             pcVar11 = pcVar11 + 1;
           } while (cVar6 != '\0');
           puVar3[1] = 0;
@@ -2561,7 +2561,7 @@ LAB_1025b849:
     pcVar11 = (char *)&DAT_10353e04;
     do {
       cVar6 = *pcVar11;
-      pcVar11[param_1 + iVar9 + -0x10353e04] = cVar6;
+      pcVar11[param_1 + iVar9 + -(int)XI_GAME(0x10353E04u)] = cVar6;
       pcVar11 = pcVar11 + 1;
     } while (cVar6 != '\0');
   }

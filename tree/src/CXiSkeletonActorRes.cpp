@@ -71,7 +71,7 @@ undefined4 __thiscall CXiSkeletonActorRes::ProcessLoadState(void * self)
     if (self != (void *)0x0) {
       uVar1 = ((int (__stdcall *)(XI_ANY))((**(code **)(*(int *)self + 0x18))))(1);
     }
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
   }
   iVar3 = *(int *)((int)self + 0x3c);
   if (iVar3 == 0) {
@@ -97,7 +97,7 @@ undefined4 __thiscall CXiSkeletonActorRes::ProcessLoadState(void * self)
       uVar2 = ((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x1e4))))((void *)(this_00));
       if ((char)uVar2 == '\x01') {
         uVar1 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }

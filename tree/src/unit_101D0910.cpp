@@ -45,7 +45,7 @@ XI_API undefined4 __cdecl Unit101D0910_TriggerOnSceneState60(void)
       DAT_10663178 = 2;
       uVar2 = orig::MusicTrack_SetVolumeId0016();
       DAT_106218ea = 1;
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return (uint32_t)piVar1 & 0xffffff00;
@@ -186,7 +186,7 @@ XI_API undefined4 __cdecl Unit101D0910_SaveJpeg512x382(undefined4 param_1)
       uVar2 = orig::thunk_sub_10028AA0_v3(pvVar1);
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(uVar3)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(uVar3)));
 }
 
 // FUNCTION: FFXIMAIN 0x101D10C0  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
@@ -200,7 +200,7 @@ XI_API undefined4 __cdecl Unit101D0910_WriteWithFileMngA(int param_1, undefined4
   if (((*(int *)(param_1 + 8) != 0) && (uVar2 = *(uint32_t *)(*(int *)(param_1 + 8) + 0xc), uVar2 != 0))
      && (DAT_104dfd98 != 0)) {
     iVar1 = orig::Unit1018BA60_FileMngCall101C0A40(g_pFileMng_as_v0,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
-    uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+    uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
     if (-1 < iVar1) {
       return uVar2;
     }
@@ -237,7 +237,7 @@ XI_API undefined4 __cdecl Unit101D0910_SaveJpegScreenSize(undefined4 param_1)
       uVar4 = orig::thunk_sub_10028AA0_v3(pvVar3);
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(uVar5)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(uVar5)));
 }
 
 // FUNCTION: FFXIMAIN 0x101D1180  (unit unit_101D0910: no unit evidence of its own; in the gap between 0x101D08E0 (YkJpgBit) and 0x101D2AE0 (YkMyroom) -- an unnamed source file)
@@ -251,7 +251,7 @@ XI_API undefined4 __cdecl Unit101D0910_WriteWithFileMngB(int param_1, undefined4
   if (((*(int *)(param_1 + 8) != 0) && (uVar2 = *(uint32_t *)(*(int *)(param_1 + 8) + 0xc), uVar2 != 0))
      && (DAT_104dfd98 != 0)) {
     iVar1 = orig::Unit1018BA60_FileMngSubmitPath4F4Kind3(g_pFileMng_as_v0,param_2,*(uint32_t *)(param_1 + 4),uVar2,0);
-    uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+    uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
     if (-1 < iVar1) {
       return uVar2;
     }
@@ -761,7 +761,7 @@ XI_API undefined4 __cdecl Unit101D0910_TestMask10663188(uint32_t param_1, uint32
   
   uVar1 = DAT_10663188 & param_1 | DAT_1066318c & param_2;
   if (uVar1 != 0) {
-    return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
   }
   return 0;
 }

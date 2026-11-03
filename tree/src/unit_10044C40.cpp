@@ -43,7 +43,7 @@ XI_API undefined4 __thiscall Unit10044C40_IsActive(void * self_)
   uint32_t xi_entry_eax = 0;
   
   if (*(char *)((int)self_ + 0x187) != '\0') {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
   }
   if (*(uint32_t *)((int)self_ + 0x108) != 0) {
     return *(uint32_t *)((int)self_ + 0x108) & 0xffffff00;
@@ -491,7 +491,7 @@ XI_API undefined4 __thiscall YmElem_DrawWithOwnProjection(void * self_)
                              (long double)*(float *)((int)self_ + 0x134)));
   g_scratchValue_as_v0 = *puVar3;
   if (*(char *)((int)self_ + 0x17a) != '\0') {
-    return ((uint32_t)(((uint32_t)((int32_t)(g_scratchValue_as_v0 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x17a))));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((g_scratchValue_as_v0 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 0x17a))));
   }
   bVar2 = false;
   bVar10 = (*(uint32_t *)((int)self_ + 0x10c) >> 0x1b & 1) == 0;

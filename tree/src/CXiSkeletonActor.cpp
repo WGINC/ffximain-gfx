@@ -263,7 +263,7 @@ uint32_t __thiscall CXiSkeletonActor::AnimateModels(void * self, int * param_1, 
       if (this_00 == (void *)0x0) {
         uVar1 = *(uint32_t *)((int)self + 0x30);
         *(uint32_t *)((int)self + 0x30) = uVar1 | 0x12;
-        return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -2921,7 +2921,7 @@ undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_
     rf = *(int **)((int)pvVar4 + 0x14);
     g_resourceFindDepth = g_resourceFindDepth + -1;
   }
-  pvVar4 = (void *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar4 >> 8)) << 8) | (uint8_t)(bVar7)));
+  pvVar4 = (void *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar4 >> 8))) << 8) | (uint8_t)(bVar7)));
   if (bVar7) {
     while( true ) {
       if (rf == (int *)0x0) {
@@ -2982,7 +2982,7 @@ undefined4 __thiscall CXiSkeletonActor::SetMotion(void * self, int * rf, uint32_
       g_resourceFindDepth = g_resourceFindDepth + -1;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar4 >> 8)) << 8) | (uint8_t)(local_40)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar4 >> 8))) << 8) | (uint8_t)(local_40)));
 }
 
 // FUNCTION: FFXIMAIN 0x100CD920  (placed by IDB name; static (takes no this))
@@ -3172,7 +3172,7 @@ void __thiscall CXiSkeletonActor::UpdateRandomTimer(void * self)
     *(float *)((int)self + 0x8b8) = (float)(long double)(int)local_8;
     if (*(char *)((int)self + 0x8aa) == '\0') {
       uVar2 = orig::CXiSkeletonActor_IsReadCompleteBody
-                        (self,((uint32_t)(((uint32_t)((int32_t)((uint32_t)(iVar1 / 0x1e0) >> 8)) << 8) | (uint8_t)(*(char *)((int)self + 0x8aa)))));
+                        (self,((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)(iVar1 / 0x1e0) >> 8))) << 8) | (uint8_t)(*(char *)((int)self + 0x8aa)))));
       if ((char)uVar2 != '\0') {
         DAT_1048a38c_as_v0 = 0;
         local_8 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x1e0))))((void *)(self),&local_4);
@@ -3753,7 +3753,7 @@ undefined4 __thiscall CXiSkeletonActor::SetAction(void * self, undefined4 * para
     iVar7 = param_3;
     pvVar1 = (void *)orig::ResourceHandle_Deref_v1(param_1);
     uVar4 = orig::Scheduler_Execute_v1(pvVar1,self,uVar5,uVar6,iVar7,pvVar1);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
   }
   puVar2 = (undefined4 *)
            orig::YmResourceFile_FindResourceUnder_v1
@@ -3766,7 +3766,7 @@ undefined4 __thiscall CXiSkeletonActor::SetAction(void * self, undefined4 * para
     uVar5 = param_2;
     pvVar1 = (void *)orig::ResourceHandle_Deref_v1(param_1);
     uVar4 = orig::Scheduler_Execute_v1(pvVar1,self,uVar5,uVar6,iVar7,pvVar1);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
   }
   uVar3 = 0;
   if (param_3 != 0) {
@@ -3818,7 +3818,7 @@ LAB_100cf141:
     }
     piVar4 = (int *)((int)piVar4 + 1);
     if (9 < (int)piVar4) {
-      return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar5 >> 0x20)) << 32) | (uint32_t)(((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar5 >> 8)) << 8) | (uint8_t)(1))))));
+      return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar5 >> 0x20)) << 32) | (uint32_t)(((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar5 >> 8))) << 8) | (uint8_t)(1))))));
     }
   } while( true );
 }
@@ -4131,7 +4131,7 @@ undefined4 __thiscall CXiSkeletonActor::Slot244_Unknown(void * self, float * par
     param_1[3] = (float)(long double)fVar1;
   } while (iVar3 != 0);
   orig::Unit10026C70_Nop();
-  return ((uint32_t)(((uint32_t)((uint32_t)(uint8_t)(bVar6 | (uint8_t)((uint16_t)(uVar2 << 0xe) >> 8))) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_trunc24((uint8_t)(bVar6 | (uint8_t)((uint16_t)(uVar2 << 0xe) >> 8)))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100D04B0  (placed by tree manifest)
@@ -4299,8 +4299,8 @@ undefined4 __stdcall CXiSkeletonActor::ProjectToScreen(float * param_1, undefine
   fVar1 = (long double)0.0f;
   bVar6 = NAN(fVar7) || NAN(fVar1);
   bVar5 = bVar6 || fVar7 < fVar1;
-  uVar4 = (uint32_t)(((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)uVar3 >> 0x10)) << 16) | (uint16_t)((uint16_t)bVar5 << 8 | (uint16_t)bVar6 << 10 |
-                           (uint16_t)(bVar6 || fVar7 == fVar1) << 0xe))) >> 8);
+  uVar4 = xi_trunc24((((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)uVar3 >> 0x10)) << 16) | (uint16_t)((uint16_t)bVar5 << 8 | (uint16_t)bVar6 << 10 |
+                           (uint16_t)(bVar6 || fVar7 == fVar1) << 0xe))) >> 8));
   if (bVar5 != bVar6) {
     orig::Unit10026C70_Nop();
     orig::Unit10026C70_Nop();
@@ -4774,7 +4774,7 @@ LAB_100d1394:
       return iVar5;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar5 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar5 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100D2F40  (placed by IDB name; static (takes no this))
@@ -4931,7 +4931,7 @@ undefined4 __thiscall CXiSkeletonActor::LoadSkeletonSync(void * self, uint32_t d
 LAB_100d32ab:
       iStack_40 = iStack_40 + 1;
       if (8 < iStack_40) {
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iStack_40 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iStack_40 >> 8))) << 8) | (uint8_t)(1)));
       }
     } while( true );
   }
@@ -4984,7 +4984,7 @@ LAB_100d32ab:
         uVar5 = orig::CXiSkeletonActor_AttachPartResource
                           (self,(int)piStack_48,*(int **)((int)self + 0x9ec),
                            *(int **)((int)self + 0x9ec));
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
       }
       if (iVar3 == 0) goto switchD_100d3782_caseD_3;
       puVar4 = orig::Allocator_Generic_v3(0x18);
@@ -5040,7 +5040,7 @@ LAB_100d36d6:
 LAB_100d36f9:
         uVar5 = orig::CXiSkeletonActor_AttachPartResource
                           (self,(int)piStack_48,*(int **)((int)self + 0x9ec),iVar10);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
       }
       if (iVar3 == 0) goto switchD_100d3782_caseD_3;
       puVar4 = orig::Allocator_Generic_v3(0x18);
@@ -5279,11 +5279,11 @@ LAB_100d3e98:
       if (iStack_44 < 9) {
         if ((int)dvdno1 < 0) {
           uVar5 = orig::CXiSkeletonActor_ChoosePendingPartStep(self);
-          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
         }
         *(uint32_t *)((int)self + 0x8a0) = dvdno1;
         *(uint8_t *)((int)self + 0x8a4) = 4;
-        return ((uint32_t)(((uint32_t)((int32_t)(dvdno1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24((dvdno1 >> 8))) << 8) | (uint8_t)(1)));
       }
       break;
     case 7:
@@ -5301,7 +5301,7 @@ LAB_100d3e98:
       uVar5 = orig::ResourceHandle_IsResident_v1(&piStack_48);
       if ((char)uVar5 != '\0') {
         uVar5 = orig::CXiSkeletonActor_AddPartAndMarkSlot(self,piStack_48,uVar9 | 0x9000,*(int *)((int)self + 0x9ec),1);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
       }
       puVar4 = orig::Allocator_Generic_v3(0x20);
       if (puVar4 == (undefined4 *)0x0) goto LAB_100d4080;
@@ -5411,7 +5411,7 @@ LAB_100d3e98:
 LAB_100d3b96:
         iStack_40 = iStack_40 + 1;
         if (8 < iStack_40) {
-          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iStack_40 >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iStack_40 >> 8))) << 8) | (uint8_t)(1)));
         }
       } while( true );
     }
@@ -5431,7 +5431,7 @@ LAB_100d3b96:
     if ((char)iVar10 != '\0') {
       uVar5 = orig::CXiSkeletonActor_AttachPartResource
                         (self,(int)piStack_48,*(int **)((int)self + 0x9ec),piStack_48);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
     }
     if (iVar3 == 0) goto switchD_100d3782_caseD_3;
     puVar4 = orig::Allocator_Generic_v3(0x18);
@@ -5451,7 +5451,7 @@ LAB_100d406b:
     iVar10 = orig::Unit10070F90_Create(&piStack_48,pcVar11,puVar4,(int)self,0);
   }
 switchD_100d3782_caseD_3:
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar10 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar10 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100D4330  (placed by IDB name; static (takes no this))
@@ -5484,13 +5484,13 @@ undefined4 __thiscall CXiSkeletonActor::LoadSkeletonResource(void * self, undefi
     *(void **)((int)self + 0xa08) = pvVar4;
     if (pvVar4 == (void *)0x0) {
       uVar3 = orig::CXiSkeletonActor_LoadSkeletonSync_v1(self,param_1);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
     *(uint32_t *)((int)pvVar4 + 0x44) = param_1;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar4 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar4 >> 8))) << 8) | (uint8_t)(1)));
   }
   uVar3 = orig::CXiSkeletonActor_LoadSkeletonSync_v1(self,param_1);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100D43E0  (placed by IDB name; static (takes no this))

@@ -403,7 +403,7 @@ XI_API undefined4 __thiscall ZoneMap_QueryBoxHeight(void * self_, undefined4 par
   uVar1 = orig::Unit10163E60_SegmentHit3413A((void *)((int)self_ + 0x178),&local_18,&local_24,&local_c);
   if ((char)uVar1 != '\0') {
     *param_5 = (float)(long double)local_8;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_5 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_5 >> 8))) << 8) | (uint8_t)(1)));
   }
   *param_5 = (float)(long double)param_2;
   return uVar1 & 0xffffff00;
@@ -468,7 +468,7 @@ XI_API undefined4 __thiscall ZoneMap_QueryExpandedBox(void * self_, float param_
   uVar1 = orig::Unit10163E60_SegmentHitWithObjects((void *)((int)self_ + 0x178),&local_18,&local_24,&local_c);
   if ((char)uVar1 != '\0') {
     *param_5 = (float)(long double)local_8;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_5 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_5 >> 8))) << 8) | (uint8_t)(1)));
   }
   return uVar1 & 0xffffff00;
 }
@@ -555,7 +555,7 @@ XI_API uint64_t __thiscall fn_101815D0(void * self_)
   this_00 = (int *)uVar6;
   if (this_00 != (int *)0x0) {
     if (DAT_1065ca30 != '\0') {
-      return ((uint64_t)(((uint64_t)(uint32_t)((int)(uVar6 >> 0x20)) << 32) | (uint32_t)(((uint32_t)(((uint32_t)((int32_t)(uVar6 >> 8)) << 8) | (uint8_t)(1))))));
+      return ((uint64_t)(((uint64_t)(uint32_t)((int)(uVar6 >> 0x20)) << 32) | (uint32_t)(((uint32_t)(((uint32_t)(xi_strunc24((uVar6 >> 8))) << 8) | (uint8_t)(1))))));
     }
     pfVar1 = (float *)((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x1bc))))((void *)(this_00));
     fStack_a8 = *pfVar1;
@@ -673,7 +673,7 @@ XI_API uint64_t __thiscall fn_10181930(void * self_)
     return uVar4;
   }
   iVar2 = orig::FUN_10168fc0((void *)((int)self_ + 0x178));
-  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar4 >> 0x20)) << 32) | (uint32_t)(((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(((uint8_t *)((&DAT_10377328)))[iVar2]))))));
+  return ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar4 >> 0x20)) << 32) | (uint32_t)(((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)(((uint8_t *)((&DAT_10377328)))[iVar2]))))));
 }
 
 // FUNCTION: FFXIMAIN 0x101819B0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
@@ -685,7 +685,7 @@ XI_API undefined4 __thiscall ZoneMap_IsBoxHeightHitByRadius(void * self_, undefi
   uVar1 = orig::ZoneMap_QueryBoxHeight(self_,param_1,
                        (float)((long double)param_2 - (long double)*(float *)((int)self_ + 0x170)),param_3,
                        19.0f,param_4);
-  return CONCAT31((int32_t)((uint32_t)uVar1 >> 8),(char)uVar1 != '\0');
+  return CONCAT31(xi_strunc24(((uint32_t)uVar1 >> 8)),(char)uVar1 != '\0');
 }
 
 // FUNCTION: FFXIMAIN 0x10181A10  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)

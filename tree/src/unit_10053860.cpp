@@ -77,7 +77,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmGenerater_Stop(undefine
       iVar3 = *(int *)((int)self_ + 0xb0);
     }
     uVar4 = orig::CMoResource_ReleaseChain_v1(self_);
-    uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(local_1)));
+    uVar5 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(local_1)));
   }
   return uVar5;
 }
@@ -89,10 +89,10 @@ XI_API undefined4 __thiscall Generator_IsFlag400OrField22Zero(void * self_)
   int iVar1;
   
   if ((*(uint32_t *)((int)self_ + 0xd8) & 0x400) != 0) {
-    return ((uint32_t)(((uint32_t)((int32_t)(*(uint32_t *)((int)self_ + 0xd8) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((*(uint32_t *)((int)self_ + 0xd8) >> 8))) << 8) | (uint8_t)(1)));
   }
   iVar1 = orig::Unit10048000_GetShort22ViaPtrE4(self_);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(iVar1 == 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(iVar1 == 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10053A00  (unit unit_10053860: no unit evidence of its own; in the gap between 0x10053840 (CMoGeneratorClone_VT_1032B69C) and 0x10053E00 (CMoGeneratorClone) -- an unnamed source file)
@@ -116,7 +116,7 @@ XI_API undefined4 __thiscall Unit10053860_StopGenerators(void * self_, int param
   uint8_t  (&local_1c)[28] = *reinterpret_cast<uint8_t  (*)[28]>(xi_frame + 5);
   
   local_21 = 0;
-  uVar10 = orig::CYyObject_IsKindOf(self_,0x1032b108);
+  uVar10 = orig::CYyObject_IsKindOf(self_,(int)XI_GAME(0x1032B108u));
   local_20 = self_;
   if ((char)uVar10 != '\0') {
     if (*(uint32_t **)((int)self_ + 0x28) == (uint32_t *)0x0) {
@@ -167,7 +167,7 @@ LAB_10053b91:
 LAB_10053a50:
     if (this_00 == (int *)0x0) {
 LAB_10053c65:
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar5 >> 8)) << 8) | (uint8_t)(local_21)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar5 >> 8))) << 8) | (uint8_t)(local_21)));
     }
     pvVar4 = (void *)((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x18))))((void *)(this_00));
     pvVar5 = (void *)0x0;
@@ -176,11 +176,11 @@ LAB_10053b50:
       this_00 = (int *)this_00[0xb];
       goto LAB_10053a50;
     }
-    uVar10 = orig::CYyObject_IsKindOf(pvVar4,0x1032b108);
+    uVar10 = orig::CYyObject_IsKindOf(pvVar4,(int)XI_GAME(0x1032B108u));
     pvVar5 = (void *)uVar10;
     if ((char)uVar10 == '\0') goto LAB_10053b50;
     if (pvVar4 == self_) {
-      uVar6 = ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar10 >> 8)) << 8) | (uint8_t)((char)param_3)));
+      uVar6 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar10 >> 8))) << 8) | (uint8_t)((char)param_3)));
       if ((char)param_3 == '\0') {
         local_21 = 1;
         pvVar5 = (void *)orig::YmGenerater_Stop_v1(self_,param_4,uVar6);
@@ -214,7 +214,7 @@ LAB_10053b50:
       pvVar5 = (void *)uVar10;
       if (pvVar5 != (void *)param_2) goto LAB_10053b50;
     }
-    uVar6 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar5 >> 8)) << 8) | (uint8_t)((char)param_3)));
+    uVar6 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar5 >> 8))) << 8) | (uint8_t)((char)param_3)));
     if ((char)param_3 != '\0') {
       uVar6 = orig::Generator_ClearSubobjectOrSetFlag_v1(pvVar4,0,uVar6);
       fVar9 = (long double)*(float *)((int)pvVar4 + 0xd0);

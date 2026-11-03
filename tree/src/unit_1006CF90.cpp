@@ -10,7 +10,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(1))) CMoProcessor_VT_1032C368_
   int iVar2;
   undefined4 *puVar3;
   
-  iVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(1)));
+  iVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(1)));
   if ((DAT_1047cdd8 & 1) == 0) {
     DAT_1047cdd8 = DAT_1047cdd8 | 1;
     DAT_1047caf0 = 0x3f800000;

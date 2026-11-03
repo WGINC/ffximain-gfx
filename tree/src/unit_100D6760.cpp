@@ -10,5 +10,5 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_100D6F50(undefined4 xi
   
   bVar1 = *(uint8_t *)((int)self_ + 0x8ac);
   *(uint8_t *)((int)self_ + 0x8ac) = ((char)param_2 * '\x02' ^ bVar1) & 2 ^ bVar1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(bVar1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(bVar1)));
 }

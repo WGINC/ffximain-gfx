@@ -78,7 +78,7 @@ undefined4 __thiscall CMoD3mSpecularElem::BindTintedTexture(void * self)
   
   uVar2 = *(uint32_t *)((int)self + 0x10c) & 0xfffeffff | 0x2000000;
   *(uint32_t *)((int)self + 0x10c) = uVar2;
-  uVar4 = ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)self + 0x179))));
+  uVar4 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(*(char *)((int)self + 0x179))));
   if (*(char *)((int)self + 0x179) == '\0') {
     if (*(int **)((int)self + 0x104) == (int *)0x0) {
       iVar3 = 0;

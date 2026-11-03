@@ -12,6 +12,12 @@ typedef long double float10;                 // x87 80-bit; GCC's long double on
 typedef unsigned short wchar16; typedef unsigned int wchar32;
 typedef int32_t int3; typedef uint32_t uint3; typedef int64_t int5; typedef uint64_t uint5; typedef int64_t int6; typedef uint64_t uint6; typedef int64_t int7; typedef uint64_t uint7;   // Ghidra's odd-width integers
 typedef int code(...);                       // `(*(code *)p)(...)`: a call through an untyped pointer
+// Ghidra's cast to a 3-byte integer, `(uint3)x` / `(int3)x`: the low 24 bits of x, zero- or sign-extended to 32
+// (hx2cpp.ghidra_odd_casts writes the casts as these; uint3 / int3 above are 32-bit, so the cast alone would keep 32)
+template<class T> static inline uint32_t xi_bits32(T *p) { return (uint32_t)(uintptr_t)p; }
+template<class T> static inline uint32_t xi_bits32(T x) { return (uint32_t)x; }
+template<class T> static inline uint32_t xi_trunc24(T x) { return xi_bits32(x) & 0xFFFFFFu; }
+template<class T> static inline int32_t xi_strunc24(T x) { return (int32_t)(xi_bits32(x) << 8) >> 8; }
 typedef void *pointer; typedef void *addr;
 
 // piece / subpiece / extension: Ghidra's names, sizes in bytes

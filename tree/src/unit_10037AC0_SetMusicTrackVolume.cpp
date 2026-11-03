@@ -383,7 +383,7 @@ XI_API undefined4 __cdecl Font_QueueText(char * param_1, undefined4 param_2, und
   pcVar2 = param_1;
   do {
     cVar1 = *pcVar2;
-    pcVar2[(dword_1047B950 + 0x10463958) - (int)param_1] = cVar1;
+    pcVar2[(dword_1047B950 + (int)XI_GAME(0x10463958u)) - (int)param_1] = cVar1;
     pcVar2 = pcVar2 + 1;
   } while (cVar1 != '\0');
   uVar4 = 0xffffffff;

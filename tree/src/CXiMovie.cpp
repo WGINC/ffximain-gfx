@@ -94,7 +94,7 @@ undefined4 __cdecl CXiMovie::Create(undefined4 param_1)
           uVar2 = orig::CXiMovie_DestroyGlobal(uVar2);
           return uVar2 & 0xffffff00;
         }
-        return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }

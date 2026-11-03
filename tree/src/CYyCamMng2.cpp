@@ -12,7 +12,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) CYyCamMng2_SetGlobalFlags(u
   }
   DAT_10456db0 = (char)param_1;
   _DAT_10456db4 = param_3;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)param_1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((char)param_1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1001E470  (placed by IDB name; static (takes no this))

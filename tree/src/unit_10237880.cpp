@@ -635,7 +635,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10241800(undefined4 xi
   uint32_t  &uStack_8 = *reinterpret_cast<uint32_t  *>(xi_frame + 0);
   uint32_t  &uStack_4 = *reinterpret_cast<uint32_t  *>(xi_frame + 4);
   
-  xi_eax_00 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_10669090)));
+  xi_eax_00 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_10669090)));
   if (DAT_10669090 != '\0') {
     xi_eax_00 = orig::Unit100D7420_TestCommand36CF60_v1(0x3f,0x9b,4,-1,xi_eax_00);
     if ((char)xi_eax_00 == '\0') {

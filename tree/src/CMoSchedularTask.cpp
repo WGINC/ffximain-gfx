@@ -179,14 +179,14 @@ undefined4 __thiscall CMoSchedularTask::vf8(void * self)
   if (*(char *)((int)self + 0x145) != '\0') {
     uVar1 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
 LAB_10057e27:
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
   }
   uVar2 = orig::ResourceHandle_IsResident_v1((void *)((int)self + 0x80));
   if ((char)uVar2 == '\0') {
 LAB_10057ef9:
     return uVar2 & 0xffffff00;
   }
-  uVar1 = ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)self + 0x140))));
+  uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(*(char *)((int)self + 0x140))));
   fStack_8 = 0.0f;
   if (*(char *)((int)self + 0x140) == '\0') {
     fVar8 = (long double)*(float *)(g_pResourceMng + 0xeb0);

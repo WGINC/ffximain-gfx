@@ -198,7 +198,7 @@ XI_API undefined4 __cdecl Unit10003890_FindMapValue(char * param_1, undefined4 p
   
   iVar4 = 0;
   cVar1 = *param_1;
-  uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(cVar1)));
+  uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(cVar1)));
   while( true ) {
     uVar3 = (uint16_t)((uint32_t)uVar2 >> 0x10);
     if (cVar1 == '\0') {
@@ -206,7 +206,7 @@ XI_API undefined4 __cdecl Unit10003890_FindMapValue(char * param_1, undefined4 p
     }
     if ((char)uVar2 == (char)param_3) break;
     cVar1 = param_1[iVar4 * 2 + 2];
-    uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(cVar1)));
+    uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(cVar1)));
     iVar4 = iVar4 + 1;
   }
   return ((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(uint8_t)param_1[iVar4 * 2 + 1])));
@@ -427,7 +427,7 @@ XI_API undefined4 __thiscall DirectInput_InstallKeyboard(void * self_)
     return uVar1 & 0xffffff00;
   }
   uVar2 = ((int (__stdcall *)(XI_ANY))((**(code **)(*(int *)*a3 + 0x1c))))((int *)*a3);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10007EF0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
@@ -833,7 +833,7 @@ LAB_10008440:
       uVar3 = orig::DirectInput_ReleaseDevice(self_,iVar4);
       return uVar3;
     }
-    puStack_b0 = (uint8_t *)0x1000854b;
+    puStack_b0 = (uint8_t *)(int)XI_GAME(0x1000854Bu);
     iVar4 = ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0x90) + 0x34))
                       ))(*(int **)((int)self_ + 0x90),*(uint32_t *)(g_pApp_as_s32 + 0x18),
                        (uint32_t)(DAT_10455c37 != '\0') * 4 + 4 | 1);
@@ -852,7 +852,7 @@ LAB_10008440:
     auStack_64[4] = 0xffffff81;
     auStack_64[5] = 0x7f;
     auStack_64[2] = 0;
-    puStack_b0 = (uint8_t *)0x100085a8;
+    puStack_b0 = (uint8_t *)(int)XI_GAME(0x100085A8u);
     (**(code **)(**(int **)((int)self_ + 0x90) + 0x18))();
     piStack_b8 = *(int **)((int)self_ + 0x90);
     puStack_b0 = auStack_70;
@@ -888,7 +888,7 @@ LAB_10008440:
     }
   }
 LAB_10008752:
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10008770  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
@@ -905,7 +905,7 @@ XI_API undefined4 __thiscall DirectInput_ReleaseDevice(void * self_, int param_1
     *(uint32_t *)((int)self_ + 0x90) = 0;
     DAT_10455c28_as_v0 = (int *)0x0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100087D0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
@@ -950,9 +950,9 @@ XI_API undefined4 __thiscall Input_IsCursorActive(void * self_, uint32_t param_1
   }
   iVar1 = *(int *)((int)self_ + 0xc94);
   if ((iVar1 == 0) && (iVar1 = *(int *)((int)self_ + 0x8dc), iVar1 == 0)) {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)g_pCursor_as_s32 >> 8)) << 8) | (uint8_t)(*(int *)(g_pCursor_as_s32 + 0x60) != 0)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)g_pCursor_as_s32 >> 8))) << 8) | (uint8_t)(*(int *)(g_pCursor_as_s32 + 0x60) != 0)));
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100088F0  (unit unit_10003890_DirectInput: no unit evidence of its own; in the gap between 0x100037D0 (Debug) and 0x10008F40 (CAcc) -- an unnamed source file)
@@ -1078,7 +1078,7 @@ XI_API undefined4 __thiscall XInput_ProbeDll(void * self_)
   int iVar5;
   char *pcVar6;
   
-  uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(DAT_10455c38)));
+  uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(DAT_10455c38)));
   if (DAT_10455c38 != '\0') {
     a1 = (char *)((int)self_ + 0xca0);
     *a1 = '\0';
@@ -1109,7 +1109,7 @@ XI_API undefined4 __thiscall XInput_ProbeDll(void * self_)
     uVar2 = 0;
     if (iVar5 != 0) {
       uVar3 = FreeLibrary(iVar5);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar2 & 0xffffff00;
@@ -1122,7 +1122,7 @@ XI_API undefined4 __thiscall XInput_LoadFunctions(void * self_)
   uint32_t xi_entry_eax = 0;
   uint32_t uVar1;
   
-  uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(DAT_10455c38)));
+  uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(DAT_10455c38)));
   if (DAT_10455c38 != '\0') {
     DAT_1045654c = (HMODULE)LoadLibraryA((int)self_ + 0xca0);
     uVar1 = 0;
@@ -1130,7 +1130,7 @@ XI_API undefined4 __thiscall XInput_LoadFunctions(void * self_)
       DAT_10456550 = GetProcAddress(DAT_1045654c,s_XInputGetState__1034fb98);
       DAT_10456554 = GetProcAddress(DAT_1045654c,s_XInputSetState__1034fb88);
       DAT_10456558 = GetProcAddress(DAT_1045654c,s_XInputEnable__1034fb78);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_10456558 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_10456558 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar1 & 0xffffff00;

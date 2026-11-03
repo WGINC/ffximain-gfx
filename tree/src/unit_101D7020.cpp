@@ -514,7 +514,7 @@ XI_API void * __thiscall YkWndList_Init(void * self_)
   iVar4 = 0;
   puVar1 = (undefined4 *)((int)self_ + 0x74);
   do {
-    iVar2 = orig::Unit100D7420_GetTableByteForTens(((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)((&DAT_1037f1dc)[iVar4]))));
+    iVar2 = orig::Unit100D7420_GetTableByteForTens(((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)((&DAT_1037f1dc)[iVar4]))));
     *(char *)((int)self_ + iVar4 + 0x69) = (char)iVar2;
     *puVar1 = (&DAT_1037f1e8)[iVar4];
     iVar4 = iVar4 + 1;
@@ -683,7 +683,7 @@ XI_API undefined4 __thiscall fn_101E15C0(void * self_)
   
   iVar1 = orig::Unit100D7420_AdvanceAndGetSeconds();
   uVar2 = iVar1 - *(int *)((int)self_ + 0x74);
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(uVar2 < 0x17)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(uVar2 < 0x17)));
 }
 
 // FUNCTION: FFXIMAIN 0x101E15F0  (unit unit_101D7020: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file)
@@ -1041,21 +1041,21 @@ XI_API void * __thiscall Yk_CtorVt10339BC0(void * self_)
     *puVar5 = puVar3;
     puVar3 = puVar3 + 8;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar3 < 0x1037f47c);
+  } while ((int)puVar3 < (int)XI_GAME(0x1037F47Cu));
   puVar5 = &DAT_1037fd6c;
   puVar3 =(uint8_t*)(&DAT_1037f4d0);
   do {
     *puVar5 = puVar3;
     puVar3 = puVar3 + 8;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar3 < 0x1037f568);
+  } while ((int)puVar3 < (int)XI_GAME(0x1037F568u));
   puVar5 = &DAT_1037ffcc;
   puVar3 =(uint8_t*)(&DAT_1037f630);
   do {
     *puVar5 = puVar3;
     puVar3 = puVar3 + 8;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar3 < 0x1037fac0);
+  } while ((int)puVar3 < (int)XI_GAME(0x1037FAC0u));
   puVar5 = &DAT_1037fce8;
   do {
     sVar1 = *(short *)(puVar5[1] + 4);
@@ -1070,7 +1070,7 @@ XI_API void * __thiscall Yk_CtorVt10339BC0(void * self_)
       *puVar5 = uVar6;
     }
     puVar5 = puVar5 + 8;
-  } while ((int)puVar5 < 0x10381208);
+  } while ((int)puVar5 < (int)XI_GAME(0x10381208u));
   DAT_1038120c =(DAT_1038120c_t)(&DAT_1037f47c);
   puVar5 = &DAT_1038122c;
   puVar3 =(uint8_t*)(&DAT_1037f568);
@@ -1078,14 +1078,14 @@ XI_API void * __thiscall Yk_CtorVt10339BC0(void * self_)
     *puVar5 = puVar3;
     puVar3 = puVar3 + 8;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar3 < 0x1037f590);
+  } while ((int)puVar3 < (int)XI_GAME(0x1037F590u));
   puVar5 = &DAT_103812cc;
   puVar3 =(uint8_t*)(&DAT_1037fac0);
   do {
     *puVar5 = puVar3;
     puVar3 = puVar3 + 8;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar3 < 0x1037fba0);
+  } while ((int)puVar3 < (int)XI_GAME(0x1037FBA0u));
   puVar5 = &DAT_10381208;
   do {
     sVar1 = *(short *)(puVar5[1] + 4);
@@ -1100,28 +1100,28 @@ XI_API void * __thiscall Yk_CtorVt10339BC0(void * self_)
       *puVar5 = uVar6;
     }
     puVar5 = puVar5 + 8;
-  } while ((int)puVar5 < 0x10381648);
+  } while ((int)puVar5 < (int)XI_GAME(0x10381648u));
   puVar5 = &DAT_1038164c;
   puVar3 =(uint8_t*)(&DAT_1037f488);
   do {
     *puVar5 = puVar3;
     puVar3 = puVar3 + 8;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar3 < 0x1037f4c8);
+  } while ((int)puVar3 < (int)XI_GAME(0x1037F4C8u));
   puVar5 = &DAT_1038174c;
   puVar3 =(uint8_t*)(&DAT_1037f590);
   do {
     *puVar5 = puVar3;
     puVar3 = puVar3 + 8;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar3 < 0x1037f5d0);
+  } while ((int)puVar3 < (int)XI_GAME(0x1037F5D0u));
   puVar5 = &DAT_1038184c;
   puVar3 =(uint8_t*)(&DAT_1037fba0);
   do {
     *puVar5 = puVar3;
     puVar3 = puVar3 + 8;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar3 < 0x1037fc70);
+  } while ((int)puVar3 < (int)XI_GAME(0x1037FC70u));
   puVar5 = &DAT_10381648;
   do {
     sVar1 = *(short *)(puVar5[1] + 4);
@@ -1137,7 +1137,7 @@ XI_API void * __thiscall Yk_CtorVt10339BC0(void * self_)
       *puVar5 = uVar6;
     }
     puVar5 = puVar5 + 8;
-  } while ((int)puVar5 < 0x10381b88);
+  } while ((int)puVar5 < (int)XI_GAME(0x10381B88u));
   DAT_10381b8c =(DAT_10381b8c_t)(&DAT_1037f4c8);
   puVar5 = &DAT_10381bac;
   puVar4 = &DAT_1037f5d0;
@@ -1145,22 +1145,22 @@ XI_API void * __thiscall Yk_CtorVt10339BC0(void * self_)
     *puVar5 = puVar4;
     puVar4 = puVar4 + 4;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar4 < 0x1037f610);
+  } while ((int)puVar4 < (int)XI_GAME(0x1037F610u));
   puVar5 = &DAT_10381cac;
   puVar3 =(uint8_t*)(&DAT_1037fc70);
   do {
     *puVar5 = puVar3;
     puVar3 = puVar3 + 8;
     puVar5 = puVar5 + 8;
-  } while ((int)puVar3 < 0x1037fcd0);
+  } while ((int)puVar3 < (int)XI_GAME(0x1037FCD0u));
   puVar5 = &DAT_10381b88;
   do {
     sVar1 = ((short *)puVar5[1])[2];
     if (sVar1 != -1) {
-      if ((int)puVar5 < 0x10381ba8) {
+      if ((int)puVar5 < (int)XI_GAME(0x10381BA8u)) {
         uVar6 = 0x13;
       }
-      else if (((int)puVar5 < 0x10381ca8) && (*(short *)puVar5[1] == 9)) {
+      else if (((int)puVar5 < (int)XI_GAME(0x10381CA8u)) && (*(short *)puVar5[1] == 9)) {
         uVar6 = 0x13;
       }
       else {
@@ -1170,7 +1170,7 @@ XI_API void * __thiscall Yk_CtorVt10339BC0(void * self_)
       *puVar5 = uVar6;
     }
     puVar5 = puVar5 + 8;
-  } while ((int)puVar5 < 0x10381e28);
+  } while ((int)puVar5 < (int)XI_GAME(0x10381E28u));
   if (DAT_10663650 == (undefined4 *)0x0) {
     puVar5 = orig::Allocator_Generic_v3(0x68);
     if (puVar5 == (undefined4 *)0x0) {
@@ -1702,7 +1702,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_101EFAD0(undefined4 xi
   
   *(uint8_t *)((int)self_ + 0x14) = *(uint8_t *)((int)self_ + 0x14) | 0x20;
   *(uint16_t *)((int)self_ + 0xa8) = (uint16_t)param_2;
-  uVar1 = ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)((uint16_t)param_2))) >> 8)) << 8) | (uint8_t)((char)param_3)));
+  uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)((uint16_t)param_2))) >> 8))) << 8) | (uint8_t)((char)param_3)));
   if ((char)param_3 == '\0') {
     *(uint8_t *)((int)self_ + 0xa4) = 1;
     return uVar1;
@@ -2291,7 +2291,7 @@ XI_API undefined4 __thiscall fn_101F6720(void * self_, undefined4 param_1)
         uVar1 = orig::Unit1012AC80_ForwardToPanel_v1(g_pTkHelp,*(int *)((int)self_ + 0x40),2);
         return uVar1;
       }
-      uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)((char)param_1)));
+      uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)((char)param_1)));
       if ((char)param_1 != '\0') {
         uVar1 = orig::Unit1012AC80_ForwardToPanel_v1(g_pTkHelp,0,2);
       }
@@ -2568,7 +2568,7 @@ XI_API uint32_t __cdecl Unit101D7020_GetEntryPosition(int param_1, int param_2, 
   iVar2 = uVar1 * 0xe;
   *param_3 = *param_3 - *(short *)(((char *)&DAT_103821fa) + iVar2);
   *param_4 = *param_4 - *(short *)(((char *)&DAT_103821fc) + iVar2);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x101F75C0  (unit unit_101D7020: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file)
@@ -2654,7 +2654,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_101F79E0(undefined4 xi_e
   
   uVar7 = param_3;
   bVar8 = param_3 < 0;
-  uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(bVar8)));
+  uVar5 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(bVar8)));
   param_3 = ((uint32_t)(((uint32_t)(XI_PIECE(param_3, 1, 3)) << 8) | (uint8_t)(bVar8)));
   if (bVar8) {
     uVar9 = orig::ActorHandle_Resolve_v1(&g_targetActorHandle_as_v0);
@@ -2676,7 +2676,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_101F79E0(undefined4 xi_e
     uVar5 = orig::Yk_FindEntryIndex(param_2,uVar7,1);
     if (-1 < (int)uVar5) {
       uVar6 = orig::FUN_101f9a50(self_,param_2,uVar7,param_1,param_4,0,param_3,1,param_3);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar6 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar6 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
 LAB_101f7aa6:
@@ -2819,7 +2819,7 @@ XI_API undefined4 __thiscall fn_101F7FE0(void * self_)
     } while (iVar3 != 0);
     iVar4 = iVar4 + -1;
     if (iVar4 == 0) {
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
   } while( true );
 }
@@ -3053,7 +3053,7 @@ XI_API void __thiscall fn_101F8360(void * self_, int param_1, undefined4 param_2
       psVar7 = psVar7 + 1;
       *puVar3 = *(uint32_t *)(*piVar5 + sVar1 * 4);
       puVar3 = puVar3 + 1;
-    } while ((int)psVar7 < 0x10382174);
+    } while ((int)psVar7 < (int)XI_GAME(0x10382174u));
     *(uint32_t **)((int)self_ + 0x84) = (uint32_t *)((int)self_ + 0x114);
     *(uint16_t *)((int)self_ + 0x74) = 0x14;
     piVar5 = (int *)orig::Unit101C72E0_GetIndexed(2);
@@ -3518,7 +3518,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_101F9A20(int * xi_eax,
      (*xi_eax == 0)) {
     xi_eax = (int *)orig::FUN_10087650(xi_eax);
     if ((char)xi_eax != '\0') {
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return (uint32_t)xi_eax & 0xffffff00;
@@ -3637,7 +3637,7 @@ XI_API undefined4 __thiscall fn_101FAD00(void * self_, int param_1)
     uVar2 = ((uint32_t)(((uint32_t)(uint16_t)((short)(uVar2 >> 0x10)) << 16) | (uint16_t)(*puVar3)));
     cVar1 = (char)*puVar3;
     if (cVar1 < '\0') {
-      uVar2 = ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(cVar1))) | 1;
+      uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(cVar1))) | 1;
       *puVar3 = (short)uVar2;
     }
     puVar3 = puVar3 + 0x10;
@@ -4008,7 +4008,7 @@ LAB_101fd8f3:
     puVar2 = puVar2 + 1;
     puVar6 = puVar6 + 1;
   } while (bVar11);
-  uVar4 = (uint32_t)((uint32_t)param_2 >> 8);
+  uVar4 = xi_trunc24(((uint32_t)param_2 >> 8));
   if (!bVar11) {
     puVar2 = local_d8;
     for (iVar5 = 6; iVar5 != 0; iVar5 = iVar5 + -1) {
@@ -4165,7 +4165,7 @@ XI_API void * __thiscall Unit101D7020_InitFromTablesB(void * self_)
       psVar3 = psVar3 + 1;
       *puVar4 = *(uint32_t *)(*piVar2 + sVar1 * 4);
       puVar4 = puVar4 + 1;
-    } while ((int)psVar3 < 0x1038528e);
+    } while ((int)psVar3 < (int)XI_GAME(0x1038528Eu));
   }
   *(uint32_t *)((int)self_ + 0x34) = 0;
   return self_;
@@ -4465,7 +4465,7 @@ XI_API undefined4 __cdecl Yk_CheckFlagAndWord1C(int param_1)
 {
   uint32_t uVar1;
   
-  uVar1 = (uint32_t)((uint32_t)param_1 >> 8);
+  uVar1 = xi_trunc24(((uint32_t)param_1 >> 8));
   if ((*(char *)(param_1 + 0x7a) != '\0') && (0x6ff < *(uint16_t *)(param_1 + 0x1c))) {
     return ((uint32_t)(((uint32_t)(uVar1) << 8) | (uint8_t)(1)));
   }
@@ -4485,7 +4485,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit101D7020_IsSingleUnchec
   sVar3 = 0;
   puVar2 =(uint8_t*)(&DAT_10663ad8);
   do {
-    xi_eax = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(puVar2[0x7a])));
+    xi_eax = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(puVar2[0x7a])));
     if (puVar2[0x7a] != '\0') {
       xi_eax = orig::Yk_CheckFlagAndWord1C((int)puVar2);
       if ((char)xi_eax == '\0') {
@@ -4496,8 +4496,8 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit101D7020_IsSingleUnchec
       }
     }
     puVar2 = puVar2 + 0x7c;
-  } while ((int)puVar2 < 0x10664390);
-  uVar1 = (uint32_t)((uint32_t)xi_eax >> 8);
+  } while ((int)puVar2 < (int)XI_GAME(0x10664390u));
+  uVar1 = xi_trunc24(((uint32_t)xi_eax >> 8));
   if ((sVar3 == 1) && (sVar4 != 0)) {
     return ((uint32_t)(((uint32_t)(uVar1) << 8) | (uint8_t)(1)));
   }
@@ -4537,7 +4537,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit101D7020_DrawLabelIfS
           uVar1 = orig::Unit101C72E0_DrawString
                             (0x66,param_2 + -0x3a,param_3,&DAT_1035baec,
                              (&DAT_104e1b98)[(0 < *(short *)((int)self_ + 0x3a)) - 1 & 9]);
-          return ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
         }
       }
     }
@@ -4690,7 +4690,7 @@ XI_API uint32_t __attribute__((stdcall, regparm(1))) Unit101D7020_FindActiveEntr
   int iVar3;
   int iVar4;
   
-  uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)param_2)));
+  uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((char)param_2)));
   iVar4 = 0x12;
   if ((char)param_2 != '\0') {
     iVar4 = 6;
@@ -4699,11 +4699,11 @@ XI_API uint32_t __attribute__((stdcall, regparm(1))) Unit101D7020_FindActiveEntr
   if (iVar4 != 0) {
     puVar2 =(uint32_t*)(&DAT_10663af0);
     do {
-      uVar1 = ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(*(char *)((int)puVar2 + 0x62))));
+      uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(*(char *)((int)puVar2 + 0x62))));
       if ((*(char *)((int)puVar2 + 0x62) != '\0') && (uVar1 = *puVar2, uVar1 == param_1)) {
         if ((char)param_3 != '\0') {
 LAB_10203249:
-          return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
         }
         uVar1 = orig::Yk_CheckFlagAndWord1C((int)(puVar2 + -6));
         if ((char)uVar1 == '\0') goto LAB_10203249;
@@ -4837,7 +4837,7 @@ XI_API int __stdcall Yk_FindIndexById(int param_1)
   while ((*(char *)((int)piVar2 + 0x62) == '\0' || (*piVar2 != param_1))) {
     piVar2 = piVar2 + 0x1f;
     iVar1 = iVar1 + 1;
-    if (0x106643a7 < (int)piVar2) {
+    if ((int)(XI_GAME(0x106643A8u) - 1u) < (int)piVar2) {
       return -1;
     }
   }
@@ -4997,7 +4997,7 @@ XI_API undefined4 __thiscall fn_10207360(void * self_)
       uVar3 = uVar3 & 0xff;
     } while (iVar7 < (int)uVar3);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(iVar6 != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(iVar6 != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10207730  (unit unit_101D7020: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file)
@@ -5446,7 +5446,7 @@ XI_API void __thiscall Yk_LoadIndexedTables(void * self_)
     psVar5 = psVar5 + 1;
     *puVar6 = *(uint32_t *)(*piVar4 + sVar1 * 4);
     puVar6 = puVar6 + 1;
-  } while ((int)psVar5 < 0x103859ed);
+  } while ((int)psVar5 < (int)(XI_GAME(0x103859ECu) + 1u));
   *(uint32_t **)((int)self_ + 0x50) = (uint32_t *)((int)self_ + 0x898);
   piVar4 = (int *)orig::Unit101C72E0_GetIndexed(1);
   psVar5 = &DAT_103859f0;
@@ -5456,7 +5456,7 @@ XI_API void __thiscall Yk_LoadIndexedTables(void * self_)
     psVar5 = psVar5 + 1;
     *puVar6 = *(uint32_t *)(*piVar4 + sVar1 * 4);
     puVar6 = puVar6 + 1;
-  } while ((int)psVar5 < 0x10385a04);
+  } while ((int)psVar5 < (int)XI_GAME(0x10385A04u));
   piVar4 = (int *)orig::Unit101C72E0_GetIndexed(1);
   uVar2 = *(uint32_t *)(*piVar4 + 300);
   *(uint32_t *)((int)self_ + 0x54) = uVar2;
@@ -5669,7 +5669,7 @@ XI_API undefined4 __thiscall Unit101D7020_Open(void * self_, undefined4 param_1,
   uVar2 = orig::MenuMng_OpenByName_v2(&g_menuMng_as_v0,(int)self_ + 0x20,1,0);
   if ((int)uVar2 == 0) {
     *(uint32_t *)((int)self_ + 0x14) = 0;
-    return (uint32_t)(uint32_t)((uint64_t)uVar2 >> 8) << 8;
+    return (uint32_t)xi_trunc24(((uint64_t)uVar2 >> 8)) << 8;
   }
   if ((char)param_4 == '\0') {
     orig::Unit100D7420_SelectEntry(*(void **)((int)self_ + 8),2,(int)uVar2);
@@ -5682,7 +5682,7 @@ XI_API undefined4 __thiscall Unit101D7020_Open(void * self_, undefined4 param_1,
     *(uint8_t *)(*(int *)((int)self_ + 8) + 0x86) = 0;
   }
   uVar1 = orig::Unit101D7020_HandleChoice(self_,2 - (uint32_t)((char)param_4 != '\0'));
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10210FC0  (unit unit_101D7020: no unit evidence of its own; in the gap between 0x101D7000 (YkSoldier) and 0x10211430 (YkZip) -- an unnamed source file)
@@ -5805,7 +5805,7 @@ XI_API void __thiscall Unit101D7020_Refresh(void * self_)
   *(uint8_t *)((int)self_ + 0x3a) = 0;
   if (*(char *)((int)self_ + 0x3b) == '\0') {
     orig::Unit100D7420_SelectEntry(*(void **)((int)self_ + 8),2,
-                 ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar3 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x3b)))));
+                 ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar3 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 0x3b)))));
   }
   return;
 }

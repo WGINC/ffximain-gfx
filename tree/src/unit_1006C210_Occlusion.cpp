@@ -308,7 +308,7 @@ XI_API undefined4 __cdecl Unit1006C210_IsFloatClassAccepted(float param_1)
        (((uVar2 = 0, uVar1 != 1 && (uVar2 = 0, uVar1 != 2)) &&
         (uVar1 = uVar1 - 4, uVar2 = 0, uVar1 != 0)))) {
 LAB_1006ca55:
-      return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   else if ((uVar1 != 0x80) && (uVar1 != 0x200)) goto LAB_1006ca55;
@@ -326,7 +326,7 @@ XI_API undefined4 __cdecl Unit1006C210_AreAll16FloatsAccepted(undefined4 * param
   iVar3 = 0;
   do {
     uVar1 = orig::Unit1006C210_IsFloatClassAccepted(xi_castbits<float>(*param_1));
-    uVar2 = (uint32_t)((uint32_t)uVar1 >> 8);
+    uVar2 = xi_trunc24(((uint32_t)uVar1 >> 8));
     if ((char)uVar1 == '\0') {
       return (uint32_t)uVar2 << 8;
     }

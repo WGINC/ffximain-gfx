@@ -72,14 +72,14 @@ XI_API undefined4 __cdecl XiEvent_IsIdOutsideList(void)
   uint32_t xi_entry_eax = 0;
   uint32_t uVar1;
   
-  uVar1 = (uint32_t)((uint32_t)xi_entry_eax >> 8);
+  uVar1 = xi_trunc24(((uint32_t)xi_entry_eax >> 8));
   if (DAT_10482f43 == '\0') {
     return (uint32_t)uVar1 << 8;
   }
   if (DAT_104dfd98 == 0) {
     return (uint32_t)uVar1 << 8;
   }
-  uVar1 = (uint32_t)(*(uint16_t *)(DAT_104dfd98 + 0x40d7c) - 1 >> 8);
+  uVar1 = xi_trunc24((*(uint16_t *)(DAT_104dfd98 + 0x40d7c) - 1 >> 8));
   switch(xi_sw(*(uint16_t *)(DAT_104dfd98 + 0x40d7c))) {
   case 1:
   case 3:
@@ -240,7 +240,7 @@ LAB_100ae529:
       }
     }
     piVar7 = piVar7 + 1;
-    if (0x10482eef < (int)piVar7) {
+    if ((int)(XI_GAME(0x10482EF0u) - 1u) < (int)piVar7) {
       pvVar5 = (void *)(&ActerBuffPtr_as_v0)[DAT_10485f7a];
       if ((pvVar5 != (void *)0x0) && (-1 < *(int *)((int)pvVar5 + 0x138))) {
         orig::Acter_CallVt180IfState(pvVar5);
@@ -352,7 +352,7 @@ XI_API void __thiscall XiEvent_RestoreActer(void * self_)
     orig::Unit10086E90_ApplyPair1EC1F4(this_00);
     *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) =
          *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) & 0xfffeffff;
-    uVar1 = orig::CYyObject_IsKindOf(this_01,0x10330ebc);
+    uVar1 = orig::CYyObject_IsKindOf(this_01,(int)XI_GAME(0x10330EBCu));
     if ((char)uVar1 != '\0') {
       *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) =
            *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 2)] + 300) & 0xfffffcff;
@@ -432,7 +432,7 @@ XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefi
     puVar2 = puVar2 + 1;
     *puVar3 = uVar1;
     puVar3 = puVar3 + 1;
-  } while ((int)puVar2 < 0x10487034);
+  } while ((int)puVar2 < (int)XI_GAME(0x10487034u));
   puVar2 = &DAT_10488800;
   puVar3 = (undefined4 *)((int)self_ + 0xc64);
   do {
@@ -440,7 +440,7 @@ XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefi
     puVar2 = puVar2 + 1;
     *puVar3 = uVar1;
     puVar3 = puVar3 + 1;
-  } while ((int)puVar2 < 0x10488820);
+  } while ((int)puVar2 < (int)XI_GAME(0x10488820u));
   puVar2 = &DAT_10488980;
   puVar3 = (undefined4 *)((int)self_ + 0xc84);
   do {
@@ -448,7 +448,7 @@ XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefi
     puVar2 = puVar2 + 1;
     *puVar3 = uVar1;
     puVar3 = puVar3 + 1;
-  } while ((int)puVar2 < 0x10488a00);
+  } while ((int)puVar2 < (int)XI_GAME(0x10488A00u));
   puVar3 = &DAT_10488d08;
   puVar2 = (undefined4 *)((int)self_ + 0xd04);
   do {
@@ -461,7 +461,7 @@ XI_API void * __thiscall XiEvent_Init(void * self_, undefined4 * param_1, undefi
     }
     puVar3 = puVar4;
     puVar2 = puVar2 + 0x40;
-  } while ((int)puVar4 < 0x10489108);
+  } while ((int)puVar4 < (int)XI_GAME(0x10489108u));
   puVar3 = &DAT_104886f8;
   puVar2 = (undefined4 *)((int)self_ + 0x1104);
   for (iVar5 = 0x40; iVar5 != 0; iVar5 = iVar5 + -1) {

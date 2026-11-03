@@ -32,7 +32,7 @@ XI_API undefined4 __thiscall ResourceHandle_IsResident(void * self_)
     return 0;
   }
   iVar2 = orig::FUN_10071f80(this_00);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(iVar2 == 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)(iVar2 == 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x100710F0  (unit unit_10070F90: no unit evidence of its own; in the gap between 0x10070F80 (CMoTask_VT_1032C490) and 0x10071980 (CMoCamera) -- an unnamed source file)

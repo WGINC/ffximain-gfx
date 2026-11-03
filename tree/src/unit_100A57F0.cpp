@@ -73,7 +73,7 @@ XI_API undefined4 __thiscall XiControlActor_UpdateView(void * self_)
     uVar2 = orig::Unit100D7420_TestCommand36CF60(0x3f,0x1c,1,-1,iVar1);
     if ((char)uVar2 != '\0') {
       orig::XiControlActor_SetAutoRunning((uint32_t)(XiControlActor_isAutoRunning == '\0'),
-                   ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar2 >> 8)) << 8) | (uint8_t)(XiControlActor_isAutoRunning))));
+                   ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar2 >> 8))) << 8) | (uint8_t)(XiControlActor_isAutoRunning))));
     }
     iVar1 = orig::CXiActor_GetModelField170_v1(self_);
     xi_eax = iVar1 + -2;
@@ -128,7 +128,7 @@ XI_API undefined4 __thiscall XiControlActor_UpdateView(void * self_)
     }
     uVar2 = orig::Unit100D7420_TestCommand36CF60(0x3f,0x10,1,-1,xi_eax);
     if ((char)uVar2 != '\0') {
-      orig::FUN_100a8cc0(CONCAT31((int32_t)((uint64_t)uVar2 >> 0x28),XiControlActor_isFirstPersonView == '\0'));
+      orig::FUN_100a8cc0(CONCAT31(xi_strunc24(((uint64_t)uVar2 >> 0x28)),XiControlActor_isFirstPersonView == '\0'));
       if (XiControlActor_isFirstPersonView == '\0') {
         uVar2 = orig::Settings_GetValue_v1(0x49);
         orig::Camera_SetField2F8OnGlobal((float)(long double)(int)uVar2);
@@ -166,7 +166,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(1))) XiControlActor_SetAutoRun
     uVar1 = orig::FUN_100814f0(&DAT_10487f74,0);
     return (int)uVar1;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)param_1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((char)param_1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100A78D0  (unit unit_100A57F0: no unit evidence of its own; in the gap between 0x100A57C0 (CXiControlActor) and 0x100A89E0 (CXiControlActor) -- an unnamed source file)

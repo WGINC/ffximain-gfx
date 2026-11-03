@@ -22,7 +22,7 @@ XI_API undefined4 __thiscall Unit100D13B0_ProcessResidentListEntries(void * self
       xi_eax = (int *)0x0;
       if (((param_2 != 0) &&
           (xi_eax = (int *)orig::ResourceHandle_IsResident_v1(&param_2), (char)xi_eax == '\x01')) &&
-         (xi_eax = (int *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(*(char *)((int)this_00 + 0x20)))),
+         (xi_eax = (int *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(*(char *)((int)this_00 + 0x20)))),
          *(char *)((int)this_00 + 0x20) == '\0')) {
         xi_eax = (int *)orig::FUN_1001b7b0(this_00,xi_eax);
       }

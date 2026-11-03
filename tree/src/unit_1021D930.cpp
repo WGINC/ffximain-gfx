@@ -27,7 +27,7 @@ XI_API undefined4 __thiscall Movie_Update(void * self_)
     *(uint32_t *)((int)self_ + 4) = 2;
     return 0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021D9A0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
@@ -35,7 +35,7 @@ XI_API undefined4 __thiscall Movie_Update(void * self_)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1021D930_ReleaseReturnTrue(undefined4 xi_eax)
 {
   orig::Unit1021D930_NoOp();
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021DD20  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
@@ -393,10 +393,10 @@ XI_API uint32_t __cdecl Unit1021D930_IsIdInTable10485A30(undefined4 param_1)
   psVar1 = &DAT_10485a30;
   do {
     if (*psVar1 == (short)param_1) {
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)psVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)psVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
     psVar1 = psVar1 + 1;
-  } while ((int)psVar1 < 0x10485a70);
+  } while ((int)psVar1 < (int)XI_GAME(0x10485A70u));
   return (uint32_t)psVar1 & 0xffffff00;
 }
 
@@ -677,7 +677,7 @@ XI_API void __stdcall Unit1021D930_SetPanelMetricsByKind(undefined4 param_1, und
   case '\x0f':
   case '\x10':
 switchD_1021efac_caseD_6:
-    local_8 = ((uint32_t)(((uint32_t)((int32_t)uVar1) << 8) | (uint8_t)(1)));
+    local_8 = ((uint32_t)(((uint32_t)(xi_strunc24(uVar1)) << 8) | (uint8_t)(1)));
     break;
   default:
     if ((char)param_3 != '\0') {
@@ -742,7 +742,7 @@ XI_API long double __stdcall ActerBuff_FindNearest(float * param_1, int * param_
         }
       }
       piVar5 = piVar5 + 1;
-    } while ((int)piVar5 < 0x10482ef0);
+    } while ((int)piVar5 < (int)XI_GAME(0x10482EF0u));
     return (long double)local_14;
   }
   return (long double)0.0f;
@@ -799,7 +799,7 @@ LAB_1021f20b:
       }
     }
     piVar6 = piVar6 + 1;
-    if (0x10482eef < (int)piVar6) {
+    if ((int)(XI_GAME(0x10482EF0u) - 1u) < (int)piVar6) {
       return iVar7;
     }
   } while( true );
@@ -1199,7 +1199,7 @@ XI_API void __stdcall Unit1021D930_DrawNameRows(undefined4 param_1, undefined4 p
       iVar1 = *(int *)(param_3 + iVar4 * 4);
       if (*(int *)(iVar1 + 0xa0) != 0) {
         orig::Unit101C72E0_DrawSmoothedItem1A(iVar3 + 0x1a,iVar5 + 7,
-                     ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(*(uint8_t *)(iVar1 + 0xec)))),
+                     ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(*(uint8_t *)(iVar1 + 0xec)))),
                      iVar4 + param_6);
       }
       iVar1 = *(int *)(param_3 + iVar4 * 4);
@@ -1255,7 +1255,7 @@ XI_API void __thiscall ActerBuff_DrawNearby(void * self_)
             *(uint16_t *)((int)self_ + 7) = 0;
             *(uint8_t *)((int)self_ + 9) = 0;
           }
-          orig::Unit1021D930_DrawNameRows(((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104e1be0_as_s32 >> 8)) << 8) | (uint8_t)(!bVar2))),&local_14,(int)local_c,iVar1
+          orig::Unit1021D930_DrawNameRows(((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_104e1be0_as_s32 >> 8))) << 8) | (uint8_t)(!bVar2))),&local_14,(int)local_c,iVar1
                        ,DAT_104e1be0_as_s32,(int)self_ + 7);
           local_14 = 0xa7;
           local_13 = 0;
@@ -1302,10 +1302,10 @@ XI_API void __thiscall Unit1021D930_DrawStrongholdPanel(void * self_)
   int  &local_8 = *reinterpret_cast<int  *>(xi_frame + 144);
   
   if (DAT_104dfd98 != 0) {
-    local_8 = 0x1021fe21;
+    local_8 = (int)XI_GAME(0x1021FE21u);
     uVar1 = orig::Unit10086E90_GetByte10480824IfFlag(DAT_104dfd98);
     if ((uVar1 & 2) != 0) {
-      local_8 = 0x1021fe2a;
+      local_8 = (int)XI_GAME(0x1021FE2Au);
       uVar1 = orig::Unit10086E90_GetDword10480800IfFlag(uVar1);
       if (uVar1 == 0xffff) {
         uVar1 = orig::Unit10086E90_GetTable10480828IfFlag(0xffff);
@@ -1326,7 +1326,7 @@ XI_API void __thiscall Unit1021D930_DrawStrongholdPanel(void * self_)
               local_10 = piVar6[1];
               local_c = piVar6[2];
               local_8 = piVar6[3];
-              uStack_54 = 0x1021ff19;
+              uStack_54 = (int)XI_GAME(0x1021FF19u);
               orig::Unit101C72E0_DrawUnscaled(iVar4 + 0x10,iVar7 + -8,&local_14,0x80808080);
             }
             iVar7 = iVar7 + 0x10;
@@ -1336,7 +1336,7 @@ XI_API void __thiscall Unit1021D930_DrawStrongholdPanel(void * self_)
         }
         return;
       }
-      local_8 = 0x1021fe3e;
+      local_8 = (int)XI_GAME(0x1021FE3Eu);
       uVar1 = orig::Unit10086E90_GetDword10480800IfFlag(uVar1);
       if (uVar1 == 0xfffe) {
         piVar6 = (int *)orig::Unit10086E90_GetTable10480828IfFlag(0xfffe);
@@ -1367,7 +1367,7 @@ XI_API void __thiscall Unit1021D930_DrawStrongholdPanel(void * self_)
         }
         return;
       }
-      local_8 = 0x1021fe52;
+      local_8 = (int)XI_GAME(0x1021FE52u);
       uVar1 = orig::Unit10086E90_GetDword10480800IfFlag(uVar1);
       if (uVar1 == 0x1000) {
         local_88 = self_;
@@ -1544,7 +1544,7 @@ XI_API void __cdecl ShapeMng_FillMenuShapes(void)
     *puVar3 = (int)uVar4;
     psVar2 = psVar2 + 1;
     puVar3 = puVar3 + 1;
-  } while ((int)psVar2 < 0x10385f70);
+  } while ((int)psVar2 < (int)XI_GAME(0x10385F70u));
   orig::ShapeMng_FindShapes((int *)&PTR_s_menu_windowps_10385f70,(undefined4 *)&DAT_10666e90);
   return;
 }
@@ -1616,7 +1616,7 @@ XI_API undefined4 __thiscall fn_10221030(void * self_, uint8_t * param_1, int pa
   
   if (param_1 == (uint8_t *)0x0) {
     uVar4 = orig::Entry_ClearText(self_,param_2);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
   }
   iVar5 = orig::Font_MeasureTextAll2(param_1);
   iVar3 = param_2;
@@ -1688,7 +1688,7 @@ LAB_10221160:
   }
   orig::Unit1012AC80_CallIfNot3(DAT_105781fc,iVar3);
   uVar4 = orig::FUN_10221680(self_);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x102211B0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
@@ -1875,7 +1875,7 @@ XI_API uint32_t __thiscall Unit1021D930_IsDone(void * self_)
   if (*(int *)((int)self_ + 0x48) == 0) {
     return 1;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)*(int *)((int)self_ + 0x50) >> 8)) << 8) | (uint8_t)(*(int *)((int)self_ + 0x50) == 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)*(int *)((int)self_ + 0x50) >> 8))) << 8) | (uint8_t)(*(int *)((int)self_ + 0x50) == 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x102217A0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
@@ -2501,7 +2501,7 @@ XI_API uint32_t __cdecl fn_102231F0(uint32_t param_1)
     uVar1 = 0;
     do {
       if ((uint16_t)(&DAT_10483118)[uVar1] == param_1) {
-        return CONCAT31((int32_t)(uVar1 >> 8),
+        return CONCAT31(xi_strunc24((uVar1 >> 8)),
                         ((&DAT_10483148)[uVar1] &
                         '\x01' << ((uint8_t)(*(uint32_t *)((&ActerBuffPtr_as_v0)[DAT_10485f7a] + 0x124) >> 1) & 7
                                   )) != 0);
@@ -2674,10 +2674,10 @@ XI_API void __cdecl fn_10223760(int param_1)
     if (iVar2 != 0) {
       uVar3 = ((uint8_t *)((&DAT_103644a8)))[(uint32_t)*(uint8_t *)(iVar2 + 0x10) * 2];
     }
-    uVar4 = 0x102237e0;
+    uVar4 = (int)XI_GAME(0x102237E0u);
   }
-  XI_PIECE(param_1, 0, 3) = (uint32_t)((uint16_t)(((uint16_t)(uint8_t)(uVar3) << 8) | (uint8_t)(1)));
-  param_1 = CONCAT13(1,(uint32_t)param_1);
+  XI_PIECE(param_1, 0, 3) = xi_trunc24(((uint16_t)(((uint16_t)(uint8_t)(uVar3) << 8) | (uint8_t)(1))));
+  param_1 = CONCAT13(1,xi_trunc24(param_1));
   orig::Unit1012AC80_SetValues3(g_pTargetMng,(int)&param_1,1);
   orig::Unit1012AC80_SetFields78D0_v1(g_pTargetMng,uVar4,iVar1);
   *(uint8_t *)((int)g_pTargetMng + 0x58) = 0;
@@ -3859,7 +3859,7 @@ XI_API void __cdecl Unit1021D930_TickCounters(void)
       }
     }
     psVar3 = psVar3 + 1;
-  } while ((int)psVar3 < 0x106679e2);
+  } while ((int)psVar3 < (int)XI_GAME(0x106679E2u));
   iVar2 = orig::Unit100D7420_FindTimerKind10();
   if (iVar2 == 0) {
     DAT_10667a88 = 0;
@@ -3988,7 +3988,7 @@ LAB_1022b849:
       return uVar1 & 0xffffff00;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1022B850  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
@@ -4017,8 +4017,8 @@ XI_API void __cdecl fn_1022B850(int param_1)
     }
     pcVar5 = XI_CODE(FUN_1022b8e0);
   }
-  XI_PIECE(param_1, 0, 3) = (uint32_t)((uint16_t)(((uint16_t)(uint8_t)(local_1) << 8) | (uint8_t)(1)));
-  param_1 = CONCAT13(1,(uint32_t)param_1);
+  XI_PIECE(param_1, 0, 3) = xi_trunc24(((uint16_t)(((uint16_t)(uint8_t)(local_1) << 8) | (uint8_t)(1))));
+  param_1 = CONCAT13(1,xi_trunc24(param_1));
   orig::Unit1012AC80_SetValues3(g_pTargetMng,(int)&param_1,1);
   orig::Unit1012AC80_SetFields78D0_v1(g_pTargetMng,pcVar5,iVar1);
   *(uint8_t *)((int)g_pTargetMng + 0x58) = bVar4;
@@ -4447,7 +4447,7 @@ XI_API undefined4 __cdecl fn_1022D290(int * param_1, uint8_t * param_2, uint8_t 
   *param_6 = iVar3;
   *(uint8_t *)param_7 = !bVar4;
   *param_8 = uVar1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(uVar1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(uVar1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1022D370  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
@@ -4654,7 +4654,7 @@ XI_API void __cdecl Unit1021D930_ReadChunkDirectory(void)
         return;
       }
       piVar5 = piVar5 + 5;
-      if (0x10668cd7 < (int)piVar5) {
+      if ((int)(XI_GAME(0x10668CD8u) - 1u) < (int)piVar5) {
         return;
       }
     }
@@ -4864,7 +4864,7 @@ XI_API undefined4 __cdecl Unit1021D930_ReadChunk(undefined4 param_1)
       return uVar2 & 0xffffff00;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1022F3D0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
@@ -4929,7 +4929,7 @@ XI_API void __cdecl Unit1021D930_CreateMessagePanels(void)
     orig::Unit1021D930_LoadStringTable(this_00,iVar1);
     this_00 = this_00 + 0x94;
     piVar2 = piVar2 + 1;
-  } while ((int)this_00 < 0x106689dc);
+  } while ((int)this_00 < (int)XI_GAME(0x106689DCu));
   return;
 }
 
@@ -5083,7 +5083,7 @@ XI_API void __thiscall Unit1021D930_SendMenuEventByKind(void * self_)
   
   cVar1 = *(char *)((int)self_ + 0x28);
   if (*(int *)((int)self_ + 0xc) <= *(int *)((int)self_ + 0x10)) {
-    uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)*(int *)((int)self_ + 0x10) >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x29))));
+    uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)*(int *)((int)self_ + 0x10) >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 0x29))));
     if (*(char *)((int)self_ + 0x29) == '\0') {
       uVar2 = orig::Unit100D7420_TestCommand36CF60_v1(0x3e,0x8b,1,-1,uVar2);
       if (((char)uVar2 == '\x01') && (cVar1 == '\x03')) {
@@ -5143,7 +5143,7 @@ XI_API int __thiscall Unit1021D930_ComputeClampedIndex(void * self_, undefined4 
   if (iVar3 < iVar1) {
     iVar1 = iVar3;
   }
-  uVar2 = (uint32_t)((uint32_t)iVar1 >> 8);
+  uVar2 = xi_trunc24(((uint32_t)iVar1 >> 8));
   if (*(int *)((int)self_ + 0x14) == iVar1) {
     return (uint32_t)uVar2 << 8;
   }

@@ -150,7 +150,7 @@ XI_API undefined4 __stdcall WeatherRes_IsTimeKeyName(int param_1)
   int iVar5;
   uint32_t uVar3;
   
-  uVar3 = (uint32_t)((uint32_t)xi_entry_eax >> 8);
+  uVar3 = xi_trunc24(((uint32_t)xi_entry_eax >> 8));
   uVar2 = ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(1)));
   uVar1 = *(uint32_t *)(param_1 + 0x20);
   if (*(int **)(param_1 + 0x28) == (int *)0x0) {

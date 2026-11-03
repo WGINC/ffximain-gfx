@@ -447,7 +447,7 @@ XI_API void __cdecl fn_1026CC30(void)
   }
   iVar1 = Ordinal_115(0x202,&local_194);
   iVar1 = orig::FUN_10316d6b(iVar1);
-  local_194.lpVendorInfo = (char *)0x1026cc84;
+  local_194.lpVendorInfo = (char *)(int)XI_GAME(0x1026CC84u);
   orig::FUN_10316d6b((uint32_t)(iVar1 == 0));
   return;
 }
@@ -501,7 +501,7 @@ XI_API undefined4 __cdecl Unit1025C9E0_MoveOneUsedToFree(int param_1)
     orig::FUN_1026d1b4(param_1 + 0x2c,&local_14);
     uVar2 = 0;
   }
-  local_8 = (uint8_t *)0x1026cffc;
+  local_8 = (uint8_t *)(int)XI_GAME(0x1026CFFCu);
   uVar2 = orig::FUN_10316d6b(uVar2);
   return uVar2;
 }
@@ -529,7 +529,7 @@ XI_API void __cdecl Unit1025C9E0_MoveAllBack(int param_1)
   }
   *(uint32_t *)(param_1 + 0x24) = 0;
   *(uint32_t *)(param_1 + 0x28) = 0;
-  local_8 = (uint8_t *)0x1026d0bb;
+  local_8 = (uint8_t *)(int)XI_GAME(0x1026D0BBu);
   orig::FUN_10316d6b(param_1);
   return;
 }
@@ -615,7 +615,7 @@ XI_API undefined4 __cdecl Unit1025C9E0_InitChannels(int param_1, undefined4 * pa
     }
     param_2 = param_2 + 2;
   }
-  local_8 = (uint8_t *)0x1026d9ad;
+  local_8 = (uint8_t *)(int)XI_GAME(0x1026D9ADu);
   uVar1 = orig::FUN_10316d6b(1);
   return uVar1;
 }

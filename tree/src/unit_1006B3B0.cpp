@@ -18,7 +18,7 @@ XI_API void __cdecl Rand_SeedMT19937(uint32_t param_1)
     *puVar2 = *puVar2 | uVar1 >> 0x10;
     param_1 = uVar1 * 0x10dcd + 1;
     puVar2 = puVar3;
-  } while ((int)puVar3 < 0x1047cad0);
+  } while ((int)puVar3 < (int)XI_GAME(0x1047CAD0u));
   DAT_10354040 = 0x270;
   return;
 }
@@ -51,7 +51,7 @@ XI_API uint32_t __cdecl Unit1006B3B0_Next(void)
         uVar1 = (puVar3[1] ^ *puVar3) & 0x7fffffff ^ *puVar3;
         *puVar3 = *(uint32_t *)(((char *)&DAT_1035404c) + (uVar1 & 1) * 4) ^ puVar3[-0xe3] ^ uVar1 >> 1;
         puVar3 = puVar4;
-      } while ((int)puVar4 < 0x1047cacc);
+      } while ((int)puVar4 < (int)XI_GAME(0x1047CACCu));
     }
     uVar1 = (DAT_1047c110 ^ DAT_1047cacc) & 0x7fffffff ^ DAT_1047cacc;
     DAT_1047cacc = *(uint32_t *)(((char *)&DAT_1035404c) + (uVar1 & 1) * 4) ^ uVar1 >> 1 ^ DAT_1047c740;

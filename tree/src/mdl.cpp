@@ -9,7 +9,7 @@ XI_API void __cdecl mdl_1026E900(void)
   int iVar1;
   int iVar2;
   
-  orig::Chn_ReleaseIfSet(0x1099aee0);
+  orig::Chn_ReleaseIfSet((int)XI_GAME(0x1099AEE0u));
   if (DAT_1099aedc != 0) {
     if (-1 < DAT_1099aed8 + -1) {
       iVar1 = (DAT_1099aed8 + -1) * 0xc0;

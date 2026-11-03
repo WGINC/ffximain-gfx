@@ -43,7 +43,7 @@ undefined4 __thiscall XiDoorActor::UpdateAndRunTimer(void * self)
       *(uint32_t *)((int)self + 0x880) = 0;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)uVar1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((char)uVar1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100AC9C0  (unit XiDoorActor: class model places it in XiDoorActor)

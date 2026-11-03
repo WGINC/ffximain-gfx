@@ -166,63 +166,63 @@ XI_API undefined4 __thiscall Camera_DiffersFromSaved(void * self_)
   bVar5 = bVar4 || fVar6 == fVar1;
   uVar3 = (uint16_t)((uint32_t)xi_entry_eax >> 0x10);
   if (bVar4 == bVar5) {
-    return ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
-                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
+                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8))) << 8) | (uint8_t)(1)));
   }
   fVar6 = (long double)*(float *)((int)self_ + 0x60);
   fVar1 = (long double)*(float *)((int)self_ + 0x44);
   bVar4 = NAN(fVar6) || NAN(fVar1);
   bVar5 = bVar4 || fVar6 == fVar1;
   if (bVar4 == bVar5) {
-    return ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
-                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
+                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8))) << 8) | (uint8_t)(1)));
   }
   fVar6 = (long double)*(float *)((int)self_ + 100);
   fVar1 = (long double)*(float *)((int)self_ + 0x48);
   bVar4 = NAN(fVar6) || NAN(fVar1);
   bVar5 = bVar4 || fVar6 == fVar1;
   if (bVar4 == bVar5) {
-    return ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
-                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
+                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8))) << 8) | (uint8_t)(1)));
   }
   fVar6 = (long double)*(float *)((int)self_ + 0x68);
   fVar1 = (long double)*(float *)((int)self_ + 0x4c);
   bVar4 = NAN(fVar6) || NAN(fVar1);
   bVar5 = bVar4 || fVar6 == fVar1;
   if (bVar4 == bVar5) {
-    return ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
-                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
+                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8))) << 8) | (uint8_t)(1)));
   }
   fVar6 = (long double)*(float *)((int)self_ + 0x6c);
   fVar1 = (long double)*(float *)((int)self_ + 0x50);
   bVar4 = NAN(fVar6) || NAN(fVar1);
   bVar5 = bVar4 || fVar6 == fVar1;
   if (bVar4 == bVar5) {
-    return ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
-                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
+                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8))) << 8) | (uint8_t)(1)));
   }
   fVar6 = (long double)*(float *)((int)self_ + 0x70);
   fVar1 = (long double)*(float *)((int)self_ + 0x54);
   bVar4 = NAN(fVar6) || NAN(fVar1);
   bVar5 = bVar4 || fVar6 == fVar1;
   if (bVar4 == bVar5) {
-    return ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
-                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
+                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8))) << 8) | (uint8_t)(1)));
   }
   fVar6 = (long double)*(float *)((int)self_ + 0x74);
   fVar1 = (long double)*(float *)((int)self_ + 0x58);
   bVar4 = NAN(fVar6) || NAN(fVar1);
   bVar5 = bVar4 || fVar6 == fVar1;
   if (bVar4 == bVar5) {
-    return ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
-                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 |
+                                          (uint16_t)bVar4 << 10 | (uint16_t)bVar5 << 0xe))) >> 8))) << 8) | (uint8_t)(1)));
   }
   fVar6 = (long double)*(float *)((int)self_ + 0x78);
   fVar1 = (long double)*(float *)((int)self_ + 0x5c);
   bVar4 = NAN(fVar6) || NAN(fVar1);
   bVar5 = bVar4 || fVar6 == fVar1;
-  uVar2 = (uint32_t)(((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 | (uint16_t)bVar4 << 10 |
-                                 (uint16_t)bVar5 << 0xe))) >> 8);
+  uVar2 = xi_trunc24((((uint32_t)(((uint32_t)(uint16_t)(uVar3) << 16) | (uint16_t)((uint16_t)(bVar4 || fVar6 < fVar1) << 8 | (uint16_t)bVar4 << 10 |
+                                 (uint16_t)bVar5 << 0xe))) >> 8));
   if (bVar4 == bVar5) {
     return ((uint32_t)(((uint32_t)(uVar2) << 8) | (uint8_t)(1)));
   }

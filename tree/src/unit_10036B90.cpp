@@ -9,7 +9,7 @@ XI_API undefined4 __thiscall Unit10036B90_SendStopToLobby(void * self_, undefine
   uint32_t xi_entry_eax = 0;
   int iVar1;
   
-  iVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(DAT_104638f5)));
+  iVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(DAT_104638f5)));
   DAT_10463909 = 1;
   if (DAT_104638f5 != '\0') {
     if (DAT_1046393c != 0) {

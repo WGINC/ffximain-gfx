@@ -14,7 +14,7 @@ XI_API uint64_t __thiscall AfterimageTask_FindFirstKind(void * self_)
   uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)self_ + 0x34));
   this_00 = (void *)uVar2;
   if (this_00 != (void *)0x0) {
-    uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+    uVar3 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x1032F910u));
     uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
     cVar1 = (char)uVar3;
     while (cVar1 != '\0') {
@@ -24,7 +24,7 @@ XI_API uint64_t __thiscall AfterimageTask_FindFirstKind(void * self_)
         uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)self_ + 0x34));
         return uVar2;
       }
-      uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+      uVar3 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x1032F910u));
       uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
       cVar1 = (char)uVar3;
     }
@@ -44,7 +44,7 @@ XI_API uint64_t __thiscall Scheduler_ResolveOwner(void * self_)
   uVar2 = orig::CMoAttachments_GetTarget_v1((void *)((int)self_ + 0x34));
   this_00 = (void *)uVar2;
   if (this_00 != (void *)0x0) {
-    uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+    uVar3 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x1032F910u));
     uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
     cVar1 = (char)uVar3;
     while (cVar1 != '\0') {
@@ -54,7 +54,7 @@ XI_API uint64_t __thiscall Scheduler_ResolveOwner(void * self_)
         uVar2 = orig::CMoAttachments_GetTarget_v1((void *)((int)self_ + 0x34));
         return uVar2;
       }
-      uVar3 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+      uVar3 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x1032F910u));
       uVar2 = ((uint64_t)(((uint64_t)(uint32_t)((int)((uint64_t)uVar3 >> 0x20)) << 32) | (uint32_t)(this_00)));
       cVar1 = (char)uVar3;
     }
@@ -163,7 +163,7 @@ XI_API undefined4 __cdecl fn_10062ED0(undefined4 * param_1, undefined4 param_2, 
   if (param_1 != (undefined4 *)0x0) {
     uVar2 = orig::ResourceHandle_IsResident_v1(&param_1);
     if ((char)uVar2 == '\0') {
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
     piVar1 = (int *)orig::CMoResource_FindByTypeAndId_v2((void *)*param_1,&param_2,7,param_2);
     param_1 = (undefined4 *)*piVar1;

@@ -396,7 +396,7 @@ undefined4 __cdecl CXiActor::ComputeDrawState(void * param_1, int param_2, uint3
     }
   }
   iVar5 = orig::CXiActor_GetModelField170_v1(param_1);
-  uVar6 = (uint32_t)((uint32_t)iVar5 >> 8);
+  uVar6 = xi_trunc24(((uint32_t)iVar5 >> 8));
   if ((bVar7) && ((iVar5 == 2 || (iVar5 == 3)))) {
     return (uint32_t)uVar6 << 8;
   }
@@ -415,8 +415,8 @@ undefined4 __cdecl CXiActor::ComputeDrawState(void * param_1, int param_2, uint3
     fVar1 = (long double)0.0f;
     bVar8 = NAN(fVar9) || NAN(fVar1);
     bVar7 = bVar8 || fVar9 < fVar1;
-    uVar6 = (uint32_t)(uint8_t)(bVar7 | (uint8_t)((uint16_t)((uint16_t)bVar8 << 10) >> 8) |
-                         (uint8_t)((uint16_t)((uint16_t)(bVar8 || fVar9 == fVar1) << 0xe) >> 8));
+    uVar6 = xi_trunc24((uint8_t)(bVar7 | (uint8_t)((uint16_t)((uint16_t)bVar8 << 10) >> 8) |
+                         (uint8_t)((uint16_t)((uint16_t)(bVar8 || fVar9 == fVar1) << 0xe) >> 8)));
     if (bVar7 == bVar8) {
       return ((uint32_t)(((uint32_t)(uVar6) << 8) | (uint8_t)(1)));
     }
@@ -466,7 +466,7 @@ int * __cdecl CXiActor::FindNearestToPoint(float * param_1, uint32_t param_2, ui
     if (self != (int *)0x0) {
       do {
         uVar4 = orig::CXiActor_ComputeDrawState(self,local_70,param_2,param_3,
-                             ((uint32_t)(((uint32_t)((uint32_t)(param_2 >> 0x11)) << 8) | (uint8_t)(~(uint8_t)(param_2 >> 9)))) & 0xffffff01);
+                             ((uint32_t)(((uint32_t)(xi_trunc24((param_2 >> 0x11))) << 8) | (uint8_t)(~(uint8_t)(param_2 >> 9)))) & 0xffffff01);
         if (((char)uVar4 != '\0') &&
            (uVar4 = ((int (__thiscall *)(void *, XI_ANY, XI_ANY, XI_ANY))((**(code **)(*self + 0x3d0))))((void *)(self),&local_60,&local_50,local_40),
            (char)uVar4 != '\0')) {
@@ -899,8 +899,8 @@ undefined4 __thiscall CXiActor::HasNonzeroField150or158(void * self)
     bVar6 = bVar5 || fVar7 == fVar2;
     uVar4 = (uint16_t)((uint32_t)iVar1 >> 0x10);
     if (bVar5 == bVar6) {
-      return ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)(uVar4) << 16) | (uint16_t)((uint16_t)(bVar5 || fVar7 < fVar2) << 8 |
-                                            (uint16_t)bVar5 << 10 | (uint16_t)bVar6 << 0xe))) >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)(uVar4) << 16) | (uint16_t)((uint16_t)(bVar5 || fVar7 < fVar2) << 8 |
+                                            (uint16_t)bVar5 << 10 | (uint16_t)bVar6 << 0xe))) >> 8))) << 8) | (uint8_t)(1)));
     }
     fVar7 = (long double)*(float *)(*(int *)(iVar1 + 0x260) + 0x158);
     fVar2 = (long double)0.0f;
@@ -909,7 +909,7 @@ undefined4 __thiscall CXiActor::HasNonzeroField150or158(void * self)
     uVar3 = ((uint32_t)(((uint32_t)(uint16_t)(uVar4) << 16) | (uint16_t)((uint16_t)(bVar5 || fVar7 < fVar2) << 8 | (uint16_t)bVar5 << 10 |
                            (uint16_t)bVar6 << 0xe)));
     if (bVar5 == bVar6) {
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar3;
@@ -1096,7 +1096,7 @@ undefined4 __thiscall CXiActor::IsModelField210Set(void * self)
   
   iVar1 = *(int *)((int)self + 0x70);
   if (iVar1 != 0) {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(*(short *)(iVar1 + 0x210) != 0)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(*(short *)(iVar1 + 0x210) != 0)));
   }
   return 0;
 }
@@ -1212,7 +1212,7 @@ int __thiscall CXiActor::IsInModelSlotTable(void * self)
   uint32_t uVar2;
   
   iVar1 = *(int *)((int)self + 0x70);
-  uVar2 = (uint32_t)((uint32_t)iVar1 >> 8);
+  uVar2 = xi_trunc24(((uint32_t)iVar1 >> 8));
   if ((iVar1 != 0) &&
      (((((*(void **)(iVar1 + 0xa4) == self || (*(void **)(iVar1 + 0xa8) == self)) ||
         (*(void **)(iVar1 + 0xac) == self)) ||
@@ -1333,7 +1333,7 @@ undefined4 __thiscall CXiActor::PushTagsToObject(void * self)
   
   uVar1 = *(uint32_t *)((int)self + 0x120);
   if ((uVar1 & 0x200) != 0) {
-    uVar2 = orig::CYyObject_IsKindOf(*(void **)((int)self + 0xa0),0x10330ebc);
+    uVar2 = orig::CYyObject_IsKindOf(*(void **)((int)self + 0xa0),(int)XI_GAME(0x10330EBCu));
     uVar1 = (uint32_t)uVar2;
     if ((char)uVar2 != '\0') {
       *(uint32_t *)(*(int *)((int)self + 0xa0) + 0x7c8) = *(uint32_t *)((int)self + 0x1a4);
@@ -1535,7 +1535,7 @@ void __thiscall CXiActor::ResetRandomTimer(void * self)
   }
   *(uint32_t *)((int)self + 0x1a4) = *(uint32_t *)((int)self + 0x1a8);
   if ((*(uint32_t *)((int)self + 0x120) & 0x200) != 0) {
-    uVar2 = orig::CYyObject_IsKindOf(*(void **)((int)self + 0xa0),0x10330ebc);
+    uVar2 = orig::CYyObject_IsKindOf(*(void **)((int)self + 0xa0),(int)XI_GAME(0x10330EBCu));
     if ((char)uVar2 != '\0') {
       if (*(int *)(*(int *)((int)self + 0xa0) + 0x7c8) != *(int *)((int)self + 0x1a4)) {
         *(int *)(*(int *)((int)self + 0xa0) + 0x7c8) = *(int *)((int)self + 0x1a4);
@@ -1582,7 +1582,7 @@ void __thiscall CXiActor::TickRandomTimer(void * self)
       }
     }
     if ((*(uint32_t *)((int)self + 0x120) & 0x200) != 0) {
-      uVar8 = orig::CYyObject_IsKindOf(*(void **)((int)self + 0xa0),0x10330ebc);
+      uVar8 = orig::CYyObject_IsKindOf(*(void **)((int)self + 0xa0),(int)XI_GAME(0x10330EBCu));
       if ((char)uVar8 != '\0') {
         *(uint32_t *)(*(int *)((int)self + 0xa0) + 0x7c8) = *(uint32_t *)((int)self + 0x1a4);
       }
@@ -1657,7 +1657,7 @@ uint32_t __thiscall CXiActor::CorrectOnZoneMap(void * self)
   }
   orig::Unit10026C70_Nop();
 LAB_100c83b3:
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar4 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar4 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100D14C0  (placed by IDB name; static (takes no this))

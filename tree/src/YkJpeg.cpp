@@ -7,30 +7,30 @@
 // GATE: PASS -- 100 trials, 57 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 57
 void __thiscall YkJpeg::InitTables(void * self)
 {
-  orig::Unit101CF660_BuildCodeTable((int)self + 0x8bc,(int)self + 0x69c,0x1037e6c4,0x1037e6b0);
-  orig::Unit101CF660_BuildCodeTable((int)self + 0x8dc,(int)self + 0x6ac,0x1037e708,0x1037e6f0);
-  orig::Unit101CF660_BuildCodeTable((int)self + 0xadc,(int)self + 0x7ac,0x1037e6e4,0x1037e6d0);
-  orig::Unit101CF660_BuildCodeTable((int)self + 0xafc,(int)self + 0x7bc,0x1037e7c0,0x1037e7ac);
+  orig::Unit101CF660_BuildCodeTable((int)self + 0x8bc,(int)self + 0x69c,(int)XI_GAME(0x1037E6C4u),(int)XI_GAME(0x1037E6B0u));
+  orig::Unit101CF660_BuildCodeTable((int)self + 0x8dc,(int)self + 0x6ac,(int)XI_GAME(0x1037E708u),(int)XI_GAME(0x1037E6F0u));
+  orig::Unit101CF660_BuildCodeTable((int)self + 0xadc,(int)self + 0x7ac,(int)XI_GAME(0x1037E6E4u),(int)XI_GAME(0x1037E6D0u));
+  orig::Unit101CF660_BuildCodeTable((int)self + 0xafc,(int)self + 0x7bc,(int)XI_GAME(0x1037E7C0u),(int)XI_GAME(0x1037E7ACu));
   orig::Unit101D0910_PutFFThenByte(*(void **)((int)self + 8),0xc4);
   orig::Unit101D0910_PutWordBE(*(void **)((int)self + 8),0x1f);
   orig::Unit101D0910_PutByte(*(void **)((int)self + 8),0);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e6b1,0x10);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e6c4,0xc);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E6B1u),0x10);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E6C4u),0xc);
   orig::Unit101D0910_PutFFThenByte(*(void **)((int)self + 8),0xc4);
   orig::Unit101D0910_PutWordBE(*(void **)((int)self + 8),0xb5);
   orig::Unit101D0910_PutByte(*(void **)((int)self + 8),0x10);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e6f1,0x10);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e708,0xa2);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E6F1u),0x10);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E708u),0xa2);
   orig::Unit101D0910_PutFFThenByte(*(void **)((int)self + 8),0xc4);
   orig::Unit101D0910_PutWordBE(*(void **)((int)self + 8),0x1f);
   orig::Unit101D0910_PutByte(*(void **)((int)self + 8),1);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e6d1,0x10);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e6e4,0xc);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E6D1u),0x10);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E6E4u),0xc);
   orig::Unit101D0910_PutFFThenByte(*(void **)((int)self + 8),0xc4);
   orig::Unit101D0910_PutWordBE(*(void **)((int)self + 8),0xb5);
   orig::Unit101D0910_PutByte(*(void **)((int)self + 8),0x11);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e7ad,0x10);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e7c0,0xa2);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E7ADu),0x10);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E7C0u),0xa2);
   return;
 }
 
@@ -284,7 +284,7 @@ void __thiscall YkJpeg::EncodeBlock(void * self, int * param_1, char * param_2)
       uVar6 = 0;
     }
     local_4 = local_4 + 1;
-  } while ((int)local_4 < 0x1037e430);
+  } while ((int)local_4 < (int)XI_GAME(0x1037E430u));
   if (0 < (int)uVar6) {
     orig::YkJpeg_PutBits(*(void **)((int)self + 8),((uint32_t)(((uint32_t)(uint16_t)(uVar4) << 16) | (uint16_t)(*puVar1))),(int)*param_2);
   }
@@ -333,10 +333,10 @@ undefined4 __thiscall YkJpeg::Encode(void * self, uint32_t param_1, uint32_t par
   if (pvVar2 == (void *)0x0) {
     return 1;
   }
-  orig::YkJpeg_PutBytes(pvVar2,0x1037e2f4,0x19);
+  orig::YkJpeg_PutBytes(pvVar2,(int)XI_GAME(0x1037E2F4u),0x19);
   orig::Unit101D0910_PutWordBE(*(void **)((int)self + 8),param_2 & 0xffff);
   orig::Unit101D0910_PutWordBE(*(void **)((int)self + 8),param_1 & 0xffff);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e310,10);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E310u),10);
   orig::Unit101D0910_PutFFThenByte(*(void **)((int)self + 8),0xfe);
   pcVar3 = orig::YkJpeg_GetCopyrightString();
   uVar5 = 0xffffffff;
@@ -352,7 +352,7 @@ undefined4 __thiscall YkJpeg::Encode(void * self, uint32_t param_1, uint32_t par
   orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)puVar4,uVar5);
   orig::Unit101CF660_BuildTables(self,param_4);
   orig::YkJpeg_InitTables(self);
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e31c,0xe);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E31Cu),0xe);
   local_404 = 0;
   if (0 < (int)param_2) {
     do {
@@ -390,7 +390,7 @@ undefined4 __thiscall YkJpeg::Encode(void * self, uint32_t param_1, uint32_t par
     } while (local_404 < (int)param_2);
   }
   orig::YkJpeg_FlushBits(*(void **)((int)self + 8));
-  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),0x1037e32a,2);
+  orig::YkJpeg_PutBytes(*(void **)((int)self + 8),(int)XI_GAME(0x1037E32Au),2);
   return (uint32_t)(*(int *)(*(int *)((int)self + 8) + 0x10) <= *(int *)(*(int *)((int)self + 8) + 0xc))
   ;
 }
@@ -549,5 +549,5 @@ undefined4 __cdecl YkJpeg::CaptureAndEncode(void * param_1, uint32_t param_2, ui
     uVar5 = orig::operator_delete_v1(pvVar1);
     uVar3 = (uint32_t)uVar5;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(bVar4)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(bVar4)));
 }

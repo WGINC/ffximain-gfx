@@ -156,5 +156,5 @@ XI_API undefined4 __thiscall Scheduler_IsMoving(void * self_, int param_1, int p
         (uVar1 = orig::Scheduler_ResolveOwner(this_00), uVar1 == param_2)))) break;
     this_00 = *(void **)((int)this_00 + 0xc);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }

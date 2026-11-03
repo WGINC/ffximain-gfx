@@ -61,7 +61,7 @@ LAB_101cf692:
   do {
     orig::Unit101D0910_PutByte(*(void **)((int)self_ + 8),(uint32_t)*(uint8_t *)(*piVar7 + 0x61c + (int)self_));
     piVar7 = piVar7 + 1;
-  } while ((int)piVar7 < 0x1037e430);
+  } while ((int)piVar7 < (int)XI_GAME(0x1037E430u));
   orig::Unit101D0910_PutFFThenByte(*(void **)((int)self_ + 8),0xdb);
   orig::Unit101D0910_PutWordBE(*(void **)((int)self_ + 8),0x43);
   orig::Unit101D0910_PutByte(*(void **)((int)self_ + 8),1);
@@ -69,7 +69,7 @@ LAB_101cf692:
   do {
     orig::Unit101D0910_PutByte(*(void **)((int)self_ + 8),(uint32_t)*(uint8_t *)(*piVar7 + 0x65c + (int)self_));
     piVar7 = piVar7 + 1;
-  } while ((int)piVar7 < 0x1037e430);
+  } while ((int)piVar7 < (int)XI_GAME(0x1037E430u));
   pbVar4 = (uint8_t *)((int)self_ + 0x61c);
   psVar8 = &DAT_1037e630;
   do {

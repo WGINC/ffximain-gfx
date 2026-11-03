@@ -14,7 +14,7 @@ undefined4 __thiscall CMoDistModelElem::IsDistortedMode(void * self)
   uVar1 = xi_entry_eax & 0xffffff00;
   if (((*(char *)((int)self + 0x34) == '\0') &&
       (bVar2 = *(uint8_t *)((int)self + 0x30) & 0xf, 4 < bVar2)) && (bVar2 < 8)) {
-    uVar1 = ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+    uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24((xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
   }
   return uVar1;
 }
@@ -87,7 +87,7 @@ undefined4 __thiscall CMoDistModelElem::DrawBatches(void * self, uint32_t * para
       bVar6 = 0x7e < XI_PIECE(local_8, 3, 1);
       local_8 = uVar2;
       if (bVar6) {
-        local_8 = CONCAT13(0xff,(int32_t)uVar2);
+        local_8 = CONCAT13(0xff,xi_strunc24(uVar2));
       }
     }
     else {
@@ -155,7 +155,7 @@ undefined4 __thiscall CMoDistModelElem::DrawBatches(void * self, uint32_t * para
     }
     iVar1 = orig::CMoDistModelElem_GetVertexBase_v1(self);
     this_00 = (void *)orig::CMoDistModelElem_GetDataEnd_v1(self);
-    uVar7 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)this_00 >> 8)) << 8) | (uint8_t)(*(char *)(param_2 + 0x16c))));
+    uVar7 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)this_00 >> 8))) << 8) | (uint8_t)(*(char *)(param_2 + 0x16c))));
     if (*(char *)(param_2 + 0x16c) == 'I') {
       if ((Fn10040220_staticGuards & 0x10) == 0) {
         Fn10040220_staticGuards = Fn10040220_staticGuards | 0x10;
@@ -169,7 +169,7 @@ undefined4 __thiscall CMoDistModelElem::DrawBatches(void * self, uint32_t * para
       uVar7 = ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)(g_pResourceMng + 0xebc) + 200))
                         ))(*(int **)(g_pResourceMng + 0xebc),0x14,5);
     }
-    uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar7 >> 8)) << 8) | (uint8_t)(*(char *)((int)self + 0x34))));
+    uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar7 >> 8))) << 8) | (uint8_t)(*(char *)((int)self + 0x34))));
     iVar4 = 0;
     iVar5 = 0;
     if (*(char *)((int)self + 0x34) != '\0') {
@@ -188,7 +188,7 @@ undefined4 __thiscall CMoDistModelElem::DrawBatches(void * self, uint32_t * para
         iVar4 = uVar2 * 3 + iVar4;
       } while (iVar5 < (int)(uint32_t)*(uint8_t *)((int)self + 0x34));
     }
-    iVar1 = ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)self + 0x35))));
+    iVar1 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(*(char *)((int)self + 0x35))));
     if (*(char *)((int)self + 0x35) != '\0') {
       if ((Fn10040220_staticGuards & 0x20) == 0) {
         Fn10040220_staticGuards = Fn10040220_staticGuards | 0x20;

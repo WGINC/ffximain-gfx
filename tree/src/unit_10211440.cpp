@@ -149,7 +149,7 @@ XI_API undefined4 __cdecl Unit10211440_ReturnTrue(void)
 {
   uint32_t xi_entry_eax = 0;
   
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021BDB0  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -219,7 +219,7 @@ XI_API undefined4 __thiscall Unit10211440_LoadFromDat(void * self_, char * param
         iVar4 = iVar4 + -1;
       } while (iVar4 != 0);
       orig::Unit1018BA60_ClearVtable(local_b40);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)puVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)puVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
     orig::Unit1018BA60_ClearVtable(local_b40);
   }
@@ -294,7 +294,7 @@ XI_API undefined4 __thiscall Unit10211440_Construct(void * self_, undefined4 par
     uVar1 = orig::Unit10211440_LoadFromDat(self_,(char *)param_3,self_);
   }
   *(uint8_t *)((int)self_ + 4) = 1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021C100  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -306,7 +306,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10211440_SaveAndRelea
   int iVar3;
   uint64_t uVar4;
   
-  uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 4))));
+  uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 4))));
   if (*(char *)((int)self_ + 4) != '\0') {
     if (param_2 != 0) {
       orig::FUN_1021bcc0(self_,param_2);
@@ -328,7 +328,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10211440_SaveAndRelea
     } while (iVar3 != 0);
     *(uint8_t *)((int)self_ + 4) = 0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021C160  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -353,7 +353,7 @@ XI_API undefined4 __thiscall Unit10211440_CanUpdate(void * self_)
     return uVar1 & 0xffffff00;
   }
 LAB_1021c1ac:
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021C1B0  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -362,7 +362,7 @@ XI_API undefined4 __cdecl Unit10211440_IsSpecialKey(int param_1)
 {
   uint32_t uVar1;
   
-  uVar1 = (uint32_t)((uint32_t)param_1 >> 8);
+  uVar1 = xi_trunc24(((uint32_t)param_1 >> 8));
   if ((((((param_1 != DAT_10666e2c_as_s32) && (param_1 != DAT_10666e4c_as_s32)) && (param_1 != DAT_10666e50_as_s32)) &&
        ((param_1 != DAT_10666e54_as_s32 && (param_1 != DAT_10666e58_as_s32)))) &&
       ((param_1 != DAT_10666e5c_as_s32 && ((param_1 != DAT_10666e60_as_s32 && (param_1 != DAT_10666e64_as_s32)))))) &&
@@ -410,7 +410,7 @@ LAB_1021c2aa:
   if (((char)iVar3 != '\x01') && (*(short *)((int)pvVar1 + 0x80) == 0)) {
     iVar3 = orig::Unit10211440_RemoveByKey(self_,param_2);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021C2E0  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -431,7 +431,7 @@ XI_API undefined4 __thiscall Unit10211440_ClearAndAssign(void * self_, short * p
   if (((char)iVar2 != '\x01') && (*(short *)((int)self_ + uVar1 * 0x18 + 0x80) == 0)) {
     iVar2 = orig::Unit10211440_RemoveByKey(self_,param_2);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021C350  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -442,7 +442,7 @@ XI_API undefined4 __thiscall Unit10211440_ResetSlot(void * self_, undefined4 par
   
   orig::Unit10211440_Reset((void *)((int)self_ + (param_2 & 0xff) * 0x18 + 0x6c));
   iVar1 = orig::Unit10211440_RemoveByKey(self_,param_2);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021C380  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -511,7 +511,7 @@ XI_API undefined4 __thiscall Unit10211440_SyncSlots(void * self_)
     } while (bVar2 < 0x51);
     *(undefined4 *)((int)self_ + 0x14) = *(undefined4 *)(DAT_104dfd98 + 0x198c8);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar6 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar6 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021C4C0  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -548,12 +548,12 @@ XI_API uint32_t __thiscall Unit10211440_Update(void * self_)
         local_4 = ((uint32_t)(((uint32_t)(XI_PIECE(local_4, 1, 3)) << 8) | (uint8_t)(bVar1)));
       } while (bVar1 < 0x51);
       uVar5 = orig::Unit100D7420_CountFreeEntries(*(int *)self_);
-      uVar2 = ((uint32_t)(((uint32_t)((int32_t)(uVar5 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 5))));
+      uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar5 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 5))));
       if (*(char *)((int)self_ + 5) != '\0') {
         uVar2 = *(uint32_t *)((int)self_ + 8);
         if (uVar5 != uVar2) {
           if ((uVar5 < uVar2) &&
-             (uVar2 = ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 6)))),
+             (uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 6)))),
              *(char *)((int)self_ + 6) == '\0')) {
             uVar2 = orig::Unit10211440_RebuildWithGlobalFlag(self_,0,1,*(uint32_t *)self_,uVar2);
           }
@@ -563,7 +563,7 @@ XI_API uint32_t __thiscall Unit10211440_Update(void * self_)
       *(uint32_t *)((int)self_ + 8) = uVar5;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021C5B0  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -597,7 +597,7 @@ XI_API uint32_t __thiscall Unit10211440_AppendEntry(void * self_, uint16_t * par
         iVar4 = (uint32_t)*(uint8_t *)(param_2 + 0x18 + (int)self_) + iVar4;
         *(uint16_t *)((int)self_ + iVar4 * 8 + 0x808) = *param_1;
         cVar2 = *(char *)(param_2 + 0x18 + (int)self_) + '\x01';
-        uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar4 >> 8)) << 8) | (uint8_t)(cVar2)));
+        uVar5 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar4 >> 8))) << 8) | (uint8_t)(cVar2)));
         *(char *)(param_2 + 0x18 + (int)self_) = cVar2;
         *(uint32_t *)((int)self_ + 8) = 0x52;
       }
@@ -632,7 +632,7 @@ XI_API int __thiscall Unit10211440_RemoveByKey(void * self_, uint32_t param_1)
     *(uint8_t *)(uVar4 + 0x1368 + (int)self_) = 0;
     do {
       bVar3 = *(uint8_t *)(local_4 + 0x18 + (int)self_);
-      uVar6 = (uint32_t)(uVar4 >> 8);
+      uVar6 = xi_trunc24((uVar4 >> 8));
       if (0x51 < bVar3) {
         *(uint8_t *)(local_4 + 0x18 + (int)self_) = 0x51;
         return (uint32_t)uVar6 << 8;
@@ -676,11 +676,11 @@ XI_API int __thiscall Unit10211440_RemoveByKey(void * self_, uint32_t param_1)
         } while (bVar8 < bVar3);
       }
       bVar3 = (char)local_4 + 1;
-      uVar4 = ((uint32_t)(((uint32_t)((int32_t)(uVar4 >> 8)) << 8) | (uint8_t)(bVar3)));
+      uVar4 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar4 >> 8))) << 8) | (uint8_t)(bVar3)));
       local_4 = (uint32_t)bVar3;
     } while (bVar3 < 4);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar4 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar4 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021C7C0  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -689,7 +689,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10211440_RebuildWithG
 {
   uint32_t uVar1;
   
-  uVar1 = orig::Unit10211440_Rebuild(self_,param_2,param_3,param_4,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_10666e74)))
+  uVar1 = orig::Unit10211440_Rebuild(self_,param_2,param_3,param_4,((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_10666e74)))
                       );
   return uVar1;
 }
@@ -753,7 +753,7 @@ LAB_1021c9ee:
       } while (bVar8 < 0x51);
       iVar7 = *(int *)((int)self_ + 0xc);
       bVar8 = *(uint8_t *)(iVar7 + 0x18 + (int)self_);
-      pcVar6 = (char *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)pcVar6 >> 8)) << 8) | (uint8_t)(bVar8)));
+      pcVar6 = (char *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pcVar6 >> 8))) << 8) | (uint8_t)(bVar8)));
       if (bVar8 == 0) goto LAB_1021c9ee;
       if ((0 < param_2) && (param_2 < 3)) {
         orig::FUN_103156b3((uint32_t *)((int)self_ + iVar7 * 0x288 + 0x80c),(uint32_t *)(bVar8 - 1),8,&LAB_1021d220
@@ -797,7 +797,7 @@ LAB_1021c9ee:
       iVar7 = orig::Unit100D7420_SendDwordPacket(param_3);
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar7 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar7 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1021CB80  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -813,7 +813,7 @@ XI_API undefined4 __thiscall fn_1021CB80(void * self_, uint32_t param_1)
   iVar1 = *(int *)((int)self_ + 0xc) * 0x51 + (param_1 & 0xff);
   psVar2 = orig::Unit100D7420_GetSlotPtr
                      (*(int *)self_,
-                      ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + iVar1 * 8 + 0x80a)))));
+                      ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + iVar1 * 8 + 0x80a)))));
   return psVar2;
 }
 
@@ -824,7 +824,7 @@ XI_API undefined4 __thiscall fn_1021CCB0(void * self_)
   if (DAT_104dfd98 == 0) {
     return 1;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104dfd98 >> 8)) << 8) | (uint8_t)(*(int *)((int)self_ + 0x14) != *(int *)(DAT_104dfd98 + 0x198c8))));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_104dfd98 >> 8))) << 8) | (uint8_t)(*(int *)((int)self_ + 0x14) != *(int *)(DAT_104dfd98 + 0x198c8))));
 }
 
 // FUNCTION: FFXIMAIN 0x1021D250  (unit unit_10211440: no unit evidence of its own; in the gap between 0x10211430 (YkZip) and 0x1021D3C0 (CXiMovie) -- an unnamed source file)
@@ -860,7 +860,7 @@ XI_API undefined4 __thiscall Unit10211440_LoadFromId(void * self_, undefined4 pa
       *(uint16_t *)((int)self_ + 0x14) = 0xffff;
       *(uint32_t *)((int)self_ + 4) = 9;
       *(uint8_t *)((int)self_ + 0x10) = (uint8_t)param_2;
-      return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
     iVar2 = orig::FUN_1015bc40(DAT_10621808,(uint32_t)(uint16_t)param_1);
     uVar1 = 0;
@@ -875,7 +875,7 @@ XI_API undefined4 __thiscall Unit10211440_LoadFromId(void * self_, undefined4 pa
       *(char *)(iVar2 + 0x1b3) = *(char *)(iVar2 + 0x1b3) + -1;
       *(uint16_t *)((int)self_ + 0x14) = (uint16_t)param_1;
       *(uint8_t *)((int)self_ + 0x10) = (uint8_t)param_2;
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar1 & 0xffffff00;
@@ -891,5 +891,5 @@ XI_API undefined4 __thiscall Unit10211440_SetId(void * self_, undefined4 param_1
       return param_1 & 0xffffff00;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(param_1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((param_1 >> 8))) << 8) | (uint8_t)(1)));
 }

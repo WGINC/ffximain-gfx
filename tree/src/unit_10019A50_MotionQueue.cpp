@@ -209,7 +209,7 @@ LAB_10019be3:
         pfVar8 = (float *)param_5;
       }
       orig::Unit100310A0_Nop();
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pfVar8 >> 8)) << 8) | (uint8_t)(local_49)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pfVar8 >> 8))) << 8) | (uint8_t)(local_49)));
     }
   } while( true );
 }
@@ -368,7 +368,7 @@ LAB_10019f63:
       }
       orig::Unit100310A0_Nop();
       orig::Unit100310A0_Nop();
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_6 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_6 >> 8))) << 8) | (uint8_t)(1)));
     }
   } while( true );
 }
@@ -485,7 +485,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
           iVar6 = 0;
           do {
             bVar1 = *(uint8_t *)(DAT_1045f028_as_s32 + uVar5);
-            uVar4 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_1045f028_as_s32 >> 8)) << 8) | (uint8_t)(bVar1)));
+            uVar4 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_1045f028_as_s32 >> 8))) << 8) | (uint8_t)(bVar1)));
             if (((char)bVar1 < '\0') && ((bVar1 & 0x3f) != 0)) {
               puVar7 = (undefined4 *)
                        orig::Quat_NLerp((undefined4 *)((int)&g_poseScratch_as_v0 + iVar6),local_10,
@@ -509,7 +509,7 @@ XI_API undefined4 __thiscall MotionQueue_UpdateAllChannels(void * self_, undefin
       local_1c = local_1c + 1;
       pfVar10 = pfVar10 + 5;
     } while (local_1c < 7);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
   }
   return uVar8 & 0xffffff00;
 }

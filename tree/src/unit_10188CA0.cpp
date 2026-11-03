@@ -288,7 +288,7 @@ XI_API void __thiscall Env_ComputeFog(void * self_, uint32_t * param_1, float * 
     XI_PIECE(param_3, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((char)lVar6) << 8) | (uint8_t)((char)lVar5)));
     lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)*pfVar2 * (long double)255.0f);
     XI_PIECE(param_3, 0, 3) = ((uint32_t)(((uint32_t)(uint8_t)((char)lVar5) << 16) | (uint16_t)(XI_PIECE(param_3, 0, 2))));
-    param_3 = (float *)(uint32_t)(uint32_t)param_3;
+    param_3 = (float *)(uint32_t)xi_trunc24(param_3);
     *param_1 = (uint32_t)param_3;
     pfVar2 = (float *)orig::ZoneMap_GetAddrRef18Plus3C(self_);
     *param_2 = *pfVar2;
@@ -305,7 +305,7 @@ XI_API void __thiscall Env_ComputeFog(void * self_, uint32_t * param_1, float * 
     XI_PIECE(param_3, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((char)lVar6) << 8) | (uint8_t)((char)lVar5)));
     lVar5 = XI_CALL_ST0(0x10311C2Cu)((long double)*pfVar2 * (long double)255.0f);
     XI_PIECE(param_3, 0, 3) = ((uint32_t)(((uint32_t)(uint8_t)((char)lVar5) << 16) | (uint16_t)(XI_PIECE(param_3, 0, 2))));
-    param_3 = (float *)(uint32_t)(uint32_t)param_3;
+    param_3 = (float *)(uint32_t)xi_trunc24(param_3);
     *param_1 = (uint32_t)param_3;
     pfVar2 = (float *)orig::ZoneMap_GetAddrRef18Plus1C(self_);
     *param_2 = *pfVar2;

@@ -275,7 +275,7 @@ XI_API undefined4 __thiscall Unit1003D990_ScaleBytesByVec4(void * self_, undefin
     return param_1;
   }
   lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
-  local_8 = CONCAT13((char)lVar7,(int32_t)uVar2);
+  local_8 = CONCAT13((char)lVar7,xi_strunc24(uVar2));
   *param_1 = local_8;
   return param_1;
 }

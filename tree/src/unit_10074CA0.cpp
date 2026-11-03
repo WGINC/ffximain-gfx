@@ -942,7 +942,7 @@ XI_API undefined4 __cdecl Unit10074CA0_MapNameLetters(uint8_t * param_1)
   
   if (param_1 != (uint8_t *)0x0) {
     bVar1 = *param_1;
-    xi_entry_eax = ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(bVar1)));
+    xi_entry_eax = ((uint32_t)(((uint32_t)(xi_strunc24((xi_entry_eax >> 8))) << 8) | (uint8_t)(bVar1)));
     if ((bVar1 != 0) && (((bVar1 < 0x80 || (0x9f < bVar1)) && (bVar1 < 0xe0)))) {
       uVar2 = orig::FUN_103146de((uint32_t)bVar1);
       xi_entry_eax = 0;
@@ -953,7 +953,7 @@ XI_API undefined4 __cdecl Unit10074CA0_MapNameLetters(uint8_t * param_1)
         do {
           param_1 = param_1 + 1;
           bVar1 = *param_1;
-          xi_entry_eax = ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(bVar1)));
+          xi_entry_eax = ((uint32_t)(((uint32_t)(xi_strunc24((xi_entry_eax >> 8))) << 8) | (uint8_t)(bVar1)));
           if (bVar1 == 0) break;
           if (((0x7f < bVar1) && (bVar1 < 0xa0)) || (0xdf < bVar1)) goto LAB_10077cdc;
           uVar2 = orig::FUN_103146de((uint32_t)bVar1);
@@ -964,7 +964,7 @@ XI_API undefined4 __cdecl Unit10074CA0_MapNameLetters(uint8_t * param_1)
           iVar3 = iVar3 + 1;
         } while (iVar3 < 0xf);
         if ((2 < iVar3) && (iVar3 < 0x10)) {
-          return ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24((xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
         }
       }
     }
@@ -1099,7 +1099,7 @@ XI_API void __cdecl Unit10074CA0_ToggleOnKey(void)
     uVar6 = orig::Unit100D7420_TestCommand36CF60(0x3f,0xf,4,-1,(int)uVar6);
     if ((char)uVar6 != '\0') {
       if (DAT_1047d4a7 == '\0') {
-        uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar6 >> 8)) << 8) | (uint8_t)(DAT_1047d4a6))) ^ 1;
+        uVar5 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar6 >> 8))) << 8) | (uint8_t)(DAT_1047d4a6))) ^ 1;
         DAT_1047d4a6 = (uint8_t)uVar5;
         orig::FUN_100fc140(uVar5);
         DAT_1047d4a7 = '\x01';

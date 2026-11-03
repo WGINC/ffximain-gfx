@@ -351,7 +351,7 @@ XI_API undefined4 __thiscall Skel_ClearMarks(void * self_)
         iVar2 = iVar3;
       } while (iVar3 < (int)(uint32_t)uVar1);
     }
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)(1)));
   }
   return 0;
 }

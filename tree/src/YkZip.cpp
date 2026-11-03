@@ -30,7 +30,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_10244E60(undefined4 xi
   int iVar1;
   uint32_t uVar2;
   
-  iVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)param_2)));
+  iVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((char)param_2)));
   if ((char)param_2 != '\0') {
     uVar2 = 0x31;
     iVar1 = *(short *)(*(int *)((int)self_ + 8) + 0x4c) + -2;

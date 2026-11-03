@@ -548,7 +548,7 @@ XI_API undefined4 __cdecl fn_1007BF30(uint32_t * param_1, undefined4 param_2, un
   if (*param_1 == 0) {
     return 0;
   }
-  uVar4 = orig::Unit101C72E0_IsActorField170Is5(((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(DAT_10482f18))));
+  uVar4 = orig::Unit101C72E0_IsActorField170Is5(((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(DAT_10482f18))));
   if (((char)uVar4 != '\0') ||
      (uVar4 = orig::Unit101C72E0_IsActorField170Is55(uVar4), (char)uVar4 != '\0')) {
     if ((char)param_5 == '\0') {
@@ -895,7 +895,7 @@ XI_API undefined4 __cdecl Unit10078260_IsIdNotInTable10357BB8(int param_1)
       puVar3 = (uint32_t *)((int)puVar3 + 2);
     } while (-1 < (short)*puVar1);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10080D90  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
@@ -918,7 +918,7 @@ XI_API uint32_t __cdecl Actor_IsInTable(int param_1)
       puVar3 = (uint32_t *)((int)puVar3 + 2);
     } while (-1 < *psVar1);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10080DC0  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
@@ -1032,7 +1032,7 @@ XI_API int __cdecl Command_RunLine(char * param_1, undefined4 param_2)
       pcVar11 = pcVar11 + 1;
     } while (cVar2 != '\0');
     iVar3 = 0x96 - (~uVar9 - 1);
-    pcVar11 = (char *)(~uVar9 + 0x10354ddf);
+    pcVar11 = (char *)(~uVar9 + (int)(XI_GAME(0x10354DE0u) - 1u));
   }
   pcVar4 = &DAT_10354be0;
   while ((0 < iVar3 && (iVar5 = orig::Arg_CopyCharOrPair(pcVar11,pcVar4,iVar3), iVar5 != 0))) {
@@ -1213,7 +1213,7 @@ LAB_100812b0:
       return uVar3 & 0xffffff00;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10081440  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)
@@ -1231,7 +1231,7 @@ XI_API undefined4 __cdecl Unit10078260_TestBit1047D499(undefined4 param_1)
   int iVar1;
   
   iVar1 = 1 << ((uint8_t)param_1 & 0x1f);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)((DAT_1047d499 & (uint8_t)iVar1) != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)((DAT_1047d499 & (uint8_t)iVar1) != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x100814A0  (unit unit_10078260: no unit evidence of its own; in the gap between 0x10078170 (winfiles) and 0x10081720 (CXiActor) -- an unnamed source file)

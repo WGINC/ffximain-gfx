@@ -105,9 +105,9 @@ XI_API void __cdecl StAvatar_UpdateModels(undefined4 param_1)
   iVar1 = orig::Unit1027E120_IsConnected(&DAT_1099aee0);
   if (iVar1 != 0) {
     orig::Unit1027E120_Advance(&DAT_1099aee0,param_1);
-    uVar2 = orig::Unit102857D0_GetFlagByte14(0x1099af00);
+    uVar2 = orig::Unit102857D0_GetFlagByte14((int)XI_GAME(0x1099AF00u));
     if ((char)uVar2 != '\0') {
-      orig::Unit102857D0_InvokeCallback18(0x1099af00);
+      orig::Unit102857D0_InvokeCallback18((int)XI_GAME(0x1099AF00u));
     }
   }
   if ((DAT_1099aedc != 0) && (iVar1 = 0, 0 < DAT_1099aed8)) {

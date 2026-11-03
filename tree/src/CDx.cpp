@@ -342,7 +342,7 @@ undefined4 __thiscall CDx::ShowCursor(void * self, undefined4 param_1)
   HCURSOR pHVar2;
   
   if (g_cfgHardwareMouse == 0) {
-    uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)g_windowMode >> 8)) << 8) | (uint8_t)((uint8_t)param_1)));
+    uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)g_windowMode >> 8))) << 8) | (uint8_t)((uint8_t)param_1)));
     if (g_windowMode == 3) {
       if ((uint8_t)param_1 == 0) {
                     /* WARNING: Could not recover jumptable at 0x100097cd. Too many branches */
@@ -438,7 +438,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CDx_EndAndApplyStateBlock
   int a2;
   uint32_t uVar1;
   
-  uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)param_4)));
+  uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((char)param_4)));
   if ((char)param_4 == '\x01') {
     uVar1 = ((int (__stdcall *)(XI_ANY, XI_ANY))((**(code **)(**(int **)((int)self_ + 0xc) + 0xd4))))(*(int **)((int)self_ + 0xc),param_3);
   }
@@ -989,7 +989,7 @@ uint32_t __thiscall CDx::StepFadeCounter(void * self, float param_1, float param
       uVar2 = (uint32_t)uVar4;
       if (fVar5 <= fVar1) {
         *(uint32_t *)((int)self + 0x174) = 0;
-        return ((uint32_t)(((uint32_t)((uint32_t)(uint8_t)(uVar4 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_trunc24((uint8_t)(uVar4 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -1201,7 +1201,7 @@ XI_API undefined4 __thiscall Light_ApplyTimeOfDayTint(void * self_, int param_1)
           if (fVar5 >= fVar6) {
             *(uint32_t *)(param_1 + 0xc) = 0x3f800000;
           }
-          return ((uint32_t)(((uint32_t)((uint32_t)(!(fVar5 >= fVar6))) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_trunc24(!(fVar5 >= fVar6))) << 8) | (uint8_t)(1)));
         }
       }
     }

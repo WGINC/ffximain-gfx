@@ -76,10 +76,10 @@ XI_API void __thiscall Model_SkinVerticesCpu(void * self_)
   float  &local_c = *reinterpret_cast<float  *>(xi_frame + 76);
   float * &local_8 = *reinterpret_cast<float * *>(xi_frame + 80);
   
-  local_8 = (float *)0x1002f1d8;
+  local_8 = (float *)(int)XI_GAME(0x1002F1D8u);
   uVar6 = orig::FUN_1000d680();
   if ((char)uVar6 == '\0') {
-    local_8 = (float *)0x1002f1e1;
+    local_8 = (float *)(int)XI_GAME(0x1002F1E1u);
     uVar6 = orig::FUN_1000d6b0();
     if ((char)uVar6 == '\0') {
       iVar15 = *(int *)((int)self_ + 0x48);

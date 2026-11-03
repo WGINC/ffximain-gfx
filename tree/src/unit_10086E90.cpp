@@ -6,7 +6,7 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10086E90_IsParamBelow901(undefined4 xi_eax, uint32_t param_1)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(param_1 < 0x901)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(param_1 < 0x901)));
 }
 
 // FUNCTION: FFXIMAIN 0x10086FD0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -81,7 +81,7 @@ XI_API uint32_t __attribute__((cdecl, regparm(1))) IsEvent(undefined4 xi_eax, un
       if ((param_1 & 2) == 0) {
         self_ = (void *)orig::Acter_IsStateGroup06Or38(self_,0xff);
         if ((char)self_ != '\0') {
-          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)self_ >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)self_ >> 8))) << 8) | (uint8_t)(1)));
         }
       }
     }
@@ -104,7 +104,7 @@ XI_API undefined4 __cdecl Menu_HasAnyFlag(undefined4 param_1, undefined4 param_2
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10086E90_GetGlobalByte(undefined4 xi_eax)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_10487ef5)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_10487ef5)));
 }
 
 // FUNCTION: FFXIMAIN 0x100872C0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -239,7 +239,7 @@ XI_API uint32_t __cdecl Unit10086E90_IsIdMatchGlobal(void)
   if (((int)uVar3 != 0) &&
      (sVar1 = *(short *)((int)uVar3 + 0x1fa),
      uVar2 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint64_t)uVar3 >> 0x10)) << 16) | (uint16_t)(sVar1))), sVar1 == DAT_10482f30)) {
-    return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
   }
   return uVar2 & 0xffffff00;
 }
@@ -281,21 +281,21 @@ XI_API uint32_t __cdecl fn_10087630(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10087650(undefined4 xi_eax)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(XI_PIECE_S(DAT_104802b8, 2, 2) != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(XI_PIECE_S(DAT_104802b8, 2, 2) != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10087660  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10086E90_GetMaskedFlagByte(undefined4 xi_eax)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_104808a8))) & 0xffffff01;
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_104808a8))) & 0xffffff01;
 }
 
 // FUNCTION: FFXIMAIN 0x10087670  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit10086E90_IsGlobalNonzero(void)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_10480818 >> 8)) << 8) | (uint8_t)(DAT_10480818 != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_10480818 >> 8))) << 8) | (uint8_t)(DAT_10480818 != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10087690  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -315,7 +315,7 @@ XI_API uint32_t __attribute__((cdecl, regparm(1))) Unit10086E90_GetByte10480824I
   uint32_t uVar1;
   
   uVar1 = orig::Unit10086E90_GetMaskedFlagByte(xi_eax);
-  return CONCAT31((int32_t)((uint32_t)uVar1 >> 8),-((char)uVar1 != '\0')) & _DAT_10480824;
+  return CONCAT31(xi_strunc24(((uint32_t)uVar1 >> 8)),-((char)uVar1 != '\0')) & _DAT_10480824;
 }
 
 // FUNCTION: FFXIMAIN 0x10087760  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -325,7 +325,7 @@ XI_API uint32_t __attribute__((cdecl, regparm(1))) Unit10086E90_GetTable10480828
   uint32_t uVar1;
   
   uVar1 = orig::Unit10086E90_GetMaskedFlagByte(xi_eax);
-  return -(uint32_t)((char)uVar1 != '\0') & 0x10480828;
+  return -(uint32_t)((char)uVar1 != '\0') & (int)XI_GAME(0x10480828u);
 }
 
 // FUNCTION: FFXIMAIN 0x10087830  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -335,7 +335,7 @@ XI_API undefined4 __cdecl Unit10086E90_GetByte10480825IfSet(void)
   uint32_t uVar1;
   
   uVar1 = orig::Unit10086E90_IsGlobalNonzero();
-  return CONCAT31((int32_t)((uint32_t)uVar1 >> 8),-((char)uVar1 != '\0') & DAT_10480825);
+  return CONCAT31(xi_strunc24(((uint32_t)uVar1 >> 8)),-((char)uVar1 != '\0') & DAT_10480825);
 }
 
 // FUNCTION: FFXIMAIN 0x10087890  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -345,14 +345,14 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10086E90_GetByte1048082
   uint32_t uVar1;
   
   uVar1 = orig::FUN_10087680(xi_eax);
-  return CONCAT31((int32_t)((uint32_t)uVar1 >> 8),-((char)uVar1 != '\0') & DAT_10480826);
+  return CONCAT31(xi_strunc24(((uint32_t)uVar1 >> 8)),-((char)uVar1 != '\0') & DAT_10480826);
 }
 
 // FUNCTION: FFXIMAIN 0x10087B20  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_10087B20(undefined4 xi_eax)
 {
-  return CONCAT31((int32_t)((uint32_t)xi_eax >> 8),DAT_10483158_as_s8 != '\0');
+  return CONCAT31(xi_strunc24(((uint32_t)xi_eax >> 8)),DAT_10483158_as_s8 != '\0');
 }
 
 // FUNCTION: FFXIMAIN 0x10087D40  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -374,7 +374,7 @@ XI_API undefined4 __thiscall Acter_ResetMotionCounters(void * self_)
   uint64_t uVar1;
   
   if ((*(uint32_t *)((int)self_ + 0x120) & 0x200) != 0) {
-    uVar1 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),0x10330ebc);
+    uVar1 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),(int)XI_GAME(0x10330EBCu));
     if ((char)uVar1 != '\0') {
       orig::CXiSkeletonActor_AdvanceMotionQueue(*(void **)((int)self_ + 0xa0));
     }
@@ -399,7 +399,7 @@ XI_API void __thiscall Acter_AdvanceMotionTimer(void * self_)
       lVar1 = XI_CALL_ST0(0x10311C2Cu)(st0);
       *(short *)((int)self_ + 0x150) = *(short *)((int)self_ + 0x150) - (short)lVar1;
       if ((*(short *)((int)self_ + 0x150) < 0) && ((*(uint32_t *)((int)self_ + 0x120) & 0x200) != 0)) {
-        uVar2 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),0x10330ebc);
+        uVar2 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),(int)XI_GAME(0x10330EBCu));
         if ((char)uVar2 != '\0') {
           orig::FUN_100ce0e0(*(void **)((int)self_ + 0xa0));
           *(short *)((int)self_ + 0x14e) = *(short *)((int)self_ + 0x14e) + -1;
@@ -443,7 +443,7 @@ XI_API void __thiscall Acter_UpdateModelPoint848(void * self_)
   uint8_t  (&local_40)[64] = *reinterpret_cast<uint8_t  (*)[64]>(xi_frame + 48);
   
   if (((*(uint32_t *)((int)self_ + 0x120) & 0x200) == 0) ||
-     (uVar8 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),0x10330ebc), (char)uVar8 == '\0')) {
+     (uVar8 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),(int)XI_GAME(0x10330EBCu)), (char)uVar8 == '\0')) {
     return;
   }
   uVar4 = *(uint32_t *)((int)self_ + 300) >> 8 & 3;
@@ -451,7 +451,7 @@ XI_API void __thiscall Acter_UpdateModelPoint848(void * self_)
     iVar3 = (&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x146)];
     if ((((iVar3 != 0) && ((*(uint32_t *)(iVar3 + 0x120) >> 9 & 1) != 0)) &&
         (this_00 = *(int **)(iVar3 + 0xa0), this_00 != (int *)0x0)) &&
-       (uVar8 = orig::CYyObject_IsKindOf(this_00,0x10330ebc), (char)uVar8 != '\0')) {
+       (uVar8 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x10330EBCu)), (char)uVar8 != '\0')) {
       uVar5 = ((int (__thiscall *)(void *, XI_ANY, XI_ANY))((**(code **)(*this_00 + 0x1c4))))((void *)(this_00),(int)*(short *)((int)self_ + 0x148),&local_60);
       if ((char)uVar5 == '\0') {
         uVar4 = *(uint32_t *)((&ActerBuffPtr_as_v0)[*(uint16_t *)((int)self_ + 0x146)] + 0x120);
@@ -611,7 +611,7 @@ switchD_1008841f_caseD_1:
         }
       }
       else {
-        fVar5 = orig::Camera_GetFrameScale_v1(((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(DAT_104808fb_as_s8))));
+        fVar5 = orig::Camera_GetFrameScale_v1(((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(DAT_104808fb_as_s8))));
         lVar6 = XI_CALL_ST0(0x10311C2Cu)(fVar5);
         *(int *)((int)self_ + 0x1dc) = *(int *)((int)self_ + 0x1dc) - (int)lVar6;
       }
@@ -888,7 +888,7 @@ XI_API void __thiscall Unit10086E90_UpdateByKind170NotGroup06(void * self_)
         }
       }
       else {
-        fVar6 = orig::Camera_GetFrameScale_v1(((uint32_t)(((uint32_t)((int32_t)(uVar5 >> 8)) << 8) | (uint8_t)(DAT_1048315c_as_s8))));
+        fVar6 = orig::Camera_GetFrameScale_v1(((uint32_t)(((uint32_t)(xi_strunc24((uVar5 >> 8))) << 8) | (uint8_t)(DAT_1048315c_as_s8))));
         lVar7 = XI_CALL_ST0(0x10311C2Cu)(fVar6);
         *(int *)((int)self_ + 0x1e4) = *(int *)((int)self_ + 0x1e4) - (int)lVar7;
       }
@@ -1238,7 +1238,7 @@ LAB_1008b2eb:
   if (iVar3 == 0) {
     return 1;
   }
-  uVar4 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)((char)param_3)));
+  uVar4 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)((char)param_3)));
   if ((char)param_3 != '\0') {
     pbVar2 = local_1c;
     for (iVar3 = 6; iVar3 != 0; iVar3 = iVar3 + -1) {
@@ -1308,7 +1308,7 @@ XI_API undefined4 __thiscall Unit10086E90_LatchFlag13CBit22(void * self_)
       uVar2 = orig::FUN_100a2720();
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1008CD90  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -1407,7 +1407,7 @@ LAB_1008cea2:
   }
   if ((*(int *)((int)self_ + 0x170) == 0x1a) || (*(int *)((int)self_ + 0x170) == 0x1b)) {
     if (((*(uint32_t *)((int)self_ + 0x120) & 0x200) != 0) &&
-       (uVar16 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),0x1032fd4c), (char)uVar16 != '\0'))
+       (uVar16 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),(int)XI_GAME(0x1032FD4Cu)), (char)uVar16 != '\0'))
     {
       orig::Vec3_Copy_v1(&fStack_30,(uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x624));
     }
@@ -1424,7 +1424,7 @@ LAB_1008cea2:
   }
   if ((*(int *)((int)self_ + 0x170) == 0x1d) || (*(int *)((int)self_ + 0x170) == 0x1e)) {
     if (((*(uint32_t *)((int)self_ + 0x120) & 0x200) != 0) &&
-       (uVar16 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),0x1032fd4c), (char)uVar16 != '\0'))
+       (uVar16 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),(int)XI_GAME(0x1032FD4Cu)), (char)uVar16 != '\0'))
     {
       orig::Vec3_Copy_v1(&fStack_30,(uint32_t *)(*(int *)((int)self_ + 0xa0) + 0x624));
     }
@@ -1993,7 +1993,7 @@ LAB_1008e0b3:
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((stdcall, regparm(3))) CXiActor_IsIdAbove6ff(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(0x6ff < *(uint16_t *)((int)self_ + 0x74))));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(0x6ff < *(uint16_t *)((int)self_ + 0x74))));
 }
 
 // FUNCTION: FFXIMAIN 0x1008E220  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -2017,7 +2017,7 @@ XI_API undefined4 __thiscall Actor_FindByField2a4(void * self_)
     if (*(short *)(iVar1 + 0x18) == *(short *)((int)self_ + 0x2a4)) break;
     iVar1 = orig::Unit100D7420_SelectNext();
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar1 >> 0x10)) << 16) | (uint16_t)(*(short *)(iVar1 + 0x18)))) >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)iVar1 >> 0x10)) << 16) | (uint16_t)(*(short *)(iVar1 + 0x18)))) >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1008E4D0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -2287,7 +2287,7 @@ XI_API undefined4 __thiscall Acter_UpdateOne(void * self_)
            ((cVar2 == '\x05' ||
             (uVar4 = orig::CXiSkeletonActor_IsReadCompleteBody
                                (*(void **)((int)self_ + 0xa0),
-                                ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(cVar2)))), (char)uVar4 != '\0')))) {
+                                ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(cVar2)))), (char)uVar4 != '\0')))) {
           iVar8 = *(int *)((int)self_ + 0x16c);
           if ((*(char *)((int)self_ + 0x120) < '\0') && (DAT_104807f5 != '\0')) {
             iVar8 = *(int *)((int)self_ + 0x174);
@@ -2367,7 +2367,7 @@ XI_API undefined4 __thiscall Acter_UpdateOne(void * self_)
       *(uint32_t *)((int)self_ + 0xe8) = (&DAT_10486020)[uVar7];
     }
     (&DAT_10486020)[uVar7] = self_;
-    uVar4 = ((uint32_t)(((uint32_t)((int32_t)(uVar7 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x1fe))));
+    uVar4 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar7 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 0x1fe))));
     if (*(char *)((int)self_ + 0x1fe) != '\0') {
       fVar9 = orig::Camera_GetFrameScale_v1(uVar4);
       lVar11 = XI_CALL_ST0(0x10311C2Cu)(fVar9);
@@ -2692,7 +2692,7 @@ XI_API undefined4 __thiscall Acter_CopyPosAndAnglesToActorA0(void * self_)
   uVar5 = *(uint32_t *)((int)self_ + 0x120);
   if ((uVar5 & 0x200) != 0) {
     cVar3 = *(char *)((int)self_ + 0xee);
-    uVar5 = ((uint32_t)(((uint32_t)((int32_t)(uVar5 >> 8)) << 8) | (uint8_t)(cVar3)));
+    uVar5 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar5 >> 8))) << 8) | (uint8_t)(cVar3)));
     if ((((cVar3 == '\0') || (cVar3 == '\x01')) || (cVar3 == '\x02')) ||
        (((cVar3 == '\x06' || (cVar3 == '\a')) || (cVar3 == '\b')))) {
       puVar1 = (uint32_t *)((int)self_ + 4);
@@ -2993,7 +2993,7 @@ XI_API undefined4 __cdecl Unit10086E90_ResetGlobals(void)
   DAT_1035af3c_as_v0 = 0xffffffff;
   iVar2 = orig::Scene_GetTableValue_v1(0x25);
   uVar1 = orig::Unit101C72E0_Load(&DAT_10489948,iVar2);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10093A30  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -3179,7 +3179,7 @@ XI_API undefined4 __cdecl Acter_ShutdownGlobals(void)
       *puVar3 = 0;
     }
     puVar3 = puVar3 + 1;
-  } while ((int)puVar3 < 0x10482ef4);
+  } while ((int)puVar3 < (int)XI_GAME(0x10482EF4u));
   if (DAT_1046393c != 0) {
     orig::LobbyThread_SendCmd11(0xffffffff);
   }
@@ -3220,7 +3220,7 @@ XI_API undefined4 __cdecl Acter_ShutdownGlobals(void)
   DAT_10487ee8 = (LPVOID)0x0;
   DAT_1048098c = 0;
   DAT_10480ae8_as_v0 = 0;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10093DA0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -3243,7 +3243,7 @@ XI_API undefined4 __cdecl Net_SendPacket00COnce(void)
     uVar3 = orig::Unit100D7420_CheckTimer41B4(0xc,0,0);
     puVar1 = (uint16_t *)uVar3;
     if (puVar1 == (uint16_t *)0x0) {
-      return (uint32_t)(uint32_t)((uint64_t)uVar3 >> 8) << 8;
+      return (uint32_t)xi_trunc24(((uint64_t)uVar3 >> 8)) << 8;
     }
     *puVar1 = 0x60c;
     puVar1[1] = 0;
@@ -3256,7 +3256,7 @@ XI_API undefined4 __cdecl Net_SendPacket00COnce(void)
     DAT_1047d3f0 = 1;
     uVar2 = orig::Net_BuildPacket61(0,0);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100955D0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -3265,7 +3265,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) CallMotd(undefined4 xi_eax)
 {
   uint8_t *puVar1;
   
-  puVar1 = (uint8_t *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_10487e90_as_s8)));
+  puVar1 = (uint8_t *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_10487e90_as_s8)));
   if ((DAT_10487e90_as_s8 == '\0') && (puVar1 = g_pGameMode_as_v0, g_pGameMode_as_v0 != (uint8_t *)0x0)) {
     if (*(int *)(g_pGameMode_as_v0 + 0x10) != 0) {
       puVar1 = (uint8_t *)orig::Command_RunLine(s__servmes_1035bb14,0);
@@ -3282,7 +3282,7 @@ XI_API undefined4 __thiscall Acter_IsState5(void * self_, int param_1)
   if (param_1 == 0xff) {
     param_1 = *(int *)((int)self_ + 0x170);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(param_1 == 5)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(param_1 == 5)));
 }
 
 // FUNCTION: FFXIMAIN 0x100956A0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -3292,7 +3292,7 @@ XI_API undefined4 __thiscall Acter_IsState55(void * self_, int param_1)
   if (param_1 == 0xff) {
     param_1 = *(int *)((int)self_ + 0x170);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(param_1 == 0x55)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(param_1 == 0x55)));
 }
 
 // FUNCTION: FFXIMAIN 0x100956C0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -3303,7 +3303,7 @@ XI_API undefined4 __thiscall Acter_IsStateGroup06Or38(void * self_, undefined4 x
   
   uVar1 = orig::Acter_IsStateGroup06(self_,0xff);
   if ((char)uVar1 != '\0') {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
   }
   uVar1 = orig::Acter_IsStateGroup38(self_,0xff);
   return uVar1;
@@ -3318,7 +3318,7 @@ XI_API undefined4 __thiscall Acter_IsStateGroup06(void * self_, int param_1)
   if (param_1 == 0xff) {
     param_1 = *(int *)((int)self_ + 0x170);
   }
-  uVar1 = (uint32_t)((uint32_t)param_1 >> 8);
+  uVar1 = xi_trunc24(((uint32_t)param_1 >> 8));
   if ((((((param_1 != 6) && (param_1 != 0x26)) && (param_1 != 0x27)) &&
        ((param_1 != 0x28 && (param_1 != 0x29)))) &&
       ((param_1 != 0x2a && ((param_1 != 0x2b && (param_1 != 0x32)))))) &&
@@ -3337,7 +3337,7 @@ XI_API undefined4 __thiscall Acter_IsStateGroup38(void * self_, int param_1)
   if (param_1 == 0xff) {
     param_1 = *(int *)((int)self_ + 0x170);
   }
-  uVar1 = (uint32_t)((uint32_t)param_1 >> 8);
+  uVar1 = xi_trunc24(((uint32_t)param_1 >> 8));
   if ((((param_1 != 0x38) && (param_1 != 0x39)) && (param_1 != 0x3a)) &&
      (((param_1 != 0x3b && (param_1 != 0x3c)) && ((param_1 != 0x3d && (param_1 != 0x3e)))))) {
     return (uint32_t)uVar1 << 8;
@@ -3354,7 +3354,7 @@ XI_API int __thiscall Acter_IsStateGroup3F(void * self_, int param_1)
   if (param_1 == 0xff) {
     param_1 = *(int *)((int)self_ + 0x170);
   }
-  uVar1 = (uint32_t)((uint32_t)param_1 >> 8);
+  uVar1 = xi_trunc24(((uint32_t)param_1 >> 8));
   if (((((((param_1 != 0x3f) && (param_1 != 0x40)) && (param_1 != 0x41)) &&
         (((param_1 != 0x42 && (param_1 != 0x43)) &&
          ((param_1 != 0x44 && ((param_1 != 0x45 && (param_1 != 0x46)))))))) &&
@@ -3376,7 +3376,7 @@ XI_API uint32_t __thiscall Unit10086E90_CanClearPendingState(void * self_)
   uint32_t uVar2;
   
   cVar1 = *(char *)((int)self_ + 0xee);
-  uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(cVar1)));
+  uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(cVar1)));
   if ((((cVar1 != '\a') && (cVar1 != '\x06')) && (cVar1 != '\b')) &&
      (uVar2 = *(uint32_t *)((int)self_ + 0x130) >> 0x11, (uVar2 & 1) == 0)) {
     if (((*(short *)((int)self_ + 0x11c) == 0) && (*(short *)((int)self_ + 0xf2) < 1)) &&
@@ -3392,7 +3392,7 @@ XI_API uint32_t __thiscall Unit10086E90_CanClearPendingState(void * self_)
     return uVar2 & 0xffffff00;
   }
 LAB_100958f9:
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10095900  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -3416,7 +3416,7 @@ XI_API void __cdecl Acter_UpdateAllLists(void)
       if (((DAT_10485f7a != iVar5) && (iVar1 = (&ActerBuffPtr_as_v0)[iVar5], iVar1 != 0)) &&
          (((((*(uint32_t *)(iVar1 + 0x120) >> 9 & 1) == 0 ||
             (pvVar3 = *(void **)(iVar1 + 0xa0), pvVar3 == (void *)0x0)) ||
-           (uVar7 = orig::CYyObject_IsKindOf(pvVar3,0x10330684), (char)uVar7 == '\0')) ||
+           (uVar7 = orig::CYyObject_IsKindOf(pvVar3,(int)XI_GAME(0x10330684u)), (char)uVar7 == '\0')) ||
           (uVar2 = orig::FUN_100c4400(pvVar3), (char)uVar2 == '\0')))) {
         orig::Acter_ReleaseAllSlots((void *)(&ActerBuffPtr_as_v0)[iVar5]);
       }
@@ -3455,7 +3455,7 @@ XI_API void __cdecl Acter_UpdateAllLists(void)
       }
     }
     puVar6 = puVar6 + 1;
-  } while ((int)puVar6 < 0x10487020);
+  } while ((int)puVar6 < (int)XI_GAME(0x10487020u));
   puVar6 = &DAT_10486020;
   do {
     for (pvVar3 = (void *)*puVar6; pvVar3 != (void *)0x0; pvVar3 = *(void **)((int)pvVar3 + 0xe8)) {
@@ -3472,7 +3472,7 @@ XI_API void __cdecl Acter_UpdateAllLists(void)
       }
     }
     puVar6 = puVar6 + 1;
-  } while ((int)puVar6 < 0x10487020);
+  } while ((int)puVar6 < (int)XI_GAME(0x10487020u));
   iVar5 = 0;
   do {
     for (pvVar3 = (void *)(&DAT_10486020)[iVar5]; pvVar3 != (void *)0x0;
@@ -3529,7 +3529,7 @@ XI_API void __cdecl Acter_UpdateAllLists(void)
 LAB_10095d50:
       }
       puVar6 = puVar6 + 1;
-      if (0x1048701f < (int)puVar6) {
+      if ((int)(XI_GAME(0x10487020u) - 1u) < (int)puVar6) {
         return;
       }
     } while( true );
@@ -3555,7 +3555,7 @@ LAB_10095d50:
 LAB_10095c96:
     }
     puVar6 = puVar6 + 1;
-    if (0x1048701f < (int)puVar6) {
+    if ((int)(XI_GAME(0x10487020u) - 1u) < (int)puVar6) {
       return;
     }
   } while( true );
@@ -3721,7 +3721,7 @@ XI_API undefined4 __cdecl Unit10086E90_NoneOfIdsInTable(void)
         if ((char)uVar1 == '\0') {
           uVar1 = orig::Unit1021D930_IsIdInTable10485A30(0x1c);
           if ((char)uVar1 == '\0') {
-            return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+            return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
           }
         }
       }
@@ -3846,7 +3846,7 @@ XI_API undefined4 __cdecl Acter_UpdateFrame(void)
     return uVar5;
   }
   if (DAT_10482f43 == '\0') {
-    st0 = orig::Camera_GetFrameScale_v1(((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(DAT_10482f43))));
+    st0 = orig::Camera_GetFrameScale_v1(((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(DAT_10482f43))));
     lVar14 = XI_CALL_ST0(0x10311C2Cu)(st0);
     DAT_1047fb3c = DAT_1047fb3c - (int)lVar14;
     if (DAT_1047fb3c < 0) {
@@ -3864,7 +3864,7 @@ XI_API undefined4 __cdecl Acter_UpdateFrame(void)
   }
   iVar11 = (int)((uint64_t)uVar13 >> 0x20);
   if ((DAT_10482f44_as_s8 != '\0') && (iVar11 = g_C_106631D4, *(int *)(g_C_106631D4 + 0x18) != 0)) {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar13 >> 8)) << 8) | (uint8_t)(DAT_10482f44_as_s8)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar13 >> 8))) << 8) | (uint8_t)(DAT_10482f44_as_s8)));
   }
   if (*(short *)(DAT_104dfd98 + 0x40d90) != 0) {
     orig::Cell_SetByte104E1C3E(1,DAT_104dfd98);
@@ -3905,7 +3905,7 @@ XI_API undefined4 __cdecl Acter_UpdateFrame(void)
           orig::FUN_100973b0(pvVar1);
         }
         puVar10 = puVar10 + 1;
-      } while ((int)puVar10 < 0x10482ef0);
+      } while ((int)puVar10 < (int)XI_GAME(0x10482EF0u));
     }
   }
   DAT_104898f9 = '\0';
@@ -3979,7 +3979,7 @@ LAB_10096a07:
         ((DAT_10485f7a == iVar11 || ((*(uint32_t *)((int)pvVar1 + 0x120) >> 8 & 1) != 0)))))) {
       uVar5 = orig::Acter_UpdateOne(pvVar1);
       if (DAT_104898f9 != '\0') {
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(DAT_104898f9)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(DAT_104898f9)));
       }
     }
     iVar11 = iVar11 + 1;
@@ -4028,7 +4028,7 @@ LAB_10096baa:
   orig::thunk_FUN_10087230();
   uVar5 = orig::Help_UpdateFromFlags();
   uVar5 = orig::Unit10086E90_UpdateObject10578184(uVar5);
-  iVar11 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(DAT_10482f18)));
+  iVar11 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(DAT_10482f18)));
   if (DAT_10482f18 != '\0') {
     iVar11 = orig::FUN_100fc300();
     if ((((short)iVar11 != 0) && (DAT_10482f18 != '\0')) &&
@@ -4091,11 +4091,11 @@ XI_API undefined4 __thiscall Unit10086E90_UpdateSkeletonParts(void * self_)
           *(uint32_t *)((int)self_ + 0x128) = uVar3 | 0x80;
           if (*(int *)((int)uVar4 + 0x78) == *(int *)((int)self_ + 0x78)) {
             uVar2 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*piVar1 + 0x30))))((void *)(piVar1),0x27808080);
-            return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+            return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
           }
           uVar3 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*piVar1 + 0x30))))((void *)(piVar1),0x808080);
         }
-        return ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
       }
       if ((char)uVar3 < '\0') {
         *(uint32_t *)((int)self_ + 0x128) = uVar3 & 0xffffff7f;
@@ -4128,11 +4128,11 @@ XI_API undefined4 __thiscall Unit10086E90_TestFlagsAndUpdateParts(void * self_)
       if (((*(uint8_t *)((int)self_ + 0x12e) & 1) == 0) && ((uVar1 & 0x20000) == 0)) {
 LAB_10097834:
         uVar2 = orig::Unit10086E90_UpdateSkeletonParts(self_);
-        return CONCAT31((int32_t)((uint32_t)uVar2 >> 8),(char)uVar2 == '\0');
+        return CONCAT31(xi_strunc24(((uint32_t)uVar2 >> 8)),(char)uVar2 == '\0');
       }
     }
     else if (((uVar1 & 0xc000) == 0) &&
-            (uVar1 = ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x130)))),
+            (uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 0x130)))),
             -1 < *(char *)((int)self_ + 0x130))) goto LAB_10097834;
   }
   return uVar1 & 0xffffff00;
@@ -4169,7 +4169,7 @@ XI_API uint8_t * __thiscall Entity_BuildDisplayName(void * self_)
     pcVar6 = local_8;
     do {
       uVar7 = orig::FUN_10097500((int)self_,(int)((uint64_t)uVar7 >> 0x20),uVar4,
-                           ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar7 >> 8)) << 8) | (uint8_t)(local_8[uVar4]))));
+                           ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar7 >> 8))) << 8) | (uint8_t)(local_8[uVar4]))));
       *pcVar6 = (char)uVar7;
       if ((char)uVar7 != '\0') {
         pcVar6 = pcVar6 + 1;
@@ -4253,7 +4253,7 @@ XI_API undefined4 __cdecl fn_10097B40(void)
   int iVar1;
   
   iVar1 = orig::FUN_10097b50();
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(iVar1 != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(iVar1 != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10097B50  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -4280,14 +4280,14 @@ XI_API int __cdecl fn_10097B50(void)
           uVar2 = uVar1 - 0x1bc;
         }
         if ((uint32_t)uVar2 == (int)*psVar3) {
-          return iVar5 * 8 + 0x1035b630;
+          return iVar5 * 8 + (int)XI_GAME(0x1035B630u);
         }
         iVar4 = iVar4 + 1;
         psVar3 = psVar3 + 1;
       } while (iVar4 < 4);
       psVar6 = psVar6 + 4;
       iVar5 = iVar5 + 1;
-    } while ((int)psVar6 < 0x1035b6d0);
+    } while ((int)psVar6 < (int)XI_GAME(0x1035B6D0u));
   }
   return 0;
 }
@@ -4305,11 +4305,11 @@ XI_API undefined4 __cdecl Unit10086E90_GetByte40DB4ByKind(void)
   uint32_t uVar4;
   
   if (*(short *)(DAT_104dfd98 + 0x40d82) != 0) {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(*(uint8_t *)(DAT_104dfd98 + 0x40db4))));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(*(uint8_t *)(DAT_104dfd98 + 0x40db4))));
   }
   uVar1 = *(uint16_t *)(DAT_104dfd98 + 0x40d80);
   uVar2 = (uint32_t)uVar1;
-  uVar5 = (uint32_t)(uint8_t)(uVar1 >> 8);
+  uVar5 = xi_trunc24((uint8_t)(uVar1 >> 8));
   if (uVar2 != 0x120 && 0x11f < uVar1) {
     if (uVar2 != 0x123 && 0x122 < uVar1) {
       if (uVar2 == 0x124) {
@@ -4369,14 +4369,14 @@ XI_API undefined4 __cdecl Unit10086E90_GetByte40DB4ByKind(void)
       break;
     case 0x101:
 switchD_10097c03_caseD_101:
-      uVar4 = ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      uVar4 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
       if (*(char *)(DAT_104dfd98 + 0x40db4) == '\x01') {
         return uVar4;
       }
       break;
     case 0x102:
 switchD_10097c03_caseD_102:
-      uVar4 = ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(2)));
+      uVar4 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(2)));
       if (*(char *)(DAT_104dfd98 + 0x40db4) == '\x02') {
         return uVar4;
       }
@@ -4410,7 +4410,7 @@ XI_API undefined4 __cdecl Acter_TestFlagTable(int param_1, uint32_t param_2)
 {
   uint32_t uVar1;
   
-  uVar1 = (uint32_t)((uint32_t)param_1 >> 8);
+  uVar1 = xi_trunc24(((uint32_t)param_1 >> 8));
   if ((-1 < param_1) && (param_1 < 0x80)) {
     return ((uint32_t)(((uint32_t)(uVar1) << 8) | (uint8_t)((param_2 & (&DAT_1047feb8)[param_1]) != 0)));
   }
@@ -4441,9 +4441,9 @@ XI_API undefined4 __cdecl Net_BuildPacket61(undefined4 param_1, undefined4 param
   if (puVar1 != (uint16_t *)0x0) {
     uVar2 = orig::Unit100D7420_SendRaw(puVar1,6,0);
     *(uint8_t *)(puVar1 + 2) = (uint8_t)param_2;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
   }
-  return (uint32_t)(uint32_t)((uint64_t)uVar3 >> 8) << 8;
+  return (uint32_t)xi_trunc24(((uint64_t)uVar3 >> 8)) << 8;
 }
 
 // FUNCTION: FFXIMAIN 0x10098080  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -4458,7 +4458,7 @@ XI_API undefined4 __cdecl fn_10098080(undefined4 param_1, undefined4 param_2)
     orig::Unit100D7420_SendRaw(puVar1,6,0);
     DAT_10487e9c = param_1;
     DAT_10487ea0 = param_2;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
   }
   return 0;
 }
@@ -4478,7 +4478,7 @@ XI_API undefined4 __cdecl fn_100980C0(undefined4 param_1)
       *(uint8_t *)(puVar1 + 2) = 1;
       orig::Unit100D7420_SendRaw(puVar1,6,0);
       DAT_10487e9c_as_v0 = param_1;
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar2 & 0xffffff00;
@@ -4499,7 +4499,7 @@ XI_API undefined4 __cdecl fn_10098100(undefined4 param_1)
       *(uint8_t *)(puVar1 + 2) = 2;
       orig::Unit100D7420_SendRaw(puVar1,6,0);
       DAT_10487ea0 = param_1;
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar2 & 0xffffff00;
@@ -4514,7 +4514,7 @@ XI_API undefined4 __thiscall Acter_IsSpecialIdRange(void * self_)
   uint32_t uVar2;
   
   uVar1 = *(uint16_t *)((int)self_ + 0xfc);
-  uVar2 = (uint32_t)(((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_entry_eax >> 0x10)) << 16) | (uint16_t)(uVar1))) >> 8);
+  uVar2 = xi_trunc24((((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_entry_eax >> 0x10)) << 16) | (uint16_t)(uVar1))) >> 8));
   if ((0x31 < uVar1) && (uVar1 < 0x3c)) {
     return ((uint32_t)(((uint32_t)(uVar2) << 8) | (uint8_t)(1)));
   }
@@ -4553,7 +4553,7 @@ XI_API undefined4 __thiscall Unit10086E90_ActerTestEE120(void * self_, undefined
   uint32_t uVar3;
   
   cVar1 = *(char *)((int)self_ + 0xee);
-  uVar4 = (uint32_t)((uint32_t)xi_entry_eax >> 8);
+  uVar4 = xi_trunc24(((uint32_t)xi_entry_eax >> 8));
   if ((((cVar1 != '\0') && (cVar1 != '\x01')) && (cVar1 != '\x02')) &&
      (((cVar1 != '\x06' && (cVar1 != '\a')) && (cVar1 != '\b')))) {
     return (uint32_t)uVar4 << 8;
@@ -4596,7 +4596,7 @@ LAB_10098245:
      ((uVar2 >> 8 & 1) == 0)) {
     return (*(uint32_t *)((int)self_ + 0x124) >> 0x14) << 8;
   }
-  return ((uint32_t)(((uint32_t)((uint32_t)(*(uint32_t *)((int)self_ + 0x130) >> 0x1d)) << 8) | (uint8_t)(~(uint8_t)(*(uint32_t *)((int)self_ + 0x130) >> 0x15)))) & 0xffffff01;
+  return ((uint32_t)(((uint32_t)(xi_trunc24((*(uint32_t *)((int)self_ + 0x130) >> 0x1d))) << 8) | (uint8_t)(~(uint8_t)(*(uint32_t *)((int)self_ + 0x130) >> 0x15)))) & 0xffffff01;
 }
 
 // FUNCTION: FFXIMAIN 0x100983A0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -4618,7 +4618,7 @@ XI_API uint32_t __thiscall Acter_GetPartnerIfKind(void * self_)
     return 0;
   }
   this_00 = *(void **)(iVar1 + 0xa0);
-  uVar2 = orig::CYyObject_IsKindOf(this_00,0x10330ebc);
+  uVar2 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x10330EBCu));
   return -(uint32_t)((char)uVar2 != '\0') & (uint32_t)this_00;
 }
 
@@ -4651,7 +4651,7 @@ XI_API void __thiscall Acter_SendPositionPacket(void * self_)
       orig::Vec4_Copy_v1(&local_20,(uint32_t *)(*(int *)(*(int *)((int)self_ + 0xd4) + 0x260) + 0x140));
       uVar11 = orig::Vec4_Copy_v1(&local_10,
                          (uint32_t *)(*(int *)(*(int *)((int)self_ + 0xd4) + 0x260) + 0x150));
-      uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar11 >> 8)) << 8) | (uint8_t)(DAT_104808fc | DAT_1047fb40_as_v0)));
+      uVar5 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar11 >> 8))) << 8) | (uint8_t)(DAT_104808fc | DAT_1047fb40_as_v0)));
       if (((DAT_104808fc | DAT_1047fb40_as_v0) & 4) == 0) {
         return;
       }
@@ -4669,7 +4669,7 @@ XI_API void __thiscall Acter_SendPositionPacket(void * self_)
       *(uint32_t *)((int)self_ + 0x30) = uVar5;
     }
     cVar1 = *(char *)(*(int *)((int)self_ + 0xa0) + 0xf8);
-    uVar5 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(cVar1)));
+    uVar5 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(cVar1)));
     if (cVar1 == '\0') {
       fVar10 = orig::Camera_GetFrameScale_v1(uVar5);
       lVar12 = XI_CALL_ST0(0x10311C2Cu)(fVar10);
@@ -4722,7 +4722,7 @@ XI_API void __thiscall Acter_SendPositionPacket(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API uint32_t __attribute__((cdecl, regparm(1))) Unit10086E90_GetTable10485830IfBit2(undefined4 xi_eax)
 {
-  return -(uint32_t)((DAT_10485824 & 4) != 0) & 0x10485830;
+  return -(uint32_t)((DAT_10485824 & 4) != 0) & (int)XI_GAME(0x10485830u);
 }
 
 // FUNCTION: FFXIMAIN 0x10099680  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -4734,11 +4734,11 @@ XI_API undefined4 __cdecl fn_10099680(void)
   uint32_t uVar2;
   
   uVar1 = orig::FUN_100fd5b0();
-  uVar3 = (uint32_t)((uint32_t)uVar1 >> 8);
+  uVar3 = xi_trunc24(((uint32_t)uVar1 >> 8));
   if ((char)uVar1 != '\0') {
     uVar2 = ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(DAT_10485824_as_v0))) & 0xfffffff7;
     DAT_10485824_as_v0 = (char)uVar2;
-    return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
   }
   return (uint32_t)uVar3 << 8;
 }
@@ -4761,8 +4761,8 @@ XI_API void __cdecl Unit10086E90_ResolveEntryNames(void)
       uVar4 = orig::Unit1012AC80_GetCachedOrLoad(DAT_10621808,(uint32_t)uVar2);
       if ((int)uVar4 != 0) {
         orig::FUN_100935c0((char *)(iVar1 + 0x50),
-                     ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar4 >> 8)) << 8) | (uint8_t)(*(uint8_t *)(iVar1 + 0x4e)))),
-                     ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar4 >> 0x28)) << 8) | (uint8_t)(*(uint8_t *)(iVar1 + 0x4f)))),
+                     ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar4 >> 8))) << 8) | (uint8_t)(*(uint8_t *)(iVar1 + 0x4e)))),
+                     ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar4 >> 0x28))) << 8) | (uint8_t)(*(uint8_t *)(iVar1 + 0x4f)))),
                      *(char **)((int)uVar4 + 0x1538),0x18);
       }
     }
@@ -4790,7 +4790,7 @@ XI_API void __cdecl Unit10086E90_UpdateFrame997B0(void)
       (&DAT_10483148)[iVar2] = 0;
       iVar2 = iVar2 + 1;
     } while (iVar2 < 0x10);
-    orig::FUN_100e6080(DAT_104dfd98,0x10483118,0x10);
+    orig::FUN_100e6080(DAT_104dfd98,(int)XI_GAME(0x10483118u),0x10);
     if ((DAT_10482f98 & 0x1ff) != 0) {
       uVar4 = orig::Unit1012AC80_GetCachedOrLoad(DAT_10621808,(DAT_10482f98 & 0x1ff) - 0x1000 & 0xffff);
       if ((int)uVar4 == 0) {
@@ -4811,7 +4811,7 @@ XI_API void __cdecl Unit10086E90_UpdateFrame997B0(void)
         iVar2 = iVar2 + 1;
       } while (iVar2 < 0x10);
     }
-    orig::FUN_100e6080(DAT_104dfd98,0x10483118,0x10);
+    orig::FUN_100e6080(DAT_104dfd98,(int)XI_GAME(0x10483118u),0x10);
     DAT_104804ce_as_s8 = '\0';
     DAT_10483158 = 1;
   }
@@ -4886,7 +4886,7 @@ XI_API undefined4 __cdecl Acter_ApplyUpdateRecord(undefined4 param_1, undefined4
     uVar9 = (&ActerBuffPtr_as_v0)[param_3[4]];
     if ((*(uint32_t *)(uVar9 + 0x120) >> 8 & 1) == 0) {
       *(uint32_t *)(uVar9 + 0x120) = *(uint32_t *)(uVar9 + 0x120) | 0x4000;
-      return ((uint32_t)(((uint32_t)((int32_t)(uVar9 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uVar9 >> 8))) << 8) | (uint8_t)(1)));
     }
     goto LAB_1009aac1;
   }
@@ -4943,7 +4943,7 @@ LAB_10099ebf:
       }
     }
     else {
-      uVar6 = orig::Acter_IsEvent(((uint32_t)(((uint32_t)((int32_t)((uint32_t)(iVar8 + 0x44) >> 8)) << 8) | (uint8_t)(DAT_10489900_as_s8))));
+      uVar6 = orig::Acter_IsEvent(((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)(iVar8 + 0x44) >> 8))) << 8) | (uint8_t)(DAT_10489900_as_s8))));
       if ((((char)uVar6 == '\0') || ((*(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) >> 7 & 1) != 0)
           ) || ((*(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x120) >> 8 & 1) != 0)) goto LAB_10099ebf;
     }
@@ -5146,9 +5146,9 @@ LAB_10099ebf:
     uVar6 = ((uint32_t)(((uint32_t)(uint16_t)((short)(uVar9 >> 0x10)) << 16) | (uint16_t)(param_3[0x1f])));
     uVar11 = orig::FUN_1009acb0((void *)(&ActerBuffPtr_as_v0)[param_3[4]],uVar6,uVar6);
     pvVar7 = (void *)(&ActerBuffPtr_as_v0)[param_3[4]];
-    orig::FUN_1009ace0(pvVar7,0,((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar11 >> 0x28)) << 8) | (uint8_t)((char)param_3[0x20]))));
+    orig::FUN_1009ace0(pvVar7,0,((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar11 >> 0x28))) << 8) | (uint8_t)((char)param_3[0x20]))));
     orig::FUN_1009ace0((void *)(&ActerBuffPtr_as_v0)[param_3[4]],1,
-                 ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar7 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)param_3 + 0x41)))));
+                 ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar7 >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)param_3 + 0x41)))));
     uVar9 = *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c);
     *(uint32_t *)((&ActerBuffPtr_as_v0)[param_3[4]] + 0x13c) =
          uVar9 ^ ((uint32_t)*(uint8_t *)((int)param_3 + 0x33) << 2 ^ uVar9) & 0x30;
@@ -5170,7 +5170,7 @@ LAB_10099ebf:
     uVar9 = orig::Camera_SetField30(2);
   }
 LAB_1009aac1:
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar9 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar9 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1009AAF0  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -5183,13 +5183,13 @@ XI_API undefined4 __thiscall Acter_IsByte123Mask7In234(void * self_)
   uint32_t uVar3;
   
   uVar2 = orig::Acter_IsState55(self_,0xff);
-  uVar4 = (uint32_t)((uint32_t)uVar2 >> 8);
+  uVar4 = xi_trunc24(((uint32_t)uVar2 >> 8));
   if ((char)uVar2 != '\0') {
     return (uint32_t)uVar4 << 8;
   }
   uVar3 = ((uint32_t)(((uint32_t)(uVar4) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x123)))) & 0xffffff07;
   cVar1 = (char)uVar3;
-  uVar4 = (uint32_t)(uVar3 >> 8);
+  uVar4 = xi_trunc24((uVar3 >> 8));
   if (((cVar1 != '\x02') && (cVar1 != '\x03')) && (cVar1 != '\x04')) {
     return (uint32_t)uVar4 << 8;
   }
@@ -5203,8 +5203,8 @@ XI_API undefined4 __thiscall fn_1009AB20(void * self_)
   uint32_t xi_entry_eax = 0;
   uint32_t uVar1;
   
-  uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x123)))) & 0xffffff07;
-  return CONCAT31((int32_t)(uVar1 >> 8),(char)uVar1 == '\x03');
+  uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x123)))) & 0xffffff07;
+  return CONCAT31(xi_strunc24((uVar1 >> 8)),(char)uVar1 == '\x03');
 }
 
 // FUNCTION: FFXIMAIN 0x1009AD20  (unit unit_10086E90: no unit evidence of its own; in the gap between 0x10086E80 (CXiAtelActor) and 0x100A27F0 (CMoTask_VT_1032D6D4) -- an unnamed source file)
@@ -5327,7 +5327,7 @@ XI_API void __thiscall Acter_StepAfterimageStates(void * self_)
   if (*(char *)((int)self_ + 0x1bc) != '\0') {
     return;
   }
-  uVar9 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),0x10330ebc);
+  uVar9 = orig::CYyObject_IsKindOf(*(void **)((int)self_ + 0xa0),(int)XI_GAME(0x10330EBCu));
   if (((char)uVar9 != '\0') &&
      (uVar3 = orig::CXiSkeletonActor_IsReadCompleteBody(*(void **)((int)self_ + 0xa0),(int)uVar9),
      (char)uVar3 == '\0')) {
@@ -5537,12 +5537,12 @@ XI_API undefined4 __cdecl Unit10086E90_CheckIdAgainstBlockBits(undefined4 param_
   
   uVar1 = orig::Unit100D7420_GetBlock2CFD8(&local_4);
   if ((char)uVar1 == '\0') {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
   }
   if (((uint16_t)param_1 < 0x146) &&
      (param_1 = param_1 & 0xffff,
      (char)((uint8_t *)((&DAT_1035b950)))[param_1] < (char)((*(uint8_t *)(local_4 + 1) & 0x18) >> 3))) {
-    return ((uint32_t)(((uint32_t)((int32_t)(param_1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((param_1 >> 8))) << 8) | (uint8_t)(1)));
   }
   return param_1 & 0xffffff00;
 }
@@ -5584,7 +5584,7 @@ LAB_100a1a4d:
     uVar4 = 0;
     if (iVar3 == 0) goto switchD_100a1a74_caseD_5b;
   }
-  uVar4 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)((char)param_3)));
+  uVar4 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)((char)param_3)));
   if ((char)param_3 == '\0') {
     uVar4 = (param_2 & 0xffff) - 0x59;
     switch(xi_sw(param_2 & 0xffff)) {
@@ -5605,7 +5605,7 @@ switchD_100a1a74_caseD_59:
   iVar3 = orig::Unit100D7420_FindEntryByName(param_1);
   uVar4 = 0;
   if (iVar3 != 0) {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)(1)));
   }
   goto switchD_100a1a74_caseD_5b;
 }

@@ -769,11 +769,11 @@ uint32_t __thiscall XiZone::TestHeadFlag(void * self)
   pvVar2 = (void *)0x0;
   if (pbVar1 != (uint8_t *)0x0) {
     if ((*pbVar1 & 1) == 0) {
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pbVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pbVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
     pvVar2 = *(void **)(g_pXiZone_as_s32 + 0x1c4);
     if ((pvVar2 != (void *)0x0) && (self == pvVar2)) {
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return (uint32_t)pvVar2 & 0xffffff00;

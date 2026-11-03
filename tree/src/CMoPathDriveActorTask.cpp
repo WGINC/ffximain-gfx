@@ -182,7 +182,7 @@ LAB_1005ec5a:
   }
   orig::CMoSpline_ReleaseRef_v1((void *)(iVar2 + 0x30));
   uVar3 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1005EEF0  (placed by IDB name; static (takes no this))

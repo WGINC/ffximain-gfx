@@ -12,7 +12,7 @@ XI_API void __cdecl sqMemInit(void)
   do {
     orig::SqMem_InitBlock(puVar1);
     puVar1 = puVar1 + 0x18;
-  } while ((int)puVar1 < 0x1099d1f8);
+  } while ((int)puVar1 < (int)XI_GAME(0x1099D1F8u));
   DAT_103b2848 = 0xabbadaba;
   DAT_1099d1f8 = 0;
   _DAT_1099d1fc = 0;

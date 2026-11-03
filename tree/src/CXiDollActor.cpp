@@ -37,5 +37,5 @@ XI_API undefined4 __thiscall fn_100ABFB0(void * self_, int param_1, undefined4 *
   uint32_t uVar1;
   
   uVar1 = orig::Vec4_Copy_v3(param_2,(uint32_t *)(param_1 * 0x10 + 0x104 + (int)self_));
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }

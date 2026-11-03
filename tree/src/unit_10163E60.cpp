@@ -1186,7 +1186,7 @@ LAB_101673b0:
 LAB_101673b5:
       if (uVar5 == 0) {
         uVar7 = orig::Unit10253A20_Assign(self_,pbVar4,uVar3);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar7 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar7 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -1249,7 +1249,7 @@ XI_API void * __thiscall ZoneMap_ConstructVt10336634(void * self_)
   do {
     *puVar1 = 0x80800808;
     puVar1 = puVar1 + 4;
-  } while ((int)puVar1 < 0x10621a14);
+  } while ((int)puVar1 < (int)XI_GAME(0x10621A14u));
   _DAT_106219f4 = 0x80088008;
   _DAT_10621a04 = 0x80088008;
   *(uint8_t *)((int)self_ + 0x34138) = 0;
@@ -1422,7 +1422,7 @@ XI_API undefined4 __thiscall Unit10163E60_ProbeAxis1(void * self_, float * param
   param_2[1] = local_14;
   fVar2 = local_14;
 LAB_101693a6:
-  return ((uint32_t)(((uint32_t)((int32_t)(xi_castbits<uint32_t>(fVar2) >> 8)) << 8) | (uint8_t)(cVar3)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((xi_castbits<uint32_t>(fVar2) >> 8))) << 8) | (uint8_t)(cVar3)));
 }
 
 // FUNCTION: FFXIMAIN 0x101693B0  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
@@ -1728,7 +1728,7 @@ XI_API uint32_t __thiscall Unit10163E60_SegmentHit3413A(void * self_, float * pa
           }
           iVar3 = local_a4;
         }
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(local_ad)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)(local_ad)));
       }
     }
   }
@@ -2038,7 +2038,7 @@ XI_API uint32_t __thiscall Unit10163E60_SegmentHit34139(void * self_, float * pa
           }
           iVar3 = local_a4;
         }
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(local_ad)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)(local_ad)));
       }
     }
   }
@@ -2328,7 +2328,7 @@ XI_API uint32_t __thiscall Unit10163E60_SegmentTest34139(void * self_, float * p
           }
           iVar7 = local_a4;
         }
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar7 >> 8)) << 8) | (uint8_t)(local_b5)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar7 >> 8))) << 8) | (uint8_t)(local_b5)));
       }
     }
   }
@@ -2653,7 +2653,7 @@ XI_API uint32_t __thiscall fn_1016A990(void * self_, float * param_1, float * pa
           }
           iVar6 = local_b4;
         }
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar6 >> 8)) << 8) | (uint8_t)(local_b9)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar6 >> 8))) << 8) | (uint8_t)(local_b9)));
       }
     }
   }
@@ -3054,7 +3054,7 @@ XI_API undefined4 __thiscall Unit10163E60_SegmentHitWithObjects(void * self_, fl
           uVar18 = orig::FUN_10085240();
           this_00 = (void *)uVar18;
           while (uVar9 = 0, this_00 != (void *)0x0) {
-            uVar18 = orig::CYyObject_IsKindOf(this_00,0x10330684);
+            uVar18 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x10330684u));
             if ((((char)uVar18 != '\0') && (this_00 != (void *)0x0)) &&
                ((iVar12 = orig::FUN_100c4bc0(this_00,local_20,local_10), iVar12 != 0 &&
                 (uVar9 = orig::FUN_1016c5d0(self_,&local_bc,iVar12,local_20,local_10,param_1,param_2,
@@ -3065,7 +3065,7 @@ XI_API undefined4 __thiscall Unit10163E60_SegmentHitWithObjects(void * self_, fl
             this_00 = (void *)uVar18;
           }
         }
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar9 >> 8)) << 8) | (uint8_t)(local_cd)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar9 >> 8))) << 8) | (uint8_t)(local_cd)));
       }
     }
   }
@@ -3418,7 +3418,7 @@ XI_API undefined4 __stdcall ZoneMap_IsPointInTriangle(float * param_1, int param
       if (bVar7 != bVar8) {
         return uVar5;
       }
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return ((uint32_t)(((uint32_t)(uint16_t)(uVar6) << 16) | (uint16_t)(uVar9)));
@@ -3692,7 +3692,7 @@ XI_API undefined4 __stdcall fn_1016CB60(int param_1, int param_2)
     *(float *)(param_1 + 0x24) = (float)((long double)fVar1 * fVar8);
     *(float *)(param_1 + 0x28) = (float)((long double)fVar2 * fVar8);
     *(float *)(param_1 + 0x2c) = (float)(fVar8 * fVar10);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_2 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_2 >> 8))) << 8) | (uint8_t)(1)));
   }
   *(float *)(param_1 + 0x24) = (float)-((long double)fVar1 * fVar8);
   *(float *)(param_1 + 0x28) = (float)-((long double)fVar2 * fVar8);
@@ -4051,7 +4051,7 @@ XI_API uint64_t __thiscall Unit10163E60_SweepSetupAndTest(void * self_, float * 
         this_01 = local_d4;
         this_00 = (void *)uVar19;
         while (this_00 != (void *)0x0) {
-          uVar19 = orig::CYyObject_IsKindOf(this_00,0x10330684);
+          uVar19 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x10330684u));
           if ((((char)uVar19 != '\0') && (this_00 != (void *)0x0)) &&
              ((iVar11 = orig::FUN_100c4bc0(this_00,&local_38,local_10),
               bVar16 = NAN((long double)local_34) || NAN((long double)(-0.100000001490116119384765625f)),
@@ -4082,15 +4082,15 @@ XI_API uint64_t __thiscall Unit10163E60_SweepSetupAndTest(void * self_, float * 
         *param_3 = local_e0;
         param_3[1] = (float)((long double)local_dc + (long double)0.5f);
         param_3[2] = local_d8;
-        return ((uint64_t)(((uint64_t)(uint32_t)(local_d8) << 32) | (uint32_t)(((uint32_t)(((uint32_t)((int32_t)(xi_castbits<uint32_t>((float)((long double)local_dc + (long double)0.5f)) >>
-                                                8)) << 8) | (uint8_t)(*(uint8_t *)((int)this_01 + 0x34128)))))));
+        return ((uint64_t)(((uint64_t)(uint32_t)(local_d8) << 32) | (uint32_t)(((uint32_t)(((uint32_t)(xi_strunc24((xi_castbits<uint32_t>((float)((long double)local_dc + (long double)0.5f)) >>
+                                                8))) << 8) | (uint8_t)(*(uint8_t *)((int)this_01 + 0x34128)))))));
       }
       *param_3 = *param_1;
       fVar5 = param_1[1];
       param_3[1] = fVar5;
       fVar6 = param_1[2];
       param_3[2] = fVar6;
-      return ((uint64_t)(((uint64_t)(uint32_t)(fVar5) << 32) | (uint32_t)(((uint32_t)(((uint32_t)((int32_t)(xi_castbits<uint32_t>(fVar6) >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)this_01 + 0x34128)))))));
+      return ((uint64_t)(((uint64_t)(uint32_t)(fVar5) << 32) | (uint32_t)(((uint32_t)(((uint32_t)(xi_strunc24((xi_castbits<uint32_t>(fVar6) >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)this_01 + 0x34128)))))));
     }
   }
   return uVar18 & 0xffffffffffffff00;
@@ -4191,7 +4191,7 @@ XI_API undefined4 __thiscall Unit10163E60_SweepStep(void * self_, float * param_
   *param_1 = *pfVar1;
   param_1[1] = *(float *)((int)self_ + 0x341b0);
   param_1[2] = *(float *)((int)self_ + 0x341b4);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1016FC40  (unit unit_10163E60: no unit evidence of its own; in the gap between 0x10163640 (g_pStAvatarCoordinator) and 0x10176EA0 (CMoResource_VT_10336698) -- an unnamed source file)
@@ -5466,7 +5466,7 @@ XI_API float * __thiscall ZoneMap_FindDbgBoxHitBySegment(void * self_, float * p
                 return pfVar4;
               }
               piVar5 = piVar5 + 7;
-            } while ((int)piVar5 < 0x10376c68);
+            } while ((int)piVar5 < (int)XI_GAME(0x10376C68u));
           }
           iVar3 = iVar3 + 1;
           pfVar4 = pfVar4 + 0x3d;

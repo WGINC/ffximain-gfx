@@ -181,7 +181,7 @@ undefined4 __thiscall CYyModel::GetPartOffset(void * self, int param_1, int para
       local_4 = 0x3f800000;
       orig::Vec3_MulInPlace_v1(local_20,local_20 + 4);
       uVar1 = orig::Vec3_AddInPlace_v1(param_3,local_20);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   else if ((*(uint8_t *)((int)self + 0x30) & 0x10) != 0) {
@@ -195,7 +195,7 @@ undefined4 __thiscall CYyModel::GetPartOffset(void * self, int param_1, int para
         iVar3 = iVar3 + 1;
       } while (iVar2 != 0);
       uVar1 = orig::CYyModelBase_TransformVec4ByPart((void *)*xi_entry_eax,param_2,param_3);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return (uint32_t)xi_entry_eax & 0xffffff00;

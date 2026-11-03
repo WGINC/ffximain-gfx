@@ -13,14 +13,14 @@ XI_API uint32_t __cdecl SqmdModel_Validate(int param_1)
   if ((uVar1 & 1) == 0) {
     orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqModel_sr_103b37ec,0x77);
     uVar2 = orig::sqDebugPrintf_v1(s_model_is_not_loaded__validation_f_103b3848);
-    return (uint32_t)(uint32_t)((uint64_t)uVar2 >> 8) << 8;
+    return (uint32_t)xi_trunc24(((uint64_t)uVar2 >> 8)) << 8;
   }
   if ((uVar1 & 2) == 0) {
     orig::sqDebugPrintf_v1(s_Error_in__s__line__d__103b379c,s_C__dev_dancer_modules_sqModel_sr_103b37ec,0x7d);
     uVar2 = orig::sqDebugPrintf_v1(s_model_is_not_linked__validation_f_103b381c);
-    return (uint32_t)(uint32_t)((uint64_t)uVar2 >> 8) << 8;
+    return (uint32_t)xi_trunc24(((uint64_t)uVar2 >> 8)) << 8;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(0xff)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(0xff)));
 }
 
 // FUNCTION: FFXIMAIN 0x10277AB0  (unit sqmdModel: asserts sqmdModel.c)

@@ -49,7 +49,7 @@ XI_API undefined4 __thiscall Unit10014350_TryShutdownActors(void * self_)
   uint32_t uVar1;
   
   uVar1 = orig::Unit10014350_ShutdownActorsAndTables(self_);
-  return CONCAT31((int32_t)((uint32_t)uVar1 >> 8),(char)uVar1 != '\0');
+  return CONCAT31(xi_strunc24(((uint32_t)uVar1 >> 8)),(char)uVar1 != '\0');
 }
 
 // FUNCTION: FFXIMAIN 0x10014A30  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -95,7 +95,7 @@ XI_API uint32_t __thiscall Unit10014350_StepStagedRelease(void * self_)
   case 3:
     *(uint32_t *)((int)self_ + 0x44) = 0xe;
     *(uint8_t *)((int)self_ + 10) = 0;
-    return ((uint32_t)(((uint32_t)((int32_t)(char)((uint16_t)*(short *)((int)self_ + 4) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((char)((uint16_t)*(short *)((int)self_ + 4) >> 8))) << 8) | (uint8_t)(1)));
   default:
     goto switchD_10014a3c_default;
   }
@@ -160,7 +160,7 @@ XI_API undefined4 __thiscall Unit10014350_StepMenuOkThenRelease(void * self_)
         uVar4 = ((int (__thiscall *)(void *, XI_ANY))(*(code **)(*DAT_1045690c_as_v0 + 0x18)))((void *)(DAT_1045690c_as_v0), 1);
         DAT_1045690c_as_v0 = (int *)0x0;
       }
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar5 & 0xffffff00;
@@ -199,7 +199,7 @@ XI_API void __cdecl Unit10014350_ApplyTables103501F8(void)
     do {
       orig::Unit10029260_ApplyFourTables(puVar1);
       puVar1 = puVar1 + 8;
-    } while ((int)puVar1 < 0x10350210);
+    } while ((int)puVar1 < (int)XI_GAME(0x10350210u));
   }
   return;
 }
@@ -215,7 +215,7 @@ XI_API undefined4 __thiscall Unit10014350_ShutdownActorsAndTables(void * self_)
     return uVar1;
   }
   uVar1 = orig::Unit10014350_ApplyTables10350210();
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10014CB0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -231,7 +231,7 @@ XI_API undefined4 __cdecl Unit10014350_ApplyTables10350210(void)
     do {
       uVar1 = orig::Unit10029260_ApplyFourTables(puVar2);
       puVar2 = puVar2 + 8;
-    } while ((int)puVar2 < 0x10350228);
+    } while ((int)puVar2 < (int)XI_GAME(0x10350228u));
   }
   return uVar1;
 }
@@ -501,7 +501,7 @@ XI_API void __thiscall Camera_BuildPerspectiveFov(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Camera_GetByte0B(void)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)g_pCamera_as_s32 >> 8)) << 8) | (uint8_t)(*(uint8_t *)(g_pCamera_as_s32 + 0xb))));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)g_pCamera_as_s32 >> 8))) << 8) | (uint8_t)(*(uint8_t *)(g_pCamera_as_s32 + 0xb))));
 }
 
 // FUNCTION: FFXIMAIN 0x10015600  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -588,7 +588,7 @@ XI_API undefined4 __cdecl Unit10014350_ReturnTrue(void)
 {
   uint32_t xi_entry_eax = 0;
   
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100157B0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)
@@ -782,7 +782,7 @@ XI_API undefined4 __cdecl App_GetGlobal_104569C8(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10014350_GetSceneStateByte68(undefined4 xi_eax)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(g_sceneStateStorage_68)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(g_sceneStateStorage_68)));
 }
 
 // FUNCTION: FFXIMAIN 0x100164C0  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)

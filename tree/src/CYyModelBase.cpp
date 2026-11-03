@@ -18,7 +18,7 @@ undefined4 __thiscall CYyModelBase::AllocParts(void * self, int param_1)
   }
   iVar1 = (*(uint16_t **)(param_1 + 0x42))[1] + 1 + (uint32_t)**(uint16_t **)(param_1 + 0x42);
   *(int *)((int)self + 0x44) = iVar1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100298A0  (placed by tree manifest; does not use this)

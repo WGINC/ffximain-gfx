@@ -6,52 +6,52 @@
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl App_RegisterSystemDats(void)
 {
-  orig::Unit10211440_Construct(DAT_10666e2c,0,0x103502d4,0x103502dc);
-  orig::Unit10211440_Construct(DAT_10666e30,1,0x103502cc,0);
+  orig::Unit10211440_Construct(DAT_10666e2c,0,(int)XI_GAME(0x103502D4u),(int)XI_GAME(0x103502DCu));
+  orig::Unit10211440_Construct(DAT_10666e30,1,(int)XI_GAME(0x103502CCu),0);
   if (DAT_10666e34 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e34,2,0x103502c4,0);
+    orig::Unit10211440_Construct(DAT_10666e34,2,(int)XI_GAME(0x103502C4u),0);
   }
   if (DAT_10666e38 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e38,3,0x103502bc,0);
+    orig::Unit10211440_Construct(DAT_10666e38,3,(int)XI_GAME(0x103502BCu),0);
   }
   if (DAT_10666e3c != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e3c,4,0x103502b4,0);
+    orig::Unit10211440_Construct(DAT_10666e3c,4,(int)XI_GAME(0x103502B4u),0);
   }
   if (DAT_10666e40 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e40,5,0x103502ac,0);
+    orig::Unit10211440_Construct(DAT_10666e40,5,(int)XI_GAME(0x103502ACu),0);
   }
   if (DAT_10666e44 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e44,6,0x103502a4,0);
+    orig::Unit10211440_Construct(DAT_10666e44,6,(int)XI_GAME(0x103502A4u),0);
   }
   if (DAT_10666e48 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e48,7,0x1035029c,0);
+    orig::Unit10211440_Construct(DAT_10666e48,7,(int)XI_GAME(0x1035029Cu),0);
   }
   if (DAT_10666e4c != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e4c,8,0x10350294,0);
+    orig::Unit10211440_Construct(DAT_10666e4c,8,(int)XI_GAME(0x10350294u),0);
   }
   if (DAT_10666e50 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e50,10,0x10350288,0);
+    orig::Unit10211440_Construct(DAT_10666e50,10,(int)XI_GAME(0x10350288u),0);
   }
   if (DAT_10666e54 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e54,0xb,0x1035027c,0);
+    orig::Unit10211440_Construct(DAT_10666e54,0xb,(int)XI_GAME(0x1035027Cu),0);
   }
   if (DAT_10666e58 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e58,0xc,0x10350270,0);
+    orig::Unit10211440_Construct(DAT_10666e58,0xc,(int)XI_GAME(0x10350270u),0);
   }
   if (DAT_10666e5c != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e5c,0xd,0x10350264,0);
+    orig::Unit10211440_Construct(DAT_10666e5c,0xd,(int)XI_GAME(0x10350264u),0);
   }
   if (DAT_10666e60 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e60,0xe,0x10350258,0);
+    orig::Unit10211440_Construct(DAT_10666e60,0xe,(int)XI_GAME(0x10350258u),0);
   }
   if (DAT_10666e64 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e64,0xf,0x1035024c,0);
+    orig::Unit10211440_Construct(DAT_10666e64,0xf,(int)XI_GAME(0x1035024Cu),0);
   }
   if (DAT_10666e68 != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e68,0x10,0x10350240,0);
+    orig::Unit10211440_Construct(DAT_10666e68,0x10,(int)XI_GAME(0x10350240u),0);
   }
   if (DAT_10666e6c != (void *)0x0) {
-    orig::Unit10211440_Construct(DAT_10666e6c,9,0x10350238,0);
+    orig::Unit10211440_Construct(DAT_10666e6c,9,(int)XI_GAME(0x10350238u),0);
   }
   if (DAT_10666e70 != (void *)0x0) {
     orig::Unit10211440_Construct(DAT_10666e70,0x11,0,0);
@@ -67,52 +67,52 @@ XI_API void __cdecl App_SaveAllSlotData(void)
   uint32_t uVar1;
   
   uVar1 = orig::Game_ClearFlagsBits();
-  uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e2c,0x103502d4,0x103502dc,uVar1);
-  uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e30,0x103502cc,0,uVar1);
+  uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e2c,(int)XI_GAME(0x103502D4u),(int)XI_GAME(0x103502DCu),uVar1);
+  uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e30,(int)XI_GAME(0x103502CCu),0,uVar1);
   if (DAT_10666e34 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e34,0x103502c4,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e34,(int)XI_GAME(0x103502C4u),0,uVar1);
   }
   if (DAT_10666e38 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e38,0x103502bc,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e38,(int)XI_GAME(0x103502BCu),0,uVar1);
   }
   if (DAT_10666e3c != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e3c,0x103502b4,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e3c,(int)XI_GAME(0x103502B4u),0,uVar1);
   }
   if (DAT_10666e40 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e40,0x103502ac,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e40,(int)XI_GAME(0x103502ACu),0,uVar1);
   }
   if (DAT_10666e44 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e44,0x103502a4,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e44,(int)XI_GAME(0x103502A4u),0,uVar1);
   }
   if (DAT_10666e48 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e48,0x1035029c,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e48,(int)XI_GAME(0x1035029Cu),0,uVar1);
   }
   if (DAT_10666e4c != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e4c,0x10350294,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e4c,(int)XI_GAME(0x10350294u),0,uVar1);
   }
   if (DAT_10666e50 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e50,0x10350288,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e50,(int)XI_GAME(0x10350288u),0,uVar1);
   }
   if (DAT_10666e54 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e54,0x1035027c,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e54,(int)XI_GAME(0x1035027Cu),0,uVar1);
   }
   if (DAT_10666e58 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e58,0x10350270,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e58,(int)XI_GAME(0x10350270u),0,uVar1);
   }
   if (DAT_10666e5c != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e5c,0x10350264,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e5c,(int)XI_GAME(0x10350264u),0,uVar1);
   }
   if (DAT_10666e60 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e60,0x10350258,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e60,(int)XI_GAME(0x10350258u),0,uVar1);
   }
   if (DAT_10666e64 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e64,0x1035024c,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e64,(int)XI_GAME(0x1035024Cu),0,uVar1);
   }
   if (DAT_10666e68 != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e68,0x10350240,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e68,(int)XI_GAME(0x10350240u),0,uVar1);
   }
   if (DAT_10666e6c != (void *)0x0) {
-    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e6c,0x10350238,0,uVar1);
+    uVar1 = orig::Unit10211440_SaveAndRelease(DAT_10666e6c,(int)XI_GAME(0x10350238u),0,uVar1);
   }
   if (DAT_10666e70 != (void *)0x0) {
     orig::Unit10211440_SaveAndRelease(DAT_10666e70,0,0,uVar1);

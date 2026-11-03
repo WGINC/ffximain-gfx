@@ -452,7 +452,7 @@ undefined4 __thiscall CMoTask::DetachAndRecycle(void * self, int param_1)
     if (param_1 != 0) {
       uVar1 = orig::FUN_10074a20();
     }
-    iVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(*(char *)((int)self + 0x20))));
+    iVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(*(char *)((int)self + 0x20))));
     if (*(char *)((int)self + 0x20) == '\0') {
       *(uint32_t *)(dword_1047D140 + 0xd5c) = *(uint32_t *)(dword_1047D140 + 0xd50);
       *(void **)(dword_1047D140 + 0xd50) = self;

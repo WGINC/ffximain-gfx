@@ -33,10 +33,10 @@ XI_API void __cdecl Unit10272F20_SelectCamera(int param_1)
   DAT_1099b0f4 = param_1;
   DAT_1099b130 = param_1;
   if (fVar3 <= fVar1) {
-    orig::SqsnScene_SetCursorIfInRange(0x1099b13c,(&DAT_1099b1b4)[param_1]);
+    orig::SqsnScene_SetCursorIfInRange((int)XI_GAME(0x1099B13Cu),(&DAT_1099b1b4)[param_1]);
     iVar2 = 0;
     do {
-      orig::SqsnScene_SetEntryField8(0x1099b13c,iVar2,(&DAT_1099b1b4)[DAT_1099b0f4]);
+      orig::SqsnScene_SetEntryField8((int)XI_GAME(0x1099B13Cu),iVar2,(&DAT_1099b1b4)[DAT_1099b0f4]);
       iVar2 = iVar2 + 1;
     } while (iVar2 < 4);
     return;
@@ -44,10 +44,10 @@ XI_API void __cdecl Unit10272F20_SelectCamera(int param_1)
   _DAT_1099b134 = 0;
   DAT_1099b0d8 = DAT_1099b0d8 | 0x100;
   orig::Unit10272F20_SetCameraEntry(6,(int)(((char *)&DAT_1099b1d0) + iVar2 * 0x34),(int)(((char *)&DAT_1099b33c) + iVar2 * 0x7c));
-  orig::SqsnScene_SetCursorIfInRange(0x1099b13c,DAT_1099b1cc);
+  orig::SqsnScene_SetCursorIfInRange((int)XI_GAME(0x1099B13Cu),DAT_1099b1cc);
   iVar2 = 0;
   do {
-    orig::SqsnScene_SetEntryField8(0x1099b13c,iVar2,DAT_1099b1cc);
+    orig::SqsnScene_SetEntryField8((int)XI_GAME(0x1099B13Cu),iVar2,DAT_1099b1cc);
     iVar2 = iVar2 + 1;
   } while (iVar2 < 4);
   return;
@@ -111,14 +111,14 @@ XI_API void __cdecl Unit10272F20_UpdateCameraBlend(int param_1)
                    (float *)(&DAT_1099b398 + DAT_1099b130 * 0x1f),fVar2);
       orig::FUN_1027b2c0((float *)&DAT_1099b68c,(float *)(((char *)&DAT_1099b3a4) + iVar3),
                    (float *)(((char *)&DAT_1099b3a4) + iVar1),fVar2);
-      orig::sqxfXformTD_Update(0x1099b624);
+      orig::sqxfXformTD_Update((int)XI_GAME(0x1099B624u));
       return;
     }
   }
-  orig::SqsnScene_SetCursorIfInRange(0x1099b13c,(&DAT_1099b1b4)[DAT_1099b0f4]);
+  orig::SqsnScene_SetCursorIfInRange((int)XI_GAME(0x1099B13Cu),(&DAT_1099b1b4)[DAT_1099b0f4]);
   iVar3 = 0;
   do {
-    orig::SqsnScene_SetEntryField8(0x1099b13c,iVar3,(&DAT_1099b1b4)[DAT_1099b0f4]);
+    orig::SqsnScene_SetEntryField8((int)XI_GAME(0x1099B13Cu),iVar3,(&DAT_1099b1b4)[DAT_1099b0f4]);
     iVar3 = iVar3 + 1;
   } while (iVar3 < 4);
   _DAT_1099b134_as_f32 = 0.0f;
@@ -155,8 +155,8 @@ XI_API void __cdecl Unit10272F20_ApplySceneToModel(undefined4 param_1, int param
     else {
       uVar2 = 0;
     }
-    orig::SqmdModel_AddIllumLight(param_1,0x1099b13c,*piVar1,uVar2);
+    orig::SqmdModel_AddIllumLight(param_1,(int)XI_GAME(0x1099B13Cu),*piVar1,uVar2);
     piVar1 = piVar1 + 1;
-  } while ((int)piVar1 < 0x1099bb88);
+  } while ((int)piVar1 < (int)XI_GAME(0x1099BB88u));
   return;
 }

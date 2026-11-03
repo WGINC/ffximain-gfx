@@ -52,5 +52,5 @@ XI_API undefined4 __stdcall Unit10082F60_ProjectThroughCamera(undefined4 * param
   param_2[2] = (int)lVar8;
   param_2[3] = 0;
   orig::Unit10026C70_Nop();
-  return ((uint32_t)(((uint32_t)((int32_t)((uint64_t)lVar8 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)lVar8 >> 8))) << 8) | (uint8_t)(1)));
 }

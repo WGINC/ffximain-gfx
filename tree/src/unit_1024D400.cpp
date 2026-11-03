@@ -301,7 +301,7 @@ LAB_1024d95b:
   orig::StAvatar_FormatNames();
   uVar1 = orig::StAvatar_ResetChannels((uint8_t *)param_1,1);
   uVar1 = orig::StAvatar_SetStopped(param_1,1,uVar1);
-  uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)((uint8_t)*param_1)));
+  uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)((uint8_t)*param_1)));
   if (((uint8_t)*param_1 & 0x20) != 0) {
     uVar2 = orig::CYyMusicLoadTask_StartTrack(0xa9);
   }
@@ -1542,7 +1542,7 @@ XI_API int __cdecl StAvatarRender(_BYTE *arg0)
   {
     if ( g_stateBlock_914C != 0 )
       (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->ApplyStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), g_stateBlock_914C);
-    ((void (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, int, int, _DWORD))g_pDancerDevice->lpVtbl->Clear)(
+    ((void (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, int, int, _DWORD))g_pDancerDevice->lpVtbl->XI_SLOT(Clear))(
       g_pDancerDevice,
       0,
       0,
@@ -1751,7 +1751,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) StAvatar_SetStopped(undefin
     bVar1 = (uint8_t)*param_1;
     if (param_2 == 1) {
       if ((bVar1 & 2) == 0) {
-        orig::MoTask_KillAllGlobalSlots(0x3f800000,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(bVar1))));
+        orig::MoTask_KillAllGlobalSlots(0x3f800000,((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(bVar1))));
         orig::AfterimageTask_Execute((uint32_t *)0x81a9,0x6e696666,0,0,0);
         orig::StAvatar_AdvanceTimers(param_1,0x411a);
       }

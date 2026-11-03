@@ -56,7 +56,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) CMoResource_Destroy(undef
   uVar2 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(*(uint16_t *)((int)self_ + 0x1a))));
   bVar1 = (uint8_t)*(uint16_t *)((int)self_ + 0x1a);
   if ((bVar1 >> 1 & 1) == 0) {
-    *(uint16_t *)((int)self_ + 0x1a) = (uint16_t)((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(bVar1))) | 2;
+    *(uint16_t *)((int)self_ + 0x1a) = (uint16_t)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(bVar1))) | 2;
     uVar2 = orig::CMoResource_InitAndGetFlag(self_);
     if ((*(uint8_t *)((int)self_ + 0x1a) & 1) != 0) {
       *(uint8_t *)((int)self_ + 0x1a) = *(uint8_t *)((int)self_ + 0x1a) & 0xfe;

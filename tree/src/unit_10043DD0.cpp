@@ -10,7 +10,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10043DD0_ToggleByte45
   
   cVar1 = '\x01' - *(char *)((int)self_ + 0x45);
   *(char *)((int)self_ + 0x45) = cVar1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(cVar1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(cVar1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10043DE0  (unit unit_10043DD0: no unit evidence of its own; in the gap between 0x10043DC0 (CMoAttachments_VT_1032AF8C) and 0x10043E20 (CMoTask_VT_1032AFA8) -- an unnamed source file)

@@ -83,7 +83,7 @@ XI_API void __cdecl Unit100298D0_ReleaseAll(void)
       *piVar1 = 0;
     }
     piVar1 = piVar1 + 1;
-  } while ((int)piVar1 < 0x10457158);
+  } while ((int)piVar1 < (int)XI_GAME(0x10457158u));
   dword_10457548_as_v0 = 0;
   orig::Unit10025220_Release();
   orig::Unit100252F0_Nop_10025BE0();

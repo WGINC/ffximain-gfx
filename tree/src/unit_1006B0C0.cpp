@@ -45,7 +45,7 @@ XI_API uint32_t __thiscall Unit1006B0C0_Insert(void * self_, undefined4 * param_
       *(int *)((int)self_ + 4) = iVar3;
       *(int *)((int)self_ + iVar1 * 4 + 0x428) = iVar3;
       *(uint8_t *)(iVar1 + 8 + (int)self_) = 1;
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
     iVar1 = iVar1 + 1;
   } while (iVar1 < 0x20);
@@ -73,7 +73,7 @@ XI_API uint32_t __thiscall Unit1006B0C0_Insert(void * self_, undefined4 * param_
     iVar1 = *(int *)((int)self_ + 4) + 1;
     *(int *)((int)self_ + 4) = iVar1;
     *(int *)((int)self_ + uVar5 * 4 + 0x428) = iVar1;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
   }
   return uVar2 & 0xffffff00;
 }

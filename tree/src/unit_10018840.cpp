@@ -8,7 +8,7 @@ XI_API undefined4 __thiscall Unit10018840_IsStateFour(void * self_)
 {
   uint32_t xi_entry_eax = 0;
   
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(*(int *)((int)self_ + 0x108) == 4)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(*(int *)((int)self_ + 0x108) == 4)));
 }
 
 // FUNCTION: FFXIMAIN 0x10018A50  (unit unit_10018840: no unit evidence of its own; in the gap between 0x100187D0 (CXiOpening) and 0x100190F0 (CXiTimer) -- an unnamed source file)

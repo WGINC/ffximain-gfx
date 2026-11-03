@@ -139,7 +139,7 @@ XI_API undefined4 __stdcall Unit1002A0C0_ClampPointToLocalEllipse(float * param_
     uVar2 = orig::Mat4_TransformNormalInPlace_v1(local_60 + 8,param_1);
     uVar2 = orig::FUN_100274b0(param_1,uVar2);
     orig::Unit10026C70_Nop();
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
   }
   uVar3 = orig::Vec3_Copy_v1(param_1,param_3);
   param_1[3] = 1.0f;

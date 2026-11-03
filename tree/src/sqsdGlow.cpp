@@ -39,7 +39,7 @@ XI_API undefined4 __cdecl SqsdGlow_ApplyShader(int param_1, int param_2)
   local_1c[0] = (float)(long double)(int)local_30;
   orig::SqgxContext_SetViewportVec4(&local_28);
   uVar2 = orig::sqgxShader_v1(0x400000,0);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(0xff)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(0xff)));
 }
 
 // FUNCTION: FFXIMAIN 0x10299AB0  (unit sqsdGlow: name sqsdGlow_BakeOntoShape)

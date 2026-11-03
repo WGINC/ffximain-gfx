@@ -107,8 +107,8 @@ XI_API uint8_t * __cdecl XiErrMsgGetErrCode(int ErrCode)
         if (iVar2 == ErrCode) {
           puVar3 = (uint8_t *)
                    orig::Unit1012AC80_GetMessageFwd
-                             (*(uint32_t *)(iVar4 * 0x10 + 0x10350990),
-                              *(uint32_t *)(iVar4 * 0x10 + 0x10350994));
+                             (*(uint32_t *)(iVar4 * 0x10 + (int)XI_GAME(0x10350990u)),
+                              *(uint32_t *)(iVar4 * 0x10 + (int)XI_GAME(0x10350994u)));
           return puVar3;
         }
         iVar2 = puVar5[4];
@@ -140,7 +140,7 @@ XI_API void __cdecl Unit10017C10_DispatchErrorCode(int param_1)
         if (puVar2 == (uint8_t *)0x0) {
           puVar2 = &Read_as_v0;
         }
-        (**(code **)(((char *)&DAT_1035097c) + *(int *)(iVar4 * 0x10 + 0x1035098c) * 4))(param_1,puVar2);
+        (**(code **)(((char *)&DAT_1035097c) + *(int *)(iVar4 * 0x10 + (int)XI_GAME(0x1035098Cu)) * 4))(param_1,puVar2);
         return;
       }
       iVar1 = puVar3[4];
@@ -261,7 +261,7 @@ XI_API undefined4 __cdecl Unit10017C10_IsRegistered(void)
 {
   uint32_t xi_entry_eax = 0;
   
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(DAT_10456d17)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(DAT_10456d17)));
 }
 
 // FUNCTION: FFXIMAIN 0x100182C0  (unit unit_10017C10: no unit evidence of its own; in the gap between 0x10017BF0 (XiCapture) and 0x10018680 (CXiOpening) -- an unnamed source file)
@@ -296,7 +296,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit10017C10_ReportAndHandl
 {
   uint32_t uVar1;
   
-  uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_10350e38)));
+  uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_10350e38)));
   if (DAT_10350e38 != '\0') {
     orig::Unit100D7420_ReportError(param_1,param_2,param_3);
     if (param_1 < 0) {

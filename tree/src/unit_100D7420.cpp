@@ -805,7 +805,7 @@ XI_API void __cdecl Game_ResetGlobals(void)
     puVar1[1] = 0;
     *(uint16_t **)(puVar1 + 2) = puVar1 + -8;
     puVar1 = puVar1 + 0x6a;
-  } while ((int)puVar1 < 0x1048f55c);
+  } while ((int)puVar1 < (int)XI_GAME(0x1048F55Cu));
   return;
 }
 
@@ -823,7 +823,7 @@ XI_API undefined4 __thiscall Game_InitOnce(void * self_)
   g_pGameMode_as_v0 =(g_pGameMode_as_v0_t)(&DAT_1048fe10);
   *(uint8_t *)self_ = 1;
   uVar1 = orig::ntGameInit();
-  uVar2 = (uint32_t)(uVar1 >> 8);
+  uVar2 = xi_trunc24((uVar1 >> 8));
   if ((char)uVar1 != '\x01') {
     return (uint32_t)uVar2 << 8;
   }
@@ -837,7 +837,7 @@ XI_API undefined4 __thiscall Game_HasInitCount(void * self_)
 {
   undefined4 xi_entry_eax = 0;
   
-  return CONCAT31((int32_t)((uint32_t)xi_entry_eax >> 8),*(char *)((int)self_ + 2) != '\0');
+  return CONCAT31(xi_strunc24(((uint32_t)xi_entry_eax >> 8)),*(char *)((int)self_ + 2) != '\0');
 }
 
 // FUNCTION: FFXIMAIN 0x100D9AD0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -893,7 +893,7 @@ XI_API uint32_t __thiscall Game_InitSceneState(void * self_)
     *(uint8_t *)((int)self_ + 0x18) = 0;
     *(undefined4 *)((int)self_ + 0xb8) = 0;
     *(undefined4 *)((int)self_ + 0xa8) = 2;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)*(int *)((int)self_ + 0x98) >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)*(int *)((int)self_ + 0x98) >> 8))) << 8) | (uint8_t)(1)));
   }
   return uVar1 & 0xffffff00;
 }
@@ -1210,14 +1210,14 @@ XI_API undefined4 __cdecl Unit100D7420_ResetBlock1048FED0(void)
     puVar3 = puVar3 + 1;
   }
   *(uint8_t *)((int)DAT_10492db4_as_v0 + 0x2ee1) = 2;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)puVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)puVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DBCA0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Game_IsFlag10492DB4(void)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_10492db4 >> 8)) << 8) | (uint8_t)(DAT_10492db4 != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_10492db4 >> 8))) << 8) | (uint8_t)(DAT_10492db4 != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DBDE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1248,7 +1248,7 @@ XI_API undefined4 __cdecl Unit100D7420_GetTimeNow(undefined4 * param_1, undefine
   uVar1 = orig::FUN_10314ef1((undefined4 *)0x0);
   *param_1 = uVar1;
   *param_2 = 0;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DBE50  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1272,7 +1272,7 @@ XI_API undefined4 __cdecl Unit100D7420_InitTimer(void)
   *DAT_10492e10_as_v0 = DVar1;
   DAT_10492e10_as_v0[0x15] = 0;
   uVar2 = orig::Unit100D7420_Reset();
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DBEB0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1288,7 +1288,7 @@ XI_API undefined4 __cdecl Unit100D7420_Sync(void)
   *(undefined4 *)(DAT_10492e10 + 4) = *(undefined4 *)(DAT_10492e10 + 0x10);
   *(undefined4 *)(DAT_10492e10 + 0x54) = 1;
   uVar2 = orig::Unit100D7420_Update();
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DBF00  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1358,7 +1358,7 @@ XI_API undefined4 __cdecl Unit100D7420_CheckSlotExpired(uint32_t param_1, uint32
   if (9 < param_1) {
     return param_1 & 0xffffff00;
   }
-  uVar1 = (uint32_t)(param_1 >> 8);
+  uVar1 = xi_trunc24((param_1 >> 8));
   if (*(char *)(DAT_10492e10 + 0x40 + param_1) != '\0') {
     *(int *)(DAT_10492e10 + 0x18 + param_1 * 4) =
          *(int *)(DAT_10492e10 + 0x18 + param_1 * 4) + *(int *)(DAT_10492e10 + 8);
@@ -1448,7 +1448,7 @@ XI_API undefined4 __cdecl Unit100D7420_InitWithValues(DWORD param_1, DWORD param
     iVar2 = iVar3;
     iVar4 = iVar4 + 1;
   } while (iVar3 < 0x40);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DC1B0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1461,7 +1461,7 @@ XI_API undefined4 __cdecl Unit100D7420_SetOffsetMilliseconds(int param_1, int pa
   iVar1 = DAT_10492e10;
   *(int *)(DAT_10492e10 + 0x14) =
        *(int *)(DAT_10492e10 + 0x14) + (param_2 - *(int *)(DAT_10492e10 + 0x10));
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DC1F0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1530,14 +1530,14 @@ XI_API undefined4 __cdecl Unit100D7420_InitContext(void)
     uVar1 = orig::FUN_100dc2d0(uVar1);
     return uVar1 & 0xffffff00;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DC2C0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Unit100D7420_IsInitialized(void)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104ae8ac >> 8)) << 8) | (uint8_t)(DAT_104ae8ac != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_104ae8ac >> 8))) << 8) | (uint8_t)(DAT_104ae8ac != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DC2D0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1560,7 +1560,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100DC2D0(undefined4 xi_e
     do {
       iVar2 = uVar5 * 0x6bf0;
       cVar1 = *(char *)(iVar2 + 4 + iVar4);
-      uVar3 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(cVar1)));
+      uVar3 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)(cVar1)));
       if (cVar1 == '\x02') {
         uVar3 = Ordinal_3(*(undefined4 *)(iVar2 + iVar4));
         *(uint8_t *)((undefined4 *)(iVar2 + iVar4) + 1) = 0;
@@ -1573,7 +1573,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100DC2D0(undefined4 xi_e
     } while (*(uint8_t *)(iVar4 + 0x1afc4) != uVar5);
   }
   DAT_104ae8ac = 0;
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DC360  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1636,7 +1636,7 @@ XI_API uint32_t __cdecl fn_100DC3B0(char * param_1)
     pcVar4 = pcVar4 + 1;
     param_1 = param_1 + 1;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(char)((uint16_t)sVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((char)((uint16_t)sVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DC420  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1657,7 +1657,7 @@ XI_API undefined4 __cdecl fn_100DC650(SOCKET * param_1)
     return 0xffffff00;
   }
   *(uint8_t *)(param_1 + 1) = 0;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DC670  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1682,7 +1682,7 @@ XI_API undefined4 __cdecl Unit100D7420_ReturnTrue100DC6C0(void)
 {
   undefined4 xi_entry_eax = 0;
   
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DC6D0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -1728,7 +1728,7 @@ XI_API uint32_t __cdecl fn_100DC710(uint32_t * param_1, undefined4 param_2, int 
       puVar5 = puVar5 + 1;
       iVar7 = iVar7 + -1;
     } while (iVar7 != 0);
-  } while ((int)puVar2 < 0x10361388);
+  } while ((int)puVar2 < (int)XI_GAME(0x10361388u));
   iVar7 = 0;
   iVar8 = (int)&DAT_10360340 - (int)param_1;
   local_4 = 0x12;
@@ -2065,7 +2065,7 @@ XI_API void __cdecl Unit100D7420_DecryptBlocks(uint32_t * param_1, int param_2, 
 XI_API undefined4 __cdecl Unit100D7420_IncrementField109C(int param_1)
 {
   *(int *)(param_1 + 0x109c) = *(int *)(param_1 + 0x109c) + 1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DD590  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -2686,7 +2686,7 @@ XI_API undefined4 __cdecl Unit100D7420_CopyBits(int param_1, uint32_t param_2, i
     }
     return param_3 & 0xffffff00;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_3 >> 8)) << 8) | (uint8_t)(0xff)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_3 >> 8))) << 8) | (uint8_t)(0xff)));
 }
 
 // FUNCTION: FFXIMAIN 0x100DF780  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -2867,7 +2867,7 @@ XI_API undefined4 __cdecl Unit100D7420_ClearFlag1A698(void)
     return 0;
   }
   *(uint8_t *)(DAT_104dfd98 + 0x1a698) = 0;
-  return ((uint32_t)(((uint32_t)((int32_t)uVar1) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(uVar1)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E0A50  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -2908,7 +2908,7 @@ XI_API undefined4 __cdecl Unit100D7420_SendRequest3CThrottled(void)
       uVar4 = orig::Unit100D7420_CheckTimer41B4(0x3c,1,1);
       puVar2 = (uint16_t *)uVar4;
       if (puVar2 == (uint16_t *)0x0) {
-        return (uint32_t)(uint32_t)((uint64_t)uVar4 >> 8) << 8;
+        return (uint32_t)xi_trunc24(((uint64_t)uVar4 >> 8)) << 8;
       }
       puVar2[2] = 0;
       puVar2[3] = 0;
@@ -2926,7 +2926,7 @@ XI_API undefined4 __cdecl Unit100D7420_SendRequest3CThrottled(void)
       *(uint32_t *)(DAT_104dfd98_as_v0 + 0x1a694) = uVar1;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E0B10  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -2979,13 +2979,13 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
               iVar14 = iVar14 + -1;
             } while (iVar14 != 0);
             *(uint16_t *)(param_1 + 0xc) = 2;
-            return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar7 >> 8)) << 8) | (uint8_t)(1)));
+            return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar7 >> 8))) << 8) | (uint8_t)(1)));
           }
           if (*(int *)(param_1 + 0x1ea4 + (uint32_t)*puVar1 * 4) == 0) {
             *puVar1 = 0;
             *(uint16_t *)(param_1 + 0x1ea2) = 2;
             *(uint16_t *)(param_1 + 0xc) = 3;
-            return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+            return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
           }
           goto LAB_100e139b;
         }
@@ -2995,7 +2995,7 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
         *puVar1 = 0;
         *(uint16_t *)(param_1 + 0x1ea2) = 2;
         *(uint16_t *)(param_1 + 0xc) = 1;
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
       }
       break;
     case 1:
@@ -3017,7 +3017,7 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
               iVar14 = iVar14 + -1;
             } while (iVar14 != 0);
             *(uint16_t *)(param_1 + 0xc) = 2;
-            return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar7 >> 8)) << 8) | (uint8_t)(1)));
+            return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar7 >> 8))) << 8) | (uint8_t)(1)));
           }
           if (*(int *)(iVar14 + 0x26c0 + (uint32_t)*puVar1 * 4) == 0) {
             if (*(code **)(iVar14 + 0x1f20) != (code *)0x0) {
@@ -3060,13 +3060,13 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
           iVar14 = iVar14 + -1;
         } while (iVar14 != 0);
         *(uint16_t *)(param_1 + 0xc) = 2;
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar7 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar7 >> 8))) << 8) | (uint8_t)(1)));
       }
       if ((!bVar3) && (*(int *)(puVar1 + (uint32_t)*puVar1 * 2 + 2) == 0)) {
         *puVar1 = 0;
         puVar1[1] = 2;
         *(uint16_t *)(param_1 + 0xc) = 0;
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
       }
       break;
     case 2:
@@ -3079,7 +3079,7 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
         *puVar1 = 0;
         *(uint16_t *)(param_1 + 0x1eea) = 2;
         *(uint16_t *)(param_1 + 0xc) = 0;
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
       }
       break;
     case 3:
@@ -3116,7 +3116,7 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
               iVar14 = iVar14 + -1;
             } while (iVar14 != 0);
             *(uint16_t *)(param_1 + 0xc) = 2;
-            return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar7 >> 8)) << 8) | (uint8_t)(1)));
+            return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar7 >> 8))) << 8) | (uint8_t)(1)));
           }
           if (piVar11[*puVar1 + 0x1ed] == 0) {
             if ((code *)piVar11[5] != (code *)0x0) {
@@ -3178,7 +3178,7 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
               iVar14 = iVar14 + -1;
             } while (iVar14 != 0);
             *(uint16_t *)(param_1 + 0xc) = 2;
-            return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+            return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
           }
           if (puVar12[(uint16_t)*puVar6 + 0x1ed] == 0) {
             if ((code *)puVar12[5] != (code *)0x0) {
@@ -3219,7 +3219,7 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
               iVar14 = iVar14 + -1;
             } while (iVar14 != 0);
             *(uint16_t *)(param_1 + 0xc) = 2;
-            return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar7 >> 8)) << 8) | (uint8_t)(1)));
+            return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar7 >> 8))) << 8) | (uint8_t)(1)));
           }
         }
       }
@@ -3235,7 +3235,7 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
       } while (iVar14 != 0);
       if (sVar9 == 0) {
         *(uint16_t *)(param_1 + 0xc) = 1;
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
       }
       break;
     default:
@@ -3263,7 +3263,7 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyNoticeRecord(int param_1)
     }
   }
 LAB_100e139b:
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E13C0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -3383,7 +3383,7 @@ XI_API undefined4 __cdecl Unit100D7420_InitAll(undefined4 * param_1)
   } while (iVar3 != 0);
   DAT_104ae8b8 = 0;
   uVar2 = orig::Unit100D7420_CreateThreadObject((undefined4 *)&DAT_104ae8b8,0);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E16A0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -3398,11 +3398,11 @@ XI_API undefined4 __cdecl fn_100E16A0(short * param_1, undefined4 param_2, int *
     if (piVar1 == (int *)0x0) {
       if (param_3 == (int *)0x0) {
         *param_1 = *param_1 + 1;
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
       }
       piVar1 = param_3;
       if (-1 < (int)param_3) {
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_3 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_3 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -3420,7 +3420,7 @@ XI_API undefined4 __cdecl fn_100E1740(short * param_1, undefined4 param_2, int *
     uVar1 = orig::FUN_100d8ba0(*param_3);
     if (uVar1 == 0) {
       *param_1 = *param_1 + 1;
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar1 & 0xffffff00;
@@ -3453,7 +3453,7 @@ XI_API undefined4 __cdecl Unit100D7420_InitWithMd5(int * param_1, int param_2, u
   uVar1 = orig::Mutex_WriteRecordLocked(*param_1,param_1,&LAB_100e1820);
   param_1[1] = param_2;
   *(uint16_t *)(param_1 + 2) = (uint16_t)param_3;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E19C0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -3739,7 +3739,7 @@ XI_API undefined4 __cdecl fn_100E1F20(short * param_1, int param_2, int * param_
       *param_1 = *param_1 + 1;
       param_1[1] = 1;
       *(uint16_t *)(param_2 + 0x1e) = 0;
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar1 & 0xffffff00;
@@ -3792,7 +3792,7 @@ LAB_100e2805:
           ))) {
         *(uint16_t *)(param_2 + 0x1e) = 0;
       }
-      return ((uint32_t)(((uint32_t)((int32_t)(uStack_270 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uStack_270 >> 8))) << 8) | (uint8_t)(1)));
     }
     goto LAB_100e2805;
   }
@@ -3884,7 +3884,7 @@ LAB_100e21e9:
         if (((puVar4 != (uint16_t *)0x0) &&
             ((int)puVar4 - (int)xi_s2 < (int)(uint32_t)*(uint16_t *)(xi_s2 + 2))) &&
            ((*(short *)(param_2 + 8) == 3 || ((char)*puVar4 != '\0')))) {
-          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)((int)puVar4 - (int)xi_s2) >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)((int)puVar4 - (int)xi_s2) >> 8))) << 8) | (uint8_t)(1)));
         }
         break;
       }
@@ -4041,7 +4041,7 @@ LAB_100e26cf:
   uVar5 = orig::FUN_100d8ae0((int *)*param_3,(int *)*param_3);
   if (!bVar2) {
     *(uint8_t *)(param_2 + 5) = 0;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
   }
   if (*(code **)(param_2 + 0x14) != (code *)0x0) {
     if (*(int *)(param_2 + 0x10) == 2) {
@@ -4066,7 +4066,7 @@ LAB_100e26cf:
     *(undefined4 *)(param_2 + 0x14) = 0;
   }
   *param_1 = *param_1 + 1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E2E70  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -4084,7 +4084,7 @@ XI_API undefined4 __cdecl Unit100D7420_RegisterHandler1369C(undefined4 * param_1
                           (undefined4 *)0x0,(undefined4 *)0x0,0,param_3,param_4,param_5,param_6);
     if (puVar2 != (undefined4 *)0x0) {
       uVar3 = orig::Unit100D7420_ClearMatching(iVar1,(uint16_t *)param_1);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
     uVar4 = orig::Unit100D7420_ClearMatching(iVar1,(uint16_t *)param_1);
   }
@@ -4148,7 +4148,7 @@ XI_API undefined4 __cdecl Unit100D7420_CheckStateTimeout(void)
       *(undefined4 *)(DAT_104dfd98 + 0x19dd4) = 0;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E4110  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -4204,7 +4204,7 @@ XI_API undefined4 __cdecl Unit100D7420_ResetObject2D000(int param_1)
     xi_entry_eax = *(uint8_t *)(param_1 + 0x40db5) & 0xffffffef;
     *(char *)(param_1 + 0x40db5) = (char)xi_entry_eax;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E46A0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -4267,11 +4267,11 @@ LAB_100e472c:
   if ((char)param_2 != '\0') {
     *(uint8_t *)(puVar2 + 8) = 1;
     uVar3 = orig::Unit100D7420_SendRaw(puVar2,0x14,0);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
   }
   *(uint8_t *)(puVar2 + 8) = 2;
   uVar3 = orig::Unit100D7420_SendRaw(puVar2,0x14,0);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E47A0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -4285,7 +4285,7 @@ XI_API undefined4 __cdecl Unit100D7420_GetBlock2CFD8(int * param_1)
   }
   iVar1 = DAT_104dfd98 + 0x2cfd8;
   *param_1 = iVar1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E5E30  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -4333,7 +4333,7 @@ XI_API undefined4 __cdecl Unit100D7420_ClearByte2CF53IfNull(void)
   if (DAT_104dfd98 == 0) {
     DAT_0002cf53 = 0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104dfd98 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_104dfd98 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E61C0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -4495,7 +4495,7 @@ LAB_100e641e:
     iVar8 = iVar8 + 1;
     local_c = local_c + 0x100;
   } while (local_c < 0x12c00);
-  iVar7 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar4 >> 8)) << 8) | (uint8_t)(bVar9)));
+  iVar7 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar4 >> 8))) << 8) | (uint8_t)(bVar9)));
   if (bVar9 != false) {
     if (local_d == '\0') {
       *(uint16_t *)(DAT_104df770 + 0x140) = 0;
@@ -4506,7 +4506,7 @@ LAB_100e641e:
     }
   }
 LAB_100e6646:
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar7 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar7 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E6650  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -4529,7 +4529,7 @@ XI_API undefined4 __cdecl Unit100D7420_IsBeforeDeadline(void)
   uint32_t uVar2;
   
   uVar1 = orig::Unit100D7420_GetSeconds();
-  uVar2 = (uint32_t)(uVar1 >> 8);
+  uVar2 = xi_trunc24((uVar1 >> 8));
   if (uVar1 < (uint32_t)(*(int *)(DAT_104df770 + 0x13c) + *(int *)(DAT_104df770 + 0x138))) {
     return (uint32_t)uVar2 << 8;
   }
@@ -4546,7 +4546,7 @@ XI_API undefined4 __cdecl Unit100D7420_IsCountOrByte134Set(void)
   if (((short)uVar1 == 0) && (uVar1 = DAT_104df770_as_v0, *(char *)(DAT_104df770_as_v0 + 0x134) == '\0')) {
     return DAT_104df770_as_v0 & 0xffffff00;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E6810  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -4557,7 +4557,7 @@ XI_API undefined4 __cdecl Unit100D7420_ClearTimer140(void)
   
   *(uint16_t *)(DAT_104df770 + 0x140) = 0;
   uVar1 = orig::Unit100D7420_ScanEntriesAndInit(0);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100E6830  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -4792,7 +4792,7 @@ XI_API undefined4 __cdecl Unit100D7420_SendByte76(undefined4 param_1)
     if (puVar1 != (uint16_t *)0x0) {
       *(uint8_t *)(puVar1 + 2) = (uint8_t)param_1;
       uVar2 = orig::Unit100D7420_SendRaw(puVar1,6,0);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return 0;
@@ -4872,7 +4872,7 @@ XI_API undefined4 __cdecl Unit100D7420_GetEntryCount(int param_1)
   if (DAT_104dfd98 == 0) {
     return 0xff;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104dfd98 >> 8)) << 8) | (uint8_t)(*(uint8_t *)(DAT_104dfd98 + 0x19891 + param_1))))
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_104dfd98 >> 8))) << 8) | (uint8_t)(*(uint8_t *)(DAT_104dfd98 + 0x19891 + param_1))))
   ;
 }
 
@@ -4890,7 +4890,7 @@ XI_API undefined4 __cdecl Unit100D7420_SendDwordPacket(undefined4 param_1)
     if (puVar1 != (uint16_t *)0x0) {
       *(undefined4 *)(puVar1 + 2) = param_1;
       uVar2 = orig::Unit100D7420_SendRaw(puVar1,8,0);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return 0;
@@ -4982,7 +4982,7 @@ XI_API undefined4 __cdecl Unit100D7420_SendPacketFromPtr(undefined4 param_1, und
         puVar4 = puVar4 + 2;
       }
       uVar2 = orig::Unit100D7420_SendRaw(puVar1,0x28,0);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return 0;
@@ -6010,7 +6010,7 @@ XI_API undefined4 __cdecl Unit100D7420_ClearFlag2CFD4IfNoGlobal(void)
   if (DAT_104dfd98 == 0) {
     DAT_0002cfd4 = 0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104dfd98 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_104dfd98 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F0090  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6042,7 +6042,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100F0130(undefined4 xi_e
   undefined4 *puVar3;
   
   if (param_1 == 0) {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(1)));
   }
   if (((DAT_104df770_as_v1 != (undefined4 *)0x0) || (param_1 < 1)) || (3 < param_1)) {
     return (uint32_t)DAT_104df770_as_v1 & 0xffffff00;
@@ -6079,7 +6079,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100F0130(undefined4 xi_e
   else {
     if (param_1 == 2) {
       DAT_104df770_as_v1[0x47] = 4;
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)puVar3 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)puVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
     iVar2 = param_1 + -3;
     if (iVar2 == 0) {
@@ -6087,14 +6087,14 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_100F0130(undefined4 xi_e
       return 1;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F02A0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_ReturnTrue100F02A0(undefined4 xi_eax)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F04F0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6108,7 +6108,7 @@ XI_API undefined4 __cdecl Unit100D7420_SetByte15110(uint8_t * param_1)
     return 0;
   }
   *(uint8_t *)(DAT_104df770 + 0x15110) = *param_1;
-  return ((uint32_t)(((uint32_t)((int32_t)uVar1) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(uVar1)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F0550  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6122,7 +6122,7 @@ XI_API undefined4 __cdecl Unit100D7420_SetByte15114(uint8_t * param_1)
     return 0;
   }
   *(uint8_t *)(DAT_104df770 + 0x15114) = *param_1;
-  return ((uint32_t)(((uint32_t)((int32_t)uVar1) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(uVar1)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F0570  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6136,7 +6136,7 @@ XI_API undefined4 __cdecl Unit100D7420_SetByte15115(uint8_t * param_1)
     return 0;
   }
   *(uint8_t *)(DAT_104df770 + 0x15115) = *param_1;
-  return ((uint32_t)(((uint32_t)((int32_t)uVar1) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(uVar1)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F0590  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6150,7 +6150,7 @@ XI_API undefined4 __cdecl Unit100D7420_SetTwoBytes15116(uint8_t * param_1)
   }
   *(uint8_t *)(DAT_104df770 + 0x15116) = *param_1;
   *(uint8_t *)(DAT_104df770 + 0x15117) = param_1[1];
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F05C0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6167,7 +6167,7 @@ XI_API undefined4 __cdecl Unit100D7420_FillSpaces(void)
     uVar1 = uVar1 + 1;
     *(uint8_t *)(DAT_104df770 + 0x1510f + uVar1) = 0x20;
   } while (uVar1 < 8);
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F05F0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6181,7 +6181,7 @@ XI_API undefined4 __cdecl Unit100D7420_ClearDword136A4(void)
     return 0;
   }
   *(undefined4 *)(DAT_104df770 + 0x136a4) = 0;
-  return ((uint32_t)(((uint32_t)((int32_t)uVar1) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(uVar1)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F06B0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6230,7 +6230,7 @@ XI_API undefined4 __cdecl fn_100F0C80(void)
   *(uint8_t *)((int)puVar1 + 0xb) = 0;
   *(uint8_t *)(puVar1 + 6) = 0;
   uVar2 = orig::Unit100D7420_SendRaw(puVar1,0x10,0);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F1080  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6590,7 +6590,7 @@ XI_API undefined4 __thiscall Unit100D7420_InitTwoNodes(void * self_)
     *(undefined4 *)((int)self_ + 0x24) = uVar1;
     *(undefined4 *)((int)self_ + 0x1c) = 0;
     *(uint16_t *)((int)self_ + 0x18) = 0;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
   }
   *(undefined4 *)((int)self_ + 0x1c) = 0;
   *(undefined4 *)((int)self_ + 0x24) = 0;
@@ -6644,7 +6644,7 @@ XI_API uint32_t __thiscall Unit100D7420_Destroy(void * self_, undefined4 param_1
   if (self_ == DAT_104df908) {
     DAT_104df908 = (void *)0x0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F1D20  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6661,7 +6661,7 @@ XI_API undefined4 __thiscall Unit100D7420_UpdateRequests(void * self_)
       && (pvVar2 != pvVar3)) && (*(short *)((int)pvVar3 + 0x1058) != 0)) {
     pvVar2 = (void *)orig::Unit100D7420_RunCallbacks(pvVar3,0);
   }
-  pvVar3 = (void *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 7))));
+  pvVar3 = (void *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar2 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 7))));
   pvVar2 = *(void **)((int)self_ + 0x28);
   if (*(char *)((int)self_ + 7) == '\0') {
     if (pvVar2 != (void *)0x0) {
@@ -6670,11 +6670,11 @@ XI_API undefined4 __thiscall Unit100D7420_UpdateRequests(void * self_)
       if ((((pvVar2 != (void *)0x0) && (pvVar2 != *(void **)((int)self_ + 0x24))) &&
           (pvVar2 != *(void **)((int)self_ + 0x20))) &&
          ((pvVar3 = (void *)orig::Unit100D7420_CallStateCallback3(pvVar2,pvVar3), (char)pvVar3 != '\0' &&
-          (pvVar3 = (void *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar3 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 6)))),
+          (pvVar3 = (void *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar3 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 6)))),
           *(char *)((int)self_ + 6) != '\0')))) {
         uVar4 = orig::Unit100D7420_Complete(*(void **)((int)self_ + 0x28));
         *(undefined4 *)((int)self_ + 0x28) = 0;
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
     pvVar2 = *(void **)((int)self_ + 0x28);
@@ -6683,12 +6683,12 @@ XI_API undefined4 __thiscall Unit100D7420_UpdateRequests(void * self_)
       if ((pvVar3 != (void *)0x0) && (*(short *)((int)pvVar3 + 0x1058) != 0)) {
         *(void **)((int)self_ + 0x28) = pvVar3;
         uVar4 = orig::Unit100D7420_RunCallbacks(pvVar3,0);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
     else if (*(short *)((int)pvVar2 + 0x1058) != 0) {
       uVar4 = orig::Unit100D7420_RunCallbacks(pvVar2,0);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   else {
@@ -6697,13 +6697,13 @@ XI_API undefined4 __thiscall Unit100D7420_UpdateRequests(void * self_)
       if ((pvVar2 != (void *)0x0) && (*(short *)((int)pvVar2 + 0x1058) != 0)) {
         *(void **)((int)self_ + 0x28) = pvVar2;
         uVar4 = orig::Unit100D7420_RunCallbacks(pvVar2,0);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
       }
       pvVar2 = *(void **)((int)self_ + 0x20);
       if ((pvVar2 != (void *)0x0) && (*(short *)((int)pvVar2 + 0x1058) != 0)) {
         *(void **)((int)self_ + 0x28) = pvVar2;
         uVar4 = orig::Unit100D7420_RunCallbacks(pvVar2,0);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
       }
       *(int *)((int)self_ + 0x28) = *(int *)((int)self_ + 0x1c);
       pvVar3 = (void *)0x0;
@@ -6721,7 +6721,7 @@ LAB_100f1e5a:
     pvVar3 = (void *)orig::Unit100D7420_RunCallbacks(pvVar2,0);
   }
 LAB_100f1e61:
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F1E70  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6798,7 +6798,7 @@ XI_API undefined4 __thiscall Unit100D7420_BeginRequests(void * self_, undefined4
         }
         *(int *)((int)self_ + 0x24) = iVar3;
       }
-      uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 6))));
+      uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 6))));
       if (*(char *)((int)self_ + 6) == '\0') {
         uVar2 = orig::Unit100D7420_GetWord132();
         iVar3 = 0;
@@ -6814,7 +6814,7 @@ XI_API undefined4 __thiscall Unit100D7420_BeginRequests(void * self_, undefined4
           } while ((short)iVar3 < sVar5);
         }
       }
-      xi_entry_eax = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)((char)param_1)));
+      xi_entry_eax = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)((char)param_1)));
       if ((char)param_1 != '\0') {
         cVar1 = *(char *)((int)self_ + 6);
         uStack_8 = 0;
@@ -6830,7 +6830,7 @@ XI_API undefined4 __thiscall Unit100D7420_BeginRequests(void * self_, undefined4
       }
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F25F0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -6987,9 +6987,9 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100D7420_CallStateCal
      (pcVar1 = *(code **)(*(int *)((int)self_ + 0x105c) + (uint32_t)*(uint16_t *)((int)self_ + 0x105a) * 4),
      xi_eax = 0, pcVar1 != (code *)0x0)) {
     iVar2 = (*pcVar1)(self_,3);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(iVar2 == 0)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)(iVar2 == 0)));
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F2C80  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7036,7 +7036,7 @@ LAB_100f2fd4:
        ((uVar3 = *(uint32_t *)((int)self_ + 0x105c), uVar3 == 0 ||
         (*(int *)(uVar3 + (uint32_t)*(uint16_t *)((int)self_ + 0x105a) * 4) == 0)))) {
       uVar6 = orig::FUN_100f2a70(self_);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar6 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar6 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   else {
@@ -7045,7 +7045,7 @@ LAB_100f2fd4:
       if (pcVar1 == (code *)0x0) {
         if ((char)param_1 != '\0') {
           uVar6 = orig::FUN_100f2a70(self_);
-          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar6 >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar6 >> 8))) << 8) | (uint8_t)(1)));
         }
         pcVar1 = *(code **)((int)self_ + 0x104c);
         if (pcVar1 != (code *)0x0) {
@@ -7127,7 +7127,7 @@ LAB_100f2fd4:
 LAB_100f2f5b:
       *(undefined4 *)((int)self_ + 0x105c) = 0;
       uVar6 = orig::FUN_100f2a70(self_);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar6 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar6 >> 8))) << 8) | (uint8_t)(1)));
     }
     if (*(int *)((int)self_ + 8) < 0) {
       orig::_exit_0_v1(*(int *)((int)self_ + 8));
@@ -7333,7 +7333,7 @@ XI_API undefined4 __cdecl Unit100D7420_EnsureGlobal(void)
     uVar1 = orig::Unit100D7420_InitTwoNodes(&DAT_104df8a8);
     return uVar1;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104df908_as_v0 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_104df908_as_v0 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F76D0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7347,7 +7347,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_DestroyGlobal(
     }
     DAT_104df908 = (void *)0x0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(xi_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((xi_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F7700  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7359,7 +7359,7 @@ XI_API undefined4 __cdecl Unit100D7420_UpdateGlobalRequests(void)
   
   if (DAT_104df908 != (void *)0x0) {
     uVar1 = orig::Unit100D7420_UpdateRequests(DAT_104df908);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
   }
   return xi_entry_eax & 0xffffff00;
 }
@@ -7423,7 +7423,7 @@ XI_API uint32_t __cdecl fn_100F7790(void)
   DAT_104df90c[0xf] = uVar2;
   puVar5 = DAT_104df90c;
   DAT_104df90c[0xe] = DAT_104df90c[0xf];
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)puVar5 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)puVar5 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F78C0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7453,7 +7453,7 @@ XI_API undefined4 __cdecl fn_100F78C0(void)
   DAT_104df90c[0xf] = uVar3;
   puVar1 = DAT_104df90c;
   DAT_104df90c[0xe] = DAT_104df90c[0xf];
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)puVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)puVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F7960  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7474,7 +7474,7 @@ XI_API undefined4 __cdecl fn_100F7960(void)
   orig::Unit100D7420_InitEntryAt104DF90C();
   uVar2 = orig::Unit100D7420_Query10310030();
   *(uint32_t *)(DAT_104df90c_as_s32 + 0x3c) = uVar2;
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F7A00  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7535,7 +7535,7 @@ XI_API undefined4 __cdecl UI_PostRequest(int param_1)
     }
     else if (param_1 != 0xf) goto LAB_100f7fd1;
     puVar1 = orig::FUN_100f7bc0(param_1,0xffffffff,0xffffffff,0xffffffff);
-    param_1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)puVar1 >> 8)) << 8) | (uint8_t)(1)));
+    param_1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)puVar1 >> 8))) << 8) | (uint8_t)(1)));
     if (puVar1 != (uint16_t *)0x0) {
       return param_1;
     }
@@ -7675,7 +7675,7 @@ XI_API undefined4 __cdecl Unit100D7420_TickSecondCounters(void)
     *(undefined4 *)(DAT_104e0af0 + 0x194) = 0;
     *(undefined4 *)(DAT_104e0af0 + 0x198) = 0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F9D50  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7704,7 +7704,7 @@ XI_API undefined4 __cdecl Unit100D7420_StepSessionCounter(void)
   orig::FUN_100fa4a0(*DAT_104dfd94_as_v0);
   piVar1 = DAT_104dfd94_as_v0;
   DAT_104dfd94_as_v0[0x112ec] = DAT_104dfd94_as_v0[0x112ec] + 1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F9DA0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7734,7 +7734,7 @@ XI_API undefined4 __cdecl Unit100D7420_ShutdownSessions(void)
     } while (uVar2 < *(uint32_t *)(DAT_104dfd94 + 0x40e40));
   }
   uVar1 = orig::Unit100D7420_ClearSessionGlobals();
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F9DF0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7744,7 +7744,7 @@ XI_API undefined4 __cdecl Unit100D7420_ShutdownIfActive(int param_1)
   if ((param_1 != 0) && (*(char *)(param_1 + 0xc) != '\0')) {
     param_1 = orig::Unit100D7420_ShutdownEntry((int *)param_1);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100F9E10  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7782,7 +7782,7 @@ XI_API undefined4 __cdecl Unit100D7420_ShutdownEntry(int * param_1)
   uVar1 = orig::Unit100D7420_ResetObject2D000((int)param_1);
   *(uint8_t *)(param_1 + 3) = 0;
   DAT_104dfd98_as_v1 = 0;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100FA940  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7807,12 +7807,12 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_PushByteQueue4
   }
   if ((char)DAT_104df924_as_s8 == '\0') {
     XI_PIECE_S(DAT_104df924_as_s8, 0, 1) = (char)param_1;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((char)param_1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((char)param_1)));
   }
   iVar1 = 0;
   do {
     if (*(char *)((int)&DAT_104df924_as_s8 + iVar1) == '\0') {
-      if (*(char *)(iVar1 + 0x104df923) != (char)param_1) {
+      if (*(char *)(iVar1 + (int)XI_GAME(0x104DF923u)) != (char)param_1) {
         *(char *)((int)&DAT_104df924_as_s8 + iVar1) = (char)param_1;
       }
       return iVar1;
@@ -7830,7 +7830,7 @@ XI_API undefined4 __cdecl Unit100D7420_IncrementBucket(int param_1, uint32_t par
     param_2 = 9;
   }
   *(int *)(param_1 + 0x40df4 + param_2 * 4) = *(int *)(param_1 + 0x40df4 + param_2 * 4) + 1;
-  return ((uint32_t)(((uint32_t)((int32_t)(param_2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((param_2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100FB920  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7848,7 +7848,7 @@ XI_API undefined4 __cdecl Unit100D7420_BuildType1(undefined4 param_1, char * par
   uVar7 = orig::Unit100D7420_CheckTimer41B4(10,1,1);
   puVar2 = (uint16_t *)uVar7;
   if (puVar2 == (uint16_t *)0x0) {
-    return (uint32_t)(uint32_t)((uint64_t)uVar7 >> 8) << 8;
+    return (uint32_t)xi_trunc24(((uint64_t)uVar7 >> 8)) << 8;
   }
   uVar3 = orig::Unit100D7420_HashPair((undefined4 *)(puVar2 + 0x20),0x10,param_2,0xf,
                        (uint8_t *)(param_3 + 0x1048),*(uint32_t *)(param_3 + 0x1098));
@@ -7893,7 +7893,7 @@ XI_API undefined4 __cdecl Unit100D7420_BuildType1(undefined4 param_1, char * par
   *(char *)(puVar2 + 2) = cVar6;
   uVar5 = orig::Unit100D7420_SlotSetLength(puVar2,0x5c,0);
   uVar5 = orig::Unit100D7420_SetPacketType(1,uVar5);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100FBA40  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7911,7 +7911,7 @@ XI_API undefined4 __cdecl Unit100D7420_BuildType2(undefined4 param_1, char * par
   uVar7 = orig::Unit100D7420_CheckTimer41B4(10,1,1);
   puVar2 = (uint16_t *)uVar7;
   if (puVar2 == (uint16_t *)0x0) {
-    return (uint32_t)(uint32_t)((uint64_t)uVar7 >> 8) << 8;
+    return (uint32_t)xi_trunc24(((uint64_t)uVar7 >> 8)) << 8;
   }
   uVar3 = orig::Unit100D7420_HashPair((undefined4 *)(puVar2 + 0x20),0x10,param_2,0xf,
                        (uint8_t *)(param_3 + 0x1048),*(uint32_t *)(param_3 + 0x1098));
@@ -7953,7 +7953,7 @@ XI_API undefined4 __cdecl Unit100D7420_BuildType2(undefined4 param_1, char * par
   *(char *)(puVar2 + 2) = cVar6;
   uVar5 = orig::Unit100D7420_SlotSetLength(puVar2,0x5c,0);
   uVar5 = orig::Unit100D7420_SetPacketType(2,uVar5);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100FBB40  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7967,13 +7967,13 @@ XI_API undefined4 __cdecl Unit100D7420_BuildShort(int param_1)
   uVar3 = orig::Unit100D7420_CheckTimer41B4(0x11,0,0);
   puVar1 = (uint16_t *)uVar3;
   if (puVar1 == (uint16_t *)0x0) {
-    return (uint32_t)(uint32_t)((uint64_t)uVar3 >> 8) << 8;
+    return (uint32_t)xi_trunc24(((uint64_t)uVar3 >> 8)) << 8;
   }
   *(uint8_t *)(puVar1 + 2) = 2;
   *(uint8_t *)((int)puVar1 + 5) = 0;
   uVar2 = orig::Unit100D7420_SlotSetLength(puVar1,6,0);
   *(uint8_t *)(param_1 + 0xd) = 1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100FBD10  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -7983,7 +7983,7 @@ XI_API undefined4 __cdecl Unit100D7420_SetClockOffset(int param_1, int param_2, 
   undefined4 uVar1;
   
   uVar1 = orig::Unit100D7420_SetOffsetMilliseconds(param_3,(*(uint32_t *)(param_1 + 0x4190) >> 1) + param_2);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100FC160  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -8074,7 +8074,7 @@ XI_API undefined4 __cdecl Unit100D7420_ApplyStatusText(uint32_t param_1)
   orig::_sprintf(local_100,puVar3);
 LAB_100fc28c:
   uVar2 = orig::Unit100D7420_SetByte15114(local_100);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100FC300  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -8106,7 +8106,7 @@ XI_API uint32_t __attribute__((cdecl, regparm(1))) Unit100D7420_SetHandler(undef
 {
   if ((DAT_104dfd94 != 0) && (xi_eax = param_1, param_1 < 0x11f)) {
     *(undefined4 *)(DAT_104dfd94 + 0x44730 + param_1 * 4) = param_2;
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
   }
   return xi_eax & 0xffffff00;
 }
@@ -8214,7 +8214,7 @@ XI_API undefined4 __cdecl Unit100D7420_SendTypeF2(undefined4 param_1, undefined4
       puVar1[2] = (uint16_t)param_1;
       puVar1[3] = (uint16_t)param_2;
       uVar2 = orig::Unit100D7420_SlotSetLength(puVar1,8,0);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return 0;
@@ -8231,12 +8231,12 @@ XI_API undefined4 __cdecl Unit100D7420_SendType1C(undefined4 param_1, undefined4
   uVar3 = orig::Unit100D7420_CheckTimer41B4(0x1c,0,0);
   puVar1 = (uint16_t *)uVar3;
   if (puVar1 == (uint16_t *)0x0) {
-    return (uint32_t)(uint32_t)((uint64_t)uVar3 >> 8) << 8;
+    return (uint32_t)xi_trunc24(((uint64_t)uVar3 >> 8)) << 8;
   }
   puVar1[2] = (uint16_t)param_1;
   *(undefined4 *)(puVar1 + 4) = param_2;
   uVar2 = orig::Unit100D7420_SendRaw(puVar1,0xc,0);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100FCA20  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -8359,7 +8359,7 @@ XI_API undefined4 __cdecl fn_100FD5B0(void)
   puVar1 = orig::Unit100D7420_CheckTimer41B4_v1(0x114,0,0);
   if (puVar1 != (uint16_t *)0x0) {
     uVar2 = orig::Unit100D7420_SlotSetLength(puVar1,4,0);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
   }
   return 0;
 }
@@ -8371,7 +8371,7 @@ XI_API undefined4 __cdecl fn_100FD6E0(undefined4 param_1)
   if (DAT_104dfd98 == 0) {
     return 0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_104dfd98 >> 8)) << 8) | (uint8_t)((*(uint32_t *)(DAT_104dfd98 + 0x198cc) & 1 << ((uint8_t)param_1 & 0x1f)) != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_104dfd98 >> 8))) << 8) | (uint8_t)((*(uint32_t *)(DAT_104dfd98 + 0x198cc) & 1 << ((uint8_t)param_1 & 0x1f)) != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x100FDBF0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -8464,7 +8464,7 @@ XI_API undefined4 __cdecl Unit100D7420_GetTableByteForTens(uint32_t param_1)
   
   uVar1 = orig::Unit100D7420_CeilDiv10Max10(param_1);
   param_1 = uVar1 & 0xff;
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(((uint8_t *)((&DAT_1036447c)))[param_1])));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(((uint8_t *)((&DAT_1036447c)))[param_1])));
 }
 
 // FUNCTION: FFXIMAIN 0x10101BF0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -8539,7 +8539,7 @@ XI_API undefined4 __cdecl Unit100D7420_InitSessionAndStampTime(int param_1)
       if ((char)xi_eax == '\x01') {
         iVar2 = orig::ntGameTimeGet();
         *(int *)(DAT_104e0af0 + 0x79c) = iVar2;
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar2 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar2 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -8557,7 +8557,7 @@ XI_API undefined4 __cdecl Game_GetField438(undefined4 * param_1)
   }
   uVar1 = *(undefined4 *)(DAT_104e0af4 + 0x438);
   *param_1 = uVar1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10103740  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -8666,7 +8666,7 @@ XI_API undefined4 __cdecl Unit100D7420_UpdateNoticesIfReady(void)
         orig::Unit100D7420_ApplyNoticeRecord(*(int *)(DAT_104df770 + 0x1369c));
         orig::FDtGmNoticeProc();
         uVar2 = orig::Unit100D7420_UpdateGlobalRequests();
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -8681,7 +8681,7 @@ XI_API undefined4 __cdecl Unit100D7420_SetOffset(int param_1)
   
   iVar1 = orig::Unit100D7420_AdvanceAndGetSeconds();
   _DAT_104e0af8 = param_1 - iVar1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x101039E0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -9727,7 +9727,7 @@ XI_API undefined4 __cdecl fn_101072B0(undefined4 param_1, undefined4 param_2)
 {
   int iVar1;
   
-  iVar1 = orig::FUN_101072d0(param_2,3,0x10364950);
+  iVar1 = orig::FUN_101072d0(param_2,3,(int)XI_GAME(0x10364950u));
   return iVar1;
 }
 
@@ -9752,7 +9752,7 @@ XI_API undefined4 __cdecl fn_10107300(undefined4 param_1, uint32_t param_2)
 {
   int iVar1;
   
-  iVar1 = orig::FUN_101072d0(param_2,0x1f,0x10364990);
+  iVar1 = orig::FUN_101072d0(param_2,0x1f,(int)XI_GAME(0x10364990u));
   return iVar1;
 }
 
@@ -9762,7 +9762,7 @@ XI_API undefined4 __cdecl fn_10107320(undefined4 param_1, uint32_t param_2)
 {
   int iVar1;
   
-  iVar1 = orig::FUN_101072d0(param_2,0xf,0x10364cb0);
+  iVar1 = orig::FUN_101072d0(param_2,0xf,(int)XI_GAME(0x10364CB0u));
   return iVar1;
 }
 
@@ -9773,7 +9773,7 @@ XI_API char * __cdecl fn_10107340(undefined4 param_1, uint32_t param_2)
   char *pcVar1;
   
   if (((uint16_t)param_2 != 0) && ((uint16_t)param_2 < 300)) {
-    pcVar1 = (char *)orig::FUN_101072d0(param_2,0xff,0x10364d80);
+    pcVar1 = (char *)orig::FUN_101072d0(param_2,0xff,(int)XI_GAME(0x10364D80u));
     return pcVar1;
   }
   return s__DUMMY__1036be5c;
@@ -9858,7 +9858,7 @@ XI_API char * __cdecl fn_10107370(char * param_1, undefined4 param_2, uint32_t *
     cVar1 = *pcVar5;
     while (cVar1 != '\0') {
       cVar1 = pcVar5[1];
-      pcVar6 = (char *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)pcVar6 >> 8)) << 8) | (uint8_t)(cVar1)));
+      pcVar6 = (char *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pcVar6 >> 8))) << 8) | (uint8_t)(cVar1)));
       pcVar5 = pcVar5 + 1;
     }
     *pcVar5 = '/';
@@ -13403,7 +13403,7 @@ LAB_10117a5e:
       goto LAB_10117a75;
     }
     if (((psVar6[0x1d] == *(short *)((int)self_ + 0x4c)) &&
-        (uVar8 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar10 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 99)))),
+        (uVar8 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar10 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 99)))),
         *(char *)((int)self_ + 99) != '\0')) &&
        (((*(uint32_t *)((int)self_ + 0x34) & 0x80000) == 0 ||
         (uVar8 = orig::Menu_IsFocusedItem(&g_menuMng_as_v0,(int)self_), (char)uVar8 != '\0')))) {
@@ -13523,7 +13523,7 @@ LAB_10117ac8:
     }
     orig::FUN_10234a90(*(void **)(psVar6 + 2),(int)(short)local_8 + (int)(short)local_14,
                  (int)(short)lVar23 + (int)sVar14,local_20,local_1c,uVar12,uVar8,
-                 ((uint32_t)(((uint32_t)((int32_t)(uVar7 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0xd0)))));
+                 ((uint32_t)(((uint32_t)(xi_strunc24((uVar7 >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0xd0)))));
     psVar5 = local_c;
     if (local_18 == (void *)0x0) goto joined_r0x10117841;
     sVar14 = psVar6[0x10];
@@ -13655,10 +13655,10 @@ XI_API void __thiscall Unit100D7420_Rebuild(void * self_, void * param_1)
     }
     uVar3 = orig::Unit100D7420_SetSource(pvVar2,piVar1);
     uVar3 = orig::Unit100D7420_ComputeRect(pvVar2,0,0,
-                         ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x99)))));
+                         ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x99)))));
     *(uint16_t *)((int)self_ + 0x52) = *(uint16_t *)((int)pvVar2 + 0x1a);
     *(uint16_t *)((int)self_ + 0x54) = *(uint16_t *)((int)pvVar2 + 0x1c);
-    orig::Unit100D7420_UpdateLayout(pvVar2,xi_castbits<float>(((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x99))))))
+    orig::Unit100D7420_UpdateLayout(pvVar2,xi_castbits<float>(((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x99))))))
     ;
     *(short *)((int)self_ + 0x40) = *(short *)((int)pvVar2 + 0x24) + *(short *)((int)pvVar2 + 0x1c);
     *(short *)((int)self_ + 0x3e) = *(short *)((int)pvVar2 + 0x22) + *(short *)((int)pvVar2 + 0x1a);
@@ -13686,8 +13686,8 @@ XI_API void __thiscall Unit100D7420_Rebuild(void * self_, void * param_1)
       uVar3 = orig::Unit100D7420_SetNames(pvVar2,piVar1);
       uVar3 = orig::Unit100D7420_ComputeOffsets(pvVar2,(int)*(short *)((int)self_ + 0x52),
                            (int)*(short *)((int)self_ + 0x54),
-                           ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x99)))));
-      uVar3 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x99))));
+                           ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x99)))));
+      uVar3 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x99))));
       orig::Unit100D7420_UpdateState(pvVar2,uVar3,uVar3);
       orig::Unit100D7420_PushBack((void *)((int)self_ + 0x14),pvVar2);
       if (*(short *)((int)self_ + 0x4c) == *(short *)((int)pvVar2 + 0x3a)) {
@@ -13885,7 +13885,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100D7420_MenuMoveSele
       }
       break;
     case 6:
-      xi_eax_00 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)(sVar4 + -1) >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x84))));
+      xi_eax_00 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)(sVar4 + -1) >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 0x84))));
       if (*(char *)((int)self_ + 0x84) != '\0') {
         xi_eax_00 = orig::SetMusicTrackVolume_B_v1();
       }
@@ -14211,7 +14211,7 @@ XI_API uint32_t __thiscall Unit100D7420_HitTest(void * self_, uint32_t * param_1
        ((int)uVar1 <= (int)*(short *)((int)self_ + 0x40))) &&
       (uVar1 = *param_1, (int)*(short *)((int)self_ + 0x3a) <= (int)uVar1)) &&
      ((int)uVar1 <= (int)*(short *)((int)self_ + 0x3e))) {
-    return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
   }
   return uVar1 & 0xffffff00;
 }
@@ -15021,7 +15021,7 @@ XI_API uint32_t __thiscall Unit100D7420_ContainsPoint(void * self_, int * param_
     if ((((int)xi_entry_eax <= param_1[1]) &&
         (*param_1 <= (int)*(short *)((int)self_ + 0x2e) + (int)*(short *)((int)self_ + 0x2a))) &&
        (param_1[1] <= (int)((int)*(short *)((int)self_ + 0x30) + xi_entry_eax))) {
-      return ((uint32_t)(((uint32_t)((int32_t)(char)((uint16_t)*(short *)((int)self_ + 0x2c) >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((char)((uint16_t)*(short *)((int)self_ + 0x2c) >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return xi_entry_eax & 0xffffff00;
@@ -15228,7 +15228,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100D7420_StepFrameCyc
   long double st0;
   int64_t lVar4;
   
-  iVar3 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x30))));
+  iVar3 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 0x30))));
   if ((*(char *)((int)self_ + 0x30) != '\0') && (iVar3 = 0, *(int *)((int)self_ + 4) != 0)) {
     st0 = orig::Camera_GetFrameScale_v1(*(int *)((int)self_ + 4));
     lVar4 = XI_CALL_ST0(0x10311C2Cu)(st0);
@@ -15401,7 +15401,7 @@ XI_API undefined4 __thiscall Unit100D7420_SetRectAndUpdateNodes(void * self_, un
   piVar2[1] = (int)*(short *)((int)self_ + 0x3c);
   *piVar2 = sVar1 + -6;
   *(uint8_t *)((int)self_ + 0x9a) = (uint8_t)param_7;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar2 >> 8)) << 8) | (uint8_t)((uint8_t)param_7)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar2 >> 8))) << 8) | (uint8_t)((uint8_t)param_7)));
 }
 
 // FUNCTION: FFXIMAIN 0x1011A710  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -15413,7 +15413,7 @@ XI_API uint64_t __thiscall fn_1011A710(void * self_, undefined4 * param_1)
   uVar1 = *(undefined4 *)((int)self_ + 0x42);
   *param_1 = uVar1;
   param_1[1] = *(undefined4 *)((int)self_ + 0x46);
-  return ((uint64_t)(((uint64_t)(uint32_t)(uVar1) << 32) | (uint32_t)(((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1))))));
+  return ((uint64_t)(((uint64_t)(uint32_t)(uVar1) << 32) | (uint32_t)(((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1))))));
 }
 
 // FUNCTION: FFXIMAIN 0x1011AA40  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -15467,7 +15467,7 @@ XI_API undefined4 __thiscall Unit100D7420_GetCenter(void * self_, int * param_1)
   *param_1 = (int)psVar2[0x17] / 2 + (int)psVar2[0x15];
   iVar3 = (int)psVar2[0x18] / 2 + (int)psVar2[0x16];
   param_1[1] = iVar3;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1011ADB0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -16143,7 +16143,7 @@ XI_API uint32_t __thiscall Font_IsHighResTextureLoaded(void * self_)
   
   if (((*(char *)((int)self_ + 0x80) == '\x01') &&
       (xi_entry_eax = *(uint32_t *)((int)self_ + 0x78), xi_entry_eax != 0)) && (*(int *)(xi_entry_eax + 8) != 0)) {
-    return ((uint32_t)(((uint32_t)((int32_t)(xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
   }
   return xi_entry_eax & 0xffffff00;
 }
@@ -16180,7 +16180,7 @@ XI_API undefined4 __cdecl Font_LoadWidthTable(void)
       iVar3 = iVar3 + 4;
     } while (iVar3 < 0x5c);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1011C900  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -16531,7 +16531,7 @@ XI_API undefined4 __cdecl Font_IsPrintableAscii(int param_1)
 {
   uint32_t uVar1;
   
-  uVar1 = (uint32_t)((uint32_t)param_1 >> 8);
+  uVar1 = xi_trunc24(((uint32_t)param_1 >> 8));
   if ((0x1f < param_1) && (param_1 < 0x7f)) {
     return ((uint32_t)(((uint32_t)(uVar1) << 8) | (uint8_t)(1)));
   }
@@ -16759,7 +16759,7 @@ XI_API undefined4 __thiscall Cell_ResolveTextureUV(void * self_)
   iVar2 = (int)uVar6;
   *(int *)((int)self_ + 0x4c) = iVar2;
   if (iVar2 == 0) {
-    return (uint32_t)(uint32_t)((uint64_t)uVar6 >> 8) << 8;
+    return (uint32_t)xi_trunc24(((uint64_t)uVar6 >> 8)) << 8;
   }
   iVar3 = (int)*(short *)((int)self_ + 0xc);
   uVar1 = *(uint16_t *)(iVar2 + 0x26);
@@ -16796,7 +16796,7 @@ XI_API undefined4 __thiscall Cell_ResolveTextureUV(void * self_)
   }
   *(float *)((int)self_ + 0xbc) = (float)fVar4;
   *(float *)((int)self_ + 0xa0) = (float)fVar4;
-  return ((uint32_t)(((uint32_t)((int32_t)(char)((uint16_t)*(short *)((int)self_ + 0xe) >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((char)((uint16_t)*(short *)((int)self_ + 0xe) >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1011E800  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -17896,7 +17896,7 @@ XI_API undefined4 __thiscall ShapeMng_GetFontGlyph(void * self_, uint32_t param_
     uVar2 = orig::ShapeMng_FindShape_v1(&g_shapeMng_as_v0,s_font_fontshp_1036cf1c);
     *(int *)((int)self_ + 0x2c) = (int)uVar2;
     if ((int)uVar2 == 0) {
-      return (uint32_t)(uint32_t)((uint64_t)uVar2 >> 8) << 8;
+      return (uint32_t)xi_trunc24(((uint64_t)uVar2 >> 8)) << 8;
     }
   }
   this_00 = *(void **)(**(int **)((int)self_ + 0x2c) + -0x80 + (param_1 & 0xff) * 4);
@@ -17910,7 +17910,7 @@ XI_API undefined4 __thiscall ShapeMng_GetFontGlyph(void * self_, uint32_t param_
     *param_5 = *(uint16_t *)((int)this_00 + 0x24);
   }
   iVar1 = orig::Cell_GetFrameBounds(this_00,param_2,param_3);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(iVar1 != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(iVar1 != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10120660  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -17929,7 +17929,7 @@ XI_API void __thiscall ShapeMng_LoadFontTextures(void * self_)
   int * &local_14 = *reinterpret_cast<int * *>(xi_frame + 8);
   char  (&local_10)[16] = *reinterpret_cast<char  (*)[16]>(xi_frame + 12);
   
-  orig::Util_Copy16Bytes_v1(local_10,0x1036cf30);
+  orig::Util_Copy16Bytes_v1(local_10,(int)XI_GAME(0x1036CF30u));
   uVar5 = orig::ShapeMng_FindShape_v1(&g_shapeMng_as_v0,s_font_fontshp_1036cf1c);
   local_14 = (int *)uVar5;
   if (local_14 != (int *)0x0) {
@@ -18117,7 +18117,7 @@ XI_API uint32_t __cdecl Unit100D7420_QueryState1D44Mask100(uint32_t param_1)
       uVar3 = 0;
     }
     else {
-      uVar3 = ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      uVar3 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
     puVar1 = (uint32_t *)(dword_104E1D44 + 0x228);
     *(undefined4 *)(dword_104E1D44 + 0x22c) = 0;
@@ -18128,7 +18128,7 @@ XI_API uint32_t __cdecl Unit100D7420_QueryState1D44Mask100(uint32_t param_1)
     if (uVar3 != 0) {
       *(undefined4 *)(dword_104E1D44 + 0x22c) = 0;
       *(uint32_t *)(iVar2 + 0x228) = uVar3;
-      return ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
     *(undefined4 *)(dword_104E1D44 + 0x22c) = 0;
     *(undefined4 *)(iVar2 + 0x228) = 0;
@@ -18172,7 +18172,7 @@ XI_API uint32_t __cdecl Unit100D7420_QueryState1D44Mask1000(uint32_t param_1)
       uVar3 = 0;
     }
     else {
-      uVar3 = ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      uVar3 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
     puVar1 = (uint32_t *)(dword_104E1D44 + 0x228);
     *(undefined4 *)(dword_104E1D44 + 0x22c) = 0;
@@ -18183,7 +18183,7 @@ XI_API uint32_t __cdecl Unit100D7420_QueryState1D44Mask1000(uint32_t param_1)
     if (uVar3 != 0) {
       *(undefined4 *)(dword_104E1D44 + 0x22c) = 0;
       *(uint32_t *)(iVar2 + 0x228) = uVar3;
-      return ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
     *(undefined4 *)(dword_104E1D44 + 0x22c) = 0;
     *(undefined4 *)(iVar2 + 0x228) = 0;
@@ -18227,7 +18227,7 @@ XI_API uint32_t __cdecl Unit100D7420_QueryState1D44Mask4000(uint32_t param_1)
       uVar3 = 0;
     }
     else {
-      uVar3 = ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      uVar3 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
     puVar1 = (uint32_t *)(dword_104E1D44 + 0x228);
     *(undefined4 *)(dword_104E1D44 + 0x22c) = 0;
@@ -18238,7 +18238,7 @@ XI_API uint32_t __cdecl Unit100D7420_QueryState1D44Mask4000(uint32_t param_1)
     if (uVar3 != 0) {
       *(undefined4 *)(dword_104E1D44 + 0x22c) = 0;
       *(uint32_t *)(iVar2 + 0x228) = uVar3;
-      return ((uint32_t)(((uint32_t)((int32_t)(uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
     *(undefined4 *)(dword_104E1D44 + 0x22c) = 0;
     *(undefined4 *)(iVar2 + 0x228) = 0;
@@ -18357,7 +18357,7 @@ XI_API undefined4 __cdecl Cell_TestFlagAny2AOr36(undefined4 param_1)
       return uVar1;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10123380  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -18413,7 +18413,7 @@ switchD_101233b4_caseD_47:
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Cell_GetByte1036E0F0(undefined4 param_1)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)((char)param_1 * 0x10) >> 8)) << 8) | (uint8_t)((&DAT_1036e0f0)[(char)param_1 * 0x10])));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)((char)param_1 * 0x10) >> 8))) << 8) | (uint8_t)((&DAT_1036e0f0)[(char)param_1 * 0x10])));
 }
 
 // FUNCTION: FFXIMAIN 0x10123650  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -18428,7 +18428,7 @@ XI_API undefined4 __cdecl Cell_SetByte1036E0F0(undefined4 param_1, undefined4 pa
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Cell_GetWord1036D6B0(undefined4 param_1)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)((short)param_1 * 3) >> 8)) << 8) | (uint8_t)(((uint8_t *)((&DAT_1036d6b0)))[(short)param_1 * 6])));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)((short)param_1 * 3) >> 8))) << 8) | (uint8_t)(((uint8_t *)((&DAT_1036d6b0)))[(short)param_1 * 6])));
 }
 
 // FUNCTION: FFXIMAIN 0x10123680  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -18509,7 +18509,7 @@ XI_API uint64_t __cdecl Unit100D7420_Query123700UnlessBlocked(void)
     pcVar10 = &DAT_1036e0f1;
     do {
       if ((((uint8_t)(pcVar10[1] & 6U - ((char)iVar6 != '\0')) == pcVar10[1]) && (cVar4 != '\0')) &&
-         (uVar8 = ((uint32_t)(((uint32_t)((int32_t)(uVar7 >> 8)) << 8) | (uint8_t)(pcVar10[-1]))), pcVar10[-1] != '\0')) {
+         (uVar8 = ((uint32_t)(((uint32_t)(xi_strunc24((uVar7 >> 8))) << 8) | (uint8_t)(pcVar10[-1]))), pcVar10[-1] != '\0')) {
         if (cVar3 == '\0') {
           if (cVar2 == '\0') {
             if (*pcVar10 != '\0') goto LAB_1012380b;
@@ -18527,7 +18527,7 @@ LAB_101237ef:
           }
 LAB_101237f1:
           if ((*pcVar10 != '\0') || (uVar8 = orig::Unit1018BA60_HasTable1037A290CellByte(uVar8,uVar8), (char)uVar8 != '\0')) {
-            uVar8 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar8 >> 8)) << 8) | (uint8_t)(cVar3)));
+            uVar8 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar8 >> 8))) << 8) | (uint8_t)(cVar3)));
             if (cVar3 == '\0') {
 LAB_1012380b:
               uVar9 = (uint32_t)((uint32_t)uVar8 >> 8);
@@ -18548,7 +18548,7 @@ LAB_1012380b:
           }
         }
 LAB_1012383e:
-        uVar8 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar8 >> 8)) << 8) | (uint8_t)(pcVar10[-1]))));
+        uVar8 = orig::Cursor_GetFlagBit2(&DAT_104e1c40,((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar8 >> 8))) << 8) | (uint8_t)(pcVar10[-1]))));
         if ((char)uVar8 != '\0') {
           uVar7 = *puVar11;
           local_8 = local_8 | uVar7;
@@ -18609,7 +18609,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_TestCommand36C
   code *local_4;
   
   iVar3 = param_2;
-  uVar4 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_104e1c3c_as_s8)));
+  uVar4 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_104e1c3c_as_s8)));
   if (((DAT_104e1c3c_as_s8 == '\x01') && (param_3 != 4)) || (param_2 == -1)) {
 LAB_10123d89:
     return uVar4 & 0xffffff00;
@@ -18639,7 +18639,7 @@ LAB_10123b0e:
   param_4 = 0;
   local_4 = (code *)&DAT_1036da22;
   do {
-    pcVar5 = (code *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)pcVar5 >> 8)) << 8) | (uint8_t)((char)param_2)));
+    pcVar5 = (code *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pcVar5 >> 8))) << 8) | (uint8_t)((char)param_2)));
     if ((char)param_2 != '\0') break;
     iVar7 = param_4 + iVar3 * 3;
     iVar1 = iVar7 * 2;
@@ -18736,8 +18736,8 @@ LAB_10123c9f:
     pcVar5 = local_4 + 2;
     param_4 = param_4 + 1;
     local_4 = pcVar5;
-  } while ((int)pcVar5 < 0x1036da28);
-  iVar7 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pcVar5 >> 8)) << 8) | (uint8_t)((char)param_2)));
+  } while ((int)pcVar5 < (int)XI_GAME(0x1036DA28u));
+  iVar7 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pcVar5 >> 8))) << 8) | (uint8_t)((char)param_2)));
   if ((char)param_2 == '\x01') {
     iVar7 = iVar3 + -0x76;
     switch(xi_sw(iVar3)) {
@@ -18753,10 +18753,10 @@ LAB_10123c9f:
     case 0x8c:
     case 0x96:
       uVar6 = orig::Cursor_UpdateVisibilityForMode(g_pCursor_as_v2,1);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar6 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar6 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar7 >> 8)) << 8) | (uint8_t)((char)param_2)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar7 >> 8))) << 8) | (uint8_t)((char)param_2)));
 }
 
 // FUNCTION: FFXIMAIN 0x10123DC0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -18772,7 +18772,7 @@ XI_API undefined4 __cdecl Cursor_TestAny1DOr9D(void)
       return uVar1;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10123DF0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -18788,7 +18788,7 @@ XI_API undefined4 __cdecl Cursor_TestAnyB8Or38(void)
       return uVar1;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10123E20  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -18804,14 +18804,14 @@ XI_API undefined4 __cdecl Cell_TestFlagAny2AOr36Kind4(void)
       return uVar1;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10123E50  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __cdecl Cell_TestGlobal1036E3A0Mask(uint32_t param_1)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)(DAT_1036e3a0_as_v0 >> 8)) << 8) | (uint8_t)((DAT_1036e3a0_as_v0 & param_1) != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((DAT_1036e3a0_as_v0 >> 8))) << 8) | (uint8_t)((DAT_1036e3a0_as_v0 & param_1) != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10123E60  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -18819,7 +18819,7 @@ XI_API undefined4 __cdecl Cell_TestGlobal1036E3A0Mask(uint32_t param_1)
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Cell_SetByte104E1C3E(undefined4 xi_eax, undefined4 param_1)
 {
   DAT_104e1c3e = (uint8_t)param_1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((uint8_t)param_1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10123E80  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -18849,7 +18849,7 @@ XI_API void __cdecl Cell_SetFlag104E1C3C(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) Cell_GetByte1036CF5C(undefined4 xi_eax)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_1036cf5c)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_1036cf5c)));
 }
 
 // FUNCTION: FFXIMAIN 0x10123F40  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -19030,7 +19030,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit100D7420_IsHalfWidthKan
 {
   uint32_t uVar1;
   
-  uVar1 = (uint32_t)((uint32_t)xi_eax >> 8);
+  uVar1 = xi_trunc24(((uint32_t)xi_eax >> 8));
   if ((-0x61 < (char)param_1) && ((char)param_1 < -0x20)) {
     return ((uint32_t)(((uint32_t)(uVar1) << 8) | (uint8_t)(1)));
   }
@@ -19195,7 +19195,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Cursor_SetPosition(undefi
   
   if (self_ != (void *)0x0) {
     bVar1 = *(uint8_t *)((int)self_ + 0x4d);
-    xi_eax = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(bVar1)));
+    xi_eax = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(bVar1)));
     if ((bVar1 < 3) || (6 < bVar1)) {
       fVar7 = (long double)param_3;
       fVar8 = (long double)0.0f;
@@ -19640,7 +19640,7 @@ LAB_101250cd:
       iVar8 = (int)uVar12;
       if (((char)uVar12 == '\x01') &&
          (cVar2 = *(char *)(iVar7 + 0x34 + (int)self_),
-         iVar8 = ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar12 >> 8)) << 8) | (uint8_t)(cVar2))), cVar2 != '\0')) {
+         iVar8 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar12 >> 8))) << 8) | (uint8_t)(cVar2))), cVar2 != '\0')) {
         iVar6 = *(int *)((int)self_ + 8) - *(int *)((int)self_ + iVar7 * 8 + 0x20);
         iVar8 = *(int *)((int)self_ + 4) - *(int *)((int)self_ + iVar7 * 8 + 0x1c);
         if (iVar6 * iVar6 + iVar8 * iVar8 < 0x41) {
@@ -19672,7 +19672,7 @@ LAB_101250cd:
   }
   *(undefined4 *)((int)self_ + 0x74) = 0x41c80000;
 LAB_1012506a:
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar8 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar8 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10125170  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -19723,7 +19723,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100D7420_UpdateHoldSt
       }
       if ((cVar3 == '\x01') &&
          (cVar3 = *(char *)(iVar5 + 0x34 + (int)self_),
-         xi_eax_01 = ((uint32_t)(((uint32_t)((int32_t)(xi_eax_01 >> 8)) << 8) | (uint8_t)(cVar3))), cVar3 != '\0')) {
+         xi_eax_01 = ((uint32_t)(((uint32_t)(xi_strunc24((xi_eax_01 >> 8))) << 8) | (uint8_t)(cVar3))), cVar3 != '\0')) {
         xi_eax_01 = *(int *)((int)self_ + 4) - *(int *)((int)self_ + iVar5 * 8 + 0x1c);
         iVar5 = *(int *)((int)self_ + 8) - *(int *)((int)self_ + iVar5 * 8 + 0x20);
         if ((int)(iVar5 * iVar5 + xi_eax_01 * xi_eax_01) < 0x41) {
@@ -19762,7 +19762,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit100D7420_UpdateHoldSt
   }
   *(undefined4 *)((int)self_ + 0x78) = 0x41c80000;
 LAB_101252ad:
-  return ((uint32_t)(((uint32_t)((int32_t)(xi_eax_01 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((xi_eax_01 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x101252C0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -19879,7 +19879,7 @@ XI_API undefined4 __cdecl Cursor_HasTargetHover(void)
   int iVar1;
   
   iVar1 = orig::Target_PickNearestToPoint(g_pTargetMng);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(iVar1 != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(iVar1 != 0)));
 }
 
 // FUNCTION: FFXIMAIN 0x10126290  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -19910,7 +19910,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) fn_101262E0(undefined4 xi
   if (*(char *)((int)self_ + 0x4d) == '\x02') {
     xi_eax = orig::IsEvent_v1(0,xi_eax);
     if ((char)xi_eax == '\0') {
-      return ((uint32_t)(((uint32_t)((int32_t)(xi_eax >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((xi_eax >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return xi_eax & 0xffffff00;
@@ -20272,7 +20272,7 @@ XI_API undefined4 __thiscall Unit100D7420_AddMessage(void * self_, char * param_
     if (this_00 != (void *)0x0) {
       local_4 = (uint32_t)self_ & 0xffffff00;
       if ((*(uint8_t *)((int)self_ + 0x20) & 1) != 0) {
-        local_4 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)self_ >> 8)) << 8) | (uint8_t)(1)));
+        local_4 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)self_ >> 8))) << 8) | (uint8_t)(1)));
       }
       orig::Unit100D7420_MessageSet(this_00,param_1,param_2,param_3,local_4);
       *(uint8_t *)((int)self_ + 0x34) = 0;
@@ -21076,7 +21076,7 @@ XI_API uint32_t __cdecl Unit100D7420_FindByKeyByte(uint32_t param_1)
         return uVar2 & 0xffffff00;
       }
     }
-    uVar2 = ((uint32_t)(((uint32_t)((int32_t)(char)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24((char)(uVar2 >> 8))) << 8) | (uint8_t)(1)));
     if (*(char *)((int)&DAT_1036e888 + iVar3 * 4 + 3) == '\x01') {
       return uVar2;
     }
@@ -21281,7 +21281,7 @@ XI_API undefined4 __cdecl Unit100D7420_IsNearNamedActor(uint32_t * param_1)
     _Count = piVar4;
     if ((piVar3 != (int *)0x0) && (piVar4 != (int *)0x0)) {
       if (piVar3 == piVar4) {
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar4 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar4 >> 8))) << 8) | (uint8_t)(1)));
       }
       iVar6 = piVar4[0x1c];
       pbVar8 = (uint8_t *)(iVar6 + 0x214);
@@ -21326,7 +21326,7 @@ XI_API undefined4 __cdecl Unit100D7420_IsNearNamedActor(uint32_t * param_1)
         _Count = (int *)((int)lVar16 - (int)lVar14);
         iVar6 = (int)lVar15 - (int)lVar13;
         if (iVar6 * iVar6 + (int)_Count * (int)_Count < 0x10) {
-          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)_Count >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)_Count >> 8))) << 8) | (uint8_t)(1)));
         }
       }
     }
@@ -21379,7 +21379,7 @@ XI_API undefined4 __thiscall ChatLog_AddMessage(void * self_, char * param_1, ui
     }
   }
   if (*(char *)((int)self_ + 0x64050) == '\x01') {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar8 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar8 >> 8))) << 8) | (uint8_t)(1)));
   }
   uVar13 = 0;
   orig::FUN_1012a340();
@@ -21413,13 +21413,13 @@ XI_API undefined4 __thiscall ChatLog_AddMessage(void * self_, char * param_1, ui
         cVar1 = *pcVar16;
         pcVar16 = pcVar16 + 1;
       } while (cVar1 != '\0');
-      auStack_87c[3] = 0x10127d06;
+      auStack_87c[3] = (int)XI_GAME(0x10127D06u);
       orig::Unit1018BA60_InputCall101AC990(DAT_10662d40,local_800,0x800,param_1,~uVar9 - 1,1,0);
     }
     if ((0x95 < (uint8_t)local_83c[0]) && ((uint8_t)local_83c[0] < 0x98)) {
       orig::Unit100D7420_AddMessage(DAT_104e2150,local_800,local_83c,param_3);
       uVar10 = orig::Unit100D7420_AddMessage(DAT_104e2154,local_800,local_83c,param_3);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar10 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar10 >> 8))) << 8) | (uint8_t)(1)));
     }
     if ((local_83c[0] & 0x1f00) == 0) {
       uVar9 = 0xffffffff;
@@ -21442,7 +21442,7 @@ XI_API undefined4 __thiscall ChatLog_AddMessage(void * self_, char * param_1, ui
         puVar17 = puVar17 + 1;
       }
       pcStack_894 = local_800;
-      uStack_898 = 0x10127dc2;
+      uStack_898 = (int)XI_GAME(0x10127DC2u);
       (**(code **)(iVar3 + 0x48))();
       iVar3 = *DAT_105781d8;
       puVar15 = auStack_87c;
@@ -21483,7 +21483,7 @@ XI_API undefined4 __thiscall ChatLog_AddMessage(void * self_, char * param_1, ui
     }
     uVar13 = 1;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)pvVar8 >> 8)) << 8) | (uint8_t)(uVar13)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)pvVar8 >> 8))) << 8) | (uint8_t)(uVar13)));
 }
 
 // FUNCTION: FFXIMAIN 0x10127EA0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -21498,7 +21498,7 @@ XI_API undefined4 __cdecl Unit100D7420_ClearGlobalLists2150And2154(void)
   ((int (__thiscall *)(void *))((**(code **)(**(int **)((int)DAT_104e2150 + 0x30) + 0x4c))))((void *)(*(int **)((int)DAT_104e2150 + 0x30)));
   uVar1 = ((int (__thiscall *)(void *))((**(code **)(**(int **)((int)DAT_104e2154 + 0x30) + 0x4c))
                     ))((void *)(*(int **)((int)DAT_104e2154 + 0x30)));
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10127EE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -21541,7 +21541,7 @@ XI_API uint32_t __thiscall fn_10127F60(void * self_, int param_1, int param_2)
       return (uint32_t)piVar1 & 0xffffff00;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10127FA0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -22074,7 +22074,7 @@ XI_API undefined4 __thiscall fn_101293F0(void * self_, undefined4 param_1)
 {
   uint32_t uVar1;
   
-  uVar1 = (uint32_t)((uint32_t)param_1 >> 8);
+  uVar1 = xi_trunc24(((uint32_t)param_1 >> 8));
   switch(xi_sw(param_1)) {
   case 0:
   case 8:
@@ -22188,11 +22188,11 @@ XI_API uint64_t __stdcall Unit100D7420_IsKindEnabledInSettings(undefined4 param_
       local_4 = (undefined4)uVar2;
       uVar2 = orig::Unit1018BA60_TestBit64(iVar1,(int)&local_8);
       return CONCAT44((int)((uint64_t)uVar2 >> 0x20),
-                      CONCAT31((int32_t)((uint64_t)uVar2 >> 8),(char)uVar2 != '\0'));
+                      CONCAT31(xi_strunc24(((uint64_t)uVar2 >> 8)),(char)uVar2 != '\0'));
     }
   }
   return CONCAT44((int)((uint64_t)uVar2 >> 0x20),
-                  CONCAT31((int32_t)((uint32_t)iVar1 >> 8),(char)param_2 != '\0'));
+                  CONCAT31(xi_strunc24(((uint32_t)iVar1 >> 8)),(char)param_2 != '\0'));
 }
 
 // FUNCTION: FFXIMAIN 0x10129C20  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -22582,7 +22582,7 @@ XI_API undefined4 __thiscall Unit100D7420_GetByte9(void * self_)
 {
   undefined4 xi_entry_eax = 0;
   
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 9))));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 9))));
 }
 
 // FUNCTION: FFXIMAIN 0x1012A420  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)

@@ -284,7 +284,7 @@ undefined4 __thiscall CMoElem::AdvanceTimer(void * self)
       if (this_00 == (void *)0x0) {
 LAB_10044b8c:
         uVar3 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
       }
       orig::CMoGeneratorClone_ExecuteCmdList(this_00,(int)self);
       bVar5 = NAN((long double)*(float *)((int)self + 0x110)) || NAN((long double)1.0f);
@@ -292,7 +292,7 @@ LAB_10044b8c:
         *(uint8_t *)((int)self + 0x178) = 0;
         if ((*(uint32_t *)((int)self + 0x10c) >> 0x1d & 1) == 0) {
           uVar3 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
-          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
         }
         *(uint32_t *)((int)self + 0x110) = 0;
         if ((*(int **)((int)self + 0x164) != (int *)0x0) &&
@@ -442,7 +442,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmElem_BuildDrawMatrixAnd
   char xi_frame[16] __attribute__((aligned(4)));
   uint8_t  (&local_10)[16] = *reinterpret_cast<uint8_t  (*)[16]>(xi_frame + 0);
   
-  piVar1 = (int *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x179))));
+  piVar1 = (int *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 0x179))));
   if (((*(char *)((int)self_ + 0x179) == '\0') &&
       (piVar1 = *(int **)((int)self_ + 0xfc), piVar1 != (int *)0x0)) && (*piVar1 != 0)) {
     if (piVar1 == (int *)0x0) {
@@ -475,7 +475,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) YmElem_BuildDrawMatrixAnd
       }
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10045A40  (placed by IDB name; static (takes no this))
@@ -497,7 +497,7 @@ undefined4 __thiscall CMoElem::PrepareDraw(void * self)
   fVar3 = *(float *)((int)self + 0x5c);
   uVar5 = orig::CMoElem_AdvanceTimer(self);
   if ((char)uVar5 != '\0') {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
   }
   uVar5 = orig::YmElem_ComputeViewDepthKey(self);
   fVar9 = (long double)*(float *)((int)self + 0x138);

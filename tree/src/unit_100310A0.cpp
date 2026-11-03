@@ -436,11 +436,11 @@ XI_API undefined4 __thiscall Shadow_DrawByMode(void * self_, float * param_1)
         uVar1 = orig::XiZone_DrawGroundShadowQuad(g_pZoneMap,param_1,
                              (float)((long double)dword_1045B810_as_f32 * (long double)0.3333333432674407958984375f),
                              (int)self_ + 0x14);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
     else if (g_actorShadowMode_as_v0 == 1) {
-      uVar1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 4))));
+      uVar1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 4))));
       if (*(char *)((int)self_ + 4) != '\0') {
         if (*(int *)((int)self_ + 8) == 0) {
           return 0;
@@ -448,7 +448,7 @@ XI_API undefined4 __thiscall Shadow_DrawByMode(void * self_, float * param_1)
         uVar1 = orig::XiZone_DrawDecalOnTriangles(g_pZoneMap,param_1,(int)self_ + 0x14,*(int *)((int)self_ + 8),
                              (float)((long double)dword_1045B810_as_f32 * (long double)2.400000095367431640625f));
         *(uint8_t *)((int)self_ + 4) = 0;
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
     else if (word_1045B814_as_v0 != 1) {
@@ -457,14 +457,14 @@ XI_API undefined4 __thiscall Shadow_DrawByMode(void * self_, float * param_1)
         uVar1 = orig::CTsZoneMap_DrawProjectedShadow
                           (g_pZoneMap,param_1,
                            (float)((long double)dword_1045B810_as_f32 * (long double)0.3333333432674407958984375f));
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
       }
       uVar1 = orig::XiZone_DrawGroundShadowQuad(g_pZoneMap,param_1,
                            (float)((long double)dword_1045B810_as_f32 * (long double)0.3333333432674407958984375f),(int)self_ + 0x14)
       ;
     }
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10033EA0  (unit unit_100310A0: no unit evidence of its own; in the gap between 0x10031070 (CYyOsmTaskXform) and 0x10034070 (CYySkl) -- an unnamed source file)

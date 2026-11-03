@@ -1013,7 +1013,7 @@ XI_API uint64_t __cdecl Unit101C72E0_DrawSmoothed(undefined4 param_1, undefined4
     return lVar4;
   }
   *pbVar2 = (uint8_t)param_5;
-  return (uint64_t)((uint32_t)(((uint32_t)((int32_t)((uint64_t)lVar4 >> 0x28)) << 8) | (uint8_t)((uint8_t)param_5))) << 0x20;
+  return (uint64_t)((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)lVar4 >> 0x28))) << 8) | (uint8_t)((uint8_t)param_5))) << 0x20;
 }
 
 // FUNCTION: FFXIMAIN 0x101CB000  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
@@ -1142,7 +1142,7 @@ XI_API undefined4 __cdecl Unit101C72E0_BeginCapture(undefined4 param_1, undefine
   uint32_t uVar1;
   
   uVar1 = orig::Unit10017C10_Begin(g_pXiCapture,param_1,(int)(short)param_2,(int)(short)param_3);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x101CBC60  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
@@ -1160,7 +1160,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit101C72E0_IsActorField17
   
   uVar1 = ((uint32_t)(((uint32_t)(uint16_t)((short)((uint32_t)xi_eax >> 0x10)) << 16) | (uint16_t)(DAT_10485f7a)));
   if ((DAT_10485f7a != 0) && (uVar1 = 0, (&ActerBuffPtr_as_v0)[DAT_10485f7a] != 0)) {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(*(int *)((&ActerBuffPtr_as_v0)[DAT_10485f7a] + 0x170) == param_1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(*(int *)((&ActerBuffPtr_as_v0)[DAT_10485f7a] + 0x170) == param_1)));
   }
   return uVar1 & 0xffffff00;
 }
@@ -1210,7 +1210,7 @@ XI_API undefined4 __cdecl Unit101C72E0_TestFlags100Or40DAC(undefined4 param_1)
   uVar1 = ((uint32_t)(((uint32_t)(uVar2) << 8) | (uint8_t)((char)param_1)));
   if (((char)param_1 != '\0') &&
      (uVar1 = DAT_104dfd98_as_v0, (*(uint8_t *)(DAT_104dfd98_as_v0 + 0x40dac) & 0x40) != 0)) {
-    return ((uint32_t)(((uint32_t)((int32_t)(DAT_104dfd98_as_v0 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((DAT_104dfd98_as_v0 >> 8))) << 8) | (uint8_t)(1)));
   }
   return uVar1 & 0xffffff00;
 }
@@ -1234,7 +1234,7 @@ XI_API unsigned char __cdecl fn_101CC0A0(void)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API undefined4 __attribute__((cdecl, regparm(1))) fn_101CC1B0(undefined4 xi_eax)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_1048098d)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_1048098d)));
 }
 
 // FUNCTION: FFXIMAIN 0x101CC1D0  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
@@ -1250,7 +1250,7 @@ XI_API uint32_t __attribute__((cdecl, regparm(1))) Unit101C72E0_ActorTest1D0(und
     if (((((char)uVar2 != '\0') || (uVar1 = *(uint32_t *)(param_1 + 0x1d0), (uVar1 & 0x100) != 0)) &&
         (uVar1 = *(uint32_t *)(param_1 + 0x128) >> 3 & 0xffffff01, (char)uVar1 != '\x01')) &&
        ((*(uint32_t *)(param_1 + 0x130) >> 0x14 & 1) == 0)) {
-      return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar1 & 0xffffff00;
@@ -1317,7 +1317,7 @@ XI_API undefined4 __cdecl fn_101CC320(int param_1)
 {
   uint32_t xi_entry_eax = 0;
   
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(param_1 != 0xd3)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(param_1 != 0xd3)));
 }
 
 // FUNCTION: FFXIMAIN 0x101CC350  (unit unit_101C72E0: no unit evidence of its own; in the gap between 0x101C72D0 (YkBitmap) and 0x101CC690 (YkDiary) -- an unnamed source file)
@@ -1335,10 +1335,10 @@ XI_API undefined4 __cdecl Unit101C72E0_CC4F0ActorTest400(undefined4 param_1, und
      ) {
     if ((char)param_2 != '\0') {
       bVar1 = *(uint8_t *)(uVar2 + 0x1ff);
-      uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint64_t)uVar3 >> 8)) << 8) | (uint8_t)(bVar1)));
+      uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint64_t)uVar3 >> 8))) << 8) | (uint8_t)(bVar1)));
       if ((0x27 < bVar1) && (bVar1 < 0x2c)) goto LAB_101cc395;
     }
-    return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
   }
 LAB_101cc395:
   return uVar2 & 0xffffff00;

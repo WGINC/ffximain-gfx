@@ -34,7 +34,7 @@ undefined4 __thiscall XiModelActor::CopyRectFromSlot(void * self, undefined4 par
   iVar3 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1bc))))((void *)(self));
   uVar1 = *(uint32_t *)(iVar3 + 0xc);
   param_2[3] = uVar1;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100C4B50  (placed by IDB name; static (takes no this))
@@ -55,7 +55,7 @@ undefined4 __thiscall XiModelActor::BuildWorldMatrix(void * self, undefined4 par
   orig::Mat4_PostRotateX_v1(param_2,*pfVar2);
   puVar3 = (uint32_t *)((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x1bc))))((void *)(self));
   uVar4 = orig::Mat4_SetTranslation_v1(param_2,puVar3);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar4 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar4 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100C4C20  (placed by IDB name; static (takes no this))

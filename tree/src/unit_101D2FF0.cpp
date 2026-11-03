@@ -327,5 +327,5 @@ XI_API undefined4 __thiscall fn_101D6C90(void * self_, undefined4 param_1)
   orig::FUN_101d6cc0(self_);
   *(uint32_t *)((int)self_ + 0x14) = param_1;
   uVar1 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self_ + 0x44))))((void *)(self_));
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }

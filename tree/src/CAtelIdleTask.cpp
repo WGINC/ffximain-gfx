@@ -43,7 +43,7 @@ undefined4 __cdecl CAtelIdleTask::Create()
     DAT_1045690c_as_v1 = self;
     uVar2 = orig::CMoTask_RegisterWithMng_v1(0xd);
     orig::App_AdvanceSeqStep_v1(g_pCamera_as_v2);
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
   }
   DAT_1045690c_as_v1 = (undefined4 *)0x0;
   return uVar1 & 0xffffff00;

@@ -139,7 +139,7 @@ XI_API void __thiscall StDancer_Update(void * self_)
     do {
       orig::StAvatar_SetFlagBit(&DAT_10669158,*piVar2,(uint32_t)piVar2[-1] >> 1 & 1);
       piVar2 = piVar2 + 2;
-    } while ((int)piVar2 < 0x1038990c);
+    } while ((int)piVar2 < (int)XI_GAME(0x1038990Cu));
   }
   return;
 }
@@ -150,7 +150,7 @@ XI_API void __thiscall Dancer_WorldEnd(void * self_, undefined4 param_1)
 {
   if ((*(uint8_t *)((int)self_ + 4) & 4) != 0) {
     byte_10669420_as_v0 = 1;
-    orig::StAvatar_RenderIfEnabled(0x10669158,param_1);
+    orig::StAvatar_RenderIfEnabled((int)XI_GAME(0x10669158u),param_1);
   }
   return;
 }
@@ -365,7 +365,7 @@ XI_API undefined4 __cdecl StAvatar_ReleaseMemory(void)
     g_dancerWorkMemSize_as_v0 = 0;
     g_dancerWorkMemBase = 0;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)uVar1) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(uVar1)) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x102524B0  (unit unit_10251320: no unit evidence of its own; in the gap between 0x102512B0 (StChannel) and 0x102524E0 (StModel) -- an unnamed source file)

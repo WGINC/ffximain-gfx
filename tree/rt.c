@@ -8,6 +8,17 @@
 __declspec(dllexport) uintptr_t xi_rel;   /* exported: the kit sets it after loading this DLL */
 __declspec(dllexport) int32_t xi_shift[25];   /* another build's moved code ranges (xi_decomp.hpp); set by the kit */
 #endif
+#ifdef XI_BACKEND
+/* the table each Direct3D 8 interface's calls go through, or 0 for the object's own vtable (xi_d3d8_backend.hpp,
+ * #136; index XI_BACKEND_<interface>, 12 entries); a backend sets them through xi_set_backend */
+void *xi_backend[12];
+__declspec(dllexport) void *__cdecl xi_set_backend(int k, void *table)
+{
+    void *old;
+    if (k < 0 || k >= 12) return 0;
+    old = xi_backend[k]; xi_backend[k] = table; return old;
+}
+#endif
 
 void *memcpy(void *d, const void *s, size_t n)
 {

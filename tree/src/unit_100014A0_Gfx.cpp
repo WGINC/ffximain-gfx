@@ -46,7 +46,7 @@ XI_API undefined4 __cdecl App_RenderFrameMaskedFPU(void)
   if (g_pGameMode_as_v0 != (uint8_t *)0x0) {
     uVar1 = orig::FUN_100daf30(g_pGameMode_as_v0);
   }
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10001BB0  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
@@ -67,7 +67,7 @@ XI_API undefined4 __stdcall App_CreateInputSystem(undefined4 param_1)
     if (g_pAppInputState_as_v0 != (void *)0x0) {
       uVar1 = orig::FUN_100058f0(g_pAppInputState_as_v0,param_1);
       if ((char)uVar1 != '\0') {
-        return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -130,7 +130,7 @@ XI_API undefined4 __cdecl Unit100014A0_AppendWithSpace(char * param_1)
     pcVar5 = DAT_103d3c88;
     pcVar7 = pcVar2;
     if (pcVar2 == (char *)0x0) {
-      return (uint32_t)(uint32_t)((uint64_t)uVar9 >> 8) << 8;
+      return (uint32_t)xi_trunc24(((uint64_t)uVar9 >> 8)) << 8;
     }
     do {
       cVar1 = *pcVar5;
@@ -188,7 +188,7 @@ XI_API undefined4 __cdecl Unit100014A0_AppendWithSpace(char * param_1)
     }
   }
   DAT_103d3c88 = pcVar2;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10001F20  (unit unit_100014A0_Gfx: no unit evidence of its own; in the gap between 0x100013C0 (CApp) and 0x10003650 (Debug) -- an unnamed source file)
@@ -512,7 +512,7 @@ XI_API uint32_t __cdecl Unit100014A0_SwapRedBlue(uint32_t param_1)
 XI_API undefined4 __cdecl Gfx_IsGammaSupported(void)
 {
   if (g_pCDx_as_s32 != 0) {
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)g_pCDx_as_s32 >> 8)) << 8) | (uint8_t)(*(uint8_t *)(g_pCDx_as_s32 + 0x915))));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)g_pCDx_as_s32 >> 8))) << 8) | (uint8_t)(*(uint8_t *)(g_pCDx_as_s32 + 0x915))));
   }
   return 0;
 }

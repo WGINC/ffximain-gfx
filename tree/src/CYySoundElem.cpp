@@ -102,7 +102,7 @@ undefined4 __cdecl CYySoundElem::QueueIfAbsent(int * param_1)
     xi_entry_eax = ((uint32_t)(((uint32_t)(uVar3) << 8) | (uint8_t)(DAT_10463908)));
     if (DAT_10463908 != '\0') {
       uVar2 = orig::CYySoundElem_AppendToQueue(param_1);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return xi_entry_eax & 0xffffff00;
@@ -194,7 +194,7 @@ undefined4 __thiscall CYySoundElem::UpdateTimerAndPosition(void * self)
     goto LAB_10036741;
     uVar4 = orig::FUN_10036c70(&local_10,&local_20,local_1c,*(float *)((int)self + 0x1b0),
                          *(float *)((int)self + 0x1b4),*(float *)((int)self + 0x1b8),
-                         ((uint32_t)(((uint32_t)((int32_t)((uint32_t)local_4 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self + 0x1e8)))),
+                         ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)local_4 >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self + 0x1e8)))),
                          *(int *)((int)self + 0x1e9));
     if (uVar4 == 0) {
       uVar5 = ((int (__thiscall *)(void *))((**(code **)(*(int *)self + 0x40))))((void *)(self));
@@ -245,7 +245,7 @@ LAB_10036741:
     orig::CMoGeneratorClone_ExecuteCmdList((void *)**(uint32_t **)((int)self + 0xfc),(int)self);
   }
   uVar5 = ((int (__thiscall *)(void *, XI_ANY))((**(code **)(*(int *)self + 0x18))))((void *)(self),1);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar5 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar5 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10036770  (placed by IDB name; static (takes no this))
@@ -264,7 +264,7 @@ undefined4 __thiscall CYySoundElem::IsFinished(void * self)
     }
     uVar3 = orig::Generator_IsFlag400OrField22Zero_v1(this_00);
     if ((char)uVar3 != '\0') {
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   if (((*(int **)((int)self + 0x104) != (int *)0x0) &&
@@ -289,7 +289,7 @@ undefined4 __thiscall CYySoundElem::IsTimerPositive(void * self)
   bVar4 = NAN(fVar5) || NAN(fVar2);
   uVar1 = (uint16_t)(bVar4 || fVar5 == fVar2);
   if ((fVar5 >= fVar2) && uVar1 == 0) {
-    return ((uint32_t)(((uint32_t)((uint32_t)(uint8_t)((bVar4 || fVar5 < fVar2) | (uint8_t)((uint16_t)(uVar1 << 0xe) >> 8))) << 8) | (uint8_t)(1)))
+    return ((uint32_t)(((uint32_t)(xi_trunc24((uint8_t)((bVar4 || fVar5 < fVar2) | (uint8_t)((uint16_t)(uVar1 << 0xe) >> 8)))) << 8) | (uint8_t)(1)))
     ;
   }
   uVar3 = orig::CYySoundElem_IsHandleInFrameList(*(int *)((int)self + 0x1e0),*(int *)((int)self + 0x1e0));
@@ -312,7 +312,7 @@ uint32_t __cdecl CYySoundElem::FindInQueue(undefined4 * param_1)
       piVar2 =(int*)(&DAT_10462590 + DAT_104638fc);
       do {
         if (*piVar2 == *piVar1) {
-          return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar2 >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar2 >> 8))) << 8) | (uint8_t)(1)));
         }
         iVar3 = iVar3 + 1;
         piVar2 = piVar2 + 1;
@@ -362,7 +362,7 @@ undefined4 __thiscall CYySoundElem::UpdateFromCamera(void * self)
   if (*(int *)((int)self + 0xfc) != 0) {
     uVar2 = orig::CMoElem_AdvanceTimer(self);
     if ((char)uVar2 != '\0') {
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   *(uint32_t *)((int)self + 0x138) = 0;

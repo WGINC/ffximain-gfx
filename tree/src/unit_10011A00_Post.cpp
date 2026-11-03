@@ -1151,7 +1151,7 @@ XI_API undefined4 __thiscall App_RunOpening(void * self_)
           piVar1 = (int *)((int (__thiscall *)(void *, XI_ANY))((**(code **)(*g_pXiOpening_as_v0 + 0x18))))((void *)(g_pXiOpening_as_v0),1);
           g_pXiOpening_as_v0 = (int *)0x0;
         }
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar1 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -1164,7 +1164,7 @@ XI_API undefined4 __cdecl Unit10011A00_ReturnTrue(void)
 {
   uint32_t xi_entry_eax = 0;
   
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10013DF0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
@@ -1344,7 +1344,7 @@ XI_API undefined4 __thiscall App_DispatchSubState(void * self_)
   case 4:
     uVar1 = orig::Unit10014350_RunStepThenLoadAll(self_);
     if ((char)uVar1 != '\0') {
-      return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar1 & 0xffffff00;
@@ -1372,7 +1372,7 @@ XI_API undefined4 __attribute__((stdcall, regparm(3))) App_SubStateInitCamera(un
     return uVar1;
   }
   orig::App_AdvanceSeqStep_v1(self_);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10014220  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
@@ -1389,12 +1389,12 @@ XI_API undefined4 __thiscall App_InitCamera(void * self_, undefined4 param_1)
       DAT_104570e0 = (int)(short)uVar2;
       *(int *)((int)self_ + 0x4c) = DAT_104570e0;
       uVar2 = orig::CYyCamMng2_CreateGlobal();
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
     DAT_104570e0 = (int)(short)((short)param_1 + -1);
     *(int *)((int)self_ + 0x4c) = DAT_104570e0;
     uVar2 = orig::CYyCamMng2_CreateGlobal();
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
   }
   if (DAT_104dfd98 == 0) {
     return 0;
@@ -1402,7 +1402,7 @@ XI_API undefined4 __thiscall App_InitCamera(void * self_, undefined4 param_1)
   DAT_104570e0 = (int)*(short *)(DAT_104dfd98 + 0x40d80);
   *(int *)((int)self_ + 0x4c) = DAT_104570e0;
   uVar2 = orig::CYyCamMng2_CreateGlobal();
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100142A0  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)
@@ -1412,5 +1412,5 @@ XI_API undefined4 __thiscall App_SubStateAdvance(void * self_)
   uint32_t xi_entry_eax = 0;
   
   orig::App_AdvanceSeqStep_v1(self_);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)(1)));
 }

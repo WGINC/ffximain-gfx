@@ -14,7 +14,7 @@ uint32_t __thiscall CYyOs2VtxBuffer::CreateBuffersStep(void * self, undefined4 x
   uint32_t uVar3;
   
   iVar2 = *(int *)((int)self + 0x58);
-  uVar4 = (uint32_t)((uint32_t)iVar2 >> 8);
+  uVar4 = xi_trunc24(((uint32_t)iVar2 >> 8));
   if (iVar2 == 0) {
 switchD_1002ccce_default:
     return ((uint32_t)(((uint32_t)(uVar4) << 8) | (uint8_t)(1)));

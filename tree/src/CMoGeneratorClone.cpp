@@ -1017,7 +1017,7 @@ undefined4 __thiscall CMoGeneratorClone::TestFlag20000000(void * self)
   uint32_t uVar1;
   
   uVar1 = *(uint32_t *)((int)self + 0xd8) & 0x20000000;
-  return ((uint32_t)(((uint32_t)((int32_t)(uVar1 >> 8)) << 8) | (uint8_t)(uVar1 == 0x20000000)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24((uVar1 >> 8))) << 8) | (uint8_t)(uVar1 == 0x20000000)));
 }
 
 // FUNCTION: FFXIMAIN 0x1004E720  (placed by IDB name)

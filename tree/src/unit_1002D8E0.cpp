@@ -16,7 +16,7 @@ XI_API undefined4 __thiscall Unit1002D8E0_FixOffsetsAndCreateVtxBuffer(void * se
   *(int *)((int)self_ + 0x48) = (int)self_ + *(int *)((int)self_ + 0x48) * 2 + 0x30;
   iVar1 = (int)self_ + *(int *)((int)self_ + 0x4e) * 2 + 0x30;
   *(int *)((int)self_ + 0x4e) = iVar1;
-  pvVar2 = (void *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)iVar1 >> 8)) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x34))));
+  pvVar2 = (void *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)iVar1 >> 8))) << 8) | (uint8_t)(*(uint8_t *)((int)self_ + 0x34))));
   *(int *)((int)self_ + 0x54) = (int)self_ + *(int *)((int)self_ + 0x54) * 2 + 0x30;
   if ((*(uint8_t *)((int)self_ + 0x34) & 2) == 0) {
     this_00 = orig::Mem_AllocFromArea_v2(0x9e,4,0);

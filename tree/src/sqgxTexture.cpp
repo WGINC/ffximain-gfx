@@ -301,7 +301,7 @@ LABEL_22:
 // GATE: PASS -- 100 trials, 100 returned normally, 100 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl sqgxTextureStencilClear(int a1)
 {
-  return ((int (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, _DWORD, _DWORD, int))g_pDancerDevice->lpVtbl->Clear)(
+  return ((int (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, _DWORD, _DWORD, int))g_pDancerDevice->lpVtbl->XI_SLOT(Clear))(
            g_pDancerDevice,
            0,
            0,
@@ -321,7 +321,7 @@ XI_API int __cdecl sqgxTextureClear(float *a1, int a2)
      | (((unsigned __int8)(__int64)(a1[1] * 255.0) | (((unsigned __int8)(__int64)(*a1 * 255.0) | 0xFFFFFF00) << 8)) << 8);
   lpVtbl = g_pDancerDevice->lpVtbl;
   if ( a2 != 0 )
-    return ((int (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, unsigned int, int, _DWORD))lpVtbl->Clear)(
+    return ((int (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, unsigned int, int, _DWORD))lpVtbl->XI_SLOT(Clear))(
              g_pDancerDevice,
              0,
              0,
@@ -330,7 +330,7 @@ XI_API int __cdecl sqgxTextureClear(float *a1, int a2)
              1065353216,
              0);
   else
-    return ((int (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, unsigned int, int, _DWORD))lpVtbl->Clear)(
+    return ((int (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, unsigned int, int, _DWORD))lpVtbl->XI_SLOT(Clear))(
              g_pDancerDevice,
              0,
              0,

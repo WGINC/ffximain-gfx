@@ -156,7 +156,7 @@ XI_API undefined4 __stdcall Unit10253210_SubmitInfoBinIfChanged(int param_1, int
     iVar1 = param_1 * 0x14;
     iVar4 = param_1 * 5;
     iVar7 = param_1 * 0x14;
-    param_1 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)(param_1 * 5) >> 8)) << 8) | (uint8_t)(((uint8_t *)((&DAT_10389d0d)))[iVar7])));
+    param_1 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)(param_1 * 5) >> 8))) << 8) | (uint8_t)(((uint8_t *)((&DAT_10389d0d)))[iVar7])));
     if (((uint8_t *)((&DAT_10389d0d)))[iVar7] != '\0') {
       bVar2 = false;
       bVar3 = false;
@@ -219,7 +219,7 @@ XI_API uint64_t __attribute__((cdecl, regparm(1))) Unit10253210_SendBytePairKind
   uint64_t uVar1;
   
   XI_PIECE(param_1, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((uint8_t)param_2) << 8) | (uint8_t)((uint8_t)param_1)));
-  uVar1 = orig::Unit10253210_SubmitInfoBinIfObjSet(0,&param_1,2,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_1))));
+  uVar1 = orig::Unit10253210_SubmitInfoBinIfObjSet(0,&param_1,2,((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((uint8_t)param_1))));
   return uVar1;
 }
 
@@ -250,7 +250,7 @@ XI_API void __cdecl Unit10253210_SendBytePairKind2(undefined4 param_1, undefined
   uint32_t xi_entry_eax = 0;
   
   XI_PIECE(param_1, 0, 2) = ((uint16_t)(((uint16_t)(uint8_t)((uint8_t)param_2) << 8) | (uint8_t)((uint8_t)param_1)));
-  orig::Unit10253210_SubmitInfoBinIfObjSet(2,&param_1,2,((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_entry_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_1))));
+  orig::Unit10253210_SubmitInfoBinIfObjSet(2,&param_1,2,((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_entry_eax >> 8))) << 8) | (uint8_t)((uint8_t)param_1))));
   return;
 }
 

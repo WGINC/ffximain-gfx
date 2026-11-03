@@ -319,7 +319,7 @@ XI_API undefined4 __thiscall Post_DrawRotatingGhostLayers(void * self_)
       ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))))(*(int **)((int)g_pCDx_as_v1 + 0xc),7,1);
       uVar6 = ((int (__stdcall *)(XI_ANY, XI_ANY, XI_ANY))((**(code **)(**(int **)((int)g_pCDx_as_v1 + 0xc) + 200))
                         ))(*(int **)((int)g_pCDx_as_v1 + 0xc),0x19,8);
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar6 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar6 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return 0;

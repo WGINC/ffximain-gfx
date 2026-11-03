@@ -15,7 +15,7 @@ XI_API undefined4 __stdcall MoRes_FreeIfUnreferenced(int * param_1)
   self_ = (void *)*param_1;
   if ((*(uint16_t *)((int)self_ + 0x18) & 0x7fff) == 0) {
     bVar1 = *(uint8_t *)((int)self_ + 0x1a) >> 2;
-    puVar2 = (uint32_t *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(bVar1)));
+    puVar2 = (uint32_t *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(bVar1)));
     if ((bVar1 & 1) == 0) {
       self_ = orig::Unit10071E50_FindSelfLinkedNode(self_);
       if ((*(uint16_t *)((int)self_ + 0x18) & 0x7fff) != 0) {
@@ -173,7 +173,7 @@ XI_API undefined4 __thiscall MeshResourceMng_Evict(void * self_)
     }
   }
   uVar3 = orig::MoRes_FreeIfUnreferenced_v1(piVar1);
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar3 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar3 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x10074110  (unit unit_10073750_ResourceIter: no unit evidence of its own; in the gap between 0x10073730 (CMoResource_VT_1032C934) and 0x100745D0 (CMoAttachments_VT_1032C4E8) -- an unnamed source file)
@@ -275,7 +275,7 @@ XI_API undefined4 __thiscall ResourceIter_InPoolRange(void * self_, undefined4 *
       }
       if (param_1 <= (undefined4 *)((int)self_ + 0x40004U)) goto LAB_10074218;
     }
-    return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)param_1 >> 8)) << 8) | (uint8_t)(1)));
+    return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)param_1 >> 8))) << 8) | (uint8_t)(1)));
   }
 LAB_10074218:
   return (uint32_t)param_1 & 0xffffff00;
@@ -353,13 +353,13 @@ XI_API uint32_t __thiscall ResourceIter_MatchCurrent(void * self_)
       puVar1 = (uint32_t *)(uVar2 + 0x24);
       uVar2 = *(uint32_t *)((int)self_ + 8);
       if ((*puVar1 & 0x7f) == uVar2) {
-        return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
     else if (((*(uint32_t *)(uVar2 + 0x24) & 0x7f) == *(uint32_t *)((int)self_ + 8)) &&
             (uVar2 = *(uint32_t *)(uVar2 + 0x20) & *(uint32_t *)((int)self_ + 0x10),
             uVar2 == *(uint32_t *)((int)self_ + 0xc))) {
-      return ((uint32_t)(((uint32_t)((int32_t)(uVar2 >> 8)) << 8) | (uint8_t)(1)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24((uVar2 >> 8))) << 8) | (uint8_t)(1)));
     }
   }
   return uVar2 & 0xffffff00;

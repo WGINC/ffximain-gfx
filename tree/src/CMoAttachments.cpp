@@ -223,7 +223,7 @@ int __thiscall CMoAttachments::FindKindInChain(void * self)
   if (this_00 == (void *)0x0) {
     return 0;
   }
-  uVar2 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+  uVar2 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x1032F910u));
   cVar1 = (char)uVar2;
   while( true ) {
     if (cVar1 == '\0') {
@@ -232,7 +232,7 @@ int __thiscall CMoAttachments::FindKindInChain(void * self)
     uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
-    uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
+    uVar2 = orig::CYyObject_IsKindOf(this_01,(int)XI_GAME(0x1032F910u));
     cVar1 = (char)uVar2;
     this_00 = this_01;
   }
@@ -253,7 +253,7 @@ int __thiscall CMoAttachments::FindKindFromRoot(void * self)
   if (this_00 == (void *)0x0) {
     return 0;
   }
-  uVar2 = orig::CYyObject_IsKindOf(this_00,0x1032f910);
+  uVar2 = orig::CYyObject_IsKindOf(this_00,(int)XI_GAME(0x1032F910u));
   cVar1 = (char)uVar2;
   while( true ) {
     if (cVar1 == '\0') {
@@ -262,7 +262,7 @@ int __thiscall CMoAttachments::FindKindFromRoot(void * self)
     uVar2 = orig::CMoAttachments_GetCaster_v1((void *)((int)this_00 + 0xc4));
     this_01 = (void *)uVar2;
     if (this_01 == (void *)0x0) break;
-    uVar2 = orig::CYyObject_IsKindOf(this_01,0x1032f910);
+    uVar2 = orig::CYyObject_IsKindOf(this_01,(int)XI_GAME(0x1032F910u));
     cVar1 = (char)uVar2;
     this_00 = this_01;
   }

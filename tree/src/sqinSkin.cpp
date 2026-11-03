@@ -121,7 +121,7 @@ XI_API undefined4 __cdecl SqinSkin_ResizeItemArray(int param_1, int param_2)
     if (puVar1 != (undefined4 *)0x0) {
       *(int *)(param_1 + 0x40) = param_2;
       *(undefined4 **)(param_1 + 0x38) = puVar1;
-      return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)puVar1 >> 8)) << 8) | (uint8_t)(0xff)));
+      return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)puVar1 >> 8))) << 8) | (uint8_t)(0xff)));
     }
   }
   return xi_entry_eax & 0xffffff00;

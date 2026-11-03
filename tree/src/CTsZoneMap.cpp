@@ -440,7 +440,7 @@ XI_API void __cdecl ZoneMap_ResetGlobalTables(void)
     *puVar1 = 0x3f800000;
     puVar1[1] = 0;
     puVar1 = puVar1 + 0x1c;
-  } while ((int)puVar1 < 0x1063908c);
+  } while ((int)puVar1 < (int)XI_GAME(0x1063908Cu));
   puVar1 = &DAT_1065c4d8;
   for (iVar2 = 0x40; iVar2 != 0; iVar2 = iVar2 + -1) {
     *puVar1 = 0;
@@ -497,7 +497,7 @@ uint32_t __thiscall CTsZoneMap::Render(void * self)
   }
   if (DAT_1047bc8c == 0) {
     uVar1 = orig::FUN_10055130((void *)((int)self + 0x3959c),local_4,
-                         ((uint32_t)(((uint32_t)((int32_t)((uint32_t)self >> 8)) << 8) | (uint8_t)(DAT_1065ca28))));
+                         ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)self >> 8))) << 8) | (uint8_t)(DAT_1065ca28))));
     if ((char)uVar1 == '\0') goto LAB_10178c10;
     puVar2 = (undefined4 *)orig::FUN_10055160((void *)((int)self + 0x3959c));
     puVar6 = &DAT_10631ed0;

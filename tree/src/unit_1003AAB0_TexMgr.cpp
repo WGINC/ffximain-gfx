@@ -66,7 +66,7 @@ XI_API undefined4 __thiscall TexMgr_UploadPump(void * self_)
       piVar2 = (int *)*piVar4;
       *piVar1 = (int)piVar2;
       if (((*g_pSceneState_as_v0 == 0x60) &&
-          (piVar2 = (int *)((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar2 >> 8)) << 8) | (uint8_t)(*(char *)((int)self_ + 0x10)))),
+          (piVar2 = (int *)((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar2 >> 8))) << 8) | (uint8_t)(*(char *)((int)self_ + 0x10)))),
           *(char *)((int)self_ + 0x10) == '\0')) && (iVar3 = iVar3 + 1, 0x14 < iVar3)) break;
     }
     else if (piVar2 == (int *)0x2) {
@@ -84,7 +84,7 @@ XI_API undefined4 __thiscall TexMgr_UploadPump(void * self_)
     piVar4 = (int *)(*piVar4 + 0x38);
     this_00 = (void *)*piVar4;
   }
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar2 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar2 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x1003AEA0  (unit unit_1003AAB0_TexMgr: no unit evidence of its own; in the gap between 0x1003AA90 (CYyTexMng) and 0x1003B050 (CYyVbMng) -- an unnamed source file)

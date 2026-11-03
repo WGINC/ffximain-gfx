@@ -88,7 +88,7 @@ XI_API undefined4 __cdecl Unit10035B00_SetScaled10351708(float param_1)
   DAT_10351708 = (float)((long double)_DAT_103516fc * (long double)_DAT_103516f8 * (long double)param_1);
   uVar6 = 0;
   if ((DAT_10463914 != 0) &&
-     (uVar6 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)DAT_10463914 >> 8)) << 8) | (uint8_t)(DAT_104638f5))), DAT_104638f5 != '\0')) {
+     (uVar6 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)DAT_10463914 >> 8))) << 8) | (uint8_t)(DAT_104638f5))), DAT_104638f5 != '\0')) {
     fVar1 = (long double)DAT_10351708;
     bVar2 = NAN(fVar4) || NAN(fVar1);
     bVar3 = bVar2 || fVar4 == fVar1;
@@ -169,7 +169,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Music_ApplyVolume(undefined
   long double fVar4;
   int64_t lVar5;
   
-  uVar2 = ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)(DAT_104638f5)));
+  uVar2 = ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)(DAT_104638f5)));
   if (DAT_104638f5 != '\0') {
     fVar4 = (long double)param_1;
     fVar1 = (long double)0.0f;
@@ -249,7 +249,7 @@ XI_API uint32_t __cdecl Unit10035B00_AddUniqueId(int param_1)
   DAT_1046390c_as_v0 = (int *)((int)DAT_1046390c_as_v0 + 1);
   *piVar1 = param_1;
 LAB_10036496:
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)piVar1 >> 8)) << 8) | (uint8_t)(1)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)piVar1 >> 8))) << 8) | (uint8_t)(1)));
 }
 
 // FUNCTION: FFXIMAIN 0x100367F0  (unit unit_10035B00: no unit evidence of its own; in the gap between 0x10035AE0 (CMoTask_VT_1032A904) and 0x100369F0 (CYySoundElem) -- an unnamed source file)
@@ -261,7 +261,7 @@ XI_API uint32_t __attribute__((cdecl, regparm(1))) CYySoundElem_IsHandleInFrameL
     if (0 < DAT_104638fc) {
       do {
         if ((&DAT_10462590)[xi_eax] == param_1) {
-          return ((uint32_t)(((uint32_t)((int32_t)(xi_eax >> 8)) << 8) | (uint8_t)(1)));
+          return ((uint32_t)(((uint32_t)(xi_strunc24((xi_eax >> 8))) << 8) | (uint8_t)(1)));
         }
         xi_eax = xi_eax + 1;
       } while ((int)xi_eax < DAT_104638fc);

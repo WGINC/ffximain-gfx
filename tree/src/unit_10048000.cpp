@@ -105,7 +105,7 @@ XI_API undefined4 __thiscall Unit10048000_GetSelf(void * self_)
 XI_API undefined4 __attribute__((stdcall, regparm(3))) Unit10048000_SetByte(undefined4 xi_eax, uint32_t xi_edx_unused, void * self_, undefined4 param_2)
 {
   *(uint8_t *)self_ = (uint8_t)param_2;
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)xi_eax >> 8)) << 8) | (uint8_t)((uint8_t)param_2)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)xi_eax >> 8))) << 8) | (uint8_t)((uint8_t)param_2)));
 }
 
 // FUNCTION: FFXIMAIN 0x1004E260  (unit unit_10048000: no unit evidence of its own; in the gap between 0x10047FE0 (CMoGeneratorClone_VT_1032B114) and 0x10052BC0 (CMoVuLineProgElem) -- an unnamed source file)
@@ -536,7 +536,7 @@ XI_API int __thiscall Unit10048000_HasFlags4And8(void * self_)
   uint32_t uVar2;
   
   uVar1 = *(uint32_t *)((int)self_ + 0x10c);
-  uVar2 = (uint32_t)(uVar1 >> 8);
+  uVar2 = xi_trunc24((uVar1 >> 8));
   if (((uVar1 & 4) != 0) && ((uVar1 & 8) != 0)) {
     return ((uint32_t)(((uint32_t)(uVar2) << 8) | (uint8_t)(1)));
   }

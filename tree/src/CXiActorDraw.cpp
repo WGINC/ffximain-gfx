@@ -40,8 +40,8 @@ undefined4 __cdecl CXiActorDraw::UpdateDrawList()
     piVar3 = this_00 + 0x15;
     if (self == (int *)0x0) {
       if (*(short *)((int)this_00 + 0xb2) == 0) {
-        uVar1 = (uint32_t)((NAN((long double)xi_castbits<float>(this_00[0x23])) || NAN((long double)0.0f)) ||
-                       (long double)xi_castbits<float>(this_00[0x23]) < (long double)0.0f);
+        uVar1 = xi_trunc24(((NAN((long double)xi_castbits<float>(this_00[0x23])) || NAN((long double)0.0f)) ||
+                       (long double)xi_castbits<float>(this_00[0x23]) < (long double)0.0f));
         if (uVar1 == 0) {
           uVar2 = ((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x288))))((void *)(this_00));
         }
@@ -62,8 +62,8 @@ LAB_10082e90:
                        (uint16_t)(bVar5 || fVar7 == fVar6) << 0xe)));
       if (bVar4 == bVar5) {
         if (*(short *)((int)this_00 + 0xb2) == 0) {
-          uVar1 = (uint32_t)((NAN((long double)xi_castbits<float>(this_00[0x23])) || NAN((long double)0.0f)) ||
-                         (long double)xi_castbits<float>(this_00[0x23]) < (long double)0.0f);
+          uVar1 = xi_trunc24(((NAN((long double)xi_castbits<float>(this_00[0x23])) || NAN((long double)0.0f)) ||
+                         (long double)xi_castbits<float>(this_00[0x23]) < (long double)0.0f));
           if (uVar1 != 0) goto LAB_10082e90;
           uVar2 = ((int (__thiscall *)(void *))((**(code **)(*this_00 + 0x288))))((void *)(this_00));
         }

@@ -48,7 +48,7 @@ XI_API undefined4 __cdecl Unit102706F0_InitScene(void)
   _DAT_1099b16c = 0x100;
   _DAT_1099cdb4 = 0;
   _DAT_1099cdb8 = 0x3f800000;
-  orig::SqsnScene_Preallocate(0x1099b13c,7,6,4,1);
+  orig::SqsnScene_Preallocate((int)XI_GAME(0x1099B13Cu),7,6,4,1);
   piStack_4 =(int*)(&DAT_1099b1b4);
   puVar5 = &DAT_1099b39c;
   puVar6 = &DAT_1099b1e4;
@@ -63,21 +63,21 @@ XI_API undefined4 __cdecl Unit102706F0_InitScene(void)
     puVar5[1] = 0;
     puVar5[6] = 0x44480000;
     orig::sqxfXformTD_Update((int)(puVar5 + -0x18));
-    iVar1 = orig::SqsnScene_AddCamera(0x1099b13c,puVar6 + -5,puVar5 + -0x11);
+    iVar1 = orig::SqsnScene_AddCamera((int)XI_GAME(0x1099B13Cu),puVar6 + -5,puVar5 + -0x11);
     *piStack_4 = iVar1;
     orig::SqrdCamera_Init(puVar6 + 0x12f);
     orig::sqxfXformTD_Init(puVar5 + 0x11c);
     puVar6 = puVar6 + 0xd;
     piStack_4 = piStack_4 + 1;
     puVar5 = puVar5 + 0x1f;
-  } while ((int)puVar6 < 0x1099b350);
+  } while ((int)puVar6 < (int)XI_GAME(0x1099B350u));
   orig::Unit102706F0_NoOpB();
   orig::FUN_1026e2f0((undefined4 *)&DAT_1099cd00);
   _DAT_1099cd24 = 0x42700000;
   _DAT_1099cd14 = 0x3f800000;
   _DAT_1099cd18 = 0x3f800000;
   _DAT_1099cd1c = 0x3f800000;
-  DAT_1099ccfc = orig::SqsnScene_AddLight(0x1099b13c,&DAT_1099cd00,&DAT_1099cd54);
+  DAT_1099ccfc = orig::SqsnScene_AddLight((int)XI_GAME(0x1099B13Cu),&DAT_1099cd00,&DAT_1099cd54);
   orig::StAvatar_UpdateTransform();
   iVar1 = 0;
   DAT_1099ccf8 = 0;
@@ -85,9 +85,9 @@ XI_API undefined4 __cdecl Unit102706F0_InitScene(void)
     orig::FUN_1026e2f0((undefined4 *)(((char *)&DAT_1099bb9c) + iVar1 * 0x38));
     (&DAT_1099bbc0)[iVar1 * 0xe] = 0x42700000;
     iVar4 = iVar1 * 0x7c;
-    iVar2 = orig::SqsnScene_AddLight(0x1099b13c,((char *)&DAT_1099bb9c) + iVar1 * 0x38,((char *)&DAT_1099bcd0) + iVar4);
+    iVar2 = orig::SqsnScene_AddLight((int)XI_GAME(0x1099B13Cu),((char *)&DAT_1099bb9c) + iVar1 * 0x38,((char *)&DAT_1099bcd0) + iVar4);
     (&DAT_1099bb74)[iVar1] = iVar2;
-    orig::SqsnScene_SetByteAt28(0x1099b13c,iVar2,(uint32_t)(iVar1 != 4));
+    orig::SqsnScene_SetByteAt28((int)XI_GAME(0x1099B13Cu),iVar2,(uint32_t)(iVar1 != 4));
     orig::SqsdGeneric_Init((undefined4 *)(((char *)&DAT_1099c578) + iVar1 * 0x180));
     (&DAT_1099c5a0)[iVar1 * 0x60] = (&DAT_1099bbb0)[iVar1 * 0xe];
     (&DAT_1099c5a4)[iVar1 * 0x60] = (&DAT_1099bbb4)[iVar1 * 0xe];
@@ -98,10 +98,10 @@ XI_API undefined4 __cdecl Unit102706F0_InitScene(void)
       (&DAT_1099bb88)[iVar1] = 0;
     }
     else {
-      uVar3 = orig::SqsnScene_LayerAddItem(0x1099b13c,DAT_1099ccf8,((char *)&DAT_1099bf3c) + iVar4,
+      uVar3 = orig::SqsnScene_LayerAddItem((int)XI_GAME(0x1099B13Cu),DAT_1099ccf8,((char *)&DAT_1099bf3c) + iVar4,
                            ((char *)&DAT_1099c578) + iVar1 * 0x180,3);
       (&DAT_1099bb88)[iVar1] = uVar3;
-      orig::SqsnScene_ItemAddLight(0x1099b13c,uVar3,DAT_1099ccfc);
+      orig::SqsnScene_ItemAddLight((int)XI_GAME(0x1099B13Cu),uVar3,DAT_1099ccfc);
     }
     orig::StAvatar_InitEntry(iVar1);
     orig::FUN_1026e2f0((undefined4 *)(((char *)&DAT_1099c18c) + iVar1 * 0x38));
@@ -113,7 +113,7 @@ XI_API undefined4 __cdecl Unit102706F0_InitScene(void)
   orig::Unit102706F0_NoOpA();
   orig::StAvatar_SetFlag3(0);
   orig::StAvatar_SelectIndex(4);
-  orig::SqsnScene_SetItemByte19(0x1099b13c,2,1);
+  orig::SqsnScene_SetItemByte19((int)XI_GAME(0x1099B13Cu),2,1);
   return 0;
 }
 
@@ -132,7 +132,7 @@ XI_API void __cdecl StAvatar_UpdateTransform(void)
   _DAT_1099cda8 = *(uint32_t *)(((char *)&DAT_1099b3ac) + iVar1);
   _DAT_1099cdac = *(uint32_t *)(((char *)&DAT_1099b3b0) + iVar1);
   _DAT_1099cdb0 = (&DAT_1099b3b4)[DAT_1099b0f4 * 0x1f];
-  orig::sqxfXformTD_Update(0x1099cd38);
+  orig::sqxfXformTD_Update((int)XI_GAME(0x1099CD38u));
   return;
 }
 
@@ -169,7 +169,7 @@ XI_API undefined4 __cdecl Unit102706F0_UpdateScene(undefined4 param_1)
     }
     pfVar4 = pfVar4 + 5;
     pfVar3 = pfVar3 + 0x1f;
-  } while ((int)pfVar4 < 0x1099c57c);
+  } while ((int)pfVar4 < (int)XI_GAME(0x1099C57Cu));
   return iVar2;
 }
 
@@ -349,7 +349,7 @@ XI_API void __cdecl StAvatar_UpdateAngles(int param_1, int param_2, undefined4 p
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl StAvatar_DrawScene(void)
 {
-  orig::sqsnSceneDraw(0x1099b13c);
+  orig::sqsnSceneDraw((int)XI_GAME(0x1099B13Cu));
   return;
 }
 
@@ -360,7 +360,7 @@ XI_API undefined4 __cdecl scnFini(void)
   if (DAT_1099ccf8 != 0) {
     orig::SqObject_Release(&DAT_1099ccf8);
   }
-  orig::SqsnScene_Free(0x1099b13c);
+  orig::SqsnScene_Free((int)XI_GAME(0x1099B13Cu));
   DAT_1099b0d8 = DAT_1099b0d8 & 0xfffffffe;
   return DAT_1099b0d8;
 }
@@ -397,7 +397,7 @@ XI_API void __cdecl StAvatar_SetOffsets(int param_1, int param_2, int param_3)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl StAvatar_SetSceneValue1(undefined4 param_1, undefined4 param_2)
 {
-  orig::SqsnScene_LayerPreallocate(0x1099b13c,param_1,param_2);
+  orig::SqsnScene_LayerPreallocate((int)XI_GAME(0x1099B13Cu),param_1,param_2);
   return;
 }
 
@@ -405,7 +405,7 @@ XI_API void __cdecl StAvatar_SetSceneValue1(undefined4 param_1, undefined4 param
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __cdecl StAvatar_SetSceneValue2(undefined4 param_1, undefined4 param_2)
 {
-  orig::SqsnScene_ShadowPreallocate(0x1099b13c,param_1,param_2);
+  orig::SqsnScene_ShadowPreallocate((int)XI_GAME(0x1099B13Cu),param_1,param_2);
   return;
 }
 
@@ -585,15 +585,15 @@ XI_API void __cdecl StAvatar_SetEntryFlag(int param_1, int param_2)
   iVar1 = (&DAT_1099bb74)[param_1];
   if (param_2 == -1) {
     if (*(char *)(DAT_1099b164 + iVar1) != '\x01') {
-      orig::SqsnScene_SetByteAt28(0x1099b13c,iVar1,1);
+      orig::SqsnScene_SetByteAt28((int)XI_GAME(0x1099B13Cu),iVar1,1);
       return;
     }
   }
   else if (param_2 != 0) {
-    orig::SqsnScene_SetByteAt28(0x1099b13c,iVar1,1);
+    orig::SqsnScene_SetByteAt28((int)XI_GAME(0x1099B13Cu),iVar1,1);
     return;
   }
-  orig::SqsnScene_SetByteAt28(0x1099b13c,iVar1,0);
+  orig::SqsnScene_SetByteAt28((int)XI_GAME(0x1099B13Cu),iVar1,0);
   return;
 }
 
@@ -603,15 +603,15 @@ XI_API void __cdecl StAvatar_SetFlag3(int param_1)
 {
   if (param_1 == -1) {
     if (*(char *)(DAT_1099b184 + 0x9c) == '\0') {
-      orig::SqsnScene_SetItemByte18(0x1099b13c,3,1);
+      orig::SqsnScene_SetItemByte18((int)XI_GAME(0x1099B13Cu),3,1);
       return;
     }
   }
   else if (param_1 == 1) {
-    orig::SqsnScene_SetItemByte18(0x1099b13c,3,1);
+    orig::SqsnScene_SetItemByte18((int)XI_GAME(0x1099B13Cu),3,1);
     return;
   }
-  orig::SqsnScene_SetItemByte18(0x1099b13c,3,0);
+  orig::SqsnScene_SetItemByte18((int)XI_GAME(0x1099B13Cu),3,0);
   return;
 }
 
@@ -715,12 +715,12 @@ XI_API void __cdecl StAvatar_SelectIndex(int param_1)
     param_1 = DAT_1099b0f8;
   }
   if (DAT_1099b170 == 0) {
-    DAT_1099b100 = orig::SqsnScene_AddShadow(0x1099b13c,(&DAT_1099bb74)[param_1]);
+    DAT_1099b100 = orig::SqsnScene_AddShadow((int)XI_GAME(0x1099B13Cu),(&DAT_1099bb74)[param_1]);
   }
   else {
     *(uint32_t *)(DAT_1099b100 * 0x30 + DAT_1099b17c) = (&DAT_1099bb74)[param_1];
   }
-  orig::SqsnScene_SetItemDword28(0x1099b13c,DAT_1099b100,4);
+  orig::SqsnScene_SetItemDword28((int)XI_GAME(0x1099B13Cu),DAT_1099b100,4);
   return;
 }
 

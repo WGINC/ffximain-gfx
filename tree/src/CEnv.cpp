@@ -41,5 +41,5 @@ void __thiscall CEnv::UpdateStereoMode(void * self, undefined4 xi_s1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 undefined4 __thiscall CEnv::IsStereoMode(void * self)
 {
-  return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)*(int *)((int)self + 0x18) >> 8)) << 8) | (uint8_t)(*(int *)((int)self + 0x18) != 0)));
+  return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)*(int *)((int)self + 0x18) >> 8))) << 8) | (uint8_t)(*(int *)((int)self + 0x18) != 0)));
 }

@@ -147,9 +147,9 @@ XI_API undefined4 __cdecl fn_100A3040(void)
   pvVar2 = DAT_10487f08;
   if (DAT_10487f08 == (void *)0x0) {
     uVar4 = 0x400;
-    puVar3 = (undefined4 *)0x10485178;
+    puVar3 = (undefined4 *)(int)XI_GAME(0x10485178u);
     uVar1 = orig::FUN_100a30e0(0);
-    orig::FUN_100a2fd0((uint8_t *)0x104808b0,1,1,uVar1,puVar3,uVar4,uVar1);
+    orig::FUN_100a2fd0((uint8_t *)(int)XI_GAME(0x104808B0u),1,1,uVar1,puVar3,uVar4,uVar1);
     puVar3 = orig::Mem_AllocFromArea_v2(0xf0,4,0);
     pvVar2 = (void *)orig::CMoTask_ResetFields_v1(puVar3);
     g_resourcesDirty_as_v0 = 1;
@@ -157,13 +157,13 @@ XI_API undefined4 __cdecl fn_100A3040(void)
       DAT_10487f08 = (void *)0x0;
     }
     else {
-      DAT_10487f08 = orig::FUN_100a2790(puVar3,0x104808b0);
+      DAT_10487f08 = orig::FUN_100a2790(puVar3,(int)XI_GAME(0x104808B0u));
       pvVar2 = (void *)0x0;
       if (DAT_10487f08 != (void *)0x0) {
-        *(undefined4 *)((int)DAT_10487f08 + 0x50) = 0x100a3160;
-        *(undefined4 *)((int)DAT_10487f08 + 0x54) = 0x100a3130;
+        *(undefined4 *)((int)DAT_10487f08 + 0x50) = (int)XI_GAME(0x100A3160u);
+        *(undefined4 *)((int)DAT_10487f08 + 0x54) = (int)XI_GAME(0x100A3130u);
         uVar1 = orig::FUN_100a28e0(DAT_10487f08);
-        return ((uint32_t)(((uint32_t)((int32_t)((uint32_t)uVar1 >> 8)) << 8) | (uint8_t)(1)));
+        return ((uint32_t)(((uint32_t)(xi_strunc24(((uint32_t)uVar1 >> 8))) << 8) | (uint8_t)(1)));
       }
     }
   }
@@ -207,7 +207,7 @@ XI_API void __cdecl Unit100A2810_ResetRecords(void)
     *(uint8_t *)(puVar1 + -1) = 0;
     *puVar1 = 0;
     puVar1 = puVar1 + 0xa0;
-  } while ((int)puVar1 < 0x104860b6);
+  } while ((int)puVar1 < (int)XI_GAME(0x104860B6u));
   DAT_10487f0c = 0;
   DAT_10487f14 = 0;
   return;

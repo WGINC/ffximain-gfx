@@ -47,12 +47,12 @@ owner or a run in the game).
 | 128 | 35% | Document model and skin formats from their readers | done | docs/FORMATS.md |
 | 129 | 35% | Document texture, effect, scene and shader formats | done | docs/FORMATS.md |
 | 130 | 40% | Standalone render core build with a listed boundary | open | |
-| 131 | 45% | Whole-frame differential | done for the 580 swapped | emulated: identical through the world pass on 3 dumps (frame_diff.py); in the game: block A/B traces (trace_alternate=4) show no difference from the swaps beyond the scene's own, world pass and UI, town and a busy scene (HISTORY 1 Nov). Open: the functions not swapped (untested-flagged, 89 with unrebased addresses) |
-| 132 | 45% | Swap the render core as one block in the game | open | |
+| 131 | 45% | Whole-frame differential | done for the 580 swapped | emulated: identical through the world pass on 3 dumps (frame_diff.py); in the game: block A/B traces (trace_alternate=4) show no difference from the swaps beyond the scene's own, world pass and UI, town and a busy scene (HISTORY 1 Nov). With the untested-flagged swapped too: one difference, Env_ComputeFog's fog alpha, a translation rule (3-byte casts) fixed 1 Nov; rerun on the next installed tree |
+| 132 | 45% | Swap the render core as one block in the game | partly | manifest flag 16 = the render path (verification/render_core_status.json); xikit.ini swap_set=render_path swaps exactly it, untested included; frame_diff.py --swap-set render_path. Built 1 Nov; not yet run on the dumps or in the game |
 | 133 | 50% | One shared definition set with the UI kit | open | |
 | 134 | 50% | Fork, gate and match workflows in the SDK | open | |
 | 135 | 55% | Devkit release 1 | open | |
-| 136 | parallel 60% | Backend interface for all device calls in source | open | |
+| 136 | parallel 60% | Backend interface for all device calls in source | partly | XI_BACKEND: every D3D8 call in the tree through xi_backend[] (pipeline/xi_d3d8_backend.hpp, gen_d3d8_backend.py; slot reads XI_SLOT); whole tree builds; emulated frame identical with no backend set (town, combat). Open: in the kit's build, a first D3D11 backend entry |
 | 137 | parallel 65% | Build the trace replayer for d3d8on11 | open | |
 | 138 | parallel 65% | Second-opinion references: DXVK d3d8 and d3d8to9 | open | |
 | 139 | parallel 65% | Check open D3D8 behaviours against the SDK docs | open | |

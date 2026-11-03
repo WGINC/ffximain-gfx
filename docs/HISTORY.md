@@ -3980,3 +3980,37 @@ With the emulated frames identical through the world pass on three dumps (31 Oct
 same frames as the game's own code, in the game, on the owner's machine (dgVoodoo), in the scenes traced. Not covered:
 the functions not swapped (the untested-flagged and the 89 with unrebased addresses), scenes not traced, and what a
 trace does not record (texture contents; vertex buffers only as hashes per filling function).
+
+**1 Nov (later): the prerequisites for a source-level D3D11 renderer.** All in commit 2f08c11 (rules, facts, interface);
+the tree round that applies them (r18) was gated and installed in a container that was then replaced before it was
+committed, so the installed tree is still r17.
+- Unrebased game addresses: reloc_literals.py now covers every function (it listed the graphics export only), plus a
+  call's return address (Ghidra writes the push as a literal; the original holds it as no data) and a comparison bound
+  one off a relocated value (data/reloc_bounds.json: the decompiler prints `x >= R` as `R - 1 < x`). raw_game_addrs.py,
+  given the tree, clears a function whose source writes no raw game-range literal (GCC derives some: an induction
+  variable counting in analysed addresses, the /1000 magic 0x10624DD3). On the r18 regeneration: 1 function left
+  (Yk_LoadIndexedTables), from 95; the kit refused 4 functions, from 92.
+- The untested-flagged swapped as well (frame_diff.py --include-untested): three dumps differed at SetRenderState
+  (D3DRS_FOGCOLOR), top byte 0x29 against 0x00. Bisected to one function, Env_ComputeFog 0x10189120: the original clears
+  that byte (`mov byte ptr [esp+0x1b], 0`, 0x101891D3); Ghidra's `(uint)(uint3)param_3` compiled to a plain 32-bit cast,
+  since uint3 is a 32-bit typedef. A family: 2,172 such casts in 719 functions. hx2cpp.ghidra_odd_casts writes them as
+  xi_trunc24 / xi_strunc24 (the low 24 bits, zero- or sign-extended).
+- D3DX dispatch: 0x102D6F03 is `jmp [0x103CC41C]`, a slot of the D3DX CPU-dispatch table that 0x102E7650 fills (default
+  table, then four CPU-feature fillers). dispatch_slots.py reads each slot's closed set of targets (checked against the
+  relocation table: nothing else refers to the table) and caller_reads.py follows them, and follows a jump into another
+  function's body (the SSE routines' aligned entries). 93 functions no longer count as taking EAX as an input; the live
+  value in two dumps (0x102FAA80) is one of the targets.
+- #136: xi_d3d8_backend.hpp (generated): with XI_BACKEND each D3D8 interface's vtable type is a proxy routing every
+  method through xi_backend[] (null: the object's own vtable). All 410 files build; frame_diff identical on town and
+  combat with no backend set.
+- #132: manifest flag 16 (render path) and xikit.ini swap_set=render_path; frame_diff.py --swap-set render_path.
+- r18 (lost with the container, to be redone): gate totals as r17 (4,881 fuzz PASS; 4,884 combined); the per-function
+  changes it printed were the gate step reading old records, not verdicts that changed. The raw re-gate of the
+  render-path functions outside the tree: 0x1017C9C0, 0x1017DE20, 0x10183490 now PASS (the dispatch facts) and
+  0x1017B510 (was FAIL); 12 still UNRESOLVED on EAX past a declared void/bool; the 2 Ghidra-exported records do not
+  compile; 6 wait on facts=1 sites (already in the kit's list).
+
+**3 Nov: a new container.** PR #17 had been merged on 30 Oct at 99a5313; the 13 commits after it were rebased onto master.
+The owner sent the live build 6AC37846 (packed; unpacked with unpack_pol.py, kept outside the repository), the four
+dumps again (they hold build 6A995428), and then the analysed DLL (6A995428, unpacked): reloc_literals.py and
+dispatch_slots.py regenerate from it byte-identical to the committed files. r18 is being redone on it.

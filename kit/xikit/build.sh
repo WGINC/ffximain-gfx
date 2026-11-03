@@ -14,7 +14,7 @@ rm -rf "$W/tree"; cp -r "$ROOT/tree" "$W/tree"; rm -rf "$W/tree/build"
 cp "$W/tree/build/gfx_recon_ingame.dll" "$OUT/"
 # the probe build: game addresses the in-game code uses without rebasing them; their functions are left out
 (cd "$W/tree" && XI_PROBE=1 ./build.sh | tail -1)
-python3 "$ROOT/pipeline/raw_game_addrs.py" "$W/tree/build/gfx_recon_probe.dll" "$W/raw_game_addrs.json"
+python3 "$ROOT/pipeline/raw_game_addrs.py" "$W/tree/build/gfx_recon_probe.dll" "$W/raw_game_addrs.json" "$W/tree"   # the tree: its source explains compiler-made constants
 python3 "$H/close_gaps.py" "$OUT/gfx_recon_ingame.dll"        # Windows refuses gaps between sections (error 193)
 python3 "$H/make_manifest.py" "$OUT/gfx_recon_ingame.dll" "$OUT/xikit_manifest.txt" "$W/manifest_report.json" "$W/raw_game_addrs.json" > "$W/make_manifest.log"
 head -1 "$W/make_manifest.log"                                # (the refusals follow it there; piping into head could cut the run short)

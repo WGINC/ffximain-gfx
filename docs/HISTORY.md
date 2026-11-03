@@ -4030,7 +4030,9 @@ m1*pf[-4], then m0*pf[-8], then pf[4]*m3, 0x10027D2B-0x10027D4C; Ghidra printed 
 addition is not associative: combat's byte 87 against 86. The gate's fuzzed trials do not separate a last-bit
 difference. MotionQueList_ProcessAll 0x1001A3E0 is at the game's bytes
 under VC6 (vc6_sweep.json, rule ge0): the same source compiled by VC6 is the original's code, so its difference is the
-GCC build's, not the translation's (the likely mechanism, x87 intermediates kept and spilled at 80 bits where VC6's
-code stores them at their declared width, is not checked). Frame_Render (gate PASS on full coverage) changes one dword
+GCC build's, not the translation's. It does no floating-point work: it calls three game functions in a loop
+(0x1001B2E0, 0x1001AC40, 0x1001B1F0), so the difference reaches through a callee reading a register its declaration
+does not carry, which the two compilers leave different. Not checked; the candidate is the virtual call at 0x1001B215
+in 0x1001B1F0 (its target is not known statically; 0x1001B1F0's EDX use is not established, data/edx_use.json). Frame_Render (gate PASS on full coverage) changes one dword
 at 0x2934460C (low bytes 0xEC 0xEA against 0x60 0xE4); not read. The others are not read yet. Until a rule keeps the original's association order, the nine are left out
 of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, block traces, facts=1).

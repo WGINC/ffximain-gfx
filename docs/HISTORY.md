@@ -4014,3 +4014,19 @@ committed, so the installed tree is still r17.
 The owner sent the live build 6AC37846 (packed; unpacked with unpack_pol.py, kept outside the repository), the four
 dumps again (they hold build 6A995428), and then the analysed DLL (6A995428, unpacked): reloc_literals.py and
 dispatch_slots.py regenerate from it byte-identical to the committed files. r18 is being redone on it.
+
+**4 Nov: tree r18 redone and installed; the render path checked as one set.** r18 regenerated on the analysed DLL
+the owner re-sent, gated from scratch (the cache was lost with the old container): 4,881 PASS on fuzz, no function's
+fuzz verdict different from r17; 4,884 combined (3725987). Kit: 4,880 listed, 239 marked render path, 4 refused (92
+before), the 6AC37846 manifest made. VC6 rebuilt from the owner's archive: match.py --all, 315 files identical.
+frame_diff.py --swap-set render_path on the four dumps: three differed (town: a fault at the frame's end; combat:
+execution of data; zonetoinn: 35,051 bytes). Bisected per dump, each culprit found swapped alone (with the tested
+members): Mat4_PostMultiply 0x10027D10, Frame_Render 0x10011A00, Mat4_TransformVec4 0x10028170, Model_SkinVerticesCpu
+0x1002F1D0, MotionQueList_ProcessAll 0x1001A3E0, Unit10044C40_UpdateTransform 0x10044D40, CMoTaskMng::DrawAll
+0x10074C30, CMoProcessor::CalcScreenBoundsAndVisible 0x1006ED10, CYyModelBase::CallPartsSlot20 0x1002A700. Without
+these nine, the other 230 give the game's own frame on all four dumps (town2 to its limit). One cause read so far:
+Mat4_PostMultiply sums the same four products as the original in another order (the original adds pf[0]*m2 +
+m1*pf[-4], then m0*pf[-8], then pf[4]*m3, 0x10027D2B-0x10027D4C; Ghidra printed the sum from the last term), and x87
+addition is not associative: combat's byte 87 against 86. The gate's fuzzed trials do not separate a last-bit
+difference. The others are not read yet. Until a rule keeps the original's association order, the nine are left out
+of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, block traces, facts=1).

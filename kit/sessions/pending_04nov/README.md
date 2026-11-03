@@ -4,10 +4,11 @@ Use the kit built on 4 Nov or later (VERSION.txt: tree r18). Older kits do not k
 default set instead.
 
 Two things in one session:
-- **The render path as one set (#132).** `swap_set=render_path` swaps the 239 render-path functions the manifest marks
+- **The render path as one set (#132).** `swap_set=render_path` swaps 230 of the 239 render-path functions the manifest marks
   (the functions that call Direct3D, their direct callers, and the profiler's hot set), including the ones whose gate
   coverage is incomplete. Before this kit, those stayed on the game's code. The emulated frame with exactly this set
-  swapped was compared with the game's own on the four dumps first (docs/HISTORY.md, 4 Nov). The traces are in blocks
+  swapped was compared with the game's own on the four dumps first (docs/HISTORY.md, 4 Nov): 9 of the 239 changed the
+  frame there and are left out (`exclude=` in this folder's xikit.ini); the other 230 gave the game's own frame on all four. The traces are in blocks
   of 4 as last time, so each swapped frame has unswapped neighbours on both sides.
 - **Facts (`facts=1`).** Six call sites in render functions not yet in the tree have no pop count from any source the
   pipeline accepts; the kit measures them in the running game. Nothing to do for this beyond playing.

@@ -462,8 +462,19 @@ static void measure_frame(double frame_ms, double present_ms, double kit_ms, LAR
   } else if (m_np && m_pending) m_pending = m_apply_probes();
   /* Ctrl+Alt+F7 or Ctrl+Alt+M (a Mac keyboard sends F7 only with Fn: the owner's W1 run on Parallels got no marks) */
   int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && ((GetAsyncKeyState(VK_F7) & 0x8000) || (GetAsyncKeyState('M') & 0x8000));
-  if (down && !m_markdown) { m_mark++; klog("measure: mark %d at frame %u", m_mark, g_frame); }
+  if (down && !m_markdown) { m_mark++; klog("measure: mark %d at frame %u (key)", m_mark, g_frame); }
   m_markdown = down;
+  /* or a command: mark.bat creates xikit_mark.txt next to xikit.dll (its text, if any, is the step's name); looked for
+     every 30 frames, deleted when read */
+  if (g_frame % 30 == 0) {
+    char p[MAX_PATH], label[200] = ""; snprintf(p, sizeof p, "%s\\xikit_mark.txt", g_dir);
+    FILE *mf = fopen(p, "r");
+    if (mf) {
+      if (fgets(label, sizeof label, mf)) label[strcspn(label, "\r\n")] = 0;
+      fclose(mf);
+      if (DeleteFileA(p)) { m_mark++; klog("measure: mark %d at frame %u (mark.bat)%s%s", m_mark, g_frame, label[0] ? ": " : "", label); }
+    }
+  }
   if (m_frames) m_frame_write(frame_ms, present_ms, kit_ms, t0);
   if (m_np) m_probe_frame();
   if (g_frame % 60 == 0) m_report();

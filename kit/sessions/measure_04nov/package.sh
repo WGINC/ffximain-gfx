@@ -10,7 +10,7 @@ T="$(mktemp -d)"; mkdir -p "$T/kit" "$T/measure_04nov/tools"
 D="$ROOT/kit/xikit/dist"
 for f in xikit.dll gfx_recon_ingame.dll xikit_manifest.txt xikit_manifest_6AC37846.txt xikit_measure.txt xikit_facts.txt xisamp_arm64.exe xisamp_x64.exe VERSION.txt; do cp "$D/$f" "$T/kit/"; done
 cp "$ROOT/kit/speedfix/dist/speedfix.dll" "$ROOT/kit/xiload/dist/xiload.exe" "$T/kit/"
-( cd "$H" && cp -r README.md start_phase.bat collect.bat wpr_optional.bat mac W1_clean W2_where W2b_native W3_deep W4_d3d W5_levers W6_ab "$T/measure_04nov/" )
+( cd "$H" && cp -r README.md start_phase.bat mark.bat collect.bat wpr_optional.bat mac W1_clean W2_where W2b_native W3_deep W4_d3d W5_levers W6_ab "$T/measure_04nov/" )
 cp "$PM" "$T/measure_04nov/tools/"
 { echo "PresentMon-2.3.0-x64.exe: Intel's PresentMon 2.3.0 (MIT licence), from"
   echo "https://github.com/GameTechDev/PresentMon/releases/download/v2.3.0/PresentMon-2.3.0-x64.exe"

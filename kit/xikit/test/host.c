@@ -157,6 +157,7 @@ static int measure_run(HMODULE g, uint32_t rel) {
     int before = g_wndproc_sleeps;
     LRESULT lr = got ? ((LRESULT (WINAPI *)(const MSG *))iat_fn(g_slot_dispatch))(&pm) : -1;
     if (lr != 77 || g_wndproc_sleeps != before + 1) { if (okd) printf("  (DispatchMessageA returned %ld, frame %d, message %d %04X hwnd %p/%p, window procedure entered %d, error %lu)\n", (long)lr, f, got, pm.message, (void *)pm.hwnd, (void *)w, g_wndproc_in, GetLastError()); okd = 0; }
+    if (f == 100) { FILE *mk = fopen("xikit_mark.txt", "w"); if (mk) { fputs("plaza\n", mk); fclose(mk); } }   /* mark.bat's file */
     if (f == 200) for (int i = 0; i < 700; i++) len(v);   /* 700 calls in one frame: over callsite_max (500), put back */
     if (f == 150) {                                 /* a wrapped call left by longjmp: its entry must be dropped later */
       g_jump_out = 1;
@@ -183,6 +184,9 @@ static int measure_run(HMODULE g, uint32_t rel) {
                                                   if (strstr(line, ",p28,p2c,p30,")) pace = 1; } fclose(fr); }
   printf("  (frames rows %d, header %d, rows with wait_ms > 1.5 %d)\n", rows, pace, waitcol);
   check(rows >= 300 && pace, "frames=1: xikit_frames_<pid>.csv has a line per frame and the pacing columns");
+  { FILE *lg = fopen("xikit.log", "r"); char l[600]; int said = 0;
+    if (lg) { while (fgets(l, sizeof l, lg)) if (strstr(l, "measure: mark 1 at frame") && strstr(l, "(mark.bat): plaza")) said = 1; fclose(lg); }
+    check(said && GetFileAttributesA("xikit_mark.txt") == INVALID_FILE_ATTRIBUTES, "frames=1: xikit_mark.txt (mark.bat) is a mark, with its name, and is deleted"); }
   check(waitcol >= 250, "frames=1: the render thread's wrapped Sleep(2) each frame shows in its wait_ms column");
   snprintf(name, sizeof name, "xikit_probes_%lu.csv", pid); FILE *pr = fopen(name, "r"); int sleep_r = 0, heap_o = 0, site_r = 0;
   if (pr) { while (fgets(line, sizeof line, pr)) { if (strstr(line, ",Sleep,") && strstr(line, ",render,")) sleep_r = 1; if (strstr(line, ",HeapAlloc,") && strstr(line, ",other,")) heap_o = 1;

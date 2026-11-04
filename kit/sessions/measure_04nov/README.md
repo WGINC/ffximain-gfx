@@ -57,7 +57,8 @@ In the order of what they are worth (W1, W2 and W5 are the ones that matter most
 
 ### The steps (the same in every phase)
 
-Press **Ctrl+Alt+M (or Ctrl+Alt+F7)** in the game at the start of each step; the frame log numbers the steps by it. Note anything
+At the start of each step run **`mark`** in the command prompt (the same folder as `start_phase.bat`; `mark plaza`
+gives the step a name too); the frame log numbers the steps by it. Ctrl+Alt+M in the game does the same. Note anything
 unusual (a long stutter, a black screen outside W6) with the step number.
 
 1. Port Jeuno, the busy plaza: stand still, camera still, **60 s**.

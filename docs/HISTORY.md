@@ -4026,9 +4026,9 @@ members): Mat4_PostMultiply 0x10027D10, Frame_Render 0x10011A00, Mat4_TransformV
 0x10074C30, CMoProcessor::CalcScreenBoundsAndVisible 0x1006ED10, CYyModelBase::CallPartsSlot20 0x1002A700. Without
 these nine, the other 230 give the game's own frame on all four dumps (town2 to its limit). One cause read so far:
 Mat4_PostMultiply sums the same four products as the original in another order (the original adds pf[0]*m2 +
-m1*pf[-4], then m0*pf[-8], then pf[4]*m3, 0x10027D2B-0x10027D4C; Ghidra printed the sum from the last term), and x87
-addition is not associative: combat's byte 87 against 86. The gate's fuzzed trials do not separate a last-bit
-difference. MotionQueList_ProcessAll 0x1001A3E0 is at the game's bytes
+m1*pf[-4], then m0*pf[-8], then pf[4]*m3, 0x10027D2B-0x10027D4C), and x87 addition is not associative: combat's byte
+87 against 86. The gate's fuzzed trials do not separate a last-bit difference. (Corrected below, 4 Nov: the order is
+VC6's, not Ghidra's printing.) MotionQueList_ProcessAll 0x1001A3E0 is at the game's bytes
 under VC6 (vc6_sweep.json, rule ge0): the same source compiled by VC6 is the original's code, so its difference is the
 GCC build's, not the translation's. It does no floating-point work: it calls three game functions in a loop
 (0x1001B2E0, 0x1001AC40, 0x1001B1F0), so the difference reaches through a callee reading a register its declaration
@@ -4036,3 +4036,22 @@ does not carry, which the two compilers leave different. Not checked; the candid
 in 0x1001B1F0 (its target is not known statically; 0x1001B1F0's EDX use is not established, data/edx_use.json). Frame_Render (gate PASS on full coverage) changes one dword
 at 0x2934460C (low bytes 0xEC 0xEA against 0x60 0xE4); not read. The others are not read yet. Until a rule keeps the original's association order, the nine are left out
 of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, block traces, facts=1).
+
+**4 Nov: the render-path culprits read further.**
+- MotionQueList_ProcessAll 0x1001A3E0 is not wrong. diverge.py (the first non-stack write that differs between the
+  tested members swapped, and those plus the culprit): 0x100AA820 copies a 16-byte vector from its caller's stack into
+  an object (+0x160..+0x16C); the caller writes only three of its dwords (0x10181AA0 fills it), so the fourth is
+  whatever an earlier, finished frame left there: its last writer is 0x1001A921 in one run and a `push esi` in
+  KzMotionQueList_NotifyAll's frame (0x1001B1F5) in the other. With the culprit swapped all 25,907 calls are identical
+  and exactly those 4 bytes differ. The game reads dead stack; a reconstruction leaves different dead stack.
+- frame_diff.py --dead-stack 0xA5: stack below ESP is refilled with the byte each time ESP rises above it, in both
+  runs, as the gate fills its stack with 0xA5 (a declared input, written into the report). Under it, the render path's
+  bisect on the four dumps: Frame_Render, MotionQueList_ProcessAll and the three object-level culprits no longer
+  differ on zonetoinn and combat; Mat4_PostMultiply, Mat4_TransformVec4, Model_SkinVerticesCpu and (combat)
+  Unit10044C40_UpdateTransform still do; town2 identical; town not finished.
+- The float order is VC6's, not Ghidra's. A hand-written Mat4_TransformVec4 in Ghidra's term order and the same in
+  the original's evaluation order both compile under VC6 to the game's bytes (match.py: IDENTICAL, both). VC6 re-associates
+  float additions: probed with VC6 itself, `q3 = a0 + a1 + a2` compiles to (a2 + a1) + a0, and products are shared
+  across statements. So Ghidra's text is a faithful source of these functions (VC6 makes the game's code from it);
+  GCC evaluates it as C defines, and VC6 did not. The game's float results are VC6's order, which only VC6 or the
+  original's bytes give; no reading of the decompiled text alone does.

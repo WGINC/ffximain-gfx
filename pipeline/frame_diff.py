@@ -19,8 +19,8 @@ import json, os, sys, struct, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import diffemu_gfx as X
 import diffemu_fixed as G
-from unicorn import UC_HOOK_CODE
-from unicorn.x86_const import UC_X86_REG_EIP
+from unicorn import UC_HOOK_CODE, UC_HOOK_BLOCK
+from unicorn.x86_const import UC_X86_REG_EIP, UC_X86_REG_ESP
 
 
 class _FirstDraw:
@@ -166,6 +166,19 @@ POP_WORKER = 0x1000A2B0      # CDx's render-target pop worker (docs/RENDERER.md 
 
 def run_once(m, entry_fn, this, limit, redirect, seed):
     hooks = []; m.pop_src.clear(); m.assumed.clear(); m.pops = []
+    if getattr(m, 'dead_fill', None) is not None:
+        # dead stack (below ESP, once ESP has risen above it) is refilled with the pattern at each block start, the
+        # same in both runs: a read of stack no live frame wrote (the game's own: 0x100AA820's caller passes a vector
+        # whose fourth dword it never writes, 4 Nov) then reads the pattern whichever code ran there before
+        low = [None]; pat = bytes([m.dead_fill]) * 0x10000
+        def on_block(uc, addr, size, _):
+            sp = uc.reg_read(UC_X86_REG_ESP)
+            if low[0] is not None and sp > low[0]:
+                a = low[0]
+                while a < sp:
+                    n = min(sp - a, len(pat)); uc.mem_write(a, pat[:n]); a += n
+            low[0] = sp
+        hooks.append(m.uc.hook_add(UC_HOOK_BLOCK, on_block))
     def on_pop(uc, addr, size, _):
         # each pop: the call count so far, the depth it lowers (CDx +0x158) and the world target bound (+0x194); the
         # end of the world pass by ffxi_world_draw's rule is the pop from depth 1 (their statement, not checked here)
@@ -190,6 +203,7 @@ def main():
     ap.add_argument('--entry', default='0x10011A00'); ap.add_argument('--include-untested', action='store_true')
     ap.add_argument('--this-global', default=None, help="`this` is the dword at this game address in the dump (Frame_Render's: "
                     "0x104568FC, as App_RenderFrameMaskedFPU 0x10001B50 loads it; docs/RENDERER.md section 2)")
+    ap.add_argument('--dead-stack', default=None, help='a byte (e.g. 0xA5): dead stack refilled with it in both runs (declared input)')
     ap.add_argument('--swap-set', default=None, choices=['render_path'], help='as the kit\'s swap_set: manifest flag 16, untested included')
     ap.add_argument('--only', default=None); ap.add_argument('--limit', type=int, default=200000000)
     ap.add_argument('--assume-pops', dest='assume', action='store_true', help='exploratory: unresolved call pops are ASSUMED (see _on_foreign), not facts'); ap.add_argument('--seed', type=int, default=1); ap.add_argument('--out', default=None)
@@ -198,6 +212,7 @@ def main():
     m = FrameMachine(game, o.recon, {}, [])
     m.pop_src = {}; m.locks = 0; m.assume = o.assume; m.assumed = {}; m.assumed_cache = {}
     m.demand_limit = 1 << 20; m.synth_limit = 96
+    m.dead_fill = int(o.dead_stack, 0) if o.dead_stack else None
     sw = [(a, f, n) for a, f, n in read_manifest(o.manifest) if (o.include_untested or not f & 4)] if not o.swap_set else \
          [(a, f, n) for a, f, n in read_manifest(o.manifest) if f & 16]
     if o.only: keep = set(o.only.split(',')); sw = [s for s in sw if s[2] in keep]
@@ -221,6 +236,8 @@ def main():
            'dump': os.environ.get('FFXI_LIVE'), 'recon_dll': o.recon, 'manifest': o.manifest,
            'declared_input': 'every Direct3D method returns D3D_OK; a buffer Lock returns a fresh zeroed block',
            'not_compared': 'SetLight of a directional light: Position and Range (DirectX 8.1 SDK, D3DLIGHT8)'}
+    if m.dead_fill is not None:
+        rep['declared_input'] += '; dead stack (below ESP once ESP rose above it) reads 0x%02X' % m.dead_fill
     wend = next((c for c, d, w in pops_a if d == 1), None)      # the original run's pops
     rep['world_pass_end_call'] = wend
     print('world pass end (pop from depth 1): %s' % ('at call %d of %d' % (wend, len(a.calls)) if wend is not None else 'not reached'))

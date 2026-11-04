@@ -105,8 +105,9 @@ static void *iat_fn(uint32_t ea) { return *(void **)(uintptr_t)(ea + g_rel_m); }
 static uint32_t g_slot_sleep, g_slot_gfa, g_slot_tgt, g_slot_dispatch, g_slot_heapalloc, g_slot_heapfree;
 static volatile int g_wndproc_sleeps, g_jump_out;
 static jmp_buf g_mjb;
+static volatile int g_wndproc_in;
 static LRESULT CALLBACK m_wndproc(HWND w, UINT msg, WPARAM wp, LPARAM lp) {
-  if (msg == WM_USER + 1) { ((void (WINAPI *)(DWORD))iat_fn(g_slot_sleep))(1); g_wndproc_sleeps++; if (g_jump_out) longjmp(g_mjb, 1); return 77; }
+  if (msg == WM_USER + 1) { g_wndproc_in++; ((void (WINAPI *)(DWORD))iat_fn(g_slot_sleep))(1); g_wndproc_sleeps++; if (g_jump_out) longjmp(g_mjb, 1); return 77; }
   return DefWindowProcA(w, msg, wp, lp);
 }
 static volatile int g_other_stop; static volatile LONG g_other_allocs;
@@ -127,6 +128,7 @@ static int measure_run(HMODULE g, uint32_t rel) {
   g_slot_tgt = (uint32_t)strtoul(getenv("SLOT_TGT"), NULL, 16); g_slot_dispatch = (uint32_t)strtoul(getenv("SLOT_DISPATCH"), NULL, 16);
   g_slot_heapalloc = (uint32_t)strtoul(getenv("SLOT_HEAPALLOC"), NULL, 16); g_slot_heapfree = (uint32_t)strtoul(getenv("SLOT_HEAPFREE"), NULL, 16);
   void *sleep0 = iat_fn(g_slot_sleep);
+  uint8_t *lsite = (uint8_t *)(uintptr_t)(0x10027606u + rel); int32_t lrel0; memcpy(&lrel0, lsite + 1, 4);   /* the dot product's call */
   touch_ini("xikit.ini", "[xikit]\nlog_folder=0\nswap=0\ncount_calls=0\nreport_every=60\nhotkey=0\nframes=1\nimports=2\ncallsites=1\nsample=3\nsample_other_ms=2\nsysstats=1\nenv=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
@@ -135,6 +137,8 @@ static int measure_run(HMODULE g, uint32_t rel) {
   check(iat_fn(g_slot_sleep) != sleep0, "imports=2: the game's Sleep slot now goes through the kit's stub");
   WNDCLASSA wc; memset(&wc, 0, sizeof wc); wc.lpfnWndProc = m_wndproc; wc.hInstance = GetModuleHandleA(NULL); wc.lpszClassName = "xm"; RegisterClassA(&wc);
   HWND w = CreateWindowA("xm", "xm", 0, 0, 0, 10, 10, NULL, NULL, wc.hInstance, NULL);
+  { MSG cm; while (PeekMessageA(&cm, NULL, 0, 0, PM_REMOVE)) DispatchMessageA(&cm); }   /* the window's own creation messages first
+     (twice, before this, the first dispatch of the test's message returned 0 under Wine; the line below says why if it recurs) */
   HANDLE oth = CreateThread(NULL, 0, m_other, NULL, 0, NULL);
   typedef float (*LenFn)(const float *); typedef void (__attribute__((thiscall)) *CopyFn)(void *, const void *); typedef char (__attribute__((thiscall)) *IncFn)(void *);
   LenFn len = (LenFn)(uintptr_t)(0x10027600u + rel); CopyFn cp = (CopyFn)(uintptr_t)(0x1001E3B0u + rel); IncFn inc = (IncFn)(uintptr_t)(0x100142A0u + rel);
@@ -152,7 +156,8 @@ static int measure_run(HMODULE g, uint32_t rel) {
     MSG pm; PostMessageA(w, WM_USER + 1, 0, 0); int got = PeekMessageA(&pm, w, WM_USER + 1, WM_USER + 1, PM_REMOVE);
     int before = g_wndproc_sleeps;
     LRESULT lr = got ? ((LRESULT (WINAPI *)(const MSG *))iat_fn(g_slot_dispatch))(&pm) : -1;
-    if (lr != 77 || g_wndproc_sleeps != before + 1) { if (okd) printf("  (DispatchMessageA returned %ld, frame %d, message %d)\n", (long)lr, f, got); okd = 0; }
+    if (lr != 77 || g_wndproc_sleeps != before + 1) { if (okd) printf("  (DispatchMessageA returned %ld, frame %d, message %d %04X hwnd %p/%p, window procedure entered %d, error %lu)\n", (long)lr, f, got, pm.message, (void *)pm.hwnd, (void *)w, g_wndproc_in, GetLastError()); okd = 0; }
+    if (f == 200) for (int i = 0; i < 700; i++) len(v);   /* 700 calls in one frame: over callsite_max (500), put back */
     if (f == 150) {                                 /* a wrapped call left by longjmp: its entry must be dropped later */
       g_jump_out = 1;
       PostMessageA(w, WM_USER + 1, 0, 0);
@@ -161,6 +166,9 @@ static int measure_run(HMODULE g, uint32_t rel) {
     }
     present(1);
   }
+  { int32_t now; memcpy(&now, lsite + 1, 4); FILE *lg = fopen("xikit.log", "r"); char l[600]; int said = 0;
+    if (lg) { while (fgets(l, sizeof l, lg)) if (strstr(l, "call site 10027606") && strstr(l, "put back")) said = 1; fclose(lg); }
+    check(said && now == lrel0, "callsites: the site called 700 times in one frame was put back (its call instruction is the game's again) and logged"); }
   check(okf, "callsites: the dot product's x87 result comes back through the wrapped call (|(3,4,0)| = 5)");
   check(okc, "callsites: a thiscall copy through the wrapped call (ECX and the stack argument intact, ret 4)");
   check(oki, "callsites: a thiscall without stack arguments (ECX intact, AL returned)");

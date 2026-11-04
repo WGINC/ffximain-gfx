@@ -2200,7 +2200,6 @@ static DWORD WINAPI start(LPVOID self) {
   *(void ***)dev = g_vt;                      /* this object only: the driver's own vtable is not written */
   klog("device %p hooked (Present); swaps are applied at the next frame (swap=%d)", dev, g_cfg.swap);
   log_environment();
-  measure_start();
   fcap_enabled = GetPrivateProfileIntA("xikit", "fcap", 0, g_ini) != 0;
   g_fc_after = GetPrivateProfileIntA("xikit", "fcap_after", 0, g_ini); g_fc_every = GetPrivateProfileIntA("xikit", "fcap_every", 60, g_ini);
   g_fc_count = GetPrivateProfileIntA("xikit", "fcap_count", 1, g_ini); if (g_fc_every < 10) g_fc_every = 10;
@@ -2223,6 +2222,8 @@ static DWORD WINAPI start(LPVOID self) {
     int n = 0; for (int k = 0; k < NSLOTS; k++) n += g_dh_top[k] >= 0;
     klog("device hooks: %d methods hooked by mods", n);
   }
+  measure_start();                            /* last: after every other hook is in place (d3dprof's kernel-call hooks patch
+                                                 system-call stubs the environment's call costs run through) */
   /* watchdog: if the game ever makes a new device object, give that one the hook too (Reset keeps the object) */
   for (void **last = dev;;) {
     Sleep(1000);

@@ -49,7 +49,7 @@ typedef struct {
   uint32_t orig;                    /* what the call reaches: the function */
   uint32_t at;                      /* the import slot or the call site (live address) */
   uint32_t ea, tea;                 /* analysed: slot/site, and the site's target */
-  uint8_t group, level, kind, on;   /* kind: 'I' import, 'S' site */
+  uint8_t group, level, kind, on, want;   /* kind: 'I' import, 'S' site; want: what m_apply_probes makes it */
   char name[64];
   uint8_t stub[12];
   /* the render thread's sums for the frame being measured (written by that thread only) */
@@ -83,6 +83,7 @@ static void m_cal(void) {
   if (ms > 50) m_tsc_per_ms = (double)(t - m_t0) / ms;
 }
 static double m_ms(uint64_t ticks) { return m_tsc_per_ms > 0 ? (double)ticks / m_tsc_per_ms : 0; }
+static double m_qms(LARGE_INTEGER a, LARGE_INTEGER b) { return (double)(b.QuadPart - a.QuadPart) * 1000.0 / (double)g_qpf.QuadPart; }
 
 /* ------------------------------------------------------------------------------------------------ buffered output
    Each stream: the producer appends under its lock; the writer thread swaps the buffer out every 250 ms and writes
@@ -320,17 +321,24 @@ static void m_load_table(void) {
        ni, ni_other, ns, ns_bad, ns_level, m_callsites);
 }
 
-/* the probes on or off; on the render thread inside Present, the other threads suspended for the call sites */
-static void m_set_probes(int want_on, int only_k) {
-  Th th[512]; int n = 0, sites = 0;
-  for (int k = 0; k < m_np; k++) if (m_p[k].kind == 'S' && (only_k < 0 || k == only_k)) sites = 1;
+/* every probe to its `want`: on the render thread inside Present. For call sites the other threads are suspended
+   (once for the whole batch), and a site some thread is stopped inside is left for the next time */
+static int m_apply_probes(void) {
+  Th th[512]; int n = 0, sites = 0, left = 0;
+  static uint32_t eips[512];
+  for (int k = 0; k < m_np; k++) if (m_p[k].kind == 'S' && m_p[k].want != m_p[k].on) sites = 1;
   EnterCriticalSection(&g_susplock);
-  if (sites) n = suspend_others(th, 512);
+  if (sites) {
+    n = suspend_others(th, 512); if (n < 0) n = 0;
+    for (int i = 0; i < n; i++) {
+      CONTEXT c; memset(&c, 0, sizeof c); c.ContextFlags = CONTEXT_CONTROL;
+      eips[i] = GetThreadContext(th[i].h, &c) ? c.Eip : 0;
+    }
+  }
   for (int k = 0; k < m_np; k++) {
     Probe *p = &m_p[k];
-    if (only_k >= 0 && k != only_k) continue;
-    if (p->on == want_on) continue;
-    uint32_t to = want_on ? (uint32_t)(uintptr_t)(m_stubs + 12 * k) : p->orig;
+    if (p->on == p->want) continue;
+    uint32_t to = p->want ? (uint32_t)(uintptr_t)(m_stubs + 12 * k) : p->orig;
     DWORD old;
     if (p->kind == 'I') {
       if (!VirtualProtect((void *)(uintptr_t)p->at, 4, PAGE_EXECUTE_READWRITE, &old)) continue;   /* (keeps execute if the page had it) */
@@ -338,21 +346,19 @@ static void m_set_probes(int want_on, int only_k) {
       VirtualProtect((void *)(uintptr_t)p->at, 4, old, &old);
     } else {
       int busy = 0;                  /* a thread stopped inside the call instruction: not this frame */
-      for (int i = 0; i < n; i++) {
-        CONTEXT c; memset(&c, 0, sizeof c); c.ContextFlags = CONTEXT_CONTROL;
-        if (GetThreadContext(th[i].h, &c) && c.Eip > p->at && c.Eip < p->at + 5) busy = 1;
-      }
-      if (busy) continue;
+      for (int i = 0; i < n; i++) if (eips[i] > p->at && eips[i] < p->at + 5) busy = 1;
+      if (busy) { left++; continue; }
       int32_t rel = (int32_t)(to - (p->at + 5));
       if (!VirtualProtect((void *)(uintptr_t)(p->at + 1), 4, PAGE_EXECUTE_READWRITE, &old)) continue;
       memcpy((void *)(uintptr_t)(p->at + 1), &rel, 4);
       VirtualProtect((void *)(uintptr_t)(p->at + 1), 4, old, &old);
       FlushInstructionCache(GetCurrentProcess(), (void *)(uintptr_t)p->at, 5);
     }
-    p->on = (uint8_t)want_on;
+    p->on = p->want;
   }
   if (sites) resume_all(th, n);
   LeaveCriticalSection(&g_susplock);
+  return left;
 }
 
 /* the cost of a wrapped call, measured here: a dummy function called through a stub of its own */
@@ -377,7 +383,7 @@ static double m_probe_cost_ns(void) {
 }
 
 /* ------------------------------------------------------------------------------------------------ per frame */
-static int m_mark, m_markdown, m_started;
+static int m_mark, m_markdown, m_started, m_pending;
 static uint64_t m_rt_cyc; static FILETIME m_rt_k, m_rt_u; static DWORD m_pf; static HANDLE m_rt_h;
 typedef BOOL (WINAPI *QTCT)(HANDLE, PULONG64);
 static QTCT m_qtct;
@@ -448,10 +454,12 @@ static void m_report(void);
 static void measure_frame(double frame_ms, double present_ms, double kit_ms, LARGE_INTEGER t0) {
   if (!m_started) return;
   if (m_np && !m_on) {                     /* the first frame: the probes go in */
-    m_on = 1; m_set_probes(1, -1);
+    m_on = 1;
+    for (int k = 0; k < m_np; k++) m_p[k].want = 1;
+    LARGE_INTEGER a, b; QueryPerformanceCounter(&a); m_apply_probes(); QueryPerformanceCounter(&b);
     int on = 0; for (int k = 0; k < m_np; k++) on += m_p[k].on;
-    klog("measure: %d of %d wrapped calls in place", on, m_np);
-  }
+    klog("measure: %d of %d wrapped calls in place (%.1f ms; the rest at the next frames)", on, m_np, m_qms(a, b));
+  } else if (m_np && m_pending) m_pending = m_apply_probes();
   int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F7) & 0x8000);
   if (down && !m_markdown) { m_mark++; klog("measure: mark %d at frame %u", m_mark, g_frame); }
   m_markdown = down;
@@ -465,14 +473,16 @@ static void measure_frame(double frame_ms, double present_ms, double kit_ms, LAR
    frame being measured does not carry the file's cost) */
 static void m_report(void) {
   if (m_np) {
+    int back = 0;
     for (int k = 0; k < m_np; k++) {
       Probe *p = &m_p[k];
-      if (p->kind == 'S' && p->on && (int)p->w_maxcalls > m_callsite_max) {
-        m_set_probes(0, k);
+      if (p->kind == 'S' && p->on && p->want && (int)p->w_maxcalls > m_callsite_max) {
+        p->want = 0; back++;
         klog("measure: call site %08X (to %s) made %u calls in one frame (callsite_max=%d): put back", p->ea, p->name, p->w_maxcalls, m_callsite_max);
       }
       p->w_maxcalls = 0;
     }
+    if (back) m_pending = m_apply_probes();
   }
   if (g_frame % (uint32_t)g_cfg.report_every) return;
   m_cal();
@@ -595,12 +605,10 @@ static void m_sample_one(RThr *t, LARGE_INTEGER q) {
   static uint32_t ras[160]; int nra = 0, cap = t->render ? 128 : 48, lim = t->render ? m_stack_rt : m_stack_other;
   CONTEXT c; memset(&c, 0, sizeof c); c.ContextFlags = CONTEXT_CONTROL;
   if (SuspendThread(t->h) == (DWORD)-1) return;
-  int got = GetThreadContext(t->h, &c);
+  int got = GetThreadContext(t->h, &c), need_top = 0;
   if (got) {
-    if (!t->top || c.Esp >= t->top || c.Esp < t->top - 0x400000) {
-      MEMORY_BASIC_INFORMATION mb;
-      t->top = VirtualQuery((void *)(uintptr_t)c.Esp, &mb, sizeof mb) && mb.State == MEM_COMMIT ? (uint32_t)(uintptr_t)mb.BaseAddress + (uint32_t)mb.RegionSize : 0;
-    }
+    /* the stack's top, from an earlier look (VirtualQuery is never called while the thread is suspended) */
+    if (!t->top || c.Esp >= t->top || c.Esp < t->top - 0x800000) { need_top = 1; t->top = 0; }
     if (c.Eip == t->eip && c.Esp == t->esp && !t->render) {          /* not moved since the last look: a short record */
       ResumeThread(t->h);
       uint8_t rec[20]; rec[0] = 'R'; rec[1] = 0; rec[2] = rec[3] = 0; memcpy(rec + 4, &t->tid, 4); uint32_t fr = g_frame; memcpy(rec + 8, &fr, 4); memcpy(rec + 12, &q.QuadPart, 8);
@@ -621,6 +629,10 @@ static void m_sample_one(RThr *t, LARGE_INTEGER q) {
   }
   ResumeThread(t->h);
   if (!got) return;
+  if (need_top) {
+    MEMORY_BASIC_INFORMATION mb;
+    t->top = VirtualQuery((void *)(uintptr_t)c.Esp, &mb, sizeof mb) && mb.State == MEM_COMMIT ? (uint32_t)(uintptr_t)mb.BaseAddress + (uint32_t)mb.RegionSize : 0;
+  }
   t->eip = c.Eip; t->esp = c.Esp;
   uint8_t rec[24]; uint16_t n16 = (uint16_t)nra; uint32_t fr = g_frame;
   rec[0] = 'S'; rec[1] = (uint8_t)((t->render ? 1 : 0) | (nra == cap ? 4 : 0)); memcpy(rec + 2, &n16, 2); memcpy(rec + 4, &t->tid, 4);
@@ -747,7 +759,6 @@ static void env_regkey(HKEY root, const char *rname, const char *key, int depth)
   RegCloseKey(h);
 }
 static int cmp_d(const void *a, const void *b) { double x = *(const double *)a, y = *(const double *)b; return x < y ? -1 : x > y; }
-static double m_qms(LARGE_INTEGER a, LARGE_INTEGER b) { return (double)(b.QuadPart - a.QuadPart) * 1000.0 / (double)g_qpf.QuadPart; }
 static void env_timers(const char *when) {
   envp("[timers: %s, frame %u]", when, g_frame);
   typedef LONG (WINAPI *NQTR)(PULONG, PULONG, PULONG);
@@ -761,17 +772,17 @@ static void env_timers(const char *when) {
   for (int i = 0; i < 200; i++) { QueryPerformanceCounter(&a); Sleep(1); QueryPerformanceCounter(&b); d[i] = m_qms(a, b); }
   qsort(d, 200, sizeof d[0], cmp_d);
   envp("  Sleep(1), 200 calls: min %.3f, median %.3f, 95%% %.3f, max %.3f ms", d[0], d[100], d[190], d[199]);
-  /* timeGetTime's and GetTickCount's steps (the game's frame timer reads timeGetTime: RENDERER.md 3), over 300 ms */
+  /* timeGetTime's and GetTickCount's steps (the game's frame timer reads timeGetTime: RENDERER.md 3), over 100 ms */
   int steps[64] = {0}, tsteps[64] = {0}; DWORD t0 = timeGetTime(), g0 = GetTickCount(); QueryPerformanceCounter(&a);
   do {
     DWORD t = timeGetTime(), g = GetTickCount();
     if (t != t0) { DWORD s = t - t0; steps[s < 63 ? s : 63]++; t0 = t; }
     if (g != g0) { DWORD s = g - g0; tsteps[s < 63 ? s : 63]++; g0 = g; }
     QueryPerformanceCounter(&b);
-  } while (m_qms(a, b) < 300);
+  } while (m_qms(a, b) < 100);
   char l1[400] = "", l2[400] = ""; int k1 = 0, k2 = 0;
   for (int i = 1; i < 64; i++) { if (steps[i]) k1 += snprintf(l1 + k1, sizeof l1 - k1, " %d ms x%d", i, steps[i]); if (tsteps[i]) k2 += snprintf(l2 + k2, sizeof l2 - k2, " %d ms x%d", i, tsteps[i]); }
-  envp("  timeGetTime steps over 300 ms:%s", l1); envp("  GetTickCount steps over 300 ms:%s", l2);
+  envp("  timeGetTime steps over 100 ms:%s", l1); envp("  GetTickCount steps over 100 ms:%s", l2);
 }
 #define BENCH(label, n, stmt) do { LARGE_INTEGER a_, b_; QueryPerformanceCounter(&a_); for (int i_ = 0; i_ < (n); i_++) { stmt; } QueryPerformanceCounter(&b_); \
     envp("  %-40s %9.0f ns a call (%d calls)", label, m_qms(a_, b_) * 1e6 / (n), (n)); } while (0)
@@ -894,6 +905,7 @@ static DWORD WINAPI m_envthread(LPVOID u) {
   for (int i = 0; i < 3; i++) if (dirs[i][0] && (i == 0 || strcmp(dirs[i], dirs[0])) && (i < 2 || (strcmp(dirs[i], dirs[1]))))
     for (unsigned k = 0; k < sizeof files / sizeof *files; k++) env_copy(dirs[i], files[k]);
   envp("[modules at the start]"); env_modules();
+  Sleep(2000);                                /* the call costs below go through system-call stubs: after the kit's own setup has settled */
   env_timers("at the start");
   env_bench();
   Sleep(60000); env_timers("60 s in");

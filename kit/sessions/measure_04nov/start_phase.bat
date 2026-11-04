@@ -14,12 +14,12 @@ copy /y "%HERE%%PH%\xikit.ini" "%KIT%\xikit.ini" >nul
 if exist "%HERE%%PH%\speedfix.ini" copy /y "%HERE%%PH%\speedfix.ini" "%KIT%\speedfix.ini" >nul
 >"%KIT%\xikit_phase.txt" echo %PH%
 if not exist "%KIT%\xikit_logs" mkdir "%KIT%\xikit_logs"
-tasklist /fi "imagename eq pol.exe" | find /i "pol.exe" >nul && ( echo pol.exe is already running: close the game first & exit /b 1 )
+call :running && ( echo pol.exe is already running: close the game first & exit /b 1 )
 echo Phase %PH%: settings copied. Starting xiload; now start the game as you always do.
 start "xiload" /min "%KIT%\xiload.exe" --once
 :wait
 timeout /t 2 /nobreak >nul
-tasklist /fi "imagename eq pol.exe" | find /i "pol.exe" >nul || goto wait
+call :running || goto wait
 for /f %%t in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd_HHmmss"') do set TS=%%t
 set PMO=%KIT%\xikit_logs\presentmon_%PH%_%TS%.csv
 if exist "%HERE%tools\PresentMon-2.3.0-x64.exe" (
@@ -28,6 +28,10 @@ if exist "%HERE%tools\PresentMon-2.3.0-x64.exe" (
 ) else echo tools\PresentMon-2.3.0-x64.exe not found: no PresentMon this phase.
 echo Play the phase's steps (README.md), pressing Ctrl+Alt+F7 at the start of each. Close the game when done.
 exit /b 0
+:running
+rem exit code 0 while a process named pol.exe runs
+powershell -NoProfile -Command "exit [int](-not (Get-Process -Name pol -ErrorAction SilentlyContinue))"
+exit /b %errorlevel%
 :usage
 echo usage: start_phase.bat W1_clean ^| W2_where ^| W2b_native ^| W3_deep ^| W4_d3d ^| W5_levers ^| W6_ab
 exit /b 2

@@ -4071,3 +4071,32 @@ of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, 
   other 230 identical. Frame_Render, MotionQueList_ProcessAll, CMoTaskMng::DrawAll and CYyModelBase::CallPartsSlot20
   differ only through dead stack; only MotionQueList_ProcessAll's was read to its end (4 unused bytes), so the session
   still leaves all nine out.
+
+**4 Nov (morning): the ECX fix's tree round (r19), and the measurement session.**
+- Tree round r19 with the ECX fix (facts for code pieces, `hx2cpp.ghidra_ecx_calls`, the gate's `ecx_may` channel):
+  4,880 gated, 4,864 PASS, 8 FAIL, 5 INCONCLUSIVE, 3 UNRESOLVED. Against r18, three verdicts went from PASS to not
+  PASS while their tree text is byte-for-byte r18's (scratchpad diff of the three blocks): App_InitScene 0x10010D20
+  (UNRESOLVED, one trial: arguments pushed to 0x10028FD0 past those it is known to read), 0x10054D70
+  BeginEffectOffscreenPass (FAIL: the reconstruction reads 0xA5A5A5A5) and CXiSkeletonActor::OnDrawName 0x100D0510
+  (FAIL: call #5's third argument 0xA5A5A5A5 against 0). So the gate's model of their callees changed (the r19 facts),
+  not their source; which fact, is not yet read. Three went the other way (Post_DrawRotatingGhostLayers, 0x1003E910,
+  0x10040220: FAIL to PASS). r19 is not installed until the three are explained.
+- The owner's request: one session to measure everything that stands between the game and a stable 60, inside and
+  outside the graphics, plus the CrossOver case. Built (kit/xikit/measure.c, docs/KIT.md "Measuring"):
+  - `frames=1`: a line per frame, with the game's pacing fields read raw (RENDERER.md 3);
+  - `imports=1|2`: the game's calls through its import slots timed (inclusive, exclusive, per call site, per frame):
+    waits (its pacing Sleep), files, messages, input, GDI, network, timers, heap;
+  - `callsites=N`: the main loop's, Frame_Render's and lower direct calls timed through stubs. make_measure.py lists
+    the calls on flow-reached instructions only (a switch followed when its bound is the code's `cmp; ja`), 2,254
+    sites in four levels; every one is the same call in build 6AC37846 (its unpacked bytes, through the build's
+    moved ranges), and all 293 import slots name the same functions there;
+  - `sample=3` (every thread with its stack, raw), `sysstats=1`, `env=1` (registry, display, timers, Sleep(1)
+    measured, call costs, Wine);
+  - `xiload.exe` loads the kit into pol.exe (Windows, Wine, a CrossOver bottle); `measure_read.py` writes report.md.
+  Under Wine (test_xikit.py `measure`): an x87 result, ECX and stack arguments, `ret 4`, AL, the last-error value,
+  nested calls (DispatchMessageA into a window procedure calling Sleep: inclusive 357 ms, exclusive 1.3 ms), another
+  thread's heap calls, a longjmp out of a wrapped call (its entry dropped), a site over `callsite_max` put back.
+  Wine 9 here: GetKeyboardState 57 us a call, GetForegroundWindow 51 us, GetAsyncKeyState 0.12 us (xikit_env).
+  The full suite caught the environment's call costs running while d3dprof patched system-call stubs (the
+  profiler's setup did not finish); measuring now starts after every other hook.
+  Session: kit/sessions/measure_04nov (W1-W6 on Windows, M phases in CrossOver with mac/measure_mac.sh).

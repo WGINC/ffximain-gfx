@@ -2,9 +2,11 @@
 rem collect.bat -- zip today's xikit log folders (each phase's), PresentMon's files, xiload.log, the WPR trace if any,
 rem and dgVoodoo's and d3d8on11's settings and logs into measure_04nov_results.zip next to xikit.dll.
 setlocal
-set HERE=%~dp0
-for %%k in ("%HERE%..") do set KIT=%%~fk
-set OUT=%KIT%\measure_04nov_results.zip
+set "HERE=%~dp0"
+set "KIT=%HERE%"
+if not exist "%KIT%xikit.dll" set "KIT=%HERE%..\"
+for %%k in ("%KIT%.") do set "KIT=%%~fk"
+set "OUT=%KIT%\measure_04nov_results.zip"
 if exist "%OUT%" del "%OUT%"
 pushd "%KIT%"
 powershell -NoProfile -Command ^

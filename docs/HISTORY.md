@@ -4055,3 +4055,19 @@ of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, 
   across statements. So Ghidra's text is a faithful source of these functions (VC6 makes the game's code from it);
   GCC evaluates it as C defines, and VC6 did not. The game's float results are VC6's order, which only VC6 or the
   original's bytes give; no reading of the decompiled text alone does.
+
+**4 Nov (night): the owner's crash, and the render path under --dead-stack.**
+- The owner's game (pending_04nov, swap_set=render_path) faulted at FFXiMain+0x8F1D0 (Application Error 1000,
+  c0000005, 3 Nov 22:40 local). 0x1008F1D0 starts `mov edx, [ecx+0x124]`; its one caller in the game is
+  Acter_ReleaseAllSlots 0x10092900, which tail-calls it with the object in ECX (`mov ecx, esi; pop esi; jmp 0x1008f1d0`,
+  0x10092993). The tree's text calls `orig::FUN_1008f1d0()` through a __cdecl wrapper passing no ECX. 0x1008F1D0 is a
+  piece of 0x10092900 in data/func_extents.json, not a function start, so data/ecx_use.json has no entry for it and the
+  gate's stub did not compare ECX: its PASS did not cover the call. 0x10092900 is flagged untested (4) and render path
+  (16): only swap_set=render_path swapped it. make_manifest.py now refuses every function calling game code through an
+  ECX-less wrapper when the target is not a function start or ecx_use.json says it reads ECX: 54 functions (58
+  refused in all). The fix at the source -- the translation passing the tail call's ECX -- is open.
+- The render path's bisect with --dead-stack 0xA5 on town: Mat4_PostMultiply, Mat4_TransformVec4,
+  Model_SkinVerticesCpu, Unit10044C40_UpdateTransform, CMoProcessor::CalcScreenBoundsAndVisible, all float maths; the
+  other 230 identical. Frame_Render, MotionQueList_ProcessAll, CMoTaskMng::DrawAll and CYyModelBase::CallPartsSlot20
+  differ only through dead stack; only MotionQueList_ProcessAll's was read to its end (4 unused bytes), so the session
+  still leaves all nine out.

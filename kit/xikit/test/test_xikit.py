@@ -160,7 +160,7 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
             'ok' if ok else 'FAIL', len(rs), mono, len(oth), land, len(R.threads) if R else 0)); bad += not ok
         # the wrapped Sleep the window procedure makes inside DispatchMessageA is outside DispatchMessageA's exclusive time
         pr = open([os.path.join(d, f) for f in os.listdir(d) if f.startswith('xikit_probes_')][0]).read()
-        disp = [l.split(',') for l in pr.splitlines() if ',DispatchMessageA,' in l and ',render,' in l]
+        disp = sorted((l.split(',') for l in pr.splitlines() if ',DispatchMessageA,' in l and ',render,' in l), key=lambda r: -int(r[10]))   # the loop's call site (most calls), not the longjmp's
         ok = bool(disp) and float(disp[0][11]) > 100 * max(float(disp[0][12]), 0.001) and 'stale entries dropped 1,' in pr
         print('%s: nesting: DispatchMessageA inclusive %s ms, exclusive %s ms (the Sleep inside it excluded); the entry the longjmp left was dropped' % (
             'ok' if ok else 'FAIL', disp[0][11] if disp else '-', disp[0][12] if disp else '-')); bad += not ok

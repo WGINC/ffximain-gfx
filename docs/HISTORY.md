@@ -4100,3 +4100,6 @@ of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, 
   The full suite caught the environment's call costs running while d3dprof patched system-call stubs (the
   profiler's setup did not finish); measuring now starts after every other hook.
   Session: kit/sessions/measure_04nov (W1-W6 on Windows, M phases in CrossOver with mac/measure_mac.sh).
+- The kit's Wine suite on this build (d14e9e7 and the test fix after it): every mode passes but `native`, which needs a
+  64-bit Wine to start xisamp_x64.exe; this container has 32-bit Wine only (the kit logs `no native sampler for machine
+  0x14C`, as it should). The sample=2 code is unchanged by this work; it is not re-tested here.

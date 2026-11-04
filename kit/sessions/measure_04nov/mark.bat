@@ -6,5 +6,7 @@ set "HERE=%~dp0"
 set "KIT=%HERE%"
 if not exist "%KIT%xikit.dll" set "KIT=%HERE%..\"
 for %%k in ("%KIT%.") do set "KIT=%%~fk"
->"%KIT%\xikit_mark.txt" echo %*
-echo mark written %*
+set "NAME=%*"
+if not defined NAME set "NAME=step"
+>"%KIT%\xikit_mark.txt" echo(%NAME%
+echo %date% %time% mark written: %NAME%

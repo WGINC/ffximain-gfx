@@ -45,7 +45,7 @@ def built():
 
 
 def ini_keys():
-    s = open(os.path.join(R, 'kit', 'xikit', 'xikit.c')).read()
+    s = open(os.path.join(R, 'kit', 'xikit', 'xikit.c')).read() + open(os.path.join(R, 'kit', 'xikit', 'measure.c')).read()   # (xikit.c #includes measure.c)
     # keys as section.key (the [watch] section has its own enabled= and every=)
     read = {'%s.%s' % m for m in re.findall(r'GetPrivateProfile\w*A\("(\w+)",\s*"(\w+)"', s)}
     m = re.search(r'static const char DEFAULT_INI\[\] =\n(.*?);\n', s, re.S)

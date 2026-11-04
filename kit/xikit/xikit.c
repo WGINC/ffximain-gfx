@@ -225,7 +225,22 @@ static const char DEFAULT_INI[] =
   "; 2: the native sampler instead (xisamp_arm64.exe or xisamp_x64.exe from this folder): each sample holds where the x86\r\n"
   ";    code was and where the machine was natively (the emulator, Windows' ARM64 code, the driver); xikit_native_<pid>.csv\r\n"
   ";    every sample_window seconds (kit/xisamp/read.py reads it)\r\n"
-  "sample=0\r\nsample_ms=1\r\nsample_window=30\r\n"
+  "; 3: every thread of the process, raw: the render thread every sample_ms, the others every sample_other_ms when they\r\n"
+  ";    ran; each sample's EIP, return addresses (sample_stack / sample_other_stack dwords scanned), QPC time and frame\r\n"
+  ";    into xikit_raw_<pid>.bin, up to raw_max_mb (kit/xikit/measure_read.py reads it)\r\n"
+  "sample=0\r\nsample_ms=1\r\nsample_window=30\r\nsample_other_ms=5\r\nsample_stack=16384\r\nsample_other_stack=4096\r\nraw_max_mb=3000\r\n"
+  "; measuring (docs/KIT.md, Measuring; all read at the start; kit/xikit/measure_read.py reads the files):\r\n"
+  "; frames=1: xikit_frames_<pid>.csv, a line per frame: its times, the render thread's CPU, page faults, the game's\r\n"
+  ";    pacing fields (docs/RENDERER.md 3) raw, the marks (Ctrl+Alt+F7)\r\n"
+  "; imports=1: every call FFXiMain.dll makes through its import slots to the listed Windows functions (waits, files,\r\n"
+  ";    messages, input, GDI, network, timers, ...) timed, per call site and per frame; 2: also the hot ones (heap,\r\n"
+  ";    critical sections, strings). Uses xikit_measure.txt (kit/xikit/make_measure.py)\r\n"
+  "; callsites=N: the direct calls of the main loop (N=1), of Frame_Render and the game mode's update (N=2), and of the\r\n"
+  ";    functions those call (3, 4) timed through a stub; one called more than callsite_max times in a frame is put back\r\n"
+  ";    within 60 frames\r\n"
+  "; sysstats=1: xikit_sys_<pid>.csv each second (CPU, memory, page faults, I/O) and xikit_threads_<pid>.csv every 2 s\r\n"
+  "; env=1: xikit_env_<pid>.txt: the game's registry settings, display, timers (Sleep(1) measured), call costs, Wine\r\n"
+  "frames=0\r\nimports=0\r\ncallsites=0\r\ncallsite_max=500\r\nsysstats=0\r\nenv=1\r\n"
   "; 1: measure the call sites listed in xikit_facts.txt (pipeline/fact_sites.py): what each callee pops, where it\r\n"
   ";    goes; for sites of kind out also whether the call changed the dwords its pointer arguments into the caller's\r\n"
   ";    stack point to, and for kind jmp the targets a switch jump took; xikit_facts_<pid>.csv every report_every\r\n"
@@ -1161,6 +1176,7 @@ static void watch_frame(void) {            /* on the render thread, each frame, 
   memcpy(g_w_raw, raw, sizeof raw); memcpy(g_w_ok, ok, sizeof ok); g_w_have = 1;
 }
 
+static void measure_frame(double frame_ms, double present_ms, double kit_ms, LARGE_INTEGER t0);   /* (measure.c) */
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
   if (!g_render_thread) g_render_thread = GetCurrentThreadId();
   if (g_sampling == 2 && !g_native_started) start_native_sampler();
@@ -1226,6 +1242,7 @@ static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HW
         }
       }
     }
+    if (g_t_prev.QuadPart) measure_frame((double)(t0.QuadPart - g_t_prev.QuadPart) * ms, (double)(t2.QuadPart - t1.QuadPart) * ms, (double)(t1.QuadPart - t0.QuadPart) * ms, t0);
     g_t_prev = t0;
     if (g_frame % (uint32_t)g_cfg.report_every == 0) { report_timing(); report_facts(); }
   }
@@ -2068,6 +2085,13 @@ static void log_environment(void) {
   if (!n) klog("graphics modules: none of the known names loaded");
 }
 
+#ifndef _MSC_VER
+#include "measure.c"                 /* frames=, imports=, callsites=, sample=3, sysstats=, env= (docs/KIT.md, Measuring) */
+#else                                /* (its stubs and timing are GCC assembly: the MinGW build has them) */
+static void measure_start(void) { klog("measure: not in this build (MSVC); build.sh's MinGW build has it"); }
+static void measure_frame(double a, double b, double c, LARGE_INTEGER t) { (void)a; (void)b; (void)c; (void)t; }
+#endif
+
 static DWORD WINAPI start(LPVOID self) {
   char path[MAX_PATH], recon[MAX_PATH];
   GetModuleFileNameA((HMODULE)self, g_dir, MAX_PATH);
@@ -2176,6 +2200,7 @@ static DWORD WINAPI start(LPVOID self) {
   *(void ***)dev = g_vt;                      /* this object only: the driver's own vtable is not written */
   klog("device %p hooked (Present); swaps are applied at the next frame (swap=%d)", dev, g_cfg.swap);
   log_environment();
+  measure_start();
   fcap_enabled = GetPrivateProfileIntA("xikit", "fcap", 0, g_ini) != 0;
   g_fc_after = GetPrivateProfileIntA("xikit", "fcap_after", 0, g_ini); g_fc_every = GetPrivateProfileIntA("xikit", "fcap_every", 60, g_ini);
   g_fc_count = GetPrivateProfileIntA("xikit", "fcap_count", 1, g_ini); if (g_fc_every < 10) g_fc_every = 10;

@@ -25,3 +25,4 @@ kit/fcap/dist/
 kit/fcap/*.exe
 kit/fcap/test/*.exe
 kit/speedfix_standalone/dist/
+kit/xiload/dist/

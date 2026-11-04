@@ -1,0 +1,356 @@
+"""measure_read.py -- reads one start's measurement files (xikit's frames=, imports=, callsites=, sample=3, sysstats=,
+env=; docs/KIT.md, Measuring) and writes report.md and summary.json into that folder.
+
+    python3 measure_read.py LOG_FOLDER [--presentmon PM.csv] [--measure xikit_measure.txt]
+
+What each number is, and where it comes from:
+  * frame times: the kit's own QPC times at Present (xikit_frames_<pid>.csv);
+  * the game's pacing fields: read raw each frame, decoded as docs/RENDERER.md 3 says the code uses each
+    (this+0x28, +0x2C, the ring and [timer+4] are floats; +0x30 and +0x38 are integers; +0x3C a float);
+  * call timing: the wrapped calls' own TSC times (exact for the calls wrapped; each wrapped call adds the cost the
+    kit measured at the start, xikit.log);
+  * sample=3: where each thread was when it was looked at -- a share of time, an estimate. The render thread's samples
+    are charged to the call in Frame_Render (0x10011A00, data/func_extents.json) whose return address is the outermost
+    one on the stack inside Frame_Render, and to the next return address inward (the level below). A return address
+    left in a dead stack slot can be counted: these are attributions, not measurements.
+Game addresses are given in the analysed build's numbering (the kit's rebasing and build translation undone); the
+names are labels (pipeline/disasm.py's), never evidence."""
+import bisect, collections, glob, json, math, os, re, struct, sys
+
+H = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(H, '..', '..')
+FRAME_RENDER = 0x10011A00
+
+
+def load_names():
+    try:
+        sys.path.insert(0, os.path.join(ROOT, 'pipeline')); from disasm import names
+        return names()
+    except Exception:
+        return {}
+
+
+class Funcs:
+    """the analysed build's functions (data/func_extents.json): which function an address is in"""
+    def __init__(self):
+        ext = json.load(open(os.path.join(ROOT, 'data', 'func_extents.json')))
+        iv = sorted((s, e, int(k, 16)) for k, ch in ext.items() for s, e in ch)
+        self.lo = [x[0] for x in iv]; self.iv = iv; self.ext = {int(k, 16): ch for k, ch in ext.items()}
+
+    def of(self, a):
+        i = bisect.bisect_right(self.lo, a) - 1
+        if i >= 0 and self.iv[i][0] <= a < self.iv[i][1]: return self.iv[i][2]
+        return None
+
+    def inside(self, f, a):
+        return any(s <= a < e for s, e in self.ext.get(f, []))
+
+
+def f32(h):
+    try: return struct.unpack('<f', struct.pack('<I', int(h, 16)))[0]
+    except Exception: return None
+
+
+def i32(h):
+    try: v = int(h, 16); return v - (1 << 32) if v >= 1 << 31 else v
+    except Exception: return None
+
+
+def pct(xs, p):
+    if not xs: return float('nan')
+    s = sorted(xs); k = min(len(s) - 1, max(0, int(round(p / 100.0 * (len(s) - 1))))); return s[k]
+
+
+def stats(xs):
+    xs = [x for x in xs if x is not None and not (isinstance(x, float) and math.isnan(x))]
+    if not xs: return {}
+    return {'n': len(xs), 'mean': sum(xs) / len(xs), 'p50': pct(xs, 50), 'p90': pct(xs, 90), 'p95': pct(xs, 95), 'p99': pct(xs, 99), 'max': max(xs)}
+
+
+def read_csv(path):
+    rows, head, comments = [], None, []
+    for line in open(path, errors='replace'):
+        line = line.rstrip('\n')
+        if line.startswith('#'): comments.append(line); continue
+        if head is None: head = line.split(','); continue
+        p = line.split(',')
+        if len(p) >= len(head): rows.append(dict(zip(head, p)))
+    return head, rows, comments
+
+
+class Raw:
+    """xikit_raw_<pid>.bin (measure.c, sample=3)"""
+    def __init__(self, path):
+        b = open(path, 'rb').read()
+        if b[:6] != b'XIRAW1': raise ValueError('not an xikit raw file')
+        (self.ver, self.pid, self.rel, self.glo, self.ghi, self.rlo, self.rhi, self.mland) = struct.unpack_from('<8I', b, 8)
+        self.qpf = struct.unpack_from('<q', b, 40)[0]
+        sh = struct.unpack_from('<20i', b, 48); self.shift = [(sh[1 + 3 * i] & 0xFFFFFFFF, sh[2 + 3 * i] & 0xFFFFFFFF, sh[3 + 3 * i]) for i in range(min(sh[0], 6))]
+        self.samples = []; self.repeats = collections.Counter(); self.threads = {}; self.mods = {}
+        o = 128; n = len(b)
+        while o + 4 <= n:
+            t = b[o:o + 1]
+            if t == b'S':
+                if o + 24 > n: break
+                fl, nra, tid, fr, q, eip = struct.unpack_from('<BHIIqI', b, o + 1)
+                if o + 24 + 4 * nra > n: break
+                ras = struct.unpack_from('<%dI' % nra, b, o + 24); o += 24 + 4 * nra
+                self.samples.append((tid, fr, q, eip, ras, fl))
+            elif t == b'R':
+                if o + 20 > n: break
+                tid, fr, q = struct.unpack_from('<IIq', b, o + 4); o += 20
+                self.repeats[tid] += 1; self.samples.append((tid, fr, q, None, None, 0))
+            elif t == b'T':
+                if o + 20 > n: break
+                tid, start, q = struct.unpack_from('<IIq', b, o + 4); o += 20; self.threads[tid] = start
+            elif t == b'M':
+                if o + 12 > n: break
+                ln, base, size = struct.unpack_from('<HII', b, o + 2)
+                name = b[o + 12:o + 12 + ln].decode('latin-1'); o += 12 + ln; self.mods[base] = (size, name)
+            else: break
+        self.mbase = sorted(self.mods)
+
+    def analysed(self, a):
+        ea = (a - self.rel) & 0xFFFFFFFF
+        for lo, hi, d in self.shift:
+            if lo + d <= ea < hi + d: return ea - d
+        return ea
+
+    def where(self, a):
+        """('game', analysed) | ('recon', offset) | ('module', name, offset) | ('memory', a)"""
+        if self.glo <= a < self.ghi: return ('game', self.analysed(a))
+        if self.rlo <= a < self.rhi: return ('recon', a - self.rlo)
+        i = bisect.bisect_right(self.mbase, a) - 1
+        if i >= 0:
+            base = self.mbase[i]; size, name = self.mods[base]
+            if a < base + size: return ('module', os.path.basename(name.replace('\\', '/')), a - base)
+        return ('memory', a)
+
+
+def main(argv):
+    d = argv[0]; pm_path = None; mtab = None
+    if '--presentmon' in argv: pm_path = argv[argv.index('--presentmon') + 1]
+    if '--measure' in argv: mtab = argv[argv.index('--measure') + 1]
+    N = load_names(); F = Funcs()
+    def fname(ea):
+        f = F.of(ea)
+        if f is None: return '0x%08X' % ea
+        return '%s+0x%X' % (N.get(f, 'sub_%X' % f), ea - f)
+    out, summ = [], {}
+    def w(s=''): out.append(s)
+    w('# Measurement report: %s' % os.path.basename(os.path.abspath(d)))
+    w(); w('Generated by kit/xikit/measure_read.py. Sources are named in each section; samples are estimates, wrapped-call times are measured.')
+    # ---------------------------------------------------------------- the kit's log and environment
+    logp = os.path.join(d, 'xikit.log'); log = open(logp, errors='replace').read() if os.path.exists(logp) else ''
+    for pat in (r'kit build: .*', r'machine: .*', r'cpu: .*', r'graphics module: .*', r'measure: a wrapped call costs .*', r'measure: \d+ import slots .*',
+                r'measure: \d+ of \d+ wrapped calls in place', r'sample=3: QueryThreadCycleTime .*', r'speedfix.*', r'measure: call site .* put back'):
+        for m in re.findall(pat, log)[:12]: w('- `%s`' % m.strip()[:300])
+    envs = glob.glob(os.path.join(d, 'xikit_env_*.txt'))
+    if envs:
+        env = open(envs[0], errors='replace').read()
+        w(); w('## Environment (xikit_env)'); w(); w('```')
+        keep = [l for l in env.splitlines() if l.startswith(('[wine]', '[machine]', '[display]', '[timers', '  timer', '  Sleep(1)', '  timeGetTime', '  GetTickCount', '  process ', '  memory ', '  adapter'))
+                or re.match(r'  \S.* ns a call', l) or ('= dword' in l and 'FinalFantasyXI' in env)]
+        w('\n'.join(keep[:200])); w('```')
+        sl = re.findall(r'Sleep\(1\), 200 calls: min ([\d.]+), median ([\d.]+), 95% ([\d.]+), max ([\d.]+)', env)
+        if sl: summ['sleep1_ms'] = [list(map(float, x)) for x in sl]
+        summ['wine'] = (re.search(r'\[wine\] (.*)', env) or [None, None])[1]
+    # ---------------------------------------------------------------- frames
+    fr = glob.glob(os.path.join(d, 'xikit_frames_*.csv'))
+    frames = []
+    if fr:
+        head, rows, _ = read_csv(fr[0]); frames = rows
+        ft = [float(r['frame_ms']) for r in rows]; pr = [float(r['present_ms']) for r in rows]; kt = [float(r['kit_ms']) for r in rows]
+        game = [a - b - c for a, b, c in zip(ft, pr, kt)]
+        w(); w('## Frames (xikit_frames: %d frames, %.1f s)' % (len(ft), sum(ft) / 1000)); w()
+        w('| | mean | p50 | p90 | p95 | p99 | max |'); w('|---|---|---|---|---|---|---|')
+        for lab, xs in (('frame ms (Present to Present)', ft), ('inside the device\'s Present', pr), ('outside Present (the game\'s frame, the kit\'s check excluded)', game)):
+            s = stats(xs)
+            if s: w('| %s | %.2f | %.2f | %.2f | %.2f | %.2f | %.2f |' % (lab, s['mean'], s['p50'], s['p90'], s['p95'], s['p99'], s['max']))
+        if ft:
+            n = len(ft); w()
+            w('Frames over 16.7 ms: %.1f%%; over 20 ms: %.1f%%; over 33.4 ms: %.1f%%; over 50 ms: %.1f%%. Mean rate %.1f fps.' % (
+                100.0 * sum(x > 16.7 for x in ft) / n, 100.0 * sum(x > 20 for x in ft) / n, 100.0 * sum(x > 33.4 for x in ft) / n, 100.0 * sum(x > 50 for x in ft) / n, 1000.0 * n / sum(ft)))
+            summ['frame_ms'] = stats(ft); summ['present_ms'] = stats(pr); summ['outside_present_ms'] = stats(game)
+        # the game's pacing fields (RENDERER.md 3)
+        p28 = [f32(r['p28']) for r in rows if r.get('p28')]; p2c = [f32(r['p2c']) for r in rows if r.get('p2c')]; p30 = [i32(r['p30']) for r in rows if r.get('p30')]
+        tf = [f32(r['tfps']) for r in rows if r.get('tfps')]
+        if p28:
+            w(); w('**The game\'s pacing (Frame_Render\'s this, docs/RENDERER.md 3):** step `this+0x28` %s; this frame\'s ticks `this+0x2C` mean %.2f; minimum ticks `this+0x30` %s; '
+              'the timer\'s last measured rate `[t+4]` mean %.1f.' % (
+                  dict(collections.Counter(round(x, 3) for x in p28 if x is not None).most_common(6)), sum(p2c) / len(p2c) if p2c else float('nan'),
+                  dict(collections.Counter(p30).most_common(4)), sum(tf) / len(tf) if tf else float('nan')))
+            # real ticks against the step: what the step under-counts (the truncation, RENDERER.md 3a)
+            real = [x / (1000.0 / 60) for x in ft]; step = [max(x or 0, 1.0) for x in p28]
+            if len(real) == len(step) and real:
+                w('Real elapsed ticks per frame (frame ms / 16.67) mean %.3f; the getter\'s step (max(this+0x28, 1), 0x10014CF0) mean %.3f: what the step advances is %.1f%% of real time.' % (
+                    sum(real) / len(real), sum(step) / len(step), 100.0 * sum(step) / sum(real)))
+                summ['step_over_real'] = sum(step) / sum(real)
+        # groups of wrapped calls on the render thread
+        groups = [h[:-3] for h in head if h.endswith('_ms') and h not in ('frame_ms', 'present_ms', 'kit_ms', 'rt_cpu_ms', 'longest_ms')]
+        if groups:
+            w(); w('**The render thread\'s wrapped calls per frame, by group (exclusive ms; xikit_frames):**'); w()
+            w('| group | mean ms | p95 ms | max ms | calls a frame |'); w('|---|---|---|---|---|')
+            for g in groups:
+                xs = [float(r[g + '_ms']) for r in rows]; cs = [int(r[g + '_calls']) for r in rows]
+                if sum(cs): s = stats(xs); w('| %s | %.3f | %.3f | %.3f | %.1f |' % (g, s['mean'], s['p95'], s['max'], sum(cs) / len(cs)))
+        cpu = [float(r['rt_cpu_ms']) for r in rows if float(r['rt_cpu_ms']) >= 0]
+        if cpu and ft: w(); w('Render thread CPU time (GetThreadTimes; coarse on Windows: its clock steps by the scheduler tick) %.1f ms of %.1f ms of frames (%.0f%%).' % (sum(cpu), sum(ft), 100.0 * sum(cpu) / sum(ft)))
+        marks = collections.defaultdict(list)
+        for r in rows: marks[int(r['mark'])].append(float(r['frame_ms']))
+        if len(marks) > 1:
+            w(); w('**By mark (Ctrl+Alt+F7):**'); w(); w('| mark | frames | mean ms | p50 | p95 | p99 | max |'); w('|---|---|---|---|---|---|---|')
+            for k in sorted(marks):
+                s = stats(marks[k]); w('| %d | %d | %.2f | %.2f | %.2f | %.2f | %.2f |' % (k, s['n'], s['mean'], s['p50'], s['p95'], s['p99'], s['max']))
+            summ['marks'] = {k: stats(v) for k, v in marks.items()}
+    fms = {int(r['frame']): float(r['frame_ms']) for r in frames}
+    med = pct(list(fms.values()), 50) if fms else 0
+    spikes = {f for f, m in fms.items() if m > max(2 * med, 33.4)}
+    # ---------------------------------------------------------------- wrapped calls
+    pl = glob.glob(os.path.join(d, 'xikit_probe_list_*.csv')); pf = glob.glob(os.path.join(d, 'xikit_probe_frames_*.csv')); pt = glob.glob(os.path.join(d, 'xikit_probes_*.csv'))
+    if pl and pf:
+        _, plist, _ = read_csv(pl[0]); P = {int(r['k']): r for r in plist}
+        tpm = None; per = collections.defaultdict(lambda: collections.defaultdict(lambda: [0, 0.0, 0.0, 0.0]))
+        for line in open(pf[0]):
+            if line.startswith('#cal'): tpm = float(line.split(',')[3]); continue
+            if line.startswith('#'): continue
+            p = line.split(',')
+            if len(p) == 6: per[int(p[1])][int(p[0])] = [int(p[2]), int(p[3]), int(p[4]), int(p[5])]
+        if tpm:
+            w(); w('## Wrapped calls on the render thread, per frame (xikit_probe_frames; TSC %.0f ticks a ms)' % tpm); w()
+            nf = max(1, len(fms) or len({f for v in per.values() for f in v}))
+            rowsk = []
+            for k, byf in per.items():
+                ex = [v[2] / tpm for v in byf.values()]; inc = [v[1] / tpm for v in byf.values()]; calls = sum(v[0] for v in byf.values())
+                rowsk.append((sum(ex) / nf, k, sum(inc) / nf, max(v[3] for v in byf.values()) / tpm, calls / nf, len(byf),
+                              sum(byf[f][2] / tpm for f in spikes if f in byf) / max(1, len(spikes))))
+            rowsk.sort(reverse=True)
+            w('Exclusive = the call\'s own time less the wrapped calls inside it. Per frame = over all %d frames (a call not made in a frame counts 0).' % nf); w()
+            w('| call | kind | group | from | excl ms/frame | incl ms/frame | max one call ms | calls/frame | frames with it | excl ms/frame in spikes |')
+            w('|---|---|---|---|---|---|---|---|---|---|')
+            for ex, k, inc, mx, cpf, nfw, spk in rowsk[:80]:
+                p = P.get(k, {}); kind = p.get('kind', '?'); fromw = ''
+                if kind == 'S': fromw = fname(int(p['analysed'], 16))
+                w('| %s | %s | %s | %s | %.3f | %.3f | %.3f | %.1f | %d | %.3f |' % (p.get('name', k), kind, p.get('group', ''), fromw, ex, inc, mx, cpf, nfw, spk))
+            summ['probes_top'] = [{'name': P.get(k, {}).get('name'), 'kind': P.get(k, {}).get('kind'), 'excl_ms_frame': ex, 'incl_ms_frame': inc} for ex, k, inc, *_ in rowsk[:40]]
+    if pt:
+        _, prow, com = read_csv(pt[0])
+        oth = [r for r in prow if r['thread'] == 'other']
+        if oth:
+            w(); w('## Wrapped calls on the other threads (xikit_probes: totals since the start)'); w()
+            w('| call | group | from | calls | incl ms | excl ms | max ms |'); w('|---|---|---|---|---|---|---|')
+            for r in sorted(oth, key=lambda r: -float(r['excl_ms']))[:40]:
+                ra = r['return_to']; m = re.match(r'game:0x([0-9A-F]+)', ra); ra = fname(int(m.group(1), 16)) if m else ra
+                w('| %s | %s | %s | %s | %s | %s | %s |' % (r['name'], r['group'], ra, r['calls'], r['incl_ms'], r['excl_ms'], r['max_ms']))
+        for c in com: w('- `%s`' % c[:300])
+    # ---------------------------------------------------------------- sample=3
+    raws = glob.glob(os.path.join(d, 'xikit_raw_*.bin'))
+    if raws:
+        R = Raw(raws[0])
+        render = collections.Counter(); per_thread = collections.Counter(); self_by = collections.defaultdict(collections.Counter)
+        lvl1 = collections.Counter(); lvl2 = collections.Counter(); lvl1_spike = collections.Counter(); outside = collections.Counter()
+        rt = None; mland_seen = 0; nrt = 0; nrt_spike = 0
+        def lab(wh):
+            if wh[0] == 'game': return 'game ' + fname(wh[1])
+            if wh[0] == 'recon': return 'recon +0x%X' % wh[1]
+            if wh[0] == 'module': return wh[1]
+            return 'memory'
+        for tid, frn, q, eip, ras, fl in R.samples:
+            per_thread[tid] += 1
+            if fl & 1: rt = tid
+            if eip is None: self_by[tid]['(not moved since the last look)'] += 1; continue
+            if R.mland in ras: mland_seen += 1
+            we = R.where(eip); self_by[tid][lab(we)] += 1
+            if not fl & 1: continue
+            nrt += 1; sp = frn in spikes; nrt_spike += sp
+            # the outermost return address inside Frame_Render, and the next one inward
+            ga = [R.analysed(r) if R.glo <= r < R.ghi else None for r in ras]
+            idx = [i for i, a in enumerate(ga) if a is not None and F.inside(FRAME_RENDER, a)]
+            if idx:
+                i = idx[-1]; site = ga[i]
+                key = 'Frame_Render call at 0x%08X' % site
+                lvl1[key] += 1
+                if sp: lvl1_spike[key] += 1
+                inner = ga[i - 1] if i > 0 else None
+                if inner is not None: lvl2[(key, fname(inner))] += 1
+                elif i == 0: lvl2[(key, 'self: ' + lab(we))] += 1
+            else:
+                # outside Frame_Render: the outermost game return address says where
+                gi = [a for a in ga if a is not None]
+                outside[fname(gi[-1]) if gi else 'no game return address: ' + lab(we)] += 1
+        w(); w('## Samples (sample=3: xikit_raw; %d samples, %d threads)' % (len(R.samples), len(per_thread))); w()
+        w('| thread | role | started at | samples | top places (EIP) |'); w('|---|---|---|---|---|')
+        for tid, n in per_thread.most_common(30):
+            st = R.threads.get(tid); stl = lab(R.where(st)) if st else '?'
+            tops = '; '.join('%s %d' % (k, v) for k, v in self_by[tid].most_common(5))
+            w('| %d | %s | %s | %d | %s |' % (tid, 'render' if tid == rt else '', stl, n, tops))
+        if mland_seen: w(); w('**%d samples still held the kit\'s m_land on the stack (the shadow stack did not give the real return address).**' % mland_seen)
+        if nrt:
+            # call sites at Frame_Render: the measure table's target names
+            tnames = {}
+            mt = mtab or os.path.join(d, '..', '..', 'xikit_measure.txt')
+            if os.path.exists(mt):
+                for line in open(mt):
+                    p = line.split()
+                    if p and p[0] == 'S': tnames[int(p[1], 16) + 5] = p[5]
+            w(); w('### The render thread\'s samples by Frame_Render call (%d samples; %d in spike frames, frames over max(2 x median, 33.4 ms))' % (nrt, nrt_spike)); w()
+            w('| call (return address in Frame_Render) | callee | share | share in spikes |'); w('|---|---|---|---|')
+            for k, v in lvl1.most_common(40):
+                ra = int(k.split()[-1], 16)
+                w('| %s | %s | %.1f%% | %.1f%% |' % (k, tnames.get(ra, '(indirect or unlisted)'), 100.0 * v / nrt, 100.0 * lvl1_spike[k] / max(1, nrt_spike)))
+            tot_out = sum(outside.values())
+            if tot_out:
+                w(); w('Outside Frame_Render: %.1f%% of the render thread\'s samples, by the outermost game return address:' % (100.0 * tot_out / nrt)); w()
+                for k, v in outside.most_common(15): w('- %s: %.1f%%' % (k, 100.0 * v / nrt))
+            w(); w('### One level down (the next return address inward)'); w()
+            w('| Frame_Render call | where inside it | share |'); w('|---|---|---|')
+            for (k, inner), v in lvl2.most_common(60): w('| %s | %s | %.1f%% |' % (k, inner, 100.0 * v / nrt))
+            summ['render_samples'] = nrt; summ['frame_render_calls'] = {k: v / nrt for k, v in lvl1.most_common(40)}
+            summ['outside_frame_render'] = {k: v / nrt for k, v in outside.most_common(15)}
+        summ['threads'] = {str(t): {'samples': n, 'top': self_by[t].most_common(8)} for t, n in per_thread.most_common(30)}
+    # ---------------------------------------------------------------- sys and threads
+    sy = glob.glob(os.path.join(d, 'xikit_sys_*.csv'))
+    if sy:
+        _, rows, _ = read_csv(sy[0])
+        if rows:
+            w(); w('## The process and the machine, each second (xikit_sys)'); w()
+            for col, labx in (('proc_user_ms', 'process user ms a second'), ('proc_kernel_ms', 'process kernel ms a second'), ('machine_busy_pct', 'machine busy %'),
+                              ('ws_mb', 'working set MB'), ('pf', 'page faults a second'), ('read_mb', 'file reads MB a second'), ('read_ops', 'file reads a second')):
+                s = stats([float(r[col]) for r in rows])
+                if s: w('- %s: mean %.1f, p95 %.1f, max %.1f' % (labx, s['mean'], s['p95'], s['max']))
+    th = glob.glob(os.path.join(d, 'xikit_threads_*.csv'))
+    if th:
+        _, rows, _ = read_csv(th[0]); tot = collections.defaultdict(lambda: [0.0, 0.0, 0.0, '', ''])
+        for r in rows:
+            t = tot[r['tid']]; t[3] = r['start']; t[4] = r['role']
+            for i, c in enumerate(('mcycles', 'user_ms', 'kernel_ms')):
+                if float(r[c]) >= 0: t[i] += float(r[c])
+        if tot:
+            w(); w('## Threads by CPU over the session (xikit_threads)'); w(); w('| tid | role | start | user ms | kernel ms | Mcycles |'); w('|---|---|---|---|---|---|')
+            for tid, t in sorted(tot.items(), key=lambda kv: -(kv[1][1] + kv[1][2]))[:25]:
+                st = t[3]; m = re.match(r'game:0x([0-9A-F]+)', st); st = fname(int(m.group(1), 16)) if m else st
+                w('| %s | %s | %s | %.0f | %.0f | %.0f |' % (tid, t[4], st, t[1], t[2], t[0]))
+    # ---------------------------------------------------------------- PresentMon
+    if pm_path and os.path.exists(pm_path):
+        _, rows, _ = read_csv(pm_path)
+        rows = [r for r in rows if r.get('Application', '').lower() == 'pol.exe'] or rows
+        w(); w('## PresentMon (%s, %d presents)' % (os.path.basename(pm_path), len(rows))); w()
+        cols = [c for c in ('MsBetweenPresents', 'FrameTime', 'MsInPresentAPI', 'CPUBusy', 'CPUWait', 'GPULatency', 'GPUTime', 'GPUBusy', 'GPUWait', 'MsUntilDisplayed',
+                            'DisplayLatency', 'MsBetweenDisplayChange', 'DisplayedTime', 'MsGPUActive') if rows and c in rows[0]]
+        w('| column | mean | p50 | p95 | p99 | max |'); w('|---|---|---|---|---|---|')
+        for c in cols:
+            xs = []
+            for r in rows:
+                try: xs.append(float(r[c]))
+                except ValueError: pass
+            s = stats(xs)
+            if s: w('| %s | %.2f | %.2f | %.2f | %.2f | %.2f |' % (c, s['mean'], s['p50'], s['p95'], s['p99'], s['max']))
+        for c in ('PresentMode', 'SyncInterval', 'AllowsTearing', 'Runtime'):
+            if rows and c in rows[0]: w('- %s: %s' % (c, dict(collections.Counter(r[c] for r in rows).most_common(4))))
+    open(os.path.join(d, 'report.md'), 'w').write('\n'.join(out) + '\n')
+    json.dump(summ, open(os.path.join(d, 'summary.json'), 'w'), indent=1, default=str)
+    print('wrote %s and summary.json' % os.path.join(d, 'report.md'))
+    return summ
+
+
+if __name__ == '__main__':
+    main(sys.argv[1:])

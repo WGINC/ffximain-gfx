@@ -45,6 +45,9 @@ The manifest also carries flags that leave a function out by default, each with 
   `__thiscall` nor `__fastcall` (`data/edx_use.json`, `data/ecx_use.json`). Swapping is unaffected; a mod may not
   hook it (docs/SDK.md). One function: `Obj_104E1D4C::Cursor_Draw`.
 - **T=** (the trampoline column, for mods): see docs/SDK.md, "What `previous` is".
+- **render path** (flag 16): the Direct3D-calling functions, their direct callers and the profiler's hot set
+  (`verification/render_core_status.json`). `swap_set=render_path` swaps exactly these, untested ones included
+  (only= and exclude= still apply).
 
 ## How a patch is written (the same rules as speedfix_hook, plus the classic hot-patch ones)
 
@@ -158,6 +161,74 @@ picture of frames 8-2K to 8+2K. That is K swapped frames, each with both neighbo
 - **Tested** (Wine, mode `profile`): a host back buffer with one smoothly animated band and one band that
   changes only while a function is swapped. Exactly the swapped band is found on both swapped frames, nothing in
   the animated band, and nothing in the control.
+
+## Measuring (`frames=`, `imports=`, `callsites=`, `sample=3`, `sysstats=`, `env=`; `kit/xikit/measure.c`)
+
+Everything here is read at the start; `kit/xikit/measure_read.py LOG_FOLDER [--presentmon PM.csv]` reads the files
+and writes `report.md` and `summary.json` there. The session that uses it all: `kit/sessions/measure_04nov`.
+
+- **`frames=1`: a line per frame** (`xikit_frames_<pid>.csv`): the QPC time at the kit's Present, the frame time
+  (Present to Present), the time inside the device's Present, the kit's own time, the render thread's CPU cycles
+  and time since the last frame, the process's page faults, the mark (Ctrl+Alt+F7 counts them; the steps of a
+  session), and the game's pacing fields raw (Frame_Render's `this` = `[0x104568FC]`: `+0x28`, `+0x2C`, `+0x30`,
+  `+0x38`, `+0x3C`, the ring `0x10456964..0x10456973` and the timer's `[[this+0x1C]+4]`; docs/RENDERER.md 3 says
+  what the code does with each, and the reader decodes them by that).
+- **`imports=1`: the game's Windows calls timed.** Every import slot of FFXiMain.dll (its import table, listed in
+  `xikit_measure.txt` by `make_measure.py`) whose function is in measure.c's list (waits, files, messages, input,
+  GDI, network, timers, synchronisation, memory, registry, modules) is pointed at a stub. The slot is wrapped only
+  if the live slot holds what `DLL!NAME` resolves to, or an address inside that DLL (a slot another tool hooked is
+  left alone, logged). `imports=2` adds the hot ones (heap, critical sections, string and locale calls, IsBad*Ptr).
+  Each call is timed inclusive and exclusive (less the wrapped calls inside it), per thread kind (render or
+  other), per call site (its return address), and per frame on the render thread (`xikit_probe_frames_<pid>.csv`;
+  totals in `xikit_probes_<pid>.csv`, the list in `xikit_probe_list_<pid>.csv`). The frame log gets each group's
+  exclusive time and calls per frame, and the longest single call. A function the game reached once through its
+  slot and keeps in a register (the main loop's PeekMessageA, read into EBX before its loop: 0x100015BF) is not
+  wrapped there.
+- **`callsites=N`: the game's own calls timed.** `xikit_measure.txt` lists every direct call (`E8 rel32`) on the
+  instructions reached by flow (fallthrough, direct jumps and branches, and a switch's table when the two
+  instructions before its jmp are `cmp idx, N; ja`) from the entries of: the main loop (CApp_RunMainLoop's frame
+  loop 0x100015BF..0x100016B5) and App_RenderFrameMaskedFPU (level 0); the functions they call (Frame_Render
+  0x10011A00, the game mode's update 0x100DAF30; level 1); the functions those call (2) and the next (3). Only calls
+  to a function start are listed. `callsites=1` times level 0, `2` levels 0-1, `3` 0-2, `4` 0-3. A site is rewritten
+  only if its live bytes are `E8` and the rel32 reaches the target's live address; on the render thread inside
+  Present, with every other thread suspended and none stopped inside the 5 bytes. A site called more than
+  `callsite_max` (500) times in one frame is put back within 60 frames (its timing would distort the frame; at the
+  measured cost of a wrapped call, 500 calls are some 0.05 to 0.1 ms).
+  A function the kit swaps, or a mod forks (speedfix's `uncap`/`frame_step` fork Frame_Render), does not run the
+  game's call instructions: its sites see no calls.
+- **How a call is timed.** The stub is `push k; jmp m_enter`. m_enter saves the caller's return address in the
+  thread's own shadow stack with the stack slot it came from, writes m_land there and jumps to the function with
+  every register as the caller left it (ECX, EAX and EDX inputs included). m_land takes back the entry whose slot
+  is the first one below the stack pointer the function returned with (entries of calls that never returned, an
+  exception or longjmp past them, are dropped and counted), records the TSC difference, and returns to the caller
+  with EAX, EDX, the x87 stack and every other register as the function left them, and the thread's last-error
+  value as the function set it. The sampler (`sample=3`) finds m_land on a stack and reads the real return address
+  from that thread's shadow stack. The TSC's rate is measured against QueryPerformanceCounter over the session
+  (`#cal` lines); a wrapped call's extra cost is measured at the start (a dummy through a stub, 20,000 calls) and
+  logged. Tested under Wine (test_xikit.py `measure`): an x87 result, a thiscall with a stack argument and `ret 4`,
+  a thiscall without arguments, the last-error value, DispatchMessageA with a window procedure that calls Sleep
+  through its slot (nested), another thread's heap calls, and a longjmp out of a wrapped call.
+- **`sample=3`: every thread, raw** (`xikit_raw_<pid>.bin`): the render thread every `sample_ms`, the others every
+  `sample_other_ms` (5) when QueryThreadCycleTime says they ran since the last look (where it does not move, as in
+  Wine 9, every thread is looked at, and one that has not moved gets a short record). Each sample: thread, the
+  kit's frame number, QPC time, EIP, and the return addresses on its stack (`sample_stack` 16384 dwords scanned for
+  the render thread, `sample_other_stack` 4096 for the others; an address counts if the bytes before it in a
+  module's code are a call instruction). Module and thread records (each thread's start address) go in the same
+  file; it stops at `raw_max_mb` (3000).
+- **`sysstats=1`**: `xikit_sys_<pid>.csv` each second (the process's user and kernel time, the machine's busy share,
+  working set, page faults, file I/O operations and bytes, handles) and `xikit_threads_<pid>.csv` every 2 s (each
+  thread's start address, priority, cycles, user and kernel time).
+- **`env=1`** (the default): `xikit_env_<pid>.txt`: Wine's version (ntdll's `wine_get_version`) or not Wine; the
+  processors and memory; the display mode and adapters; the game's windows; PlayOnline's registry keys (the game's
+  settings) and Wine's Direct3D, DLL override and driver keys; environment variables that name Wine, CrossOver,
+  DXVK, Metal, Vulkan, MoltenVK, dgVoodoo or Rosetta; the timer resolution, Sleep(1) measured 200 times, the steps
+  of timeGetTime (the game's frame timer) and GetTickCount; what common calls cost on this machine (QPC, input,
+  messages, events, critical sections, heap, file reads, DrawTextA into a DIB), measured on a kit thread; every
+  module. The timers again 60 s and 300 s in. Copies of dgVoodoo.conf, d3d8on11.ini, speedfix.ini, d3dprof.ini,
+  xikit.ini, dxvk.conf and xikit_phase.txt from the game's folder, d3d8.dll's folder and the kit's.
+- **`xiload.exe`** (`kit/xiload`): loads the kit into pol.exe by itself, on Windows and in Wine or a CrossOver bottle:
+  it waits for pol.exe, then has it call LoadLibraryA on `xikit.dll` from a remote thread (kernel32's address read
+  from the target's module list), checks the result and the module list, and logs to `xiload.log`.
 
 ## Where the time goes (`xikit_timing_<pid>.csv`, `sample=1`)
 

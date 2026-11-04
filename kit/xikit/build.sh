@@ -33,8 +33,10 @@ done
 # FAIL function the tree does not hold (its output slots), kind jmp for every switch jump the code does not bound
 python3 "$ROOT/pipeline/fact_sites.py" sites "$OUT/xikit_facts.txt" 0x10012B28 0x10012B86 0x10012B91 0x10012BCB 0x10012BF5 --from-gates --from-file "$ROOT/data/facts_wanted.json" --out-fails --jmp-unbounded > "$W/fact_sites.log"
 head -1 "$W/fact_sites.log"                                   # (the refused sites, each with why, in build/fact_sites.log)
+# what the measuring may wrap (imports=, callsites=): the game's import slots and the main loop's call tree, from the binary
+python3 "$H/make_measure.py" "$OUT/xikit_measure.txt"
 i686-w64-mingw32-gcc -O2 -Wall -Wno-unused-function -std=gnu99 -DXIKIT -shared -o "$OUT/xikit.dll" \
-    "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" "$ROOT/kit/d3dprof/fcap.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm
+    "$H/xikit.c" "$ROOT/kit/d3dprof/d3dprof.c" "$ROOT/kit/d3dprof/fcap.c" -static-libgcc -Wl,--kill-at -Wl,--no-insert-timestamp -lwinmm -lgdi32
 "$ROOT/kit/xisamp/build.sh" | tail -1                     # the native sampler (sample=2), from the same folder
 cp "$ROOT/kit/xisamp/dist/xisamp_arm64.exe" "$ROOT/kit/xisamp/dist/xisamp_x64.exe" "$OUT/"
 python3 - "$H/xikit.c" "$OUT/xikit.ini" <<'PY'

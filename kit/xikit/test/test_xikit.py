@@ -43,7 +43,22 @@ for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's exam
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
 subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736',
                 '--out', '0x10027C7A,0x10027C94', '--jmp', '0x101AFB56'], check=True)
-ALL_MODES = ('base', 'relocated', 'profile', 'traceblock', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab', 'realdev', 'realdev_ours', 'native')
+ALL_MODES = ('base', 'relocated', 'profile', 'traceblock', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab', 'realdev', 'realdev_ours', 'native', 'measure')
+# the measure run's table: the game's import slots from the kit's own xikit_measure.txt, and three call sites in game
+# functions the host can run (host.c, measure mode)
+def measure_table(d):
+    import pefile
+    from capstone import Cs, CS_ARCH_X86, CS_MODE_32
+    pe = pefile.PE(os.environ['FFXI_DLL'], fast_load=True); base = pe.OPTIONAL_HEADER.ImageBase; img = pe.get_memory_mapped_image()
+    md = Cs(CS_ARCH_X86, CS_MODE_32)
+    lines = [l for l in open(os.path.join(DIST, 'xikit_measure.txt')) if l.startswith('I ')]
+    for f, t in ((0x10027600, 0x10027530), (0x1001E3B0, 0x10026EB0), (0x100142A0, 0x10010D00)):
+        site = next(i.address for i in md.disasm(img[f - base:f - base + 32], f) if i.mnemonic == 'call')
+        lines.append('S %08X %08X 0 test t%X\n' % (site, t, t))
+    open(os.path.join(d, 'xikit_measure.txt'), 'w').writelines(lines)
+    slot = {l.split()[3]: l.split()[1] for l in lines if l.startswith('I ')}
+    return {'SLOT_SLEEP': slot['Sleep'], 'SLOT_GFA': slot['GetFileAttributesA'], 'SLOT_TGT': slot['timeGetTime'], 'SLOT_DISPATCH': slot['DispatchMessageA'],
+            'SLOT_HEAPALLOC': slot['HeapAlloc'], 'SLOT_HEAPFREE': slot['HeapFree']}
 for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_MODES)).split()]:
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(DIST, f), d)
@@ -58,6 +73,8 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
     if mode == 'native':                          # sample=2 starts xisamp_x64.exe: a Wine prefix with 64-bit Windows
         for f in ('xisamp_x64.exe', 'xisamp_arm64.exe'): shutil.copy(os.path.join(DIST, f), d)
         env['WINEPREFIX'] = os.path.join(d, 'pfx64'); subprocess.run(['wineboot', '-i'], env=env, capture_output=True, timeout=600)
+    if mode == 'measure':                         # a window for DispatchMessageA: a virtual X server
+        env.update(measure_table(d)); cmd = ['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 'host.exe', 'measure']
     if mode.startswith('realdev'):                # a real D3D8 device: Wine's d3d8, then kit/d3d8on11's (thread mode)
         cmd = ['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 'host.exe', 'realdev']
         if mode == 'realdev_ours':
@@ -130,6 +147,30 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
         sall = sum(c for w in big for c, *_ in w.rows)
         ok = 'xikit_stutters' in log and any(h.startswith('# stutters: frame counter at') for h in head) and len(big) == 1 and snap > 0.9 * sall > 0
         print('%s: the stutter file has the Sleep frame (%s ms) with %d of its %d samples in the Sleep; %d blocks in all' % ('ok' if ok else 'FAIL', big[0].ms if big else '-', snap, sall, len(sw))); bad += not ok
+    if mode == 'measure':
+        sys.path.insert(0, os.path.join(H, '..')); import measure_read
+        raw = [f for f in os.listdir(d) if f.startswith('xikit_raw_')]
+        R = measure_read.Raw(os.path.join(d, raw[0])) if raw else None
+        rs = [x for x in R.samples if x[5] & 1 and x[3] is not None] if R else []
+        oth = [x for x in R.samples if not x[5] & 1 and x[3] is not None and R.where(x[3])[:2] == ('module', 'host.exe')] if R else []
+        land = sum(1 for x in R.samples if x[4] and R.mland in x[4]) if R else -1
+        mono = all(a[1] <= b[1] for a, b in zip(rs, rs[1:]))
+        ok = len(rs) > 500 and len(oth) > 20 and land == 0 and mono and R.threads
+        print('%s: sample=3: %d render-thread samples (frame numbers in order: %s), %d of the other thread in host.exe, %d stacks still holding the kit\'s m_land, %d thread records' % (
+            'ok' if ok else 'FAIL', len(rs), mono, len(oth), land, len(R.threads) if R else 0)); bad += not ok
+        # the wrapped Sleep the window procedure makes inside DispatchMessageA is outside DispatchMessageA's exclusive time
+        pr = open([os.path.join(d, f) for f in os.listdir(d) if f.startswith('xikit_probes_')][0]).read()
+        disp = [l.split(',') for l in pr.splitlines() if ',DispatchMessageA,' in l and ',render,' in l]
+        ok = bool(disp) and float(disp[0][11]) > 100 * max(float(disp[0][12]), 0.001) and 'stale entries dropped 1,' in pr
+        print('%s: nesting: DispatchMessageA inclusive %s ms, exclusive %s ms (the Sleep inside it excluded); the entry the longjmp left was dropped' % (
+            'ok' if ok else 'FAIL', disp[0][11] if disp else '-', disp[0][12] if disp else '-')); bad += not ok
+        env_txt = open([os.path.join(d, f) for f in os.listdir(d) if f.startswith('xikit_env_')][0]).read()
+        ok = '[wine] version' in env_txt and 'Sleep(1), 200 calls:' in env_txt and 'timeGetTime steps' in env_txt and ' ns a call' in env_txt
+        print('%s: env=1: xikit_env names Wine, the measured Sleep(1) and timeGetTime steps, and call costs' % ('ok' if ok else 'FAIL')); bad += not ok
+        r = subprocess.run([sys.executable, os.path.join(H, '..', 'measure_read.py'), d, '--measure', os.path.join(d, 'xikit_measure.txt')], capture_output=True, text=True)
+        rep = open(os.path.join(d, 'report.md')).read() if os.path.exists(os.path.join(d, 'report.md')) else ''
+        ok = r.returncode == 0 and '## Frames' in rep and '## Wrapped calls on the render thread' in rep and '## Samples' in rep and '| Sleep | I | wait |' in rep
+        print(r.stderr.strip()[-1500:]); print('%s: measure_read.py writes report.md (frames, wrapped calls, samples)' % ('ok' if ok else 'FAIL')); bad += not ok
     if mode == 'facts':
         fc = [f for f in os.listdir(d) if f.startswith('xikit_facts_')]
         out = os.path.join(d, 'game_sp.json')

@@ -80,6 +80,110 @@ static LONG CALLBACK host_veh(EXCEPTION_POINTERS *e) {
   return EXCEPTION_CONTINUE_SEARCH;
 }
 
+/* ------------------------------------------------------------------------------------------------ measure mode
+   The game's import table filled as the loader would (this load mode leaves it unfilled), then the kit's call timing
+   wraps its slots (imports=2) and three call sites in game functions this host can run (callsites=1, from the test's
+   own xikit_measure.txt): a dot product's x87 result through the wrapped call (0x10027600 -> 0x10027530), a thiscall
+   copy (0x1001E3B0 -> 0x10026EB0, ECX in, ret 4) and a thiscall with no stack arguments (0x100142A0 -> 0x10010D00) */
+static void fill_iat(HMODULE g) {
+  IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)((char *)g + ((IMAGE_DOS_HEADER *)g)->e_lfanew);
+  IMAGE_DATA_DIRECTORY dd = nt->OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_IMPORT];
+  int n = 0, miss = 0;
+  for (IMAGE_IMPORT_DESCRIPTOR *d = (IMAGE_IMPORT_DESCRIPTOR *)((char *)g + dd.VirtualAddress); d->Name; d++) {
+    HMODULE m = LoadLibraryA((char *)g + d->Name);
+    uint32_t *names = (uint32_t *)((char *)g + (d->OriginalFirstThunk ? d->OriginalFirstThunk : d->FirstThunk)), *iat = (uint32_t *)((char *)g + d->FirstThunk);
+    DWORD old; VirtualProtect(iat, 4096, PAGE_READWRITE, &old);
+    for (int i = 0; names[i]; i++) {
+      FARPROC f = !m ? NULL : (names[i] & 0x80000000u) ? GetProcAddress(m, (LPCSTR)(uintptr_t)(names[i] & 0xFFFF)) : GetProcAddress(m, (char *)g + names[i] + 2);
+      if (f) { iat[i] = (uint32_t)(uintptr_t)f; n++; } else miss++;
+    }
+  }
+  printf("note: filled %d import slots (%d not found)\n", n, miss);
+}
+static uint32_t g_rel_m;
+static void *iat_fn(uint32_t ea) { return *(void **)(uintptr_t)(ea + g_rel_m); }
+static uint32_t g_slot_sleep, g_slot_gfa, g_slot_tgt, g_slot_dispatch, g_slot_heapalloc, g_slot_heapfree;
+static volatile int g_wndproc_sleeps, g_jump_out;
+static jmp_buf g_mjb;
+static LRESULT CALLBACK m_wndproc(HWND w, UINT msg, WPARAM wp, LPARAM lp) {
+  if (msg == WM_USER + 1) { ((void (WINAPI *)(DWORD))iat_fn(g_slot_sleep))(1); g_wndproc_sleeps++; if (g_jump_out) longjmp(g_mjb, 1); return 77; }
+  return DefWindowProcA(w, msg, wp, lp);
+}
+static volatile int g_other_stop; static volatile LONG g_other_allocs;
+static DWORD WINAPI m_other(LPVOID u) {      /* another thread: heap calls through the game's slots, and CPU to sample */
+  (void)u; HANDLE hp = GetProcessHeap();
+  while (!g_other_stop) {
+    for (int i = 0; i < 200; i++) {
+      void *p = ((LPVOID (WINAPI *)(HANDLE, DWORD, SIZE_T))iat_fn(g_slot_heapalloc))(hp, 0, 32);
+      ((BOOL (WINAPI *)(HANDLE, DWORD, LPVOID))iat_fn(g_slot_heapfree))(hp, 0, p); InterlockedIncrement(&g_other_allocs);
+    }
+    volatile double x = 1; for (int i = 0; i < 20000; i++) x = x * 1.0000001 + 0.5;
+  }
+  return 0;
+}
+static int measure_run(HMODULE g, uint32_t rel) {
+  g_rel_m = rel;
+  g_slot_sleep = (uint32_t)strtoul(getenv("SLOT_SLEEP"), NULL, 16); g_slot_gfa = (uint32_t)strtoul(getenv("SLOT_GFA"), NULL, 16);
+  g_slot_tgt = (uint32_t)strtoul(getenv("SLOT_TGT"), NULL, 16); g_slot_dispatch = (uint32_t)strtoul(getenv("SLOT_DISPATCH"), NULL, 16);
+  g_slot_heapalloc = (uint32_t)strtoul(getenv("SLOT_HEAPALLOC"), NULL, 16); g_slot_heapfree = (uint32_t)strtoul(getenv("SLOT_HEAPFREE"), NULL, 16);
+  void *sleep0 = iat_fn(g_slot_sleep);
+  touch_ini("xikit.ini", "[xikit]\nlog_folder=0\nswap=0\ncount_calls=0\nreport_every=60\nhotkey=0\nframes=1\nimports=2\ncallsites=1\nsample=3\nsample_other_ms=2\nsysstats=1\nenv=1\n");
+  if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
+  for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
+  check(g_dev.vt != g_vtbl, "measure: the kit hooked the device");
+  for (int t = 0; t < 500 && iat_fn(g_slot_sleep) == sleep0; t++) { present(1); Sleep(20); }   /* the kit's measure_start runs after its hook; the next frame puts the wrapped calls in place */
+  check(iat_fn(g_slot_sleep) != sleep0, "imports=2: the game's Sleep slot now goes through the kit's stub");
+  WNDCLASSA wc; memset(&wc, 0, sizeof wc); wc.lpfnWndProc = m_wndproc; wc.hInstance = GetModuleHandleA(NULL); wc.lpszClassName = "xm"; RegisterClassA(&wc);
+  HWND w = CreateWindowA("xm", "xm", 0, 0, 0, 10, 10, NULL, NULL, wc.hInstance, NULL);
+  HANDLE oth = CreateThread(NULL, 0, m_other, NULL, 0, NULL);
+  typedef float (*LenFn)(const float *); typedef void (__attribute__((thiscall)) *CopyFn)(void *, const void *); typedef char (__attribute__((thiscall)) *IncFn)(void *);
+  LenFn len = (LenFn)(uintptr_t)(0x10027600u + rel); CopyFn cp = (CopyFn)(uintptr_t)(0x1001E3B0u + rel); IncFn inc = (IncFn)(uintptr_t)(0x100142A0u + rel);
+  int okf = 1, okc = 1, oki = 1, okle = 1, okd = 1;
+  for (int f = 0; f < 300; f++) {
+    ((void (WINAPI *)(DWORD))iat_fn(g_slot_sleep))(2);
+    DWORD t = ((DWORD (WINAPI *)(void))iat_fn(g_slot_tgt))(); (void)t;
+    SetLastError(0);
+    DWORD a = ((DWORD (WINAPI *)(LPCSTR))iat_fn(g_slot_gfa))("C:\\no\\such\\file.xyz");
+    if (a != INVALID_FILE_ATTRIBUTES || (GetLastError() != ERROR_FILE_NOT_FOUND && GetLastError() != ERROR_PATH_NOT_FOUND)) okle = 0;
+    float v[3] = {3.0f, 4.0f, 0.0f}; float r = len(v); if (r < 4.999f || r > 5.001f) okf = 0;
+    uint8_t obj[0x40]; memset(obj, 0, sizeof obj); uint32_t src[3] = {0x11111111u, 0x22222222u, (uint32_t)f}; cp(obj, src);
+    if (memcmp(obj + 0x24, src, 12)) okc = 0;
+    uint16_t o2[4] = {5, 0, 0, 9}; char rr = inc(o2); if (rr != 1 || o2[2] != 1 || o2[3] != 0) oki = 0;
+    MSG pm; PostMessageA(w, WM_USER + 1, 0, 0); int got = PeekMessageA(&pm, w, WM_USER + 1, WM_USER + 1, PM_REMOVE);
+    int before = g_wndproc_sleeps;
+    LRESULT lr = got ? ((LRESULT (WINAPI *)(const MSG *))iat_fn(g_slot_dispatch))(&pm) : -1;
+    if (lr != 77 || g_wndproc_sleeps != before + 1) { if (okd) printf("  (DispatchMessageA returned %ld, frame %d, message %d)\n", (long)lr, f, got); okd = 0; }
+    if (f == 150) {                                 /* a wrapped call left by longjmp: its entry must be dropped later */
+      g_jump_out = 1;
+      PostMessageA(w, WM_USER + 1, 0, 0);
+      if (PeekMessageA(&pm, w, WM_USER + 1, WM_USER + 1, PM_REMOVE) && !setjmp(g_mjb)) ((LRESULT (WINAPI *)(const MSG *))iat_fn(g_slot_dispatch))(&pm);
+      g_jump_out = 0;
+    }
+    present(1);
+  }
+  check(okf, "callsites: the dot product's x87 result comes back through the wrapped call (|(3,4,0)| = 5)");
+  check(okc, "callsites: a thiscall copy through the wrapped call (ECX and the stack argument intact, ret 4)");
+  check(oki, "callsites: a thiscall without stack arguments (ECX intact, AL returned)");
+  check(okle, "imports: the last-error value a wrapped call set is what the caller reads");
+  check(okd, "imports: DispatchMessageA through its slot reaches the window procedure, which calls Sleep through its slot (nested), and returns its value");
+  g_other_stop = 1; WaitForSingleObject(oth, 5000);
+  for (int f = 0; f < 70; f++) present(1);           /* a report window after the work */
+  Sleep(1500);                                      /* the writer thread's last flush; the sampler and sys threads' lines */
+  char name[MAX_PATH], line[2048]; DWORD pid = GetCurrentProcessId();
+  snprintf(name, sizeof name, "xikit_frames_%lu.csv", pid); FILE *fr = fopen(name, "r"); int rows = 0, pace = 0, waitcol = 0;
+  if (fr) { while (fgets(line, sizeof line, fr)) { if (line[0] >= '0' && line[0] <= '9') { rows++; char *c = line; for (int k = 0; k < 22 && c; k++) c = strchr(c + 1, ',');   /* field 22: wait_ms */ if (c && atof(c + 1) > 1.5) waitcol++; }
+                                                  if (strstr(line, ",p28,p2c,p30,")) pace = 1; } fclose(fr); }
+  printf("  (frames rows %d, header %d, rows with wait_ms > 1.5 %d)\n", rows, pace, waitcol);
+  check(rows >= 300 && pace, "frames=1: xikit_frames_<pid>.csv has a line per frame and the pacing columns");
+  check(waitcol >= 250, "frames=1: the render thread's wrapped Sleep(2) each frame shows in its wait_ms column");
+  snprintf(name, sizeof name, "xikit_probes_%lu.csv", pid); FILE *pr = fopen(name, "r"); int sleep_r = 0, heap_o = 0, site_r = 0;
+  if (pr) { while (fgets(line, sizeof line, pr)) { if (strstr(line, ",Sleep,") && strstr(line, ",render,")) sleep_r = 1; if (strstr(line, ",HeapAlloc,") && strstr(line, ",other,")) heap_o = 1;
+                                                  if (strstr(line, ",S,") && strstr(line, ",render,")) site_r++; } fclose(pr); }
+  check(sleep_r && heap_o && site_r >= 3, "imports/callsites: xikit_probes_<pid>.csv has Sleep on the render thread, HeapAlloc on the other, and the three call sites");
+  printf("%s\n", "measure: done (the reader checks the raw samples)");
+  return 0;
+}
+
 int main(int argc, char **argv) {
   int reloadrun = argc > 1 && !strcmp(argv[1], "reload");
   int modrun = argc > 1 && (!strcmp(argv[1], "mod") || !strcmp(argv[1], "modrel") || reloadrun);
@@ -89,6 +193,7 @@ int main(int argc, char **argv) {
   int realrun = argc > 1 && !strcmp(argv[1], "realdev");
   int nativerun = argc > 1 && !strcmp(argv[1], "native");
   int blockrun = argc > 1 && !strcmp(argv[1], "traceblock");
+  int measrun = argc > 1 && !strcmp(argv[1], "measure");
   g_faketex[0] = (uint32_t)(uintptr_t)g_texvt;
   int relocated = argc > 1 && (!strcmp(argv[1], "relocated") || !strcmp(argv[1], "modrel")), profile = argc > 1 && !strcmp(argv[1], "profile");
   const char *ini = "xikit.ini";
@@ -132,6 +237,12 @@ int main(int argc, char **argv) {
   g_paint_site = (uint8_t *)(uintptr_t)(GETCOLOR + rel);   /* (SetColor is quarantined by the crash checks before the trace) */
   *(void **)(g_cdx + 0xC) = &g_dev; g_cdx[0x915] = 0x5A;
   *(void **)(uintptr_t)(G_PCDX + rel) = g_cdx;
+  if (measrun) {
+    fill_iat(g);
+    int r = measure_run(g, rel);
+    printf("%s\n", fails || r ? "FAILED" : "ALL OK");
+    ExitProcess(fails || r ? 1 : 0);
+  }
   if (realrun) {
     /* a real Direct3D 8 device in the game's place (whichever d3d8.dll loads: Wine's, or kit/d3d8on11 next to this
        program): the kit must hook it as it hooks the game's (its own vtable copy) and write its frame times */

@@ -13,6 +13,7 @@ endif()
 
 add_library(xikit SHARED xikit.c ../d3dprof/d3dprof.c ../d3dprof/fcap.c)
 target_compile_definitions(xikit PRIVATE XIKIT)
+target_link_libraries(xikit PRIVATE winmm gdi32)
 if(MSVC)
     # static runtime: the DLL needs no Visual C++ redistributable in the game's process
     set_property(TARGET xikit PROPERTY MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")

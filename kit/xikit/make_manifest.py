@@ -8,6 +8,12 @@ A function is listed only if (docs/KIT.md):
     is the int3/nop alignment padding after it (no function starts there);
   * no branch or call anywhere in the game's code targets entry+1 .. entry+4 (every function in
     func_extents.json decoded): such a jump would land inside the kit's `jmp`;
+  * it calls no game code through a tree wrapper (tree/include/gfx_orig.hpp) that passes no ECX to code whose
+    reading of ECX is not ruled out: a target that is not a function start (data/func_extents.json: a piece of another
+    function, reached in the original by a tail jump with ECX set -- 4 Nov: Acter_ReleaseAllSlots 0x10092900's
+    `orig::FUN_1008f1d0()`, the original's `mov ecx, esi; jmp 0x1008f1d0`, faulted in the owner's game at 0x1008F1D0
+    reading [ecx+0x124]), or a start data/ecx_use.json says reads it. The gate stubs such a callee and compares ECX only
+    where a fact says it is read, so its PASS did not cover this;
   * its in-game code holds, or reaches by direct calls, no game address left unrebased (pipeline/raw_game_addrs.py
     on the probe build, RAW_JSON: such an address is right in the gate, which loads the game at 0x10000000, and wrong
     in the game; 31 Oct). Without RAW_JSON this check is not made, and the report says so.
@@ -87,6 +93,28 @@ def trampoline(ea, rs, img, targets):
     return ('%d:%s' % (n, ','.join(map(str, fix))) if fix else '%d' % n), None
 
 
+def ecx_hazards():
+    """{0xFUNC: why} for the tree functions calling an ECX-less wrapper of code whose ECX use is not ruled out"""
+    ext = {int(k, 16) for k in json.load(open(os.path.join(ROOT, 'data', 'func_extents.json'))) if not k.startswith('_')}
+    ecx = json.load(open(os.path.join(ROOT, 'data', 'ecx_use.json')))
+    bad = {}
+    for m in re.finditer(r'XI_ORIG [^\n]*?\b(\w+)\([^)]*\) \{ [^\n]*?reinterpret_cast<[^>]*\((__cdecl|__stdcall)\b[^>]*>\(XI_GAME\(0x([0-9A-F]{8})u\)\)',
+                         open(os.path.join(ROOT, 'tree', 'include', 'gfx_orig.hpp')).read()):
+        name, ea = m.group(1), int(m.group(3), 16)
+        if ea not in ext: bad[name] = '0x%08X (not a function start)' % ea
+        elif isinstance(ecx.get('0x%08X' % ea), str): bad[name] = '0x%08X (reads ECX: %s)' % (ea, ecx['0x%08X' % ea])
+    res = {}
+    for f in sorted(os.listdir(os.path.join(ROOT, 'tree', 'src'))):
+        cur = None
+        for line in open(os.path.join(ROOT, 'tree', 'src', f), errors='replace'):
+            mm = re.match(r'// FUNCTION: FFXIMAIN (0x[0-9A-Fa-f]{8})', line)
+            if mm: cur = '0x%08X' % int(mm.group(1), 16); continue
+            if cur and cur not in res:
+                for o in re.findall(r'\borig::(\w+)\s*\(', line):
+                    if o in bad: res[cur] = 'orig::%s, %s' % (o, bad[o]); break
+    return res
+
+
 def main(recon, out, report=None, raw_json=None):
     D = os.path.join(ROOT, 'data'); V = os.path.join(ROOT, 'verification')
     tmp = out + '.cases.json'
@@ -96,6 +124,7 @@ def main(recon, out, report=None, raw_json=None):
     cases = {c['original']: c for c in json.load(open(tmp))}; os.remove(tmp)
     passed = {json.loads(l)['original'] for l in open(os.path.join(V, 'gate_clean_final.jsonl')) if json.loads(l)['verdict'] == 'PASS'}
     place = json.load(open(os.path.join(ROOT, 'tree', 'placement.json')))
+    ecx_hazard = ecx_hazards()
     edx_use = json.load(open(os.path.join(D, 'edx_use.json'))); ecx_use = json.load(open(os.path.join(D, 'ecx_use.json')))
     free_conv = {}
     for l in open(os.path.join(ROOT, 'tree', 'include', 'gfx_free.hpp')):
@@ -148,6 +177,8 @@ def main(recon, out, report=None, raw_json=None):
         if not why and c and rs:
             hit = [t for t in range(ea + 1, ea + 5) if t in targets]
             if hit: why = 'a jump into its first 5 bytes (0x%08X targets 0x%08X)' % (targets[hit[0]], hit[0])
+        if not why and key in ecx_hazard:
+            why = 'it calls game code that may read ECX through a wrapper passing none: %s' % ecx_hazard[key]
         if not why and raw_fx is not None and c['candidate'] in raw_fx:
             why = 'its in-game code uses a game address without rebasing it (raw_game_addrs.py): %s' % raw_fx[c['candidate']][0]
         if why: rep['refused'][key] = why; continue

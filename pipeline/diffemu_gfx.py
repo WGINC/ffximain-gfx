@@ -575,6 +575,9 @@ class GfxMachine(G.Machine):
         # bytes the callee is only assumed to read (eax_inputs.json "reads" past "reads_seen": code caller_reads does
         # not follow): kept apart, a difference in them is not a difference shown (the gate's trial is unresolved)
         if spec.get('eax_may'): self.eax_unk.append((addr, _stackref(eax_in & spec['eax_may'])))
+        # a callee whose use of its entry ECX is not established (data/ecx_use.json has no decision for it), called
+        # under a convention that passes none: ECX is kept apart like eax_may, a difference leaves the trial unresolved
+        if spec.get('ecx_may'): self.eax_unk.append((addr, ('ecx', _stackref(ecx))))
         # stack slots the callers push past those compared (call_pushes.py) that the callee is not known not to read:
         # kept apart like eax_may, a difference in them leaves the trial unresolved (docs/PROBLEMS.md P17)
         if spec.get('args_may'):
@@ -1278,7 +1281,9 @@ def run_case(m, case, trials, seed):
             n_ = next((i for i, (x, y) in enumerate(zip(a.eax_unk, b.eax_unk)) if x != y), min(len(a.eax_unk), len(b.eax_unk)))
             c_ = (a.eax_unk[n_] if n_ < len(a.eax_unk) else b.eax_unk[n_])[0]
             u_ = a.eax_unk[n_] if n_ < len(a.eax_unk) else b.eax_unk[n_]
-            if isinstance(u_[1], tuple) and u_[1][:1] == ('args',):
+            if isinstance(u_[1], tuple) and u_[1][:1] == ('ecx',):
+                k_ = 'ECX passed to 0x%08X differs; whether it reads its entry ECX is not established (ecx_use.json)' % c_
+            elif isinstance(u_[1], tuple) and u_[1][:1] == ('args',):
                 k_ = ('arguments pushed to 0x%08X past those it is known to read differ; whether it reads them is not '
                       'settled (call_pushes.json, cdecl_args.json)' % c_)
             else:

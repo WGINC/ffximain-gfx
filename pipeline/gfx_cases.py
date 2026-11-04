@@ -41,8 +41,11 @@ def pushed_args(ea, pops, nargs):
 # callees whose own code reads their entry ECX (vcall_resolve.py, data/ecx_use.json: the value is an instruction that
 # reads it). Their stubs log ECX whatever the declared convention, so a reconstruction that calls one without passing
 # the object (the IDB types DynVB_Reserve __stdcall(int); it reads ECX) differs from the original at the call
-ECX_READ = {k for k, v in (json.load(open(os.path.join(DATADIR, 'ecx_use.json'))) if os.path.exists(os.path.join(DATADIR, 'ecx_use.json')) else {}).items()
-            if isinstance(v, str) and v.startswith('0x')}
+_ECXU = json.load(open(os.path.join(DATADIR, 'ecx_use.json'))) if os.path.exists(os.path.join(DATADIR, 'ecx_use.json')) else {}
+ECX_READ = {k for k, v in _ECXU.items() if isinstance(v, str) and (v.startswith('0x') or v == 'through a callee')}
+# callees whose use of their entry ECX is not decided (no entry): ECX is compared apart at their stubs (diffemu_gfx
+# ecx_may), a difference leaves the trial unresolved rather than passed
+ECX_NOT_READ = {k for k, v in _ECXU.items() if v is False}
 # small leaf functions (leaf_funcs.py) run for real: a stub cannot do their writes (`*out = this->f`)
 PURGES = json.load(open(os.path.join(DATADIR, 'purges.json'))) if os.path.exists(os.path.join(DATADIR, 'purges.json')) else {}
 # tail-jump functions pop what their target's `ret N` pops (tail_purges.py: the jump is at stack depth exactly 0)
@@ -270,6 +273,8 @@ def main(exp, metaf, protof, out):
                 if ret_kind(re.match(r'^(.*?)\s*(__\w+)?\s*\(', o['type'] or '').group(1) if re.match(r'^(.*?)\s*(__\w+)?\s*\(', o['type'] or '') else '') == 'int64':
                     stubs['0x%08X' % ea]['edx_out'] = 1
                 if stubs['0x%08X' % ea]['conv'] != 'thiscall' and '0x%08X' % ea in ECX_READ: stubs['0x%08X' % ea]['ecx'] = 1
+                elif stubs['0x%08X' % ea]['conv'] not in ('thiscall', 'fastcall') and '0x%08X' % ea not in ECX_NOT_READ:
+                    stubs['0x%08X' % ea]['ecx_may'] = 1
                 outs = com_outs(o['type'])
                 if outs: stubs['0x%08X' % ea]['com_out'] = outs
                 if ea in ALLOC:

@@ -655,10 +655,73 @@ def ghidra_x87_rets(rec):
     return dict(rec, text=head + brace + body)
 
 
+_DD = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'data')
+_jl = lambda n: json.load(open(os.path.join(_DD, n))) if os.path.exists(os.path.join(_DD, n)) else {}
+ECX_USE_F, THIS_FLOW_F = _jl('ecx_use.json'), _jl('this_flow.json')
+_SITE_COUNT = {}
+
+
+def _direct_sites(caller, callee):
+    """the direct calls and jumps in caller's code (func_extents.json) that target callee"""
+    k = (caller, callee)
+    if k not in _SITE_COUNT:
+        import sp_solve
+        if '_im' not in _SITE_COUNT: _SITE_COUNT['_im'] = sp_solve.Image(os.environ['FFXI_DLL']); _SITE_COUNT['_ext'] = _jl('func_extents.json')
+        g, ext = _SITE_COUNT['_im'], _SITE_COUNT['_ext']
+        e = ext.get('0x%x' % caller) or []
+        _SITE_COUNT[k] = sorted(a for a, i in g.code(e).items() if i.mnemonic in ('call', 'jmp') and i.operands
+                                and i.operands[0].type == 2 and i.operands[0].imm & 0xFFFFFFFF == callee)   # 2: X86_OP_IMM
+    return _SITE_COUNT[k]
+
+
+def ghidra_ecx_calls(rec):
+    """a callee whose code reads its entry ECX (data/ecx_use.json) that the record's type passes no ECX: Ghidra typed it
+    without `this`, and its call drops the object the original passes (4 Nov: 0x10092900's tail jump `mov ecx, esi;
+    jmp 0x1008f1d0` printed `FUN_1008f1d0()`; the owner's game faulted at 0x1008F1D0 reading [ecx+0x124]). Where
+    data/this_flow.json gives ECX's value at every direct call or jump from this function to it, and all agree, the
+    callee is typed __thiscall with that value as its `this`: `own` (the caller's own entry ECX, its `this`), `own+K`,
+    or `global 0xG` (the dword at G). __thiscall pops its stack arguments, so this is done only where the callee's
+    `ret N` (purges.json) is exactly its stack arguments' bytes. Anything else is left as written: the gate compares
+    ECX at such a callee's stub (gfx_cases.py), so a call without it does not pass."""
+    objs = rec.get('objs')
+    if not isinstance(objs, dict): return None
+    head, _, body = rec['text'].partition('\n{')
+    has_this = bool(re.search(r'__thiscall\b[^(]*\(\s*[^,)]*\bthis\b', head))
+    new_objs, text, n = dict(objs), rec['text'], 0
+    for nm, o in objs.items():
+        if not (isinstance(o, dict) and o.get('func') and isinstance(o.get('ea'), int)): continue
+        ea = o['ea']; ty = o.get('type') or ''
+        if not isinstance(ECX_USE_F.get('0x%08X' % ea), str): continue
+        if re.search(r'__thiscall|__fastcall', ty) or 'ECX' in (o.get('storage') or []): continue
+        sites = [x for x in THIS_FLOW_F.get('0x%08X' % ea, []) if int(x[1], 16) == rec['ea']]
+        if not sites or len(sites) != len(_direct_sites(rec['ea'], ea)) or len({x[2] for x in sites}) != 1: continue
+        v = sites[0][2]
+        if v == 'own': val = 'this'
+        elif v.startswith('own+'): val = '(void *)((int)this + %s)' % v[4:]
+        elif v.startswith('global '): val = '*(void **)%su' % v.split()[1]
+        else: continue
+        if v.startswith('own') and not has_this: continue
+        m = re.match(r'^(.*?)\s*' + CC_RE + r'?\s*\((.*)\)\s*$', ty, re.S)
+        if not m: continue
+        ret, cc, params = m.group(1).strip(), m.group(2) or '__cdecl', m.group(3).strip()
+        ps = [] if params in ('', 'void') else [x.strip() for x in params.split(',')]
+        if any(x == '...' for x in ps): continue
+        purge = PURGES.get('0x%08X' % ea) or 0
+        if purge != 4 * len(ps): continue                          # __thiscall would pop what the callee does not
+        new_objs[nm] = dict(o, type='%s __thiscall(void *this%s)' % (ret, ''.join(', ' + x for x in ps)),
+                            storage=['ECX'] + list(o.get('storage') or ['stack'] * len(ps)))
+        names = set(o.get('printed') or []) | {nm}
+        for pn in names:
+            text = re.sub(r'\b%s\s*\(\s*(\))?' % re.escape(pn), lambda mm: '%s(%s%s' % (pn, val, ')' if mm.group(1) else ', '), text)
+        n += 1
+    return dict(rec, objs=new_objs, text=text) if n else None
+
+
 def ghidra_prepare(rec):
     """a Ghidra record (GfxExport) made ready for translation, the same for the raw translation (here) and the clean
     tree (hx2clean.py): (rec, None, None), or (None, status, why) when it cannot be translated"""
     rec = ghidra_thunk(rec) or rec
+    rec = ghidra_ecx_calls(rec) or rec
     rec = ghidra_entry_eax(rec) or rec
     rec = ghidra_x87_rets(rec) or rec
     if GHIDRA_REG.search(rec.get('text', '').partition('\n{')[2]):

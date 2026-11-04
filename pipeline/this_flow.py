@@ -7,6 +7,8 @@ callee works on that object. This gives, at every direct call, ECX's value as th
   * `own+K`: that plus a constant (a sub-object at offset K, `lea ecx, [esi+K]`);
   * `global 0xG`: the dword loaded from a global (`mov ecx, [G]`);
   * otherwise not listed.
+Calls and tail jumps to an entry a decompiler export defines inside another function's code (data/exports) are
+recorded the same way.
 
 Values are followed over the caller's control flow (vcall_resolve.succs) through register copies and stack slots
 (keyed by sp_solve's exact depths, as reg_saved.py does). A call keeps ECX only where the callee leaves it untouched
@@ -35,6 +37,18 @@ def main(out):
     saved = {int(k, 16): set(v) for k, v in json.load(open(os.path.join(D, 'reg_saved.json'))).items()}
     iat = S.imports(im, os.environ['FFXI_DLL']); nr = S.noreturn_funcs(im, ext, iat)
     starts = {int(k, 16) for k in ext}
+    # entries a decompiler export defines that are no extent's start (a piece of another function, reached by a jump):
+    # what ECX holds at a call or jump to one is recorded too (4 Nov: 0x10092900 jumps to 0x1008F1D0 with ECX = its own)
+    import glob
+    exp = set()
+    for p in glob.glob(os.path.join(D, 'exports', '*.jsonl')):
+        for l in open(p):
+            try: r = json.loads(l)
+            except ValueError: continue
+            if 'ea' in r: exp.add(r['ea'])
+            for o in (r.get('objs') or {}).values():          # the functions it calls, as the export defines them
+                if isinstance(o, dict) and o.get('func') and isinstance(o.get('ea'), int): exp.add(o['ea'])
+    entries = starts | exp
     res = {}
     for k, e in ext.items():
         f = int(k, 16); ins = im.code(e)
@@ -56,7 +70,11 @@ def main(out):
             ends = False
             if m == 'call':
                 t = o[0]
-                if t.type == X86_OP_IMM and t.imm in starts:
+                if t.type == X86_OP_IMM and t.imm in entries and t.imm not in starts:
+                    v = regs.get('ecx')
+                    if v: sites[a] = (t.imm, v)
+                    regs = {}; slots = {kk: x for kk, x in slots.items() if kk <= d - 4 * 16}
+                elif t.type == X86_OP_IMM and t.imm in starts:
                     v = regs.get('ecx')
                     if v: sites[a] = (t.imm, v)
                     kept = keeps.get(t.imm, set()) | saved.get(t.imm, set())
@@ -67,7 +85,10 @@ def main(out):
                         t.type == X86_OP_MEM and not t.mem.base and not t.mem.index and (t.mem.disp & 0xFFFFFFFF) in iat) else {}
                     slots = {kk: x for kk, x in slots.items() if kk <= d - 4 * 16}
             elif m.startswith('ret') or (m == 'jmp' and o and o[0].type == X86_OP_IMM and o[0].imm not in ins):
+                if m == 'jmp' and o[0].imm in entries and regs.get('ecx'): sites[a] = (o[0].imm, regs['ecx'])   # a tail call
                 ends = True
+            elif m == 'jmp' and o and o[0].type == X86_OP_IMM and o[0].imm in exp and o[0].imm not in starts and regs.get('ecx'):
+                sites[a] = (o[0].imm, regs['ecx'])     # a jump into a piece the export makes a function; the flow goes on
             elif m == 'push':
                 slots[d + 4] = regs.get(reg(o[0])) if reg(o[0]) in REGS else None
             elif m == 'pop':

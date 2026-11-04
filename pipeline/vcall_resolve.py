@@ -186,14 +186,16 @@ def ecx_effect(i):
 FIRST_READ = {}         # function -> the instruction that reads its entry ECX (the evidence)
 
 
-def ecx_inputs(im, code, starts):
+def ecx_inputs(im, code, starts, extra=None):
     """{function: True (uses its entry ECX on some path), False (never does), None (cannot tell: a `push ecx`,
     an indirect call or jump, or a callee that cannot tell, reached with ECX not wholly written)}; a fixpoint
-    over direct calls and tail jumps"""
+    over direct calls and tail jumps. extra: {entry: the code holding it} for entries that are no extent's start (a
+    decompiler export's function inside another function's code), walked from there the same way"""
     res, pend = {}, {}
     import reg_preserve                     # (imports this module: not at the top)
     keeps = reg_preserve.preserved(im, code)
-    for f, ins in code.items():
+    entries = dict(code); entries.update(extra or {})
+    for f, ins in entries.items():
         if f not in ins: res[f] = None; continue
         if REG == 'ecx' and reg_preserve.saves_ecx(ins): res[f] = False; pend[f] = (set(), False); continue   # _chkstk
         parts = (REG, REG[1:], REG[1] + 'l', REG[1] + 'h')       # ecx, cx, cl, ch
@@ -217,7 +219,7 @@ def ecx_inputs(im, code, starts):
                 if unk: unknown = True
                 if i.mnemonic in ('call', 'jmp') and o:
                     if o[0].type == X86_OP_IMM:
-                        if o[0].imm in code and not (i.mnemonic == 'jmp' and o[0].imm in ins): callees.add(o[0].imm)
+                        if o[0].imm in entries and not (i.mnemonic == 'jmp' and o[0].imm in ins): callees.add(o[0].imm)
                     else: unknown = True                    # through a pointer: the callee may read it
             w2 = frozenset(w | wp)
             nx = succs(im, ins, a, i, labels)
@@ -401,7 +403,20 @@ def main(out):
     im, code, starts, vt_slots = (A[k] for k in ('im', 'code', 'starts', 'vt_slots'))
     res, why = resolve(A)
     # the convention, from the callees' own code: all read their entry ECX (this in ECX), or none does
-    ecx = ecx_inputs(im, code, starts)
+    # the entries a decompiler export defines inside another function's code (4 Nov: 0x1008F1D0, a piece of
+    # 0x10092900 reached by its tail jump with ECX set, which the tree calls as a function): their ECX use too
+    import glob
+    owner = {a: f for f, ins in code.items() for a in ins}
+    exp = set()
+    for p in glob.glob(os.path.join(D, 'exports', '*.jsonl')):
+        for l in open(p):
+            try: r = json.loads(l)
+            except ValueError: continue
+            if 'ea' in r: exp.add(r['ea'])
+            for o in (r.get('objs') or {}).values():          # the functions it calls, as the export defines them
+                if isinstance(o, dict) and o.get('func') and isinstance(o.get('ea'), int): exp.add(o['ea'])
+    extra = {t: code[owner[t]] for t in sorted(exp - starts) if t in owner}
+    ecx = ecx_inputs(im, code, starts, extra)
     fp = json.load(open(os.path.join(D, 'fpret.json')))
     for k, r in res.items():
         e = {ecx.get(int(t, 16)) for t in r['targets']}

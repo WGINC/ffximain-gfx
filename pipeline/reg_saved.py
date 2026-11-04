@@ -17,9 +17,13 @@ in slot d+4, the `pop esi` at depth d+4 reads it back. At a join a value is kept
   * An import keeps all four: Microsoft's documented x86 conventions (__stdcall, __cdecl) require every Win32
     function to preserve EBX, ESI, EDI and EBP. It may change its arguments (import_nargs.json; unknown: every slot
     dropped).
+  * A call through a pointer keeps no register (its callee is not known) and may change its own arguments: the bytes
+    it pops (the exact depths before and after it) or, popping none, the bytes pushed for it (call_pushes.json);
+    with neither known, every slot is dropped. A register the function saved in a slot is then still restored from
+    that slot (4 Nov: 0x10092870 saves ESI, makes a virtual call, and restores it).
   * A function is left undecided (not listed) when any instruction's stack depth is not exact, when it takes a stack
-    slot's address (`lea` from ESP or EBP), when it calls or jumps through a pointer, or when its control flow
-    cannot be followed (an indirect jump the code does not bound).
+    slot's address (`lea` from ESP or EBP), when it jumps through a pointer, or when its control flow cannot be
+    followed (an indirect jump the code does not bound).
 
     FFXI_DLL=... python3 reg_saved.py data/reg_saved.json
 Output {"0xFUNC": ["ebp", "ebx", "edi", "esi"]}: the registers it restores (a function restoring none is listed with
@@ -41,6 +45,7 @@ def main(out):
     purges = json.load(open(os.path.join(D, 'purges.json')))
     cargs = {k: v for k, v in json.load(open(os.path.join(D, 'cdecl_args.json'))).items() if not k.startswith('_')}
     inargs = json.load(open(os.path.join(D, 'import_nargs.json')))
+    CP = {k: v for k, v in json.load(open(os.path.join(D, 'call_pushes.json'))).items() if not k.startswith('_')}
     iat = S.imports(im, os.environ['FFXI_DLL']); nr = S.noreturn_funcs(im, ext, iat)
     starts = {int(k, 16) for k in ext}
     code, depths, labels = {}, {}, {}
@@ -96,7 +101,14 @@ def main(out):
                 elif t.type == X86_OP_MEM and not t.mem.base and not t.mem.index and (t.mem.disp & 0xFFFFFFFF) in iat:
                     n = inargs.get(iat[t.mem.disp & 0xFFFFFFFF])
                     slots = {k: v for k, v in slots.items() if not (d - 4 * n < k <= d)} if isinstance(n, int) else {}
-                else: return None                                   # through a pointer
+                else:
+                    # through a pointer: the callee is not known, so no register is kept; it may change its own
+                    # arguments, whose bytes the exact depths give (it popped d - d' of them) or, for a caller-cleanup
+                    # call, call_pushes.json (the bytes pushed for it); with neither, every slot is dropped
+                    for r in SAVED: regs[r] = None
+                    nx = dep.get(a + i.size)
+                    n = d - nx[0] if nx is not None and nx[0] < d else (CP.get('0x%08X' % a) or {}).get('bytes') if nx is not None else None
+                    slots = {k: v for k, v in slots.items() if not (d - n < k <= d)} if isinstance(n, int) else {}
             elif m.startswith('ret'):
                 held = {r for r in SAVED if regs.get(r) == r}
                 at_ret = held if at_ret is None else at_ret & held; ends = True

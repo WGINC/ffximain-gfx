@@ -460,7 +460,8 @@ static void measure_frame(double frame_ms, double present_ms, double kit_ms, LAR
     int on = 0; for (int k = 0; k < m_np; k++) on += m_p[k].on;
     klog("measure: %d of %d wrapped calls in place (%.1f ms; the rest at the next frames)", on, m_np, m_qms(a, b));
   } else if (m_np && m_pending) m_pending = m_apply_probes();
-  int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && (GetAsyncKeyState(VK_F7) & 0x8000);
+  /* Ctrl+Alt+F7 or Ctrl+Alt+M (a Mac keyboard sends F7 only with Fn: the owner's W1 run on Parallels got no marks) */
+  int down = (GetAsyncKeyState(VK_CONTROL) & 0x8000) && (GetAsyncKeyState(VK_MENU) & 0x8000) && ((GetAsyncKeyState(VK_F7) & 0x8000) || (GetAsyncKeyState('M') & 0x8000));
   if (down && !m_markdown) { m_mark++; klog("measure: mark %d at frame %u", m_mark, g_frame); }
   m_markdown = down;
   if (m_frames) m_frame_write(frame_ms, present_ms, kit_ms, t0);

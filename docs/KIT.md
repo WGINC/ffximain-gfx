@@ -169,7 +169,7 @@ and writes `report.md` and `summary.json` there. The session that uses it all: `
 
 - **`frames=1`: a line per frame** (`xikit_frames_<pid>.csv`): the QPC time at the kit's Present, the frame time
   (Present to Present), the time inside the device's Present, the kit's own time, the render thread's CPU cycles
-  and time since the last frame, the process's page faults, the mark (Ctrl+Alt+F7 counts them; the steps of a
+  and time since the last frame, the process's page faults, the mark (Ctrl+Alt+M (or Ctrl+Alt+F7) counts them; the steps of a
   session), and the game's pacing fields raw (Frame_Render's `this` = `[0x104568FC]`: `+0x28`, `+0x2C`, `+0x30`,
   `+0x38`, `+0x3C`, the ring `0x10456964..0x10456973` and the timer's `[[this+0x1C]+4]`; docs/RENDERER.md 3 says
   what the code does with each, and the reader decodes them by that).

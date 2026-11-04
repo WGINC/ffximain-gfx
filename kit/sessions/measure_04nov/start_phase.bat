@@ -35,7 +35,7 @@ goto play
 :nopm
 echo tools\PresentMon-2.3.0-x64.exe not found: no PresentMon this phase.
 :play
-echo Play the phase's steps from README.md, pressing Ctrl+Alt+F7 at the start of each. Close the game when done.
+echo Play the phase's steps from README.md, pressing Ctrl+Alt+M (or Ctrl+Alt+F7) at the start of each. Close the game when done.
 exit /b 0
 :running
 rem errorlevel 0 while a process named pol.exe runs, 1 otherwise (with no match, tasklist prints only an INFO line)

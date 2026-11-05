@@ -1,6 +1,6 @@
 # The 9 Nov session: which setting made it smoother, which brought the pop-in, and who draws
 
-Two starts on Windows (Parallels), about 10 minutes, all in Port Jeuno. What it settles is listed at the end.
+Three starts on Windows (Parallels), about 15 minutes, all in Port Jeuno. What it settles is listed at the end.
 
 ## What the 8 Nov run showed
 
@@ -49,6 +49,19 @@ Start the game again, and the same three steps:
 5. `mark pop`: the same place, 90 s. **Note how characters appear.**
 6. `mark run`: run around, 60 s. Close the game normally.
 
+### Start 3: what the game is doing in a hitch (about 5 minutes)
+
+    start.bat hitch
+
+Neither setting (as 8 Nov's first start, which had the hitches), with the kit's native sampler on: for every frame
+over 50 ms it records where the game's thread was. (The sampler itself costs a little; this start's frame rate is not
+compared with the others.)
+
+7. `mark run`: run around the plaza, 90 s, through the busy parts.
+8. Go to where people walk in and out of view, then type `occl2` (not `mark`): for 60 s speedfix uses the game's own
+   occlusion answers and logs how often its one-check-late answer would have differed. Stand and turn the camera now
+   and then until it says `occl2 done`. Close the game normally.
+
 Then `restore.bat`, close the xiload window, `collect.bat`, and upload `ab_09nov_results.zip` with your notes on steps
 2, 3, 5 and 6.
 
@@ -57,5 +70,9 @@ Then `restore.bat`, close the xiload window, `collect.bat`, and upload `ab_09nov
 - **Which setting made it smoother:** each start's plaza frame times and d3d8on11's Present times against 8 Nov's
   start 1 (neither) and start 2 (both). (The crowd differs between starts; only a clear difference counts.)
 - **Which setting brought the pop-in:** your notes, start 1 against start 2.
+- **What the hitches are:** the sampler's blocks for start 3's long frames: which of the game's functions (or Windows,
+  the emulator, the driver) the time was in.
+- **How often the late occlusion answer is wrong:** occl2's log line (a cause of characters popping in or out if often).
+- **Why draw_sites saw only mods:** d3d8on11's new 'draw callers' lines: the modules the draw calls really come from.
 - **Who draws (for interpolation):** speedfix's task_draws lines: the draws of each kind of task, and whether they
   come from its movement call (+0x20) or its other one (+0x24).

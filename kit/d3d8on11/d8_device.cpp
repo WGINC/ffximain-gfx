@@ -777,6 +777,28 @@ static uint32_t game_site(void *ra) {
 // speedfix's merged ...UP draws give the first merged draw's (kit/speedfix/sf_device.cpp, flush)
 static void *volatile g_ext_site;
 extern "C" void __stdcall D8ON11_DrawSite(void *ra) { g_ext_site = ra; }
+// who calls the draws (9 Nov: draw_sites put every draw under a mod in the owner's game, and the hook order between
+// the game, the kit and speedfix there is not traced): each distinct pair (the module this method returns into, the
+// module of the address a mod handed D8ON11_DrawSite) is logged once, with the addresses as module+offset; up to 12
+static void mod_of(const void *a, char *out, size_t n) {
+  HMODULE m = NULL; char path[MAX_PATH] = "";
+  if (a && GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)a, &m) && m) {
+    GetModuleFileNameA(m, path, sizeof path); const char *b = strrchr(path, '\\');
+    snprintf(out, n, "%s+0x%X", b ? b + 1 : path, (unsigned)((uintptr_t)a - (uintptr_t)m));
+  } else snprintf(out, n, a ? "%p (no module)" : "none", a);
+}
+static void note_caller(void *ra) {
+  static HMODULE seen[12][2]; static int nseen; static LONG draws;
+  LONG d = InterlockedIncrement(&draws);
+  if (nseen >= 12) return;
+  void *ext = g_ext_site; HMODULE m1 = NULL, m2 = NULL;
+  GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)ra, &m1);
+  if (ext) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)ext, &m2);
+  for (int i = 0; i < nseen; i++) if (seen[i][0] == m1 && seen[i][1] == m2) return;
+  seen[nseen][0] = m1; seen[nseen][1] = m2; nseen++;
+  char a[300], b[300]; mod_of(ra, a, sizeof a); mod_of(ext, b, sizeof b);
+  d8_log("draw callers: a draw method returns into %s; the call site a mod handed over: %s (draw %ld)", a, b, (long)d);
+}
 static uint32_t site_of(void *ra) {
   uint32_t s = game_site(ra);
   if (s == ~0u && g_ext_site) s = game_site(g_ext_site);
@@ -784,20 +806,20 @@ static uint32_t site_of(void *ra) {
   return s;
 }
 HRESULT Dev::DrawPrimitive(D3DPRIMITIVETYPE t, UINT start, UINT n) {
-  draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
+  note_caller(__builtin_return_address(0)); draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
   return counted(this, ff_draw(0, t, n, start, 0, 0, 0, NULL, 0, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawIndexedPrimitive(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT startIndex, UINT n) {
-  draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
+  note_caller(__builtin_return_address(0)); draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
   return counted(this, ff_draw(1, t, n, 0, minIndex, numVerts, startIndex, NULL, 0, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawPrimitiveUP(D3DPRIMITIVETYPE t, UINT n, const void *v, UINT stride) {
-  draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
+  note_caller(__builtin_return_address(0)); draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
   if (!v || !stride) return D3DERR_INVALIDCALL;
   return counted(this, ff_draw(2, t, n, 0, 0, 0, 0, v, stride, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT n, const void *i, D3DFORMAT f, const void *v, UINT stride) {
-  draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
+  note_caller(__builtin_return_address(0)); draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
   if (!v || !i || !stride) return D3DERR_INVALIDCALL;
   return counted(this, ff_draw(3, t, n, 0, minIndex, numVerts, 0, v, stride, i, f));
 }

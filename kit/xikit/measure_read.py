@@ -283,6 +283,7 @@ def main(argv):
             byseg[nm].append({'frame_mean': s['mean'], 'frame_p95': s['p95'], 'speed': walked / real})
         summ['ab'] = byseg
         for l in re.findall(r'speedfix: (?:frame_step=3|occlusion_late).*', log)[-8:]: w('- `%s`' % l[:300])
+        for l in re.findall(r'speedfix: occlusion_late=2: .*', log)[-4:]: w('- `%s`' % l[:300])
         # the draw calls by Frame_Render's world pass (8 Nov): summed over the start
         tot = None
         for l in re.findall(r'speedfix: draw calls by Frame_Render\'s world pass.*', log):
@@ -303,7 +304,7 @@ def main(argv):
     # ---------------------------------------------------------------- d3d8on11's own lines (d3d8on11.log next to the game, if collected)
     for d8 in glob.glob(os.path.join(d, '..', 'd3d8on11.log')) + glob.glob(os.path.join(d, 'd3d8on11.log')):
         t = open(d8, errors='replace').read().splitlines()
-        keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail|gpu_time|swap chain|swap_flip', l, re.I)]
+        keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail|gpu_time|swap chain|swap_flip|draw callers|dynamic|frame_latency', l, re.I)]
         w(); w('## d3d8on11.log (%s, %d lines; the executor, readback snapshot, interval and error lines)' % (os.path.basename(d8), len(t))); w(); w('```')
         w('\n'.join(keep[:60] + (['...'] + keep[-20:] if len(keep) > 80 else keep[60:80]))); w('```')
         # the executor's draw time by the game's call site (d3d8on11's "executor draws by game call site" lines: the Draw*

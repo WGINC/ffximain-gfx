@@ -457,6 +457,8 @@ for m in MODES:
     t = ''.join(open(f).read() for f in (log, xlog) if os.path.exists(f))
     same = base == dyn and 'dynamic_buffers' in base and base['dynamic_buffers'] is not None
     ok = same and 'dynamic_buffers=1: the game' in t and 'the first DISCARD Map' in t and 'the first NOOVERWRITE Map' in t
+    # the draw-caller trace (9 Nov): t8's own draws return into t8.exe, no mod hands a site over
+    ok = ok and ('draw callers: a draw method returns into t8.exe+0x' in t and 'the call site a mod handed over: none' in t or m == 'remote')
     print('%s: %s mode, dynamic_buffers=1 draws exactly what the default draws (%d scenes, the dynamic_buffers scene among them); '
           'Maps with DISCARD and NOOVERWRITE made' % ('ok' if ok else 'FAIL', m, len(base))); bad += not ok
     for n in sorted(set(base) | set(dyn)):

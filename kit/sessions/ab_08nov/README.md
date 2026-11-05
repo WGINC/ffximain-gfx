@@ -1,6 +1,6 @@
 # The 8 Nov session: where the plaza's frames, hitches and pop-in come from
 
-One start on Windows (Parallels), about 10 minutes, all in Port Jeuno. What it settles is listed at the end.
+Three starts on Windows (Parallels), about 20 minutes, all in Port Jeuno (the third is optional). What it settles is listed at the end.
 
 ## What the 7 Nov run showed, and why this session
 
@@ -35,6 +35,8 @@ to `xikit.dll` (replace the old ones), keep your own `xikit.ini` and `speedfix.i
     cd /d "C:\Program Files (x86)\PlayOnline\SquareEnix\PlayOnlineViewer\ab_08nov"
     start.bat
 
+### Start 1 (about 10 minutes)
+
 Start the game (Windower as always). If the game freezes or crashes, close it and run `start.bat` again before starting
 it again (that keeps the last start's d3d8on11 log).
 
@@ -48,8 +50,33 @@ it again (that keeps the last start's d3d8on11 log).
 4. `mark run`: keep running around the plaza, 60 s.
 5. `mark stand`: stand still, 30 s. Close the game normally.
 
+### Start 2: two d3d8on11 settings for the whole start (about 4 minutes)
+
+    start.bat lim
+
+Start the game again. `frame_latency=1` (Windows queues one frame ahead instead of three: frames shown sooner) and
+`dynamic_buffers=1` (the game's changing vertex data written the way Direct3D 11 recommends). Both only work for a
+whole start, so they are compared with start 1, in the same places:
+
+6. `mark plaza`: the plaza, standing, camera still, 60 s.
+7. `mark run`: run around the plaza, 60 s. **Note whether it feels smoother, rougher or the same as start 1.**
+8. `mark stand`: stand still, 30 s. Close the game normally.
+
+### Start 3 (optional): the flip-model swap chain from the start (about 3 minutes)
+
+    start.bat flip
+
+As start 2, and d3d8on11 hands each frame to Windows the flip-model way (DXGI's newer path) for the whole start.
+**The 6 Nov freeze came when this was switched while the game ran; here it is set before the game draws anything,
+which has run in the tests but not yet in your game.** If the game freezes, close it and go straight to `restore.bat`
+and `collect.bat` (without starting the game again, its d3d8on11 log stays as it is).
+
+9. `mark plaza`: standing, 60 s.
+10. `mark run`: run around, 60 s. Note anything wrong (black frames, tearing, flicker) or smoother.
+11. Close the game normally.
+
 Then `restore.bat`, close the xiload window, `collect.bat`, and upload `ab_08nov_results.zip` with your notes on steps
-2 and 3.
+2, 3, 7 and 10.
 
 ## What it settles
 
@@ -58,3 +85,6 @@ Then `restore.bat`, close the xiload window, `collect.bat`, and upload `ab_08nov
 - **Hitches:** `abtest base` A against B, from the frame log: whether the long frames happen at the game's own pacing too.
 - **Present's 12 ms:** the upload split, in the plaza.
 - **Interpolation:** whether the characters' movement pass draws anything (speedfix's stats lines).
+- **frame_latency, dynamic_buffers, the flip model:** the plaza's frame times and d3d8on11's Present and upload times,
+  start 2 and 3 against start 1, and your notes. (Different starts in a busy plaza: the crowd differs between them, so a
+  small difference is not a result.)

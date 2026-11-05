@@ -1,5 +1,5 @@
 @echo off
-rem start.bat [play] -- a start of the 8 Nov session (README.md); play when no name is given. Run it from an administrator
+rem start.bat [play ^| lim ^| flip] -- a start of the 8 Nov session (README.md); play when no name is given. Run it from an administrator
 rem Command Prompt in this folder (PresentMon needs it). It puts the start's settings next to xikit.dll.
 rem It also puts d3d8on11 in place of dgVoodoo's d3d8.dll (kept as d3d8_dgvoodoo_keep.dll; restore.bat puts it back).
 rem Then it starts xiload (it loads the kit into pol.exe; its window keeps watching: close it after the start) and,
@@ -62,5 +62,5 @@ exit /b 1
 echo Nothing was changed. Tell Claude what d3d8.dll is in that folder.
 exit /b 1
 :usage
-echo usage: start.bat [play]
+echo usage: start.bat [play ^| lim ^| flip]
 exit /b 2

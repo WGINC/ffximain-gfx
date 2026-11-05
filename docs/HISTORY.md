@@ -4125,3 +4125,13 @@ of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, 
 - The kit's own defects found: sample=3 got no return addresses on the render thread (its x86 context on ARM was
   outside the stack in 79% of samples; fixed: bounds from the TEB); xiload --once missed the game in CrossOver (it runs
   in a second pol.exe; fixed: xiload keeps watching); a bare mark.bat wrote "ECHO is off." (fixed).
+- Correction, the same day: the 5 Nov report to the owner presented as new what 17-18 Oct had established (the plaza
+  ~70 ms vanilla / ~34 ms with levers; 0x10002 as xtajit's placeholder; Lock2/Unlock2 through wow64win as about half
+  the render thread on dgVoodoo; the readback's ~10-11 ms), and said d3d8on11's batched executor had never run. It had:
+  exec_batch is d3d8on11's default since e25965c (18 Oct), and the owner's 26 Oct runs A and B were under d3d8on11
+  (RENDERER.md 3b, the owner's report; the log does not name the d3d8.dll). Run B is T3 (REEVALUATION.md): the plaza,
+  levers on, readbacks skipped, median 12.9-14.0 ms with draws and 7.5-7.7 ms without. 18 Oct also established that
+  ESP is valid under xtajit (only EIP is not), so this session's reason for sample=3's empty render-thread stacks
+  (ESP outside the stack) is not supported; the cause is not established, and the TEB-bounds build counts samples
+  with ESP outside the stack, which will say. The other repositories: DancingMad (static research, no measurements)
+  and dagnyfix (visual fixes in a d3d8 proxy) hold no performance runs.

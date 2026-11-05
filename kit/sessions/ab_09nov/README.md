@@ -1,6 +1,6 @@
 # The 9 Nov session: which setting made it smoother, which brought the pop-in, and who draws
 
-Three starts on Windows (Parallels), about 15 minutes, all in Port Jeuno. What it settles is listed at the end.
+Four starts on Windows (Parallels), about 20 minutes, all in Port Jeuno (the fourth is optional). What it settles is listed at the end.
 
 ## What the 8 Nov run showed
 
@@ -62,8 +62,21 @@ compared with the others.)
    occlusion answers and logs how often its one-check-late answer would have differed. Stand and turn the camera now
    and then until it says `occl2 done`. Close the game normally.
 
+### Start 4 (optional): what the game creates when it hitches and when characters load (about 4 minutes)
+
+    start.bat res
+
+As start 3 without the sampler, and with the kit's resource log (`profile=1`): every texture, buffer, surface and
+shader the game creates is logged with the frame it was created in and the game code that asked for it, so the long
+frames and characters loading in can be matched with what was created then. This puts the kit's profiler in front of
+speedfix's and d3d8on11's hooks: the kit's own tests run it with a mod's hooks, but it has not run with d3d8on11 yet. If
+the game misbehaves or freezes, close it and go to `restore.bat` and `collect.bat`.
+
+9. `mark run`: run around the plaza, 90 s.
+10. `mark pop`: where people walk in and out of view, 60 s. Close the game normally.
+
 Then `restore.bat`, close the xiload window, `collect.bat`, and upload `ab_09nov_results.zip` with your notes on steps
-2, 3, 5 and 6.
+2, 3, 5 and 6 (and anything odd in start 4).
 
 ## What it settles
 
@@ -72,6 +85,7 @@ Then `restore.bat`, close the xiload window, `collect.bat`, and upload `ab_09nov
 - **Which setting brought the pop-in:** your notes, start 1 against start 2.
 - **What the hitches are:** the sampler's blocks for start 3's long frames: which of the game's functions (or Windows,
   the emulator, the driver) the time was in.
+- **What the game creates in a hitch, and when characters load:** start 4's resource log against its long frames.
 - **How often the late occlusion answer is wrong:** occl2's log line (a cause of characters popping in or out if often).
 - **Why draw_sites saw only mods:** d3d8on11's new 'draw callers' lines: the modules the draw calls really come from.
 - **Who draws (for interpolation):** speedfix's task_draws lines: the draws of each kind of task, and whether they

@@ -1,5 +1,19 @@
 # Handoff (27 Oct): finishing the work in one session, without workers
 
+**5 Nov, before the rest of this page (which is 27 Oct's):**
+- Performance: README.md "Performance on the owner's machine"; the owner's 4 Nov session in docs/HISTORY.md (5 Nov);
+  the last owner session is kit/sessions/final_05nov (package.sh builds its zip). Read its results with
+  `kit/xikit/measure_read.py FOLDER --presentmon PM.csv`; replay its captures with kit/fcap (docs/KIT.md, "Frame
+  capture") through kit/d3d8on11 and compare with `kit/fcap/compare.py` (task #140).
+- Before saying a measurement is new: search every branch (`git ls-remote --heads origin`), the whole docs/ and
+  kit/sessions/, and the commit log, not HISTORY.md alone. On 5 Nov a report repeated 17-18 Oct's findings and missed
+  the 26 Oct d3d8on11 runs because only HISTORY.md was searched (HISTORY, 5 Nov correction).
+- Tree round r19 (the ECX fix, af5dad2) is not installed: three functions went from PASS to not PASS with their
+  tree text unchanged (App_InitScene 0x10010D20 UNRESOLVED; 0x10054D70 FAIL, the reconstruction reads 0xA5A5A5A5;
+  CXiSkeletonActor::OnDrawName 0x100D0510 FAIL, call #5's third argument). The fact that changed under them is not
+  found; data/reg_saved.json changed in 193 entries and gained 1,197 between r18 (3725987) and af5dad2, and none of
+  the three functions is among its keys.
+
 For a session that takes over on the branch `claude/gifted-archimedes-cjtg2d`. Read CLAUDE.md first; its rules hold
 for everything below (every fact from a named definitive source, otherwise UNRESOLVED; no model identifiers in commits
 or files; commits end with the `Claude-Session:` line only; push only to this branch; no pull request unless asked).

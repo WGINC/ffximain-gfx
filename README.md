@@ -20,6 +20,32 @@ This is private work: nothing here is published, and no game bytes are in the re
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
 
+## Performance on the owner's machine (5 Nov 2026)
+
+The owner's machine: an M5 MacBook Pro, Windows 11 on ARM64 in Parallels (the game x86-emulated), Windower loaded;
+CrossOver on macOS as well. All figures are the Port Jeuno plaza, standing; sources in docs/HISTORY.md.
+
+| Device | Levers | Occlusion readbacks | Median frame | Measured |
+|---|---|---|---|---|
+| dgVoodoo | off | on | ~50 ms | 4 Nov (W1, W2) |
+| dgVoodoo | speedfix's | on | ~31-34 ms | 4 Nov (W5); 17 Oct (perf60) |
+| dgVoodoo | speedfix's | skipped | ~33.5 ms | 17 Oct (run 3464) |
+| **d3d8on11** | speedfix's | skipped | **12.9-14.0 ms** (p95 ~18) | 26 Oct (T3) |
+| d3d8on11, nothing drawn | speedfix's | skipped | 7.5 ms | 26 Oct (T3) |
+
+- On this machine the time is the render thread's CPU, not the GPU (PresentMon: GPU busy 5-7 ms). Through dgVoodoo
+  about half of it is kernel buffer locks taken through WOW64 (18 Oct; 6,245 a frame on 4 Nov); d3d8on11's batched
+  executor avoids them.
+- Of Frame_Render's own calls (4 Nov, timed exactly): the world call 0x10074C30 holds most of the frame (35 ms
+  vanilla, 21 ms with the levers), the UI call 0x1015F6A0 6 ms (0.7 with the levers), EndScene about 6 ms.
+- Above 60 the game's time runs fast unless the step is fixed (docs/RENDERER.md 3a, 3b): speedfix `frame_step`.
+  Above 60, most motion still moves in whole 1/60 s ticks: smoother motion needs interpolation (ROADMAP P4, not built).
+- The last session, `kit/sessions/final_05nov`: d3d8on11 with the levers, `uncap` and `frame_step`, the readbacks
+  answered by d3d8on11's snapshots (not skipped), measured per step; the game's clock checked against real time from
+  the character's position; frames captured under dgVoodoo for the UI text difference (task #140).
+- The kit's measuring (docs/KIT.md, "Measuring"), `xiload.exe` (loads the kit, Windows and CrossOver),
+  `kit/xikit/measure_read.py` (the report).
+
 ## Status (1 Nov 2026)
 
 Where to start: `docs/HANDOFF.md` (the state and the next steps), `docs/EFFICIENCY.md` (how to work on it cheaply),

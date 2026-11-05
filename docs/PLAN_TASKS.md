@@ -56,7 +56,7 @@ owner or a run in the game).
 | 137 | parallel 65% | Build the trace replayer for d3d8on11 | open | |
 | 138 | parallel 65% | Second-opinion references: DXVK d3d8 and d3d8to9 | open | |
 | 139 | parallel 65% | Check open D3D8 behaviours against the SDK docs | open | |
-| 140 | parallel 65% | Find the 8,689-pixel UI text difference | open | not found yet |
+| 140 | parallel 65% | Find the 8,689-pixel UI text difference | open | not found yet; dgVoodoo.conf overrides nothing (filtering, mipmapping, antialiasing appdriven: 4 Nov results); the capture it came from is not in the repository; final_05nov start 1 captures three frames under dgVoodoo for replay through d3d8on11 here |
 | 141 | parallel 65% | Owner run: d3d8on11 vs dgVoodoo on the same scene, one session | owner | run of 26 Oct taken (A, B under ours); speed and plain-colour defects found; d3d8on11 fixed (fe8bf8d); the next kit asks again (HANDOFF 3.2) |
 | 142 | 70% | Every MEASURE scene on D3D11, differences declared | open | |
 | 143 | 75% | Merged character draws on D3D11 | open | |
@@ -69,8 +69,8 @@ owner or a run in the game).
 | 150 | 85% | Zone mesh sort and large buffers (fn_1017C9C0) | open | |
 | 151 | 85% | Lighting setup cost (fn_100467E0) | open | |
 | 152 | 85% | Effects scheduler CPU cost (CMoSchedularTask::Interpret) | open | |
-| 153 | 90% | Above 60 fps with the game clock checked | open | RENDERER 3a and 3b: the step is one tick per frame above 60 with the divisor 0 |
-| 154 | 90% | Generalize frame_step and add interpolation | open | |
+| 153 | 90% | Above 60 fps with the game clock checked | open | RENDERER 3a and 3b: the step is one tick per frame above 60 with the divisor 0. final_05nov's clock test: distance per second of the game's time at 60 (a tick a frame) against uncap+frame_step, from the character's position (frames_player=1); the reader's arithmetic tested on known motion (1.000) |
+| 154 | 90% | Generalize frame_step and add interpolation | open | not started; above 60 most motion moves in whole ticks (ROADMAP P4), so frame rates above 60 are not smoother without it |
 | 155 | 95% | Every speedfix lever as a source-level option | open | |
 | 156 | 95% | Regression suite of dumps, captures and pictures | open | |
 | 157 | 100% | Final devkit: stable API, docs, packaging | open | |

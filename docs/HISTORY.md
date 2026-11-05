@@ -4227,3 +4227,5 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
   plaza, run, menus, busy; no A/B). d3d8on11 writes its log anew at each start, so start.bat keeps the previous one in
   xikit_logs (d3d8on11_before_<start>_<time>.log) and collect.bat takes it. abtest.bat checked under Wine (its waits
   removed, Wine has no `timeout`): the inis switch A B A B as listed and the session's are back after.
+- **Merged back into one start** at the owner's request: ab_06nov is one start with draw_sites=1 throughout (the
+  measuring is the same in every A and B segment, so the A/B comparisons are not biased by it); the menus step joins it.

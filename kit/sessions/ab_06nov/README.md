@@ -1,7 +1,6 @@
 # The 6 Nov session: the stopping characters fixed (frame_step=3), and the occlusion readbacks read late
 
-Two starts on Windows (Parallels): start 1 tests the fixes (about 20 minutes), start 2 only measures for the next
-rewrites (about 6 minutes), so the measuring cannot change start 1's results. What they settle is listed at the end.
+One start on Windows (Parallels), about 20 minutes of play. What it settles is listed at the end.
 
 ## What is new, and why
 
@@ -16,6 +15,8 @@ rewrites (about 6 minutes), so the measuring cannot change start 1's results. Wh
 - **occlusion_late=1.** In the plaza d3d8on11's worker was busy 98% of the time; its readbacks took 15-17 ms a frame
   and its Present followed them (8 ms with them, 1.5 ms without). Each readback is now read at the object's next
   probe, from d3d8on11's copy of it, without waiting.
+- **The draw time by the game's call site** (`draw_sites=1`, d3d8on11): what each of the game's draw calls costs
+  d3d8on11, for choosing the next rewrite. It is on through the whole start, so A and B segments carry it alike.
 - **No call timing.** Every 2.4 s stall of 4-5 Nov came in a run with the kit's call timing on; this session has none.
 
 ## Before you start
@@ -31,9 +32,9 @@ Open a Command Prompt **as administrator** and go to this folder:
 
     cd /d "C:\Program Files (x86)\PlayOnline\SquareEnix\PlayOnlineViewer\ab_06nov"
 
-## Start 1: the fixes (about 20 minutes)
+## The start (about 20 minutes)
 
-    start.bat play
+    start.bat
 
 Start the game (Windower as always). Each step: run the command shown in the prompt, then do what it says.
 
@@ -46,25 +47,12 @@ Start the game (Windower as always). Each step: run the command shown in the pro
    until it says `abtest step done` (about 2 minutes). **Note for each segment (A, B, A, B) whether your character and
    others flicker between two poses, and whether the camera moves smoothly.** A is the 5 Nov setting, B the fix.
 6. `mark busy`: somewhere busy (a fight with effects, or a crowd): 60 s.
-7. `mark zone`: walk through a zone line, stand 20 s after you arrive.
-8. `mark stand`: stand still anywhere, 30 s. Note anything that looked wrong. Close the game normally.
-
-## Start 2: the measuring for the next rewrites (about 6 minutes)
-
-Close the xiload window from start 1, then:
-
-    start.bat sites
-
-The same settings as start 1, plus d3d8on11's draw time by the game's call site (`draw_sites=1`). No A/B tests here.
-
-1. `mark plaza`: Port Jeuno plaza, standing, camera still: 60 s.
-2. `mark run`: run around the plaza: 60 s.
-3. `mark menus`: main menu and inventory open, scroll, and some chat on screen: 30 s, then close them.
-4. `mark busy`: somewhere busy (a fight with effects, or a crowd): 60 s.
-5. Close the game normally.
+7. `mark menus`: main menu and inventory open, scroll, with some chat on screen: 30 s, then close them.
+8. `mark zone`: walk through a zone line, stand 20 s after you arrive.
+9. `mark stand`: stand still anywhere, 30 s. Note anything that looked wrong. Close the game normally.
 
 Then `restore.bat` (dgVoodoo back), close the xiload window, and `collect.bat`. Upload `ab_06nov_results.zip` from
-the PlayOnlineViewer folder, with your notes on start 1's step 5 (which segments flickered).
+the PlayOnlineViewer folder, with your notes on step 5 (which segments flickered).
 
 ## What it settles
 
@@ -76,7 +64,7 @@ the PlayOnlineViewer folder, with your notes on start 1's step 5 (which segments
 - **The game's time above 60 with frame_step=3:** your distance per real second from the position each frame, as on
   5 Nov (5.955-5.981 then).
 - **Frames per step** with everything on, without the kit's call timing.
-- **Which of the game's draws cost d3d8on11 the most** (start 2 only): every 600 frames d3d8on11's log lists its draw time by the
+- **Which of the game's draws cost d3d8on11 the most** (new): every 600 frames d3d8on11's log lists its draw time by the
   game's call site (the return address of each draw into FFXiMain.dll), and the reader names each site's function. That
   says, before any of it is built, whether the characters' draws, the zone's, the UI text or something else is the next
   thing worth rewriting.

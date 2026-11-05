@@ -10,6 +10,7 @@
 #include <stdlib.h>
 
 #define G_PCDX 0x1045666Cu
+static const float *g_follow_dec;   /* the camera follow timer's per-pass amount, in speedfix.dll */
 static uint32_t rel;
 #define GAME(a) ((uintptr_t)(a) + rel)
 static int fails;
@@ -291,7 +292,8 @@ static int step_test(void) {
   HMODULE sf = GetModuleHandleA("speedfix.dll");
   check(jumps_into(0x10011A00u, sf) && jumps_into(0x10014CF0u, sf) && jumps_into(0x10014D20u, sf),
         "frame_step=2 at the start: Frame_Render and the getters 10014CF0, 10014D20 jump into speedfix.dll (the forks)");
-  check(*(uint8_t *)GAME(0x10012C3Cu) == 0xE8 && (uint8_t *)GAME(0x10012C3Cu) + 5 + *(int32_t *)GAME(0x10012C3Du) == (uint8_t *)GAME(0x10311C2Cu),
+  check(*(uint8_t *)GAME(0x10012C3Cu) == 0xE8 && ((uint8_t *)GAME(0x10012C3Cu) + 5 + *(int32_t *)GAME(0x10012C3Du) == (uint8_t *)GAME(0x10311C2Cu)
+        || (uint8_t *)GAME(0x10012C3Cu) + 5 + *(int32_t *)GAME(0x10012C3Du) == (uint8_t *)GAME(0x10311C6Cu)),   /* _ftol: 6A995428, 6AC37846 */
         "... and the game's own code is not patched (the call of _ftol at 10012C3C is the game's)");
   check(log_has("frame_step / uncap: Frame_Render (0x10011A00), Camera_GetFrameScale (0x10014CF0) and Camera_GetClampedField28 (0x10014D20) run speedfix's gated forks"), "... logged");
   g_step_make = (StepMake)GetProcAddress(sf, "xi_step_make"); g_xi_uncap = (volatile int *)GetProcAddress(sf, "xi_uncap"); g_xi_mode = (volatile int *)GetProcAddress(sf, "xi_step_mode");
@@ -335,7 +337,15 @@ static int step_test(void) {
     touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=3\nstats_every=1\n");
     step_frames(70, 1, 3);
     check(*g_xi_mode == 3, "uncap=1 frame_step=3 (changed while running): the switch follows");
-    check(log_has("speedfix: frame_step=3: 16 of 16 loop changes in place"), "frame_step=3: the 4 factor operands, the 3 calls of 0x100272B0, OnMove's 4 compares, the walk/run rate's 3 operands and the camera's 2 integer loops' calls of 0x100272B0 changed (16 of 16)");
+    check(log_has("speedfix: frame_step=3: 24 of 24 loop changes in place"), "frame_step=3: the 4 factor operands, the 3 calls of 0x100272B0, OnMove's 4 compares, the walk/run rate's 3 operands, the camera's integer loops' 3 calls of 0x100272B0, and the camera follow's 2 fmul [0.125], its timer's fsub, its chase call, its 2 calls of 0x100272E0 and its counter's mov changed (24 of 24)");
+    { const uint8_t *fc = (const uint8_t *)GAME(0x1001FD5Au), *hc = (const uint8_t *)GAME(0x1001FB19u), *tc = (const uint8_t *)GAME(0x1001FA55u);
+      HMODULE h1 = NULL, h2 = NULL, h3 = NULL;
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(fc + 5 + *(const int32_t *)(fc + 1)), &h1);
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(hc + 5 + *(const int32_t *)(hc + 1)), &h2);
+      GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, *(LPCSTR *)(tc + 2), &h3);
+      check(fc[0] == 0xE8 && h1 == sf && hc[0] == 0xE8 && h2 == sf && !memcmp(hc + 5, "\x0F\x1F\x44\x00\x00", 5) && hc[10] == 0xEB && h3 == sf,
+            "... the camera follow's chase call (0x1001FD5A) and its counter's set (0x1001FB19: a call and a 5-byte nop, the game's jmp after) go into speedfix.dll; its timer's 1.0 is read from speedfix.dll");
+      g_follow_dec = *(const float *const *)(tc + 2); }
     uint8_t *op = (uint8_t *)GAME(0x100205CDu); const float *kf = *(const float **)(op + 2); HMODULE h = NULL;
     GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)kf, &h);
     check(h == sf && *(const uint32_t *)GAME(0x10329CE4u) == 0x3E800000u, "... the camera loop's factor is read from speedfix.dll; the game's 0.25 is not written");
@@ -360,6 +370,7 @@ static int step_test(void) {
     touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nstats_every=1\n");
     step_frames(70, 1, 3);
     check(*kf == 0.25f, "frame_step=1 again: the camera loop's factor is the game's 0.25");
+    check(g_follow_dec && *g_follow_dec == 1.0f, "frame_step=1 again: the camera follow's timer takes the game's 1.0 a pass");
   }
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=0\nstats_every=1\n");
   step_frames(70, 1, 3);

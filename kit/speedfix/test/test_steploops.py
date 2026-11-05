@@ -240,5 +240,130 @@ for site, scale_call, exit_, xoff, name in ((0x1001F5A2, 0x1001F5D9, 0x1001F5F6,
         say(moved and dmax < 1e-4 and rs == 0, '%s, %d fps with frame_step 3 against the game at 60, %.1f s: the camera position %s vs %s '
             '(difference %.2g), frames without movement %d (frame_step 1: %d)' % (name, fps, sec, [round(x, 5) for x in r],
                                                                                   [round(x, 5) for x in g], dmax, rs, os_))
+
+# 6. the camera follow (7 Nov: the owner's camera jitter while running), 0x1001FA34..0x1001FE90 and the path return
+#    0x1001F667..0x1001F723, the game's instructions; stubs only for the getter (ST0 = the answer), Settings_GetValue
+#    (0x10193850: setting 0x91, the turn behind the player), the player actor's vtable +0x1BC (its position) and +0x1C0 (its
+#    yaw at +4), and the path point (0x1001E3B0). speedfix's changes made as sf_main.cpp makes them: ceil(s) passes, the
+#    0x100272B0 calls at 0x1001FD5A (sf_follow_k) and 0x1001FDAF (sf_scale_k), the 0x100272E0 calls (sf_scale3_k) given
+#    k', the fmul [0.125] at 0x1001FE36/0x1001FE46 and the timer's fsub [1.0] pointed at floats holding k' and f, the
+#    counter's 4 written as round(4/f). A player runs in +x at 5 a second (moved s/60 of that a frame, as the characters
+#    move under frame_step=3; the whole ticks under frame_step=1); the camera starts 8 behind and 1.5 up.
+def f32(v): return b2f(f2b(v))
+def kp(k, s):                                            # sf_main.cpp loop_k (s a float, f in double)
+    n = math.ceil(s); f = s / n
+    if n == s: return k
+    return f32(k * f) if not k < 1.0 else f32(1.0 - (1.0 - k) ** f)
+def follow_machine():
+    m = machine()
+    cam, act, vt = HEAP + 0x1000, HEAP + 0x2000, HEAP + 0x3000
+    m.mem_write(STUB + 0x60, b'\xD9\x05' + struct.pack('<I', SCR + 0x904) + b'\xC3')        # the getter
+    for at in (0x1001FA38, 0x1001FE7C, 0x1001F66B, 0x1001F711):
+        m.mem_write(at, b'\xE8' + struct.pack('<i', (STUB + 0x60) - (at + 5)))
+    m.mem_write(0x10193850, b'\xA1' + struct.pack('<I', SCR + 0x908) + b'\xC3')           # Settings_GetValue: mov eax, [x]; ret
+    m.mem_write(STUB + 0x80, b'\xB8' + struct.pack('<I', HEAP + 0x2100) + b'\xC3')         # +0x1BC: the player's position
+    m.mem_write(STUB + 0xA0, b'\xB8' + struct.pack('<I', HEAP + 0x2200) + b'\xC3')         # +0x1C0: [+4] its yaw
+    m.mem_write(vt + 0x1BC, struct.pack('<I', STUB + 0x80)); m.mem_write(vt + 0x1C0, struct.pack('<I', STUB + 0xA0))
+    m.mem_write(act, struct.pack('<I', vt))
+    # 0x1001E3B0 (the path point, thiscall (out)): out = [SCR + 0x920]; ret 4
+    m.mem_write(STUB + 0xC0, b'\x8B\x44\x24\x04\x8B\x15' + struct.pack('<I', SCR + 0x920) + b'\x89\x10\x8B\x15' + struct.pack('<I', SCR + 0x924)
+                + b'\x89\x50\x04\x8B\x15' + struct.pack('<I', SCR + 0x928) + b'\x89\x50\x08\xC2\x04\x00')
+    for at in (0x1001F68A,): m.mem_write(at, b'\xE8' + struct.pack('<i', (STUB + 0xC0) - (at + 5)))
+    return m, cam, act
+def follow_frame(m, cam, act, s_ans, f, player, cpos, setting, stick, near, timer, cnt, fix, s=1.0):
+    """one camera update's follow loop: the getter answers s_ans; s the fraction the loop hook is given (sf_main.cpp
+    loop_set: xi_step_frac); the camera at cpos; returns the camera, the timer, the counter"""
+    esp = STACK + 0x80000; m.reg_write(UC_X86_REG_ESP, esp)
+    m.mem_write(esp, b'\0' * 0x200)
+    m.mem_write(esp + 0x5C, b''.join(map(f2b, player))); m.mem_write(HEAP + 0x2100, b''.join(map(f2b, player)))
+    m.mem_write(HEAP + 0x2200 + 4, f2b(0.0))                # the player faces +x... yaw 0
+    m.mem_write(esp + 0x20, f2b(stick)); m.mem_write(esp + 0x24, f2b(0.0)); m.mem_write(esp + 0x17, bytes([near]))
+    m.mem_write(cam + 0x44, b''.join(map(f2b, cpos)))
+    m.mem_write(0x10456D7C, f2b(timer)); m.mem_write(0x10456D8C, struct.pack('<i', cnt)); m.mem_write(SCR + 0x908, struct.pack('<I', setting))
+    m.mem_write(SCR + 0x904, f2b(s_ans))
+    k125 = kp(0.125, s) if fix else 0.125
+    m.mem_write(SCR + 0x930, f2b(k125)); m.mem_write(SCR + 0x934, f2b(f if fix else 1.0))
+    for at in (0x1001FE36, 0x1001FE46): m.mem_write(at + 2, struct.pack('<I', SCR + 0x930))
+    m.mem_write(0x1001FA55 + 2, struct.pack('<I', SCR + 0x934))
+    m.mem_write(0x1001FB1F, struct.pack('<i', int(math.floor(4 / f + 0.5)) if fix else 4))
+    def h2b0(uc, a, sz, u):
+        sp = uc.reg_read(UC_X86_REG_ESP); ret = struct.unpack('<I', uc.mem_read(sp, 4))[0]; k = b2f(uc.mem_read(sp + 8, 4))
+        if not fix: return
+        if ret == 0x1001FD5F:
+            v = [b2f(uc.mem_read(struct.unpack('<I', uc.mem_read(sp + 4, 4))[0] + 4 * i, 4)) for i in range(3)]
+            if f != 1.0:
+                k = f32((k / 0.5) * (1 - 0.5 ** f)) if sum(x * x for x in v) < 4.0 else kp(k, s)
+        elif ret == 0x1001FDB4: k = kp(k, s)
+        uc.mem_write(sp + 8, f2b(k))
+    def h2e0(uc, a, sz, u):
+        sp = uc.reg_read(UC_X86_REG_ESP); ret = struct.unpack('<I', uc.mem_read(sp, 4))[0]
+        if fix and ret in (0x1001FCD8, 0x1001F6D6): uc.mem_write(sp + 12, f2b(kp(b2f(uc.mem_read(sp + 12, 4)), s)))
+    hs = [m.hook_add(UC_HOOK_CODE, h2b0, begin=0x100272B0, end=0x100272B0), m.hook_add(UC_HOOK_CODE, h2e0, begin=0x100272E0, end=0x100272E0),
+          m.hook_add(UC_HOOK_CODE, lambda uc, a, sz, u: uc.emu_stop(), begin=0x1001FE90, end=0x1001FE90)]
+    m.reg_write(UC_X86_REG_EDI, cam); m.reg_write(UC_X86_REG_ESI, act)
+    from unicorn.x86_const import UC_X86_REG_EBX
+    m.reg_write(UC_X86_REG_EBX, 0)
+    m.emu_start(0x1001FA34, 0, count=2000000)
+    for h in hs: m.hook_del(h)
+    return ([b2f(m.mem_read(cam + 0x44 + 4 * i, 4)) for i in range(3)], b2f(m.mem_read(0x10456D7C, 4)),
+            struct.unpack('<i', m.mem_read(0x10456D8C, 4))[0])
+def follow_run(fps, mode, sec, setting=0, near=0, start=(-8.0, 1.5, 0.0), speed=5.0, timer0=0.0, turn_at=None):
+    """mode: 'game' (60 fps, s = 1), 'fs1' (whole ticks), 'before' (6 Nov: the player the fraction, the follow whole),
+    'fix' (the fraction everywhere and speedfix's changes). Returns per frame (player, camera, timer)."""
+    m, cam, act = follow_machine(); s = f32(60.0 / fps) if mode != 'game' else 1.0; carry = 0.0
+    player = [0.0, 0.0, 0.0]; cpos = list(start); timer = timer0; cnt = 0; out = []
+    for i in range(int(round(fps * sec))):
+        carry += s; w = math.floor(carry + 1e-6); carry -= w
+        move = {'game': 1.0, 'fs1': float(w), 'before': s, 'fix': s}[mode]
+        player[0] += speed / 60.0 * move
+        stick = 0.5 if (turn_at is not None and i * s < turn_at) else 0.0   # the stick held for the first turn_at ticks
+        if mode == 'fix': ans = float(math.ceil(s)); f = s / ans
+        elif mode == 'game': ans = 1.0; f = 1.0
+        else: ans = float(w); f = 1.0
+        cpos, timer, cnt = follow_frame(m, cam, act, ans, f, player, cpos, setting, stick, near, timer, cnt, mode == 'fix', s)
+        out.append((list(player), list(cpos), timer))
+    return out
+def dist(a, b): return math.sqrt(sum((a[i] - b[i]) ** 2 for i in range(3)))
+# s = 1: speedfix's changes with k' = k give the game's code bit for bit (with the turn behind and the near push on)
+for setting, near, start, nm in ((0, 0, (-8.0, 1.5, 0.0), 'the follow'), (1, 0, (-7.0, 1.0, 3.0), 'the follow with the turn behind (setting 0x91)'),
+                                 (0, 1, (-1.0, 0.5, 0.8), 'the near push')):
+    m, cam, act = follow_machine()
+    a = follow_frame(m, cam, act, 1.0, 1.0, [0.0, 0.0, 0.0], list(start), setting, 0.0, near, 0.0, 0, False)
+    b = follow_frame(m, cam, act, 1.0, 1.0, [0.0, 0.0, 0.0], list(start), setting, 0.0, near, 0.0, 0, True)
+    say(a == b and a[0] != list(start), 'camera follow, s = 1: %s identical with the changes in place (%s)' % (nm, [round(x, 5) for x in a[0]]))
+# the same real time at 60 (the game) and at 144/120/75 with the fix, the player standing and running at 5 a second.
+# Unlike the loops above, the follow's factor is not a constant: (d - 6) 0.012 and (3 - d)(-0.125) change with the
+# distance d, which each pass changes (and running, the target moves). k' makes a pass of f of a tick do what a tick does
+# for the k it is given; finer passes then follow the same rule along a slightly different path than the game's one pass
+# a tick (the game at 60 is the coarse one: its last pass before a rest overshoots most). Required: the camera within
+# the largest movement of one of the game's own ticks in the run (no more apart than one tick of the game), measured.
+for setting, near, start, nm in ((0, 0, (-8.0, 1.5, 0.0), 'follow'), (1, 0, (-7.0, 1.0, 3.0), 'follow + turn behind'),
+                                 (0, 1, (-1.0, 0.5, 0.8), 'near push')):
+    for speed, sec in ((0.0, 0.3), (5.0, 1.0)):
+        g = follow_run(60, 'game', sec, setting, near, start, speed)
+        gs = sum(dist(g[i][1], g[i - 1][1]) == 0.0 for i in range(1, len(g)))
+        for fps in (144, 120, 75):
+            r = follow_run(fps, 'fix', sec, setting, near, start, speed)
+            d = dist(r[-1][1], g[-1][1]); gap = dist(g[-1][0], g[-1][1]); rgap = dist(r[-1][0], r[-1][1])
+            still = sum(dist(r[i][1], r[i - 1][1]) == 0.0 for i in range(1, len(r)))
+            tick = max(dist(g[i][1], g[i - 1][1]) for i in range(1, len(g)))
+            ok = d <= tick and abs(still / fps - gs / 60.0) <= 2.0 / fps
+            say(ok, '%s, %s, %d fps with the fix against the game at 60, %.1f s: camera %s vs %s (%.4f apart; distance to the player '
+                '%.4f vs %.4f); the game\'s largest tick moved its camera %.4f; the camera still %.3f s vs %.3f s' % (nm, 'standing' if speed == 0.0 else 'running', fps, sec,
+                [round(x, 4) for x in r[-1][1]], [round(x, 4) for x in g[-1][1]], d, rgap, gap, tick, still / fps, gs / 60.0))
+# the jitter itself, 144 fps, running: the camera's distance to the player frame to frame. The game at 60 settles to a
+# steady distance; what is shown is how much it swings from frame to frame over the last half second
+def swing(r):
+    ds = [dist(p, c) for p, c, _ in r[len(r) // 2:]]; return max(ds) - min(ds), max(abs(ds[i] - ds[i - 1]) for i in range(1, len(ds)))
+g = follow_run(60, 'game', 2.0); fx = follow_run(144, 'fix', 2.0); bf = follow_run(144, 'before', 2.0); o1 = follow_run(144, 'fs1', 2.0)
+print('    running at 5 a second, the camera\'s distance to the player over the last second (range; largest change in one frame):\n'
+      '      the game at 60: %.4f %.4f;  144 fps fix: %.4f %.4f;  144 fps 6 Nov build (characters the fraction, follow whole ticks): %.4f %.4f;  '
+      '144 fps frame_step=1: %.4f %.4f' % (swing(g) + swing(fx) + swing(bf) + swing(o1)))
+say(swing(fx)[1] < 0.25 * swing(bf)[1], '144 fps: the fix\'s frame-to-frame swing of the camera distance (%.4f) a fraction of the 6 Nov build\'s (%.4f)' % (swing(fx)[1], swing(bf)[1]))
+# the hold timer: after a wall push (timer 20) the follow waits 20 ticks: count the frames until the camera first moves
+def held(r): return next(i for i in range(1, len(r)) if r[i][1] != r[0][1])
+gh = held(follow_run(60, 'game', 1.0, timer0=20.0)); fh = held(follow_run(144, 'fix', 1.0, timer0=20.0))
+say(abs((fh + 1) / 144.0 - (gh + 1) / 60.0) <= 1.0 / 144 + 1e-9, 'the hold timer (20 ticks): the camera first moves in the frame ending at %.4f s at 60 '
+    'and at %.4f s at 144 with the fix (within a frame: f summed in floats)' % ((gh + 1) / 60.0, (fh + 1) / 144.0))
 print('ALL OK' if not bad else '%d FAILED' % bad)
 sys.exit(1 if bad else 0)

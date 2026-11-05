@@ -466,12 +466,23 @@ static float g_rate[3], g_rate0[3];
 static volatile float g_loop_s = 1.0f; static volatile int g_loop_on;     // this frame's s, and whether 3 is in effect
 static bool g_loops_done; static LONG g_loop_frac_frames;
 static const uint32_t kMoveThrAt[4] = {0x100C6BBCu, 0x100C6BE2u, 0x100C6C08u, 0x100C7100u};   // fcomp dword ptr [0x10329A18]
-static inline float loop_k(float k) {
+// the camera follow (sf_step_loops.h kStepFollow*, kStepTickDec, kStepHold*; frame_step_loops.py FOLLOW_*): the hold
+// timer's per-pass amount and the counter's start, the game's values first
+static float g_tick_dec = 1.0f, g_tick_dec0 = 1.0f; static int g_hold = 4, g_hold0 = 4; static float g_follow_far = 0.5f;
+// f: the share of a tick one of this frame's ceil(s) passes stands for (1 at whole s: the game's code)
+static inline double loop_f(void) {
   float s = g_loop_s;
-  if (!g_loop_on || !(s > 0.0f)) return k;
+  if (!g_loop_on || !(s > 0.0f)) return 1.0;
   float n = ceilf(s);
-  if (n == s) return k;                                  // whole ticks: the game's own factor
-  return (float)(1.0 - pow(1.0 - (double)k, (double)s / (double)n));
+  return n == s ? 1.0 : (double)s / (double)n;
+}
+static inline float loop_k(float k) {
+  double f = loop_f();
+  if (f == 1.0) return k;                                // whole ticks: the game's own factor
+  // k >= 1 (the follow's (d - 6) 0.012 with the camera 89 or more from the player, just after a warp): the game's pass
+  // overshoots (1 - k <= 0 has no fractional power); a pass then moves f of it -- stated, not a closed form
+  if (!(k < 1.0f)) return (float)(k * f);
+  return (float)(1.0 - pow(1.0 - (double)k, f));
 }
 // the getter's forks call this with the fraction s a loop is about to count (before the loop runs), so the factors
 // below are this s's (s changes once a frame, at Frame_Render's top; the factors are recomputed when it changes)
@@ -486,11 +497,31 @@ static void loop_set(float s) {
     double keep = pow((double)g_rate0[RATE_OLD], (double)s);
     g_rate[RATE_OLD] = (float)keep; g_rate[RATE_NEW] = (float)(1.0 - keep); g_rate[RATE_THR] = g_rate0[RATE_THR] * s;
   } else for (int j = 0; j < 3; j++) g_rate[j] = g_rate0[j];
+  double f = loop_f();                                   // the follow: a pass is f of a tick
+  g_tick_dec = f == 1.0 ? g_tick_dec0 : (float)f;
+  g_hold = f == 1.0 ? g_hold0 : (int)floor(g_hold0 / f + 0.5);   // the passes 4 ticks make, to the nearest pass
   if (ceilf(s) != s) g_loop_frac_frames++;
 }
 extern "C" { void (*volatile xi_step_loop_hook)(float) = loop_set; }
 typedef void (__cdecl *ScaleFn)(float *, float);
 extern "C" void __cdecl sf_scale_k(float *v, float k) { ((ScaleFn)XI_GAME(0x100272B0u))(v, loop_k(k)); }
+typedef void (__cdecl *Scale3Fn)(float *, const float *, float);
+extern "C" void __cdecl sf_scale3_k(float *d, const float *v, float k) { ((Scale3Fn)XI_GAME(0x100272E0u))(d, v, loop_k(k)); }
+// the follow's one 0x100272B0 call (0x1001FD5A), reached two ways (frame_step_loops.py FOLLOW_FORMS): d > 100 with v
+// normalised (0x1001FD17) and k = (d - 100) 0.5, the excess over 100 halving a pass -- f of a pass leaves 0.5^f of it, a
+// move of (k / 0.5)(1 - 0.5^f); 6 <= d <= 100 with v = player - camera, |v| = d >= 6, and k = (d - 6) 0.012, the fraction
+// of the distance a pass moves -- k'. Which way it came is |v|: 1 or at least 6.
+extern "C" void __cdecl sf_follow_k(float *v, float k) {
+  double f = loop_f();
+  if (f != 1.0) {
+    double l2 = (double)v[0] * v[0] + (double)v[1] * v[1] + (double)v[2] * v[2], h = g_follow_far;
+    k = l2 < 4.0 ? (float)((k / h) * (1.0 - pow(1.0 - h, f))) : loop_k(k);
+  }
+  ((ScaleFn)XI_GAME(0x100272B0u))(v, k);
+}
+// in place of the follow's `mov dword ptr [0x10456D8C], 4` (0x1001FB19, then a jmp; eax ecx edx and the x87 stack are
+// free there: the code after sets them first): the counter in passes
+extern "C" void __cdecl sf_follow_hold(void) { *(volatile int *)(uintptr_t)XI_GAME(kStepHoldVar) = g_hold; }
 // point the 4-byte absolute operand of the instruction at `at` (opcode op[0] op[1], operand XI_GAME(constant)) at `to`
 static bool reaim_operand(uint32_t at, const uint8_t op[2], uint32_t constant, const float *to, const char *what) {
   uint8_t want[6] = {op[0], op[1]}, live[6]; uint32_t c = (uint32_t)XI_GAME(constant); memcpy(want + 2, &c, 4);
@@ -524,10 +555,37 @@ static void apply_step_loops(void) {              // render thread, inside Prese
       g_rate[o.kind] = g_rate0[o.kind] = *(const float *)(uintptr_t)XI_GAME(o.constant);
       all++; ok += reaim_operand(o.at, o.op, o.constant, &g_rate[o.kind], "frame_step=3 (walk/run rate)");
     }
+    for (unsigned i = 0; i < sizeof kStepIntLoopOperand / sizeof kStepIntLoopOperand[0]; i++) {   // the follow's 0.125
+      const StepLoopOperand &o = kStepIntLoopOperand[i]; int j = 0;
+      while (j < g_nloop_k && g_loop_kc[j] != o.constant) j++;
+      if (j == g_nloop_k) { if (j == 4) continue; g_loop_kc[j] = o.constant; g_loop_k[j] = g_loop_k0[j] = *(const float *)(uintptr_t)XI_GAME(o.constant); g_nloop_k++; }
+      all++; ok += reaim_operand(o.at, o.op, o.constant, &g_loop_k[j], "frame_step=3 (camera follow 0.125)");
+    }
+    g_tick_dec = g_tick_dec0 = *(const float *)(uintptr_t)XI_GAME(kStepTickDec.constant);
+    all++; ok += reaim_operand(kStepTickDec.at, kStepTickDec.op, kStepTickDec.constant, &g_tick_dec, "frame_step=3 (camera hold timer)");
+    g_follow_far = *(const float *)(uintptr_t)XI_GAME(kStepFollowFar);
+    { int32_t rel = (int32_t)(0x100272B0u - (kStepFollowCall + 5)); uint8_t e[5] = {0xE8}; memcpy(e + 1, &rel, 4);
+      all++; ok += reaim_call(kStepFollowCall, e, (void *)sf_follow_k, "frame_step=3 (camera follow)"); }
+    for (unsigned i = 0; i < sizeof kStepScale3Call / sizeof kStepScale3Call[0]; i++) {
+      int32_t rel = (int32_t)(0x100272E0u - (kStepScale3Call[i] + 5)); uint8_t e[5] = {0xE8}; memcpy(e + 1, &rel, 4);
+      all++; ok += reaim_call(kStepScale3Call[i], e, (void *)sf_scale3_k, "frame_step=3 (camera chase, 0x100272E0)");
+    }
+    { uint8_t want[10] = {0xC7, 0x05}, live[10]; uint32_t v = (uint32_t)XI_GAME(kStepHoldVar); memcpy(want + 2, &v, 4);
+      memcpy(want + 6, &kStepHold, 4); all++; g_hold = g_hold0 = kStepHold;
+      if (!live_bytes(kStepHoldSet, want, 10, live)) LOG("speedfix: frame_step=3 (camera hold counter) not changed: the bytes at %08X are not mov dword ptr [%08X], %d", kStepHoldSet, v, kStepHold);
+      else {
+        uint8_t *p = (uint8_t *)(uintptr_t)XI_GAME(kStepHoldSet); int32_t rel = (int32_t)((uintptr_t)sf_follow_hold - (uintptr_t)(p + 5));
+        uint8_t e[10] = {0xE8, 0, 0, 0, 0, 0x0F, 0x1F, 0x44, 0x00, 0x00}; memcpy(e + 1, &rel, 4); DWORD old;   // call; 5-byte nop
+        if (VirtualProtect(p, 10, PAGE_EXECUTE_READWRITE, &old)) {
+          memcpy(p, e, 10); VirtualProtect(p, 10, old, &old); FlushInstructionCache(GetCurrentProcess(), p, 10); ok++;
+          LOG("speedfix: frame_step=3 (camera hold counter): %08X now calls speedfix", kStepHoldSet);
+        }
+      }
+    }
     static const uint8_t kThrOp[2] = {0xD8, 0x1D};
     for (int i = 0; i < 4; i++) { all++; ok += reaim_operand(kMoveThrAt[i], kThrOp, 0x10329A18u, &g_move_thr, "frame_step=3 (OnMove 0.01)"); }
-    LOG("speedfix: frame_step=3: %d of %d loop changes in place (%u chase loops and the walk/run rate: data/frame_step_loops.json)", ok, all,
-        (unsigned)(sizeof kStepLoopRet / sizeof kStepLoopRet[0] + sizeof kStepIntLoopRet / sizeof kStepIntLoopRet[0]));
+    LOG("speedfix: frame_step=3: %d of %d loop changes in place (%u tick loops, the camera follow and the walk/run rate: data/frame_step_loops.json, "
+        "pipeline/frame_step_loops.py)", ok, all, (unsigned)(sizeof kStepLoopRet / sizeof kStepLoopRet[0] + 4));
   }
   if (!g_loops_done) return;
   if (!(xi_step_mode == 3 && xi_step_have) && g_loop_on) {     // 3 off: the game's factors and compare (loop_set sets them on)
@@ -535,6 +593,7 @@ static void apply_step_loops(void) {              // render thread, inside Prese
     for (int j = 0; j < g_nloop_k; j++) g_loop_k[j] = g_loop_k0[j];
     for (int j = 0; j < 3; j++) g_rate[j] = g_rate0[j];
     g_move_thr = g_move_thr0;
+    g_tick_dec = g_tick_dec0; g_hold = g_hold0;
   }
 }
 static void st_stats(void) {
@@ -543,7 +602,8 @@ static void st_stats(void) {
   if (!sf_framestep_installed || !f) return;
   double real = ms * 0.06;
   if (g_loops_done) { LONG lf = g_loop_frac_frames; g_loop_frac_frames = 0;
-    LOG("speedfix: frame_step=3: in these %ld frames the 5 tick loops were given %ld new steps of a fraction of a tick (factor k' = 1 - (1 - k)^(s/ceil s))", f, lf); }
+    LOG("speedfix: frame_step=3: in these %ld frames the %u tick loops were given %ld new steps of a fraction of a tick (factor k' = 1 - (1 - k)^(s/ceil s))", f,
+        (unsigned)(sizeof kStepLoopRet / sizeof kStepLoopRet[0] + 4), lf); }
   LOG("speedfix: frame_step=%d uncap=%d: %ld frames, %.0f ms by the counter (%.1f ticks of 1/60 s); speedfix's step (what frame_step 1 "
       "and 2 answer) added up to: whole %.0f (%.1f%%; %ld frames of 0), fraction %.1f (%.1f%%); the game's own (what frame_step 0 "
       "answers) %.0f (%.1f%%)", sf_cfg.frame_step, sf_cfg.uncap, f, ms, real,

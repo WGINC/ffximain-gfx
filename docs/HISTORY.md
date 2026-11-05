@@ -4269,3 +4269,30 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
   chain switched both ways. The first build of the switch did not bind the targets again after a switch back to the
   blt model (the next frame's Clear had none): found by that test, fixed. t8 frames takes a frame count.
 - ab_06nov: `abtest flip` in the plaza (A blt, B flip; A B B A as d3d8on11's A/B runs), gpu_time on through the start.
+
+**7 Nov: the owner's second ab_06nov run (2026-11-05_143513_9924 and the flip start), the camera's follow, and ab_07nov.**
+- **The owner:** the animations are fixed (no flicker, no moonwalk); the camera jittered while running ("making me
+  sick"); everything looked slightly fuzzy or smudged while running, in the step test's B segments too; the game froze
+  for good going from B to A in `abtest flip`, so steps 4-9 were a second start. That second start was not made with
+  start.bat, so the flip start's d3d8on11.log was overwritten: the freeze's cause is not established.
+- **Measured:** flip A/B 24-25 ms a frame either way (no gain shown); gpu_time 0.000 ms a frame on Parallels (its
+  timestamp queries do not measure there); draw_sites still put every draw under speedfix (the hook chain between the
+  game and d3d8on11 is not traced: off until it is). Second start, mean frame: camera 16.3 ms, run 15.2, abtest step A
+  6.0 / 9.7, B 4.4 / 7.0, busy 8.2, menus 7.5, zone 5.4, stand 6.2.
+- **The camera jitter, from the game's code:** the camera's follow (0x1001FA38/0x1001FE7C, with the path return
+  0x1001F66B/0x1001F711) was still whole ticks while the characters moved by the fraction: 0, 1, 0, 1 passes a frame
+  above 60. On the game's instructions at 144 fps the camera's distance to a running player swung 0.05 frame to frame
+  (0.0001 at 60). Now under frame_step=3: ceil(s) passes and the fraction in each of its chases, its hold timer and its
+  counter (RENDERER 3c); the swing 0.0001, s = 1 bit for bit the game's, the camera after the same real time within one
+  tick's movement of the game's (24 changes in place, speedfix's host test; test_steploops.py section 6 on both builds).
+- **The smudge:** cause not known. The camera's jumps move the whole picture, so they may be it; ab_07nov's
+  `abtest cap` (frame_cap_fps=60 against no cap, the same settings otherwise) tells a smudge that comes with frame rates
+  above 60 from one that does not.
+- **d3d8on11:** the swap chain is no longer switched while the game runs (swap_flip set for a whole start;
+  exec_ab_lever=flip refused, logged; test_d3d8on11.py checks both). The gpu_time line's format (a `%zu` the build's
+  printf checking does not know) written with `%u`; the owner's log shows the line printed right, so it was not a
+  fault in the game.
+- **Tests:** sf_host.c's check of the `_ftol` call at 0x10012C3C named 6A995428's `_ftol` (0x10311C2C) only; on
+  6AC37846 it is 0x10311C6C (the same check failed before this change): both accepted now.
+- **ab_07nov** (kit/sessions/ab_07nov): plaza, camera, run, `abtest cap` running, `abtest step` auto-running, stand;
+  no flip test, no draw_sites, no gpu_time.

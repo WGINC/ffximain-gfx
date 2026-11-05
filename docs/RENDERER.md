@@ -274,8 +274,27 @@ The owner saw characters, the auto-running player most, flicker between two pose
   input x 0.1067 added to `[edi+0x48]`) are applied once a frame and add up: frame_step=3 gives them the fraction, so the
   camera turns and rises a little every frame instead of a tick's worth on tick frames only (read from the listing; not
   run). The zoom sites (0x1001F82F..0x1001F91D: `+0x2F8 = +0x2F4 +- 6 step`, clamped 242..900, also stored as an integer
-  setting) are left whole: how +0x2F4 follows +0x2F8 is not traced. The two integer loops with collision tests
-  (0x1001FA38, 0x1001FE7C) are left whole too.
+  setting) are left whole: how +0x2F4 follows +0x2F8 is not traced.
+- **The camera's follow (found after the 6 Nov run: the camera jittered while running, "it made me sick").** The
+  6 Nov build listed 0x1001FA38 and 0x1001FE7C as "two integer loops with collision tests, left whole". Read through
+  (pipeline/frame_step_loops.py FOLLOW_*), they are the two getter calls of one loop, `for (i = 0; i < ftol(s); i++)`,
+  and it is the camera following the player, once a whole tick: a hold timer `[0x10456D7C]` -= 1.0 (set to 20 by a wall
+  push; nothing more while above 0); d = |player - camera|; with setting 0x91 the turn behind the player (a counter
+  `[0x10456D8C]` of 4 passes after the stick is let go, then the camera += (the point d behind the player - camera) x
+  N x 0.0005 in x z, 0x100272E0); d > 100: camera += normalised(v)(d - 100)0.5; 6 <= d <= 100: camera += v(d - 6)0.012
+  (one 0x100272B0 call, 0x1001FD5A); closer than 3 by a wall: camera += v(3 - d)(-0.125) and a horizontal push out of
+  (3 - h)0.125. The loop 0x1001F66B/0x1001F711 brings the camera back along its path, 0.05 of the way a pass. So the
+  characters moved by the fraction each frame while the camera followed by 0, 1, 0, 1 ... passes: on the game's
+  instructions at 144 fps (test_steploops.py section 6), the camera's distance to a player running at 5 a second swung
+  by 0.05 from frame to frame, against 0.0001 at 60 fps. Under frame_step=3 now: ceil(s) passes, every chase's factor k'
+  for f = s/ceil(s) of a tick (the far form's (k/0.5)(1 - 0.5^f): the excess over 100 halves a tick; sf_follow_k tells
+  the forms apart by |v|, 1 or at least 6, which the code makes so); the timer takes f a pass; the counter starts at
+  round(4/f) passes (a call in place of its `mov`). Measured: the frame-to-frame swing 0.0001 at 144 fps; s = 1 bit for
+  bit the game's code; after the same real time the camera within one tick's movement of the game's at 60, at 75, 120
+  and 144 fps (0.02 of 6.4 standing after 0.3 s, 0.045 of 6.9 running after 1 s: the follow's factor changes with the
+  distance each pass, so finer passes follow the same rule along a slightly different path; this is not removed by any
+  per-pass factor, only by running the game's logic at 60 and interpolating). The counter `[0x10456D80]` (60, taken 1
+  off each camera update, i.e. each frame) counts frames in the game too and is left as it is.
 
 ### 3b. The owner's run of 26 Oct: game speed following the frame rate under d3d8on11
 

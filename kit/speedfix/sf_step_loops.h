@@ -24,9 +24,22 @@ static const uint32_t kStepLoopScaleCall[] = {   // `call 0x100272B0` (E8 rel32)
 };
 // linear per-frame moves (frame_step_loops.py LINEAR_RET): the fraction under frame_step=3
 static const uint32_t kStepLinearRet[] = {0x1001F024u, 0x1001F0F7u};
-// integer-count chases (frame_step_loops.py INT_LOOPS): the getter calls answered ceil(s) under frame_step=3
-static const uint32_t kStepIntLoopRet[] = {0x1001F5A7u, 0x1002014Du};
-static const uint32_t kStepIntLoopScaleCall[] = {0x1001F5D9u, 0x1002017Cu};
+// integer-count chases (frame_step_loops.py INT_LOOPS, FOLLOW_*): the getter calls answered ceil(s) under
+// frame_step=3, and the 0x100272B0 calls in them that get k' (sf_scale_k)
+static const uint32_t kStepIntLoopRet[] = {0x1001F5A7u, 0x1002014Du, 0x1001F670u, 0x1001F716u, 0x1001FA3Du, 0x1001FE81u};
+static const uint32_t kStepIntLoopScaleCall[] = {0x1001F5D9u, 0x1002017Cu, 0x1001FDAFu};
+// the camera follow (frame_step_loops.py FOLLOW_*): its chase call (two forms: sf_follow_k), its 0x100272E0
+// calls (sf_scale3_k), its fmul [0.125] (the 0.125 factor's float), the hold timer's fsub [1.0], the counter's
+// mov dword ptr [0x10456D8C], 4
+static const uint32_t kStepFollowCall = 0x1001FD5Au;
+static const uint32_t kStepScale3Call[] = {0x1001F6D1u, 0x1001FCD3u};
+static const StepLoopOperand kStepIntLoopOperand[] = {
+  {0x1001FE36u, {0xD8, 0x0D}, 0x1032A3BCu},   // 0.125
+  {0x1001FE46u, {0xD8, 0x0D}, 0x1032A3BCu},   // 0.125
+};
+static const StepLoopOperand kStepTickDec = {0x1001FA55u, {0xD8, 0x25}, 0x1032961Cu};   // 1
+static const uint32_t kStepHoldSet = 0x1001FB19u, kStepHoldVar = 0x10456D8Cu; static const int kStepHold = 4;
+static const uint32_t kStepFollowFar = 0x10329A08u;   // the far form's factor (0.5)
 // the walk/run rate 0x100C8930 (frame_step_loops.py RATE_*): its getter calls (return addresses) and the
 // per-frame smoothing and standing test, made per-tick below one tick a frame
 static const uint32_t kStepRateRet[] = {0x100C8ACDu, 0x100C8AECu};

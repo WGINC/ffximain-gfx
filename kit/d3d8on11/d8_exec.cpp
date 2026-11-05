@@ -509,8 +509,8 @@ void Exec::gpu_frame_end() {                               // before a Present: 
     std::vector<float> v = gpu_ms; std::sort(v.begin(), v.end());
     double sum = 0; for (float f : v) sum += f;
     if (!v.empty())
-      d8_log("gpu_time, %u frames: the GPU's time for a frame's work %.3f ms on average, 95%% %.3f, longest %.3f (%zu measured, %u not ready "
-             "in %d frames or disjoint); swap chain: %s", gpu_frames, sum / v.size(), v[(size_t)(v.size() * 0.95)], v.back(), v.size(), gpu_lost, NQ,
+      d8_log("gpu_time, %u frames: the GPU's time for a frame's work %.3f ms on average, 95%% %.3f, longest %.3f (%u measured, %u not ready "
+             "in %d frames or disjoint); swap chain: %s", gpu_frames, sum / v.size(), v[(size_t)(v.size() * 0.95)], v.back(), (unsigned)v.size(), gpu_lost, NQ,
              flip ? "flip model (FLIP_DISCARD, 2 buffers)" : "blt model (DISCARD, 1 buffer)");
     else d8_log("gpu_time, %u frames: none measured (%u not ready in %d frames or disjoint)", gpu_frames, gpu_lost, NQ);
     gpu_ms.clear(); gpu_frames = 0; gpu_lost = 0;
@@ -901,12 +901,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     HRESULT h = swap ? swap->Present(sync, 0) : E_FAIL;
     if (FAILED(h)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure)", (unsigned long)h);
     presents++;
-    bool remade = false;
-    if (swap && flip_want != flip) {                       // OPT_FLIP: the other model, from the next frame
-      flip = flip_want; release_swap(); remade = true;     // (release_swap unbinds the targets: bound again below, either model)
-      if (make_swap() == D3D_OK) d8_log("swap chain now %s (frame %llu)", flip ? "the flip model (FLIP_DISCARD, 2 buffers)" : "the blt model (DISCARD, 1 buffer)", (unsigned long long)presents);
-    }
-    if ((flip || remade) && swap) {                        // the flip model unbinds the back buffer at each Present: bound again
+    if (flip && swap) {                                    // the flip model unbinds the back buffer at each Present: bound again
       cur_rtv = last_rt.id ? rtv_of(last_rt) : nullptr;
       auto d = last_ds ? res.find(last_ds) : res.end(); cur_dsv = d != res.end() ? d->second.dsv : nullptr;
       ctx->OMSetRenderTargets(1, &cur_rtv, cur_dsv); forget();
@@ -959,7 +954,10 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     if (o.key == OPT_FILTER) { filter = o.value; forget(); }
     if (o.key == OPT_BATCH) { batch = o.value; forget(); }
     if (o.key == OPT_SITES) sites_on = o.value != 0;
-    if (o.key == OPT_FLIP) { flip_want = o.value != 0; if (!swap) flip = flip_want; }   // before the swap chain exists: made so
+    if (o.key == OPT_FLIP) {                               // the model the swap chain is made in: before it exists only
+      if (!swap) flip = flip_want = o.value != 0;
+      else if ((o.value != 0) != flip) d8_once("flip_live", "swap_flip=%u after the swap chain was made: not applied (the model is set for the whole start)", o.value);
+    }
     if (o.key == OPT_GPUTIME) gpu_on = o.value != 0;
     memo.vc_ok = memo.pc_ok = false;                       // the constants may be in either place: written again
     break; }

@@ -59,8 +59,9 @@ struct Exec {
   void (*timed)(void *, uint16_t, double) = nullptr; void *timed_ctx = nullptr;
   bool sites_on = false;                             // OPT_SITES
   // OPT_FLIP: the swap chain's model. 0: DXGI_SWAP_EFFECT_DISCARD, one buffer (the blt model, as before); 1:
-  // DXGI_SWAP_EFFECT_FLIP_DISCARD, two buffers (the flip model). A change is made right after the next Present: the swap
-  // chain is released and made again, and the device's targets bound again (last_rt, last_ds: what X_TARGETS set)
+  // DXGI_SWAP_EFFECT_FLIP_DISCARD, two buffers (the flip model). Set before the swap chain is made, for the whole start
+  // (7 Nov: switched while running, it froze the owner's game); the flip model's targets are bound again after each
+  // Present (last_rt, last_ds: what X_TARGETS set)
   bool flip = false, flip_want = false; XInit last_init = {}; XRef last_rt = {}; uint32_t last_ds = 0;
   int32_t make_swap();
   // OPT_GPUTIME: the GPU's time for each frame's work, from timestamp queries around it (a disjoint query each); read

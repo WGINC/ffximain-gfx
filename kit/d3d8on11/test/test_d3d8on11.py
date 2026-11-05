@@ -78,27 +78,27 @@ for m in (['remote'] if 'remote' in MODES else MODES[:1]):
                                  "windowed; Present's SyncInterval 1 (present_interval in d3d8on11.ini)" % at in t for at in ('CreateDevice', 'Reset'))
     print('%s: %s mode with present_interval=1: basic passes and the log gives SyncInterval 1 from the ini' % ('ok' if ok else 'FAIL', m)); bad += not ok
 
-# the flip-model swap chain and the GPU's time (6 Nov): t8 frames (600 frames, frame-late locks of a copied render
-# target; t8 frames 3000, 3000 frames) in thread mode (1) with swap_flip=1 and gpu_time=1 from the start, (2) with the A/B turning the flip model
-# on and off every second (the swap chain made again at a Present, the targets bound again). Every frame-late lock must
-# still read the right colour, the GPU lines must be written, and in (2) both switches must happen
+# the flip-model swap chain and the GPU's time (6 Nov): t8 frames 3000 (3000 frames, frame-late locks of a copied
+# render target) in thread mode (1) with swap_flip=1 and gpu_time=1 from the start: every frame-late lock must still read
+# the right colour and the GPU lines must be written; (2) exec_ab_lever=flip (7 Nov: the switch while running froze the
+# owner's game): refused, the A/B off, the swap chain never made again
 for label, text in (('swap_flip=1 gpu_time=1', '[d3d8on11]\nswap_flip=1\ngpu_time=1\n'),
-                    ('the flip A/B, 1 s phases', '[d3d8on11]\ngpu_time=1\nexec_ab=1\nexec_ab_lever=flip\nexec_ab_after=0\n'
-                                                 'exec_ab_phase=1\nexec_ab_rounds=3\nexec_ab_settle=1\n')):
+                    ('exec_ab_lever=flip', '[d3d8on11]\ngpu_time=1\nexec_ab=1\nexec_ab_lever=flip\nexec_ab_after=0\n'
+                                           'exec_ab_phase=1\nexec_ab_rounds=3\nexec_ab_settle=1\n')):
     if os.path.exists(log): os.remove(log)
     open(ini, 'w').write(text)
     out = run(ours, 'frames 3000', True, 'thread', {'D8ON11_RING_KB': '64'})
     os.remove(ini)
     t = open(log).read() if os.path.exists(log) else ''
     ok = 'still running after 3000 frames' in out and 'ok: a frame-late lock' in out and 'FAIL' not in out and 'gpu_time, 600 frames' in t \
-         and 'the blt model instead' not in t
-    if 'A/B' in label: ok = ok and 'swap chain now the flip model' in t and 'swap chain now the blt model' in t
+         and 'the blt model instead' not in t and 'swap chain now' not in t
+    if 'lever' in label: ok = ok and 'exec_ab_lever=flip: refused' in t and 'executor ab: phase' not in t
     else: ok = ok and 'swap_flip=1: the flip-model swap chain' in t
     print('%s: thread mode, %s: 3000 frames run, frame-late locks right, the GPU lines written%s' % (
-        'ok' if ok else 'FAIL', label, '; the swap chain switched both ways' if 'A/B' in label else ''))
+        'ok' if ok else 'FAIL', label, '; the lever refused, the swap chain not switched' if 'lever' in label else ''))
     bad += not ok
     for l in t.splitlines():
-        if 'gpu_time' in l or 'swap chain now' in l or 'swap_flip' in l or 'executor ab' in l or 'blt model instead' in l: print('   ', l)
+        if 'gpu_time' in l or 'swap chain now' in l or 'swap_flip' in l or 'executor ab' in l or 'blt model instead' in l or 'lever' in l: print('   ', l)
 
 a = dict(l.rsplit(' ', 1) for l in run(ref, 'defaults', False).splitlines() if l[:3] in ('rs ', 'tss'))
 b = dict(l.rsplit(' ', 1) for l in run(ours, 'defaults', True).splitlines() if l[:3] in ('rs ', 'tss'))

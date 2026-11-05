@@ -55,6 +55,10 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   ab.phase = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_phase", 30, ini);
   ab.rounds = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_rounds", 4, ini);
   ab.settle = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_settle", 60, ini);
+  // exec_ab_lever=flip is refused (7 Nov: the owner's game froze for good at the switch from the flip model back to the
+  // blt model, the second segment of abtest flip; the cause is not established, its log was lost): swap_flip is a
+  // setting for the whole start, compared by two starts, not switched while the game runs
+  if (ab.on && ab.key == OPT_FLIP) { ab.on = 0; d8_log("exec_ab_lever=flip: refused (the swap chain is not switched while the game runs; set swap_flip for the whole start): the A/B is off"); }
   if (ab.phase < 1) ab.phase = 1; if (ab.settle < 1) ab.settle = 1; if (ab.rounds < 1) ab.rounds = 1; if (ab.after < 0) ab.after = 0;
   ab.i = -1;
   { XOption o = {OPT_FILTER, (uint32_t)(ab.filter != 0), 0}; link->put(X_OPTION, &o, sizeof o); }

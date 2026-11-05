@@ -62,6 +62,40 @@ WHY = {
 # k' = 1 - (1-k)^(s/ceil s) as the float-count loops. (0x102160A3, the third hit of that scan, counts calls of
 # 0x10310A3C, not a chase: left as the game has it.)
 INT_LOOPS = ((0x1001F5A2, 0x1001F5D9), (0x10020148, 0x1002017C))   # (the getter call, its loop's 0x100272B0 call)
+# The camera's follow loops (7 Nov, the owner's camera jitter while running under frame_step=3: the characters moved by
+# the fraction each frame, these loops by whole ticks, 0 or 1 a frame above 60 fps). Two more integer-count loops of
+# YmCameraManager_Follow, read from its listing; each calls the getter at its top and again at each pass's end
+# (`for (i = 0; i < ftol(s); i++)`), so both calls are answered ceil(s):
+#   0x1001F66B/0x1001F711 (the camera back along its stored path, [edi+0xF0] >= 4): v = target - camera (0x1001E3B0's
+#     point), then if |v| > 0.05 the camera += v * 0.05 (0x100272E0 at 0x1001F6D1, push 0x3D4CCCCD): a chase, 0.05 a pass;
+#   0x1001FA38/0x1001FE7C (the follow): a pass first takes 1.0 off the hold timer [0x10456D7C] (fsub [0x1032961C] at
+#     0x1001FA55; the timer is set to 20 when a wall pushes the camera) and does nothing more while it is above 0; then
+#     d = |player - camera| ([esp+0x10]), v = player - camera ([esp+0x28]), and
+#       - with setting 0x91 on, the turn behind the player: while the stick is moved the player's position is kept
+#         (0x10456D90) and a counter [0x10456D8C] set to 4 (0x1001FB19, mov dword [..], 4); each pass with the player more
+#         than 0.5 from the kept position takes 1 off it; at 0 the camera += (point d behind the player - camera) x
+#         N x 0.01 x 0.05 (N the int [0x1035121C]) in x and z (0x100272E0 at 0x1001FCD3): a chase toward that point;
+#       - d > 100: v normalised, camera += v (d - 100) 0.5; 6 <= d <= 100: camera += v (d - 6) 0.012 (v of length d);
+#         both through the one 0x100272B0 call at 0x1001FD5A: a chase, by (d - 100) 0.5 of a unit vector (the excess
+#         over 100 halves a pass) or by the fraction (d - 6) 0.012 of the distance;
+#       - closer than 3 (a flag from a wall test): camera += v (3 - d)(-0.125) (0x100272B0 at 0x1001FDAF: the distance
+#         times 1 + (3 - d)/8 a pass), and in x z camera += (camera - player) normalised x (3 - h) 0.125 (fmul [0.125] at
+#         0x1001FE36 and 0x1001FE46: 3 - h, the horizontal distance short of 3, times 0.875 a pass).
+# So under frame_step=3 (sf_main.cpp): ceil(s) passes, every chase's factor k' for f = s/ceil(s) of a pass (the excess
+# form: (k/0.5)(1 - 0.5^f)); the timer takes f off a pass (s a frame, as the game's ticks do); the counter is set to the
+# passes 4 ticks make, round(4/f). The counter [0x10456D80] (set to 60 at 0x1001E2B2, taken 1 off once a call, i.e. a
+# frame) counts frames in the game too (at 30 fps it lasts 2 s): left as the game has it.
+FOLLOW_INT_RET = (0x1001F66B, 0x1001F711, 0x1001FA38, 0x1001FE7C)  # getter calls, each followed by _ftol
+FOLLOW_SCALE_CALLS = (0x1001FDAF,)                       # 0x100272B0 with a k (negative) -> sf_scale_k
+FOLLOW_CHASE_CALL = 0x1001FD5A                           # 0x100272B0 of the follow (two forms) -> sf_follow_k
+FOLLOW_SCALE3 = (0x1001F6D1, 0x1001FCD3)                 # 0x100272E0 (dst, src, k) -> sf_scale3_k
+FOLLOW_OPS = ((0x1001FE36, 'D80D', 0x1032A3BC), (0x1001FE46, 'D80D', 0x1032A3BC))   # fmul [0.125]: the 0.125 slot
+FOLLOW_DEC = (0x1001FA55, 'D825', 0x1032961C)            # fsub [1.0]: the hold timer, a pass
+FOLLOW_HOLD = 0x1001FB19                                 # mov dword ptr [0x10456D8C], 4 (10 bytes)
+# the instructions sf_follow_k's two forms rest on (checked against the image): the far form's normalise and factor,
+# the near form's bounds and factor
+FOLLOW_FORMS = ((0x1001FD17, 'e8', 0x100274B0), (0x1001FD20, 'd825', 0x1032A3C8), (0x1001FD26, 'd80d', 0x10329A08),
+                (0x1001FD32, 'd81d', 0x1032A3E8), (0x1001FD45, 'd825', 0x1032A3E8), (0x1001FD4C, 'd80d', 0x1032A3C4))
 # Linear per-frame moves (frame_step=3: the fraction; read 6 Nov from YmCameraManager_Follow's listing): 0x1001F01F,
 # step x input x 0.0279 into 0x1001EBB0 (the camera's yaw around its target: the current angle, fpatan, plus this, then
 # the position at that angle: rotations add); 0x1001F0F2, step x input x 0.1067 added to [edi+0x48] (fadd/fstp). Each is
@@ -161,9 +195,40 @@ def main():
                 assert i.mnemonic == 'call' and int(i.op_str, 16) in GETTERS, hex(ea)
             f.write('// linear per-frame moves (frame_step_loops.py LINEAR_RET): the fraction under frame_step=3\n')
             f.write('static const uint32_t kStepLinearRet[] = {%s};\n' % ', '.join('0x%08Xu' % (e + 5) for e in LINEAR_RET))
-            f.write('// integer-count chases (frame_step_loops.py INT_LOOPS): the getter calls answered ceil(s) under frame_step=3\n')
-            f.write('static const uint32_t kStepIntLoopRet[] = {%s};\n' % ', '.join('0x%08Xu' % (g + 5) for g, _ in INT_LOOPS))
-            f.write('static const uint32_t kStepIntLoopScaleCall[] = {%s};\n' % ', '.join('0x%08Xu' % c for _, c in INT_LOOPS))
+            def call_to(ea, fn):
+                i = next(md.disasm(im[ea - base:ea - base + 5], ea))
+                assert i.mnemonic == 'call' and int(i.op_str, 16) == fn, (hex(ea), i.mnemonic, i.op_str)
+            for g in FOLLOW_INT_RET:                  # the getter, then _ftol
+                ins = list(md.disasm(im[g - base:g - base + 10], g))
+                assert int(ins[0].op_str, 16) in GETTERS and int(ins[1].op_str, 16) in (0x10311C2C, 0x10311C6C), hex(g)
+            for c in FOLLOW_SCALE_CALLS + (FOLLOW_CHASE_CALL,): call_to(c, SCALE)
+            for c in FOLLOW_SCALE3: call_to(c, 0x100272E0)
+            for ea, op, c in FOLLOW_OPS + (FOLLOW_DEC,) + tuple((e, o, c) for e, o, c in FOLLOW_FORMS if o != 'e8'):
+                b = im[ea - base:ea - base + 6]
+                assert b[:2] == bytes.fromhex(op) and struct.unpack('<I', b[2:6])[0] == c, hex(ea)
+            for ea, o, fn in FOLLOW_FORMS:
+                if o == 'e8': call_to(ea, fn)
+            hold = im[FOLLOW_HOLD - base:FOLLOW_HOLD - base + 10]
+            assert hold == bytes.fromhex('c7058c6d4510') + struct.pack('<I', 4), hold.hex()
+            f.write('// integer-count chases (frame_step_loops.py INT_LOOPS, FOLLOW_*): the getter calls answered ceil(s) under\n'
+                    '// frame_step=3, and the 0x100272B0 calls in them that get k\' (sf_scale_k)\n')
+            f.write('static const uint32_t kStepIntLoopRet[] = {%s};\n'
+                    % ', '.join('0x%08Xu' % (g + 5) for g in [g for g, _ in INT_LOOPS] + list(FOLLOW_INT_RET)))
+            f.write('static const uint32_t kStepIntLoopScaleCall[] = {%s};\n'
+                    % ', '.join('0x%08Xu' % c for c in [c for _, c in INT_LOOPS] + list(FOLLOW_SCALE_CALLS)))
+            f.write('// the camera follow (frame_step_loops.py FOLLOW_*): its chase call (two forms: sf_follow_k), its 0x100272E0\n'
+                    '// calls (sf_scale3_k), its fmul [0.125] (the 0.125 factor\'s float), the hold timer\'s fsub [1.0], the counter\'s\n'
+                    '// mov dword ptr [0x10456D8C], 4\n')
+            f.write('static const uint32_t kStepFollowCall = 0x%08Xu;\n' % FOLLOW_CHASE_CALL)
+            f.write('static const uint32_t kStepScale3Call[] = {%s};\n' % ', '.join('0x%08Xu' % c for c in FOLLOW_SCALE3))
+            f.write('static const StepLoopOperand kStepIntLoopOperand[] = {\n')
+            for ea, op, c in FOLLOW_OPS:
+                b = bytes.fromhex(op); f.write('  {0x%08Xu, {0x%02X, 0x%02X}, 0x%08Xu},   // %g\n' % (ea, b[0], b[1], c, f32(c)))
+            f.write('};\n')
+            ea, op, c = FOLLOW_DEC; b = bytes.fromhex(op)
+            f.write('static const StepLoopOperand kStepTickDec = {0x%08Xu, {0x%02X, 0x%02X}, 0x%08Xu};   // %g\n' % (ea, b[0], b[1], c, f32(c)))
+            f.write('static const uint32_t kStepHoldSet = 0x%08Xu, kStepHoldVar = 0x10456D8Cu; static const int kStepHold = 4;\n' % FOLLOW_HOLD)
+            f.write('static const uint32_t kStepFollowFar = 0x10329A08u;   // the far form\'s factor (%g)\n' % f32(0x10329A08))
             # the rate sites: checked here against the image (a call of the getter; the opcode and constant as listed)
             for ea in RATE_RET:
                 i = next(md.disasm(im[ea - base:ea - base + 5], ea))

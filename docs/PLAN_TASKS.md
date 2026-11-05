@@ -70,7 +70,7 @@ owner or a run in the game).
 | 151 | 85% | Lighting setup cost (fn_100467E0) | open | |
 | 152 | 85% | Effects scheduler CPU cost (CMoSchedularTask::Interpret) | open | |
 | 153 | 90% | Above 60 fps with the game clock checked | done | 5 Nov, from the character's position: distance per real second 5.955-5.981 from 31 to 184 fps with frame_step=1 (the A/B did not switch: copy kept the ini's time; fixed) |
-| 154 | 90% | Generalize frame_step and add interpolation | partly | frame_step=3 (6 Nov): the five tick loops (camera follow, actor position and turning) take the fraction with an exact factor (RENDERER 3c), so the model and camera move every frame; the other 199 whole-tick sites (timers, counters) still step in whole ticks; interpolation not built |
+| 154 | 90% | Generalize frame_step and add interpolation | partly | frame_step=3: the five float-count tick loops (6 Nov), the walk/run rate (6 Nov, the moonwalk), the camera's integer-count chases and linear moves (6 Nov), and the camera's follow with its path return, timer and counter (7 Nov, the jitter) take the fraction (RENDERER 3c); the follow's distance-dependent factor leaves the camera within one tick's movement of the game's, not equal; the other whole-tick sites (timers, counters) still step in whole ticks; interpolation not built (the next step if ab_07nov still shows jitter or breakage) |
 | 155 | 95% | Every speedfix lever as a source-level option | open | |
 | 156 | 95% | Regression suite of dumps, captures and pictures | open | |
 | 157 | 100% | Final devkit: stable API, docs, packaging | open | |

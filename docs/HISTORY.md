@@ -4356,3 +4356,27 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
   +0x24): the draws by task vtable and slot.
 - **ab_09nov:** start dyn (dynamic_buffers alone) and start lat (frame_latency alone), each plaza, pop watch, run, with
   task_draws on.
+
+**9 Nov (results): the owner's ab_09nov run (dyn 174738_10844, lat 175818_13112, hitch 180848_8516, res 181614_12140).**
+- **The owner:** dyn (dynamic_buffers alone) stuttery, pop-in very rare; lat (frame_latency=1 alone) much smoother on
+  average, very poppy (fade-in, pop-out, pop-in); hitch and res (neither) very poppy, slow.
+- **Frames (plaza standing / running, frames over 33 ms):** dyn 20.8 ms 3.5% / 21.6 ms 13.3%; lat 24.6 ms 7.1% / 22.2 ms
+  12.6%; hitch (sampler on) running 19.1 ms 9.0%; res (profiler on) running 21.3 ms 13.8%. Neither alone reached 8 Nov's
+  both-together start (18.6 ms 0.1% / 18.7 ms 7.3%). d3d8on11's Present (median of the busy lines): dyn 10.2 ms, lat 12.9,
+  hitch 12.5, res 12.9: dynamic_buffers is what shortens Present; frame_latency does not, though the owner felt it smoother.
+- **Pop-in:** occlusion_late=2 (60 s, hitch start): the late answer differed from the game's in 40-50% of probes, and
+  visible/hidden differed in 3.1% and 4.2%: occlusion_late shows or hides a character one probe late in a few percent of
+  probes, which is a way characters pop in and out. Why dynamic_buffers alone made pop-in rare is not established.
+- **Interpolation (task_draws, dyn start):** every draw of the task pass, ~893 a frame, is made by three drawing tasks:
+  CXiActorDraw (vtable 0x10329C44, +0x20 = 0x100817E0, which calls CXiActorDraw_UpdateDrawList) 559 a frame, the zone
+  (0x10336748, +0x20 = 0x10178B30, CTsZoneMap) 263, CXiActorNameDraw (0x10329C18, 0x100817F0) 70. The actors' own tasks
+  (OnMove) draw nothing. So movement and drawing are separate tasks in the one pass: on frames between ticks the drawing
+  tasks can run without the movement ones.
+- **Hitches (sample=2, the hitch start):** of the long frames while running, the samples were in Occlusion_ReadbackCount
+  (0x1006C8B0: the game's own readback, as on a query's first probe) and CDx::PopRenderTargetB (0x1000A230, after an
+  offscreen pass): the game's thread waiting for the GPU's result, so for d3d8on11's executor to reach it. (The frames
+  after occl2 are logging out: CMoAttachments::Reset, Acter_ShutdownGlobals.) The resource log (res start): creation
+  calls take at most ~1 ms a frame, and 27 of 36 frames over 100 ms had none: not the cause.
+- **draw_sites (d3d8on11's draw callers):** draws return into FFXiMain.dll itself, Windower's Hook.dll (+0x798EF),
+  speedfix.dll, and an address in no module (13761118: the kit's generated code), which is also what speedfix hands over:
+  the chain is game -> the kit's thunk -> speedfix -> d3d8on11, so speedfix's own return address is the kit's thunk.

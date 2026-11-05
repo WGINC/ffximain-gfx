@@ -21,7 +21,7 @@ call "%HERE%restore.bat" quiet
 goto launch
 :ours
 if exist "%KIT%\d3d8_dgvoodoo_keep.dll" goto copyours
-powershell -NoProfile -Command "$v=(Get-Item -LiteralPath '%KIT%\d3d8.dll').VersionInfo.FileVersion; if ($v -like '4.8*') { exit 0 } else { Write-Host ('d3d8.dll there is version ' + $v + ', not dgVoodoo 4.8.x: left as it is'); exit 1 }"
+powershell -NoProfile -Command "$i=(Get-Item -LiteralPath '%KIT%\d3d8.dll').VersionInfo; if ($i.FileMajorPart -eq 4 -and $i.FileMinorPart -eq 8) { exit 0 } else { Write-Host ('d3d8.dll there is version ' + $i.FileMajorPart + '.' + $i.FileMinorPart + '.' + $i.FileBuildPart + '.' + $i.FilePrivatePart + ', not dgVoodoo 4.8.x: left as it is'); exit 1 }"
 if errorlevel 1 goto notdgv
 ren "%KIT%\d3d8.dll" d3d8_dgvoodoo_keep.dll
 echo dgVoodoo's d3d8.dll kept as d3d8_dgvoodoo_keep.dll

@@ -4135,3 +4135,14 @@ of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, 
   (ESP outside the stack) is not supported; the cause is not established, and the TEB-bounds build counts samples
   with ESP outside the stack, which will say. The other repositories: DancingMad (static research, no measurements)
   and dagnyfix (visual fixes in a d3d8 proxy) hold no performance runs.
+
+**5 Nov: the final session built (kit/sessions/final_05nov).** Start 1: dgVoodoo, three frames captured on request
+(capture.bat) for replay through d3d8on11 here (task #140). Start 2: d3d8on11 (thread mode, filter and batches on, the
+game's own present interval), speedfix's levers with `uncap=1 frame_step=1`, the readbacks answered by d3d8on11's
+snapshots (not skipped), measured per step (frames, callsites=2, imports=1, sample=3, sysstats, env), and the clock test
+(clocktest.bat: 40 s segments at 60 fps with frame_step off, where a frame is the getter's step of ticks, against the
+target; distance per second of the game's time from the character's position, `frames_player=1`). Checked before it
+went out: the kit's Wine suite on the shipped binaries, every mode but `native` (32-bit Wine here); test_framestep and
+test_speedfix ALL OK; test_d3d8on11 ALL OK; the reader's clock arithmetic on known motion (1.083 with the segment ends
+in, 1.000 with them trimmed: the ends are trimmed); the session's scripts under Wine in a `Program Files (x86)` path
+(mark, capture, restore; start.bat's dgVoodoo check uses PowerShell, which Wine lacks, so it is not run here).

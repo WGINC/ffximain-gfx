@@ -11,6 +11,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
+static float rhw_offset();   // (below; a test switch)
 
 typedef HRESULT (WINAPI *PFN_Compile)(const void *, SIZE_T, const char *, const D3D_SHADER_MACRO *, ID3DInclude *,
                                        const char *, const char *, UINT, UINT, ID3DBlob **, ID3DBlob **);
@@ -87,7 +88,9 @@ static std::string gen_vs(const VSKey &k) {
     // pre-transformed: screen x, y, z and 1/w; D3D8 puts pixel centres on integer coordinates, D3D11 on .5
     s += "  float4 p = " + in(SE_POST, 0, "float4(0,0,0,1)") + ";\n";
     s += "  float w = p.w != 0 ? 1.0 / p.w : 1.0;\n";
-    s += "  float2 n = float2((p.x + 0.5 - vp.x) / vp.z * 2 - 1, 1 - (p.y + 0.5 - vp.y) / vp.w * 2);\n";
+    // (a test only, D8ON11_TEST_RHW_OFFSET=x: another offset than 0.5, to compare with other implementations' pictures)
+    { char off[32]; snprintf(off, sizeof off, "%.4f", rhw_offset());
+      s += std::string("  float2 n = float2((p.x + ") + off + " - vp.x) / vp.z * 2 - 1, 1 - (p.y + " + off + " - vp.y) / vp.w * 2);\n"; }
     s += "  o.pos = float4(n * w, p.z * w, w);\n  float3 cp = float3(0, 0, p.z);\n";
   } else {
     s += "  float4 p = float4(" + in(SE_POS, 0, "float4(0,0,0,1)") + ".xyz, 1);\n";
@@ -251,6 +254,7 @@ static std::string op(int o, const std::string &a1, const std::string &a2, const
   }
   return "";
 }
+static float rhw_offset() { static float e = getenv("D8ON11_TEST_RHW_OFFSET") ? (float)atof(getenv("D8ON11_TEST_RHW_OFFSET")) : 0.5f; return e; }
 static float texedge() { static float e = getenv("D8ON11_TEST_TEXEDGE") ? (float)atof(getenv("D8ON11_TEST_TEXEDGE")) : 0; return e; }
 static float ties() { static float e = getenv("D8ON11_TEST_TIES") ? (float)atof(getenv("D8ON11_TEST_TIES")) : 0; return e > 0 ? e : 1.0f / 256; }
 static std::string gen_ps(const PSKey &k) {

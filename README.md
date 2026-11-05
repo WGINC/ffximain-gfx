@@ -32,6 +32,7 @@ CrossOver on macOS as well. All figures are the Port Jeuno plaza, standing; sour
 | dgVoodoo | speedfix's | skipped | ~33.5 ms | 17 Oct (run 3464) |
 | **d3d8on11** | speedfix's | skipped | **12.9-14.0 ms** (p95 ~18) | 26 Oct (T3) |
 | d3d8on11, nothing drawn | speedfix's | skipped | 7.5 ms | 26 Oct (T3) |
+| d3d8on11 | speedfix's, `uncap` `frame_step` | answered by d3d8on11 (snapshots not hit) | 40.6 ms (p95 65) | 5 Nov (final, kit timing on) |
 
 - On this machine the time is the render thread's CPU, not the GPU (PresentMon: GPU busy 5-7 ms). Through dgVoodoo
   about half of it is kernel buffer locks taken through WOW64 (18 Oct; 6,245 a frame on 4 Nov); d3d8on11's batched
@@ -40,9 +41,14 @@ CrossOver on macOS as well. All figures are the Port Jeuno plaza, standing; sour
   vanilla, 21 ms with the levers), the UI call 0x1015F6A0 6 ms (0.7 with the levers), EndScene about 6 ms.
 - Above 60 the game's time runs fast unless the step is fixed (docs/RENDERER.md 3a, 3b): speedfix `frame_step`.
   Above 60, most motion still moves in whole 1/60 s ticks: smoother motion needs interpolation (ROADMAP P4, not built).
-- The last session, `kit/sessions/final_05nov`: d3d8on11 with the levers, `uncap` and `frame_step`, the readbacks
-  answered by d3d8on11's snapshots (not skipped), measured per step; the game's clock checked against real time from
-  the character's position; frames captured under dgVoodoo for the UI text difference (task #140).
+- The last session (5 Nov, `kit/sessions/final_05nov`, docs/HISTORY.md): d3d8on11 with the levers, `uncap` and
+  `frame_step`, readbacks not skipped. Median frame per step: busy 7.5 ms, menus 5.5, zone 6.2, camera 8.1, stand
+  11.3, run 31.7, plaza 40.6 (77 fps over the run). In the plaza's 40 ms windows d3d8on11's executor thread is
+  busy 98% of the time (d3d8on11.log: readbacks 17 ms, draws 10, Present 8): it is the limit, and no readback found
+  its snapshot. `occlusion_late=1` (answered every late lock offline, 18 Oct) is not measured in the game.
+  The game's time follows real time from 31 to 184 fps (the character's distance per real second, 5.955-5.981).
+  Characters' poses flickered while moving above 60 (owner); the cause is not established. The 2.4 s stalls in that
+  run come with the kit's call timing (none in the runs without it).
 - The kit's measuring (docs/KIT.md, "Measuring"), `xiload.exe` (loads the kit, Windows and CrossOver),
   `kit/xikit/measure_read.py` (the report).
 

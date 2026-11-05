@@ -4146,3 +4146,44 @@ went out: the kit's Wine suite on the shipped binaries, every mode but `native` 
 test_speedfix ALL OK; test_d3d8on11 ALL OK; the reader's clock arithmetic on known motion (1.083 with the segment ends
 in, 1.000 with them trimmed: the ends are trimmed); the session's scripts under Wine in a `Program Files (x86)` path
 (mark, capture, restore; start.bat's dgVoodoo check uses PowerShell, which Wine lacks, so it is not run here).
+
+**5 Nov: the final session's results (owner, Parallels; start 2 = 2026-11-04_233247_9364).** d3d8on11 (thread mode,
+filter and batches on), speedfix's levers, `uncap=1 frame_step=1`, readbacks answered by d3d8on11 (not skipped).
+Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_frames`), d3d8on11.log, PresentMon.
+- Mean frame per step: busy 12.2 ms (82 fps), menus 7.9 ms (126 fps), zone 12.7 ms, run 31.3 ms, plaza 43.5 ms
+  (23 fps), camera 14.1 ms, stand 18.4 ms; over the whole run 77 fps. Frames over 33.4 ms after the first mark:
+  387 a minute (W1, dgVoodoo without levers: 729; W5, dgVoodoo with levers: 221).
+- The plaza: d3d8on11.log's 600-Present windows at ~40 ms a frame have the executor thread busy 94-98% of the time
+  (readbacks 15-17 ms, draws 10-11, Present 8), so the executor is the limit there; in every window 0 locks were
+  answered from a snapshot (150-343 read back because the snapshot was not there yet). 18 Oct's offline test answered 599
+  of 599 frame-late locks from snapshots with `occlusion_late=1`; that setting was not in this run, so how it does in
+  the game is not measured.
+- The game's time above 60 with `frame_step=1`: the clock test's A/B did not switch (clocktest.bat copied the inis;
+  `copy` keeps the source's time and both came from one zip, so speedfix, which re-reads its ini when the file's time
+  changes, saw no change; fixed: written with `type`). From the character's position instead (frames_player), in 45
+  windows of 3 s of auto-run from 31 to 184 fps: distance per real second, median 5.955 below 60 fps, 5.981 at 60-90,
+  5.959 above 90. The game's time follows real time above 60. Position changes on every frame (no frame without
+  movement in the test segments), so the player's position is not stepped in whole ticks.
+- The 2.4-2.6 s stalls (12 in this run, as many in W2 and W5, 69 in W3): they occur only in runs with the kit's call
+  timing on (callsites=2 or 4: W2, W3, W5, this run); none in the eight runs without it (W1 three times, W4, W6, W2b,
+  the capture: at most one frame over 1 s each). In the callsites=2 runs they start 0-223 ms after a 600th frame,
+  the window in which the kit's writer thread copies the timing table under the spinlock the timed calls take and
+  writes xikit_probes; the render thread is on the CPU 31-78 ms of the 2.4 s (QueryThreadCycleTime), so it is not
+  running; in half of them the time is inside Frame_Render's own body or its untimed callees, in the rest outside
+  every timed call. The mechanism is not established. They are the measuring kit's, not the game's: play without
+  callsites has none.
+- The pose flicker the owner saw (characters, the auto-running player most, alternating between two poses while
+  moving): the cause is not established. What changes per frame in this run and not at 60 is the whole-tick count
+  the forked getters answer (0 on some frames above 60, docs/ROADMAP.md P4); that is a candidate, not a finding.
+  Holding 60 (`frame_cap_fps=60 uncap=0 frame_step=0`) gives every frame one tick, as the game was built for.
+- The UI text (task #140), start 1's captures replayed through d3d8on11 (Wine, llvmpipe) against dgVoodoo's own
+  picture: 18-20% of pixels differ, most of it Windower's overlays (drawn outside the captured device calls); the
+  chat text residual is about 7.7k pixels at glyph edges, both directions. The glyphs are a 2048x4096 A8R8G8B8 texture,
+  MAG point, MIN linear, no mips, minified 2:1, vertices at .5. An offset sweep (`D8ON11_TEST_RHW_OFFSET`, a test
+  switch, default 0.5 = unchanged): 0.0 gives 47,375 differing pixels, 0.4375-0.5625 give 7,280-8,074 (flat), so it is
+  not a position offset. The cause is not established (llvmpipe's filtering here is one difference from the GPU).
+- sample=3 with the TEB bounds: ESP was inside the stack in all 254,983 render-thread samples (flag 8 never set,
+  counted from xikit_raw), and every sample has 10 or more return addresses; but none of them is inside Frame_Render
+  (99.9% have sub_100157B0+0x19 as their outermost game address), while the timed calls put most of the frame
+  inside Frame_Render. So the render thread's attribution by sample still does not work; the cause is not
+  established. The timed calls (callsites) are the source for where the frame goes.

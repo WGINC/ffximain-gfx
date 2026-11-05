@@ -4321,3 +4321,17 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
 4. **Frame pacing / draw merging:** frame_latency=N (d3d8on11.ini; IDXGIDevice1::SetMaximumFrameLatency, a start
    setting) built and tested. Draw merging waits for a cost by call site; draw_sites still names every draw speedfix's
    in game (the hook order between the kit, speedfix and d3d8on11 in the game is not traced) and stays off.
+
+**8 Nov: the owner's ab_07nov run (2026-11-05_162000_4912), and ab_08nov.**
+- **The owner:** the camera is fixed; occasional frame drops, small stutters and hitches; characters pop in instead of
+  fading in. (No smudge mentioned.)
+- **Where:** in the plaza. Running there 14.0% of frames over 33 ms, 2.5% over 50 ms (mean 22.3 ms); the field
+  (abtest step) 0.1-0.3% and 0.0-0.4% at 150-180 fps. The plaza's rate: d3d8on11's executor 20-22 ms busy a frame,
+  Present 12.1-14.1 ms with uploads 2.7-3.1 ms (as on 6 Nov). The hitches (single frames of 100-300 ms outside zoning):
+  the render thread on the CPU for most of the frame (GetThreadTimes up to 140 ms), Present ~0, often with thousands of
+  page faults: the game's own work on that thread, not established what (loading is the likely kind; not measured).
+- **abtest cap** never engaged its cap (the plaza under 60 fps); A (cap 60) still 23.2 / 24.0 ms, B 28.8 / 27.7 ms,
+  both rounds: not explained.
+- **Pop-in:** not explained; ab_08nov's `abtest pop` (occlusion_late 0 against 1) and `abtest base` (the game's own
+  pacing, uncap=0 frame_step=0, against this build) separate the two changes that could touch it.
+- ab_08nov also carries the upload split and the world-pass draw counts (7 Nov later); measure_read.py sums the latter.

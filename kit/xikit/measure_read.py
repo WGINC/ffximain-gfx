@@ -283,6 +283,14 @@ def main(argv):
             byseg[nm].append({'frame_mean': s['mean'], 'frame_p95': s['p95'], 'speed': walked / real})
         summ['ab'] = byseg
         for l in re.findall(r'speedfix: (?:frame_step=3|occlusion_late).*', log)[-8:]: w('- `%s`' % l[:300])
+        # the draw calls by Frame_Render's world pass (8 Nov): summed over the start
+        tot = None
+        for l in re.findall(r'speedfix: draw calls by Frame_Render\'s world pass.*', log):
+            v = [int(x) for x in re.findall(r' (\d+)(?:,| \()', l.split('line: ', 1)[-1])]
+            if len(v) == 8: tot = v if tot is None else [a + b for a, b in zip(tot, v)]
+        if tot:
+            w('- draw calls by Frame_Render\'s world pass, the whole start: XiZone_GetInstance %d, sub_1018C2B0 %d, StDancer_Update %d, '
+              'XiZone_DrawScene %d, **the task pass (OnMove) %d**, sub_102515F0 %d, sound %d, the rest of the frame %d' % tuple(tot))
     # ---------------------------------------------------------------- d3d8on11's own lines (d3d8on11.log next to the game, if collected)
     for d8 in glob.glob(os.path.join(d, '..', 'd3d8on11.log')) + glob.glob(os.path.join(d, 'd3d8on11.log')):
         t = open(d8, errors='replace').read().splitlines()

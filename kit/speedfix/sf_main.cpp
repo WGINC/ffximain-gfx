@@ -132,7 +132,9 @@ static const char kDefaultIni[] =
   ";   60 fps what it drives runs faster than real time); 1 = real time in whole ticks: the game's own average of its\r\n"
   ";   last 4 frames, not truncated, its fraction carried to the next frame (frames of 0 ticks above 60 fps); 2 = as 1,\r\n"
   ";   and the 14 calls proven to only accumulate it get the fraction (data/frame_step_users.json). Below 60 fps 1 and\r\n"
-  ";   2 also stop the game's under-count of time. Gated forks of Frame_Render and the two getters, made\r\n"
+  ";   2 also stop the game's under-count of time; 3 = as 2, and the 5 loops that run once per whole tick (the camera's\r\n"
+  ";   follow, the actors' position and turning: data/frame_step_loops.json) take the fraction too, with the factor\r\n"
+  ";   that gives a fraction of a tick exactly (no frames where actors stop). Gated forks of Frame_Render and the two getters, made\r\n"
   ";   at the start when frame_step or uncap is on there; then live both ways\r\n"
   "frame_step=0\r\n"
   "; each actor's visibility re-tested every 4 (the game's), 8 or 16 frames\r\n"
@@ -207,7 +209,7 @@ static SfConfig read_config(void) {
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
   c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   c.precise_pacing = rd("precise_pacing", 0);
-  c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 2) c.frame_step = 0;
+  c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
   c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
   if (c.stats_every < 1) c.stats_every = 1;
@@ -441,11 +443,92 @@ static void apply_uncap_step(void) {
   g_st_frames++; if (xi_step_whole == 0) g_st_zero++;
   g_st_whole += xi_step_whole; g_st_frac += xi_step_frac; g_st_game += !(g < 1.0f) ? g : 1.0f;
 }
+// frame_step=3: the chase loops (pipeline/frame_step_loops.py, sf_step_loops.h, docs/RENDERER.md 3c). The game runs
+// each one once per whole tick: s = the getter's answer; while (s > 0) { x += (target - x) * k; s -= 1; } -- so after a
+// frame of s ticks the distance left is (1 - k)^s. Under frame_step 1 a frame above 60 fps has s = 0 and the loop does
+// not run (the model stops and does not turn that frame; its movement that frame is 0, which OnMove's 0.01 tests read
+// as standing). Under 3 the getter answers these calls with the fraction s (so the loop runs n = ceil(s) passes) and
+// the passes use k' = 1 - (1 - k)^(s / n), so the distance left after the frame is (1 - k)^s: what s ticks leave. With
+// s whole (60 fps and below at whole ticks), k' is k itself: the game's code, bit for bit.
+//   * a factor read from a constant of the image (`fld/fmul dword ptr [K]`): that instruction's operand is pointed at
+//     a float of speedfix's (one per constant), written here each frame; the constant itself is not written (it is
+//     read by other code too);
+//   * a factor passed to 0x100272B0 (Vec3 scale, cdecl (float *v, float k)): that call is re-aimed at sf_scale_k, which
+//     calls the game's function with k';
+//   * OnMove's four compares of the frame's movement with 0.01 ([0x10329A18], 0x100C6BBC..0x100C7100): below one tick
+//     a frame (s < 1) they compare with 0.01 s, the same movement per tick the game tests; at s >= 1 with 0.01.
+#include "sf_step_loops.h"
+#include <math.h>
+static float g_loop_k[4]; static uint32_t g_loop_kc[4]; static float g_loop_k0[4]; static int g_nloop_k;   // per constant
+static float g_move_thr = 0.01f, g_move_thr0 = 0.01f;
+static volatile float g_loop_s = 1.0f; static volatile int g_loop_on;     // this frame's s, and whether 3 is in effect
+static bool g_loops_done; static LONG g_loop_frac_frames;
+static const uint32_t kMoveThrAt[4] = {0x100C6BBCu, 0x100C6BE2u, 0x100C6C08u, 0x100C7100u};   // fcomp dword ptr [0x10329A18]
+static inline float loop_k(float k) {
+  float s = g_loop_s;
+  if (!g_loop_on || !(s > 0.0f)) return k;
+  float n = ceilf(s);
+  if (n == s) return k;                                  // whole ticks: the game's own factor
+  return (float)(1.0 - pow(1.0 - (double)k, (double)s / (double)n));
+}
+// the getter's forks call this with the fraction s a loop is about to count (before the loop runs), so the factors
+// below are this s's (s changes once a frame, at Frame_Render's top; the factors are recomputed when it changes)
+static void loop_set(float s) {
+  if (g_loop_on && s == g_loop_s) return;
+  g_loop_s = s; g_loop_on = 1;
+  for (int j = 0; j < g_nloop_k; j++) g_loop_k[j] = loop_k(g_loop_k0[j]);
+  g_move_thr = s > 0.0f && s < 1.0f ? g_move_thr0 * s : g_move_thr0;
+  if (ceilf(s) != s) g_loop_frac_frames++;
+}
+extern "C" { void (*volatile xi_step_loop_hook)(float) = loop_set; }
+typedef void (__cdecl *ScaleFn)(float *, float);
+extern "C" void __cdecl sf_scale_k(float *v, float k) { ((ScaleFn)XI_GAME(0x100272B0u))(v, loop_k(k)); }
+// point the 4-byte absolute operand of the instruction at `at` (opcode op[0] op[1], operand XI_GAME(constant)) at `to`
+static bool reaim_operand(uint32_t at, const uint8_t op[2], uint32_t constant, const float *to, const char *what) {
+  uint8_t want[6] = {op[0], op[1]}, live[6]; uint32_t c = (uint32_t)XI_GAME(constant); memcpy(want + 2, &c, 4);
+  if (!live_bytes(at, want, 6, live)) {
+    LOG("speedfix: %s not changed: the bytes at %08X are not the expected %02X %02X [%08X]", what, at, op[0], op[1], c);
+    return false;
+  }
+  uint8_t *p = (uint8_t *)(uintptr_t)XI_GAME(at); uint32_t a = (uint32_t)(uintptr_t)to; DWORD old;
+  if (!VirtualProtect(p, 6, PAGE_EXECUTE_READWRITE, &old)) { LOG("speedfix: %s: VirtualProtect failed", what); return false; }
+  memcpy(p + 2, &a, 4);
+  VirtualProtect(p, 6, old, &old); FlushInstructionCache(GetCurrentProcess(), p, 6);
+  return true;
+}
+static void apply_step_loops(void) {              // render thread, inside Present
+  if (!g_loops_done && sf_cfg.frame_step == 3 && sf_framestep_installed) {
+    g_loops_done = true; int ok = 0, all = 0;
+    g_move_thr0 = g_move_thr = *(const float *)(uintptr_t)XI_GAME(0x10329A18u);
+    for (unsigned i = 0; i < sizeof kStepLoopOperand / sizeof kStepLoopOperand[0]; i++) {
+      const StepLoopOperand &o = kStepLoopOperand[i]; int j = 0;
+      while (j < g_nloop_k && g_loop_kc[j] != o.constant) j++;
+      if (j == g_nloop_k) { if (j == 4) continue; g_loop_kc[j] = o.constant; g_loop_k[j] = g_loop_k0[j] = *(const float *)(uintptr_t)XI_GAME(o.constant); g_nloop_k++; }
+      all++; ok += reaim_operand(o.at, o.op, o.constant, &g_loop_k[j], "frame_step=3 (loop factor)");
+    }
+    for (unsigned i = 0; i < sizeof kStepLoopScaleCall / sizeof kStepLoopScaleCall[0]; i++) {
+      uint32_t at = kStepLoopScaleCall[i]; int32_t rel = (int32_t)(0x100272B0u - (at + 5)); uint8_t e[5] = {0xE8};
+      memcpy(e + 1, &rel, 4); all++; ok += reaim_call(at, e, (void *)sf_scale_k, "frame_step=3 (loop scale)");
+    }
+    static const uint8_t kThrOp[2] = {0xD8, 0x1D};
+    for (int i = 0; i < 4; i++) { all++; ok += reaim_operand(kMoveThrAt[i], kThrOp, 0x10329A18u, &g_move_thr, "frame_step=3 (OnMove 0.01)"); }
+    LOG("speedfix: frame_step=3: %d of %d loop changes in place (%u chase loops: data/frame_step_loops.json)", ok, all,
+        (unsigned)(sizeof kStepLoopRet / sizeof kStepLoopRet[0]));
+  }
+  if (!g_loops_done) return;
+  if (!(xi_step_mode == 3 && xi_step_have) && g_loop_on) {     // 3 off: the game's factors and compare (loop_set sets them on)
+    g_loop_on = 0; g_loop_s = 1.0f;
+    for (int j = 0; j < g_nloop_k; j++) g_loop_k[j] = g_loop_k0[j];
+    g_move_thr = g_move_thr0;
+  }
+}
 static void st_stats(void) {
   LONG f = g_st_frames, z = g_st_zero; g_st_frames = g_st_zero = 0;
   double w = g_st_whole, fr = g_st_frac, gm = g_st_game, ms = g_st_ms; g_st_whole = g_st_frac = g_st_game = g_st_ms = 0;
   if (!sf_framestep_installed || !f) return;
   double real = ms * 0.06;
+  if (g_loops_done) { LONG lf = g_loop_frac_frames; g_loop_frac_frames = 0;
+    LOG("speedfix: frame_step=3: in these %ld frames the 5 tick loops were given %ld new steps of a fraction of a tick (factor k' = 1 - (1 - k)^(s/ceil s))", f, lf); }
   LOG("speedfix: frame_step=%d uncap=%d: %ld frames, %.0f ms by the counter (%.1f ticks of 1/60 s); speedfix's step (what frame_step 1 "
       "and 2 answer) added up to: whole %.0f (%.1f%%; %ld frames of 0), fraction %.1f (%.1f%%); the game's own (what frame_step 0 "
       "answers) %.0f (%.1f%%)", sf_cfg.frame_step, sf_cfg.uncap, f, ms, real,
@@ -461,6 +544,7 @@ static void apply_code(void) {                      // render thread, inside Pre
   apply_texture();
   apply_precise_pacing();
   apply_uncap_step();
+  apply_step_loops();
   apply_sse_skinning();
   xi_skinmerge_on = sf_cfg.skin_merge && sf_skinmerge_installed && sf_hooks_live();   // the game's draws otherwise
   sf_group_on = sf_cfg.skin_merge >= 2 && sf_skinmerge_installed && sf_hooks_live();   // skin_merge=2: a model's draws grouped (sf_device.cpp)

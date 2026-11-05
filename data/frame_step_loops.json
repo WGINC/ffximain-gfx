@@ -1,0 +1,128 @@
+{
+ "source": "pipeline/frame_step_loops.py on the analysed build ($FFXI_DLL)",
+ "loops": {
+  "0x100205B1": {
+   "func": "0x1001EE60",
+   "return": "0x100205B6",
+   "body": [
+    "0x100205CD",
+    "0x100205F4"
+   ],
+   "exit": "0x100205FC",
+   "kind": "chase",
+   "why": "YmCameraManager_Follow: st(1) A, st(0) B kept on the x87 stack; each pass A += 0.25 B, B -= 0.25 B (fld [0x10329CE4] = 0.25): B *= 0.75 a pass, A + B fixed",
+   "factors": [
+    {
+     "kind": "operand",
+     "at": "0x100205CD",
+     "bytes": "d905e49c3210",
+     "constant": "0x10329CE4",
+     "value": 0.25
+    }
+   ]
+  },
+  "0x1002AD55": {
+   "func": "0x1002AC60",
+   "return": "0x1002AD5A",
+   "body": [
+    "0x1002AD6D",
+    "0x1002ADB1"
+   ],
+   "exit": "0x1002ADB3",
+   "kind": "other",
+   "why": "0x1002AC60: 0x100276A0 with 1/32 (push 0x3D000000) and then 0x100274B0 each pass: a step followed by a normalisation, not a chase with a closed form; left as the game has it",
+   "factors": []
+  },
+  "0x100C4878": {
+   "func": "0x100C47F0",
+   "return": "0x100C487D",
+   "body": [
+    "0x100C489B",
+    "0x100C4939"
+   ],
+   "exit": "0x100C4940",
+   "kind": "chase",
+   "why": "0x100C47F0: the angles [esi+0x744..0x74C] toward a target on the stack, wrapped each pass, scaled by 0.125 (push 0x3E000000) through 0x100272B0, added",
+   "factors": [
+    {
+     "kind": "scale_call",
+     "at": "0x100C490B",
+     "bytes": "e8a029f6ff",
+     "argument": "push 0x3e000000"
+    }
+   ]
+  },
+  "0x100C65BA": {
+   "func": "0x100C63D0",
+   "return": "0x100C65BF",
+   "body": [
+    "0x100C65D6",
+    "0x100C6656"
+   ],
+   "exit": "0x100C665C",
+   "kind": "chase",
+   "why": "CXiSkeletonActor_OnMove: p = the model position (vtable +0x1BC), t = [esi+0x5C4]; each pass p += (t - p) * [0x1032A3BC] (0.125, three fmul)",
+   "factors": [
+    {
+     "kind": "operand",
+     "at": "0x100C65EE",
+     "bytes": "d80dbca33210",
+     "constant": "0x1032A3BC",
+     "value": 0.125
+    },
+    {
+     "kind": "operand",
+     "at": "0x100C65FF",
+     "bytes": "d80dbca33210",
+     "constant": "0x1032A3BC",
+     "value": 0.125
+    },
+    {
+     "kind": "operand",
+     "at": "0x100C660D",
+     "bytes": "d80dbca33210",
+     "constant": "0x1032A3BC",
+     "value": 0.125
+    }
+   ]
+  },
+  "0x100C6882": {
+   "func": "0x100C63D0",
+   "return": "0x100C6887",
+   "body": [
+    "0x100C68A8",
+    "0x100C69C2"
+   ],
+   "exit": "0x100C69C8",
+   "kind": "chase",
+   "why": "CXiSkeletonActor_OnMove: the angles [esi+0x61C..0x624] toward a target on the stack, the difference wrapped to (-pi, pi] each pass, scaled by k (ebp, set before the loop) through 0x100272B0, added",
+   "factors": [
+    {
+     "kind": "scale_call",
+     "at": "0x100C6994",
+     "bytes": "e81709f6ff",
+     "argument": "push ebp"
+    }
+   ]
+  },
+  "0x100C6C64": {
+   "func": "0x100C63D0",
+   "return": "0x100C6C69",
+   "body": [
+    "0x100C6C8A",
+    "0x100C6DA4"
+   ],
+   "exit": "0x100C6DAA",
+   "kind": "chase",
+   "why": "CXiSkeletonActor_OnMove: as 0x100C6882 (the other path)",
+   "factors": [
+    {
+     "kind": "scale_call",
+     "at": "0x100C6D76",
+     "bytes": "e83505f6ff",
+     "argument": "push ebp"
+    }
+   ]
+  }
+ }
+}

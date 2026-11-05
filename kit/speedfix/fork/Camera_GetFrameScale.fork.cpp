@@ -5,6 +5,7 @@
 #include "xi_ghidra.hpp"     // the Ghidra decompiler's types and helpers (float10, NAN, ...)
 
 #include "../sf_step_sites.h"
+#include "../sf_step_loops.h"
 
 // ---- frame_step (speedfix; the Frame_Render fork makes the step): with xi_step_mode 1 every call is answered with
 // the whole ticks of the untruncated step (xi_step_whole); with 2, the calls in sf_step_sites.h (return addresses in
@@ -18,6 +19,8 @@ extern "C" { __attribute__((weak)) volatile int xi_step_mode = 1; __attribute__(
 extern "C" { __attribute__((weak)) volatile int xi_step_mode; __attribute__((weak)) volatile int xi_step_have;
              __attribute__((weak)) float xi_step_whole; __attribute__((weak)) float xi_step_frac; }
 #endif
+// called with the fraction a loop is about to count, so that its factors match it (speedfix: sf_main.cpp); none here
+extern "C" { __attribute__((weak)) void (*volatile xi_step_loop_hook)(float); }
 static inline bool xi_step_fraction_site(uintptr_t ret)
 {
   for (unsigned i = 0; i < sizeof kStepFractionRet / sizeof kStepFractionRet[0]; i++)
@@ -27,7 +30,12 @@ static inline bool xi_step_fraction_site(uintptr_t ret)
 // the answer with the switches on, for the call returning to `ret`
 static long double xi_step_answer(uintptr_t ret)
 {
-  return xi_step_mode == 2 && xi_step_fraction_site(ret) ? xi_step_frac : xi_step_whole;
+  // 3: as 2, and the calls whose value is a chase loop's count (sf_step_loops.h) get the fraction too; speedfix
+  // gives those loops the factor that makes ceil(fraction) passes do what the fraction of a tick does (sf_main.cpp)
+  if (xi_step_mode == 3)
+    for (unsigned i = 0; i < sizeof kStepLoopRet / sizeof kStepLoopRet[0]; i++)
+      if (ret == XI_GAME(kStepLoopRet[i])) { if (xi_step_loop_hook) xi_step_loop_hook(xi_step_frac); return xi_step_frac; }
+  return xi_step_mode >= 2 && xi_step_fraction_site(ret) ? xi_step_frac : xi_step_whole;
 }
 // the same answer for sf_fork.cpp's register-keeping wrapper of 0x10014CF0, which passes its caller's return address
 extern "C" long double __cdecl xi_step_answer_cf0(uintptr_t ret) { return xi_step_answer(ret); }

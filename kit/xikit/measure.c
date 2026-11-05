@@ -535,9 +535,12 @@ static void m_dump_probes(void) {
              "k,kind,name,analysed,target,level,group,on,thread,return_to,calls,incl_ms,excl_ms,max_ms\n",
           m_tsc_per_ms, m_cost_ns, (long)m_stale, (long)m_deep, (long)m_hfull);
   static HEnt copy[MP_HASH];
+  LARGE_INTEGER t0, t1, t2; QueryPerformanceCounter(&t0);
   while (InterlockedCompareExchange(&m_hlock, 1, 0)) YieldProcessor();
+  QueryPerformanceCounter(&t1);
   memcpy(copy, m_h, sizeof copy);
   m_hlock = 0;
+  QueryPerformanceCounter(&t2);
   for (int i = 0; i < MP_HASH; i++) {
     HEnt *h = &copy[i]; if (!h->key) continue;
     int k = (int)((h->key - 1) >> 1), r = (int)((h->key - 1) & 1); Probe *p = &m_p[k];
@@ -546,6 +549,11 @@ static void m_dump_probes(void) {
             r ? "render" : "other", ra, (unsigned long long)h->calls, m_ms(h->incl), m_ms(h->excl), m_ms(h->max));
   }
   fclose(f);
+  /* when the dump ran and how long the timed calls' lock was held (the 4 Nov stalls fell 0-223 ms after a 600th frame,
+     the window of this dump; docs/HISTORY.md, 5 Nov): a stall in xikit_frames can be set against these lines */
+  LARGE_INTEGER t3; QueryPerformanceCounter(&t3);
+  klog("measure: probe dump at qpc %lld: lock waited %.3f ms, held %.3f ms, the whole dump %.1f ms", (long long)t0.QuadPart,
+       m_qms(t0, t1), m_qms(t1, t2), m_qms(t0, t3));
 }
 
 /* ------------------------------------------------------------------------------------------------ sample=3 */

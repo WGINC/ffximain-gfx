@@ -56,11 +56,11 @@ owner or a run in the game).
 | 137 | parallel 65% | Build the trace replayer for d3d8on11 | open | |
 | 138 | parallel 65% | Second-opinion references: DXVK d3d8 and d3d8to9 | open | |
 | 139 | parallel 65% | Check open D3D8 behaviours against the SDK docs | open | |
-| 140 | parallel 65% | Find the 8,689-pixel UI text difference | open | not found yet; dgVoodoo.conf overrides nothing (filtering, mipmapping, antialiasing appdriven: 4 Nov results); the capture it came from is not in the repository; final_05nov start 1 captures three frames under dgVoodoo for replay through d3d8on11 here |
+| 140 | parallel 65% | Find the 8,689-pixel UI text difference | open | 5 Nov captures replayed: most of the difference is Windower's overlays (not in the capture); the chat text residual ~7.7k pixels at glyph edges, not a position offset (sweep 0.4375-0.5625 flat, 0.0 much worse); cause not established |
 | 141 | parallel 65% | Owner run: d3d8on11 vs dgVoodoo on the same scene, one session | owner | run of 26 Oct taken (A, B under ours); speed and plain-colour defects found; d3d8on11 fixed (fe8bf8d); the next kit asks again (HANDOFF 3.2) |
 | 142 | 70% | Every MEASURE scene on D3D11, differences declared | open | |
 | 143 | 75% | Merged character draws on D3D11 | open | |
-| 144 | 75% | Asynchronous occlusion queries | open | |
+| 144 | 75% | Asynchronous occlusion queries | partly | speedfix occlusion_late (one probe late) + d3d8on11 snapshots: 599/599 offline (18 Oct); the 5 Nov plaza: readbacks 15-17 ms of the executor's frame and Present following them; ab_06nov measures occlusion_late A/B in game |
 | 145 | 75% | Batched text and UI quads | open | |
 | 146 | 75% | GPU skinning (evaluate) | open | |
 | 147 | 80% | Owner test T3 (null_draws); T1, T2 done | done | run B of 26 Oct, written into docs/REEVALUATION.md section 7: B (no drawing) medians 7.51 to 7.71 ms, A 12.88 to 13.97 ms; the frame without drawing is well below 16.7 ms on that machine |
@@ -69,8 +69,8 @@ owner or a run in the game).
 | 150 | 85% | Zone mesh sort and large buffers (fn_1017C9C0) | open | |
 | 151 | 85% | Lighting setup cost (fn_100467E0) | open | |
 | 152 | 85% | Effects scheduler CPU cost (CMoSchedularTask::Interpret) | open | |
-| 153 | 90% | Above 60 fps with the game clock checked | open | RENDERER 3a and 3b: the step is one tick per frame above 60 with the divisor 0. final_05nov's clock test: distance per second of the game's time at 60 (a tick a frame) against uncap+frame_step, from the character's position (frames_player=1); the reader's arithmetic tested on known motion (1.000) |
-| 154 | 90% | Generalize frame_step and add interpolation | open | not started; above 60 most motion moves in whole ticks (ROADMAP P4), so frame rates above 60 are not smoother without it |
+| 153 | 90% | Above 60 fps with the game clock checked | done | 5 Nov, from the character's position: distance per real second 5.955-5.981 from 31 to 184 fps with frame_step=1 (the A/B did not switch: copy kept the ini's time; fixed) |
+| 154 | 90% | Generalize frame_step and add interpolation | partly | frame_step=3 (6 Nov): the five tick loops (camera follow, actor position and turning) take the fraction with an exact factor (RENDERER 3c), so the model and camera move every frame; the other 199 whole-tick sites (timers, counters) still step in whole ticks; interpolation not built |
 | 155 | 95% | Every speedfix lever as a source-level option | open | |
 | 156 | 95% | Regression suite of dumps, captures and pictures | open | |
 | 157 | 100% | Final devkit: stable API, docs, packaging | open | |

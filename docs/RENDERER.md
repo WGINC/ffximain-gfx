@@ -209,6 +209,40 @@ What follows from the code:
   - below 60 fps, `frame_step` 1 and 2 remove the under-count of the table above, so what it drives moves faster
     than it does now (as fast as real time).
 
+### 3c. The tick loops: why characters stopped and flickered above 60 with frame_step=1 (6 Nov)
+
+The owner saw characters, the auto-running player most, flicker between two poses while moving in the 5 Nov run
+(frame_step=1 above 60). From the game's instructions (6AC37846, pipeline/disasm.py; data/frame_step_loops.json):
+- **Five getter calls are loop counts.** pipeline/frame_step_loops.py finds every call of the step getter whose code
+  is exactly `call getter; fcom [0.0]; jne EXIT; BODY ...; fsub [1.0]; fcomp [0.0]; je BODY`: the body runs ceil(s)
+  times for s > 0, not at all for s <= 0. The game never answers below 1 (`max(step, 1)`); frame_step=1 answers 0 on
+  the frames above 60 that complete no tick. The five whose body is a chase toward a value fixed before the loop
+  (x += (target - x) k a pass; read from each listing, recorded in the script's WHY):
+  - YmCameraManager_Follow 0x100205B1: the camera's gap B, 0.25 a pass (`fld [0x10329CE4]`);
+  - CXiSkeletonActor_OnMove 0x100C65BA: the model's position toward `[esi+0x5C4]`, 0.125 a pass (`fmul [0x1032A3BC]`);
+  - OnMove 0x100C6882 and 0x100C6C64: the model's angles `[esi+0x61C..]` toward a target, wrapped to (-pi, pi] each
+    pass, k (0.125, or a speed times 0.00125) through 0x100272B0;
+  - 0x100C47F0's 0x100C4878: angles `[esi+0x744..]`, 0.125 through 0x100272B0.
+  Three more loops (0x1002AD55, 0x100AAB78, 0x100AADF5) are not chases (a step and a normalisation; a velocity added
+  after a test) and are left as the game has them.
+- **On a frame of 0 ticks the model stops.** OnMove's movement this frame is then exactly 0 (the chase did not run);
+  its four compares of that movement with 0.01 (`[0x10329A18]`, 0x100C6BBC..0x100C7100) take the standing path, and the
+  movement is stored at `[esi+0x6A8]`, which slot 0x1D0 of the skeleton actors' vtables (0x100D49D0) makes a
+  translation (called from Actor_SetCameraFromModelPoints and 0x1003BD90). The game's position of the character (what
+  frames_player reads) moved on every frame of the 5 Nov run; the model following it did not. Run on the game's
+  instructions (kit/speedfix/test/test_steploops.py, unicorn) at 144 fps with frame_step=1, the model did not move on
+  42 of 72 frames. Which code chooses the pose from the standing path is not traced; the stops themselves are
+  established.
+- **frame_step=3** (speedfix): as 2, and these five calls get the fraction s, so the body runs n = ceil(s) passes, with
+  k' = 1 - (1 - k)^(s/n): the distance left after the frame is (1 - k)^s, what s ticks leave. k' = k when s is whole,
+  so at 60 fps it is the game's code bit for bit. A factor read from a constant has that instruction's operand pointed
+  at speedfix's float (the constant is read by other code: 21 and 53 instructions); a factor passed to 0x100272B0 goes
+  through sf_scale_k. k' is computed when the loop's own getter call is answered (the getter's fork calls speedfix with
+  that s), so it is the s the loop counts with; computing it at Present, as first written, would have used the frame
+  before's step (found while writing the host test, fixed before any run). Below one tick a frame, the 0.01 compares use 0.01 s (the same movement per tick). Checked on
+  the game's instructions: identical at s = 1; at 75, 100, 144 and 240 fps the camera's gap, the model's position and
+  angle after the same real time agree with the game's at 60 to float rounding, with no frame without movement.
+
 ### 3b. The owner's run of 26 Oct: game speed following the frame rate under d3d8on11
 
 The owner saw walking, camera, map movement and running animations speed up and slow down with the frame rate

@@ -328,6 +328,39 @@ static int step_test(void) {
   check(r.nonint == 0 && r.zero > 20, "frame_step=1: whole ticks, frames of 0 among them");
   check(fabs(r.whole - r.game_ticks) < 3.0, "frame_step=1: the whole ticks add up to the game's own ticks [+0x38] (within 3 over 200 frames)");
   check(r.frac == r.whole, "frame_step=1: the call at 10227E58 gets whole ticks too");
+  { /* frame_step=3 (changed while running): the five tick loops (data/frame_step_loops.json). The camera follow's
+       getter call (0x100205B1) is called alone (a ret written after it, the game's byte put back after): it must get
+       the fraction, and the camera loop's factor (its operand, now pointing into speedfix.dll) must be
+       1 - 0.75^(s/ceil s) for that s; the game's constant 0.25 must not be written */
+    touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=3\nstats_every=1\n");
+    step_frames(70, 1, 3);
+    check(*g_xi_mode == 3, "uncap=1 frame_step=3 (changed while running): the switch follows");
+    check(log_has("speedfix: frame_step=3: 11 of 11 loop changes in place"), "frame_step=3: the 4 factor operands, the 3 calls of 0x100272B0 and OnMove's 4 compares changed (11 of 11)");
+    uint8_t *op = (uint8_t *)GAME(0x100205CDu); const float *kf = *(const float **)(op + 2); HMODULE h = NULL;
+    GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)kf, &h);
+    check(h == sf && *(const uint32_t *)GAME(0x10329CE4u) == 0x3E800000u, "... the camera loop's factor is read from speedfix.dll; the game's 0.25 is not written");
+    uint8_t *c = (uint8_t *)GAME(0x100C6D76u); h = NULL;
+    GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(c + 5 + *(int32_t *)(c + 1)), &h);
+    check(c[0] == 0xE8 && h == sf, "... OnMove's turning loop (0x100C6D76) calls into speedfix.dll (sf_scale_k)");
+    uint8_t keep = *(uint8_t *)GAME(0x100205B6u); *(uint8_t *)GAME(0x100205B6u) = 0xC3;
+    Getter loop = (Getter)GAME(0x100205B1u);
+    int wrong = 0, frac = 0, kbad = 0;
+    for (int i = 0; i < 100; i++) {
+      begin(); end(); present(); Sleep(3); run_limiter(g_lim); g_step_make(g_lim, ring_raw());
+      float a = loop();
+      if (a != ring_avg(0)) wrong++;
+      if (a != floorf(a)) frac++;
+      float want = a == ceilf(a) ? 0.25f : (float)(1.0 - pow(0.75, (double)a / ceil((double)a)));
+      if (a > 0 && *kf != want) kbad++;
+    }
+    *(uint8_t *)GAME(0x100205B6u) = keep;
+    printf("    frame_step=3, the camera loop's call: %d of 100 not the step, %d a fraction, %d with a factor not 1 - 0.75^(s/ceil s)\n", wrong, frac, kbad);
+    check(wrong == 0 && frac > 50, "frame_step=3: the camera loop's getter call gets the fraction (the step, not truncated)");
+    check(kbad == 0, "frame_step=3: its factor is 1 - 0.75^(s/ceil s) for the s it was given");
+    touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nstats_every=1\n");
+    step_frames(70, 1, 3);
+    check(*kf == 0.25f, "frame_step=1 again: the camera loop's factor is the game's 0.25");
+  }
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=0\nstats_every=1\n");
   step_frames(70, 1, 3);
   r = step_frames(100, 1, 3);

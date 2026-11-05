@@ -250,6 +250,39 @@ def main(argv):
                     summ.setdefault('clock_ratio', {})[lab] = tst / ref
         sfl = re.findall(r'speedfix: frame_step=.*', log)
         for l in sfl[-6:]: w('- `%s`' % l[:300])
+    # ---------------------------------------------------------------- abtest.bat's segments (6 Nov session: marks "ab NAME A|B")
+    if frames and any(re.match(r'ab \w+ [AB]$', v) for v in names.values()):
+        qpf = None
+        m = re.search(r'frequency (\d+)\)', open(fr[0]).readline())
+        if m: qpf = float(m.group(1))
+        seg = collections.defaultdict(list)
+        for r in frames:
+            nm = names.get(int(r['mark']), '')
+            if re.match(r'ab \w+ [AB]$', nm): seg[(int(r['mark']), nm)].append(r)
+        w(); w('## A/B segments (abtest.bat; the first and last 3 s of each left out)'); w()
+        w('Speed: your character\'s distance per real second from the entity\'s +0x04/+0x08/+0x0C (frames_player; jumps of 50 or '
+          'more in a frame left out as warps).'); w()
+        w('| mark | segment | frames | real s | fps | mean ms | p50 | p95 | p99 | max | speed per real s |'); w('|---|---|---|---|---|---|---|---|---|---|---|')
+        byseg = collections.defaultdict(list)
+        for (mk, nm), rows in sorted(seg.items()):
+            if not qpf or len(rows) < 10: continue
+            t0 = int(rows[0]['qpc']); t1 = int(rows[-1]['qpc'])
+            rows = [r for r in rows if (int(r['qpc']) - t0) / qpf >= 3.0 and (t1 - int(r['qpc'])) / qpf >= 3.0]
+            if len(rows) < 10: continue
+            real = (int(rows[-1]['qpc']) - int(rows[0]['qpc'])) / qpf
+            walked = 0.0; prev = None
+            for r in rows:
+                v = [f32(r.get(c, '')) if r.get(c) else None for c in ('me4', 'me8', 'meC')]
+                if prev is not None and None not in v and None not in prev:
+                    st = math.sqrt(sum((a - b) ** 2 for a, b in zip(v, prev)))
+                    if st < 50: walked += st
+                prev = v
+            s = stats([float(r['frame_ms']) for r in rows[1:]])
+            w('| %d | %s | %d | %.2f | %.1f | %.2f | %.2f | %.2f | %.2f | %.2f | %.3f |' % (mk, nm, len(rows), real, (len(rows) - 1) / real,
+              s['mean'], s['p50'], s['p95'], s['p99'], s['max'], walked / real))
+            byseg[nm].append({'frame_mean': s['mean'], 'frame_p95': s['p95'], 'speed': walked / real})
+        summ['ab'] = byseg
+        for l in re.findall(r'speedfix: (?:frame_step=3|occlusion_late).*', log)[-8:]: w('- `%s`' % l[:300])
     # ---------------------------------------------------------------- d3d8on11's own lines (d3d8on11.log next to the game, if collected)
     for d8 in glob.glob(os.path.join(d, '..', 'd3d8on11.log')) + glob.glob(os.path.join(d, 'd3d8on11.log')):
         t = open(d8, errors='replace').read().splitlines()

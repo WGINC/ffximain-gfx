@@ -44,7 +44,9 @@ for name, decl in FORKS:
     r, _ = gate(fork, os.path.join(w, 'off_' + name))
     say(r['verdict'] == 'PASS', '%s, switches off: fork.py gate, no declarations: %s %s' % (name, r['verdict'], r.get('original_outcomes')))
     # the copy keeps the fork's first line (fork.py reads its header there); its includes are made absolute
-    src = open(fork).read().replace('"../sf_step_sites.h"', '"%s"' % os.path.join(SF, 'sf_step_sites.h')).split('\n', 1)
+    src = open(fork).read()
+    for h in ('sf_step_sites.h', 'sf_step_loops.h'): src = src.replace('"../%s"' % h, '"%s"' % os.path.join(SF, h))
+    src = src.split('\n', 1)
     on = os.path.join(w, 'on_src_' + name, os.path.basename(fork)); os.makedirs(os.path.dirname(on))
     open(on, 'w').write(src[0] + '\n#define XI_FRAMESTEP_GATE 1\n' + src[1])
     r, gdir[name] = gate(on, os.path.join(w, 'on_' + name), '--declare', os.path.join(SF, 'fork', decl))

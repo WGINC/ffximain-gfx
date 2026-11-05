@@ -4187,3 +4187,32 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
   (99.9% have sub_100157B0+0x19 as their outermost game address), while the timed calls put most of the frame
   inside Frame_Render. So the render thread's attribution by sample still does not work; the cause is not
   established. The timed calls (callsites) are the source for where the frame goes.
+
+**6 Nov: the pose flicker traced to the game's tick loops; frame_step=3; the next session (kit/sessions/ab_06nov).**
+- The owner's question: rip out or modernise occlusion, shadows and the rest. Answered from the measurements: occlusion
+  is the plaza's largest item on d3d8on11 (below); shadows measured small (1.5% of the plaza's device calls) and their
+  only trouble was speedfix's own skip_shadow_pass (6 Oct). Already built and measured: sse_skinning (-14.5 ms),
+  batch_up_draws + lazy_state (-8.2 ms; the glyph draws among them), the state caches, occlusion_stagger. Built, not
+  measured on d3d8on11: occlusion_late. Not built: GPU skinning (task #146), sorting the zone's draws, setting the zone
+  lights only on change, interpolation (#154).
+- **The flicker (docs/RENDERER.md 3c).** Five getter calls are loop counts of chases (the camera's follow, OnMove's
+  model position and two turning loops, 0x100C47F0's turning); with frame_step=1 a frame of 0 ticks skips them, so the
+  model stops and does not turn, and OnMove's 0.01 tests read the frame's movement (0) as standing. Run on the game's
+  instructions at 144 fps (unicorn, test_steploops.py): 42 of 72 frames without movement. Which code picks the pose
+  from the standing path is not traced.
+- **frame_step=3** (speedfix): those five calls get the fraction s, the loops k' = 1 - (1-k)^(s/ceil s) (operands of
+  the constant factors pointed at speedfix's floats, the 0x100272B0 calls through sf_scale_k, OnMove's 0.01 compares at
+  0.01 s below one tick a frame). Identical to the game at s = 1; equal to the game's result at 60 over the same real
+  time at 75, 100, 144 and 240 fps, every frame moving. The patched bytes are the same in 6A995428 and 6AC37846; speedfix
+  checks them live before writing. pipeline/frame_step_loops.py writes data/frame_step_loops.json and sf_step_loops.h.
+- **d3d8on11's Present in the plaza follows the readbacks** (d3d8on11.log, 149 windows of 600 Presents): 0.49 ms of
+  Present per ms of readback (R^2 0.74, with the record count in the fit), median 1.5 ms in windows without readbacks
+  and 8.1 ms in windows with more than 8 ms of them; the record count does not explain it. A correlation; occlusion_late
+  in the next run tests it.
+- **The kit's 2.4 s stalls:** the table copied under the timed calls' lock is 1.3 MB (32,768 entries of 40 bytes), so
+  the copy does not explain 2.4 s; the mechanism stays not established. The kit now logs each probe dump's lock wait,
+  hold and length (`measure: probe dump at qpc ...`), so a stall can be set against them. The next session runs no
+  call timing.
+- **The session ab_06nov:** one start, d3d8on11 with the levers, uncap, frame_step=3, occlusion_late=1; `abtest occl`
+  (occlusion_late 0/1, A B A B, 30 s each, standing in the plaza) and `abtest step` (frame_step 1/3 while auto-running;
+  the owner notes which segments flicker). The inis are written with `type` (the 5 Nov clock test's fault).

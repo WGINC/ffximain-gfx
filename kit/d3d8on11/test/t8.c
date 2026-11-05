@@ -866,7 +866,8 @@ int main(int argc, char **argv) {
     D3DSURFACE_DESC lbd; memset(&lbd, 0, sizeof lbd);
     IDirect3DDevice8_GetBackBuffer(d, 0, D3DBACKBUFFER_TYPE_MONO, &lbb); if (lbb) IDirect3DSurface8_GetDesc(lbb, &lbd);
     IDirect3DDevice8_CreateRenderTarget(d, 16, 16, lbd.Format, D3DMULTISAMPLE_NONE, TRUE, &late);
-    for (int f = 0; f < 600; f++) {
+    int nf = argc > 2 ? atoi(argv[2]) : 600; if (nf < 31) nf = 600;   /* t8 frames N: N frames (600 by default) */
+    for (int f = 0; f < nf; f++) {
       if (f == 30 && kill) {
         int n = 0; HANDLE sn = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); PROCESSENTRY32 pe; pe.dwSize = sizeof pe;
         for (BOOL more = Process32First(sn, &pe); more; more = Process32Next(sn, &pe))
@@ -889,9 +890,10 @@ int main(int argc, char **argv) {
       if (f >= 30) bb_pixel(1, 1);                 /* a read-back: waits for an answer that cannot come */
       printf("presented %d\n", f);
     }
-    if (!kill) check(late && lbb && !late_bad, "a frame-late lock of a copied lockable render target reads the frame before's colour (599 frames)");
+    if (!kill) { char what[160]; snprintf(what, sizeof what, "a frame-late lock of a copied lockable render target reads the frame before's colour (%d frames)", nf - 1);
+                 check(late && lbb && !late_bad, what); }
     if (late) IDirect3DSurface8_Release(late); if (lbb) IDirect3DSurface8_Release(lbb);
-    printf("still running after 600 frames\n");
+    printf("still running after %d frames\n", nf);
     return 0;
   }
   if (argc > 1 && !strcmp(argv[1], "where")) {

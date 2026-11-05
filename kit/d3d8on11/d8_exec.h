@@ -58,6 +58,18 @@ struct Exec {
   // the time each record took to run, for the stats (d8_link.cpp); a flush's own work counts as the draws'
   void (*timed)(void *, uint16_t, double) = nullptr; void *timed_ctx = nullptr;
   bool sites_on = false;                             // OPT_SITES
+  // OPT_FLIP: the swap chain's model. 0: DXGI_SWAP_EFFECT_DISCARD, one buffer (the blt model, as before); 1:
+  // DXGI_SWAP_EFFECT_FLIP_DISCARD, two buffers (the flip model). A change is made right after the next Present: the swap
+  // chain is released and made again, and the device's targets bound again (last_rt, last_ds: what X_TARGETS set)
+  bool flip = false, flip_want = false; XInit last_init = {}; XRef last_rt = {}; uint32_t last_ds = 0;
+  int32_t make_swap();
+  // OPT_GPUTIME: the GPU's time for each frame's work, from timestamp queries around it (a disjoint query each); read
+  // back NQ frames later without waiting (D3D11_ASYNC_GETDATA_DONOTFLUSH); a frame whose queries are not ready by then
+  // is counted as not measured. Logged every 600 Presents: the mean, the 95th percentile, how many were measured.
+  bool gpu_on = false; enum { NQ = 6 };
+  ID3D11Query *q_dis[NQ] = {}, *q_beg[NQ] = {}, *q_end[NQ] = {}; bool q_used[NQ] = {}; int q_i = 0; bool q_open = false;
+  std::vector<float> gpu_ms; uint32_t gpu_frames = 0, gpu_lost = 0;
+  void gpu_frame_end(); void gpu_frame_begin(); void gpu_collect(int slot, bool wait_none);
   uint32_t last_site = ~0u;                          // XDraw::site of the draw run last (the stats charge its time to it)
   uint64_t flushes = 0, arena_maps = 0, draw_maps = 0;   // for the stats: flushes, Maps of the arenas, Maps by a draw
   void shutdown();

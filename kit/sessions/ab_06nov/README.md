@@ -19,6 +19,11 @@ One start on Windows (Parallels), about 20 minutes of play. What it settles is l
   fraction of a tick, exactly.
 - **occlusion_late=1.** Measured in the first run: the plaza from 44-49 ms a frame to 22 ms (20-23 fps to 45-46 fps).
   Kept on; `abtest occl` measures it again.
+- **The plaza above 60: where Present's time goes (new).** In the first run, with the readbacks gone, the plaza's frames
+  were ~22 ms while the game's own render thread used ~9.5 ms: the rest was waiting for d3d8on11's worker, which spent
+  12-13 ms of each frame in Present. Two things now measure and test that: `gpu_time` (the GPU's own time for each
+  frame, from timestamp queries) and `abtest flip` (the flip-model swap chain, DXGI's efficient way to show a frame,
+  against the old blt model). If Present is the presentation path, B should cut it; if it is the GPU, gpu_time will show it.
 - **The draw time by the game's call site** (`draw_sites=1`, d3d8on11; fixed after the first run, where every draw came
   from speedfix's hooks): what each of the game's draw calls costs
   d3d8on11, for choosing the next rewrite. It is on through the whole start, so A and B segments carry it alike.
@@ -46,8 +51,11 @@ Start the game (Windower as always). Each step: run the command shown in the pro
 1. `mark plaza`: Port Jeuno plaza, standing, camera still, 30 s.
 2. `abtest occl`: stay in the plaza, standing, camera still, until it says `abtest occl done` (about 2 minutes). In
    segments A the readbacks are the game's, in B they are read late. Note if anything pops in or out of view.
-3. `mark camera`: rotate the camera slowly all the way round, a few times: 30 s.
-4. `mark run`: run around the plaza: 60 s. Watch the characters: do any flicker between two poses?
+3. `abtest flip`: still in the plaza, standing, camera still, until it says `abtest flip done` (about 2 minutes). d3d8on11
+   switches how it hands each frame to Windows (A: as before; B: the flip model). Note if anything looks wrong in the
+   B segments (black frames, tearing, flicker).
+4. `mark camera`: rotate the camera slowly all the way round, a few times: 30 s.
+5. `mark run`: run around the plaza: 60 s. Watch the characters: do any flicker between two poses?
 5. Go to an open field outside town and turn auto-run on (steer in a wide circle). `abtest step`, keep auto-running
    until it says `abtest step done` (about 2 minutes). **Note for each segment (A, B, A, B) whether your character and
    others flicker between two poses, and whether the camera moves smoothly.** A is the 5 Nov setting (flicker), B the fix (no flicker and no moonwalking, if the fix is right).
@@ -57,7 +65,7 @@ Start the game (Windower as always). Each step: run the command shown in the pro
 9. `mark stand`: stand still anywhere, 30 s. Note anything that looked wrong. Close the game normally.
 
 Then `restore.bat` (dgVoodoo back), close the xiload window, and `collect.bat`. Upload `ab_06nov_results.zip` from
-the PlayOnlineViewer folder, with your notes on step 5 (which segments flickered).
+the PlayOnlineViewer folder, with your notes on step 6 (which segments flickered) and step 3.
 
 ## What it settles
 

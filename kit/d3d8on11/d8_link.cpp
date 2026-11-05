@@ -44,7 +44,7 @@ struct ExecStats {
     return op == X_DRAW ? K_DRAW : op == X_UPLOAD_TEX || op == X_UPLOAD_BUF ? K_UPLOAD : op == X_PRESENT ? K_PRESENT :
            op == X_READBACK ? K_READBACK : K_OTHER;
   }
-  const char *kname() const { return key == OPT_BATCH ? "batch" : "filter"; }
+  const char *kname() const { return key == OPT_BATCH ? "batch" : key == OPT_FLIP ? "flip" : "filter"; }
   static double sum(const double *b) { double s = 0; for (int k = 0; k < NK; k++) s += b[k]; return s; }
   void phase_end() {
     if (!ab) return;

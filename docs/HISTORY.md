@@ -4249,3 +4249,23 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
   An audit of every whole site with a division after it found the walk/run rate the only one where the step is the
   divisor. The camera's yaw (0x1001F01F) and height (0x1001F0F2) moves are linear and get the fraction; its zoom and two
   loops with collision tests are left whole (not traced). RENDERER 3c.
+
+**6 Nov (owner back): the plaza above 60 -- where the time is, and two tools for it.**
+- From the ab_06nov run's frame log (rt_cpu_ms, QueryThreadCycleTime) and d3d8on11.log, plaza with occlusion_late: the
+  frame ~22 ms; the game's render thread on the CPU 9.5 ms of it and waiting in d3d8on11's Present 11.6-12.0 ms; the
+  executor busy 96-98%, of which IDXGISwapChain::Present 12-13 ms, draws ~5, uploads ~3 (readbacks ~0). Camera 18.8 ms
+  (render thread 9.6, waiting 5.8), run 20.8 (9.5, 3.5), busy 10.9 (9.3, 0.8). So the limit there is d3d8on11's worker,
+  and in it Present; the game's own work would allow ~100 fps. Why Present takes that long is not established (the
+  GPU; the blt-model windowed present; the Parallels driver). PresentMon did not record the game in either run: it
+  followed the first pol.exe (the launcher), so it has no GPU time for the game.
+- **gpu_time** (d3d8on11.ini): the GPU's time for each frame's work, from D3D11 timestamp queries around it (a disjoint
+  query each, six frames in flight, read back without waiting), logged every 600 Presents.
+- **swap_flip / exec_ab_lever=flip** (d3d8on11.ini): the flip-model swap chain (FLIP_DISCARD, 2 buffers) instead of the
+  blt model (DISCARD, 1 buffer). A switch is made right after a Present (the swap chain made again, the device's
+  targets bound again; in the flip model they are bound again after every Present, which unbinds the back buffer).
+  exec_ab_go=1 starts d3d8on11's own A/B when d3d8on11_ab_go.txt appears (abtest.bat flip writes it).
+- Tests (test_d3d8on11.py, Wine): t8 frames 3000 with the flip model and gpu_time from the start, and with the A/B
+  switching every second: every frame-late lock reads the frame before's colour, the GPU lines are written, the swap
+  chain switched both ways. The first build of the switch did not bind the targets again after a switch back to the
+  blt model (the next frame's Clear had none): found by that test, fixed. t8 frames takes a frame count.
+- ab_06nov: `abtest flip` in the plaza (A blt, B flip; A B B A as d3d8on11's A/B runs), gpu_time on through the start.

@@ -6,6 +6,7 @@
 // lighting, fog, texture coordinate processing); where the reference leaves a choice open, from Wine 9.0's wined3d,
 // named where used. The picture test (test/test_d3d8on11.py, mode scenes) compares with Wine's d3d8.
 #include "d8_exec.h"
+#include <algorithm>
 #include <d3dcompiler.h>
 #include <d3d11_1.h>
 #include <math.h>
@@ -452,19 +453,68 @@ int32_t Exec::init(const XInit &x, bool resize) {
     if (FAILED(hr)) { d8_log("D3D11CreateDevice (feature level 11_0): 0x%08lX", (unsigned long)hr); return D3DERR_NOTAVAILABLE; }
     ff_init();
   } else release_swap();
+  last_init = x;
+  return make_swap();
+}
+// the swap chain for last_init, in the model `flip` names; the back buffer's resource (X_BACKBUFFER) with it. In the flip
+// model Direct3D 11 keeps buffer 0 the current back buffer (its views follow it), and unbinds it at each Present
+// (bound again after each, X_PRESENT). A flip-model swap chain that cannot be made falls back to the blt model, logged.
+int32_t Exec::make_swap() {
+  const XInit &x = last_init;
   IDXGIDevice *xd = NULL; IDXGIAdapter *xa = NULL; IDXGIFactory *xf = NULL;
   dev->QueryInterface(__uuidof(IDXGIDevice), (void **)&xd); xd->GetAdapter(&xa); xa->GetParent(__uuidof(IDXGIFactory), (void **)&xf);
   DXGI_SWAP_CHAIN_DESC sd = {};
   sd.BufferDesc.Width = x.width; sd.BufferDesc.Height = x.height; sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
-  sd.SampleDesc.Count = 1; sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; sd.BufferCount = 1; sd.OutputWindow = wnd;
-  sd.Windowed = TRUE; sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+  sd.SampleDesc.Count = 1; sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; sd.OutputWindow = wnd; sd.Windowed = TRUE;
+  sd.BufferCount = flip ? 2 : 1; sd.SwapEffect = flip ? DXGI_SWAP_EFFECT_FLIP_DISCARD : DXGI_SWAP_EFFECT_DISCARD;
   HRESULT hr = xf->CreateSwapChain(dev, &sd, &swap);
+  if (FAILED(hr) && flip) {
+    d8_log("CreateSwapChain, flip model (FLIP_DISCARD, 2 buffers) %ux%u: 0x%08lX; the blt model instead", x.width, x.height, (unsigned long)hr);
+    flip = flip_want = false; sd.BufferCount = 1; sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
+    hr = xf->CreateSwapChain(dev, &sd, &swap);
+  }
   xf->MakeWindowAssociation(wnd, DXGI_MWA_NO_ALT_ENTER);
   xf->Release(); xa->Release(); xd->Release();
   if (FAILED(hr)) { d8_log("CreateSwapChain %ux%u: 0x%08lX", x.width, x.height, (unsigned long)hr); return D3DERR_NOTAVAILABLE; }
   ExecRes &b = res[X_BACKBUFFER]; b.kind = 4; b.w = x.width; b.h = x.height; b.d3dfmt = D3DFMT_X8R8G8B8;
   swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void **)&b.tex);
   return D3D_OK;
+}
+// ---- the GPU's time per frame (OPT_GPUTIME) ----
+void Exec::gpu_collect(int j, bool) {
+  if (!q_used[j]) return;
+  D3D11_QUERY_DATA_TIMESTAMP_DISJOINT dj; UINT64 t0, t1;
+  if (ctx->GetData(q_dis[j], &dj, sizeof dj, D3D11_ASYNC_GETDATA_DONOTFLUSH) != S_OK ||
+      ctx->GetData(q_beg[j], &t0, sizeof t0, D3D11_ASYNC_GETDATA_DONOTFLUSH) != S_OK ||
+      ctx->GetData(q_end[j], &t1, sizeof t1, D3D11_ASYNC_GETDATA_DONOTFLUSH) != S_OK) { gpu_lost++; q_used[j] = false; return; }
+  q_used[j] = false;
+  if (dj.Disjoint || !dj.Frequency || t1 < t0) { gpu_lost++; return; }
+  gpu_ms.push_back((float)((double)(t1 - t0) * 1000.0 / (double)dj.Frequency));
+}
+void Exec::gpu_frame_begin() {                             // after a Present: the next frame's work starts here
+  if (!gpu_on || !dev) return;
+  if (!q_dis[0]) {
+    D3D11_QUERY_DESC qd = {D3D11_QUERY_TIMESTAMP_DISJOINT, 0}, qt = {D3D11_QUERY_TIMESTAMP, 0};
+    for (int i = 0; i < NQ; i++) { dev->CreateQuery(&qd, &q_dis[i]); dev->CreateQuery(&qt, &q_beg[i]); dev->CreateQuery(&qt, &q_end[i]); }
+    if (!q_dis[NQ - 1] || !q_end[NQ - 1]) { d8_log("gpu_time: the timestamp queries could not be made; off"); gpu_on = false; return; }
+  }
+  q_i = (q_i + 1) % NQ;
+  gpu_collect(q_i, true);                                  // this slot's last use, NQ frames ago: read now or counted as lost
+  ctx->Begin(q_dis[q_i]); ctx->End(q_beg[q_i]); q_open = true;
+}
+void Exec::gpu_frame_end() {                               // before a Present: the frame's work ends here
+  if (!gpu_on || !q_open) return;
+  ctx->End(q_end[q_i]); ctx->End(q_dis[q_i]); q_used[q_i] = true; q_open = false; gpu_frames++;
+  if (gpu_frames >= 600) {
+    std::vector<float> v = gpu_ms; std::sort(v.begin(), v.end());
+    double sum = 0; for (float f : v) sum += f;
+    if (!v.empty())
+      d8_log("gpu_time, %u frames: the GPU's time for a frame's work %.3f ms on average, 95%% %.3f, longest %.3f (%zu measured, %u not ready "
+             "in %d frames or disjoint); swap chain: %s", gpu_frames, sum / v.size(), v[(size_t)(v.size() * 0.95)], v.back(), v.size(), gpu_lost, NQ,
+             flip ? "flip model (FLIP_DISCARD, 2 buffers)" : "blt model (DISCARD, 1 buffer)");
+    else d8_log("gpu_time, %u frames: none measured (%u not ready in %d frames or disjoint)", gpu_frames, gpu_lost, NQ);
+    gpu_ms.clear(); gpu_frames = 0; gpu_lost = 0;
+  }
 }
 // Clear of rectangles (part of the target, or a depth surface larger than it): each rectangle drawn with a shader
 // that writes the colour, the depth (SV_Depth) and, by REPLACE, the stencil. Draws reset every state they use, so
@@ -597,6 +647,7 @@ void Exec::snap_poll() {
   }
 }
 void Exec::shutdown() {
+  for (int i = 0; i < NQ; i++) { if (q_dis[i]) q_dis[i]->Release(); if (q_beg[i]) q_beg[i]->Release(); if (q_end[i]) q_end[i]->Release(); q_dis[i] = q_beg[i] = q_end[i] = nullptr; }
   if (clr_vs) clr_vs->Release(); if (clr_ps) clr_ps->Release(); if (clr_cb) clr_cb->Release(); clr_vs = nullptr; clr_ps = nullptr; clr_cb = nullptr;
   if (cpy_vs) cpy_vs->Release(); if (cpy_ps) cpy_ps->Release(); cpy_vs = nullptr; cpy_ps = nullptr;
   for (auto *m : {&cpy_src, &cpy_dst}) { for (auto &e : *m) { if (e.second.srv) e.second.srv->Release(); if (e.second.rtv) e.second.rtv->Release(); if (e.second.tex) e.second.tex->Release(); } m->clear(); }
@@ -814,7 +865,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     break; }
   case X_TARGETS: {
     const XTargets &t = *(const XTargets *)p;
-    cur_rtv = t.rt.id ? rtv_of(t.rt) : nullptr;
+    cur_rtv = t.rt.id ? rtv_of(t.rt) : nullptr; last_rt = t.rt; last_ds = t.ds;
     auto d = t.ds ? res.find(t.ds) : res.end();
     cur_dsv = d != res.end() ? d->second.dsv : nullptr;
     ctx->OMSetRenderTargets(1, &cur_rtv, cur_dsv);
@@ -846,9 +897,21 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
   case X_DRAW: last_site = ((const XDraw *)p)->site; draw(*(const XDraw *)p, p + sizeof(XDraw), pp); draws++; break;
   case X_PRESENT: {
     drain_debug();
+    gpu_frame_end();
     HRESULT h = swap ? swap->Present(sync, 0) : E_FAIL;
     if (FAILED(h)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure)", (unsigned long)h);
     presents++;
+    bool remade = false;
+    if (swap && flip_want != flip) {                       // OPT_FLIP: the other model, from the next frame
+      flip = flip_want; release_swap(); remade = true;     // (release_swap unbinds the targets: bound again below, either model)
+      if (make_swap() == D3D_OK) d8_log("swap chain now %s (frame %llu)", flip ? "the flip model (FLIP_DISCARD, 2 buffers)" : "the blt model (DISCARD, 1 buffer)", (unsigned long long)presents);
+    }
+    if ((flip || remade) && swap) {                        // the flip model unbinds the back buffer at each Present: bound again
+      cur_rtv = last_rt.id ? rtv_of(last_rt) : nullptr;
+      auto d = last_ds ? res.find(last_ds) : res.end(); cur_dsv = d != res.end() ? d->second.dsv : nullptr;
+      ctx->OMSetRenderTargets(1, &cur_rtv, cur_dsv); forget();
+    }
+    gpu_frame_begin();
     if (!snap_pend.empty()) snap_poll();
     break; }
   case X_SNAP: {
@@ -896,6 +959,8 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     if (o.key == OPT_FILTER) { filter = o.value; forget(); }
     if (o.key == OPT_BATCH) { batch = o.value; forget(); }
     if (o.key == OPT_SITES) sites_on = o.value != 0;
+    if (o.key == OPT_FLIP) { flip_want = o.value != 0; if (!swap) flip = flip_want; }   // before the swap chain exists: made so
+    if (o.key == OPT_GPUTIME) gpu_on = o.value != 0;
     memo.vc_ok = memo.pc_ok = false;                       // the constants may be in either place: written again
     break; }
   }

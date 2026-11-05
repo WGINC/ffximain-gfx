@@ -187,7 +187,8 @@ struct Dev final : public IDirect3DDevice8_Stub {
   void defaults();
   void targets();                                // the current render target and depth surface to the executor
   // the executor's filter (d3d8on11.ini exec_filter) and its A/B (exec_ab: d8_device.cpp, Dev::ab_frame)
-  struct AB { int on, after, phase, rounds, settle, filter, batch; uint32_t key; double t0, ph0, last, sum, max; int i, frames; } ab = {};
+  struct AB { int on, after, phase, rounds, settle, filter, batch, flip, go, polls; uint32_t key; double t0, ph0, last, sum, max; int i, frames; } ab = {};
+  char ab_go_path[MAX_PATH] = {};          // exec_ab_go=1: the A/B starts when this file appears (abtest.bat writes it)
   void ab_frame();
   // Present's SyncInterval (d8_device.cpp, Dev::present_interval): d3d8on11.ini present_interval=0..4 forces it (-1:
   // not set, from the game's D3DPRESENT_PARAMETERS); `sync` is what X_INIT / X_RESIZE send the executor

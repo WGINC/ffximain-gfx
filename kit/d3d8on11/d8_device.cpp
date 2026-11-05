@@ -38,7 +38,18 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   ne = GetEnvironmentVariableA("D8ON11_EXEC_BATCH", env, sizeof env);
   if (ne > 0 && ne < sizeof env) ab.batch = atoi(env);
   // exec_ab_lever: which switch the A/B turns, filter (exec_filter) or batch (exec_batch)
-  { char lv[16]; GetPrivateProfileStringA("d3d8on11", "exec_ab_lever", "filter", lv, sizeof lv, ini); ab.key = !_stricmp(lv, "batch") ? OPT_BATCH : OPT_FILTER; }
+  { char lv[16]; GetPrivateProfileStringA("d3d8on11", "exec_ab_lever", "filter", lv, sizeof lv, ini);
+    ab.key = !_stricmp(lv, "batch") ? OPT_BATCH : !_stricmp(lv, "flip") ? OPT_FLIP : OPT_FILTER; }
+  // swap_flip=1: the flip-model swap chain (DXGI_SWAP_EFFECT_FLIP_DISCARD, 2 buffers) instead of the blt model (DISCARD,
+  // 1 buffer, as before); D8ON11_SWAP_FLIP overrides it. exec_ab_lever=flip: the A/B turns it (off = blt, on = flip)
+  ab.flip = (int)GetPrivateProfileIntA("d3d8on11", "swap_flip", 0, ini);
+  ne = GetEnvironmentVariableA("D8ON11_SWAP_FLIP", env, sizeof env);
+  if (ne > 0 && ne < sizeof env) ab.flip = atoi(env);
+  // exec_ab_go=1: the A/B starts when d3d8on11_ab_go.txt appears next to this DLL (it is deleted then), instead of
+  // exec_ab_after seconds after the device: the session's abtest.bat writes it, so the phases start with its marks
+  ab.go = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_go", 0, ini);
+  strcpy(ab_go_path, ini); { char *s2 = strrchr(ab_go_path, '\\'); strcpy(s2 ? s2 + 1 : ab_go_path, "d3d8on11_ab_go.txt"); }
+  if (ab.go) DeleteFileA(ab_go_path);                      // a file left from an earlier start does not start this one's
   ab.on = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab", 0, ini);
   ab.after = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_after", 60, ini);
   ab.phase = (int)GetPrivateProfileIntA("d3d8on11", "exec_ab_phase", 30, ini);
@@ -48,6 +59,13 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   ab.i = -1;
   { XOption o = {OPT_FILTER, (uint32_t)(ab.filter != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
   { XOption o = {OPT_BATCH, (uint32_t)(ab.batch != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
+  { XOption o = {OPT_FLIP, (uint32_t)(ab.flip != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
+  // gpu_time=1: the GPU's time for each frame's work (timestamp queries), logged every 600 Presents; D8ON11_GPU_TIME
+  { int g = (int)GetPrivateProfileIntA("d3d8on11", "gpu_time", 0, ini);
+    ne = GetEnvironmentVariableA("D8ON11_GPU_TIME", env, sizeof env); if (ne > 0 && ne < sizeof env) g = atoi(env);
+    XOption o = {OPT_GPUTIME, (uint32_t)(g != 0), 0}; link->put(X_OPTION, &o, sizeof o);
+    if (g) d8_log("gpu_time=1: the GPU's time per frame is logged every 600 frames"); }
+  if (ab.flip) d8_log("swap_flip=1: the flip-model swap chain (FLIP_DISCARD, 2 buffers)");
   // draw_sites=1: each draw carries the game's call site, and the executor's log lists its draw time by site every 600
   // Presents (a measurement; off by default, so that a run measuring something else is not changed by it)
   draw_sites = (int)GetPrivateProfileIntA("d3d8on11", "draw_sites", 0, ini) != 0;
@@ -56,7 +74,7 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   { XOption o = {OPT_SITES, (uint32_t)draw_sites, 0}; link->put(X_OPTION, &o, sizeof o); }
   if (draw_sites) d8_log("draw_sites=1: the executor's draw time is logged by the game's call site");
   d8_log("executor filter: %d, batch: %d%s", ab.filter != 0, ab.batch != 0,
-         ab.on ? (ab.key == OPT_BATCH ? "; the A/B of batch is on (exec_ab)" : "; the A/B of filter is on (exec_ab)") : "");
+         ab.on ? (ab.key == OPT_BATCH ? "; the A/B of batch is on (exec_ab)" : ab.key == OPT_FLIP ? "; the A/B of the flip-model swap chain is on (exec_ab)" : "; the A/B of filter is on (exec_ab)") : "");
   if (ab.on) d8_log("executor ab: %d s after the device, %d phases of %d s (filter off, on, on, off, ...), the first %d frames of each left out; "
                     "stand still while it runs", ab.after, 4 * ab.rounds, ab.phase, ab.settle);
   // present_interval: Present's SyncInterval, 0 to 4, instead of the one the game's parameters map to (anything else,
@@ -276,17 +294,22 @@ void Dev::ab_frame() {
   int n = 4 * ab.rounds;
   if (ab.i >= n) return;
   if (ab.i >= 0 && ++ab.frames > ab.settle) { ab.sum += dt; if (dt > ab.max) ab.max = dt; }
-  bool next = ab.i < 0 ? t - ab.t0 >= ab.after * 1000.0 : t - ab.ph0 >= ab.phase * 1000.0;
+  bool next;
+  if (ab.i < 0 && ab.go) {                                 // exec_ab_go: wait for the file (looked for every 60 frames)
+    next = ++ab.polls % 60 == 0 && GetFileAttributesA(ab_go_path) != INVALID_FILE_ATTRIBUTES;
+    if (next) { DeleteFileA(ab_go_path); d8_log("executor ab: d3d8on11_ab_go.txt found: the A/B starts"); }
+  } else next = ab.i < 0 ? t - ab.t0 >= ab.after * 1000.0 : t - ab.ph0 >= ab.phase * 1000.0;
   if (!next) return;
   if (ab.i >= 0) {
     int v = (ab.i % 4 == 1 || ab.i % 4 == 2), k = ab.frames - ab.settle;
     if (k > 0) d8_log("executor ab: phase %d, %s=%d, %d frames: the game's frame %.3f ms on average (%.1f fps), %.3f at most",
-                      ab.i + 1, ab.key == OPT_BATCH ? "batch" : "filter", v, k, ab.sum / k, 1000.0 * k / ab.sum, ab.max);
+                      ab.i + 1, ab.key == OPT_BATCH ? "batch" : ab.key == OPT_FLIP ? "flip" : "filter", v, k, ab.sum / k, 1000.0 * k / ab.sum, ab.max);
   }
   ab.i++; ab.ph0 = t; ab.frames = 0; ab.sum = 0; ab.max = 0;
   XOption o = {ab.key, 0, (uint32_t)ab.settle};
   if (ab.i < n) o.value = (ab.i % 4 == 1 || ab.i % 4 == 2);
   else if (ab.key == OPT_BATCH) { o.value = ab.batch != 0; d8_log("executor ab: done; batch=%u from now on (exec_batch)", o.value); }
+  else if (ab.key == OPT_FLIP) { o.value = ab.flip != 0; d8_log("executor ab: done; flip=%u from now on (swap_flip)", o.value); }
   else { o.value = ab.filter != 0; d8_log("executor ab: done; filter=%u from now on (exec_filter)", o.value); }
   link->put(X_OPTION, &o, sizeof o);
 }

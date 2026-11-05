@@ -286,7 +286,7 @@ def main(argv):
     # ---------------------------------------------------------------- d3d8on11's own lines (d3d8on11.log next to the game, if collected)
     for d8 in glob.glob(os.path.join(d, '..', 'd3d8on11.log')) + glob.glob(os.path.join(d, 'd3d8on11.log')):
         t = open(d8, errors='replace').read().splitlines()
-        keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail', l, re.I)]
+        keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail|gpu_time|swap chain|swap_flip', l, re.I)]
         w(); w('## d3d8on11.log (%s, %d lines; the executor, readback snapshot, interval and error lines)' % (os.path.basename(d8), len(t))); w(); w('```')
         w('\n'.join(keep[:60] + (['...'] + keep[-20:] if len(keep) > 80 else keep[60:80]))); w('```')
         # the executor's draw time by the game's call site (d3d8on11's "executor draws by game call site" lines: the Draw*

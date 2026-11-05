@@ -174,6 +174,10 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
         rep = open(os.path.join(d, 'report.md')).read() if os.path.exists(os.path.join(d, 'report.md')) else ''
         ok = r.returncode == 0 and '## Frames' in rep and '## Wrapped calls on the render thread' in rep and '## Samples' in rep and '| Sleep | I | wait |' in rep
         print(r.stderr.strip()[-1500:]); print('%s: measure_read.py writes report.md (frames, wrapped calls, samples)' % ('ok' if ok else 'FAIL')); bad += not ok
+        sm = json.load(open(os.path.join(d, 'summary.json'))) if os.path.exists(os.path.join(d, 'summary.json')) else {}
+        cr = sm.get('clock_ratio', {}).get('A (+0x04..)')
+        ok = cr is not None and abs(cr - 1.0) < 0.03
+        print('%s: the clock test\'s arithmetic: a reference moving a tick a frame and a test moving by real time give test / reference = %s' % ('ok' if ok else 'FAIL', cr)); bad += not ok
     if mode == 'facts':
         fc = [f for f in os.listdir(d) if f.startswith('xikit_facts_')]
         out = os.path.join(d, 'game_sp.json')

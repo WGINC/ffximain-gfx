@@ -58,6 +58,7 @@ typedef struct {
 } Probe;
 static Probe *m_p; static int m_np;
 static uint8_t *m_stubs;
+static int m_player; static uint32_t m_ent_ok_for;
 static int m_frames, m_imports, m_callsites, m_sysstats, m_env = 1, m_callsite_max = 500, m_rawsample;
 static volatile LONG m_on;          /* call timing records (the stubs always pass the call on) */
 static DWORD m_tls = TLS_OUT_OF_INDEXES;
@@ -420,6 +421,21 @@ static void m_frame_write(double frame_ms, double present_ms, double kit_ms, LAR
     if (tim && (tim == m_tim_ok_for || m_readable(tim, 8))) { m_tim_ok_for = tim; tf = *(volatile uint32_t *)(uintptr_t)(tim + 4); have_t = 1; }
   }
   for (int i = 0; i < 4; i++) ring[i] = *(volatile uint32_t *)(uintptr_t)(pring + 4 * i);
+  /* frames_player=1: your character's entity (the slot of the table 0x10480AF0 whose index is the signed word at
+     0x10485F7A: docs/MEASURE.md, from the code at 0x10094943), its dwords +0x04..+0x0C and +0x24..+0x2C raw */
+  uint32_t pv[6] = {0}; int have_p = 0;
+  if (m_player) {
+    int16_t idx = *(volatile int16_t *)(uintptr_t)live_of(0x10485F7Au);
+    uint32_t slot = live_of(0x10480AF0u) + 4u * (uint32_t)(uint16_t)idx;
+    if (idx >= 0 && idx < 4096 && m_readable(slot, 4)) {
+      uint32_t ent = *(volatile uint32_t *)(uintptr_t)slot;
+      if (ent && (ent == m_ent_ok_for || m_readable(ent, 0x30))) {
+        m_ent_ok_for = ent; have_p = 1;
+        static const int po[6] = {0x4, 0x8, 0xC, 0x24, 0x28, 0x2C};
+        for (int i = 0; i < 6; i++) pv[i] = *(volatile uint32_t *)(uintptr_t)(ent + po[i]);
+      }
+    }
+  }
   /* the render thread's wrapped calls this frame, by group (exclusive time), and the longest one */
   double gms[G_N] = {0}; uint32_t gcalls[G_N] = {0}; int longest = -1; uint64_t lmax = 0;
   for (int i = 0; i < m_np; i++) {
@@ -432,6 +448,10 @@ static void m_frame_write(double frame_ms, double present_ms, double kit_ms, LAR
   if (have) n += snprintf(line + n, sizeof line - n, "%08X,%08X,%08X,%08X,%08X,", f[0], f[1], f[2], f[3], f[4]); else n += snprintf(line + n, sizeof line - n, ",,,,,");
   n += snprintf(line + n, sizeof line - n, "%08X,%08X,%08X,%08X,", ring[0], ring[1], ring[2], ring[3]);
   n += have_t ? snprintf(line + n, sizeof line - n, "%08X", tf) : 0;
+  if (m_player) {
+    if (have_p) n += snprintf(line + n, sizeof line - n, ",%08X,%08X,%08X,%08X,%08X,%08X", pv[0], pv[1], pv[2], pv[3], pv[4], pv[5]);
+    else n += snprintf(line + n, sizeof line - n, ",,,,,,");
+  }
   if (m_imports || m_callsites) {
     for (int g = 0; g < G_N; g++) n += snprintf(line + n, sizeof line - n, ",%.3f,%u", gms[g], gcalls[g]);
     n += snprintf(line + n, sizeof line - n, ",%s,%.3f", longest >= 0 ? m_p[longest].name : "", m_ms(lmax));
@@ -942,6 +962,7 @@ static DWORD WINAPI m_envthread(LPVOID u) {
 /* ------------------------------------------------------------------------------------------------ start */
 static void measure_start(void) {
   m_frames = GetPrivateProfileIntA("xikit", "frames", 0, g_ini);
+  m_player = GetPrivateProfileIntA("xikit", "frames_player", 0, g_ini);
   m_imports = GetPrivateProfileIntA("xikit", "imports", 0, g_ini);
   m_callsites = GetPrivateProfileIntA("xikit", "callsites", 0, g_ini);
   m_callsite_max = GetPrivateProfileIntA("xikit", "callsite_max", 500, g_ini);
@@ -966,10 +987,12 @@ static void measure_start(void) {
     char head[2048]; int n = snprintf(head, sizeof head,
       "# xikit frames: one line per Present on the render thread. qpc = QueryPerformanceCounter at the kit's Present (frequency %lld);"
       " frame_ms = Present to Present; present_ms = inside the device's Present; kit_ms = the kit's own time before it; rt_cycles and rt_cpu_ms = the render"
-      " thread's CPU since the last frame (QueryThreadCycleTime, GetThreadTimes); pf = page faults of the process; mark = Ctrl+Alt+F7 count;"
+      " thread's CPU since the last frame (QueryThreadCycleTime, GetThreadTimes); pf = page faults of the process; mark = the mark's number;"
+      " me4..me2C (frames_player=1) = your entity's dwords +0x04..+0x0C, +0x24..+0x2C raw;"
       " p28..p3c = Frame_Render's this+0x28, +0x2C, +0x30, +0x38, +0x3C raw; ring0..3 = 0x10456964.. raw; tfps = [[this+0x1C]+4] raw (docs/RENDERER.md 3)%s\n"
-      "frame,qpc,frame_ms,present_ms,kit_ms,rt_cycles,rt_cpu_ms,pf,mark,swaps_off,p28,p2c,p30,p38,p3c,ring0,ring1,ring2,ring3,tfps",
-      (long long)g_qpf.QuadPart, m_imports || m_callsites ? "; then per group of wrapped calls on the render thread this frame: exclusive ms and calls; the longest wrapped import call" : "");
+      "frame,qpc,frame_ms,present_ms,kit_ms,rt_cycles,rt_cpu_ms,pf,mark,swaps_off,p28,p2c,p30,p38,p3c,ring0,ring1,ring2,ring3,tfps%s",
+      (long long)g_qpf.QuadPart, m_imports || m_callsites ? "; then per group of wrapped calls on the render thread this frame: exclusive ms and calls; the longest wrapped import call" : "",
+      m_player ? ",me4,me8,meC,me24,me28,me2C" : "");
     if (m_imports || m_callsites) { for (int g = 0; g < G_N; g++) n += snprintf(head + n, sizeof head - n, ",%s_ms,%s_calls", m_gname[g], m_gname[g]); n += snprintf(head + n, sizeof head - n, ",longest_import,longest_ms"); }
     snprintf(head + n, sizeof head - n, "\n");
     ms_open(&m_sframes, "xikit_frames", 4 << 20, head);

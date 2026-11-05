@@ -198,10 +198,64 @@ def main(argv):
         marks = collections.defaultdict(list)
         for r in rows: marks[int(r['mark'])].append(float(r['frame_ms']))
         if len(marks) > 1:
-            w(); w('**By mark (Ctrl+Alt+F7):**'); w(); w('| mark | frames | mean ms | p50 | p95 | p99 | max |'); w('|---|---|---|---|---|---|---|')
+            w(); w('**By mark (mark.bat; the name each mark was given is in xikit.log):**'); w(); w('| mark | frames | mean ms | p50 | p95 | p99 | max |'); w('|---|---|---|---|---|---|---|')
             for k in sorted(marks):
                 s = stats(marks[k]); w('| %d | %d | %.2f | %.2f | %.2f | %.2f | %.2f |' % (k, s['n'], s['mean'], s['p50'], s['p95'], s['p99'], s['max']))
             summ['marks'] = {k: stats(v) for k, v in marks.items()}
+    # ---------------------------------------------------------------- the clock test (clocktest.bat, frames_player=1)
+    names = {int(m.group(1)): m.group(2).strip() for m in re.finditer(r'measure: mark (\d+) at frame \d+ \([^)]*\): (.*)', log)}
+    if frames and 'me4' in frames[0] and any(v.startswith('clock ') for v in names.values()):
+        qpf = None
+        m = re.search(r'frequency (\d+)\)', open(fr[0]).readline())
+        if m: qpf = float(m.group(1))
+        seg = collections.defaultdict(list)
+        for r in frames:
+            nm = names.get(int(r['mark']), '')
+            if nm in ('clock reference', 'clock test'): seg[(int(r['mark']), nm)].append(r)
+        w(); w('## The clock test (clocktest.bat; your position each frame, frames_player=1)'); w()
+        w('Reference: speedfix holds 60 fps, frame_step off; each frame advances the game by the getter\'s step, max(this+0x28, 1) ticks '
+          '(0x10014CF0; docs/RENDERER.md 3a), so the game\'s time there is that sum / 60 s. Test: uncap and frame_step on; the game\'s time '
+          'should be real time. Distance is from the entity\'s +0x04/+0x08/+0x0C and, separately, +0x24/+0x28/+0x2C (which of the two '
+          'vectors is the drawn position is not established; both are shown). The first and last 3 s of each segment are left out (the settings and the mark change up to a second apart).'); w()
+        w('| mark | segment | frames | real s | fps | game s (reference: by the step) | distance A | A per real s | A per game s | distance B | B per real s | B per game s |')
+        w('|---|---|---|---|---|---|---|---|---|---|---|---|')
+        per = collections.defaultdict(list)
+        for (mk, nm), rows in sorted(seg.items()):
+            if not qpf or len(rows) < 10: continue
+            t0 = int(rows[0]['qpc']); t1 = int(rows[-1]['qpc'])          # both ends left out: the settings and the mark change a little apart
+            rows = [r for r in rows if (int(r['qpc']) - t0) / qpf >= 3.0 and (t1 - int(r['qpc'])) / qpf >= 3.0]
+            if len(rows) < 10: continue
+            real = (int(rows[-1]['qpc']) - int(rows[0]['qpc'])) / qpf
+            def dist(cols):
+                d = 0.0; prev = None
+                for r in rows:
+                    if not r.get(cols[0]): prev = None; continue
+                    v = [f32(r[c]) for c in cols]
+                    if prev is not None and None not in v and None not in prev:
+                        step = math.sqrt(sum((a - b) ** 2 for a, b in zip(v, prev)))
+                        if step < 50: d += step            # (a jump of 50 or more in one frame is a warp, not running)
+                    prev = v
+                return d
+            dA = dist(['me4', 'me8', 'meC']); dB = dist(['me24', 'me28', 'me2C'])
+            game = sum(max(f32(r['p28']) or 0.0, 1.0) for r in rows[1:]) / 60.0 if nm == 'clock reference' else real
+            w('| %d | %s | %d | %.2f | %.1f | %.2f | %.2f | %.3f | %.3f | %.2f | %.3f | %.3f |' % (mk, nm[6:], len(rows), real, (len(rows) - 1) / real,
+              game, dA, dA / real, dA / game, dB, dB / real, dB / game))
+            per[nm[6:]].append((dA / game, dB / game))
+        if per.get('reference') and per.get('test'):
+            for i, lab in ((0, 'A (+0x04..)'), (1, 'B (+0x24..)')):
+                ref = sum(x[i] for x in per['reference']) / len(per['reference']); tst = sum(x[i] for x in per['test']) / len(per['test'])
+                if ref > 0:
+                    w(); w('**%s: distance per second of the game\'s time, test / reference = %.3f** (1.000: the game\'s time follows real time at the '
+                           'test\'s frame rate as it does at 60).' % (lab, tst / ref))
+                    summ.setdefault('clock_ratio', {})[lab] = tst / ref
+        sfl = re.findall(r'speedfix: frame_step=.*', log)
+        for l in sfl[-6:]: w('- `%s`' % l[:300])
+    # ---------------------------------------------------------------- d3d8on11's own lines (d3d8on11.log next to the game, if collected)
+    for d8 in glob.glob(os.path.join(d, '..', 'd3d8on11.log')) + glob.glob(os.path.join(d, 'd3d8on11.log')):
+        t = open(d8, errors='replace').read().splitlines()
+        keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail', l, re.I)]
+        w(); w('## d3d8on11.log (%s, %d lines; the executor, readback snapshot, interval and error lines)' % (os.path.basename(d8), len(t))); w(); w('```')
+        w('\n'.join(keep[:60] + (['...'] + keep[-20:] if len(keep) > 80 else keep[60:80]))); w('```')
     fms = {int(r['frame']): float(r['frame_ms']) for r in frames}
     med = pct(list(fms.values()), 50) if fms else 0
     spikes = {f for f, m in fms.items() if m > max(2 * med, 33.4)}

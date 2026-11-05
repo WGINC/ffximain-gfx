@@ -172,7 +172,9 @@ and writes `report.md` and `summary.json` there. The session that uses it all: `
   and time since the last frame, the process's page faults, the mark (Ctrl+Alt+M or Ctrl+Alt+F7, or a file xikit_mark.txt next to xikit.dll, which
   kit/sessions/measure_04nov/mark.bat writes; the steps of a session), and the game's pacing fields raw (Frame_Render's `this` = `[0x104568FC]`: `+0x28`, `+0x2C`, `+0x30`,
   `+0x38`, `+0x3C`, the ring `0x10456964..0x10456973` and the timer's `[[this+0x1C]+4]`; docs/RENDERER.md 3 says
-  what the code does with each, and the reader decodes them by that).
+  what the code does with each, and the reader decodes them by that). `frames_player=1` adds your character's entity
+  (the slot of the table 0x10480AF0 whose index is the signed word at 0x10485F7A; docs/MEASURE.md) dwords
+  +0x04..+0x0C and +0x24..+0x2C, raw: the clock test reads distance per real second from them.
 - **`imports=1`: the game's Windows calls timed.** Every import slot of FFXiMain.dll (its import table, listed in
   `xikit_measure.txt` by `make_measure.py`) whose function is in measure.c's list (waits, files, messages, input,
   GDI, network, timers, synchronisation, memory, registry, modules) is pointed at a stub. The slot is wrapped only

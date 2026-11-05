@@ -129,7 +129,9 @@ static int measure_run(HMODULE g, uint32_t rel) {
   g_slot_heapalloc = (uint32_t)strtoul(getenv("SLOT_HEAPALLOC"), NULL, 16); g_slot_heapfree = (uint32_t)strtoul(getenv("SLOT_HEAPFREE"), NULL, 16);
   void *sleep0 = iat_fn(g_slot_sleep);
   uint8_t *lsite = (uint8_t *)(uintptr_t)(0x10027606u + rel); int32_t lrel0; memcpy(&lrel0, lsite + 1, 4);   /* the dot product's call */
-  touch_ini("xikit.ini", "[xikit]\nlog_folder=0\nswap=0\ncount_calls=0\nreport_every=60\nhotkey=0\nframes=1\nimports=2\ncallsites=1\nsample=3\nsample_other_ms=2\nsysstats=1\nenv=1\n");
+  static float ment[0x40];                       /* frames_player=1: a fake entity in slot 3 of the table, moving 0.25 a frame in x */
+  *(int16_t *)(uintptr_t)(0x10485F7Au + rel) = 3; *(uint32_t *)(uintptr_t)(0x10480AF0u + rel + 12) = (uint32_t)(uintptr_t)ment;
+  touch_ini("xikit.ini", "[xikit]\nlog_folder=0\nswap=0\ncount_calls=0\nreport_every=60\nhotkey=0\nframes=1\nframes_player=1\nimports=2\ncallsites=1\nsample=3\nsample_other_ms=2\nsysstats=1\nenv=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
   check(g_dev.vt != g_vtbl, "measure: the kit hooked the device");
@@ -165,6 +167,7 @@ static int measure_run(HMODULE g, uint32_t rel) {
       if (PeekMessageA(&pm, w, WM_USER + 1, WM_USER + 1, PM_REMOVE) && !setjmp(g_mjb)) ((LRESULT (WINAPI *)(const MSG *))iat_fn(g_slot_dispatch))(&pm);
       g_jump_out = 0;
     }
+    ment[1] += 0.25f;                              /* +0x04 */
     present(1);
   }
   { int32_t now; memcpy(&now, lsite + 1, 4); FILE *lg = fopen("xikit.log", "r"); char l[600]; int said = 0;
@@ -175,15 +178,39 @@ static int measure_run(HMODULE g, uint32_t rel) {
   check(oki, "callsites: a thiscall without stack arguments (ECX intact, AL returned)");
   check(okle, "imports: the last-error value a wrapped call set is what the caller reads");
   check(okd, "imports: DispatchMessageA through its slot reaches the window procedure, which calls Sleep through its slot (nested), and returns its value");
+  {   /* the clock test's arithmetic (measure_read.py): Frame_Render's this with the step +0x28 = 1.0; a reference segment
+         moving 0.25 a frame (a tick a frame) and a test segment moving 15 a second of real time: the ratio must be 1 */
+    static float cam[0x40]; cam[0x28 / 4] = 1.0f; *(uint32_t *)(uintptr_t)(0x104568FCu + rel) = (uint32_t)(uintptr_t)cam;
+    LARGE_INTEGER fq, a, b, last; QueryPerformanceFrequency(&fq);
+    for (int seg = 0; seg < 2; seg++) {
+      FILE *mk = fopen("xikit_mark.txt", "w"); if (mk) { fputs(seg ? "clock test\n" : "clock reference\n", mk); fclose(mk); }
+      for (int i = 0; i < 40; i++) present(1);                       /* the kit reads the mark within 30 frames */
+      QueryPerformanceCounter(&a); last = a;
+      do { QueryPerformanceCounter(&b);
+           ment[1] += seg ? (float)(15.0 * (double)(b.QuadPart - last.QuadPart) / (double)fq.QuadPart) : 0.25f; last = b;
+           present(1); Sleep(7); } while ((double)(b.QuadPart - a.QuadPart) / (double)fq.QuadPart < 9.0);
+    }
+    FILE *mk = fopen("xikit_mark.txt", "w"); if (mk) { fputs("clock done\n", mk); fclose(mk); }
+  }
   g_other_stop = 1; WaitForSingleObject(oth, 5000);
   for (int f = 0; f < 70; f++) present(1);           /* a report window after the work */
   Sleep(1500);                                      /* the writer thread's last flush; the sampler and sys threads' lines */
   char name[MAX_PATH], line[2048]; DWORD pid = GetCurrentProcessId();
   snprintf(name, sizeof name, "xikit_frames_%lu.csv", pid); FILE *fr = fopen(name, "r"); int rows = 0, pace = 0, waitcol = 0;
-  if (fr) { while (fgets(line, sizeof line, fr)) { if (line[0] >= '0' && line[0] <= '9') { rows++; char *c = line; for (int k = 0; k < 22 && c; k++) c = strchr(c + 1, ',');   /* field 22: wait_ms */ if (c && atof(c + 1) > 1.5) waitcol++; }
+  if (fr) { while (fgets(line, sizeof line, fr)) { if (line[0] >= '0' && line[0] <= '9') { rows++; char *c = line; for (int k = 0; k < 28 && c; k++) c = strchr(c + 1, ',');   /* field 28: wait_ms (after frames_player's 6) */ if (c && atof(c + 1) > 1.5) waitcol++; }
                                                   if (strstr(line, ",p28,p2c,p30,")) pace = 1; } fclose(fr); }
   printf("  (frames rows %d, header %d, rows with wait_ms > 1.5 %d)\n", rows, pace, waitcol);
   check(rows >= 300 && pace, "frames=1: xikit_frames_<pid>.csv has a line per frame and the pacing columns");
+  { FILE *fp = fopen(name, "r"); char l2[2048]; int col = -1, steps = 0, good = 0; float prev = -1;
+    if (fp) { while (fgets(l2, sizeof l2, fp)) {
+        if (!strncmp(l2, "frame,", 6)) { int c = 0; for (char *t = strtok(l2, ",\n"); t; t = strtok(NULL, ",\n"), c++) if (!strcmp(t, "me4")) col = c; continue; }
+        if (col < 0 || l2[0] < '0' || l2[0] > '9') continue;
+        int c = 0; char *t = l2, *f = NULL; for (char *q = l2; ; q++) { if (*q == ',' || !*q) { if (c == col) { f = t; break; } c++; t = q + 1; if (!*q) break; } }
+        if (!f || *f == ',') continue;
+        uint32_t u = (uint32_t)strtoul(f, NULL, 16); float v; memcpy(&v, &u, 4);
+        if (prev >= 0 && v > prev) { steps++; if (v - prev > 0.24f && v - prev < 0.26f) good++; } prev = v; } fclose(fp); }
+    printf("  (frames_player: me4 column %d, %d increases, %d of them by 0.25)\n", col, steps, good);
+    check(col > 0 && good >= 295, "frames_player=1: the entity's +0x04 in the frame log moves by the 0.25 a frame the host writes"); }
   { FILE *lg = fopen("xikit.log", "r"); char l[600]; int said = 0;
     if (lg) { while (fgets(l, sizeof l, lg)) if (strstr(l, "measure: mark 1 at frame") && strstr(l, "(mark.bat): plaza")) said = 1; fclose(lg); }
     check(said && GetFileAttributesA("xikit_mark.txt") == INVALID_FILE_ATTRIBUTES, "frames=1: xikit_mark.txt (mark.bat) is a mark, with its name, and is deleted"); }

@@ -4103,3 +4103,25 @@ of the session by `exclude=` (kit/sessions/pending_04nov: swap_set=render_path, 
 - The kit's Wine suite on this build (d14e9e7 and the test fix after it): every mode passes but `native`, which needs a
   64-bit Wine to start xisamp_x64.exe; this container has 32-bit Wine only (the kit logs `no native sampler for machine
   0x14C`, as it should). The sample=2 code is unchanged by this work; it is not re-tested here.
+
+**5 Nov: the owner's measurement session, Windows on ARM (Parallels, M5, dgVoodoo 2.8.2, Windower loaded).**
+- W1 (clean), by step: plaza standing 48.7 ms a frame, camera 33.6, running 35.8, menus 29.8, zoning 22.2, busy 23.7,
+  standing elsewhere 22.4. The device's Present 0.2 ms; PresentMon's GPU busy 5.3 ms mean: the frame is the render
+  thread's CPU, and more of it kernel than user (GetThreadTimes: 377 s kernel, 306 s user). The game's minimum ticks
+  `this+0x30` is 0 in 98% of frames (the cap is off; PolHook.dll and LuaCore.dll are loaded).
+- W2 (call timing, exact): of Frame_Render, three calls hold the time. Plaza: 0x10074C30 (Frame_Render+0x2A2)
+  34.6 ms, 0x1015F6A0 (+0xF44, after Gfx_SetDefault2DStates) 6.3 ms, CDx_EndScene 5.7 ms; W2's plaza 49.9 ms
+  against W1's 48.7 (the measuring's own cost is small). W3: 0x10074C30 is 33.7 ms exclusive three levels down: what
+  it runs is reached through pointers (its one call is `call ecx`, 0x10074C6B), not timed by call sites.
+- W5 (the levers): plaza 31.3 ms; 0x10074C30 21.2 ms, 0x1015F6A0 0.7 ms, EndScene 5.8 ms (unchanged).
+- W4 (d3dprof): Direct3D calls 27 of 37 ms a frame (profiler on); 23,389 calls and 3,527 draws a frame;
+  DrawPrimitive 9.9 ms, EndScene 5.9, DrawPrimitiveUP 4.3, SetRenderState 3.8 (5,149 redundant sets a frame); the
+  render thread makes 6,245 NtGdiDdDDILock2 kernel calls a frame, all inside device calls (dgVoodoo's).
+- W2b (native sampler): 69% of the render thread's native samples are in wow64win.dll (WOW64's thunk of win32k's
+  system calls, where D3DKMT calls go), 9% ntdll, 2.5% D3D8.dll, 1.9% prl_umdd10, 1.5% xtajit. Whether those samples
+  are executing or blocked in the kernel is not separated by a sample.
+- W6: group 1 (null_draws) ran while the owner was moving (phases of one label differ by 8.7 ms): not a valid A/B.
+  Group 2 (standing): skipping the occlusion readbacks was +2.5 ms slower (noise 0.7 ms).
+- The kit's own defects found: sample=3 got no return addresses on the render thread (its x86 context on ARM was
+  outside the stack in 79% of samples; fixed: bounds from the TEB); xiload --once missed the game in CrossOver (it runs
+  in a second pol.exe; fixed: xiload keeps watching); a bare mark.bat wrote "ECHO is off." (fixed).

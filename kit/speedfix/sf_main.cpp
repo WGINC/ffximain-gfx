@@ -168,6 +168,9 @@ static const char kDefaultIni[] =
   ";   texture or offscreen pass) drawn as one DrawIndexedPrimitive (docs/SKINMERGE.md). Forks SkinAndDrawV2 at the\r\n"
   ";   start when on there; then live both ways\r\n"
   "skin_merge=0\r\n"
+  "; a measurement: the draw calls counted by the task the game's task pass is running (its vtable, and whether in the\r\n"
+  ";   task's +0x20 call -- the actors' OnMove -- or its +0x24), logged with the stats. Hooks CMoTask::Dispatch at the start\r\n"
+  "task_draws=0\r\n"
   "; the occlusion readback answered from each query's previous probe: its picture is copied to a lockable render\r\n"
   ";   target of the query's own and read at the next probe, so the lock need not wait for the GPU (sf_occlusion.cpp).\r\n"
   ";   The answer is one probe late: an actor coming into view is drawn from its next probe. 1 = on; 2 = measure only\r\n"
@@ -207,7 +210,7 @@ static SfConfig read_config(void) {
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
-  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
+  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.task_draws = rd("task_draws", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
@@ -596,8 +599,32 @@ static void apply_step_loops(void) {              // render thread, inside Prese
     g_tick_dec = g_tick_dec0; g_hold = g_hold0;
   }
 }
+extern "C" int sf_hook_dispatch(const XikitHost *);
 extern "C" { extern volatile LONG sf_phase_draws[8]; }
+struct SfTaskRow { const void *vt; int slot; LONG n; };
+extern "C" { extern SfTaskRow sf_task_rows[256]; extern LONG sf_task_other; }
+static void task_stats(LONG frames) {                // task_draws: the 12 tasks with the most draws, by vtable and slot
+  if (!sf_cfg.task_draws) return;
+  SfTaskRow top[12] = {}; LONG all = 0;
+  for (int i = 0; i < 256; i++) {
+    SfTaskRow r = sf_task_rows[i]; if (!r.vt) continue; all += r.n;
+    for (int j = 0; j < 12; j++) if (r.n > top[j].n) { memmove(top + j + 1, top + j, (11 - j) * sizeof top[0]); top[j] = r; break; }
+  }
+  memset(sf_task_rows, 0, sizeof sf_task_rows);
+  uintptr_t base = (uintptr_t)GetModuleHandleA("FFXiMain.dll");
+  char line[1400]; int o = snprintf(line, sizeof line, "speedfix: task_draws, %ld frames: %ld draw calls in tasks (%ld more not tabled); by task vtable "
+                                      "(analysed address), slot, its +0x20 and +0x24, draws a frame:", frames, all, sf_task_other);
+  sf_task_other = 0;
+  for (int j = 0; j < 12 && top[j].vt && o < (int)sizeof line - 80; j++) {
+    const uintptr_t *vt = (const uintptr_t *)top[j].vt; uintptr_t a = (uintptr_t)vt - base + 0x10000000u;
+    uintptr_t f20 = 0, f24 = 0; if (!IsBadReadPtr(vt, 0x28)) { f20 = vt[8] - base + 0x10000000u; f24 = vt[9] - base + 0x10000000u; }
+    o += snprintf(line + o, sizeof line - o, " %08X +0x%02X (%08X %08X) %.1f;", (unsigned)a, top[j].slot == 1 ? 0x20 : 0x24, (unsigned)f20, (unsigned)f24,
+                  frames ? (double)top[j].n / frames : 0.0);
+  }
+  LOG("%s", line);
+}
 static void st_stats(void) {
+  task_stats(g_st_frames);
   { LONG n[8]; for (int i = 0; i < 8; i++) n[i] = InterlockedExchange(&sf_phase_draws[i], 0);
     LOG("speedfix: draw calls by Frame_Render's world pass since the last line: XiZone_GetInstance %ld, sub_1018C2B0 %ld, "
         "StDancer_Update %ld, XiZone_DrawScene %ld, the task pass (OnMove) %ld, sub_102515F0 %ld, sound %ld, the rest of the "
@@ -814,6 +841,7 @@ extern "C" int sf_init(const XikitHost *host) {
   if (sf_device_install(host) != 0) return 1;
   if (sf_hook_query(host) != XIKIT_OK) LOG("speedfix: Occlusion_QueryScreenRect not hooked: skip_actor_occlusion does nothing");
   if (sf_cfg.skin_merge && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge does nothing");
+  if (sf_cfg.task_draws) { if (sf_hook_dispatch(host) != XIKIT_OK) LOG("speedfix: CMoTask::Dispatch not hooked: task_draws does nothing"); }
   if ((sf_cfg.frame_step || sf_cfg.uncap) && sf_fork_framestep(host) != XIKIT_OK) LOG("speedfix: Frame_Render and the step getters not forked: frame_step and uncap do nothing");
   else if (sf_framestep_installed) LOG("speedfix: frame_step / uncap: Frame_Render (0x10011A00), Camera_GetFrameScale (0x10014CF0) and Camera_GetClampedField28 (0x10014D20) run speedfix's gated forks");
   return 0;

@@ -689,10 +689,25 @@ static void expand(D3DPRIMITIVETYPE t, UINT n, const BYTE *src, UINT stride, BYT
 }
 extern "C" { extern volatile int xi_phase; }      // the world pass (fork/Frame_Render.fork.cpp)
 extern "C" { volatile LONG sf_phase_draws[8]; }   // draw calls under each pass value (logged by sf_main.cpp)
+// task_draws (sf_fork.cpp sf_dispatch): draw calls by the running task's vtable and slot (1: +0x20, 2: +0x24); render
+// thread only. A full table counts the rest as one row (vt 0)
+extern "C" { extern volatile void *xi_task_vt; extern volatile int xi_task_slot; }
+struct SfTaskRow { const void *vt; int slot; LONG n; };
+extern "C" { SfTaskRow sf_task_rows[256]; LONG sf_task_other; }
+static inline void task_count(void) {
+  int sl = xi_task_slot; if (!sl) return;
+  const void *vt = (const void *)xi_task_vt; unsigned h = ((unsigned)(uintptr_t)vt >> 2 ^ (unsigned)sl) & 255;
+  for (int k = 0; k < 256; k++, h = (h + 1) & 255) {
+    SfTaskRow &r = sf_task_rows[h];
+    if (r.vt == vt && r.slot == sl) { r.n++; return; }
+    if (!r.vt) { r.vt = vt; r.slot = sl; r.n = 1; return; }
+  }
+  sf_task_other++;
+}
 static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const void *data, UINT stride) {
   if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPUP, S_DPUP)(d, t, prims, data, stride); }
-  g_upIn++; sf_phase_draws[xi_phase & 7]++;
+  g_upIn++; sf_phase_draws[xi_phase & 7]++; task_count();
   if (g_motion) mot_count(S_DPUP);
   if (g_live) commit();                            // held changes: the batch so far goes out under the state before them
   else g_npl = 0;
@@ -719,7 +734,7 @@ static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const v
 // session that uses it skips those readbacks in both arms (kit/sessions/ceiling).
 typedef HRESULT (__stdcall *PFN_DIPUP)(void *, D3DPRIMITIVETYPE, UINT, UINT, UINT, const void *, D3DFORMAT, const void *, UINT);
 static inline void draw_enter(int id) {          // what stub_enter does for a draw slot
-  sf_phase_draws[xi_phase & 7]++;
+  sf_phase_draws[xi_phase & 7]++; task_count();
   flush();
   if (g_npl) apply_pending();
   if (g_motion) mot_count(id);

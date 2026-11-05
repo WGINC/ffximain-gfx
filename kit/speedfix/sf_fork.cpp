@@ -66,3 +66,34 @@ extern "C" int sf_fork_framestep(const XikitHost *host) {
   sf_framestep_installed = r == XIKIT_OK;
   return r;
 }
+
+
+// task_draws (a measurement): CMoTask::Dispatch (0x10075000), the function every task's +4 points at, which the task
+// pass (CMoTaskMng 0x10074C30) calls for each task. The game's:
+//     push esi; mov esi, [esp+8]; mov ecx, esi; mov eax, [esi]; call [eax+0x20]; test al, al; jne done;
+//     mov edx, [esi]; mov ecx, esi; pop esi; jmp [edx+0x24];   done: pop esi; ret
+// so +0x20 is called thiscall with the task in ECX, and +0x24 is jumped to with the task in ECX and the stack as the
+// caller left it ([esp] its return, [esp+4] the task). sf_dispatch does the same calls in the same order: +0x24 is called
+// with ECX = the task and a copy of the caller's frame ([esp+4] = the task), ESP put back after it (whatever it pops),
+// EAX as it returns. Around each call xi_task_vt / xi_task_slot say which task and slot runs; the draw hooks count by
+// them (sf_device.cpp). Nested dispatches keep the outer values.
+extern "C" { __declspec(dllexport) volatile void *xi_task_vt; __declspec(dllexport) volatile int xi_task_slot; void *sf_dispatch_prev; void sf_dispatch(void); }   // (exported: the host test reads them)
+__asm__(
+  ".text\n.globl _sf_dispatch\n_sf_dispatch:\n"
+  "  pushl %esi\n  pushl %ebx\n"
+  "  movl 12(%esp), %esi\n"                         // the task
+  "  pushl _xi_task_vt\n  pushl _xi_task_slot\n"
+  "  movl (%esi), %eax\n  movl %eax, _xi_task_vt\n  movl $1, _xi_task_slot\n"
+  "  movl %esi, %ecx\n  call *0x20(%eax)\n"
+  "  testb %al, %al\n  jne 1f\n"
+  "  movl (%esi), %edx\n  movl %edx, _xi_task_vt\n  movl $2, _xi_task_slot\n"
+  "  movl %esp, %ebx\n  pushl %esi\n"              // [esp+4] at its entry = the task, as after the game's jmp
+  "  movl %esi, %ecx\n  call *0x24(%edx)\n"
+  "  movl %ebx, %esp\n"
+  "1:\n  popl _xi_task_slot\n  popl _xi_task_vt\n"
+  "  popl %ebx\n  popl %esi\n  ret\n");
+extern "C" int sf_hook_dispatch(const XikitHost *host) {
+  int r = host->hook("CMoTask::Dispatch", (void *)sf_dispatch, &sf_dispatch_prev);
+  host->log("speedfix: task_draws: CMoTask::Dispatch %s", r == XIKIT_OK ? "hooked: draws counted by task" : "not hooked");
+  return r;
+}

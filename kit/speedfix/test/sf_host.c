@@ -15,6 +15,7 @@ static uint32_t rel;
 #define GAME(a) ((uintptr_t)(a) + rel)
 static int fails;
 static void check(int c, const char *what) { printf("%s: %s\n", c ? "ok" : "FAIL", what); if (!c) fails++; }
+static void task_dispatch_test(HMODULE sf);
 
 /* ---- the fake device: what reaches it is recorded ---- */
 typedef struct { int slot; uint32_t a[4]; int nbytes; uint8_t bytes[256]; } Call;
@@ -372,6 +373,7 @@ static int step_test(void) {
     check(*kf == 0.25f, "frame_step=1 again: the camera loop's factor is the game's 0.25");
     check(g_follow_dec && *g_follow_dec == 1.0f, "frame_step=1 again: the camera follow's timer takes the game's 1.0 a pass");
   }
+  task_dispatch_test(sf);
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=0\nstats_every=1\n");
   step_frames(70, 1, 3);
   r = step_frames(100, 1, 3);
@@ -441,6 +443,40 @@ static int group_test(void) {
   return fails ? 1 : 0;
 }
 
+
+/* task_draws (speedfix sf_fork.cpp sf_dispatch): fake tasks through the hooked CMoTask::Dispatch (0x10075000). Each
+   slot records what it was given: ECX, the stack argument a jmp'd-to +0x24 sees at [esp+4], and speedfix's
+   xi_task_vt / xi_task_slot while it runs */
+static volatile void *const *g_tkvt; static volatile int *g_tksl;
+static void *t_ecx20, *t_ecx24, *t_arg24, *t_vt20; static int t_sl20, t_sl24, t_n24;
+static char __attribute__((thiscall)) t_f20_0(void *self) { t_ecx20 = self; t_vt20 = (void *)*g_tkvt; t_sl20 = *g_tksl; return 0; }
+static char __attribute__((thiscall)) t_f20_1(void *self) { t_ecx20 = self; t_sl20 = *g_tksl; return 1; }
+static void __attribute__((thiscall)) t_f24_pop(void *self, void *arg) { t_ecx24 = self; t_arg24 = arg; t_sl24 = *g_tksl; t_n24++; }   /* ret 4 */
+static void __attribute__((thiscall)) t_f24_nopop(void *self) { t_ecx24 = self; t_sl24 = *g_tksl; t_n24++; }                        /* ret */
+static void task_dispatch_test(HMODULE sf) {
+  g_tkvt = (volatile void *const *)GetProcAddress(sf, "xi_task_vt"); g_tksl = (volatile int *)GetProcAddress(sf, "xi_task_slot");
+  check(g_tkvt && g_tksl, "task_draws: speedfix exports xi_task_vt and xi_task_slot");
+  check(log_has("task_draws: CMoTask::Dispatch hooked"), "task_draws=1 at the start: CMoTask::Dispatch hooked (the log says so)");
+  if (!g_tkvt || !g_tksl) return;
+  void (__cdecl *disp)(void *) = (void (__cdecl *)(void *))GAME(0x10075000u);
+  static void *vtA[10], *vtB[10], *vtC[10]; static void *taskA[4], *taskB[4], *taskC[4];
+  vtA[8] = (void *)t_f20_0; vtA[9] = (void *)t_f24_pop; taskA[0] = vtA;
+  vtB[8] = (void *)t_f20_0; vtB[9] = (void *)t_f24_nopop; taskB[0] = vtB;
+  vtC[8] = (void *)t_f20_1; vtC[9] = (void *)t_f24_pop; taskC[0] = vtC;
+  volatile int guard = 0x5A5A5A5A; void *sp0, *sp1;
+  __asm__ volatile("movl %%esp, %0" : "=r"(sp0));
+  disp(taskA);
+  __asm__ volatile("movl %%esp, %0" : "=r"(sp1));
+  check(t_ecx20 == taskA && t_vt20 == vtA && t_sl20 == 1, "task_draws: +0x20 called with ECX = the task, xi_task_vt its vtable, slot 1");
+  check(t_n24 == 1 && t_ecx24 == taskA && t_arg24 == taskA && t_sl24 == 2, "... +0x20 returning 0: +0x24 called with ECX = the task and [esp+4] = the task (as after the game's jmp), slot 2");
+  check(sp0 == sp1 && guard == 0x5A5A5A5A, "... a +0x24 that pops 4 (ret 4): the stack as before");
+  t_n24 = 0; disp(taskB);
+  __asm__ volatile("movl %%esp, %0" : "=r"(sp1));
+  check(t_n24 == 1 && t_ecx24 == taskB && sp0 == sp1, "... a +0x24 that pops nothing (ret): called, the stack as before");
+  t_n24 = 0; disp(taskC);
+  check(t_n24 == 0 && t_ecx20 == taskC && t_sl20 == 1, "... +0x20 returning 1: +0x24 not called");
+  check(*g_tkvt == NULL && *g_tksl == 0, "... after each dispatch: no task running");
+}
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
   int minimal = argc > 1 && !strcmp(argv[1], "minimal"), lazy = argc > 1 && !strcmp(argv[1], "lazy"), blocks = argc > 1 && !strcmp(argv[1], "blocks");
@@ -495,7 +531,7 @@ int main(int argc, char **argv) {
   if (lazy) touch("speedfix.ini", "[speedfix]\nlazy_state=1\nvs_dedupe=1\n");
   else if (blocks) touch("speedfix.ini", "[speedfix]\nblock_cache=1\n");
   else if (pacing) touch("speedfix.ini", "[speedfix]\nprecise_pacing=1\nstats_every=1\n");
-  else if (step) touch("speedfix.ini", "[speedfix]\nframe_step=2\nstats_every=1\n");
+  else if (step) touch("speedfix.ini", "[speedfix]\nframe_step=2\nstats_every=1\ntask_draws=1\n");
   else if (group) touch("speedfix.ini", "[speedfix]\nskin_merge=2\nstats_every=1\n");
   else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\nskin_merge=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }

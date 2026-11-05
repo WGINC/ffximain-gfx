@@ -27,6 +27,7 @@ struct SfConfig {
   int vs_dedupe;            // CreateVertexShader of a declaration already made (no function): the same handle again
   int merge_scenes;         // one BeginScene/EndScene pair a frame: the game's inner EndScene..BeginScene pairs dropped
   int motion_stats;
+  int task_draws;           // CMoTask::Dispatch hooked (sf_fork.cpp): draw calls counted by the task (its vtable) and slot
   int stats_every;          // seconds between the statistics lines in xikit.log (60)         // at the start: frame statistics split by camera still / moving (sf_device.cpp)
   int skin_merge;           // CYyModelDt::SkinAndDrawV2 forked (fork/): runs of a model's triangle-list records drawn as one
   int sse_skinning;         // the game's SSE skinning loops on any CPU that reports SSE (sf_main.cpp, apply_sse_skinning)

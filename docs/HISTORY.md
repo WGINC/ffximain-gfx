@@ -4335,3 +4335,24 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
 - **Pop-in:** not explained; ab_08nov's `abtest pop` (occlusion_late 0 against 1) and `abtest base` (the game's own
   pacing, uncap=0 frame_step=0, against this build) separate the two changes that could touch it.
 - ab_08nov also carries the upload split and the world-pass draw counts (7 Nov later); measure_read.py sums the latter.
+
+**9 Nov: the owner's ab_08nov run (starts 2026-11-05_164517_444, _165909_3352, _170807_3748), and ab_09nov.**
+- **The uploads behind Present's time are vertex buffers:** in the plaza ~540-690 buffer uploads a frame, 3.4-4.4 MB,
+  all to buffers uploaded the frame before too; textures ~0.01 MB. (Step 1 of 7 Nov answered.)
+- **Start 2 (frame_latency=1 + dynamic_buffers=1):** dynamic_buffers did apply (~630 DISCARD and ~15 NOOVERWRITE Maps
+  a frame: the game has D3DUSAGE_DYNAMIC buffers beyond the one CreateVertexBuffer site read on 7 Nov); Present 15-16
+  -> 9-10 ms, the executor 23-25 -> 18-19 ms busy. Plaza standing frames over 33 ms 5.7% -> 0.1%; running 31.7% -> 7.3%,
+  over 100 ms 15 -> 0. Start 3 (and the flip model): plaza 18.4 ms, running 16.1 ms, 4.8% over 33 ms. The owner: much
+  smoother, far fewer stutters; pop-in worse (fade-in, pop-out, pop-in), most with many actors loading at once. Which
+  of the two settings did which is not known (both changed together); the occlusion counts and readback snapshots show
+  nothing that explains the pop-in.
+- **abtest base:** the game's own pacing (uncap=0 frame_step=0) 28-30 ms a frame and 24-34% over 33 ms, this build
+  20-22 ms and 9-14%: the hitches are not frame_step's or uncap's. **abtest pop:** occlusion_late off 38-48 ms a frame,
+  on 28-35 ms (the owner's "sometimes laggier"); pop-in not told apart by eye.
+- **Interpolation:** draw calls by Frame_Render's world pass over start 1: the task pass 34.6 M, XiZone_DrawScene 0.2 M,
+  the rest of the frame 18.8 M, the other passes 0. The world (the zone mesh too) is drawn inside the task pass, the
+  pass that runs the actors' OnMove. Next measured: task_draws (speedfix; CMoTask::Dispatch hooked in assembly, its
+  +0x20 and +0x24 calls made as the game's jmp leaves them; sf_host checks the registers and stack for both kinds of
+  +0x24): the draws by task vtable and slot.
+- **ab_09nov:** start dyn (dynamic_buffers alone) and start lat (frame_latency alone), each plaza, pop watch, run, with
+  task_draws on.

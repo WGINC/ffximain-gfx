@@ -99,9 +99,22 @@ static int g_upBytes, g_upPrims; static DWORD g_upStride; static bool g_upRhw;
 static DWORD g_maxPrims = 65535;
 typedef HRESULT (__stdcall *PFN_DPUP)(void *, D3DPRIMITIVETYPE, UINT, const void *, UINT);
 
+// d3d8on11's D8ON11_DrawSite (kit/d3d8on11/d8_device.cpp): the game's call site of the draw about to be sent, for its
+// draw_sites measuring (these hooks are in front of its methods, so its own return address is speedfix's). None with
+// another d3d8.dll. A merged batch of ...UP draws is given its first draw's call site.
+typedef void (__stdcall *PFN_SITE)(void *);
+static PFN_SITE site_fn(void) {
+  static PFN_SITE f; static bool done;
+  if (!done) { done = true; HMODULE m = GetModuleHandleA("d3d8.dll"); f = m ? (PFN_SITE)GetProcAddress(m, "D8ON11_DrawSite") : NULL; }
+  return f;
+}
+static inline void site(void *ra) { PFN_SITE f = site_fn(); if (f) f(ra); }
+static void *g_upSite;                  // the game's call site of the batch's first draw
+
 static void flush(void) {
   if (!g_upPrims) return;
   int prims = g_upPrims; g_upPrims = 0; g_upBytes = 0;          // cleared first: never sent twice
+  site(g_upSite);
   ((PFN_DPUP)g_prev[S_DPUP])(g_dev, D3DPT_TRIANGLELIST, (UINT)prims, g_up, g_upStride);
   g_upOut++;
 }
@@ -688,11 +701,11 @@ static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const v
   bool ok = sf_cfg.batch_up && !g_recording && data && stride && stride <= 256 && prims && prims <= maxP &&
             verts_for(t, prims) > 0 && outBytes <= maxB && (t == D3DPT_TRIANGLELIST || may_convert());
   if (sf_cfg.null_draws) { flush(); g_nullDrawn++; return D3D_OK; }
-  if (!ok) { flush(); g_upOut++; return PREV(PFN_DPUP, S_DPUP)(d, t, prims, data, stride); }
+  if (!ok) { flush(); g_upOut++; site(__builtin_return_address(0)); return PREV(PFN_DPUP, S_DPUP)(d, t, prims, data, stride); }
   if (g_upPrims && (stride != g_upStride || g_upBytes + outBytes > maxB || (DWORD)g_upPrims + prims > maxP)) flush();
   if (t != D3DPT_TRIANGLELIST) g_upConv++;
   expand(t, prims, (const BYTE *)data, stride, g_up + g_upBytes);  // the caller's data is only valid during the call
-  if (!g_upPrims) g_upRhw = fvf_rhw(g_curVS);
+  if (!g_upPrims) { g_upRhw = fvf_rhw(g_curVS); g_upSite = __builtin_return_address(0); }
   g_upBytes += outBytes; g_upPrims += (int)prims; g_upStride = stride;
   return D3D_OK;
 }
@@ -713,6 +726,7 @@ static HRESULT __stdcall h_DP(void *d, D3DPRIMITIVETYPE t, UINT start, UINT prim
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPr4, S_DP)(d, t, start, prims); }
   draw_enter(S_DP);
   if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
+  site(__builtin_return_address(0));
   return PREV(PFN_DPr4, S_DP)(d, t, start, prims);
 }
 static HRESULT __stdcall h_DIP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv, UINT startIdx, UINT prims) {
@@ -720,6 +734,7 @@ static HRESULT __stdcall h_DIP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DIP6, S_DIP)(d, t, minIdx, nv, startIdx, prims); }
   draw_enter(S_DIP);
   if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
+  site(__builtin_return_address(0));
   return PREV(PFN_DIP6, S_DIP)(d, t, minIdx, nv, startIdx, prims);
 }
 static HRESULT __stdcall h_DIPUP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv, UINT prims, const void *idx, D3DFORMAT fmt,
@@ -729,6 +744,7 @@ static HRESULT __stdcall h_DIPUP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT 
   draw_enter(S_DIPUP);
   g_ssV[0] = false; g_ibV = false;               // DrawIndexedPrimitiveUP leaves stream 0 and the indices unset
   if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
+  site(__builtin_return_address(0));
   return PREV(PFN_DIPUP, S_DIPUP)(d, t, minIdx, nv, prims, idx, fmt, vtx, stride);
 }
 

@@ -4229,3 +4229,17 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
   removed, Wine has no `timeout`): the inis switch A B A B as listed and the session's are back after.
 - **Merged back into one start** at the owner's request: ab_06nov is one start with draw_sites=1 throughout (the
   measuring is the same in every A and B segment, so the A/B comparisons are not biased by it); the menus step joins it.
+
+**6 Nov: the owner's ab_06nov run (2026-11-05_013239_5844), and the walk/run rate.**
+- **occlusion_late (abtest occl, plaza, standing):** A (the game's readback) 49.4 and 44.2 ms a frame (20-23 fps), B
+  (read at the next probe) 21.7 and 22.1 ms (45-46 fps); speedfix answered 99% of the readbacks from the previous probe.
+- **The step (abtest step, auto-run in a field):** 111-156 fps; distance per real second 6.4-6.7 in A and B alike (5.96
+  on 5 Nov; whether the character's own speed differed between the runs is not known). The owner: frame_step=3 did not
+  fix the animation: characters "moonwalk" (a slow walk cycle at full speed, blurry), with rare moments that look right.
+- **The cause, from the game's code:** the walk/run rate 0x100C8930 (RENDERER 3c) divides the frame's movement by a
+  whole-tick expectation. Fixed in frame_step=3 (its two getter calls the fraction, its smoothing and standing test per
+  tick below one tick a frame); on the game's instructions the rate is 1.000 every frame at 144 fps, as at 60.
+- **Other steps:** busy 10.9 ms mean, menus 12.4, plaza 21.7, camera 18.8, run 20.8, zone 6.6, stand 7.7.
+- **draw_sites did not work:** every draw came as a mod's call, because speedfix's device hooks are in front of
+  d3d8on11's methods. Fixed: speedfix's draw hooks hand the game's return address at their entry to d3d8on11
+  (D8ON11_DrawSite, exported) before they call it; a merged ...UP batch is given its first draw's call site.

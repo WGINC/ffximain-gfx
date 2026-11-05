@@ -22,3 +22,13 @@ static const uint32_t kStepLoopScaleCall[] = {   // `call 0x100272B0` (E8 rel32)
   0x100C6994u,   // loop of 0x100C6882, factor push ebp
   0x100C6D76u,   // loop of 0x100C6C64, factor push ebp
 };
+// the walk/run rate 0x100C8930 (frame_step_loops.py RATE_*): its getter calls (return addresses) and the
+// per-frame smoothing and standing test, made per-tick below one tick a frame
+static const uint32_t kStepRateRet[] = {0x100C8ACDu, 0x100C8AECu};
+enum { RATE_NEW, RATE_OLD, RATE_THR };
+struct StepRateOperand { uint32_t at; uint8_t op[2]; uint32_t constant; int kind; };
+static const StepRateOperand kStepRateOperand[] = {
+  {0x100C8B3Eu, {0xD8, 0x0D}, 0x10329CE4u, RATE_NEW},   // 0.25
+  {0x100C8B36u, {0xD8, 0x0D}, 0x10329D34u, RATE_OLD},   // 0.75
+  {0x100C8A74u, {0xD8, 0x1D}, 0x1032A1A8u, RATE_THR},   // 0.0001
+};

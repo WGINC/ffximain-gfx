@@ -243,6 +243,20 @@ The owner saw characters, the auto-running player most, flicker between two pose
   the game's instructions: identical at s = 1; at 75, 100, 144 and 240 fps the camera's gap, the model's position and
   angle after the same real time agree with the game's at 60 to float rounding, with no frame without movement.
 
+- **The walk/run rate (found after the 6 Nov run, where frame_step=3 gave "moonwalking": slow walk cycles at full
+  speed, blurry).** OnMove calls 0x100C83C0 (0x100C7256, 0x100C759A) with the frame's movement vector (`[esp+0x18]`,
+  the chase loops' result). It calls 0x100C8930 for a rate and 0x100C8BB0, which picks the motion (idle, walk, run) and
+  its playback rate from it. 0x100C8930: dist = the vector's length; dist < 0.0001 (`[0x1032A1A8]`) -> rate 0;
+  otherwise rate = dist / (step x speed (vtable +0x1A8) x 1/60), the step from the getter at 0x100C8AC8 or 0x100C8AE7
+  (classed whole by frame_step_users.py: the step is in a divisor through a product, which that script does not
+  follow); then rate = 0.25 rate + 0.75 `[esi+0x824]` once a call, i.e. once a frame. Run on those instructions
+  (test_steploops.py, the actor's calls stubbed), a model moving its speed at 144 fps: the game at 60 gives 1.000;
+  frame_step=1 swings 0 to 0.25 (a frame of 0 ticks: dist 0, rate 0; the next: 0.25 x 1) -- the 5 Nov flicker; frame_step=3
+  with only the loops 0.174 (dist s of a tick against a whole-tick expectation) -- the 6 Nov moonwalk. frame_step=3 now
+  also gives these two calls the fraction, and below one tick a frame makes the smoothing per tick (weights 1 - 0.75^s
+  and 0.75^s) and the standing test 0.0001 s: 1.000 every frame. Whether 0x100C8BB0's choice or the blur has more to it
+  is not traced; the rate is established.
+
 ### 3b. The owner's run of 26 Oct: game speed following the frame rate under d3d8on11
 
 The owner saw walking, camera, map movement and running animations speed up and slow down with the frame rate

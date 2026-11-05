@@ -20,6 +20,9 @@ extern "C" { volatile int xi_step_mode = 1; volatile int xi_uncap = 1; volatile 
 extern "C" { __declspec(dllexport) volatile int xi_step_mode; __declspec(dllexport) volatile int xi_uncap; volatile int xi_step_have; float xi_step_whole; }   // (exported: the host test reads them)
 #endif
 extern "C" { float xi_step_frac; double xi_step_carry; }   // (weak in the getters' forks)
+// speedfix's frame_step=3 is told this frame's step as soon as it is made, before any of the frame's code reads it (the
+// walk/run rate's standing test runs before its getter call); none in the gate
+extern "C" { __attribute__((weak)) void (*volatile xi_step_loop_hook)(float); }
 static inline int xi_floor(void *self_) { return xi_uncap != 0 ? 0 : *((int *)self_ + 12); }
 // the step without the truncation (floor and cap as the game's) added to the carry; its whole part is this frame's
 // answer. Exported so the host test (kit/speedfix/test/sf_host.c) can run it on the game's own ring average.
@@ -37,6 +40,7 @@ extern "C" __declspec(dllexport) void xi_step_make(void *self_, double avg)
   xi_step_whole = (float)w;
   xi_step_frac = (float)f;
   xi_step_have = 1;
+  if (xi_step_mode == 3 && xi_step_loop_hook) xi_step_loop_hook(xi_step_frac);
 }
 
 // FUNCTION: FFXIMAIN 0x10011A00  (unit unit_10011A00_Post: no unit evidence of its own; in the gap between 0x100119E0 (CXiActorNameDraw) and 0x100142B0 (CAtelIdleTask) -- an unnamed source file)

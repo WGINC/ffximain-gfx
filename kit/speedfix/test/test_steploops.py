@@ -145,5 +145,62 @@ for fps, sec in ((144, 0.5), (75, 0.4), (240, 0.5), (100, 0.3)):    # a whole nu
 g = sim(60, 0); r = sim(144, 1)
 print('note: 144 fps with frame_step 1: %d of %d frames the model did not move (a step of 0); camera gap %.6f vs %.6f'
       % (r[3], len(frames(144, 0.5, 1)), r[0], g[0]))
+# 4. the walk/run rate (0x100C8930's computation, 0x100C8A2C..0x100C8B4A, the game's instructions): a character moving
+#    at a steady speed S (vtable +0x1A8; its model moving S/60 a tick, so the game's rate is 1 at 60 fps). Stubs answer
+#    the actor's calls (vtable +0x19C 0: the 3D length; +0x1A0 1.0; the model tests 0x10084390/0x10084350/0x10084370 0)
+#    and the getter (ST0 = the step as frame_step answers it); the two model tests pop their argument (ret 4) as the game's do. The movement vector is the frame's ([esp+0x10] points at
+#    it), the rate after the smoothing is [esp+4], stored at [esi+0x824] as the game's tail does (clamped to 3).
+#    Compared: the game at 60 fps; frame_step=1 at 144 fps (movement and step whole ticks: frames of 0); frame_step=3 at
+#    144 fps with the getter whole and the game's weights (the 6 Nov run); frame_step=3 with the rate's fix (the getter
+#    the fraction, weights 1 - 0.75^s and 0.75^s, the test 0.0001 s).
+STUB = SCR + 0x800
+def rate_machine():
+    m = machine()
+    code = {0: b'\x31\xC0\xC3',                                   # xor eax, eax; ret
+            1: b'\xD9\x05' + struct.pack('<I', SCR + 0x900) + b'\xC3',   # fld [speed]; ret
+            2: b'\xD9\xE8\xC3',                                   # fld1; ret
+            3: b'\xD9\x05' + struct.pack('<I', SCR + 0x904) + b'\xC3',   # fld [step]; ret
+            4: b'\x31\xC0\xC2\x04\x00'}                           # xor eax, eax; ret 4 (0x10084350, 0x10084370 pop 4: data/purges.json)
+    for k, c in code.items(): m.mem_write(STUB + 0x20 * k, c)
+    vt = HEAP + 0x8000
+    for slot, k in ((0x19C, 0), (0x1A8, 1), (0x1A0, 2)): m.mem_write(vt + slot, struct.pack('<I', STUB + 0x20 * k))
+    m.mem_write(HEAP, struct.pack('<I', vt))
+    for at, k in ((0x100C8A90, 0), (0x100C8A98, 4), (0x100C8AA3, 0), (0x100C8AAB, 4), (0x100C8AC8, 3), (0x100C8AE7, 3)):
+        m.mem_write(at, b'\xE8' + struct.pack('<i', (STUB + 0x20 * k) - (at + 5)))
+    return m
+def rate_frame(m, s_answer, move, kw):
+    """one call: ST0 of the getter s_answer; the frame's movement `move` (a length along x); kw: (new, old, thr) or None"""
+    if kw:
+        for at, v, off in ((0x100C8B3E, kw[0], 0x910), (0x100C8B36, kw[1], 0x914), (0x100C8A74, kw[2], 0x918)):
+            m.mem_write(SCR + off, f2b(v)); m.mem_write(at + 2, struct.pack('<I', SCR + off))
+    else:
+        for at, c in ((0x100C8B3E, 0x10329CE4), (0x100C8B36, 0x10329D34), (0x100C8A74, 0x1032A1A8)): m.mem_write(at + 2, struct.pack('<I', c))
+    m.mem_write(SCR + 0x904, f2b(s_answer)); m.mem_write(SCR + 0x940, b''.join(map(f2b, (move, 0.0, 0.0))))
+    esp = STACK + 0x80000; m.reg_write(UC_X86_REG_ESP, esp); m.reg_write(UC_X86_REG_ESI, HEAP)
+    m.mem_write(esp + 0x10, struct.pack('<I', SCR + 0x940))
+    h = m.hook_add(UC_HOOK_CODE, lambda uc, a, sz, u: uc.emu_stop(), begin=0x100C8B4A, end=0x100C8B4A)
+    m.emu_start(0x100C8A2C, 0, count=100000); m.hook_del(h)
+    r = min(b2f(m.mem_read(esp + 4, 4)), 3.0); m.mem_write(HEAP + 0x824, f2b(r)); return r
+SPEED = 5.0
+def rate_run(fps, mode, sec=1.0):
+    m = rate_machine(); m.mem_write(SCR + 0x900, f2b(SPEED)); m.mem_write(HEAP + 0x824, f2b(1.0))
+    out = []; carry = 0.0; s = 60.0 / fps; tick = SPEED / 60.0
+    for _ in range(int(round(fps * sec))):
+        if mode == 'game': out.append(rate_frame(m, 1.0, tick, None)); continue
+        carry += s; w = math.floor(carry + 1e-9); carry -= w
+        if mode == 'fs1': out.append(rate_frame(m, float(w), tick * w, None))              # the model moves whole ticks
+        elif mode == 'fs3_loops': out.append(rate_frame(m, float(w), tick * s, None))      # moves s (the loops), getter whole
+        else:
+            keep = 0.75 ** s if s < 1 else 0.75
+            out.append(rate_frame(m, s, tick * s, (b2f(f2b(1 - keep)), b2f(f2b(keep)), b2f(f2b(0.0001 * s)) if s < 1 else 0.0001)))
+    return out
+g = rate_run(60, 'game'); a = rate_run(144, 'fs1'); b = rate_run(144, 'fs3_loops'); c = rate_run(144, 'fs3_rate')
+st = lambda v: (sum(v[len(v) // 2:]) / (len(v) - len(v) // 2), min(v[len(v) // 2:]), max(v[len(v) // 2:]))
+print('    walk/run rate, the last half second: (mean, min, max)  game at 60: %.3f %.3f %.3f;  144 fps frame_step=1: %.3f %.3f %.3f;  '
+      'frame_step=3, loops only (6 Nov): %.3f %.3f %.3f;  frame_step=3 with the rate fix: %.3f %.3f %.3f' % (st(g) + st(a) + st(b) + st(c)))
+say(abs(st(g)[0] - 1.0) < 1e-3, 'the game at 60 fps: rate 1 for a model moving its speed')
+say(st(a)[1] == 0.0 and 0.2 < st(a)[2] <= 0.25 + 1e-6, 'frame_step=1 at 144 fps: the rate swings between 0 (a frame of 0 ticks: standing) and 0.25 (the next frame: 0.25 x 1 + 0.75 x 0) (the 5 Nov flicker)')
+say(st(b)[0] < 0.6, 'frame_step=3 with the loops only at 144 fps: the rate well under 1 (the 6 Nov moonwalk): %.3f' % st(b)[0])
+say(abs(st(c)[0] - 1.0) < 1e-3 and st(c)[1] > 0.999, 'frame_step=3 with the rate fix at 144 fps: rate 1 every frame, as the game at 60')
 print('ALL OK' if not bad else '%d FAILED' % bad)
 sys.exit(1 if bad else 0)

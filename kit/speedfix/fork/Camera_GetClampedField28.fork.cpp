@@ -35,6 +35,9 @@ static long double xi_step_answer(uintptr_t ret)
   if (xi_step_mode == 3)
     for (unsigned i = 0; i < sizeof kStepLoopRet / sizeof kStepLoopRet[0]; i++)
       if (ret == XI_GAME(kStepLoopRet[i])) { if (xi_step_loop_hook) xi_step_loop_hook(xi_step_frac); return xi_step_frac; }
+  if (xi_step_mode == 3)                      // the walk/run rate's expected movement (0x100C8930): the fraction too
+    for (unsigned i = 0; i < sizeof kStepRateRet / sizeof kStepRateRet[0]; i++)
+      if (ret == XI_GAME(kStepRateRet[i])) { if (xi_step_loop_hook) xi_step_loop_hook(xi_step_frac); return xi_step_frac; }
   return xi_step_mode >= 2 && xi_step_fraction_site(ret) ? xi_step_frac : xi_step_whole;
 }
 

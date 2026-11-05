@@ -4,18 +4,20 @@ One start on Windows (Parallels), about 20 minutes of play. What it settles is l
 
 ## What is new, and why
 
-- **frame_step=3.** In the 5 Nov run characters flickered between two poses while moving. The game's code says why
-  (docs/RENDERER.md 3c): five loops run once per whole tick of 1/60 s -- the camera following you, each character's
-  model following its position, and the characters' turning. Above 60 fps, frame_step=1 gives some frames 0 ticks, and
-  on those frames the loop does not run: the model stops and does not turn, and its movement that frame is 0, which
-  the game's own test reads as standing. Run on the game's instructions at 144 fps, the model stopped on 42 of 72
-  frames. frame_step=3 gives those loops the fraction of a tick and the factor that makes it exact; at 60 fps it is the
-  game's code bit for bit, and above 60 it ends where the game ends at 60, every frame moving
-  (kit/speedfix/test/test_steploops.py).
-- **occlusion_late=1.** In the plaza d3d8on11's worker was busy 98% of the time; its readbacks took 15-17 ms a frame
-  and its Present followed them (8 ms with them, 1.5 ms without). Each readback is now read at the object's next
-  probe, from d3d8on11's copy of it, without waiting.
-- **The draw time by the game's call site** (`draw_sites=1`, d3d8on11): what each of the game's draw calls costs
+- **The walk/run animation (frame_step=3, second build).** The first run of this session showed characters
+  "moonwalking": a slow walk cycle at full speed. The game's code says why (docs/RENDERER.md 3c): the walk/run choice
+  and its playback rate come from the model's movement this frame divided by the movement the game expects in whole
+  ticks. On frames of 0 ticks (frame_step=1) the rate drops to 0, idle: the 5 Nov flicker. With the movement a
+  fraction of a tick (frame_step=3's first build) it was a fraction of the right rate: the moonwalk. Now that division
+  gets the fraction too. Run on the game's instructions at 144 fps, the rate is 1.000 on every frame, as at 60 fps;
+  the first build gave 0.174, frame_step=1 0 to 0.25 (kit/speedfix/test/test_steploops.py).
+- **The tick loops (frame_step=3, first build, kept):** the camera following you, each character's model following its
+  position and its turning run once per whole tick of 1/60 s; on frames of 0 ticks the model stopped. They get the
+  fraction of a tick, exactly.
+- **occlusion_late=1.** Measured in the first run: the plaza from 44-49 ms a frame to 22 ms (20-23 fps to 45-46 fps).
+  Kept on; `abtest occl` measures it again.
+- **The draw time by the game's call site** (`draw_sites=1`, d3d8on11; fixed after the first run, where every draw came
+  from speedfix's hooks): what each of the game's draw calls costs
   d3d8on11, for choosing the next rewrite. It is on through the whole start, so A and B segments carry it alike.
 - **No call timing.** Every 2.4 s stall of 4-5 Nov came in a run with the kit's call timing on; this session has none.
 
@@ -45,7 +47,7 @@ Start the game (Windower as always). Each step: run the command shown in the pro
 4. `mark run`: run around the plaza: 60 s. Watch the characters: do any flicker between two poses?
 5. Go to an open field outside town and turn auto-run on (steer in a wide circle). `abtest step`, keep auto-running
    until it says `abtest step done` (about 2 minutes). **Note for each segment (A, B, A, B) whether your character and
-   others flicker between two poses, and whether the camera moves smoothly.** A is the 5 Nov setting, B the fix.
+   others flicker between two poses, and whether the camera moves smoothly.** A is the 5 Nov setting (flicker), B the fix (no flicker and no moonwalking, if the fix is right).
 6. `mark busy`: somewhere busy (a fight with effects, or a crowd): 60 s.
 7. `mark menus`: main menu and inventory open, scroll, with some chat on screen: 30 s, then close them.
 8. `mark zone`: walk through a zone line, stand 20 s after you arrive.

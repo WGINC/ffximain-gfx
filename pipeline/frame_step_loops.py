@@ -45,6 +45,22 @@ WHY = {
 }
 
 
+# The walk/run rate (6 Nov, the owner's "moonwalking"; docs/RENDERER.md 3c): 0x100C8930, called by 0x100C83C0 from
+# OnMove (0x100C7256, 0x100C759A) with the frame's movement vector ([esp+0x18], the chase loops' result): dist = its
+# length; dist < 0.0001 ([0x1032A1A8]) -> rate 0 (standing); else rate = dist / (step * speed * 1/60), with the step
+# from the getter at 0x100C8AC8 or 0x100C8AE7; then rate = 0.25 rate + 0.75 [esi+0x824] ([0x10329CE4], [0x10329D34]) once
+# a call, i.e. once a frame; 0x100C8BB0 picks the motion (idle, walk, run) and its playback rate from it. Under
+# frame_step=1 a frame of 0 ticks gives dist 0 (the model did not move): rate 0, the idle motion -- the flicker; under 3
+# with these getter calls whole, a frame of s < 1 ticks gives rate s (or 0 on a frame of 0 whole ticks): the walk
+# cycle slows to a fraction of the movement -- the moonwalk. So under 3 these calls get the fraction too, and below one
+# tick a frame the per-frame smoothing and the 0.0001 test are made per-tick: weights 1 - 0.75^s and 0.75^s, 0.0001 s.
+# Each entry: (instruction, its first two bytes, the constant it reads, what speedfix puts there).
+RATE_RET = (0x100C8AC8, 0x100C8AE7)
+RATE_OPS = ((0x100C8B3E, 'D80D', 0x10329CE4, 'new'),      # fmul [0.25]: the new rate's weight
+            (0x100C8B36, 'D80D', 0x10329D34, 'old'),      # fmul [0.75]: the previous rate's weight
+            (0x100C8A74, 'D81D', 0x1032A1A8, 'thr'))      # fcomp [0.0001]: below it, standing
+
+
 def main():
     ap = argparse.ArgumentParser(); ap.add_argument('--header'); a = ap.parse_args()
     pe = pefile.PE(os.environ['FFXI_DLL'], fast_load=True); base = pe.OPTIONAL_HEADER.ImageBase
@@ -117,6 +133,21 @@ def main():
             for s, r in ch:
                 for x in r['factors']:
                     if x['kind'] == 'scale_call': f.write('  %su,   // loop of %s, factor %s\n' % (x['at'], s, x['argument']))
+            f.write('};\n')
+            # the rate sites: checked here against the image (a call of the getter; the opcode and constant as listed)
+            for ea in RATE_RET:
+                i = next(md.disasm(im[ea - base:ea - base + 5], ea))
+                assert i.mnemonic == 'call' and int(i.op_str, 16) in GETTERS, hex(ea)
+            for ea, op, c, _ in RATE_OPS:
+                b = im[ea - base:ea - base + 6]
+                assert b[:2] == bytes.fromhex(op) and struct.unpack('<I', b[2:6])[0] == c, hex(ea)
+            f.write('// the walk/run rate 0x100C8930 (frame_step_loops.py RATE_*): its getter calls (return addresses) and the\n'
+                    '// per-frame smoothing and standing test, made per-tick below one tick a frame\n')
+            f.write('static const uint32_t kStepRateRet[] = {%s};\n' % ', '.join('0x%08Xu' % (e + 5) for e in RATE_RET))
+            f.write('enum { RATE_NEW, RATE_OLD, RATE_THR };\nstruct StepRateOperand { uint32_t at; uint8_t op[2]; uint32_t constant; int kind; };\n')
+            f.write('static const StepRateOperand kStepRateOperand[] = {\n')
+            for ea, op, c, k in RATE_OPS:
+                b = bytes.fromhex(op); f.write('  {0x%08Xu, {0x%02X, 0x%02X}, 0x%08Xu, RATE_%s},   // %g\n' % (ea, b[0], b[1], c, k.upper(), f32(c)))
             f.write('};\n')
         print('wrote', a.header)
 

@@ -730,21 +730,32 @@ static uint32_t game_site(void *ra) {
   uintptr_t a = (uintptr_t)ra;
   return lo && a >= lo && a < hi ? (uint32_t)(a - lo) : ~0u;
 }
+// a mod whose device hooks are in front of these methods (speedfix) calls this with the game's return address at its
+// hook's entry, just before it calls the method: the game's call site when the method's own return address is the mod's.
+// speedfix's merged ...UP draws give the first merged draw's (kit/speedfix/sf_device.cpp, flush)
+static void *volatile g_ext_site;
+extern "C" void __stdcall D8ON11_DrawSite(void *ra) { g_ext_site = ra; }
+static uint32_t site_of(void *ra) {
+  uint32_t s = game_site(ra);
+  if (s == ~0u && g_ext_site) s = game_site(g_ext_site);
+  g_ext_site = nullptr;
+  return s;
+}
 HRESULT Dev::DrawPrimitive(D3DPRIMITIVETYPE t, UINT start, UINT n) {
-  draw_site = draw_sites ? game_site(__builtin_return_address(0)) : ~0u;
+  draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
   return counted(this, ff_draw(0, t, n, start, 0, 0, 0, NULL, 0, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawIndexedPrimitive(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT startIndex, UINT n) {
-  draw_site = draw_sites ? game_site(__builtin_return_address(0)) : ~0u;
+  draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
   return counted(this, ff_draw(1, t, n, 0, minIndex, numVerts, startIndex, NULL, 0, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawPrimitiveUP(D3DPRIMITIVETYPE t, UINT n, const void *v, UINT stride) {
-  draw_site = draw_sites ? game_site(__builtin_return_address(0)) : ~0u;
+  draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
   if (!v || !stride) return D3DERR_INVALIDCALL;
   return counted(this, ff_draw(2, t, n, 0, 0, 0, 0, v, stride, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT n, const void *i, D3DFORMAT f, const void *v, UINT stride) {
-  draw_site = draw_sites ? game_site(__builtin_return_address(0)) : ~0u;
+  draw_site = draw_sites ? site_of(__builtin_return_address(0)) : ~0u;
   if (!v || !i || !stride) return D3DERR_INVALIDCALL;
   return counted(this, ff_draw(3, t, n, 0, minIndex, numVerts, 0, v, stride, i, f));
 }

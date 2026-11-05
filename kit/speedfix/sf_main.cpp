@@ -461,6 +461,8 @@ static void apply_uncap_step(void) {
 #include <math.h>
 static float g_loop_k[4]; static uint32_t g_loop_kc[4]; static float g_loop_k0[4]; static int g_nloop_k;   // per constant
 static float g_move_thr = 0.01f, g_move_thr0 = 0.01f;
+// the walk/run rate (0x100C8930, sf_step_loops.h kStepRate*): its weights and its standing test, the game's values first
+static float g_rate[3], g_rate0[3];
 static volatile float g_loop_s = 1.0f; static volatile int g_loop_on;     // this frame's s, and whether 3 is in effect
 static bool g_loops_done; static LONG g_loop_frac_frames;
 static const uint32_t kMoveThrAt[4] = {0x100C6BBCu, 0x100C6BE2u, 0x100C6C08u, 0x100C7100u};   // fcomp dword ptr [0x10329A18]
@@ -478,6 +480,12 @@ static void loop_set(float s) {
   g_loop_s = s; g_loop_on = 1;
   for (int j = 0; j < g_nloop_k; j++) g_loop_k[j] = loop_k(g_loop_k0[j]);
   g_move_thr = s > 0.0f && s < 1.0f ? g_move_thr0 * s : g_move_thr0;
+  // once a frame the game does rate = new * 0.25 + old * 0.75 (one pass, whatever the frame's ticks): below one tick a
+  // frame the weights a tick's pass gives over s of a tick, 1 - 0.75^s and 0.75^s; at s >= 1 the game's own
+  if (s > 0.0f && s < 1.0f) {
+    double keep = pow((double)g_rate0[RATE_OLD], (double)s);
+    g_rate[RATE_OLD] = (float)keep; g_rate[RATE_NEW] = (float)(1.0 - keep); g_rate[RATE_THR] = g_rate0[RATE_THR] * s;
+  } else for (int j = 0; j < 3; j++) g_rate[j] = g_rate0[j];
   if (ceilf(s) != s) g_loop_frac_frames++;
 }
 extern "C" { void (*volatile xi_step_loop_hook)(float) = loop_set; }
@@ -510,15 +518,21 @@ static void apply_step_loops(void) {              // render thread, inside Prese
       uint32_t at = kStepLoopScaleCall[i]; int32_t rel = (int32_t)(0x100272B0u - (at + 5)); uint8_t e[5] = {0xE8};
       memcpy(e + 1, &rel, 4); all++; ok += reaim_call(at, e, (void *)sf_scale_k, "frame_step=3 (loop scale)");
     }
+    for (unsigned i = 0; i < sizeof kStepRateOperand / sizeof kStepRateOperand[0]; i++) {
+      const StepRateOperand &o = kStepRateOperand[i];
+      g_rate[o.kind] = g_rate0[o.kind] = *(const float *)(uintptr_t)XI_GAME(o.constant);
+      all++; ok += reaim_operand(o.at, o.op, o.constant, &g_rate[o.kind], "frame_step=3 (walk/run rate)");
+    }
     static const uint8_t kThrOp[2] = {0xD8, 0x1D};
     for (int i = 0; i < 4; i++) { all++; ok += reaim_operand(kMoveThrAt[i], kThrOp, 0x10329A18u, &g_move_thr, "frame_step=3 (OnMove 0.01)"); }
-    LOG("speedfix: frame_step=3: %d of %d loop changes in place (%u chase loops: data/frame_step_loops.json)", ok, all,
+    LOG("speedfix: frame_step=3: %d of %d loop changes in place (%u chase loops and the walk/run rate: data/frame_step_loops.json)", ok, all,
         (unsigned)(sizeof kStepLoopRet / sizeof kStepLoopRet[0]));
   }
   if (!g_loops_done) return;
   if (!(xi_step_mode == 3 && xi_step_have) && g_loop_on) {     // 3 off: the game's factors and compare (loop_set sets them on)
     g_loop_on = 0; g_loop_s = 1.0f;
     for (int j = 0; j < g_nloop_k; j++) g_loop_k[j] = g_loop_k0[j];
+    for (int j = 0; j < 3; j++) g_rate[j] = g_rate0[j];
     g_move_thr = g_move_thr0;
   }
 }

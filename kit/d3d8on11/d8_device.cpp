@@ -70,6 +70,13 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
     XOption o = {OPT_GPUTIME, (uint32_t)(g != 0), 0}; link->put(X_OPTION, &o, sizeof o);
     if (g) d8_log("gpu_time=1: the GPU's time per frame is logged every 600 frames"); }
   if (ab.flip) d8_log("swap_flip=1: the flip-model swap chain (FLIP_DISCARD, 2 buffers)");
+  // frame_latency=N (1..16): IDXGIDevice1::SetMaximumFrameLatency(N), the frames the driver may queue ahead of the GPU
+  // (DXGI's default 3). 1: each frame shown sooner after it is made, and Present waits instead of queueing. A start
+  // setting; D8ON11_FRAME_LATENCY overrides it
+  { int fl = (int)GetPrivateProfileIntA("d3d8on11", "frame_latency", 0, ini);
+    ne = GetEnvironmentVariableA("D8ON11_FRAME_LATENCY", env, sizeof env); if (ne > 0 && ne < sizeof env) fl = atoi(env);
+    if (fl < 0 || fl > 16) fl = 0;
+    XOption o = {OPT_LATENCY, (uint32_t)fl, 0}; link->put(X_OPTION, &o, sizeof o); }
   // draw_sites=1: each draw carries the game's call site, and the executor's log lists its draw time by site every 600
   // Presents (a measurement; off by default, so that a run measuring something else is not changed by it)
   // dynamic_buffers=1: the buffers the game makes D3DUSAGE_DYNAMIC are D3D11 dynamic buffers, written by Map with the

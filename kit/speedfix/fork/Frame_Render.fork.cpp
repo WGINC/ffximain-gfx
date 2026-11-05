@@ -23,6 +23,10 @@ extern "C" { float xi_step_frac; double xi_step_carry; }   // (weak in the gette
 // speedfix's frame_step=3 is told this frame's step as soon as it is made, before any of the frame's code reads it (the
 // walk/run rate's standing test runs before its getter call); none in the gate
 extern "C" { __attribute__((weak)) void (*volatile xi_step_loop_hook)(float); }
+// the world pass the frame is in (7 Nov, for interpolation: which of the world's calls draw). speedfix's draw hooks count
+// the draws under each value (sf_device.cpp): 1 XiZone_GetInstance, 2 sub_1018C2B0, 3 StDancer_Update, 4 XiZone_DrawScene,
+// 5 CMoTaskMng 0x10074C30 (each task's vtable +0x20: the actors' OnMove), 6 sub_102515F0, 7 the sound queue; 0 the rest
+extern "C" { volatile int xi_phase; }
 static inline int xi_floor(void *self_) { return xi_uncap != 0 ? 0 : *((int *)self_ + 12); }
 // the step without the truncation (floor and cap as the game's) added to the carry; its whole part is this frame's
 // answer. Exported so the host test (kit/speedfix/test/sf_host.c) can run it on the game's own ring average.
@@ -423,13 +427,14 @@ LABEL_40:
   {
 LABEL_38:
     (*(unsigned __int8 *)((char *)g_pCDx + 0x828)) = 1;
-    orig::sub_1018B130();
-    orig::sub_1018C2B0();
-    orig::StDancer_Update(g_pStDancer);
-    orig::sub_1018B860(g_pXiZone);
-    orig::sub_10074C30((_DWORD *)dword_1047D140);
-    orig::sub_102515F0(g_pStDancer, 1);
-    orig::CYySoundElem_UpdateQueue();
+    xi_phase = 1; orig::sub_1018B130();
+    xi_phase = 2; orig::sub_1018C2B0();
+    xi_phase = 3; orig::StDancer_Update(g_pStDancer);
+    xi_phase = 4; orig::sub_1018B860(g_pXiZone);
+    xi_phase = 5; orig::sub_10074C30((_DWORD *)dword_1047D140);
+    xi_phase = 6; orig::sub_102515F0(g_pStDancer, 1);
+    xi_phase = 7; orig::CYySoundElem_UpdateQueue();
+    xi_phase = 0;
     goto LABEL_39;
   }
   if ( g_pGameMode == nullptr )

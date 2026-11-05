@@ -64,6 +64,7 @@ struct Exec {
   // DXGI_SWAP_EFFECT_FLIP_DISCARD, two buffers (the flip model). Set before the swap chain is made, for the whole start
   // (7 Nov: switched while running, it froze the owner's game); the flip model's targets are bound again after each
   // Present (last_rt, last_ds: what X_TARGETS set)
+  uint32_t latency = 0;                            // OPT_LATENCY: the frames DXGI may queue (0: its default, 3)
   bool flip = false, flip_want = false; XInit last_init = {}; XRef last_rt = {}; uint32_t last_ds = 0;
   int32_t make_swap();
   // OPT_GPUTIME: the GPU's time for each frame's work, from timestamp queries around it (a disjoint query each); read

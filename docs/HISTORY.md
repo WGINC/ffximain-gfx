@@ -4296,3 +4296,28 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
   6AC37846 it is 0x10311C6C (the same check failed before this change): both accepted now.
 - **ab_07nov** (kit/sessions/ab_07nov): plaza, camera, run, `abtest cap` running, `abtest step` auto-running, stand;
   no flip test, no draw_sites, no gpu_time.
+
+**7 Nov (later): the four steps toward Liminality -- what is established, what was built, what waits for a run.**
+1. **Present's 12 ms in the plaza.** From the owner's two runs (d3d8on11.log executor stats, 174 and 225 lines):
+   Present's time follows the upload time (r = 0.89 and 0.88), hardly the draws (r = 0.24, 0.47) or the records.
+   Lines with Present over 8 ms: uploads 2.0-2.6 ms, 7.2 MB sent a frame; under 3 ms: uploads 0.4-0.5 ms, 3.9-5.2 MB.
+   The SyncInterval is 0 (windowed): no vsync wait. So Present pays for the frame's uploads; why (the driver's copy of
+   UpdateSubresource into a buffer or texture the GPU still reads is one known way) is not established. d3d8on11 now
+   splits the uploads in its stats (textures / buffers: time, count, MB, and MB to objects also uploaded the frame
+   before) and has dynamic_buffers=1 (the game's D3DUSAGE_DYNAMIC buffers written by Map with its lock flags). The
+   game's one CreateVertexBuffer call in the analysed code (0x1006A020) asks D3DUSAGE_WRITEONLY in D3DPOOL_MANAGED,
+   not DYNAMIC, so dynamic_buffers may find nothing to change: the split says what the uploads are first.
+2. **Interpolation, the deciding check.** Frame_Render's world section calls, in order, XiZone_GetInstance,
+   sub_1018C2B0, StDancer_Update, XiZone_DrawScene (0x1018B860: ZoneMap_Update, the sky, ...), the task pass
+   (0x10074C30: each task's +4, CMoTask_Dispatch, which calls the task's vtable +0x20 -- for CXiSkeletonActor that is
+   OnMove, 0x100C63D0), sub_102515F0 and the sound queue. Where the actors' models are drawn (CYyModelDt_SkinAndDrawV2
+   has no direct caller: it is reached by virtual calls) is not established from the code. speedfix now counts the
+   draw calls under each of these passes (Frame_Render's fork marks them; logged with the stats): if the task pass
+   draws nothing, the world's update and its drawing are separate passes and interpolation can run the update on tick
+   frames only; if it draws, they are interleaved in the actors' own code.
+3. **Out of the emulated process / GPU skinning:** not built. If step 1's split shows the uploads are the skinned
+   models' vertex buffers re-sent each frame, GPU skinning removes them (bones up, not vertices); that is the
+   measurement it waits for.
+4. **Frame pacing / draw merging:** frame_latency=N (d3d8on11.ini; IDXGIDevice1::SetMaximumFrameLatency, a start
+   setting) built and tested. Draw merging waits for a cost by call site; draw_sites still names every draw speedfix's
+   in game (the hook order between the kit, speedfix and d3d8on11 in the game is not traced) and stays off.

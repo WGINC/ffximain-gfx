@@ -83,6 +83,7 @@ for m in (['remote'] if 'remote' in MODES else MODES[:1]):
 # the right colour and the GPU lines must be written; (2) exec_ab_lever=flip (7 Nov: the switch while running froze the
 # owner's game): refused, the A/B off, the swap chain never made again
 for label, text in (('swap_flip=1 gpu_time=1', '[d3d8on11]\nswap_flip=1\ngpu_time=1\n'),
+                    ('frame_latency=1 gpu_time=1', '[d3d8on11]\nframe_latency=1\ngpu_time=1\n'),
                     ('exec_ab_lever=flip', '[d3d8on11]\ngpu_time=1\nexec_ab=1\nexec_ab_lever=flip\nexec_ab_after=0\n'
                                            'exec_ab_phase=1\nexec_ab_rounds=3\nexec_ab_settle=1\n')):
     if os.path.exists(log): os.remove(log)
@@ -93,12 +94,13 @@ for label, text in (('swap_flip=1 gpu_time=1', '[d3d8on11]\nswap_flip=1\ngpu_tim
     ok = 'still running after 3000 frames' in out and 'ok: a frame-late lock' in out and 'FAIL' not in out and 'gpu_time, 600 frames' in t \
          and 'the blt model instead' not in t and 'swap chain now' not in t
     if 'lever' in label: ok = ok and 'exec_ab_lever=flip: refused' in t and 'executor ab: phase' not in t
+    elif 'latency' in label: ok = ok and 'frame_latency=1: SetMaximumFrameLatency 0x00000000' in t
     else: ok = ok and 'swap_flip=1: the flip-model swap chain' in t
     print('%s: thread mode, %s: 3000 frames run, frame-late locks right, the GPU lines written%s' % (
         'ok' if ok else 'FAIL', label, '; the lever refused, the swap chain not switched' if 'lever' in label else ''))
     bad += not ok
     for l in t.splitlines():
-        if 'gpu_time' in l or 'swap chain now' in l or 'swap_flip' in l or 'executor ab' in l or 'blt model instead' in l or 'lever' in l: print('   ', l)
+        if 'gpu_time' in l or 'swap chain now' in l or 'swap_flip' in l or 'executor ab' in l or 'blt model instead' in l or 'lever' in l or 'frame_latency' in l: print('   ', l)
 
 a = dict(l.rsplit(' ', 1) for l in run(ref, 'defaults', False).splitlines() if l[:3] in ('rs ', 'tss'))
 b = dict(l.rsplit(' ', 1) for l in run(ours, 'defaults', True).splitlines() if l[:3] in ('rs ', 'tss'))

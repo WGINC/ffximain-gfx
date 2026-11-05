@@ -596,7 +596,12 @@ static void apply_step_loops(void) {              // render thread, inside Prese
     g_tick_dec = g_tick_dec0; g_hold = g_hold0;
   }
 }
+extern "C" { extern volatile LONG sf_phase_draws[8]; }
 static void st_stats(void) {
+  { LONG n[8]; for (int i = 0; i < 8; i++) n[i] = InterlockedExchange(&sf_phase_draws[i], 0);
+    LOG("speedfix: draw calls by Frame_Render's world pass since the last line: XiZone_GetInstance %ld, sub_1018C2B0 %ld, "
+        "StDancer_Update %ld, XiZone_DrawScene %ld, the task pass (OnMove) %ld, sub_102515F0 %ld, sound %ld, the rest of the "
+        "frame %ld (counted under uncap/frame_step, Frame_Render's fork)", n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[0]); }
   LONG f = g_st_frames, z = g_st_zero; g_st_frames = g_st_zero = 0;
   double w = g_st_whole, fr = g_st_frac, gm = g_st_game, ms = g_st_ms; g_st_whole = g_st_frac = g_st_game = g_st_ms = 0;
   if (!sf_framestep_installed || !f) return;

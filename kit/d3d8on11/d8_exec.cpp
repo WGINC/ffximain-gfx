@@ -463,6 +463,12 @@ int32_t Exec::make_swap() {
   const XInit &x = last_init;
   IDXGIDevice *xd = NULL; IDXGIAdapter *xa = NULL; IDXGIFactory *xf = NULL;
   dev->QueryInterface(__uuidof(IDXGIDevice), (void **)&xd); xd->GetAdapter(&xa); xa->GetParent(__uuidof(IDXGIFactory), (void **)&xf);
+  if (latency) {                                           // frame_latency: how many frames the driver may queue ahead
+    IDXGIDevice1 *x1 = NULL;
+    HRESULT lh = dev->QueryInterface(__uuidof(IDXGIDevice1), (void **)&x1);
+    if (SUCCEEDED(lh)) { lh = x1->SetMaximumFrameLatency(latency); x1->Release(); }
+    d8_log("frame_latency=%u: SetMaximumFrameLatency 0x%08lX", latency, (unsigned long)lh);
+  }
   DXGI_SWAP_CHAIN_DESC sd = {};
   sd.BufferDesc.Width = x.width; sd.BufferDesc.Height = x.height; sd.BufferDesc.Format = DXGI_FORMAT_B8G8R8A8_UNORM;
   sd.SampleDesc.Count = 1; sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT; sd.OutputWindow = wnd; sd.Windowed = TRUE;
@@ -977,6 +983,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
       else if ((o.value != 0) != flip) d8_once("flip_live", "swap_flip=%u after the swap chain was made: not applied (the model is set for the whole start)", o.value);
     }
     if (o.key == OPT_GPUTIME) gpu_on = o.value != 0;
+    if (o.key == OPT_LATENCY && !swap) latency = o.value;   // a start setting: applied when the swap chain is made
     memo.vc_ok = memo.pc_ok = false;                       // the constants may be in either place: written again
     break; }
   }

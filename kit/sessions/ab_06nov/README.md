@@ -61,3 +61,7 @@ the PlayOnlineViewer folder, with your notes on step 5 (which segments flickered
 - **The game's time above 60 with frame_step=3:** your distance per real second from the position each frame, as on
   5 Nov (5.955-5.981 then).
 - **Frames per step** with everything on, without the kit's call timing.
+- **Which of the game's draws cost d3d8on11 the most** (new): every 600 frames d3d8on11's log lists its draw time by the
+  game's call site (the return address of each draw into FFXiMain.dll), and the reader names each site's function. That
+  says, before any of it is built, whether the characters' draws, the zone's, the UI text or something else is the next
+  thing worth rewriting.

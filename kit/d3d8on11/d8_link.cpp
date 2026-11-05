@@ -9,6 +9,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unordered_map>
+#include <vector>
+#include <algorithm>
 
 static inline uint32_t ld(volatile uint32_t *p) { return __atomic_load_n(p, __ATOMIC_SEQ_CST); }
 static inline void st(volatile uint32_t *p, uint32_t v) { __atomic_store_n(p, v, __ATOMIC_SEQ_CST); }
@@ -68,9 +71,14 @@ struct ExecStats {
     if (ab || o.settle) { ab = true; phase++; }
     value = o.value; settle = o.settle;
   }
+  // the draws' time by the game's call site (XDraw::site, the Draw* method's return address in FFXiMain.dll): what the
+  // executor spends on the draws each place in the game makes. ~0: draws made by a mod (speedfix's merged ...UP draws)
+  struct SiteT { double ms = 0; uint32_t n = 0; };
+  std::unordered_map<uint32_t, SiteT> sites;
   void ran(uint16_t op, double ms) {
     int k = kind(op);
     busy[k] += ms; records++;
+    if (op == X_DRAW && x) { SiteT &t = sites[x->last_site]; t.ms += ms; t.n++; }
     if (ab && !settle) pbusy[k] += ms;
     if (op != X_PRESENT) return;
     if (ab) { if (settle) settle--; else pframes++; }
@@ -90,6 +98,21 @@ struct ExecStats {
       d8_log("executor batches, %u frames: batch=%u, %.1f flushes, %.1f arena Maps, %.1f draw Maps a frame", frames, x->batch,
              (double)(x->flushes - x0[0]) / frames, (double)(x->arena_maps - x0[1]) / frames, (double)(x->draw_maps - x0[2]) / frames);
       x0[0] = x->flushes; x0[1] = x->arena_maps; x0[2] = x->draw_maps;
+    }
+    if (!sites.empty()) {
+      std::vector<std::pair<uint32_t, SiteT>> v(sites.begin(), sites.end());
+      std::sort(v.begin(), v.end(), [](const std::pair<uint32_t, SiteT> &a, const std::pair<uint32_t, SiteT> &b) { return a.second.ms > b.second.ms; });
+      char line[1400]; int o = snprintf(line, sizeof line, "executor draws by game call site, %u frames (FFXiMain.dll+offset: ms a frame, draws a frame):", frames);
+      double rest = 0; uint32_t restn = 0;
+      for (size_t i = 0; i < v.size(); i++) {
+        if (i < 16 && o < (int)sizeof line - 80) {
+          if (v[i].first == ~0u) o += snprintf(line + o, sizeof line - o, " mod %.3f/%.1f;", v[i].second.ms / frames, (double)v[i].second.n / frames);
+          else o += snprintf(line + o, sizeof line - o, " +0x%X %.3f/%.1f;", v[i].first, v[i].second.ms / frames, (double)v[i].second.n / frames);
+        } else { rest += v[i].second.ms; restn += v[i].second.n; }
+      }
+      if (restn) snprintf(line + o, sizeof line - o, " %zu more sites %.3f/%.1f", v.size() - 16, rest / frames, (double)restn / frames);
+      d8_log("%s", line);
+      sites.clear();
     }
     for (int i = 0; i < NK; i++) busy[i] = 0;
     frames = records = 0; since = now;

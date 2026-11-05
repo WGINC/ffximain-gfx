@@ -711,17 +711,33 @@ HRESULT Dev::DeleteVertexShader(DWORD h) {
 
 // ---- draws: executed through generated shaders (d8_ff.cpp) ----------------------------------------------------------------
 static HRESULT counted(Dev *d, HRESULT hr) { d->draws++; if (hr != D3D_OK) d->drawsNotExecuted++; return hr; }
+// the return address of a Draw* method (the game calls them through the vtable: it is the game's call site) as an offset
+// in FFXiMain.dll; ~0 when it is not in FFXiMain.dll (a mod's call: speedfix's merged ...UP draws, or no game loaded)
+static uint32_t game_site(void *ra) {
+  static uintptr_t lo, hi; static bool done;
+  if (!done) {
+    done = true; HMODULE m = GetModuleHandleA("FFXiMain.dll");
+    if (m) { const IMAGE_DOS_HEADER *dos = (const IMAGE_DOS_HEADER *)m; const IMAGE_NT_HEADERS *nt = (const IMAGE_NT_HEADERS *)((const uint8_t *)m + dos->e_lfanew);
+             lo = (uintptr_t)m; hi = lo + nt->OptionalHeader.SizeOfImage; }
+  }
+  uintptr_t a = (uintptr_t)ra;
+  return lo && a >= lo && a < hi ? (uint32_t)(a - lo) : ~0u;
+}
 HRESULT Dev::DrawPrimitive(D3DPRIMITIVETYPE t, UINT start, UINT n) {
+  draw_site = game_site(__builtin_return_address(0));
   return counted(this, ff_draw(0, t, n, start, 0, 0, 0, NULL, 0, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawIndexedPrimitive(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT startIndex, UINT n) {
+  draw_site = game_site(__builtin_return_address(0));
   return counted(this, ff_draw(1, t, n, 0, minIndex, numVerts, startIndex, NULL, 0, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawPrimitiveUP(D3DPRIMITIVETYPE t, UINT n, const void *v, UINT stride) {
+  draw_site = game_site(__builtin_return_address(0));
   if (!v || !stride) return D3DERR_INVALIDCALL;
   return counted(this, ff_draw(2, t, n, 0, 0, 0, 0, v, stride, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT n, const void *i, D3DFORMAT f, const void *v, UINT stride) {
+  draw_site = game_site(__builtin_return_address(0));
   if (!v || !i || !stride) return D3DERR_INVALIDCALL;
   return counted(this, ff_draw(3, t, n, 0, minIndex, numVerts, 0, v, stride, i, f));
 }

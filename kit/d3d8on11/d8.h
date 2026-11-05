@@ -162,6 +162,7 @@ struct Block {
 
 struct D8;
 struct Dev final : public IDirect3DDevice8_Stub {
+  uint32_t draw_site = ~0u;                 // the game's call site of the draw being made (Draw* methods; XDraw::site)
   LONG ref = 1; D8 *d3d; HWND wnd; DWORD behavior; D3DPRESENT_PARAMETERS pp;
   Link *link = nullptr;                          // the command stream to the executor (direct, thread or remote)
   bool notReset = false;                         // a Reset failed: only Reset, TestCooperativeLevel, Release are valid

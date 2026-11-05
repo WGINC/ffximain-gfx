@@ -4216,3 +4216,8 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
 - **The session ab_06nov:** one start, d3d8on11 with the levers, uncap, frame_step=3, occlusion_late=1; `abtest occl`
   (occlusion_late 0/1, A B A B, 30 s each, standing in the plaza) and `abtest step` (frame_step 1/3 while auto-running;
   the owner notes which segments flicker). The inis are written with `type` (the 5 Nov clock test's fault).
+- **d3d8on11: the executor's draw time by the game's call site** (asked by the owner as the measuring for the next
+  rewrites): XDraw carries `site`, the Draw* method's return address as an offset in FFXiMain.dll (the game calls them
+  through the vtable, so that is the game's call site; ~0 when the caller is not FFXiMain.dll, as for speedfix's merged
+  ...UP draws). Every 600 Presents the log lists the 16 costliest sites (ms and draws a frame); measure_read.py adds them
+  up and names each from the IDB. It charges a chunk's planning time (Exec::plan) to its first draw, as the stats did.

@@ -289,6 +289,26 @@ def main(argv):
         keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail', l, re.I)]
         w(); w('## d3d8on11.log (%s, %d lines; the executor, readback snapshot, interval and error lines)' % (os.path.basename(d8), len(t))); w(); w('```')
         w('\n'.join(keep[:60] + (['...'] + keep[-20:] if len(keep) > 80 else keep[60:80]))); w('```')
+        # the executor's draw time by the game's call site (d3d8on11's "executor draws by game call site" lines: the Draw*
+        # method's return address in FFXiMain.dll; offset + 0x10000000, the analysed image base, named from the IDB)
+        tot = collections.defaultdict(lambda: [0.0, 0.0]); nwin = 0
+        for l in t:
+            m = re.search(r'executor draws by game call site, (\d+) frames \(.*?a frame\):(.*)', l)
+            if not m: continue
+            fr_ = int(m.group(1)); nwin += 1
+            for it in m.group(2).split(';'):
+                q = re.match(r'\s*(mod|\+0x[0-9A-F]+) ([\d.]+)/([\d.]+)', it)
+                if q: k = q.group(1); tot[k][0] += float(q.group(2)) * fr_; tot[k][1] += float(q.group(3)) * fr_
+        if tot:
+            allms = sum(v[0] for v in tot.values())
+            w(); w('**The executor\'s draw time by the game\'s call site** (%d windows of d3d8on11.log; each window lists its 16 '
+                   'costliest sites, so a site outside them in a window is missing from that window\'s total):' % nwin); w()
+            w('| call site | in function | share of the listed draw time | draws |'); w('|---|---|---|---|')
+            for k, v in sorted(tot.items(), key=lambda kv: -kv[1][0])[:25]:
+                if k == 'mod': w('| (a mod\'s call) | speedfix\'s merged ...UP draws | %.1f%% | %.0f |' % (100 * v[0] / allms, v[1])); continue
+                ea = 0x10000000 + int(k[1:], 16)
+                w('| 0x%08X | %s | %.1f%% | %.0f |' % (ea, fname(ea), 100 * v[0] / allms, v[1]))
+            summ['draw_sites'] = {k: v for k, v in tot.items()}
     fms = {int(r['frame']): float(r['frame_ms']) for r in frames}
     med = pct(list(fms.values()), 50) if fms else 0
     spikes = {f for f, m in fms.items() if m > max(2 * med, 33.4)}

@@ -125,11 +125,12 @@ struct XDraw {
   uint32_t count, start, base;          // vertices or indices to draw; the first; the base vertex (indexed)
   uint32_t up_vbytes, up_stride;        // XD_UP*: vertex bytes that follow, their stride (stream 0)
   uint32_t ibytes, i32;                 // XD_UP_INDEXED / XD_INLINE_INDEXED: index bytes that follow the vertices; 32-bit
+  uint32_t site;                        // the draw call's return address in FFXiMain.dll, as an offset from its base; ~0: not the game's (a mod's call)
 };
 
 static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 32 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32 && sizeof(XOption) == 12 &&
               sizeof(XSnap) == 20 && sizeof(SnapSlot) == 16 + SNAP_BYTES, "the stream's layout");
 static_assert(sizeof(VElem) == 6 && sizeof(VSKey) == 154 && sizeof(PSKey) == 96, "the keys' layout");
 // the draw packet, as both builds lay it out (checked with i686 MinGW-w64 g++ and zig 0.16.0 clang for aarch64-windows)
-static_assert(sizeof(XDraw) == 3196 && offsetof(XDraw, vc) == 252 && offsetof(XDraw, blend) == 2124 &&
+static_assert(sizeof(XDraw) == 3200 && offsetof(XDraw, vc) == 252 && offsetof(XDraw, blend) == 2124 &&
               offsetof(XDraw, stage) == 2512 && offsetof(XDraw, stream) == 3024, "the draw packet's layout");

@@ -843,7 +843,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
       copy_draw(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, s->second.tex, sub_of(s->second, c.src), bx);
     else ctx->CopySubresourceRegion(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, 0, s->second.tex, sub_of(s->second, c.src), &bx);
     break; }
-  case X_DRAW: draw(*(const XDraw *)p, p + sizeof(XDraw), pp); draws++; break;
+  case X_DRAW: last_site = ((const XDraw *)p)->site; draw(*(const XDraw *)p, p + sizeof(XDraw), pp); draws++; break;
   case X_PRESENT: {
     drain_debug();
     HRESULT h = swap ? swap->Present(sync, 0) : E_FAIL;

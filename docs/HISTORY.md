@@ -4221,3 +4221,9 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
   through the vtable, so that is the game's call site; ~0 when the caller is not FFXiMain.dll, as for speedfix's merged
   ...UP draws). Every 600 Presents the log lists the 16 costliest sites (ms and draws a frame); measure_read.py adds them
   up and names each from the IDB. It charges a chunk's planning time (Exec::plan) to its first draw, as the stats did.
+- **The measuring is its own start** (at the owner's request): `draw_sites` is a d3d8on11.ini setting, off by default
+  (D8ON11_DRAW_SITES overrides it); off, the device does not look the site up and the executor keeps no table. ab_06nov
+  has two starts: `play` (the fixes and their A/B tests, draw_sites=0) and `sites` (the same settings plus draw_sites=1,
+  plaza, run, menus, busy; no A/B). d3d8on11 writes its log anew at each start, so start.bat keeps the previous one in
+  xikit_logs (d3d8on11_before_<start>_<time>.log) and collect.bat takes it. abtest.bat checked under Wine (its waits
+  removed, Wine has no `timeout`): the inis switch A B A B as listed and the session's are back after.

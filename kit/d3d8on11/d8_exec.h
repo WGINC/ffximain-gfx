@@ -57,6 +57,7 @@ struct Exec {
   void flush();
   // the time each record took to run, for the stats (d8_link.cpp); a flush's own work counts as the draws'
   void (*timed)(void *, uint16_t, double) = nullptr; void *timed_ctx = nullptr;
+  bool sites_on = false;                             // OPT_SITES
   uint32_t last_site = ~0u;                          // XDraw::site of the draw run last (the stats charge its time to it)
   uint64_t flushes = 0, arena_maps = 0, draw_maps = 0;   // for the stats: flushes, Maps of the arenas, Maps by a draw
   void shutdown();

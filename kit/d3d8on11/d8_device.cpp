@@ -48,6 +48,13 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   ab.i = -1;
   { XOption o = {OPT_FILTER, (uint32_t)(ab.filter != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
   { XOption o = {OPT_BATCH, (uint32_t)(ab.batch != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
+  // draw_sites=1: each draw carries the game's call site, and the executor's log lists its draw time by site every 600
+  // Presents (a measurement; off by default, so that a run measuring something else is not changed by it)
+  draw_sites = (int)GetPrivateProfileIntA("d3d8on11", "draw_sites", 0, ini) != 0;
+  ne = GetEnvironmentVariableA("D8ON11_DRAW_SITES", env, sizeof env);
+  if (ne > 0 && ne < sizeof env) draw_sites = atoi(env) != 0;
+  { XOption o = {OPT_SITES, (uint32_t)draw_sites, 0}; link->put(X_OPTION, &o, sizeof o); }
+  if (draw_sites) d8_log("draw_sites=1: the executor's draw time is logged by the game's call site");
   d8_log("executor filter: %d, batch: %d%s", ab.filter != 0, ab.batch != 0,
          ab.on ? (ab.key == OPT_BATCH ? "; the A/B of batch is on (exec_ab)" : "; the A/B of filter is on (exec_ab)") : "");
   if (ab.on) d8_log("executor ab: %d s after the device, %d phases of %d s (filter off, on, on, off, ...), the first %d frames of each left out; "
@@ -724,20 +731,20 @@ static uint32_t game_site(void *ra) {
   return lo && a >= lo && a < hi ? (uint32_t)(a - lo) : ~0u;
 }
 HRESULT Dev::DrawPrimitive(D3DPRIMITIVETYPE t, UINT start, UINT n) {
-  draw_site = game_site(__builtin_return_address(0));
+  draw_site = draw_sites ? game_site(__builtin_return_address(0)) : ~0u;
   return counted(this, ff_draw(0, t, n, start, 0, 0, 0, NULL, 0, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawIndexedPrimitive(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT startIndex, UINT n) {
-  draw_site = game_site(__builtin_return_address(0));
+  draw_site = draw_sites ? game_site(__builtin_return_address(0)) : ~0u;
   return counted(this, ff_draw(1, t, n, 0, minIndex, numVerts, startIndex, NULL, 0, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawPrimitiveUP(D3DPRIMITIVETYPE t, UINT n, const void *v, UINT stride) {
-  draw_site = game_site(__builtin_return_address(0));
+  draw_site = draw_sites ? game_site(__builtin_return_address(0)) : ~0u;
   if (!v || !stride) return D3DERR_INVALIDCALL;
   return counted(this, ff_draw(2, t, n, 0, 0, 0, 0, v, stride, NULL, D3DFMT_UNKNOWN));
 }
 HRESULT Dev::DrawIndexedPrimitiveUP(D3DPRIMITIVETYPE t, UINT minIndex, UINT numVerts, UINT n, const void *i, D3DFORMAT f, const void *v, UINT stride) {
-  draw_site = game_site(__builtin_return_address(0));
+  draw_site = draw_sites ? game_site(__builtin_return_address(0)) : ~0u;
   if (!v || !i || !stride) return D3DERR_INVALIDCALL;
   return counted(this, ff_draw(3, t, n, 0, minIndex, numVerts, 0, v, stride, i, f));
 }

@@ -1,11 +1,12 @@
 @echo off
-rem start.bat -- the start of the 6 Nov session (README.md). Run it from an administrator
+rem start.bat [play ^| sites] -- a start of the 6 Nov session (README.md); play when no name is given. Run it from an administrator
 rem Command Prompt in this folder (PresentMon needs it). It puts the start's settings next to xikit.dll.
 rem It also puts d3d8on11 in place of dgVoodoo's d3d8.dll (kept as d3d8_dgvoodoo_keep.dll; restore.bat puts it back).
 rem Then it starts xiload (it loads the kit into pol.exe; its window keeps watching: close it after the start) and,
 rem once pol.exe runs, PresentMon. (No parenthesised block holds a folder path: "Program Files (x86)" would end it.)
 setlocal
-set "PH=play"
+set "PH=%~1"
+if "%PH%"=="" set "PH=play"
 call "%~dp0_kit.bat"
 if "%PH%"=="" goto usage
 if not exist "%HERE%%PH%\xikit.ini" goto usage
@@ -28,6 +29,9 @@ copy /y "%HERE%d3d8on11\d8x_arm64.exe" "%KIT%\d8x_arm64.exe" >nul
 copy /y "%HERE%%PH%\d3d8on11.ini" "%KIT%\d3d8on11.ini" >nul
 echo d3d8on11 in place.
 :launch
+rem d3d8on11 writes d3d8on11.log anew at each start: the last start's is kept in xikit_logs (collect.bat takes it)
+for /f %%t in ('powershell -NoProfile -Command "Get-Date -Format yyyyMMdd_HHmmss"') do set "TS0=%%t"
+if exist "%KIT%\d3d8on11.log" move /y "%KIT%\d3d8on11.log" "%KIT%\xikit_logs\d3d8on11_before_%PH%_%TS0%.log" >nul
 echo %PH%: settings copied. Starting xiload; now start the game as you always do.
 start "xiload" /min "%KIT%\xiload.exe"
 :wait
@@ -58,5 +62,5 @@ exit /b 1
 echo Nothing was changed. Tell Claude what d3d8.dll is in that folder.
 exit /b 1
 :usage
-echo usage: start.bat (the play folder must be next to it)
+echo usage: start.bat [play ^| sites]
 exit /b 2

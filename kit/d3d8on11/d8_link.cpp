@@ -78,7 +78,7 @@ struct ExecStats {
   void ran(uint16_t op, double ms) {
     int k = kind(op);
     busy[k] += ms; records++;
-    if (op == X_DRAW && x) { SiteT &t = sites[x->last_site]; t.ms += ms; t.n++; }
+    if (op == X_DRAW && x && x->sites_on) { SiteT &t = sites[x->last_site]; t.ms += ms; t.n++; }
     if (ab && !settle) pbusy[k] += ms;
     if (op != X_PRESENT) return;
     if (ab) { if (settle) settle--; else pframes++; }

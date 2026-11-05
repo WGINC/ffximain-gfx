@@ -895,6 +895,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     const XOption &o = *(const XOption *)p;
     if (o.key == OPT_FILTER) { filter = o.value; forget(); }
     if (o.key == OPT_BATCH) { batch = o.value; forget(); }
+    if (o.key == OPT_SITES) sites_on = o.value != 0;
     memo.vc_ok = memo.pc_ok = false;                       // the constants may be in either place: written again
     break; }
   }

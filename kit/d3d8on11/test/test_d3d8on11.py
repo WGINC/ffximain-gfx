@@ -365,6 +365,9 @@ for m, run_ in [(m, 'frames') for m in MODES] + ([('remote', 'orphan')] if 'remo
         if f.endswith('.log'): os.remove(os.path.join(ours, f))
     env = dict(os.environ, WINEDEBUG='-all', WINEDLLOVERRIDES='d3d8=n', D8ON11_MODE=m, D8ON11_RING_KB='64')
     env.pop('D8ON11_EXEC_FILTER'); env.pop('D8ON11_EXEC_BATCH')   # with nothing set, the filter and the batches must be on
+    sites = m == 'thread' and run_ == 'frames'                       # draw_sites on in one mode: the line, its draws a mod's (t8 is not FFXiMain.dll)
+    env.pop('D8ON11_DRAW_SITES', None)
+    if sites: env['D8ON11_DRAW_SITES'] = '1'
     try:
         r = subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', run_], cwd=ours,
                            capture_output=True, text=True, timeout=300, env=env)
@@ -377,13 +380,16 @@ for m, run_ in [(m, 'frames') for m in MODES] + ([('remote', 'orphan')] if 'remo
     else:
         need = ['executor stats, 600 frames', 'executor filter: 1, batch: 1'] + (['ring stats, 600 frames'] if m != 'direct' else [])
         snap = re.search(r'readback snapshots, \d+ frames: (\d+) locks .* (\d+) read it back', t)
+        st = re.search(r'executor draws by game call site, 600 frames \(.*?a frame\): mod [\d.]+/([\d.]+);', t)
         ok = (code == 0 and 'still running after 600 frames' in out and all(n in t for n in need) and
-              'ok: a frame-late lock' in out and snap is not None and int(snap.group(1)) > 0)
+              'ok: a frame-late lock' in out and snap is not None and int(snap.group(1)) > 0 and
+              ((st is not None and float(st.group(1)) > 0) if sites else 'executor draws by game call site' not in t))
         what = ('600 frames run (exit code %s), the filter and batches on by default, the stats lines are written, and frame-late locks '
-                'of a copied render target read the right colour, some from their snapshot' % code)
+                'of a copied render target read the right colour, some from their snapshot; %s' % (code,
+                'draw_sites=1: the draw time by call site logged (all a mod\'s: t8 is not FFXiMain.dll)' if sites else 'draw_sites off: no such line'))
     print('%s: %s mode: %s' % ('ok' if ok else 'FAIL', m, what)); bad += not ok
     for l in t.splitlines():
-        if 'stats,' in l or 'snapshots,' in l or 'executor process ended' in l: print('   ', l)
+        if 'stats,' in l or 'snapshots,' in l or 'executor process ended' in l or 'by game call site' in l: print('   ', l)
 # a second thread making objects while this one does too (t8 threads), and 5,000 rounds of objects made and released
 # (t8 churn), in each mode: every check passes, the executor's log has no stream error (an object created twice or
 # destroyed unknown: what ids shared between threads would cause; a counter that is not atomic makes them, checked on

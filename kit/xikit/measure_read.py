@@ -283,6 +283,8 @@ def main(argv):
             st = R.threads.get(tid); stl = lab(R.where(st)) if st else '?'
             tops = '; '.join('%s %d' % (k, v) for k, v in self_by[tid].most_common(5))
             w('| %d | %s | %s | %d | %s |' % (tid, 'render' if tid == rt else '', stl, n, tops))
+        nb = sum(1 for x in R.samples if x[5] & 9 == 9); nr_all = sum(1 for x in R.samples if x[5] & 1)
+        if nb: w(); w('**%d of the render thread\'s %d samples (%.1f%%) had ESP outside its stack (the TEB\'s bounds): the x86 context the system gave was not the x86 code\'s (Windows on ARM: the thread was in native code). Those samples carry no return addresses; the native sampler (sample=2) covers them.**' % (nb, nr_all, 100.0 * nb / max(1, nr_all)))
         if mland_seen: w(); w('**%d samples still held the kit\'s m_land on the stack (the shadow stack did not give the real return address).**' % mland_seen)
         if nrt:
             # call sites at Frame_Render: the measure table's target names

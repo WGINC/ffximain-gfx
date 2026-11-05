@@ -21,7 +21,7 @@ call :running
 if not errorlevel 1 goto already
 echo Phase %PH%: settings copied into "%KIT%".
 echo Starting xiload; now start the game as you always do.
-start "xiload" /min "%KIT%\xiload.exe" --once
+start "xiload" /min "%KIT%\xiload.exe"
 :wait
 timeout /t 2 /nobreak >nul
 call :running

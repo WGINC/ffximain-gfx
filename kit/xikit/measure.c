@@ -581,7 +581,7 @@ static int m_after_call(uint32_t r) {        /* the bytes before r are a call in
   if (p[-7] == 0xFF && ((p[-6] >> 3) & 7) == 2 && (p[-6] >> 6) == 2 && (p[-6] & 7) == 4) return 1;
   return 0;
 }
-typedef struct { DWORD tid; HANDLE h; uint64_t cyc; uint32_t top, eip, esp, start; int alive, render; } RThr;
+typedef struct { DWORD tid; HANDLE h; uint64_t cyc; uint32_t top, eip, esp, start, slo, shi; int alive, render; } RThr;
 static RThr m_rt[512]; static int m_nrt; static DWORD m_own[8]; static int m_nown;
 static int m_cycles_work = -1;               /* QueryThreadCycleTime moves for a running thread (-1: not known yet) */
 static int m_sample_ms = 1, m_other_ms = 5, m_stack_rt = 16384, m_stack_other = 4096;
@@ -602,6 +602,17 @@ static void m_threads(void) {
       if (!h) continue;
       RThr *t = &m_rt[m_nrt++]; memset(t, 0, sizeof *t); t->tid = te.th32ThreadID; t->h = h;
       if (m_nqit) m_nqit(h, 9 /* ThreadQuerySetWin32StartAddress */, &t->start, sizeof t->start, NULL);
+      /* the stack's bounds from the thread's own TEB (ThreadBasicInformation: TebBaseAddress; NT_TIB StackBase at
+         +4, StackLimit at +8): the sampler scans only when the context's ESP lies between them. On Windows on ARM the
+         emulator's x86 context of a thread in native code is not where its x86 stack is (the owner's W2: EIP 0x10002
+         in 79% of the render thread's samples) */
+      if (m_nqit) {
+        struct { LONG st; uint32_t teb; uint32_t cid[2]; uint32_t aff; LONG pri, bpri; } tbi; memset(&tbi, 0, sizeof tbi);
+        if (m_nqit(h, 0, &tbi, sizeof tbi, NULL) == 0 && tbi.teb && m_readable(tbi.teb, 12)) {
+          uint32_t base = *(volatile uint32_t *)(uintptr_t)(tbi.teb + 4), lim = *(volatile uint32_t *)(uintptr_t)(tbi.teb + 8);
+          if (lim < base && base - lim <= 0x10000000u) { t->slo = lim; t->shi = base; }
+        }
+      }
       uint8_t rec[20]; LARGE_INTEGER q; QueryPerformanceCounter(&q);
       rec[0] = 'T'; rec[1] = 0; rec[2] = rec[3] = 0; memcpy(rec + 4, &t->tid, 4); memcpy(rec + 8, &t->start, 4); memcpy(rec + 12, &q.QuadPart, 8);
       ms_put(&m_sraw, rec, 20);
@@ -617,10 +628,12 @@ static void m_sample_one(RThr *t, LARGE_INTEGER q) {
   static uint32_t ras[160]; int nra = 0, cap = t->render ? 128 : 48, lim = t->render ? m_stack_rt : m_stack_other;
   CONTEXT c; memset(&c, 0, sizeof c); c.ContextFlags = CONTEXT_CONTROL;
   if (SuspendThread(t->h) == (DWORD)-1) return;
-  int got = GetThreadContext(t->h, &c), need_top = 0;
+  int got = GetThreadContext(t->h, &c), need_top = 0, bogus = 0;
   if (got) {
-    /* the stack's top, from an earlier look (VirtualQuery is never called while the thread is suspended) */
-    if (!t->top || c.Esp >= t->top || c.Esp < t->top - 0x800000) { need_top = 1; t->top = 0; }
+    if (t->shi) {                             /* the TEB's bounds: ESP outside them is not the x86 stack */
+      t->top = c.Esp >= t->slo && c.Esp < t->shi ? t->shi : 0;
+      if (!t->top) bogus = 1;
+    } else if (!t->top || c.Esp >= t->top || c.Esp < t->top - 0x800000) { need_top = 1; t->top = 0; }   /* (no TEB: from an earlier look; VirtualQuery never runs while the thread is suspended) */
     if (c.Eip == t->eip && c.Esp == t->esp && !t->render) {          /* not moved since the last look: a short record */
       ResumeThread(t->h);
       uint8_t rec[20]; rec[0] = 'R'; rec[1] = 0; rec[2] = rec[3] = 0; memcpy(rec + 4, &t->tid, 4); uint32_t fr = g_frame; memcpy(rec + 8, &fr, 4); memcpy(rec + 12, &q.QuadPart, 8);
@@ -647,7 +660,7 @@ static void m_sample_one(RThr *t, LARGE_INTEGER q) {
   }
   t->eip = c.Eip; t->esp = c.Esp;
   uint8_t rec[24]; uint16_t n16 = (uint16_t)nra; uint32_t fr = g_frame;
-  rec[0] = 'S'; rec[1] = (uint8_t)((t->render ? 1 : 0) | (nra == cap ? 4 : 0)); memcpy(rec + 2, &n16, 2); memcpy(rec + 4, &t->tid, 4);
+  rec[0] = 'S'; rec[1] = (uint8_t)((t->render ? 1 : 0) | (nra == cap ? 4 : 0) | (bogus ? 8 : 0));   /* 8: ESP outside the stack */ memcpy(rec + 2, &n16, 2); memcpy(rec + 4, &t->tid, 4);
   memcpy(rec + 8, &fr, 4); memcpy(rec + 12, &q.QuadPart, 8); memcpy(rec + 20, &c.Eip, 4);
   EnterCriticalSection(&m_sraw.cs);          /* the record and its addresses together */
   if (m_sraw.n + 24 + 4 * (size_t)nra <= m_sraw.cap) { memcpy(m_sraw.b + m_sraw.n, rec, 24); memcpy(m_sraw.b + m_sraw.n + 24, ras, 4 * (size_t)nra); m_sraw.n += 24 + 4 * (size_t)nra; }

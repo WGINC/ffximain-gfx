@@ -155,6 +155,9 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
         oth = [x for x in R.samples if not x[5] & 1 and x[3] is not None and R.where(x[3])[:2] == ('module', 'host.exe')] if R else []
         land = sum(1 for x in R.samples if x[4] and R.mland in x[4]) if R else -1
         mono = all(a[1] <= b[1] for a, b in zip(rs, rs[1:]))
+        withra = sum(1 for x in rs if x[4])                 # the stack scan ran (ESP inside the TEB's bounds)
+        ok = withra > 0.5 * len(rs) and not any(x[5] & 8 for x in rs)
+        print('%s: sample=3: %d of %d render-thread samples carry return addresses; none had ESP outside the TEB\'s stack' % ('ok' if ok else 'FAIL', withra, len(rs))); bad += not ok
         ok = len(rs) > 500 and len(oth) > 20 and land == 0 and mono and R.threads
         print('%s: sample=3: %d render-thread samples (frame numbers in order: %s), %d of the other thread in host.exe, %d stacks still holding the kit\'s m_land, %d thread records' % (
             'ok' if ok else 'FAIL', len(rs), mono, len(oth), land, len(R.threads) if R else 0)); bad += not ok

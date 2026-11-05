@@ -31,7 +31,8 @@ it, and copy the kit files from the zip's `kit` folder next to `xikit.dll` (repl
 `speedfix.dll`, `xiload.exe`, `xisamp_arm64.exe`, `xisamp_x64.exe`, `VERSION.txt`. Keep your own `xikit.ini` and
 `speedfix.ini` aside: the phases overwrite them.
 
-`xiload.exe` is new: it loads the kit into the game by itself (no System Informer). `start_phase.bat` starts it.
+`xiload.exe` is new: it loads the kit into the game by itself (no System Informer). `start_phase.bat` starts it; its
+window keeps watching for pol.exe (close it after the phase).
 
 ## Windows (Parallels): the phases
 

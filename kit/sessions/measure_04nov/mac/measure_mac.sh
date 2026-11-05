@@ -72,7 +72,10 @@ export WINEDEBUG="${WINEDEBUG:--all}"
 [ -n "${HUD:-}" ] && export MTL_HUD_ENABLED=1 DXVK_HUD=fps,frametimes,gpuload
 WINE="$CXBIN/wine"
 log "starting xiload in the bottle"
-"$WINE" --bottle "$BOTTLE" "$POLDIR/xiload.exe" --once > "$OUT/xiload_console.txt" 2>&1 &
+# (no --once: in CrossOver the game runs in a second pol.exe the first one starts; the owner's first M1 run loaded the
+#  kit into the first one only. xiload keeps watching and loads it into each new pol.exe; it is stopped at the end)
+"$WINE" --bottle "$BOTTLE" "$POLDIR/xiload.exe" > "$OUT/xiload_console.txt" 2>&1 &
+XLPID=$!
 sleep 3
 if [ -z "${NOSTART:-}" ]; then
   log "starting the game (pol.exe) in the bottle; log in as usual"
@@ -112,7 +115,7 @@ log "sampling again in the busy step"
 echo
 echo ">>> Finish the steps and close the game normally. This waits for it to close."
 while [ -n "$(polpid)" ]; do sleep 2; done
-kill "$TOPPID" 2>/dev/null; [ -n "$PM" ] && sudo kill "$PM" 2>/dev/null
+kill "$TOPPID" 2>/dev/null; kill "$XLPID" 2>/dev/null; pkill -f 'xiload\.exe' 2>/dev/null; [ -n "$PM" ] && sudo kill "$PM" 2>/dev/null
 sleep 2
 after="$(ls -1 "$POLDIR/xikit_logs" 2>/dev/null | sort)"
 new="$(comm -13 <(echo "$before") <(echo "$after"))"

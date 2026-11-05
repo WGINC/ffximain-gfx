@@ -22,6 +22,11 @@ static const uint32_t kStepLoopScaleCall[] = {   // `call 0x100272B0` (E8 rel32)
   0x100C6994u,   // loop of 0x100C6882, factor push ebp
   0x100C6D76u,   // loop of 0x100C6C64, factor push ebp
 };
+// linear per-frame moves (frame_step_loops.py LINEAR_RET): the fraction under frame_step=3
+static const uint32_t kStepLinearRet[] = {0x1001F024u, 0x1001F0F7u};
+// integer-count chases (frame_step_loops.py INT_LOOPS): the getter calls answered ceil(s) under frame_step=3
+static const uint32_t kStepIntLoopRet[] = {0x1001F5A7u, 0x1002014Du};
+static const uint32_t kStepIntLoopScaleCall[] = {0x1001F5D9u, 0x1002017Cu};
 // the walk/run rate 0x100C8930 (frame_step_loops.py RATE_*): its getter calls (return addresses) and the
 // per-frame smoothing and standing test, made per-tick below one tick a frame
 static const uint32_t kStepRateRet[] = {0x100C8ACDu, 0x100C8AECu};

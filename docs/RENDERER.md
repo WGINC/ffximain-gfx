@@ -257,6 +257,26 @@ The owner saw characters, the auto-running player most, flicker between two pose
   and 0.75^s) and the standing test 0.0001 s: 1.000 every frame. Whether 0x100C8BB0's choice or the blur has more to it
   is not traced; the rate is established.
 
+- **Two more chase loops, counted in integers (6 Nov, after the moonwalk).** A scan of every whole-tick site for
+  `call _ftol; test eax, eax; jle; ... dec r; jne` (the first scan looked only for float counts) found two in
+  YmCameraManager_Follow: 0x1001F5A2 (the camera toward its target, 0.25 a pass) and 0x10020148 (0.125). Under the first
+  frame_step=3 build they still counted whole ticks: on the game's instructions at 144 fps the camera did not move on 42
+  of 72 frames. frame_step=3 answers them ceil(s) (_ftol truncates, so the fraction would give no pass) with k' through
+  sf_scale_k: the camera position after the same real time equals the game's at 60 (75 and 144 fps, largest difference
+  9.5e-07), every frame moving. The scan's third hit (0x102160A3) counts calls of 0x10310A3C, not a chase.
+- **Divisions by the step, audited.** The whole-tick sites with a division within 0x200 bytes after the call were
+  read (0x1001BC9C, 0x1001F01F, 0x10035944, 0x100893CB, 0x1008D34B, 0x100B578B, 0x1011966C, 0x1019EAF2, 0x101EF282,
+  0x1021F263, 0x1021F2C0, 0x10220998, 0x10220B14): in each the divisor is not the step (a timer's remaining over its
+  length, a distance, a remaining tick count, a constant). The walk/run rate is the one found where the step is the
+  divisor.
+- **The camera's linear moves.** YmCameraManager_Follow's 0x1001F01F (step x input x 0.0279 into 0x1001EBB0, the yaw:
+  the current angle around the target, fpatan, plus this, then the position at that angle) and 0x1001F0F2 (step x
+  input x 0.1067 added to `[edi+0x48]`) are applied once a frame and add up: frame_step=3 gives them the fraction, so the
+  camera turns and rises a little every frame instead of a tick's worth on tick frames only (read from the listing; not
+  run). The zoom sites (0x1001F82F..0x1001F91D: `+0x2F8 = +0x2F4 +- 6 step`, clamped 242..900, also stored as an integer
+  setting) are left whole: how +0x2F4 follows +0x2F8 is not traced. The two integer loops with collision tests
+  (0x1001FA38, 0x1001FE7C) are left whole too.
+
 ### 3b. The owner's run of 26 Oct: game speed following the frame rate under d3d8on11
 
 The owner saw walking, camera, map movement and running animations speed up and slow down with the frame rate

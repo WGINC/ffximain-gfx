@@ -55,6 +55,20 @@ WHY = {
 # cycle slows to a fraction of the movement -- the moonwalk. So under 3 these calls get the fraction too, and below one
 # tick a frame the per-frame smoothing and the 0.0001 test are made per-tick: weights 1 - 0.75^s and 0.75^s, 0.0001 s.
 # Each entry: (instruction, its first two bytes, the constant it reads, what speedfix puts there).
+# Integer-count chases (found 6 Nov by a scan of every whole site for `call _ftol; test eax, eax; jle; ... dec r;
+# jne`): YmCameraManager_Follow's 0x1001F5A2 (the camera toward its target, 0.25 a pass: push 0x3E800000 into
+# 0x100272B0) and 0x10020148 (0.125: push 0x3E000000). _ftol truncates, so the fraction would give 0 passes below a tick:
+# under frame_step=3 these calls are answered ceil(s) (whole s unchanged), and their 0x100272B0 calls get k', the same
+# k' = 1 - (1-k)^(s/ceil s) as the float-count loops. (0x102160A3, the third hit of that scan, counts calls of
+# 0x10310A3C, not a chase: left as the game has it.)
+INT_LOOPS = ((0x1001F5A2, 0x1001F5D9), (0x10020148, 0x1002017C))   # (the getter call, its loop's 0x100272B0 call)
+# Linear per-frame moves (frame_step=3: the fraction; read 6 Nov from YmCameraManager_Follow's listing): 0x1001F01F,
+# step x input x 0.0279 into 0x1001EBB0 (the camera's yaw around its target: the current angle, fpatan, plus this, then
+# the position at that angle: rotations add); 0x1001F0F2, step x input x 0.1067 added to [edi+0x48] (fadd/fstp). Each is
+# applied once a frame and adds up, so a fraction of the tick's amount each frame totals the game's. The zoom sites
+# (0x1001F82F..0x1001F91D: +0x2F8 = +0x2F4 +- 6 step, clamped, also stored as an integer setting) are not: how +0x2F4
+# follows +0x2F8 is not traced, so they are left as the game has them.
+LINEAR_RET = (0x1001F01F, 0x1001F0F2)
 RATE_RET = (0x100C8AC8, 0x100C8AE7)
 RATE_OPS = ((0x100C8B3E, 'D80D', 0x10329CE4, 'new'),      # fmul [0.25]: the new rate's weight
             (0x100C8B36, 'D80D', 0x10329D34, 'old'),      # fmul [0.75]: the previous rate's weight
@@ -134,6 +148,22 @@ def main():
                 for x in r['factors']:
                     if x['kind'] == 'scale_call': f.write('  %su,   // loop of %s, factor %s\n' % (x['at'], s, x['argument']))
             f.write('};\n')
+            for g, c in INT_LOOPS:                    # checked: getter, _ftol, test/jle, the scale call, dec/jne back
+                ins = list(md.disasm(im[g - base:g - base + 0x80], g))
+                assert ins[0].mnemonic == 'call' and int(ins[0].op_str, 16) in GETTERS, hex(g)
+                assert ins[1].mnemonic == 'call' and int(ins[1].op_str, 16) in (0x10311C2C, 0x10311C6C), hex(g)
+                assert ins[2].mnemonic == 'test' and ins[3].mnemonic == 'jle', hex(g)
+                assert any(i.address == c and i.mnemonic == 'call' and int(i.op_str, 16) == SCALE for i in ins), hex(c)
+                assert any(i.mnemonic == 'dec' and ins[k + 1].mnemonic == 'jne' and int(ins[k + 1].op_str, 16) < i.address
+                           for k, i in enumerate(ins[:-1])), hex(g)
+            for ea in LINEAR_RET:
+                i = next(md.disasm(im[ea - base:ea - base + 5], ea))
+                assert i.mnemonic == 'call' and int(i.op_str, 16) in GETTERS, hex(ea)
+            f.write('// linear per-frame moves (frame_step_loops.py LINEAR_RET): the fraction under frame_step=3\n')
+            f.write('static const uint32_t kStepLinearRet[] = {%s};\n' % ', '.join('0x%08Xu' % (e + 5) for e in LINEAR_RET))
+            f.write('// integer-count chases (frame_step_loops.py INT_LOOPS): the getter calls answered ceil(s) under frame_step=3\n')
+            f.write('static const uint32_t kStepIntLoopRet[] = {%s};\n' % ', '.join('0x%08Xu' % (g + 5) for g, _ in INT_LOOPS))
+            f.write('static const uint32_t kStepIntLoopScaleCall[] = {%s};\n' % ', '.join('0x%08Xu' % c for _, c in INT_LOOPS))
             # the rate sites: checked here against the image (a call of the getter; the opcode and constant as listed)
             for ea in RATE_RET:
                 i = next(md.disasm(im[ea - base:ea - base + 5], ea))

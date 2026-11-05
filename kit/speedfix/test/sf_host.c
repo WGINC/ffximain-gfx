@@ -335,7 +335,7 @@ static int step_test(void) {
     touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=3\nstats_every=1\n");
     step_frames(70, 1, 3);
     check(*g_xi_mode == 3, "uncap=1 frame_step=3 (changed while running): the switch follows");
-    check(log_has("speedfix: frame_step=3: 14 of 14 loop changes in place"), "frame_step=3: the 4 factor operands, the 3 calls of 0x100272B0, OnMove's 4 compares and the walk/run rate's 3 operands changed (14 of 14)");
+    check(log_has("speedfix: frame_step=3: 16 of 16 loop changes in place"), "frame_step=3: the 4 factor operands, the 3 calls of 0x100272B0, OnMove's 4 compares, the walk/run rate's 3 operands and the camera's 2 integer loops' calls of 0x100272B0 changed (16 of 16)");
     uint8_t *op = (uint8_t *)GAME(0x100205CDu); const float *kf = *(const float **)(op + 2); HMODULE h = NULL;
     GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)kf, &h);
     check(h == sf && *(const uint32_t *)GAME(0x10329CE4u) == 0x3E800000u, "... the camera loop's factor is read from speedfix.dll; the game's 0.25 is not written");

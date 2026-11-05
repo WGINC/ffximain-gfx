@@ -202,5 +202,43 @@ say(abs(st(g)[0] - 1.0) < 1e-3, 'the game at 60 fps: rate 1 for a model moving i
 say(st(a)[1] == 0.0 and 0.2 < st(a)[2] <= 0.25 + 1e-6, 'frame_step=1 at 144 fps: the rate swings between 0 (a frame of 0 ticks: standing) and 0.25 (the next frame: 0.25 x 1 + 0.75 x 0) (the 5 Nov flicker)')
 say(st(b)[0] < 0.6, 'frame_step=3 with the loops only at 144 fps: the rate well under 1 (the 6 Nov moonwalk): %.3f' % st(b)[0])
 say(abs(st(c)[0] - 1.0) < 1e-3 and st(c)[1] > 0.999, 'frame_step=3 with the rate fix at 144 fps: rate 1 every frame, as the game at 60')
+# 5. the camera's integer-count chases (0x1001F5A2: 0.25 a pass; 0x10020148: 0.125), the game's instructions from the
+#    getter call (a stub: ST0 = what frame_step answers) through _ftol (the game's) and the loop to its exit. The values a
+#    pass changes are found by a run at s = 1 (the camera position being moved), carried from frame to frame; the rest
+#    of the stack (the target) stays as set. frame_step=3 answers these calls ceil(s), and the 0x100272B0 call gets k'.
+def int_loop(site, scale_call, exit_, fps, mode, sec, xoff):
+    m = machine()
+    m.mem_write(STUB + 0x60, b'\xD9\x05' + struct.pack('<I', SCR + 0x904) + b'\xC3')
+    m.mem_write(site, b'\xE8' + struct.pack('<i', (STUB + 0x60) - (site + 5)))
+    esp = STACK + 0x80000
+    init = b''.join(f2b(1.0 + 0.37 * i) for i in range(0x60))          # a stack of distinct floats: x and the target among them
+    def one(s_answer, k_of, state):
+        m.mem_write(esp, state); m.mem_write(SCR + 0x904, f2b(s_answer)); m.reg_write(UC_X86_REG_ESP, esp)
+        def hk(uc, a, sz, u):
+            sp = uc.reg_read(UC_X86_REG_ESP); k = b2f(uc.mem_read(sp + 8, 4)); uc.mem_write(sp + 8, f2b(k_of(k)))
+        h1 = m.hook_add(UC_HOOK_CODE, hk, begin=0x100272B0, end=0x100272B0)
+        h2 = m.hook_add(UC_HOOK_CODE, lambda uc, a, sz, u: uc.emu_stop(), begin=exit_, end=exit_)
+        m.emu_start(site, 0, count=200000); m.hook_del(h1); m.hook_del(h2)
+        return bytes(m.mem_read(esp, len(init)))
+    state = init; carry = 0.0; s = 60.0 / fps; still = 0
+    for _ in range(int(round(fps * sec))):
+        before = state[xoff:xoff + 12]
+        if mode == 'game': state = one(1.0, lambda k: k, state)
+        else:
+            carry += s; w = math.floor(carry + 1e-9); carry -= w
+            if mode == 'fs1': state = one(float(w), lambda k: k, state)
+            else: state = one(float(math.ceil(s)), lambda k, s=s: kprime(k, s), state)
+        still += state[xoff:xoff + 12] == before
+    return [b2f(state[xoff + i:xoff + i + 4]) for i in (0, 4, 8)], still
+# the camera position: Vec3_AddInPlace's destination, [esp+0x5C] (0x1001F5E5, after five pushes) and [esp+0x6C] (0x10020188)
+for site, scale_call, exit_, xoff, name in ((0x1001F5A2, 0x1001F5D9, 0x1001F5F6, 0x5C, 'camera chase 0x1001F5A2 (0.25)'),
+                                            (0x10020148, 0x1002017C, 0x1002019C, 0x6C, 'camera chase 0x10020148 (0.125)')):
+    for fps, sec in ((144, 0.5), (75, 0.4)):
+        (g, _), (r, rs), (o, os_) = (int_loop(site, scale_call, exit_, f, md, sec, xoff) for f, md in ((60, 'game'), (fps, 'fs3'), (fps, 'fs1')))
+        moved = g != [1.0 + 0.37 * (xoff // 4 + i) for i in range(3)]
+        dmax = max(abs(g[i] - r[i]) for i in range(3))
+        say(moved and dmax < 1e-4 and rs == 0, '%s, %d fps with frame_step 3 against the game at 60, %.1f s: the camera position %s vs %s '
+            '(difference %.2g), frames without movement %d (frame_step 1: %d)' % (name, fps, sec, [round(x, 5) for x in r],
+                                                                                  [round(x, 5) for x in g], dmax, rs, os_))
 print('ALL OK' if not bad else '%d FAILED' % bad)
 sys.exit(1 if bad else 0)

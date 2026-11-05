@@ -514,8 +514,9 @@ static void apply_step_loops(void) {              // render thread, inside Prese
       if (j == g_nloop_k) { if (j == 4) continue; g_loop_kc[j] = o.constant; g_loop_k[j] = g_loop_k0[j] = *(const float *)(uintptr_t)XI_GAME(o.constant); g_nloop_k++; }
       all++; ok += reaim_operand(o.at, o.op, o.constant, &g_loop_k[j], "frame_step=3 (loop factor)");
     }
-    for (unsigned i = 0; i < sizeof kStepLoopScaleCall / sizeof kStepLoopScaleCall[0]; i++) {
-      uint32_t at = kStepLoopScaleCall[i]; int32_t rel = (int32_t)(0x100272B0u - (at + 5)); uint8_t e[5] = {0xE8};
+    for (unsigned i = 0; i < sizeof kStepLoopScaleCall / sizeof kStepLoopScaleCall[0] + sizeof kStepIntLoopScaleCall / sizeof kStepIntLoopScaleCall[0]; i++) {
+      const unsigned nf = sizeof kStepLoopScaleCall / sizeof kStepLoopScaleCall[0];
+      uint32_t at = i < nf ? kStepLoopScaleCall[i] : kStepIntLoopScaleCall[i - nf]; int32_t rel = (int32_t)(0x100272B0u - (at + 5)); uint8_t e[5] = {0xE8};
       memcpy(e + 1, &rel, 4); all++; ok += reaim_call(at, e, (void *)sf_scale_k, "frame_step=3 (loop scale)");
     }
     for (unsigned i = 0; i < sizeof kStepRateOperand / sizeof kStepRateOperand[0]; i++) {
@@ -526,7 +527,7 @@ static void apply_step_loops(void) {              // render thread, inside Prese
     static const uint8_t kThrOp[2] = {0xD8, 0x1D};
     for (int i = 0; i < 4; i++) { all++; ok += reaim_operand(kMoveThrAt[i], kThrOp, 0x10329A18u, &g_move_thr, "frame_step=3 (OnMove 0.01)"); }
     LOG("speedfix: frame_step=3: %d of %d loop changes in place (%u chase loops and the walk/run rate: data/frame_step_loops.json)", ok, all,
-        (unsigned)(sizeof kStepLoopRet / sizeof kStepLoopRet[0]));
+        (unsigned)(sizeof kStepLoopRet / sizeof kStepLoopRet[0] + sizeof kStepIntLoopRet / sizeof kStepIntLoopRet[0]));
   }
   if (!g_loops_done) return;
   if (!(xi_step_mode == 3 && xi_step_have) && g_loop_on) {     // 3 off: the game's factors and compare (loop_set sets them on)

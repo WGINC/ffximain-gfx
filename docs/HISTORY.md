@@ -4243,3 +4243,9 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
 - **draw_sites did not work:** every draw came as a mod's call, because speedfix's device hooks are in front of
   d3d8on11's methods. Fixed: speedfix's draw hooks hand the game's return address at their entry to d3d8on11
   (D8ON11_DrawSite, exported) before they call it; a merged ...UP batch is given its first draw's call site.
+- **The camera, while the owner slept (6 Nov):** a scan of every whole-tick site for integer-count loops found two camera
+  chases in YmCameraManager_Follow (0x1001F5A2, 0x10020148); frame_step=3 answers them ceil(s) with k' (on the game's
+  instructions: equal to the game at 60, no frame without movement; the first build stood still on 42 of 72 at 144 fps).
+  An audit of every whole site with a division after it found the walk/run rate the only one where the step is the
+  divisor. The camera's yaw (0x1001F01F) and height (0x1001F0F2) moves are linear and get the fraction; its zoom and two
+  loops with collision tests are left whole (not traced). RENDERER 3c.

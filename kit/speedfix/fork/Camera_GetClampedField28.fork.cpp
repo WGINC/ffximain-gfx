@@ -21,6 +21,8 @@ extern "C" { __attribute__((weak)) volatile int xi_step_mode; __attribute__((wea
 #endif
 // called with the fraction a loop is about to count, so that its factors match it (speedfix: sf_main.cpp); none here
 extern "C" { __attribute__((weak)) void (*volatile xi_step_loop_hook)(float); }
+// the step rounded up (the step is 0 to 20, the cap Frame_Render's fork keeps: no overflow); the forks build freestanding
+static inline float xi_step_ceil(float s) { float c = (float)(int)s; return c < s ? c + 1.0f : c; }
 static inline bool xi_step_fraction_site(uintptr_t ret)
 {
   for (unsigned i = 0; i < sizeof kStepFractionRet / sizeof kStepFractionRet[0]; i++)
@@ -35,6 +37,12 @@ static long double xi_step_answer(uintptr_t ret)
   if (xi_step_mode == 3)
     for (unsigned i = 0; i < sizeof kStepLoopRet / sizeof kStepLoopRet[0]; i++)
       if (ret == XI_GAME(kStepLoopRet[i])) { if (xi_step_loop_hook) xi_step_loop_hook(xi_step_frac); return xi_step_frac; }
+  if (xi_step_mode == 3)                      // the integer-count chases (the camera): ceil(s) passes, given k' by speedfix
+    for (unsigned i = 0; i < sizeof kStepIntLoopRet / sizeof kStepIntLoopRet[0]; i++)
+      if (ret == XI_GAME(kStepIntLoopRet[i])) { if (xi_step_loop_hook) xi_step_loop_hook(xi_step_frac); return xi_step_ceil(xi_step_frac); }
+  if (xi_step_mode == 3)                      // the camera's linear per-frame moves (yaw, height): the fraction
+    for (unsigned i = 0; i < sizeof kStepLinearRet / sizeof kStepLinearRet[0]; i++)
+      if (ret == XI_GAME(kStepLinearRet[i])) return xi_step_frac;
   if (xi_step_mode == 3)                      // the walk/run rate's expected movement (0x100C8930): the fraction too
     for (unsigned i = 0; i < sizeof kStepRateRet / sizeof kStepRateRet[0]; i++)
       if (ret == XI_GAME(kStepRateRet[i])) { if (xi_step_loop_hook) xi_step_loop_hook(xi_step_frac); return xi_step_frac; }

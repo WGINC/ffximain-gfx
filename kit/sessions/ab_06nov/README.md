@@ -11,6 +11,9 @@ One start on Windows (Parallels), about 20 minutes of play. What it settles is l
   fraction of a tick (frame_step=3's first build) it was a fraction of the right rate: the moonwalk. Now that division
   gets the fraction too. Run on the game's instructions at 144 fps, the rate is 1.000 on every frame, as at 60 fps;
   the first build gave 0.174, frame_step=1 0 to 0.25 (kit/speedfix/test/test_steploops.py).
+- **The camera (frame_step=3, second build).** Two more of the camera's loops (following you, 1/4 and 1/8 of the way a
+  tick) counted whole ticks in the first build: on the game's instructions at 144 fps the camera stood still on 42 of
+  72 frames. They now take the fraction exactly, as do the camera's turning and height moves.
 - **The tick loops (frame_step=3, first build, kept):** the camera following you, each character's model following its
   position and its turning run once per whole tick of 1/60 s; on frames of 0 ticks the model stopped. They get the
   fraction of a tick, exactly.

@@ -837,6 +837,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     ExecRes x; x.kind = 3; x.index = b.index; x.w = b.length;
     D3D11_BUFFER_DESC bd = {}; bd.ByteWidth = (b.length + 15) & ~15u; bd.Usage = D3D11_USAGE_DEFAULT;
     bd.BindFlags = b.index ? D3D11_BIND_INDEX_BUFFER : D3D11_BIND_VERTEX_BUFFER;
+    if (b.dyn) { bd.Usage = D3D11_USAGE_DYNAMIC; bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE; x.dyn = true; x.shadow.assign(bd.ByteWidth, 0); }
     if (FAILED(dev->CreateBuffer(&bd, NULL, &x.buf))) { d8_log("CreateBuffer %u bytes failed", b.length); break; }
     res[b.id] = x;
     break; }
@@ -856,12 +857,29 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     auto it = res.find(u.id); if (it == res.end() || !it->second.tex) break;
     D3D11_BOX bx = {u.x, u.y, 0, u.x + u.w, u.y + u.h, 1};
     ctx->UpdateSubresource(it->second.tex, u.sub, u.w ? &bx : NULL, p + sizeof u, u.rowbytes, 0);
+    up_bytes[0] += (uint64_t)u.rowbytes * u.rows; up_n[0]++;
+    if (it->second.up_frame != ~0ull && presents - it->second.up_frame <= 1) up_again[0] += (uint64_t)u.rowbytes * u.rows;
+    it->second.up_frame = presents;
     break; }
   case X_UPLOAD_BUF: {
     const XUpBuf &u = *(const XUpBuf *)p;
     auto it = res.find(u.id); if (it == res.end() || !it->second.buf) break;
-    D3D11_BOX bx = {u.offset, 0, 0, u.offset + u.length, 1, 1};
-    ctx->UpdateSubresource(it->second.buf, 0, &bx, p + sizeof u, 0, 0);
+    up_bytes[1] += u.length; up_n[1]++;
+    ExecRes &r = it->second;
+    if (r.up_frame != ~0ull && presents - r.up_frame <= 1) up_again[1] += u.length;
+    r.up_frame = presents;
+    if (!r.dyn) { D3D11_BOX bx = {u.offset, 0, 0, u.offset + u.length, 1, 1}; ctx->UpdateSubresource(r.buf, 0, &bx, p + sizeof u, 0, 0); break; }
+    // a dynamic buffer (dynamic_buffers): the shadow holds what the game has written; NOOVERWRITE (every lock had it,
+    // and the buffer has been mapped): the range beside what the GPU reads; otherwise DISCARD, fresh memory, and the
+    // whole shadow into it, so the buffer holds what UpdateSubresource would have left in it
+    if ((uint64_t)u.offset + u.length > r.shadow.size()) { d8_once("dynrange", "a dynamic buffer upload past its end (skipped)"); break; }
+    memcpy(r.shadow.data() + u.offset, p + sizeof u, u.length);
+    bool noov = (u.flags & 0x1000u) && !(u.flags & 0x2000u) && r.mapped;
+    D3D11_MAPPED_SUBRESOURCE m;
+    if (FAILED(ctx->Map(r.buf, 0, noov ? D3D11_MAP_WRITE_NO_OVERWRITE : D3D11_MAP_WRITE_DISCARD, 0, &m))) { d8_once("dynmap", "Map of a dynamic buffer failed (that upload lost)"); break; }
+    if (noov) { memcpy((uint8_t *)m.pData + u.offset, r.shadow.data() + u.offset, u.length); if (!dyn_noov++) d8_log("dynamic buffers: the first NOOVERWRITE Map"); }
+    else { memcpy(m.pData, r.shadow.data(), r.shadow.size()); if (!dyn_discard++) d8_log("dynamic buffers: the first DISCARD Map"); }
+    ctx->Unmap(r.buf, 0); r.mapped = true;
     break; }
   case X_TARGETS: {
     const XTargets &t = *(const XTargets *)p;

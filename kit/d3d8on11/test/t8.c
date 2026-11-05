@@ -623,6 +623,34 @@ static void scenes(void) {
   IDirect3DDevice8_BeginScene(d);
   quad_rhw(4, 4, 60, 60, 0.5f, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00, 0xFFFFFF00);
   end("clear_viewport_rects");
+  /* dynamic buffers locked as a game does (dynamic_buffers=1 writes them by Map): a DISCARD of the whole buffer, an
+     append with NOOVERWRITE, a lock with no flags in the middle, a second DISCARD of only its first part after a draw
+     read the buffer; and a dynamic index buffer. Each quad drawn right after its write */
+  { IDirect3DVertexBuffer8 *vb = NULL; IDirect3DIndexBuffer8 *ib = NULL; BYTE *p = NULL;
+    IDirect3DDevice8_CreateVertexBuffer(d, 64 * sizeof(VRhw), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &vb);
+    IDirect3DDevice8_CreateIndexBuffer(d, 64 * 2, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &ib);
+    reset_state(); IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_FALSE);
+    begin(0xFF101010);
+    IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+    IDirect3DDevice8_SetStreamSource(d, 0, vb, sizeof(VRhw));
+    #define DQ(at, x0, y0, x1, y1, c) do { VRhw *q = (VRhw *)(p) + (at); VRhw t[4] = {{x0, y0, 0.5f, 1, c}, {x1, y0, 0.5f, 1, c}, {x0, y1, 0.5f, 1, c}, {x1, y1, 0.5f, 1, c}}; memcpy(q, t, sizeof t); } while (0)
+    if (vb && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vb, 0, 0, &p, D3DLOCK_DISCARD))) { DQ(0, 2, 2, 20, 20, 0xFFFF0000); DQ(4, 0, 0, 1, 1, 0xFF000000); IDirect3DVertexBuffer8_Unlock(vb); }
+    IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLESTRIP, 0, 2);
+    if (vb && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vb, 8 * sizeof(VRhw), 4 * sizeof(VRhw), &p, D3DLOCK_NOOVERWRITE))) { p -= 8 * sizeof(VRhw); DQ(8, 22, 2, 40, 20, 0xFF00FF00); IDirect3DVertexBuffer8_Unlock(vb); }
+    IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLESTRIP, 8, 2);
+    if (vb && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vb, 4 * sizeof(VRhw), 4 * sizeof(VRhw), &p, 0))) { p -= 4 * sizeof(VRhw); DQ(4, 42, 2, 60, 20, 0xFF0000FF); IDirect3DVertexBuffer8_Unlock(vb); }
+    IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLESTRIP, 4, 2);
+    IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLESTRIP, 0, 2);          /* the first quad again: kept by the no-flag lock */
+    if (vb && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vb, 0, 4 * sizeof(VRhw), &p, D3DLOCK_DISCARD))) { DQ(0, 2, 24, 30, 40, 0xFFFFFF00); IDirect3DVertexBuffer8_Unlock(vb); }
+    IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLESTRIP, 0, 2);
+    if (ib && SUCCEEDED(IDirect3DIndexBuffer8_Lock(ib, 0, 0, &p, D3DLOCK_DISCARD))) { WORD *x = (WORD *)p; x[0] = 8; x[1] = 9; x[2] = 10; x[3] = 9; x[4] = 11; x[5] = 10; IDirect3DIndexBuffer8_Unlock(ib); }
+    if (vb && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vb, 8 * sizeof(VRhw), 4 * sizeof(VRhw), &p, D3DLOCK_NOOVERWRITE))) { p -= 8 * sizeof(VRhw); DQ(8, 34, 30, 62, 62, 0xFF00FFFF); IDirect3DVertexBuffer8_Unlock(vb); }
+    IDirect3DDevice8_SetIndices(d, ib, 0);
+    IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 8, 4, 0, 2);
+    #undef DQ
+    end("dynamic_buffers");
+    IDirect3DDevice8_SetStreamSource(d, 0, NULL, 0); IDirect3DDevice8_SetIndices(d, NULL, 0);
+    if (vb) IDirect3DVertexBuffer8_Release(vb); if (ib) IDirect3DIndexBuffer8_Release(ib); }
   if (chk) IDirect3DTexture8_Release(chk); if (grad) IDirect3DTexture8_Release(grad); if (alp) IDirect3DTexture8_Release(alp);
 }
 

@@ -229,21 +229,25 @@ HRESULT BufCore::init(Dev *d, UINT len_, DWORD u, DWORD fvf_, D3DFORMAT f, D3DPO
   dev = d; len = len_; usage = u; fvf = fvf_; fmt = f; pool = p; index = idx;
   if (!len) return D3DERR_INVALIDCALL;
   cpu.assign(len, 0);
-  if (pool != D3DPOOL_SYSTEMMEM) { id = d->new_id(); XBuf b = {id, len, idx ? 1u : 0u}; d->link->put(X_BUF, &b, sizeof b); }
+  dyn = pool != D3DPOOL_SYSTEMMEM && (u & D3DUSAGE_DYNAMIC) && d->dynamic_buffers;
+  if (pool != D3DPOOL_SYSTEMMEM) { id = d->new_id(); XBuf b = {id, len, idx ? 1u : 0u, dyn ? 1u : 0u}; d->link->put(X_BUF, &b, sizeof b); }
   return D3D_OK;
 }
 void BufCore::destroy() { dev->destroy_obj(id); id = 0; }
-HRESULT BufCore::lock(UINT off, UINT size, BYTE **p, DWORD) {
+HRESULT BufCore::lock(UINT off, UINT size, BYTE **p, DWORD flags) {
   if (!p || off > len) return D3DERR_INVALIDCALL;
   if (!size || off + size > len) size = len - off;               // D3D8: size 0 locks the whole buffer
-  if (!locks++) { lo = off; hi = off + size; } else { if (off < lo) lo = off; if (off + size > hi) hi = off + size; }
+  // the flags the upload carries: DISCARD if any lock had it, NOOVERWRITE only if every lock had it
+  DWORD f = flags & (D3DLOCK_DISCARD | D3DLOCK_NOOVERWRITE);
+  if (!locks++) { lo = off; hi = off + size; lflags = f; } else { if (off < lo) lo = off; if (off + size > hi) hi = off + size;
+    lflags = ((lflags | f) & D3DLOCK_DISCARD) | (lflags & f & D3DLOCK_NOOVERWRITE); }
   *p = cpu.data() + off;
   return D3D_OK;
 }
 HRESULT BufCore::unlock() {
   if (!locks) return D3DERR_INVALIDCALL;
   if (--locks) return D3D_OK;
-  if (id && hi > lo) dev->link->upload_buf(id, lo, cpu.data() + lo, hi - lo);
+  if (id && hi > lo) dev->link->upload_buf(id, lo, cpu.data() + lo, hi - lo, lflags);
   return D3D_OK;
 }
 HRESULT VB::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DVertexBuffer8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }

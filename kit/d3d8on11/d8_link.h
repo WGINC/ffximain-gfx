@@ -41,10 +41,10 @@ struct Link {
       put(X_UPLOAD_TEX, &b, sizeof b, d + (size_t)r * u.rowbytes, b.rows * u.rowbytes);
     }
   }
-  void upload_buf(uint32_t id, uint32_t off, const uint8_t *d, uint32_t len) {
+  void upload_buf(uint32_t id, uint32_t off, const uint8_t *d, uint32_t len, uint32_t flags = 0) {
     uint32_t room = max_payload() - (uint32_t)sizeof(XUpBuf);
-    for (uint32_t o = 0; o < len; o += room) {
-      XUpBuf u = {id, off + o, len - o < room ? len - o : room};
+    for (uint32_t o = 0; o < len; o += room) {             // the parts after the first: written beside it (NOOVERWRITE)
+      XUpBuf u = {id, off + o, len - o < room ? len - o : room, o ? 0x1000u /* D3DLOCK_NOOVERWRITE */ : flags};
       put(X_UPLOAD_BUF, &u, sizeof u, d + o, u.length);
     }
   }

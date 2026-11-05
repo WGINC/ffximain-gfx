@@ -106,6 +106,7 @@ struct BufCore {
   Dev *dev; UINT len; DWORD usage, fvf; D3DFORMAT fmt; D3DPOOL pool; bool index;
   std::vector<uint8_t> cpu; uint32_t id = 0;     // the executor's buffer (0: system memory only)
   UINT lo = 0, hi = 0; int locks = 0;            // the range written since the last upload
+  DWORD lflags = 0; bool dyn = false;            // the locks' DISCARD / NOOVERWRITE since then; a dynamic executor buffer
   HRESULT init(Dev *d, UINT len_, DWORD u, DWORD fvf_, D3DFORMAT f, D3DPOOL p, bool idx);
   void destroy();
   HRESULT lock(UINT off, UINT size, BYTE **p, DWORD flags);
@@ -163,6 +164,7 @@ struct Block {
 struct D8;
 struct Dev final : public IDirect3DDevice8_Stub {
   bool draw_sites = false;                  // d3d8on11.ini draw_sites
+  bool dynamic_buffers = false;             // d3d8on11.ini dynamic_buffers
   uint32_t draw_site = ~0u;                 // the game's call site of the draw being made (Draw* methods; XDraw::site)
   LONG ref = 1; D8 *d3d; HWND wnd; DWORD behavior; D3DPRESENT_PARAMETERS pp;
   Link *link = nullptr;                          // the command stream to the executor (direct, thread or remote)

@@ -15,6 +15,8 @@ struct ExecRes {
   uint32_t kind = 0;                               // XT_*, or 3: a buffer, 4: the back buffer
   ID3D11Texture2D *tex = nullptr; ID3D11ShaderResourceView *srv = nullptr; ID3D11DepthStencilView *dsv = nullptr;
   ID3D11Buffer *buf = nullptr;
+  std::vector<uint8_t> shadow; bool dyn = false, mapped = false;
+  uint64_t up_frame = ~0ull;                       // the Present count at its last upload (the stats' "again")   // a dynamic buffer: its whole contents, kept here
   ID3D11Texture2D *stage = nullptr;                // X_SNAP's staging copy (a small lockable render target)
   std::unordered_map<uint32_t, ID3D11RenderTargetView *> rtv;   // per level*8+face
   std::unordered_map<uint32_t, ID3D11ShaderResourceView *> srv_levels;   // views of some levels: first*256+count
@@ -72,7 +74,9 @@ struct Exec {
   std::vector<float> gpu_ms; uint32_t gpu_frames = 0, gpu_lost = 0;
   void gpu_frame_end(); void gpu_frame_begin(); void gpu_collect(int slot, bool wait_none);
   uint32_t last_site = ~0u;                          // XDraw::site of the draw run last (the stats charge its time to it)
-  uint64_t flushes = 0, arena_maps = 0, draw_maps = 0;   // for the stats: flushes, Maps of the arenas, Maps by a draw
+  uint64_t flushes = 0, arena_maps = 0, draw_maps = 0;
+  uint64_t up_bytes[2] = {}, up_n[2] = {}, dyn_discard = 0, dyn_noov = 0;
+  uint64_t up_again[2] = {};                       // bytes to an object uploaded in this frame or the one before too   // uploads: [0] textures, [1] buffers; dynamic Maps   // for the stats: flushes, Maps of the arenas, Maps by a draw
   void shutdown();
 private:
   struct Held { uint16_t op; uint32_t n; const uint8_t *p; size_t off; };

@@ -35,6 +35,7 @@ static double qpc_ms() {
 struct ExecStats {
   enum { K_DRAW, K_UPLOAD, K_PRESENT, K_READBACK, K_OTHER, NK };
   double busy[NK] = {}, since = 0; uint32_t frames = 0, records = 0;
+  double up_ms[2] = {}; uint64_t u0[8] = {};              // upload time: textures, buffers; Exec's upload counters at the last line
   Exec *x = nullptr; uint64_t x0[3] = {};                  // the executor's batch counters at the last stats line
   static void hook(void *s, uint16_t op, double ms) { ((ExecStats *)s)->ran(op, ms); }
   void attach(Exec *e) { x = e; e->timed = hook; e->timed_ctx = this; }
@@ -78,6 +79,7 @@ struct ExecStats {
   void ran(uint16_t op, double ms) {
     int k = kind(op);
     busy[k] += ms; records++;
+    if (op == X_UPLOAD_TEX) up_ms[0] += ms; else if (op == X_UPLOAD_BUF) up_ms[1] += ms;
     if (op == X_DRAW && x && x->sites_on) { SiteT &t = sites[x->last_site]; t.ms += ms; t.n++; }
     if (ab && !settle) pbusy[k] += ms;
     if (op != X_PRESENT) return;
@@ -98,6 +100,15 @@ struct ExecStats {
       d8_log("executor batches, %u frames: batch=%u, %.1f flushes, %.1f arena Maps, %.1f draw Maps a frame", frames, x->batch,
              (double)(x->flushes - x0[0]) / frames, (double)(x->arena_maps - x0[1]) / frames, (double)(x->draw_maps - x0[2]) / frames);
       x0[0] = x->flushes; x0[1] = x->arena_maps; x0[2] = x->draw_maps;
+      // uploads split: textures and buffers, their time, count and MB a frame; the dynamic buffers' Maps a frame
+      d8_log("executor uploads, %u frames: textures %.3f ms, %.1f uploads, %.3f MB a frame; buffers %.3f ms, %.1f uploads, %.3f MB "
+             "a frame (dynamic: %.1f DISCARD, %.1f NOOVERWRITE Maps a frame); to objects also uploaded this frame or the one before: "
+             "textures %.3f MB, buffers %.3f MB a frame", frames, up_ms[0] / frames, (double)(x->up_n[0] - u0[1]) / frames,
+             (double)(x->up_bytes[0] - u0[0]) / frames / 1048576.0, up_ms[1] / frames, (double)(x->up_n[1] - u0[3]) / frames,
+             (double)(x->up_bytes[1] - u0[2]) / frames / 1048576.0, (double)(x->dyn_discard - u0[4]) / frames, (double)(x->dyn_noov - u0[5]) / frames,
+             (double)(x->up_again[0] - u0[6]) / frames / 1048576.0, (double)(x->up_again[1] - u0[7]) / frames / 1048576.0);
+      u0[0] = x->up_bytes[0]; u0[1] = x->up_n[0]; u0[2] = x->up_bytes[1]; u0[3] = x->up_n[1]; u0[4] = x->dyn_discard; u0[5] = x->dyn_noov; u0[6] = x->up_again[0]; u0[7] = x->up_again[1];
+      up_ms[0] = up_ms[1] = 0;
     }
     if (!sites.empty()) {
       std::vector<std::pair<uint32_t, SiteT>> v(sites.begin(), sites.end());

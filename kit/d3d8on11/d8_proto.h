@@ -48,9 +48,9 @@ struct XInit {
 };
 enum : uint32_t { XT_TEXTURE = 0, XT_RENDERTARGET = 1, XT_DEPTH = 2 };
 struct XTex { uint32_t id, kind, width, height, levels, faces, d3dfmt, usage; };
-struct XBuf { uint32_t id, length, index; };
+struct XBuf { uint32_t id, length, index, dyn; };   // dyn: a D3D11 dynamic buffer, written by Map (d3d8on11.ini dynamic_buffers)
 struct XUpTex { uint32_t id, sub, x, y, w, h, rowbytes, rows; };  // a rectangle of subresource sub (D3D11 numbering)
-struct XUpBuf { uint32_t id, offset, length; };
+struct XUpBuf { uint32_t id, offset, length, flags; };   // flags: the game's D3DLOCK_DISCARD / D3DLOCK_NOOVERWRITE (a dyn buffer's Map)
 struct XTargets { XRef rt; uint32_t ds; };                          // ds 0: none
 struct XClear { uint32_t flags, color; float z; uint32_t stencil; uint32_t width, height, nrects; };  // then nrects XRect
 struct XRect { int32_t x1, y1, x2, y2; };   // nrects 0: the whole target (and depth surface); else these, in target pixels

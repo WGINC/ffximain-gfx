@@ -72,6 +72,14 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   if (ab.flip) d8_log("swap_flip=1: the flip-model swap chain (FLIP_DISCARD, 2 buffers)");
   // draw_sites=1: each draw carries the game's call site, and the executor's log lists its draw time by site every 600
   // Presents (a measurement; off by default, so that a run measuring something else is not changed by it)
+  // dynamic_buffers=1: the buffers the game makes D3DUSAGE_DYNAMIC are D3D11 dynamic buffers, written by Map with the
+  // game's lock flags (DISCARD: fresh memory, NOOVERWRITE: beside what the GPU reads) instead of UpdateSubresource of a
+  // default buffer, which the driver must copy when the GPU still uses it (7 Nov: in the owner's runs Present's time
+  // follows the upload time, r = 0.88-0.89, not the draws). Set for a whole start; D8ON11_DYNAMIC_BUFFERS overrides it
+  dynamic_buffers = (int)GetPrivateProfileIntA("d3d8on11", "dynamic_buffers", 0, ini) != 0;
+  ne = GetEnvironmentVariableA("D8ON11_DYNAMIC_BUFFERS", env, sizeof env);
+  if (ne > 0 && ne < sizeof env) dynamic_buffers = atoi(env) != 0;
+  if (dynamic_buffers) d8_log("dynamic_buffers=1: the game's dynamic vertex and index buffers are written by Map");
   draw_sites = (int)GetPrivateProfileIntA("d3d8on11", "draw_sites", 0, ini) != 0;
   ne = GetEnvironmentVariableA("D8ON11_DRAW_SITES", env, sizeof env);
   if (ne > 0 && ne < sizeof env) draw_sites = atoi(env) != 0;

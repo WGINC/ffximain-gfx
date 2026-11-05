@@ -442,6 +442,26 @@ if 'remote' in MODES:
     t = open(log).read() if os.path.exists(log) else ''
     ok = 'ALL OK' in out and 'could not start the device: thread instead' in t and 'executor: thread' in t
     print('%s: remote mode whose executor cannot make the device falls back to thread mode, and basic passes' % ('ok' if ok else 'FAIL')); bad += not ok
+# dynamic_buffers=1 (7 Nov): the game's dynamic vertex and index buffers written by Map with its lock flags. Every
+# scene, the dynamic_buffers scene among them (DISCARD, NOOVERWRITE, a lock with no flags, a second DISCARD of a part,
+# a dynamic index buffer), must draw exactly what the default (UpdateSubresource) draws, in each mode, and the executor
+# must have written the buffers by Map both ways (its log: the first DISCARD and the first NOOVERWRITE Map)
+for m in MODES:
+    xlog = os.path.join(ours, 'd3d8on11_exec.log')      # remote mode: the executor's own log (d8x.exe)
+    base = scenes(ours, True, m)
+    for f in (log, xlog):
+        if os.path.exists(f): os.remove(f)
+    dyn = scenes(ours, True, m, {'D8ON11_DYNAMIC_BUFFERS': '1'})
+    t = ''.join(open(f).read() for f in (log, xlog) if os.path.exists(f))
+    same = base == dyn and 'dynamic_buffers' in base and base['dynamic_buffers'] is not None
+    ok = same and 'dynamic_buffers=1: the game' in t and 'the first DISCARD Map' in t and 'the first NOOVERWRITE Map' in t
+    print('%s: %s mode, dynamic_buffers=1 draws exactly what the default draws (%d scenes, the dynamic_buffers scene among them); '
+          'Maps with DISCARD and NOOVERWRITE made' % ('ok' if ok else 'FAIL', m, len(base))); bad += not ok
+    for n in sorted(set(base) | set(dyn)):
+        if base.get(n) != dyn.get(n): print('  differs: %s' % n)
+    for l in t.splitlines():
+        if 'dynamic buffers' in l: print('   ', l)
+
 if os.path.exists(log):
     t = open(log).read()
     for l in t.splitlines():

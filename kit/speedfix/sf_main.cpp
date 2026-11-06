@@ -466,6 +466,7 @@ extern "C" { volatile long sf_lim_fx; extern volatile LONG sf_pass_draws_zero, s
 struct LimActor { void *a; uint32_t tick; uint8_t b0, b2; uint32_t f6a4; uint8_t f8e8; float pc[3], pp[3], dc[3], dp[3], span; int nm; bool blended, hasprev, ot; };
 enum { LIM_N = 2048 };
 static LimActor g_lim[LIM_N]; static uint32_t g_lim_tick = 1; static int g_lim_full;
+static uint32_t g_cam_frame = 1, g_pass_onmove; static float g_pass_span = 1.0f;   // (lim_cam)
 static LimActor *lim_find(void *a, bool make) {
   unsigned h = (unsigned)(((uintptr_t)a >> 3) * 2654435761u) % LIM_N;
   for (int i = 0; i < LIM_N; i++) {
@@ -476,22 +477,30 @@ static LimActor *lim_find(void *a, bool make) {
   if (make) g_lim_full++;
   return NULL;
 }
-// the blend's weight: the time since the last tick (the carry, in ticks) over the ticks between the two kept states
-// (below 60 fps one OnMove can cover 2 ticks: then a frame's carry moves the blend half as far)
+// the blend's weight. What is drawn is the state one tick before now: now is the last tick k plus the carry c (the
+// fraction of a tick since it, Frame_Render's fork); the two kept states are at k - span and k (span = the ticks the
+// last OnMove covered: 2 below 60 fps on some frames). One tick before now is k - 1 + c, so the weight is
+// (span - 1 + c) / span: c at span 1, (1 + c) / 2 at span 2. (12 Nov: c / span made the lag one tick on frames of 1
+// tick and two on frames of 2: what is drawn jumped back and forth below 60 fps.)
 static inline float lim_alpha(float span) {
   float t = sf_lim_test_alpha; if (t >= 0.0f) return t;
-  double c = xi_step_carry / (span >= 1.0f ? span : 1.0f); return c < 0 ? 0.0f : c > 1 ? 1.0f : (float)c;
+  double sp = span >= 1.0f ? span : 1.0f, c = (sp - 1.0 + xi_step_carry) / sp; return c < 0 ? 0.0f : c > 1 ? 1.0f : (float)c;
+}
+extern "C" __declspec(dllexport) float __cdecl sf_lim_alpha_test(float span, double carry) {   // (the host test)
+  double k = xi_step_carry; float ta = sf_lim_test_alpha; xi_step_carry = carry; sf_lim_test_alpha = -1.0f;
+  float r = lim_alpha(span); xi_step_carry = k; sf_lim_test_alpha = ta; return r;
 }
 static inline float wrap_pi(float d) { while (d > 3.14159265f) d -= 6.28318531f; while (d < -3.14159265f) d += 6.28318531f; return d; }
-static void lim_blend(LimActor *e, uint8_t *p) {   // write the blend into the actor (the tick's values are in e->pc, e->dc)
-  if (!e->hasprev) return;
-  float t = lim_alpha(e->span); float *pos = (float *)(p + 0x5FC), *dir = (float *)(p + 0x61C);
-  for (int i = 0; i < 3; i++) { pos[i] = e->pp[i] + (e->pc[i] - e->pp[i]) * t; dir[i] = e->pp[0] == e->pp[0] ? e->dp[i] + wrap_pi(e->dc[i] - e->dp[i]) * t : e->dc[i]; }
-  e->blended = true;
-}
-static void lim_unblend(LimActor *e, uint8_t *p) {
-  if (!e->blended) return;
-  memcpy(p + 0x5FC, e->pc, 12); memcpy(p + 0x61C, e->dc, 12); e->blended = false;
+// the blend written into the actor, for a drawing window only (lim_window_*): only where the actor still holds its
+// tick's values; what was written is kept so that the restore puts the tick's back only where it is still there
+static bool lim_blend(LimActor *e, uint8_t *p, float wpos[3], float wdir[3]) {
+  if (!e->hasprev) return false;
+  float *pos = (float *)(p + 0x5FC), *dir = (float *)(p + 0x61C);
+  if (memcmp(pos, e->pc, 12) || memcmp(dir, e->dc, 12)) return false;
+  float t = lim_alpha(e->span);
+  for (int i = 0; i < 3; i++) { pos[i] = e->pp[i] + (e->pc[i] - e->pp[i]) * t; dir[i] = e->dp[i] + wrap_pi(e->dc[i] - e->dp[i]) * t; }
+  memcpy(wpos, pos, 12); memcpy(wdir, dir, 12);
+  return true;
 }
 // The ordering table ([0x1047BC94]: insert 0x100553C0 thiscall (node), `ret 4`; a node is depth +0, next +4, callback
 // +8, its argument +0xC, previous +0x10, inserted count +0x14) is drawn and cleared every frame by CMoOt_Update
@@ -595,13 +604,25 @@ static void lim_limbs_snap(LimActor *e, uint8_t *a) {           // after OnMove
   }
   memcpy(old, nw, n * sizeof nw[0]); e->nm = n;
 }
-static void lim_limbs_blend(void) {                             // before CXiActorDraw's +0x20
-  g_nlimr = 0;
-  if (!g_motvt || !sf_cfg.lim_limbs) return;
+// The drawing windows (12 Nov): the blend is written only while the game draws -- CXiActorDraw's +0x20 and
+// CXiActorNameDraw's (sf_dispatch), and CMoOt_Update (the ordering table: its task node's function swapped for
+// sf_ot_wrap) -- for the actors of the draw list (g_pActorDrawListHead [0x1047D578], next at +0x54), and put back right
+// after. Between them the game's logic (the other tasks, on frames with ticks) sees only the ticks' own values.
+struct LimPosRest { uint8_t *a; float wpos[3], wdir[3]; LimActor *e; };
+static LimPosRest g_limp[LIM_N]; static int g_nlimp; static bool g_win_open;
+static void lim_window_end(void);
+extern "C" { volatile long sf_lim_windows; }
+static void lim_window_begin(void) {               // (the windows never nest in the game: one still open is closed first)
+  if (g_win_open) lim_window_end();
+  if (!sf_lim_on) return;
+  g_win_open = true; g_nlimr = 0; g_nlimp = 0; sf_lim_windows++;
+  bool limbs = g_motvt && sf_cfg.lim_limbs;
   uint8_t *a = *(uint8_t *const *)(uintptr_t)XI_GAME(0x1047D578u); int k = 0;
   for (; a && k++ < 4096; a = *(uint8_t *const *)(a + 0x54)) {
     if (!is_actor(*(const uintptr_t *const *)a)) continue;
-    LimActor *e = lim_find(a, false); if (!e || !e->nm) continue;
+    LimActor *e = lim_find(a, false); if (!e) continue;
+    if (g_nlimp < LIM_N) { LimPosRest &r = g_limp[g_nlimp]; if (lim_blend(e, a, r.wpos, r.wdir)) { r.a = a; r.e = e; g_nlimp++; } }
+    if (!limbs || !e->nm) continue;
     LimMot *ms = g_limm[e - g_lim]; uint8_t *els[LIMB_N]; int n = lim_motions(a, els, LIMB_N);
     float t = lim_alpha(e->span);
     for (int i = 0; i < n; i++) {
@@ -621,7 +642,15 @@ static void lim_limbs_blend(void) {                             // before CXiAct
     }
   }
 }
-static void lim_limbs_restore(void) {                           // after it
+static void lim_window_end(void) {
+  if (!g_win_open) return;
+  g_win_open = false;
+  for (int i = 0; i < g_nlimp; i++) {
+    LimPosRest &r = g_limp[i]; float *pos = (float *)(r.a + 0x5FC), *dir = (float *)(r.a + 0x61C);
+    if (!memcmp(pos, r.wpos, 12)) memcpy(pos, r.e->pc, 12);
+    if (!memcmp(dir, r.wdir, 12)) memcpy(dir, r.e->dc, 12);
+  }
+  g_nlimp = 0;
   uint8_t *els[LIMB_N]; int n = 0; uint8_t *cur = NULL;
   for (int i = 0; i < g_nlimr; i++) {
     LimRest &r = g_limr[i];
@@ -639,7 +668,7 @@ extern "C" __declspec(dllexport) int __cdecl sf_task_skip(void *task) {
   if (!sf_lim_on) return 0;
   const uintptr_t *vt = *(const uintptr_t *const *)task; uintptr_t v = (uintptr_t)vt;
   bool draw = v == sf_drawvt[0] || v == sf_drawvt[1] || v == sf_drawvt[2];
-  if (draw) { if (v == sf_drawvt[0]) lim_limbs_blend(); return 0; }
+  if (draw) { if (v == sf_drawvt[0] || v == sf_drawvt[2]) lim_window_begin(); return 0; }
   // the effect elements (17 classes, vtable +0x20 CMoElem_PrepareDraw 0x10045A40): each frame they put themselves in
   // the ordering table at [0x1047BC94] (CMoElem_CheckAt138ThenCall 0x100458F0 -> 0x100555B0 -> 0x100553C0), which
   // CMoOt_Update (0x10055620, a function task of the pass, not a CMoTask) draws and clears (0x10055520, 0x100554B0)
@@ -651,11 +680,9 @@ extern "C" __declspec(dllexport) int __cdecl sf_task_skip(void *task) {
   uint8_t *p = (uint8_t *)task;
   if (is_actor(vt)) {
     LimActor *e = lim_find(task, false);
-    if (e) lim_unblend(e, p);                            // OnMove (or the skip below) sees the tick's own values
     if (!lim_zero()) return 0;
     if (e && e->tick) {                                  // the drawing's handshakes as OnMove left them at the tick
       p[0xB0] = e->b0; p[0xB2] = (uint8_t)((p[0xB2] & ~1) | (e->b2 & 1)); *(uint32_t *)(p + 0x6A4) = e->f6a4; p[0x8E8] = e->f8e8;
-      lim_blend(e, p);
       if (e->ot && e->tick == g_lim_tick && !sf_lim_test_noot) ot_again(p, 0);      // in the ordering table again, as OnMove put it at the tick
     }
     sf_lim_skipped++; return 1;
@@ -668,7 +695,7 @@ extern "C" __declspec(dllexport) int __cdecl sf_task_skip(void *task) {
 extern "C" __declspec(dllexport) void __cdecl sf_task_post(void *task) {
   if (!sf_lim_on) return;
   const uintptr_t *vt = *(const uintptr_t *const *)task;
-  if ((uintptr_t)vt == sf_drawvt[0]) { lim_limbs_restore(); return; }
+  if ((uintptr_t)vt == sf_drawvt[0] || (uintptr_t)vt == sf_drawvt[2]) { lim_window_end(); return; }
   if (!is_actor(vt)) {
     int k = ot_kind(vt);
     if (k > 0) { LimActor *e = lim_find(task, true); if (e) { e->ot = ot_inserted((uint8_t *)task, k); e->tick = g_lim_tick; } }
@@ -684,11 +711,15 @@ extern "C" __declspec(dllexport) void __cdecl sf_task_post(void *task) {
   e->span = sf_lim_test_zero ? 1.0f : xi_step_whole;    // the ticks this OnMove covered
   e->ot = *(uint8_t *const *)(p + 0x8D4) == p && ot_inserted(p, 0);
   lim_limbs_snap(e, p);                                  // its motions' frames and weights at this tick
-  lim_blend(e, p);                                       // this frame's drawing too (it comes later in the pass)
+  g_pass_onmove = g_cam_frame; g_pass_span = e->span;    // (the camera: an OnMove ran in this frame's pass)
 }
 // the camera (Frame_Render's fork, around Camera_ApplyViewProjection; docs/RENDERER.md 3d): the view is built from the
 // camera at [g_pCamera+0x50], eye +0x44, target +0x50 (FUN_10021B70 0x10021B70); its +0x88 / +0x89 are snap requests
 // (Camera_UpdateController 0x10021900 sets +0x44 / +0x50 from +0x8C / +0x98): with one pending nothing is blended
+// A tick for the camera is a frame whose task pass ran OnMove (the player's moves it: YmCameraManager_Follow from
+// CXiSkeletonActor_OnMove, 0x100C81F0), or one on which the camera is not where its restore left it (moved by other
+// code): never decided from the step, which Frame_Render's fork has already made for the next frame by now (12 Nov:
+// that made the restore write an old camera back, the camera stuck). Its span is that pass's ticks.
 static float g_cc[6], g_cp[6], g_c_span = 1.0f; static bool g_c_has, g_c_blended; static uint8_t *g_c_obj;
 static void lim_cam(int after) {
   if (!sf_lim_on) return;
@@ -698,17 +729,20 @@ static void lim_cam(int after) {
     g_c_blended = false;
     if (!cam || cam[0x88] || cam[0x89]) { g_c_has = false; return; }
     float *eye = (float *)(cam + 0x44), *tgt = (float *)(cam + 0x50);
-    if (!lim_zero() || !g_c_has || cam != g_c_obj) {     // a tick: the camera's values are the tick's
+    bool moved = g_c_has && (memcmp(eye, g_cc, 12) || memcmp(tgt, g_cc + 3, 12));
+    bool tick = sf_lim_test_zero ? sf_lim_test_zero == 2 : g_pass_onmove == g_cam_frame;
+    if (tick || moved || !g_c_has || cam != g_c_obj) {   // a tick: the camera's values are the tick's
       if (g_c_has && cam == g_c_obj) memcpy(g_cp, g_cc, sizeof g_cc); else { memcpy(g_cp, eye, 12); memcpy(g_cp + 3, tgt, 12); }
-      memcpy(g_cc, eye, 12); memcpy(g_cc + 3, tgt, 12); g_c_has = true; g_c_obj = cam; g_c_span = sf_lim_test_zero ? 1.0f : xi_step_whole;
+      memcpy(g_cc, eye, 12); memcpy(g_cc + 3, tgt, 12); g_c_has = true; g_c_obj = cam; g_c_span = sf_lim_test_zero || !tick ? 1.0f : g_pass_span;
       float dx = g_cc[0] - g_cp[0], dy = g_cc[1] - g_cp[1], dz = g_cc[2] - g_cp[2];
       if (dx * dx + dy * dy + dz * dz >= 2500.0f) memcpy(g_cp, g_cc, sizeof g_cc);
     }
     float t = lim_alpha(g_c_span);
     for (int i = 0; i < 3; i++) { eye[i] = g_cp[i] + (g_cc[i] - g_cp[i]) * t; tgt[i] = g_cp[3 + i] + (g_cc[3 + i] - g_cp[3 + i]) * t; }
     g_c_blended = true;
-  } else if (g_c_blended && cam == g_c_obj) {
-    memcpy(cam + 0x44, g_cc, 12); memcpy(cam + 0x50, g_cc + 3, 12); g_c_blended = false;   // the tick's values back
+  } else {
+    if (g_c_blended && cam == g_c_obj) { memcpy(cam + 0x44, g_cc, 12); memcpy(cam + 0x50, g_cc + 3, 12); }   // the tick's values back
+    g_c_blended = false; g_cam_frame++;
   }
 }
 extern "C" { __declspec(dllexport) void (*volatile xi_lim_cam)(int) = lim_cam; }
@@ -763,6 +797,22 @@ static void step_read_stats(LONG frames) {
   if (g_sr_full) o += snprintf(line + o, sizeof line - o, " (%ld calls not tabled)", (long)g_sr_full);
   LOG("%s", line); g_sr_full = 0;
 }
+// CMoOt_Update (0x10055620) is a function task: the task pass calls [node+4](node) for each node of CMoTaskMng
+// ([0x1047D140]; list at +0xD50, next at +0xC; 0x10074C30), cdecl, the argument unused. Liminality points that node's
+// function at sf_ot_wrap (a data change, put back when it goes off), which runs it inside a drawing window: the
+// ordering table draws the see-through actors (0x100CBD90).
+extern "C" void __cdecl sf_ot_wrap(void *node) {
+  lim_window_begin(); ((void (__cdecl *)(void *))XI_GAME(0x10055620u))(node); lim_window_end();
+}
+extern "C" { __declspec(dllexport) volatile long sf_ot_wrapped; }
+static void ot_swap(bool on) {
+  uint8_t *mng = *(uint8_t *const *)(uintptr_t)XI_GAME(0x1047D140u); if (!mng) return;
+  uintptr_t game = (uintptr_t)XI_GAME(0x10055620u), ours = (uintptr_t)sf_ot_wrap; int k = 0;
+  for (uint8_t *n = *(uint8_t *const *)(mng + 0xD50); n && k++ < 100000; n = *(uint8_t *const *)(n + 0xC)) {
+    uintptr_t *fn = (uintptr_t *)(n + 4);
+    if (on && *fn == game) { *fn = ours; sf_ot_wrapped++; } else if (!on && *fn == ours) *fn = game;
+  }
+}
 static void sf_lim_set(int on) {
   static int ok = -1;
   static const uint32_t kVt[3] = {0x10329C44u, 0x10336748u, 0x10329C18u}, kFn[3] = {0x100817E0u, 0x10178B30u, 0x100817F0u};
@@ -783,6 +833,7 @@ static void sf_lim_set(int on) {
   }
   bool was = sf_lim_on;
   sf_lim_on = on && ok == 1 && sf_dispatch_prev;
+  { static int every; if (sf_lim_on && (!was || ++every >= 30)) { every = 0; ot_swap(true); } else if (was && !sf_lim_on) ot_swap(false); }
   if (was && !sf_lim_on) {                               // off: every blended actor gets its tick's values back
     for (int i = 0; i < LIM_N; i++) if (g_lim[i].a && g_lim[i].blended) { /* the actor may be gone: not written */ g_lim[i].blended = false; }
     memset(g_lim, 0, sizeof g_lim); g_c_has = false;
@@ -984,8 +1035,8 @@ static void task_stats(LONG frames) {                // task_draws: the 12 tasks
 
 static void st_stats(void) {
   task_stats(g_st_frames); step_read_stats(g_st_frames);
-  if (sf_cfg.liminality) LOG("speedfix: liminality: %ld tasks skipped on frames of 0 ticks in these %ld frames; effect element tasks run on them %ld; nodes put in the ordering table again on them %ld (see-through actors, afterimages); the task pass's draws a frame: %.1f on frames with ticks, %.1f on frames of 0 ticks; limbs (lim_limbs=%d%s): %ld motion draws blended, %ld drawn as the game has them",
-      (long)InterlockedExchange(&sf_lim_skipped, 0), (long)g_st_frames, (long)InterlockedExchange(&sf_lim_fx, 0), (long)InterlockedExchange(&sf_lim_ot, 0),
+  if (sf_cfg.liminality) LOG("speedfix: liminality: %ld tasks skipped on frames of 0 ticks in these %ld frames; drawing windows %ld (ordering table task wrapped: %ld); effect element tasks run on them %ld; nodes put in the ordering table again on them %ld (see-through actors, afterimages); the task pass's draws a frame: %.1f on frames with ticks, %.1f on frames of 0 ticks; limbs (lim_limbs=%d%s): %ld motion draws blended, %ld drawn as the game has them",
+      (long)InterlockedExchange(&sf_lim_skipped, 0), (long)g_st_frames, (long)InterlockedExchange(&sf_lim_windows, 0), (long)sf_ot_wrapped, (long)InterlockedExchange(&sf_lim_fx, 0), (long)InterlockedExchange(&sf_lim_ot, 0),
       g_st_frames - g_st_zero > 0 ? (double)InterlockedExchange(&sf_pass_draws_tick, 0) / (g_st_frames - g_st_zero) : 0.0,
       g_st_zero > 0 ? (double)InterlockedExchange(&sf_pass_draws_zero, 0) / g_st_zero : 0.0, sf_cfg.lim_limbs, g_motvt ? "" : ", CYyMotionQue not checked or not the game's", (long)InterlockedExchange(&sf_limb_blended, 0), (long)InterlockedExchange(&sf_limb_asis, 0));
   { LONG n[8]; for (int i = 0; i < 8; i++) n[i] = InterlockedExchange(&sf_phase_draws[i], 0);

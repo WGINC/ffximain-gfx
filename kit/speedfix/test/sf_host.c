@@ -502,38 +502,51 @@ static void task_dispatch_test(HMODULE sf) {
   check(dvt, "liminality: ... the game's three drawing tasks (CXiActorDraw, CTsZoneMap, CXiActorNameDraw) are not");
   { static void *fxvt[16], *fx[1]; fxvt[8] = (void *)GAME(0x10045A40u); fx[0] = fxvt;
     check(!skip(fx), "liminality: ... nor an effect element (+0x20 CMoElem_PrepareDraw): it puts itself in the ordering table CMoOt_Update draws and clears every frame"); }
-  /* an actor */
+  /* an actor: its last two ticks kept after each OnMove; drawn at their blend only inside a drawing window (here
+     CXiActorDraw's +0x20: skip() before it, post() after it), the tick's values back after the window */
   static uint8_t act[0xA00] __attribute__((aligned(16))); static void *avt[16];
   avt[8] = (void *)GAME(0x100C63D0u); *(void **)act = avt;
   float *pos = (float *)(act + 0x5FC), *dir = (float *)(act + 0x61C);
+  void **dlh = (void **)GAME(0x1047D578u), *keepdl = *dlh; *dlh = act; *(void **)(act + 0x54) = NULL;
+  static void *dWin[1]; dWin[0] = (void *)GAME(0x10329C44u);
   *zero = 2; *alpha = 0.25f;
   pos[0] = 1; pos[1] = 2; pos[2] = 3; dir[0] = 0; dir[1] = 3.1f; dir[2] = 0;
   act[0xB0] = 0; act[0xB2] = 0; *(uint32_t *)(act + 0x6A4) = 0x10; act[0x8E8] = 1;
   check(skip(act) == 0, "liminality: an actor on a tick frame is not skipped (its OnMove runs)");
   post(act);
-  int first = pos[0] == 1 && pos[1] == 2 && pos[2] == 3;
-  check(first, "... after its first OnMove: no earlier tick, so drawn where it is");
-  check(skip(act) == 0 && pos[0] == 1, "... the next tick: the tick's values back before OnMove");
+  check(pos[0] == 1 && pos[1] == 2 && pos[2] == 3, "... after its first OnMove: as it is (no earlier tick)");
+  check(skip(act) == 0 && pos[0] == 1, "... the next tick: its OnMove runs");
   pos[0] = 5; pos[1] = 2; pos[2] = 3; dir[1] = -3.1f;      /* OnMove moved it 4 and turned it across +-pi */
   post(act);
+  check(pos[0] == 5 && dir[1] == -3.1f, "... after its OnMove the game's logic sees the tick's own values (nothing blended outside the drawing)");
+  skip(dWin);
   int blend1 = fabsf(pos[0] - 2.0f) < 1e-5f;                /* 1 + (5 - 1) * 0.25 */
   float wantd = 3.1f + 0.25f * (6.28318531f - 6.2f); if (wantd > 3.14159265f) wantd -= 6.28318531f;
   int dshort = fabsf(dir[1] - wantd) < 1e-4f;
-  printf("    liminality: after the second tick, at a quarter of a tick: x %.4f (want 2.0), facing %.4f (want %.4f, the short way)\n", pos[0], dir[1], wantd);
-  check(blend1, "... after its second OnMove: drawn at the blend of its two ticks by the carry (x 2.0 at a quarter)");
+  printf("    liminality: in the drawing window, at a quarter of a tick: x %.4f (want 2.0), facing %.4f (want %.4f, the short way)\n", pos[0], dir[1], wantd);
+  post(dWin);
+  check(blend1, "... drawn at the blend of its two ticks (x 2.0 at a quarter)");
   check(dshort, "... its facing blended the short way round across +-pi");
+  check(pos[0] == 5 && dir[1] == -3.1f, "... and the tick's values back right after the drawing");
   act[0xB2] |= 1; act[0xB0] = 1; act[0x8E8] = 0;           /* what the drawing does (occluded probe; drawn) */
   *zero = 1; *alpha = 0.5f;
   int sk = skip(act);
   int flags = (act[0xB2] & 1) == 0 && act[0xB0] == 0 && act[0x8E8] == 1 && *(uint32_t *)(act + 0x6A4) == 0x10;
-  int blend2 = fabsf(pos[0] - 3.0f) < 1e-5f;
   check(sk == 1 && flags, "... on a frame of 0 ticks: skipped, and +0xB0 +0xB2 +0x6A4 +0x8E8 as its OnMove left them (the drawing's changes undone)");
-  check(blend2, "... and drawn at the blend for this frame (x 3.0 at a half)");
-  *zero = 2;
-  check(skip(act) == 0 && pos[0] == 5 && fabsf(dir[1] + 3.1f) < 1e-6f, "... the next tick: the tick's own values back before its OnMove");
+  skip(dWin); int blend2 = fabsf(pos[0] - 3.0f) < 1e-5f; post(dWin);
+  check(blend2 && pos[0] == 5, "... and drawn at that frame's blend (x 3.0 at a half), its own values back after");
+  pos[0] = 6; skip(dWin); int moved = pos[0] == 6; post(dWin);
+  check(moved && pos[0] == 6, "... one moved since its tick by other code is drawn where it is, and left there");
+  pos[0] = 5;
   /* a warp: no blend */
-  pos[0] = 500; post(act);
-  check(pos[0] == 500, "... a move of 50 or more in a tick (a warp) is not blended");
+  *zero = 2; skip(act); pos[0] = 500; post(act); skip(dWin); int warp = pos[0] == 500; post(dWin);
+  check(warp, "... a move of 50 or more in a tick (a warp) is not blended");
+  *dlh = keepdl;
+  /* the weight: drawn one tick behind now at every span (12 Nov: c / span was two ticks behind at span 2) */
+  { float (__cdecl *at)(float, double) = (float (__cdecl *)(float, double))GetProcAddress(sf, "sf_lim_alpha_test");
+    float a1 = at ? at(1.0f, 0.25) : -1, a2 = at ? at(2.0f, 0.25) : -1, a3 = at ? at(2.0f, 0.0) : -1;
+    printf("    liminality: the weight at span 1, carry 0.25: %.4f (want 0.25); span 2, carry 0.25: %.4f (want 0.625); span 2, carry 0: %.4f (want 0.5)\n", a1, a2, a3);
+    check(fabsf(a1 - 0.25f) < 1e-6f && fabsf(a2 - 0.625f) < 1e-6f && fabsf(a3 - 0.5f) < 1e-6f, "liminality: the blend's weight is (span - 1 + carry) / span: one tick behind now at every span"); }
   /* the camera, around Camera_ApplyViewProjection */
   { static uint8_t app[0x400], camo[0x200]; void *keep = *(void **)GAME(0x104568FCu);
     *(void **)(app + 0x50) = camo; *(void **)GAME(0x104568FCu) = app;
@@ -547,10 +560,14 @@ static void task_dispatch_test(HMODULE sf) {
     *zero = 1; *alpha = 0.75f; (*cam)(0);
     int cz = fabsf(eye[0] - 1.5f) < 1e-6f; (*cam)(1);
     camo[0x88] = 1; *zero = 2; eye[0] = 9; (*cam)(0); int snap = eye[0] == 9; (*cam)(1); camo[0x88] = 0;
+    *zero = 2; eye[0] = 9; tgt[0] = 20; (*cam)(0); (*cam)(1);       /* a tick at 9 */
+    *zero = 1; eye[0] = 11; tgt[0] = 22; (*cam)(0); (*cam)(1);      /* no tick, but the camera moved (other code) */
+    int keptmove = eye[0] == 11 && tgt[0] == 22;
     *(void **)GAME(0x104568FCu) = keep;
     check(cb && cr, "liminality: the camera's eye and target blended for the view (a half: 1, 12) and the tick's back after (2, 14)");
     check(cz, "... on a frame of 0 ticks blended by that frame's carry (three quarters: 1.5)");
-    check(snap, "... with a snap request pending (+0x88), not blended"); }
+    check(snap, "... with a snap request pending (+0x88), not blended");
+    check(keptmove, "... a camera moved without a tick is never put back where the last tick left it (12 Nov: the camera stuck)"); }
   /* the ordering table (sf_main.cpp ot_*): an actor OnMove put in the table at the tick (see-through: node +0x8C8,
      callback 0x100CBD90, +0x8D4 = the actor) is put in again on a frame of 0 ticks by the game's own insert
      (0x100553C0), into a small table of the game's layout here; one that was not, is not */

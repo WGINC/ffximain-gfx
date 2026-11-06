@@ -27,7 +27,8 @@ struct SfConfig {
   int vs_dedupe;            // CreateVertexShader of a declaration already made (no function): the same handle again
   int merge_scenes;         // one BeginScene/EndScene pair a frame: the game's inner EndScene..BeginScene pairs dropped
   int motion_stats;
-  int task_draws;           // CMoTask::Dispatch hooked (sf_fork.cpp): draw calls counted by the task (its vtable) and slot
+  int task_draws;
+  int liminality;           // Liminality stage 1: whole ticks only, and on frames of 0 ticks only the drawing tasks run (sf_fork.cpp)           // CMoTask::Dispatch hooked (sf_fork.cpp): draw calls counted by the task (its vtable) and slot
   int stats_every;          // seconds between the statistics lines in xikit.log (60)         // at the start: frame statistics split by camera still / moving (sf_device.cpp)
   int skin_merge;           // CYyModelDt::SkinAndDrawV2 forked (fork/): runs of a model's triangle-list records drawn as one
   int sse_skinning;         // the game's SSE skinning loops on any CPU that reports SSE (sf_main.cpp, apply_sse_skinning)
@@ -36,6 +37,7 @@ struct SfConfig {
   int precise_pacing;       // the game's frame limiter timed with the performance counter and waited on precisely
                             // (sf_main.cpp): 60.0 fps instead of 58.8
   int null_draws;           // a test: the draw calls return D3D_OK without reaching the device (sf_device.cpp)
+  int occlusion_hold;       // occlusion_late=1: a visible object hidden only when two answers in a row say hidden (sf_occlusion.cpp)
   int occlusion_late;       // the occlusion readback answered from the query's previous probe (sf_occlusion.cpp): 1 on, 2 measure only
   int uncap;                // the game's minimum ticks a frame [g_pCamera+0x30] kept at 0: no 60 fps wait (sf_main.cpp)
   int frame_step;           // the game's time step: 0 its own, 1 real time in whole ticks, 2 and the fraction where proven

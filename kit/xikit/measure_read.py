@@ -282,7 +282,7 @@ def main(argv):
               s['mean'], s['p50'], s['p95'], s['p99'], s['max'], walked / real))
             byseg[nm].append({'frame_mean': s['mean'], 'frame_p95': s['p95'], 'speed': walked / real})
         summ['ab'] = byseg
-        for l in re.findall(r'speedfix: (?:frame_step=3|occlusion_late).*', log)[-8:]: w('- `%s`' % l[:300])
+        for l in re.findall(r'speedfix: (?:frame_step=3|occlusion_late|liminality).*', log)[-10:]: w('- `%s`' % l[:300])
         for l in re.findall(r'speedfix: occlusion_late=2: .*', log)[-4:]: w('- `%s`' % l[:300])
         # the draw calls by Frame_Render's world pass (8 Nov): summed over the start
         tot = None

@@ -1497,6 +1497,15 @@ static int make_dcode(void) {
   return 1;
 }
 
+/* the caller of the device method a mod's hook is running in (9 Nov: draw_sites named every draw a mod's): on the render
+   thread kit_front replaced that call's return address with DH_PAD and kept the game's on d3dprof_via_stk; a mod that
+   reads its own return address gets DH_PAD, and this gives the one it stands for. Anything else is given back as it is */
+__declspec(dllexport) void *__cdecl xikit_device_caller(void *ra) {
+  if (g_dcode && (uint8_t *)ra == DH_PAD && d3dprof_via_depth && d3dprof_via_depth <= 64 && GetCurrentThreadId() == g_render_thread)
+    return (void *)(uintptr_t)d3dprof_via_stk[d3dprof_via_depth - 1];
+  return ra;
+}
+
 static int __cdecl host_device_hook(const char *method, int slot, void *repl, void **prev) {
   if (prev) *prev = NULL;
   if (!g_mods_open) { host_log("device_hook(%s): only inside xikit_mod_init", method ? method : "?"); return XIKIT_E_LATE; }

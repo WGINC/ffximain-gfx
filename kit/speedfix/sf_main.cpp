@@ -171,12 +171,21 @@ static const char kDefaultIni[] =
   "; a measurement: the draw calls counted by the task the game's task pass is running (its vtable, and whether in the\r\n"
   ";   task's +0x20 call -- the actors' OnMove -- or its +0x24), logged with the stats. Hooks CMoTask::Dispatch at the start\r\n"
   "task_draws=0\r\n"
+  "; Liminality, stage 1 (needs uncap=1): the game's own logic on whole ticks of 1/60 s (frame_step 1's answers, none of\r\n"
+  ";   frame_step 3's changes), and on a frame of 0 ticks the task pass runs only its three drawing tasks (the actors,\r\n"
+  ";   the zone, the name plates; 9 Nov: every draw of the pass is theirs): the world drawn again as it is, nothing\r\n"
+  ";   moved. Interpolation (stage 2) is not built. Hooks CMoTask::Dispatch at the start; then live\r\n"
+  "liminality=0\r\n"
   "; the occlusion readback answered from each query's previous probe: its picture is copied to a lockable render\r\n"
   ";   target of the query's own and read at the next probe, so the lock need not wait for the GPU (sf_occlusion.cpp).\r\n"
   ";   The answer is one probe late: an actor coming into view is drawn from its next probe. 1 = on; 2 = measure only\r\n"
   ";   (the game's answer, and how often the late one differs, in the log). Whether the late lock waits depends on\r\n"
   ";   the device: with d3d8on11 it need not (its log: 'readback snapshots'); on others it is not known. Live\r\n"
   "occlusion_late=0\r\n"
+  "; with occlusion_late=1: an object answered visible is hidden only when two of its answers in a row say hidden (the\r\n"
+  ";   late answer flips visible to hidden on 3-4% of probes, 9 Nov: characters popping out and back in). A chosen\r\n"
+  ";   rule, not the game's: a hidden object is drawn one probe longer. 1 = on (the default); 0 = off. Live\r\n"
+  "occlusion_hold=1\r\n"
   "; at the start: each minute, frame time and draws, readbacks, new textures and creations per frame, split by\r\n"
   ";   whether the camera moved (the view transform changed); hooks the draws, SetTransform and the Create methods\r\n"
   "motion_stats=0\r\n"
@@ -210,11 +219,11 @@ static SfConfig read_config(void) {
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
-  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.task_draws = rd("task_draws", 0); c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
+  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.task_draws = rd("task_draws", 0); c.liminality = rd("liminality", 0) ? 1 : 0; c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
-  c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
+  c.occlusion_hold = rd("occlusion_hold", 1); c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
   if (c.stats_every < 1) c.stats_every = 1;
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
@@ -432,10 +441,29 @@ static void pp_stats(void) {
 extern "C" { extern volatile int xi_step_mode, xi_uncap, xi_step_have; extern float xi_step_whole, xi_step_frac; extern int sf_framestep_installed; }
 static LARGE_INTEGER g_st_qpf; static LONGLONG g_st_last;
 static LONG g_st_frames, g_st_zero; static double g_st_whole, g_st_frac, g_st_game, g_st_ms;
+// Liminality stage 1 (sf_fork.cpp sf_task_skip): the three drawing tasks' vtables (9 Nov, task_draws: CXiActorDraw
+// 0x10329C44, CTsZoneMap 0x10336748, CXiActorNameDraw 0x10329C18), checked live: their +0x20 must be the game's
+// 0x100817E0, 0x10178B30, 0x100817F0 (the same in 6A995428 and 6AC37846), else it stays off
+extern "C" { extern uintptr_t sf_drawvt[3]; extern volatile int sf_lim_on; extern void *sf_dispatch_prev; }
+static void sf_lim_set(int on) {
+  static int ok = -1;
+  static const uint32_t kVt[3] = {0x10329C44u, 0x10336748u, 0x10329C18u}, kFn[3] = {0x100817E0u, 0x10178B30u, 0x100817F0u};
+  if (on && ok < 0) {
+    ok = 1;
+    for (int i = 0; i < 3; i++) {
+      uintptr_t v = (uintptr_t)XI_GAME(kVt[i]); sf_drawvt[i] = v;
+      if (IsBadReadPtr((void *)v, 0x28) || ((uintptr_t *)v)[8] != (uintptr_t)XI_GAME(kFn[i])) ok = 0;
+    }
+    LOG(ok ? "speedfix: liminality: the three drawing tasks' vtables are the game's: on" :
+             "speedfix: liminality: a drawing task's vtable is not the expected one (another build?): off");
+  }
+  sf_lim_on = on && ok == 1 && sf_dispatch_prev;
+}
 static void apply_uncap_step(void) {
   bool live = sf_frame_no - sf_hooks_frame <= 1;
   xi_uncap = sf_framestep_installed && sf_cfg.uncap && live;
-  xi_step_mode = sf_framestep_installed && live ? sf_cfg.frame_step : 0;
+  xi_step_mode = sf_framestep_installed && live ? (sf_cfg.liminality ? 1 : sf_cfg.frame_step) : 0;
+  sf_lim_set(sf_cfg.liminality && sf_framestep_installed && live && sf_cfg.uncap);
   if (!sf_framestep_installed || !xi_step_mode || !xi_step_have) { g_st_last = 0; return; }
   if (!g_st_qpf.QuadPart) QueryPerformanceFrequency(&g_st_qpf);
   LARGE_INTEGER now; QueryPerformanceCounter(&now);
@@ -623,8 +651,10 @@ static void task_stats(LONG frames) {                // task_draws: the 12 tasks
   }
   LOG("%s", line);
 }
+extern "C" { extern volatile long sf_lim_skipped; }
 static void st_stats(void) {
   task_stats(g_st_frames);
+  if (sf_cfg.liminality) LOG("speedfix: liminality: %ld tasks skipped on frames of 0 ticks in these %ld frames", (long)InterlockedExchange(&sf_lim_skipped, 0), (long)g_st_frames);
   { LONG n[8]; for (int i = 0; i < 8; i++) n[i] = InterlockedExchange(&sf_phase_draws[i], 0);
     LOG("speedfix: draw calls by Frame_Render's world pass since the last line: XiZone_GetInstance %ld, sub_1018C2B0 %ld, "
         "StDancer_Update %ld, XiZone_DrawScene %ld, the task pass (OnMove) %ld, sub_102515F0 %ld, sound %ld, the rest of the "
@@ -841,7 +871,7 @@ extern "C" int sf_init(const XikitHost *host) {
   if (sf_device_install(host) != 0) return 1;
   if (sf_hook_query(host) != XIKIT_OK) LOG("speedfix: Occlusion_QueryScreenRect not hooked: skip_actor_occlusion does nothing");
   if (sf_cfg.skin_merge && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge does nothing");
-  if (sf_cfg.task_draws) { if (sf_hook_dispatch(host) != XIKIT_OK) LOG("speedfix: CMoTask::Dispatch not hooked: task_draws does nothing"); }
+  if (sf_cfg.task_draws || sf_cfg.liminality) { if (sf_hook_dispatch(host) != XIKIT_OK) LOG("speedfix: CMoTask::Dispatch not hooked: task_draws does nothing"); }
   if ((sf_cfg.frame_step || sf_cfg.uncap) && sf_fork_framestep(host) != XIKIT_OK) LOG("speedfix: Frame_Render and the step getters not forked: frame_step and uncap do nothing");
   else if (sf_framestep_installed) LOG("speedfix: frame_step / uncap: Frame_Render (0x10011A00), Camera_GetFrameScale (0x10014CF0) and Camera_GetClampedField28 (0x10014D20) run speedfix's gated forks");
   return 0;

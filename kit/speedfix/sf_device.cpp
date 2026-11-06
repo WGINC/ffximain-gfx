@@ -108,13 +108,31 @@ static PFN_SITE site_fn(void) {
   if (!done) { done = true; HMODULE m = GetModuleHandleA("d3d8.dll"); f = m ? (PFN_SITE)GetProcAddress(m, "D8ON11_DrawSite") : NULL; }
   return f;
 }
-static inline void site(void *ra) { PFN_SITE f = site_fn(); if (f) f(ra); }
+// the kit's front thunk returns the hooked call through a pad of its own and keeps the game's return address (9 Nov:
+// d3d8on11's draw-caller lines; kit/xikit/xikit.c kit_front): xikit_device_caller gives the game's for the pad's
+typedef void *(__cdecl *PFN_CALLER)(void *);
+static void *game_ra(void *ra) {
+  static PFN_CALLER f; static bool done;
+  if (!done) { done = true; HMODULE m = GetModuleHandleA("xikit.dll"); f = m ? (PFN_CALLER)GetProcAddress(m, "xikit_device_caller") : NULL; }
+  return f ? f(ra) : ra;
+}
+// the host test reads these: [0] call sites seen, [1] of them the kit resolved (its pad's address given back as another),
+// [2] of them in FFXiMain.dll after resolving
+extern "C" { __declspec(dllexport) volatile LONG sf_site_seen[3]; }
+static void *site_ra(void *ra) {
+  void *g = game_ra(ra); sf_site_seen[0]++; if (g != ra) sf_site_seen[1]++;
+  static uintptr_t lo, hi;
+  if (!lo) { HMODULE m = GetModuleHandleA("FFXiMain.dll"); if (m) { lo = (uintptr_t)m; hi = lo + ((IMAGE_NT_HEADERS *)((uint8_t *)m + ((IMAGE_DOS_HEADER *)m)->e_lfanew))->OptionalHeader.SizeOfImage; } }
+  if ((uintptr_t)g >= lo && (uintptr_t)g < hi) sf_site_seen[2]++;
+  return g;
+}
+static inline void site(void *ra) { PFN_SITE f = site_fn(); void *g = site_ra(ra); if (f) f(g); }
 static void *g_upSite;                  // the game's call site of the batch's first draw
 
 static void flush(void) {
   if (!g_upPrims) return;
   int prims = g_upPrims; g_upPrims = 0; g_upBytes = 0;          // cleared first: never sent twice
-  site(g_upSite);
+  { PFN_SITE f = site_fn(); if (f) f(g_upSite); }
   ((PFN_DPUP)g_prev[S_DPUP])(g_dev, D3DPT_TRIANGLELIST, (UINT)prims, g_up, g_upStride);
   g_upOut++;
 }
@@ -722,7 +740,7 @@ static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const v
   if (g_upPrims && (stride != g_upStride || g_upBytes + outBytes > maxB || (DWORD)g_upPrims + prims > maxP)) flush();
   if (t != D3DPT_TRIANGLELIST) g_upConv++;
   expand(t, prims, (const BYTE *)data, stride, g_up + g_upBytes);  // the caller's data is only valid during the call
-  if (!g_upPrims) { g_upRhw = fvf_rhw(g_curVS); g_upSite = __builtin_return_address(0); }
+  if (!g_upPrims) { g_upRhw = fvf_rhw(g_curVS); g_upSite = site_ra(__builtin_return_address(0)); }
   g_upBytes += outBytes; g_upPrims += (int)prims; g_upStride = stride;
   return D3D_OK;
 }

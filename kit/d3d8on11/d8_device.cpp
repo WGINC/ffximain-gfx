@@ -73,7 +73,8 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   // frame_latency=N (1..16): IDXGIDevice1::SetMaximumFrameLatency(N), the frames the driver may queue ahead of the GPU
   // (DXGI's default 3). 1: each frame shown sooner after it is made, and Present waits instead of queueing. A start
   // setting; D8ON11_FRAME_LATENCY overrides it
-  { int fl = (int)GetPrivateProfileIntA("d3d8on11", "frame_latency", 0, ini);
+  // (1 is the default since 9 Nov: with dynamic_buffers, the owner's smoothest plaza; 0 = DXGI's own default)
+  { int fl = (int)GetPrivateProfileIntA("d3d8on11", "frame_latency", 1, ini);
     ne = GetEnvironmentVariableA("D8ON11_FRAME_LATENCY", env, sizeof env); if (ne > 0 && ne < sizeof env) fl = atoi(env);
     if (fl < 0 || fl > 16) fl = 0;
     XOption o = {OPT_LATENCY, (uint32_t)fl, 0}; link->put(X_OPTION, &o, sizeof o); }
@@ -83,7 +84,8 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   // game's lock flags (DISCARD: fresh memory, NOOVERWRITE: beside what the GPU reads) instead of UpdateSubresource of a
   // default buffer, which the driver must copy when the GPU still uses it (7 Nov: in the owner's runs Present's time
   // follows the upload time, r = 0.88-0.89, not the draws). Set for a whole start; D8ON11_DYNAMIC_BUFFERS overrides it
-  dynamic_buffers = (int)GetPrivateProfileIntA("d3d8on11", "dynamic_buffers", 0, ini) != 0;
+  // (the default since 9 Nov: the owner's runs, Present 12.9 -> 10.2 ms in the plaza with it alone)
+  dynamic_buffers = (int)GetPrivateProfileIntA("d3d8on11", "dynamic_buffers", 1, ini) != 0;
   ne = GetEnvironmentVariableA("D8ON11_DYNAMIC_BUFFERS", env, sizeof env);
   if (ne > 0 && ne < sizeof env) dynamic_buffers = atoi(env) != 0;
   if (dynamic_buffers) d8_log("dynamic_buffers=1: the game's dynamic vertex and index buffers are written by Map");

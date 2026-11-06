@@ -16,6 +16,7 @@ static uint32_t rel;
 static int fails;
 static void check(int c, const char *what) { printf("%s: %s\n", c ? "ok" : "FAIL", what); if (!c) fails++; }
 static void task_dispatch_test(HMODULE sf);
+static void occl_hold_test(HMODULE sf);
 
 /* ---- the fake device: what reaches it is recorded ---- */
 typedef struct { int slot; uint32_t a[4]; int nbytes; uint8_t bytes[256]; } Call;
@@ -374,6 +375,7 @@ static int step_test(void) {
     check(g_follow_dec && *g_follow_dec == 1.0f, "frame_step=1 again: the camera follow's timer takes the game's 1.0 a pass");
   }
   task_dispatch_test(sf);
+  occl_hold_test(sf);
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=0\nstats_every=1\n");
   step_frames(70, 1, 3);
   r = step_frames(100, 1, 3);
@@ -476,6 +478,43 @@ static void task_dispatch_test(HMODULE sf) {
   t_n24 = 0; disp(taskC);
   check(t_n24 == 0 && t_ecx20 == taskC && t_sl20 == 1, "... +0x20 returning 1: +0x24 not called");
   check(*g_tkvt == NULL && *g_tksl == 0, "... after each dispatch: no task running");
+  /* Liminality stage 1: on a frame of 0 ticks (forced here: sf_lim_test_zero) a task that is not one of the game's three
+     drawing tasks is skipped; theirs are not (sf_task_skip with the game's vtables); with liminality off nothing is */
+  volatile int *zero = (volatile int *)GetProcAddress(sf, "sf_lim_test_zero");
+  int (__cdecl *skip)(const void *) = (int (__cdecl *)(const void *))GetProcAddress(sf, "sf_task_skip");
+  check(zero && skip, "liminality: speedfix exports sf_lim_test_zero and sf_task_skip");
+  if (!zero || !skip) return;
+  touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nliminality=1\ntask_draws=1\nstats_every=1\n");
+  step_frames(70, 1, 3);
+  check(log_has("speedfix: liminality: the three drawing tasks' vtables are the game's: on"), "liminality=1: the drawing tasks' vtables checked against the game's (the log says so)");
+  *zero = 1;
+  t_ecx20 = NULL; t_n24 = 0; disp(taskA);
+  int skipped = t_ecx20 == NULL && t_n24 == 0;
+  int dvt = !skip((const void *)GAME(0x10329C44u)) && !skip((const void *)GAME(0x10336748u)) && !skip((const void *)GAME(0x10329C18u));
+  int other = skip(vtA);
+  *zero = 0;
+  check(skipped && other, "liminality: on a frame of 0 ticks a task that is not a drawing task is skipped (+0x20 and +0x24 not called)");
+  check(dvt, "liminality: ... the game's three drawing tasks (CXiActorDraw, CTsZoneMap, CXiActorNameDraw) are not");
+  touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nliminality=0\ntask_draws=1\nstats_every=1\n");
+  step_frames(70, 1, 3);
+  *zero = 1; t_ecx20 = NULL; disp(taskA); *zero = 0;
+  check(t_ecx20 == taskA, "liminality=0: nothing skipped, even on a frame of 0 ticks");
+  check(log_has("speedfix: liminality: ") , "the stats line counts the skipped tasks");
+}
+
+/* occlusion_hold (sf_occlusion.cpp sf_occl_hold): a visible object answered hidden once is kept at its last count for
+   that probe and hidden at the second hidden answer in a row; answers that show it are passed straight through */
+static void occl_hold_test(HMODULE sf) {
+  void (*t)(const int *, int, int *) = (void (*)(const int *, int, int *))GetProcAddress(sf, "sf_occl_hold_test");
+  check(t != NULL, "occlusion_hold: speedfix exports sf_occl_hold_test");
+  if (!t) return;
+  static const int in[] = {0, 40, 0, 40, 0, 0, 0, 12, 0, 0, 30, 0, 50};
+  static const int want[] = {0, 40, 40, 40, 40, 0, 0, 12, 12, 0, 30, 30, 50};
+  int out[13]; t(in, 13, out);
+  int ok = 1; for (int i = 0; i < 13; i++) ok &= out[i] == want[i];
+  printf("    occlusion_hold: in  0 40 0 40 0 0 0 12 0 0 30 0 50\n    occlusion_hold: out"); for (int i = 0; i < 13; i++) printf(" %d", out[i]); printf("\n");
+  check(ok, "occlusion_hold: one hidden answer after a visible one is held at the last count; two in a row hide it; a hidden "
+            "object shown at once; an object never seen stays hidden");
 }
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
@@ -753,7 +792,7 @@ int main(int argc, char **argv) {
     begin(); for (int k = 0; k < 3; k++) { picture(k); truth[k] = rb(&q1, 0); } end(); present();
     printf("info: the game's readback answers %d (nothing drawn), %d (all), %d (top half)\n", truth[0], truth[1], truth[2]);
     check(truth[0] == 0 && truth[1] == 256 && truth[2] > 0 && truth[2] < 256, "the game's own readback runs on the fake surfaces: 0, 256 and a part");
-    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_late=1\nstats_every=1\n"); frames(65);
+    touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_late=1\nocclusion_hold=0\nstats_every=1\n"); frames(65);
     LONG locks0 = g_nLock;
     begin();
     picture(1); int a1 = rb(&q1, 0);           /* no previous picture: the game's answer (256), this one queued */
@@ -823,6 +862,13 @@ int main(int argc, char **argv) {
   Sleep(1100); frames(2);
   /* the tier the game chose, logged once it has chosen: a processor object of the x87 class (test_speedfix.py reads the log) */
   { static uint32_t proc[4]; proc[0] = (uint32_t)GAME(0x1032C368u); *(void **)GAME(0x1047CF7Cu) = proc; frames(3); }
+  /* the draw call sites speedfix hands d3d8on11 (9 Nov: in game they were the kit's pad): the kit's front thunk returns
+     every hooked call through its pad and keeps the caller's address; xikit_device_caller gives it back, so every site
+     speedfix saw on the render thread is resolved (sf_site_seen: seen, resolved, in FFXiMain.dll) */
+  { volatile LONG *ss = (volatile LONG *)GetProcAddress(GetModuleHandleA("speedfix.dll"), "sf_site_seen");
+    check(GetProcAddress(GetModuleHandleA("xikit.dll"), "xikit_device_caller") != NULL, "the kit exports xikit_device_caller");
+    if (ss) printf("    draw call sites: %ld seen by speedfix, %ld resolved past the kit's pad, %ld in FFXiMain.dll\n", ss[0], ss[1], ss[2]);
+    check(ss && ss[0] > 0 && ss[1] == ss[0], "every draw call site speedfix saw is the caller's, not the kit's pad (resolved through xikit_device_caller)"); }
 
   printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
   return fails ? 1 : 0;

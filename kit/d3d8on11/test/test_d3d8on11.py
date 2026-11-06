@@ -444,13 +444,14 @@ if 'remote' in MODES:
     t = open(log).read() if os.path.exists(log) else ''
     ok = 'ALL OK' in out and 'could not start the device: thread instead' in t and 'executor: thread' in t
     print('%s: remote mode whose executor cannot make the device falls back to thread mode, and basic passes' % ('ok' if ok else 'FAIL')); bad += not ok
-# dynamic_buffers=1 (7 Nov): the game's dynamic vertex and index buffers written by Map with its lock flags. Every
+# dynamic_buffers=1 (7 Nov; the default since 9 Nov, against dynamic_buffers=0, UpdateSubresource): the game's dynamic
+# vertex and index buffers written by Map with its lock flags. Every
 # scene, the dynamic_buffers scene among them (DISCARD, NOOVERWRITE, a lock with no flags, a second DISCARD of a part,
 # a dynamic index buffer), must draw exactly what the default (UpdateSubresource) draws, in each mode, and the executor
 # must have written the buffers by Map both ways (its log: the first DISCARD and the first NOOVERWRITE Map)
 for m in MODES:
     xlog = os.path.join(ours, 'd3d8on11_exec.log')      # remote mode: the executor's own log (d8x.exe)
-    base = scenes(ours, True, m)
+    base = scenes(ours, True, m, {'D8ON11_DYNAMIC_BUFFERS': '0'})
     for f in (log, xlog):
         if os.path.exists(f): os.remove(f)
     dyn = scenes(ours, True, m, {'D8ON11_DYNAMIC_BUFFERS': '1'})
@@ -459,7 +460,7 @@ for m in MODES:
     ok = same and 'dynamic_buffers=1: the game' in t and 'the first DISCARD Map' in t and 'the first NOOVERWRITE Map' in t
     # the draw-caller trace (9 Nov): t8's own draws return into t8.exe, no mod hands a site over
     ok = ok and ('draw callers: a draw method returns into t8.exe+0x' in t and 'the call site a mod handed over: none' in t or m == 'remote')
-    print('%s: %s mode, dynamic_buffers=1 draws exactly what the default draws (%d scenes, the dynamic_buffers scene among them); '
+    print('%s: %s mode, dynamic_buffers=1 draws exactly what dynamic_buffers=0 draws (%d scenes, the dynamic_buffers scene among them); '
           'Maps with DISCARD and NOOVERWRITE made' % ('ok' if ok else 'FAIL', m, len(base))); bad += not ok
     for n in sorted(set(base) | set(dyn)):
         if base.get(n) != dyn.get(n): print('  differs: %s' % n)

@@ -4380,3 +4380,22 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
 - **draw_sites (d3d8on11's draw callers):** draws return into FFXiMain.dll itself, Windower's Hook.dll (+0x798EF),
   speedfix.dll, and an address in no module (13761118: the kit's generated code), which is also what speedfix hands over:
   the chain is game -> the kit's thunk -> speedfix -> d3d8on11, so speedfix's own return address is the kit's thunk.
+
+**10 Nov: the four builds the owner asked for after ab_09nov ("all of them"), and ab_10nov.**
+1. **d3d8on11 defaults:** dynamic_buffers=1 and frame_latency=1 without a setting (0 turns either off); the scene test
+   now compares dynamic_buffers=1 with an explicit 0.
+2. **occlusion_hold=1 (speedfix, the default, with occlusion_late=1):** an object answered visible is kept at its last
+   count when one late answer says hidden, and hidden at the second in a row (sf_occlusion.cpp sf_occl_hold). A chosen
+   rule against occlusion_late's 3-4% visible/hidden flips (9 Nov), not the game's. sf_host checks it on a sequence;
+   the late-answer test runs with occlusion_hold=0, as it tests the late answer itself.
+3. **Liminality stage 1 (liminality=1, needs uncap=1):** the step getters answer whole ticks (frame_step 1's answers;
+   frame_step 3's loop changes off), and on a frame of 0 whole ticks CMoTask::Dispatch (speedfix's hook) runs a task
+   only if its vtable is one of the three drawing tasks' (0x10329C44, 0x10336748, 0x10329C18; their +0x20 checked live
+   against 0x100817E0, 0x10178B30, 0x100817F0, the same in both builds). sf_host: on a forced 0-tick frame a fake task
+   is skipped and the game's three drawing vtables are not; with liminality=0 nothing is. Interpolation (stage 2) not
+   built.
+4. **draw_sites through the kit:** kit_front (xikit.c) returns a hooked device call through its pad and keeps the
+   caller's return address; xikit_device_caller (exported) gives it back for the pad's address, and speedfix's draw
+   hooks hand that to d3d8on11. sf_host: every call site speedfix saw (6 of 6) resolved past the pad.
+- Tests: speedfix on both builds, the kit's suite, d3d8on11's: all pass. (A kit build without FFXI_DLL_6AC37846 left
+  that manifest out and every speedfix host check of the kit failed: the build needs both.)

@@ -83,6 +83,8 @@ __asm__(
   "  pushl %esi\n  pushl %ebx\n"
   "  movl 12(%esp), %esi\n"                         // the task
   "  pushl _xi_task_vt\n  pushl _xi_task_slot\n"
+  "  pushl (%esi)\n  call _sf_task_skip\n  addl $4, %esp\n"   // Liminality: a frame of 0 ticks runs only the drawing tasks
+  "  testl %eax, %eax\n  jne 1f\n"
   "  movl (%esi), %eax\n  movl %eax, _xi_task_vt\n  movl $1, _xi_task_slot\n"
   "  movl %esi, %ecx\n  call *0x20(%eax)\n"
   "  testb %al, %al\n  jne 1f\n"
@@ -92,6 +94,19 @@ __asm__(
   "  movl %ebx, %esp\n"
   "1:\n  popl _xi_task_slot\n  popl _xi_task_vt\n"
   "  popl %ebx\n  popl %esi\n  ret\n");
+// Liminality stage 1: on a frame of 0 whole ticks (xi_step_whole, Frame_Render's fork) a task is skipped unless it is one
+// of the three drawing tasks of the task pass (9 Nov, task_draws: CXiActorDraw 0x10329C44, CTsZoneMap 0x10336748,
+// CXiActorNameDraw 0x10329C18; their +0x20 checked live against 0x100817E0, 0x10178B30, 0x100817F0 before it is on)
+extern "C" { extern float xi_step_whole; }
+// the three drawing tasks' live vtables and the switch, set by sf_main.cpp (sf_lim_set: checked there against the game)
+extern "C" { uintptr_t sf_drawvt[3]; volatile int sf_lim_on; __declspec(dllexport) volatile int sf_lim_test_zero; volatile long sf_lim_skipped; }
+extern "C" __declspec(dllexport) int __cdecl sf_task_skip(const void *vt) {
+  if (!sf_lim_on || (xi_step_whole != 0.0f && !sf_lim_test_zero)) return 0;
+  uintptr_t v = (uintptr_t)vt;
+  if (v == sf_drawvt[0] || v == sf_drawvt[1] || v == sf_drawvt[2]) return 0;
+  sf_lim_skipped++;
+  return 1;
+}
 extern "C" int sf_hook_dispatch(const XikitHost *host) {
   int r = host->hook("CMoTask::Dispatch", (void *)sf_dispatch, &sf_dispatch_prev);
   host->log("speedfix: task_draws: CMoTask::Dispatch %s", r == XIKIT_OK ? "hooked: draws counted by task" : "not hooked");

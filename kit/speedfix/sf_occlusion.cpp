@@ -40,10 +40,10 @@ static const XikitHost *H;
 #define XI_GAME(a) sf_game_addr((uint32_t)(a))
 
 enum { OL_SLOTS = 1024, OL_MAX_AGE = 32 };   // OL_MAX_AGE: a chosen bound, not a fact of the game
-struct OlSlot { void *q; IDirect3DSurface8 *s; int frame; bool pending; };
+struct OlSlot { void *q; IDirect3DSurface8 *s; int frame; bool pending; int last; bool held; };   // last: the answer returned before (-1 none)
 static OlSlot g_slot[OL_SLOTS];
 static int g_used;
-static volatile LONG g_nLate, g_nSync, g_nCopyFail, g_nSame, g_nDiffer, g_nVisFlip;
+static volatile LONG g_nLate, g_nSync, g_nCopyFail, g_nSame, g_nDiffer, g_nVisFlip, g_nHeld;
 // timing (QueryPerformanceCounter ticks), render thread only: the game's readback, this file's copy and its read;
 // frames counted apart for the lever on and off, so each figure is also given per frame of its own label
 static LONGLONG g_tGame, g_tCopy, g_tRead, g_tReadMax; static LONG g_nGame, g_nCopy, g_nRead, g_framesOn, g_framesOff, g_framesSkip;
@@ -73,12 +73,12 @@ static OlSlot *find_slot(void *q) {
   for (int i = 0; i < OL_SLOTS; i++) {
     OlSlot *e = &g_slot[(h + i) % OL_SLOTS];
     if (e->q == q) return e;
-    if (!e->q) { e->q = q; e->frame = sf_frame_no - OL_MAX_AGE - 1; g_used++; return e; }
+    if (!e->q) { e->q = q; e->frame = sf_frame_no - OL_MAX_AGE - 1; e->last = -1; e->held = false; g_used++; return e; }
   }
   // full: the slot probed longest ago is given to this object (its surface is kept: every one is alike)
   OlSlot *old = &g_slot[0];
   for (int i = 1; i < OL_SLOTS; i++) if (sf_frame_no - g_slot[i].frame > sf_frame_no - old->frame) old = &g_slot[i];
-  old->q = q; old->pending = false; old->frame = sf_frame_no - OL_MAX_AGE - 1;
+  old->q = q; old->pending = false; old->frame = sf_frame_no - OL_MAX_AGE - 1; old->last = -1; old->held = false;
   return old;
 }
 
@@ -141,6 +141,21 @@ static int read_previous(OlSlot *e) {
   return n;
 }
 
+// occlusion_hold: the answer to return given this probe's answer `ans` and the object's history. The late answer shows an
+// object's visibility one probe late, and on 3-4% of probes (9 Nov, occlusion_late=2) visible and hidden differ: an
+// object seen at the last probe and answered hidden now is kept at its last count for this one probe; it is hidden at
+// the second hidden answer in a row. A chosen rule (it draws a hidden object one probe longer), not the game's.
+extern "C" int sf_occl_hold(int *last, bool *held, int ans, int hold) {
+  int r = ans;
+  if (hold && ans == 0 && *last > 0 && !*held) { r = *last; *held = true; g_nHeld++; }
+  else { *held = false; *last = ans; }
+  return r;
+}
+// the rule run on a sequence of answers (the host test, sf_host.c): out[i] = what speedfix returns for in[i]
+extern "C" __declspec(dllexport) void sf_occl_hold_test(const int *in, int n, int *out) {
+  int last = -1; bool held = false;
+  for (int i = 0; i < n; i++) out[i] = sf_occl_hold(&last, &held, in[i], 1);
+}
 // called for argument 0 only, with occlusion_late on and the kit's hooks live (sf_main.cpp, sf_readback)
 extern "C" int sf_occl_readback(void *q, int mode) {
   uintptr_t modx = *(uintptr_t *)XI_GAME(0x1047BFA8u);
@@ -157,6 +172,7 @@ extern "C" int sf_occl_readback(void *q, int mode) {
     if (prev >= 0) { if (prev == ans) g_nSame++; else g_nDiffer++; if ((prev == 0) != (ans == 0)) g_nVisFlip++; }
   } else if (prev >= 0) { ans = prev; g_nLate++; }
   else { ans = sf_occl_game(q, 0); g_nSync++; }
+  if (mode == 1) ans = sf_occl_hold(&e->last, &e->held, ans, sf_cfg.occlusion_hold);
   if (!queue_copy(dev, tex, gsurf, e)) g_nCopyFail++;
   return ans;
 }
@@ -174,8 +190,9 @@ extern "C" void sf_occl_stats(void) {
   g_tGame = g_tCopy = g_tRead = g_tReadMax = 0; g_nGame = g_nCopy = g_nRead = g_framesOn = g_framesOff = g_framesSkip = 0;
   LONG a = InterlockedExchange(&g_nLate, 0), s = InterlockedExchange(&g_nSync, 0), f = InterlockedExchange(&g_nCopyFail, 0);
   LONG same = InterlockedExchange(&g_nSame, 0), dif = InterlockedExchange(&g_nDiffer, 0), flip = InterlockedExchange(&g_nVisFlip, 0);
+  LONG hd = InterlockedExchange(&g_nHeld, 0);
   if (a + s + f) H->log("speedfix: occlusion_late: %ld answered from the previous probe, %ld by the game's readback (first or stale), "
-                        "%ld copies failed; %d query objects seen", a, s, f, g_used);
+                        "%ld copies failed; %d query objects seen; occlusion_hold kept %ld visible one probe longer", a, s, f, g_used, hd);
   if (same + dif) H->log("speedfix: occlusion_late=2: of %ld probes with a previous picture, the late answer differed from the "
                          "game's in %ld (%.1f%%); visible/hidden differed in %ld (%.1f%%)", same + dif, dif,
                          100.0 * dif / (same + dif), flip, 100.0 * flip / (same + dif));

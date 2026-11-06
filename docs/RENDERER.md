@@ -322,13 +322,32 @@ From the owner's runs (task_draws, 9 Nov) and the game's code:
   nothing moves, the camera with it; the drawing path's step readers (the animation loop, the shadow and lights) get
   0, so the pose holds too. The occlusion probes and the staggered buckets count frames (GetFrameCounter), not ticks,
   as in the game at any frame rate.
-- **Stage 2 (to build):** on a frame between ticks, for each actor of the draw list, +0x5FC and +0x61C written as the
-  blend of their values at the last two ticks (by the carry, the fraction of a tick since the last; angles the short
-  way round; no blend across a jump of 50 or more, a warp), the drawing tasks run, and the tick's values are put back;
-  the camera's eye and target the same way. The animation's step readers in the drawing path (0x1002AD55, 0x10035944)
-  get the fraction on every frame, so the pose advances by real time; whether those loops then give the pose the game
-  gives at the ticks is to be checked on the game's instructions first (0x1002AC60's loop is not a closed-form chase:
-  RENDERER 3c's WHY list). Not established yet: where the camera's eye and target are kept for the view matrix.
+- **Stage 1's flashing (10 Nov run), cause from the code:** OnMove and the drawing path hand each other four fields.
+  OnMove's start clears +0xB2 bit 0 (0x100C641C) and masks +0x6A4 to bit 0x10 (0x100C640E); it sets +0x8E8 = 1
+  (0x100C7F4C). The drawing path sets +0xB2 bit 0 and +0xB0 = 1 when the occlusion count +0x9F4 is 0
+  (0x100CC69B..0x100CC6AE), and resets +0x8E8 (0x100CBD7B). A frame without OnMove drew with the drawing's own marks of
+  the frame before. speedfix now keeps the four fields after each OnMove and restores them on a skipped frame.
+- **Stage 2 (built 11 Nov, speedfix sf_main.cpp):** +0x5FC and +0x61C are kept for each actor's last two ticks. Every
+  frame the actor is drawn at their blend by carry / (ticks its last OnMove covered), angles the short way round, no
+  blend across a move of 50 or more. The tick's values go back before OnMove.
+  The camera's view is built in Camera_ApplyViewProjection (0x10015510, Frame_Render's end) from the camera at
+  [g_pCamera+0x50]: eye +0x44, target +0x50, roll +0x5C, up +0xA8 (builder FUN_10021C10). FUN_10021B70 caches +0x60 /
+  +0x6C for change detection. Camera_UpdateController (0x10021900) snaps +0x44 / +0x50 from +0x8C / +0x98 on the
+  requests +0x88 / +0x89. So the eye and target are blended around that call (the Frame_Render fork, `xi_lim_cam`)
+  and put back after; not with a snap pending.
+  What is drawn is up to one tick behind the game's state.
+- **The animation's step reads in the drawing path:**
+  - 0x1002AC60's loop (0x1002AD55) is a direction chase kept at +0xB0, v = normalize(31/32 v + 1/32 T) a tick. It is
+    unchanged on a frame of 0 ticks, as the game at 60 fps.
+  - 0x10035944 (0x10035940, reached through the vtable at 0x1032A924) is a timed value: [+0x38] -= step, then the
+    vtable +0x18 callback at or below 0, else lerp(+0x40, +0x44) by 1 - rem / len. frame_step_users.py: whole (an
+    indirect jmp it does not model).
+  - A walk by direct calls from the three drawing tasks finds 8 step reads (939 indirect calls not followed). One is
+    a fraction site: the zone's 0x10178BD0, a 0-to-1 progress g += step / (60 x seconds) (0x10177650 / 0x101776C0 set
+    the rate). Under Liminality it now gets the frame's fraction (it runs every frame).
+  - Where a motion's time advances is not established, so under Liminality poses change at 60 Hz. speedfix's step-read
+    lines (task_draws=1) list every read by return address and by where it ran (drawing tasks, other tasks, outside the
+    task pass); the 11 Nov session collects them.
 
 ### 3b. The owner's run of 26 Oct: game speed following the frame rate under d3d8on11
 

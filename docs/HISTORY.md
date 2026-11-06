@@ -4419,3 +4419,38 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
 - **draw_sites works:** the draws now resolve into FFXiMain: +0xCCF1 431.5 draws 2.33 ms a frame, +0xCBF3 164.3 1.37 ms,
   +0xCDE2 225.7 0.96 ms, mods 431 0.81 ms (Windower's Hook.dll among the callers). These are the CDx draw wrappers' own
   call sites: the requester is one level up, which the next draw_sites step must name.
+
+**11 Nov: Liminality stage 2 built; step reads by task; the 11 Nov session.**
+- **The flashing's cause, from the game's code:** CXiSkeletonActor_OnMove and the drawing path (CXiActorDraw ->
+  PerActor_FourBucketStaggeredUpdate 0x100CBDE0) hand each other four fields every frame. OnMove's start clears +0xB2
+  bit 0 (0x100C641C) and keeps only bit 0x10 of +0x6A4 (0x100C640E). The drawing path sets +0xB2 bit 0 and +0xB0 = 1
+  when the occlusion count (+0x9F4) is 0 (0x100CC69B..0x100CC6AE). OnMove sets +0x8E8 = 1 (0x100C7F4C) and the drawing
+  path resets it (0x100CBD7B). With OnMove skipped, the drawing saw its own marks of the frame before. Fixed: speedfix
+  keeps the four fields after each OnMove and puts them back before a skipped frame's drawing.
+- **Blending (sf_main.cpp sf_task_skip / sf_task_post / lim_cam):** position +0x5FC (GetPos, vtable +0x1BC) and facing
+  +0x61C (GetDir, +0x1C0), which the world matrix at +0x998 is built from, are kept for the last two ticks. Every frame
+  they are drawn at their blend by carry / (ticks the last OnMove covered), the facing the short way round. The tick's
+  values go back before OnMove; a move of 50 or more is not blended. The camera's eye +0x44 and target +0x50 of
+  [g_pCamera+0x50] are blended the same way around Camera_ApplyViewProjection (the Frame_Render fork), not with a snap
+  pending (+0x88 / +0x89). sf_host checks all of it on both builds.
+- **The animation's step reads in the drawing path, read:** 0x1002AC60's loop (step read at 0x1002AD55, the one
+  traced) is v = normalize(31/32 v + 1/32 T) per tick. Here v starts as the direction from a point p to the kept point
+  +0xB0, and T is the direction to the argument. Afterwards +0xB0 = p + v * |+0xB0 - p|. That is a slow direction
+  chase kept at +0xB0; with 0 ticks it is unchanged (up to rounding), as the game at 60 fps. A walk by direct calls
+  from the three drawing tasks reaches 602 functions; 939 indirect calls in them are not followed. It finds 8 step
+  reads (frame_step_users.json):
+  - 1 a fraction site: the zone's 0x10178BD0 in CTsZoneMap +0x20, g += step * r, reset at 1 (r = 1 / (60 x seconds),
+    set by 0x10177650 / 0x101776C0);
+  - 0x100CBC68 is an accumulator (+0x844), but its function's other read (0x100CB4ED) is whole;
+  - the rest are whole.
+  Where the motion time is advanced is not found. Under Liminality the poses change 60 times a second.
+- **Step reads (new; with task_draws):** the getters' forks report every answer (weak `xi_step_ctx`; both forks
+  re-gated: PASS switches off, PASS with framestep_getter.declare.json). speedfix counts the calls by return address:
+  in the drawing tasks, in other tasks, outside the task pass. Under Liminality a fraction site reached in a drawing
+  task gets the frame's own fraction; one ever reached elsewhere gets whole ticks from then on, logged.
+  measure_read.py summarises the lines.
+- **Fixed in measure_read.py:** its task_draws summary used re.findall with a capture group (it returns the group
+  alone), so the summary failed whenever a task_draws line was present. The 9 and 10 Nov task_draws figures were read
+  from the log directly.
+- **Session ab_11nov:** start 1 Liminality stage 2, start 2 the build as it is; draw_sites off. kit, d3d8on11 and
+  speedfix rebuilt; speedfix's suite passes on both builds.

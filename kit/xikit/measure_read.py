@@ -291,13 +291,30 @@ def main(argv):
             if len(v) == 8: tot = v if tot is None else [a + b for a, b in zip(tot, v)]
         # task_draws (9 Nov): draws by task vtable and slot, summed over the start (draws a frame weighted by frames)
         tt = {}; tf = 0
-        for l in re.findall(r'speedfix: task_draws, (\d+) frames:.*', log):
+        for l in re.findall(r'speedfix: task_draws, \d+ frames:.*', log):
             n = int(re.match(r'speedfix: task_draws, (\d+)', l).group(1)); tf += n
             for vt, slot, f20, f24, per in re.findall(r' ([0-9A-F]{8}) \+0x(20|24) \(([0-9A-F]{8}) ([0-9A-F]{8})\) ([\d.]+);', l):
                 k = (vt, slot, f20, f24); tt[k] = tt.get(k, 0) + float(per) * n
         if tt and tf:
             w('- draw calls by task (task_draws), the whole start, draws a frame: ' + '; '.join(
                 '%s +0x%s (+0x20 %s, +0x24 %s) %.1f' % (k[0], k[1], k[2], k[3], v / tf) for k, v in sorted(tt.items(), key=lambda x: -x[1])[:12]))
+        # step reads (11 Nov): the getters' calls by return address, in the drawing tasks / other tasks / outside the task
+        # pass, summed over the start; f = a fraction site, F = answered with the fraction (Liminality)
+        sr = {}; sf = 0; srk = {}
+        for l in re.findall(r'speedfix: step reads, \d+ frames:.*', log):
+            n = int(re.match(r'speedfix: step reads, (\d+)', l).group(1)); sf += n
+            for ra, kind, a, b, c in re.findall(r' ([0-9A-F]{8})([fF]?) ([\d.]+)/([\d.]+)/([\d.]+);', l):
+                v = sr.setdefault(ra, [0.0, 0.0, 0.0]); v[0] += float(a) * n; v[1] += float(b) * n; v[2] += float(c) * n
+                if kind: srk[ra] = 'F' if 'F' in (kind, srk.get(ra)) else 'f'
+        if sr and sf:
+            def where(v):
+                return 'drawing tasks' if v[0] and not v[1] and not v[2] else 'other tasks' if v[1] and not v[0] and not v[2] else \
+                       'outside the task pass' if v[2] and not v[0] and not v[1] else 'mixed'
+            w('- step reads (the frame-step getters\' calls, by return address, the whole start; calls a frame in drawing tasks / '
+              'other tasks / outside the task pass; where): ' + '; '.join(
+                '%s%s %.1f/%.1f/%.1f %s' % (k, srk.get(k, ''), v[0] / sf, v[1] / sf, v[2] / sf, where(v))
+                for k, v in sorted(sr.items(), key=lambda x: -sum(x[1]))[:40]))
+            summ['step_reads'] = {k: [x / sf for x in v] + [srk.get(k, '')] for k, v in sr.items()}
         if tot:
             w('- draw calls by Frame_Render\'s world pass, the whole start: XiZone_GetInstance %d, sub_1018C2B0 %d, StDancer_Update %d, '
               'XiZone_DrawScene %d, **the task pass (OnMove) %d**, sub_102515F0 %d, sound %d, the rest of the frame %d' % tuple(tot))

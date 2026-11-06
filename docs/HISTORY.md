@@ -4494,3 +4494,23 @@ off), base; it replaces ab_11nov.
   draws a frame on tick frames and on frames of 0 ticks apart: if the second is lower, something is still missing.
 - **Not covered:** the limbs of actors drawn through the table are not blended (the limbs are blended around
   CXiActorDraw only).
+
+**12 Nov (results): the owner's ab_12nov run (lim 033656_1156, limb0 035206_11664, base 035811_4432).**
+- **The owner:** under Liminality (starts 1 and 2) everything breaks but the spell effects: animations too slow or
+  too fast (they look correct), everything flickering when moving, the camera stuck in places, lighting and shadows
+  flickering always, many stutters. Start 3 (the build as it is): quite good, the occasional stutter or slowdown.
+- **From the log:** the game clock was right (whole ticks 99.9-100.2% of real time each minute). The plaza ran at about
+  45 fps under Liminality (2,435-2,809 frames a minute, 0-5 frames of 0 ticks), so most frames had 1 or 2 ticks and
+  almost nothing was skipped. The limbs: 161,000-508,000 motion draws blended a minute, 1% left as the game had them.
+- **Causes found in the code (fixed, sf_main.cpp):**
+  1. The weight carry/span drew one tick behind on frames of 1 tick and two on frames of 2: below 60 fps what was
+     drawn jumped back and forth: flicker when moving, uneven animation, stutter. Now (span - 1 + carry) / span.
+  2. The camera's tick was decided from the step, which Frame_Render's fork has already made for the next frame when
+     the view is built (the step at line 755, the view at 849). The restore then wrote an old camera back: the camera
+     stuck. Now a tick is a pass that ran OnMove, or a camera not where the restore left it.
+  3. Blended positions stayed in the actors from their OnMove to the next one, so the game's logic of the rest of the
+     pass saw them. Now everything is blended only inside the drawing windows (CXiActorDraw's and CXiActorNameDraw's
+     +0x20, CMoOt_Update through its task node) and put back after.
+  4. On frames of 0 ticks the ordering table was empty of effects, see-through actors and afterimages: the 12 Nov
+     (later) fix, not in this run's build.
+- Session ab_14nov (replaces ab_13nov, not run): lim against base.

@@ -345,9 +345,30 @@ From the owner's runs (task_draws, 9 Nov) and the game's code:
   - A walk by direct calls from the three drawing tasks finds 8 step reads (939 indirect calls not followed). One is
     a fraction site: the zone's 0x10178BD0, a 0-to-1 progress g += step / (60 x seconds) (0x10177650 / 0x101776C0 set
     the rate). Under Liminality it now gets the frame's fraction (it runs every frame).
-  - Where a motion's time advances is not established, so under Liminality poses change at 60 Hz. speedfix's step-read
-    lines (task_draws=1) list every read by return address and by where it ran (drawing tasks, other tasks, outside the
-    task pass); the 11 Nov session collects them.
+  - **The motion clock (found 11 Nov) is advanced in OnMove, not in the drawing.** The chain:
+    - CXiSkeletonActor_OnMove calls CYyModel_ForEachPart130 (0x1002C2A0) at 0x100C7FA7 with the model at +0x674 and
+      the actor.
+    - ForEachPart130 calls, for each part 0x1002B5A0 lists, 0x1002A130. That function does `add ecx, 0x24` and
+      jumps to MotionQueList_ProcessAll (0x1001A3E0, the jmp at 0x1002A133; it has no other caller).
+    - ProcessAll goes over 7 queues (+0x78, then every 0x14 down). Each queue gets CYyMotionQue_Update (0x1001B2E0),
+      then KzMotionQueList_NotifyAll (0x1001B1F0).
+    - Update calls 0x1001B5D0 for each element: a blend weight +0x10 and timers +0x0C / +0x14, by step (read at
+      0x1001B5D4).
+    - NotifyAll calls each element's vtable +0x34 with 2 arguments. In CYyMotionQue's vtable (0x1032A1C0), slot 13 is
+      CYyMotionQue_ComputeFrameAdvance (0x1001A8E0, `ret 8`): frame +0x24 += step x ([res+0x36] x 0.5) x speed
+      +0x28 (step read at 0x1001A9AB). The duration is [+0x38] if above 0, else the resource's word +0x34.
+    - Looping: a looping motion wraps by subtracting the duration while the frame is at or past it (adding it while
+      at or below 0, played backwards). +0x2C counts the loops left. At the end the frame is held, +0x28 = 0, and
+      vtable +0x1FC of the actor is called.
+    - Both step reads are fraction sites (frame_step_users.py).
+    The drawing path only samples the pose at that time: Model_AnimateAndPose -> MotionQueue_UpdateAllChannels
+    (0x1001A420, called at 0x1002A27B) -> CYyMotionQue_SampleInto (0x1001B230), each element's vtable +0x38. That is
+    why the poses change at 60 Hz under Liminality.
+  - **What smoothing the limbs would take (not built):** the same as the positions. On a frame between ticks, each
+    element's frame +0x24 (and weight +0x10) is written as the blend of its last two ticks for the drawing, then put
+    back. A wrap is unwrapped by the duration. A motion that ended or was replaced at the tick is not blended.
+    Not established: that every element on those lists is a CYyMotionQue. Slot +0x34 being ComputeFrameAdvance in
+    CYyMotionQue's vtable, and NotifyAll's 2 pushes matching its `ret 8`, are what is known.
 
 ### 3b. The owner's run of 26 Oct: game speed following the frame rate under d3d8on11
 

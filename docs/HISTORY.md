@@ -4454,3 +4454,11 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
   from the log directly.
 - **Session ab_11nov:** start 1 Liminality stage 2, start 2 the build as it is; draw_sites off. kit, d3d8on11 and
   speedfix rebuilt; speedfix's suite passes on both builds.
+
+**11 Nov (later): the limbs' motion clock found (RENDERER 3d).** It is advanced in CXiSkeletonActor_OnMove, which
+calls CYyModel_ForEachPart130 at 0x100C7FA7. From there each part goes to MotionQueList_ProcessAll (by the tail jmp at
+0x1002A133), then for each queue CYyMotionQue_Update and KzMotionQueList_NotifyAll. NotifyAll calls vtable +0x34,
+CYyMotionQue_ComputeFrameAdvance 0x1001A8E0: frame +0x24 += step x rate, wrapped by the duration when looping. The
+drawing path only samples the pose at that frame (Model_AnimateAndPose -> MotionQueue_UpdateAllChannels ->
+CYyMotionQue_SampleInto). So under Liminality the limbs change 60 times a second because OnMove runs only on ticks.
+Blending each element's +0x24 / +0x10 between ticks (as the positions) is the way to smooth them: not built.

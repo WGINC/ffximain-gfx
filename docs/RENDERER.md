@@ -296,6 +296,40 @@ The owner saw characters, the auto-running player most, flicker between two pose
   per-pass factor, only by running the game's logic at 60 and interpolating). The counter `[0x10456D80]` (60, taken 1
   off each camera update, i.e. each frame) counts frames in the game too and is left as it is.
 
+### 3d. Liminality: where update and drawing are in the frame (traced 10 Nov)
+
+From the owner's runs (task_draws, 9 Nov) and the game's code:
+- **The task pass** (CMoTaskMng 0x10074C30) calls each task's CMoTask_Dispatch (0x10075000): vtable +0x20, then +0x24 if
+  that returned 0. Every draw of the pass (~893 a frame in the plaza) is made by three tasks: CXiActorDraw (vtable
+  0x10329C44, +0x20 0x100817E0), the zone (0x10336748, 0x10178B30) and CXiActorNameDraw (0x10329C18, 0x100817F0). The
+  actors' own tasks (CXiSkeletonActor, +0x20 = OnMove 0x100C63D0, +0x24 an empty `ret`) draw nothing.
+- **The camera** is updated from the player's OnMove: YmCameraManager_Follow (0x1001EE60) is called from 0x100A5E10,
+  which CXiSkeletonActor_OnMove calls at 0x100C81F0 (and 0x1008CD90 at 0x1008D2B5). So the camera moves when the
+  movement tasks run.
+- **The actors' drawing:** CXiActorDraw's +0x20 calls CXiActorDraw_UpdateDrawList (0x10082D70): it walks the draw list
+  (g_pActorDrawListHead, linked at +0x54 / +0x58), keeps it sorted by the float at +0x8C, and for each actor with
+  [+0xB2] == 0 and [+0x8C] >= 0 calls its vtable +0x288 -- for CXiSkeletonActor RunStaggeredUpdates (0x100CBD60) ->
+  PerActor_FourBucketStaggeredUpdate (0x100CBDE0). That function, every frame, per actor: the occlusion probe
+  (Occlusion_QueryScreenRect, every 4th frame by GetFrameCounter() % 4 and the actor's bucket), the head look
+  (CXiSkeletonActor_UpdateHeadLook), the nearest lights and the shadow's light direction (Actor_SelectNearestLights,
+  Shadow_SmoothLightDirection: both read the step getter), the animation (CXiSkeletonActor_AnimateModels ->
+  Model_AnimateAndPose -> 0x1002AC60, whose loop reads the step at 0x1002AD55; and 0x10035390 at 0x10035944), and the
+  world matrix at +0x998: scale from vtable +0x110, rotation from vtable +0x1C0 (CXiSkeletonActor_GetDir: +0x61C) plus
+  +0x62C, position from vtable +0x1BC (CXiSkeletonActor_GetPos: +0x5FC) plus +0x60C; then CXiSkeletonActor_DrawModel.
+  +0x5FC and +0x61C are the vectors OnMove's chase loops move (RENDERER 3c: "p = the model position (vtable +0x1BC)",
+  "the angles [esi+0x61C..0x624]").
+- **So under Liminality stage 1** (frames of 0 ticks: only the three drawing tasks run, every step getter answers 0):
+  nothing moves, the camera with it; the drawing path's step readers (the animation loop, the shadow and lights) get
+  0, so the pose holds too. The occlusion probes and the staggered buckets count frames (GetFrameCounter), not ticks,
+  as in the game at any frame rate.
+- **Stage 2 (to build):** on a frame between ticks, for each actor of the draw list, +0x5FC and +0x61C written as the
+  blend of their values at the last two ticks (by the carry, the fraction of a tick since the last; angles the short
+  way round; no blend across a jump of 50 or more, a warp), the drawing tasks run, and the tick's values are put back;
+  the camera's eye and target the same way. The animation's step readers in the drawing path (0x1002AD55, 0x10035944)
+  get the fraction on every frame, so the pose advances by real time; whether those loops then give the pose the game
+  gives at the ticks is to be checked on the game's instructions first (0x1002AC60's loop is not a closed-form chase:
+  RENDERER 3c's WHY list). Not established yet: where the camera's eye and target are kept for the view matrix.
+
 ### 3b. The owner's run of 26 Oct: game speed following the frame rate under d3d8on11
 
 The owner saw walking, camera, map movement and running animations speed up and slow down with the frame rate

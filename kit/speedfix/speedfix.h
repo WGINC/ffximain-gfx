@@ -28,6 +28,7 @@ struct SfConfig {
   int merge_scenes;         // one BeginScene/EndScene pair a frame: the game's inner EndScene..BeginScene pairs dropped
   int motion_stats;
   int task_draws;
+  int lim_limbs;            // Liminality: the characters' animation frames and fade weights blended between ticks too (sf_main.cpp)
   int liminality;           // Liminality stage 1: whole ticks only, and on frames of 0 ticks only the drawing tasks run (sf_fork.cpp)           // CMoTask::Dispatch hooked (sf_fork.cpp): draw calls counted by the task (its vtable) and slot
   int stats_every;          // seconds between the statistics lines in xikit.log (60)         // at the start: frame statistics split by camera still / moving (sf_device.cpp)
   int skin_merge;           // CYyModelDt::SkinAndDrawV2 forked (fork/): runs of a model's triangle-list records drawn as one

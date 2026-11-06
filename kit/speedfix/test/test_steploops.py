@@ -365,5 +365,45 @@ def held(r): return next(i for i in range(1, len(r)) if r[i][1] != r[0][1])
 gh = held(follow_run(60, 'game', 1.0, timer0=20.0)); fh = held(follow_run(144, 'fix', 1.0, timer0=20.0))
 say(abs((fh + 1) / 144.0 - (gh + 1) / 60.0) <= 1.0 / 144 + 1e-9, 'the hold timer (20 ticks): the camera first moves in the frame ending at %.4f s at 60 '
     'and at %.4f s at 144 with the fix (within a frame: f summed in floats)' % ((gh + 1) / 60.0, (fh + 1) / 144.0))
+# 7. Liminality's limbs (sf_main.cpp lim_mot_rate / lim_limbs_snap): CYyMotionQue_ComputeFrameAdvance (0x1001A8E0) run
+# from its entry on the game's instructions, with the step getter answering s and the handle check (0x10071060)
+# answering valid (the two calls stubbed in the emulator only). speedfix's prediction of the frame -- the duration and
+# the advance as lim_mot_rate computes them, then once wrapped or not -- must give the game's frame exactly (within
+# lim's near_eq), on every case: forwards, backwards, wrapping, +0x38 set, and the duration-2 case that adds 1.
+def advance_machine():
+    m = machine()
+    m.mem_write(0x10071060, b'\xB0\x01\xC3')                                 # mov al, 1; ret
+    m.mem_write(0x10014CF0, b'\xD9\x05' + struct.pack('<I', SCR) + b'\xC3')   # fld dword [SCR]; ret
+    m.mem_write(0x1047D128, struct.pack('<I', HEAP + 0x8000))
+    return m
+def advance(m, s, frame, speed, dur_word, rate36, e38):
+    el, res, hnd = HEAP, HEAP + 0x200, HEAP + 0x300
+    m.mem_write(el, b'\0' * 0x60); m.mem_write(res, b'\0' * 0x40)
+    m.mem_write(el + 0x24, f2b(frame) + f2b(speed) + struct.pack('<i', 0) + b'\0' * 4 + struct.pack('<I', hnd) + f2b(e38))
+    m.mem_write(hnd, struct.pack('<I', res)); m.mem_write(res + 0x34, struct.pack('<h', dur_word) + f2b(rate36))
+    m.mem_write(SCR, f2b(s))
+    from unicorn.x86_const import UC_X86_REG_ECX
+    esp = STACK + 0x80000; m.mem_write(esp, struct.pack('<III', SCR + 0x40, HEAP + 0x9000, 0))
+    m.reg_write(UC_X86_REG_ESP, esp); m.reg_write(UC_X86_REG_ECX, el)
+    m.emu_start(0x1001A8E0, SCR + 0x40, count=100000)
+    return b2f(m.mem_read(el + 0x24, 4))
+def lim_predict(s, frame, speed, dur_word, rate36, e38):    # sf_main.cpp lim_mot_rate, in float
+    d = f32(float(dur_word)); d = f32(e38) if e38 > 0 else d
+    r = f32(f32(rate36) * 0.5)
+    adv = 1.0 if (d == 2.0 and r == 0.5) else f32(s * f32(r * f32(speed)))
+    return d, adv
+def near_eq(a, b): return abs(a - b) <= 1e-3 * (abs(b) + 1.0)
+am = advance_machine(); worst = 0
+cases = [(1.0, 10.0, 1.0, 30, 2.0, 0.0), (2.0, 10.0, 1.0, 30, 2.0, 0.0), (1.0, 29.6, 1.0, 30, 2.0, 0.0), (2.0, 29.5, 1.0, 30, 2.0, 0.0),
+         (1.0, 0.4, -1.0, 30, 2.0, 0.0), (1.0, 12.0, 0.7, 30, 1.5, 0.0), (1.0, 5.0, 1.0, 30, 2.0, 18.5), (1.0, 18.2, 1.0, 30, 2.0, 18.5),
+         (1.0, 0.5, 1.0, 2, 1.0, 0.0), (2.0, 1.5, 1.0, 2, 1.0, 0.0), (1.0, 40.0, 1.3, 120, 2.0, 0.0), (3.0, 119.0, 1.3, 120, 2.0, 0.0)]
+okall = True
+for c in cases:
+    got = advance(am, *c); D, adv = lim_predict(*c); d = got - c[1]
+    k = 0 if near_eq(d, adv) else 1 if near_eq(d + D, adv) else 2 if near_eq(d - D, adv) else -1
+    okall &= k >= 0
+    print('    advance s=%g frame %g speed %g dur %d rate %g e38 %g: the game %.5f, speedfix %s' % (c[0], c[1], c[2], c[3], c[4], c[5], got,
+          ['as one advance', 'one advance wrapped forwards', 'one advance wrapped backwards', 'NOT PREDICTED'][k]))
+say(okall, 'limbs: the game\'s frame advance (0x1001A8E0, run from its entry) is what speedfix predicts, once wrapped or not, in all %d cases' % len(cases))
 print('ALL OK' if not bad else '%d FAILED' % bad)
 sys.exit(1 if bad else 0)

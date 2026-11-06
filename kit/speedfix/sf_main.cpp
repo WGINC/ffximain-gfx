@@ -174,8 +174,12 @@ static const char kDefaultIni[] =
   "; Liminality, stage 1 (needs uncap=1): the game's own logic on whole ticks of 1/60 s (frame_step 1's answers, none of\r\n"
   ";   frame_step 3's changes), and on a frame of 0 ticks the task pass runs only its three drawing tasks (the actors,\r\n"
   ";   the zone, the name plates; 9 Nov: every draw of the pass is theirs): the world drawn again as it is, nothing\r\n"
-  ";   moved. Interpolation (stage 2) is not built. Hooks CMoTask::Dispatch at the start; then live\r\n"
+  ";   moved; stage 2: the characters' positions and facing and the camera drawn at the blend of their last two ticks.\r\n"
+  ";   Hooks CMoTask::Dispatch at the start; then live\r\n"
   "liminality=0\r\n"
+  "; under Liminality, the characters' animations too: each motion's frame and fade weight drawn at the blend of its last\r\n"
+  ";   two ticks (the game advances them in OnMove, the drawing only samples them; docs/RENDERER.md 3d); live\r\n"
+  "lim_limbs=1\r\n"
   "; the occlusion readback answered from each query's previous probe: its picture is copied to a lockable render\r\n"
   ";   target of the query's own and read at the next probe, so the lock need not wait for the GPU (sf_occlusion.cpp).\r\n"
   ";   The answer is one probe late: an actor coming into view is drawn from its next probe. 1 = on; 2 = measure only\r\n"
@@ -219,7 +223,7 @@ static SfConfig read_config(void) {
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
-  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.task_draws = rd("task_draws", 0); c.liminality = rd("liminality", 0) ? 1 : 0; c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
+  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.task_draws = rd("task_draws", 0); c.liminality = rd("liminality", 0) ? 1 : 0; c.lim_limbs = rd("lim_limbs", 1) ? 1 : 0; c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
@@ -242,9 +246,9 @@ static bool ini_time(FILETIME *t) {
 static void log_config(const SfConfig &c, const char *why) {
   LOG("speedfix: settings (%s): state_cache=%d vertex_shader_cache=%d extended_state_cache=%d state_cache_reset_each_scene=%d "
       "batch_up_draws=%d batch_up_max_prims=%d batch_up_max_bytes=%d frame_cap_fps=%d occlusion_stagger=%d skip_actor_occlusion=%d "
-      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d precise_pacing=%d null_draws=%d occlusion_late=%d uncap=%d frame_step=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
+      "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d precise_pacing=%d null_draws=%d occlusion_late=%d uncap=%d frame_step=%d liminality=%d lim_limbs=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
-      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats, c.precise_pacing, c.null_draws, c.occlusion_late, c.uncap, c.frame_step);
+      c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats, c.precise_pacing, c.null_draws, c.occlusion_late, c.uncap, c.frame_step, c.liminality, c.lim_limbs);
   if (c.uncap && !c.frame_step)
     LOG("speedfix: uncap=1 with frame_step=0: the game advances one tick of 1/60 s every frame, so above 60 fps what its step "
         "drives runs faster than real time (frame_step=1 or 2 ties it to real time)");
@@ -457,7 +461,7 @@ static uintptr_t g_onmove;                        // CXiSkeletonActor_OnMove (0x
 // (GetDir, +0x1C0) the world matrix is built from (0x100CBDE0) are kept for the last two ticks; every frame the actor is
 // drawn at their blend by the carry (the fraction of a tick since the last whole one), and the tick's values are put back
 // before OnMove runs again. A move of 50 or more in a tick (a warp) is not blended.
-struct LimActor { void *a; uint32_t tick; uint8_t b0, b2; uint32_t f6a4; uint8_t f8e8; float pc[3], pp[3], dc[3], dp[3], span; bool blended, hasprev; };
+struct LimActor { void *a; uint32_t tick; uint8_t b0, b2; uint32_t f6a4; uint8_t f8e8; float pc[3], pp[3], dc[3], dp[3], span; int nm; bool blended, hasprev; };
 enum { LIM_N = 2048 };
 static LimActor g_lim[LIM_N]; static uint32_t g_lim_tick = 1; static int g_lim_full;
 static LimActor *lim_find(void *a, bool make) {
@@ -489,12 +493,126 @@ static void lim_unblend(LimActor *e, uint8_t *p) {
 }
 static inline bool lim_zero(void) { int t = sf_lim_test_zero; return t ? t == 1 : xi_step_whole == 0.0f; }   // (the host test: 1 forces a frame of 0 ticks, 2 a tick)
 static inline bool is_actor(const uintptr_t *vt) { return g_onmove && vt[8] == g_onmove; }
+// Liminality, the limbs (docs/RENDERER.md 3d, 11 Nov). The game advances each motion's frame in OnMove: OnMove calls
+// CYyModel_ForEachPart130 (0x1002C2A0, at 0x100C7FA7) on the model at +0x674; its parts are the list at model +0x44
+// (0x1002B5A0: lea eax, [ecx+0x44]), linked at +4; each part's motion lists at +0x24 go to MotionQueList_ProcessAll
+// (0x1001A3E0, by the jmp at 0x1002A133): 7 queues at +0x78, +0x64 ... +0x00, each a list at queue +4 linked at
+// element +4. CYyMotionQue_Update (0x1001B2E0) steps each element's fade (0x1001B5D0: in state 3 (+8) the weight
+// +0x10 += step * [+0x18]) and KzMotionQueList_NotifyAll (0x1001B1F0) calls each element's vtable +0x34, for
+// CYyMotionQue (vtable 0x1032A1C0) CYyMotionQue_ComputeFrameAdvance (0x1001A8E0): with the handle +0x34 valid
+// (0x10071060) and the loop count +0x2C not negative, frame +0x24 += step * res[+0x36] * 0.5 * speed +0x28 (res =
+// *handle, 0x10072FB0), or += 1 when the duration is 2 and res[+0x36] * 0.5 is 0.5 (0x1001A96B..0x1001A9A9); the
+// duration is +0x38 if above 0, else the word res[+0x34]; looping, it wraps by the duration (0x1001AA55..0x1001AB41).
+// The drawing only samples the pose at that frame (Model_AnimateAndPose -> 0x1001A420 -> 0x1001B230).
+// So after each OnMove every CYyMotionQue element's frame and weight are kept; an element is blended only when what
+// the game did to it in that OnMove is exactly that formula (once wrapped, or not), else it is drawn as the game has
+// it. Blended just before CXiActorDraw's +0x20 for the actors of the draw list (g_pActorDrawListHead [0x1047D578],
+// next at +0x54), from their live lists, and only where the element still holds the tick's values; put back right
+// after it, where it still holds what was written. Nothing but the drawing ever sees a blended frame.
+struct LimMot { uint8_t *el; void *h; float fc, fp, wc, wp, D; uint8_t stc, okf, okw, wrap; };
+enum { LIMB_N = 24, LIMR_N = 8192 };
+static LimMot g_limm[LIM_N][LIMB_N];
+struct LimRest { uint8_t *a, *el; float f, w, fw, ww; };
+static LimRest g_limr[LIMR_N]; static int g_nlimr;
+static uintptr_t g_motvt;                                  // CYyMotionQue's vtable, live (0 = the limbs off)
+extern "C" { __declspec(dllexport) volatile int sf_lim_test_valid; __declspec(dllexport) volatile long sf_limb_blended, sf_limb_asis; }
+static int lim_motions(uint8_t *a, uint8_t **out, int max) {
+  int n = 0, parts = 0;
+  uint8_t *part = *(uint8_t *const *)(a + 0x674 + 0x44);
+  while (part && parts++ < 32) {
+    uint8_t *list = part + 0x24;
+    for (int q = 0; q < 7; q++) {
+      uint8_t *el = *(uint8_t *const *)(list + 0x78 - 0x14 * q + 4); int k = 0;
+      while (el && k++ < 64) { if (*(const uintptr_t *)el == g_motvt && n < max) out[n++] = el; el = *(uint8_t *const *)(el + 4); }
+    }
+    part = *(uint8_t *const *)(part + 4);
+  }
+  return n;
+}
+typedef char (__attribute__((thiscall)) *HandleOkFn)(void *);
+// the duration and what one OnMove of `step` ticks adds to the frame, as ComputeFrameAdvance computes them
+static bool lim_mot_rate(uint8_t *el, float step, float *D, float *adv) {
+  void *h = *(void *const *)(el + 0x34);
+  if (!h) return false;
+  if (!sf_lim_test_valid && !((HandleOkFn)XI_GAME(0x10071060u))(el + 0x34)) return false;
+  const uint8_t *res = *(const uint8_t *const *)h;
+  if (!res) return false;
+  float d = (float)*(const int16_t *)(res + 0x34), e38 = *(const float *)(el + 0x38);
+  if (e38 > 0.0f) d = e38;
+  float r = *(const float *)(res + 0x36) * 0.5f;
+  if (*(const int32_t *)(el + 0x2C) < 0) *adv = 0.0f;
+  else if (d == 2.0f && r == 0.5f) *adv = 1.0f;
+  else *adv = step * (r * *(const float *)(el + 0x28));
+  *D = d; return true;
+}
+static inline bool near_eq(float a, float b) { return fabsf(a - b) <= 1e-3f * (fabsf(b) + 1.0f); }
+static void lim_limbs_snap(LimActor *e, uint8_t *a) {           // after OnMove
+  if (!g_motvt) { e->nm = 0; return; }
+  LimMot *old = g_limm[e - g_lim], nw[LIMB_N]; uint8_t *els[LIMB_N];
+  int n = lim_motions(a, els, LIMB_N), no = e->nm; float step = e->span;
+  for (int i = 0; i < n; i++) {
+    uint8_t *el = els[i]; LimMot m; memset(&m, 0, sizeof m);
+    m.el = el; m.h = *(void *const *)(el + 0x34); m.fc = m.fp = *(const float *)(el + 0x24); m.wc = m.wp = *(const float *)(el + 0x10); m.stc = el[8];
+    const LimMot *o = NULL;
+    for (int j = 0; j < no; j++) if (old[j].el == el && old[j].h == m.h) { o = &old[j]; break; }
+    float adv;
+    if (o && e->hasprev && lim_mot_rate(el, step, &m.D, &adv)) {
+      float d = m.fc - o->fc;
+      if (near_eq(d, adv)) { m.okf = 1; m.wrap = 0; }
+      else if (m.D > 0.0f && near_eq(d + m.D, adv)) { m.okf = 1; m.wrap = 1; }
+      else if (m.D > 0.0f && near_eq(d - m.D, adv)) { m.okf = 1; m.wrap = 2; }
+      if (m.okf) m.fp = o->fc;
+      if (o->stc == 3 && m.stc == 3 && near_eq(m.wc, o->wc + step * *(const float *)(el + 0x18))) { m.okw = 1; m.wp = o->wc; }
+    }
+    nw[i] = m;
+  }
+  memcpy(old, nw, n * sizeof nw[0]); e->nm = n;
+}
+static void lim_limbs_blend(void) {                             // before CXiActorDraw's +0x20
+  g_nlimr = 0;
+  if (!g_motvt || !sf_cfg.lim_limbs) return;
+  uint8_t *a = *(uint8_t *const *)(uintptr_t)XI_GAME(0x1047D578u); int k = 0;
+  for (; a && k++ < 4096; a = *(uint8_t *const *)(a + 0x54)) {
+    if (!is_actor(*(const uintptr_t *const *)a)) continue;
+    LimActor *e = lim_find(a, false); if (!e || !e->nm) continue;
+    LimMot *ms = g_limm[e - g_lim]; uint8_t *els[LIMB_N]; int n = lim_motions(a, els, LIMB_N);
+    float t = lim_alpha(e->span);
+    for (int i = 0; i < n; i++) {
+      uint8_t *el = els[i]; const LimMot *m = NULL;
+      for (int j = 0; j < e->nm; j++) if (ms[j].el == el) { m = &ms[j]; break; }
+      float *fr = (float *)(el + 0x24), *wt = (float *)(el + 0x10);
+      if (!m || m->h != *(void *const *)(el + 0x34) || *fr != m->fc || *wt != m->wc || (!m->okf && !m->okw)) { sf_limb_asis++; continue; }
+      if (g_nlimr == LIMR_N) return;
+      LimRest &r = g_limr[g_nlimr++]; r.a = a; r.el = el; r.f = *fr; r.w = *wt;
+      if (m->okf) {
+        float cu = m->fc + (m->wrap == 1 ? m->D : m->wrap == 2 ? -m->D : 0.0f), f = m->fp + (cu - m->fp) * t;
+        if (m->wrap == 1 && f >= m->D) f -= m->D; else if (m->wrap == 2 && f <= 0.0f) f += m->D;
+        *fr = f;
+      }
+      if (m->okw) *wt = m->wp + (m->wc - m->wp) * t;
+      r.fw = *fr; r.ww = *wt; sf_limb_blended++;
+    }
+  }
+}
+static void lim_limbs_restore(void) {                           // after it
+  uint8_t *els[LIMB_N]; int n = 0; uint8_t *cur = NULL;
+  for (int i = 0; i < g_nlimr; i++) {
+    LimRest &r = g_limr[i];
+    if (r.a != cur) { cur = r.a; n = lim_motions(cur, els, LIMB_N); }
+    bool live = false; for (int j = 0; j < n; j++) if (els[j] == r.el) { live = true; break; }
+    if (!live) continue;
+    float *fr = (float *)(r.el + 0x24), *wt = (float *)(r.el + 0x10);
+    if (*fr == r.fw) *fr = r.f;
+    if (*wt == r.ww) *wt = r.w;
+  }
+  g_nlimr = 0;
+}
 // before a task's +0x20 (sf_fork.cpp sf_dispatch): 1 = skip it this frame
 extern "C" __declspec(dllexport) int __cdecl sf_task_skip(void *task) {
   if (!sf_lim_on) return 0;
   const uintptr_t *vt = *(const uintptr_t *const *)task; uintptr_t v = (uintptr_t)vt;
   bool draw = v == sf_drawvt[0] || v == sf_drawvt[1] || v == sf_drawvt[2];
-  if (draw) return 0;
+  if (draw) { if (v == sf_drawvt[0]) lim_limbs_blend(); return 0; }
   uint8_t *p = (uint8_t *)task;
   if (is_actor(vt)) {
     LimActor *e = lim_find(task, false);
@@ -513,6 +631,7 @@ extern "C" __declspec(dllexport) int __cdecl sf_task_skip(void *task) {
 extern "C" __declspec(dllexport) void __cdecl sf_task_post(void *task) {
   if (!sf_lim_on) return;
   const uintptr_t *vt = *(const uintptr_t *const *)task;
+  if ((uintptr_t)vt == sf_drawvt[0]) { lim_limbs_restore(); return; }
   if (!is_actor(vt)) return;
   uint8_t *p = (uint8_t *)task; LimActor *e = lim_find(task, true); if (!e) return;
   e->b0 = p[0xB0]; e->b2 = p[0xB2]; e->f6a4 = *(uint32_t *)(p + 0x6A4); e->f8e8 = p[0x8E8];
@@ -522,6 +641,7 @@ extern "C" __declspec(dllexport) void __cdecl sf_task_post(void *task) {
   if (warp) { memcpy(e->pp, pos, 12); memcpy(e->dp, dir, 12); } else { memcpy(e->pp, e->pc, 12); memcpy(e->dp, e->dc, 12); }
   memcpy(e->pc, pos, 12); memcpy(e->dc, dir, 12); e->hasprev = true; e->tick = g_lim_tick;
   e->span = sf_lim_test_zero ? 1.0f : xi_step_whole;    // the ticks this OnMove covered
+  lim_limbs_snap(e, p);                                  // its motions' frames and weights at this tick
   lim_blend(e, p);                                       // this frame's drawing too (it comes later in the pass)
 }
 // the camera (Frame_Render's fork, around Camera_ApplyViewProjection; docs/RENDERER.md 3d): the view is built from the
@@ -612,6 +732,8 @@ static void sf_lim_set(int on) {
     }
     g_onmove = (uintptr_t)XI_GAME(0x100C63D0u);
     if (((uintptr_t *)XI_GAME(0x1032D710u))[8] != g_onmove) ok = 0;   // CXiSkeletonActor's vtable: +0x20 is OnMove
+    g_motvt = (uintptr_t)XI_GAME(0x1032A1C0u);                        // CYyMotionQue's: +0x34 ComputeFrameAdvance
+    if (((uintptr_t *)g_motvt)[13] != (uintptr_t)XI_GAME(0x1001A8E0u)) { g_motvt = 0; LOG("speedfix: liminality: CYyMotionQue's vtable +0x34 is not ComputeFrameAdvance (another build?): the limbs are not blended"); }
     LOG(ok ? "speedfix: liminality: the three drawing tasks' vtables and CXiSkeletonActor's OnMove are the game's: on" :
              "speedfix: liminality: a drawing task's vtable is not the expected one (another build?): off");
   }
@@ -818,7 +940,8 @@ static void task_stats(LONG frames) {                // task_draws: the 12 tasks
 
 static void st_stats(void) {
   task_stats(g_st_frames); step_read_stats(g_st_frames);
-  if (sf_cfg.liminality) LOG("speedfix: liminality: %ld tasks skipped on frames of 0 ticks in these %ld frames", (long)InterlockedExchange(&sf_lim_skipped, 0), (long)g_st_frames);
+  if (sf_cfg.liminality) LOG("speedfix: liminality: %ld tasks skipped on frames of 0 ticks in these %ld frames; limbs (lim_limbs=%d%s): %ld motion draws blended, %ld drawn as the game has them",
+      (long)InterlockedExchange(&sf_lim_skipped, 0), (long)g_st_frames, sf_cfg.lim_limbs, g_motvt ? "" : ", CYyMotionQue not checked or not the game's", (long)InterlockedExchange(&sf_limb_blended, 0), (long)InterlockedExchange(&sf_limb_asis, 0));
   { LONG n[8]; for (int i = 0; i < 8; i++) n[i] = InterlockedExchange(&sf_phase_draws[i], 0);
     LOG("speedfix: draw calls by Frame_Render's world pass since the last line: XiZone_GetInstance %ld, sub_1018C2B0 %ld, "
         "StDancer_Update %ld, XiZone_DrawScene %ld, the task pass (OnMove) %ld, sub_102515F0 %ld, sound %ld, the rest of the "

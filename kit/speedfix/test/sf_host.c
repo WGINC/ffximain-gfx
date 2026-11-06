@@ -549,6 +549,42 @@ static void task_dispatch_test(HMODULE sf) {
     check(cb && cr, "liminality: the camera's eye and target blended for the view (a half: 1, 12) and the tick's back after (2, 14)");
     check(cz, "... on a frame of 0 ticks blended by that frame's carry (three quarters: 1.5)");
     check(snap, "... with a snap request pending (+0x88), not blended"); }
+  /* the limbs (sf_main.cpp lim_limbs_*): a CYyMotionQue on a fake actor's model (+0x674 -> parts at +0x44, a part's
+     motion lists at +0x24, queue +4 the element list), its frame +0x24 advanced as ComputeFrameAdvance does (step x
+     res[+0x36] x 0.5 x speed +0x28), drawn at the blend of its last two ticks while CXiActorDraw runs, and its own
+     values back after; a wrap is blended across the duration; a frame the formula does not give is not blended */
+  { volatile int *tv = (volatile int *)GetProcAddress(sf, "sf_lim_test_valid");
+    check(tv != NULL, "limbs: speedfix exports sf_lim_test_valid");
+    static uint8_t a2[0xA00] __attribute__((aligned(16))), part[0x100], el[0x60], res[0x40]; static void *a2vt[16]; static void *hnd;
+    a2vt[8] = (void *)GAME(0x100C63D0u); *(void **)a2 = a2vt;
+    *(void **)(a2 + 0x674 + 0x44) = part; *(void **)(part + 4) = NULL;
+    *(void **)(part + 0x24 + 0x78 + 4) = el;                /* the first queue ProcessAll walks */
+    *(void **)el = (void *)GAME(0x1032A1C0u); *(void **)(el + 4) = NULL;
+    hnd = res; *(void **)(el + 0x34) = &hnd; *(int16_t *)(res + 0x34) = 30; *(float *)(res + 0x36) = 2.0f;
+    float *fr = (float *)(el + 0x24), *wt = (float *)(el + 0x10);
+    *(float *)(el + 0x28) = 1.0f; *(int32_t *)(el + 0x2C) = 0; *(float *)(el + 0x38) = 0.0f; el[8] = 3; *(float *)(el + 0x18) = 0.1f;
+    void **head = (void **)GAME(0x1047D578u), *keeph = *head; *head = a2; *(void **)(a2 + 0x54) = NULL;
+    static void *dAct[1]; dAct[0] = (void *)GAME(0x10329C44u);
+    *tv = 1; *zero = 2; *alpha = 0.25f;
+    *fr = 10.0f; *wt = 0.2f; skip(a2); post(a2);
+    *fr = 11.0f; *wt = 0.3f; skip(a2); post(a2);           /* a tick: +1 (1 x 2.0 x 0.5 x 1), the weight +0.1 */
+    skip(dAct); float b1 = *fr, w1 = *wt; post(dAct); float r1 = *fr, rw1 = *wt;
+    printf("    limbs: at a quarter: frame %.4f (want 10.25), weight %.4f (want 0.225); after the drawing %.4f, %.4f\n", b1, w1, r1, rw1);
+    check(fabsf(b1 - 10.25f) < 1e-5f && fabsf(w1 - 0.225f) < 1e-5f, "limbs: a motion's frame and fade weight drawn at the blend of its two ticks");
+    check(r1 == 11.0f && fabsf(rw1 - 0.3f) < 1e-6f, "... and the tick's own values back after CXiActorDraw");
+    *alpha = 0.5f;
+    *fr = 29.6f; *wt = 0.4f; skip(a2); post(a2);
+    *fr = 0.6f; *wt = 0.5f; skip(a2); post(a2);             /* 29.6 + 1 wrapped at 30 */
+    skip(dAct); float b2 = *fr; post(dAct);
+    printf("    limbs: across the wrap at a half: frame %.4f (want 0.1)\n", b2);
+    check(fabsf(b2 - 0.1f) < 1e-4f, "... a looping motion blended across its wrap (29.6 -> 0.6 at a half: 0.1)");
+    *fr = 20.0f; skip(a2); post(a2);                       /* not what one tick gives: started elsewhere */
+    skip(dAct); float b3 = *fr; post(dAct);
+    check(b3 == 20.0f, "... a frame the game's advance does not give (a restart, a jump) is drawn as it is");
+    *fr = 21.0f; skip(a2); post(a2); *fr = 99.0f;           /* changed after the tick by something else */
+    skip(dAct); float b4 = *fr; post(dAct);
+    check(b4 == 99.0f, "... and one changed since the tick is left alone");
+    *head = keeph; *tv = 0; }
   /* step reads (sf_main.cpp step_ctx): a fraction site (sf_step_sites.h) reached in a drawing task is answered with the
      frame's fraction under Liminality; one reached outside them too gets whole ticks from then on; the getter's fork
      reports every answer */

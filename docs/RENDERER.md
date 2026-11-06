@@ -336,6 +336,13 @@ From the owner's runs (task_draws, 9 Nov) and the game's code:
   requests +0x88 / +0x89. So the eye and target are blended around that call (the Frame_Render fork, `xi_lim_cam`)
   and put back after; not with a snap pending.
   What is drawn is up to one tick behind the game's state.
+- **The ordering table (12 Nov):** the pass also runs function tasks that Dispatch never sees, among them
+  CMoOt_Update (0x10055620), which draws and clears the ordering table [0x1047BC94] every frame. The table is filled
+  every frame by the effect elements (+0x20 CMoElem_PrepareDraw 0x10045A40), by OnMove for see-through actors (node
+  +0x8C8, callback 0x100CBD90) and by CYyAfterImage (node +0x1530). Liminality runs the effect elements on frames of 0
+  ticks (their clock [g_pResourceMng+0xEB0] is the pass's step, 0) and puts the other two nodes in again with the
+  game's insert (0x100553C0). The 9 Nov claim that the three drawing tasks make every draw of the pass was wrong: 13% of
+  the pass's draws (10 Nov log) were the function tasks'.
 - **The animation's step reads in the drawing path:**
   - 0x1002AC60's loop (0x1002AD55) is a direction chase kept at +0xB0, v = normalize(31/32 v + 1/32 T) a tick. It is
     unchanged on a frame of 0 ticks, as the game at 60 fps.

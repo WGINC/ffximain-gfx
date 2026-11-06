@@ -4469,3 +4469,28 @@ tick's change was exactly the game's own advance, and puts the real values back 
 ComputeFrameAdvance, emulated from its entry, matched speedfix's prediction in 12 cases (test_steploops 7). sf_host
 covers the blend, the wrap, the restore and the refusals. Both builds pass. ab_12nov: lim (limbs on), limb0 (limbs
 off), base; it replaces ab_11nov.
+
+**12 Nov (later): the owner: light-emitting objects and shadows flicker under Liminality. Cause found in the code; fixed.**
+- **A correction:** "every draw of the task pass is the three drawing tasks'" (9 Nov) was wrong. The pass also calls
+  function tasks directly (CMoTaskMng 0x10074C30: `call [node+4]`), which CMoTask::Dispatch, and so task_draws, never
+  sees. In the 10 Nov log the pass made 3,251,654 draws in a minute, the tabled tasks 2,830,364: 13% came from them.
+- **The ordering table** [0x1047BC94] (CMoOt_InitSystem 0x100555D0: 512 buckets) is drawn and cleared every frame by
+  CMoOt_Update (0x10055620: 0x10055520 calls each node's callback, 0x100554B0 relinks the buckets). It is filled
+  every frame by:
+  - the effect elements' +0x20 (CMoElem_PrepareDraw 0x10045A40, 17 classes: CMoPointLightProgElem, CMoD3aElem,
+    CMoLfdElem, ...; 0x100458F0 -> 0x100555B0);
+  - CXiSkeletonActor_OnMove for an actor whose alpha [+0x59C] x [+0x664] is below 1, or that vtable +0x70 or +0x710
+    sends there (node +0x8C8, callback 0x100CBD90; +0x8D4 = the actor, which makes the draw list skip it,
+    0x100CBD60);
+  - CYyAfterImage's +0x20 (0x1001BC80, node +0x1530).
+  All were skipped on frames of 0 ticks: not drawn on those frames. That is the flicker.
+- **Fixed:** the effect elements now run on those frames. Their clock is [g_pResourceMng+0xEB0], written by 0x10069F90
+  at 0x1006A005 from Camera_ApplyViewProjection after the frame's step is made, so it is the step the next pass runs
+  with: 0 on a frame of 0 ticks; they hold. The actors' and afterimages' nodes, when the tick put them in (callback,
+  argument, inserted count > 0 right after the task's +0x20), are put in again with the game's insert 0x100553C0.
+  sf_host checks both on both builds with the game's insert.
+- **Shadows:** a character's shadow is drawn with it (CXiSkeletonActor_DrawModel -> Shadow_DrawByMode), so a
+  see-through character's shadow flickered with it. Other shadows are not traced. speedfix now logs the task pass's
+  draws a frame on tick frames and on frames of 0 ticks apart: if the second is lower, something is still missing.
+- **Not covered:** the limbs of actors drawn through the table are not blended (the limbs are blended around
+  CXiActorDraw only).

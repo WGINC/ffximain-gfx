@@ -364,11 +364,17 @@ From the owner's runs (task_draws, 9 Nov) and the game's code:
     The drawing path only samples the pose at that time: Model_AnimateAndPose -> MotionQueue_UpdateAllChannels
     (0x1001A420, called at 0x1002A27B) -> CYyMotionQue_SampleInto (0x1001B230), each element's vtable +0x38. That is
     why the poses change at 60 Hz under Liminality.
-  - **What smoothing the limbs would take (not built):** the same as the positions. On a frame between ticks, each
-    element's frame +0x24 (and weight +0x10) is written as the blend of its last two ticks for the drawing, then put
-    back. A wrap is unwrapped by the duration. A motion that ended or was replaced at the tick is not blended.
-    Not established: that every element on those lists is a CYyMotionQue. Slot +0x34 being ComputeFrameAdvance in
-    CYyMotionQue's vtable, and NotifyAll's 2 pushes matching its `ret 8`, are what is known.
+  - **The limbs, built 12 Nov (speedfix lim_limbs, default on under Liminality):**
+    - After each OnMove, every CYyMotionQue element of the actor's model is kept: its frame +0x24 and weight +0x10.
+      The elements are found at model +0x674+0x44 -> parts (linked at +4) -> part +0x24 -> 7 queues -> list at
+      queue +4 (linked at +4), and only those whose vtable is CYyMotionQue's, checked live.
+    - A frame is blended only when its change in that OnMove is exactly ComputeFrameAdvance's advance, wrapped once
+      by the duration or not.
+    - A weight is blended only in fade state 3 at both ticks, when it changed by exactly step x [+0x18].
+    - Blended before CXiActorDraw's +0x20 for the draw list's actors ([0x1047D578], next +0x54), from their live
+      lists, where they still hold the tick's values; put back right after.
+    - test_steploops section 7 runs the game's 0x1001A8E0 from its entry on 12 cases (forwards, backwards, wraps,
+      +0x38, the duration-2 +1 case). speedfix's prediction matches every one.
 
 ### 3b. The owner's run of 26 Oct: game speed following the frame rate under d3d8on11
 

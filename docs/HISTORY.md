@@ -4462,3 +4462,10 @@ CYyMotionQue_ComputeFrameAdvance 0x1001A8E0: frame +0x24 += step x rate, wrapped
 drawing path only samples the pose at that frame (Model_AnimateAndPose -> MotionQueue_UpdateAllChannels ->
 CYyMotionQue_SampleInto). So under Liminality the limbs change 60 times a second because OnMove runs only on ticks.
 Blending each element's +0x24 / +0x10 between ticks (as the positions) is the way to smooth them: not built.
+
+**12 Nov: the limbs blended (lim_limbs); session ab_12nov.** See RENDERER 3d. After each OnMove, speedfix keeps each
+CYyMotionQue's frame and fade weight. Between ticks it draws them at the blend of the last two ticks, only where the
+tick's change was exactly the game's own advance, and puts the real values back after CXiActorDraw. The game's
+ComputeFrameAdvance, emulated from its entry, matched speedfix's prediction in 12 cases (test_steploops 7). sf_host
+covers the blend, the wrap, the restore and the refusals. Both builds pass. ab_12nov: lim (limbs on), limb0 (limbs
+off), base; it replaces ab_11nov.

@@ -27,6 +27,9 @@ extern "C" { __attribute__((weak)) void (*volatile xi_step_loop_hook)(float); }
 // the draws under each value (sf_device.cpp): 1 XiZone_GetInstance, 2 sub_1018C2B0, 3 StDancer_Update, 4 XiZone_DrawScene,
 // 5 CMoTaskMng 0x10074C30 (each task's vtable +0x20: the actors' OnMove), 6 sub_102515F0, 7 the sound queue; 0 the rest
 extern "C" { volatile int xi_phase; }
+// Liminality (speedfix sf_main.cpp): called with 0 before Camera_ApplyViewProjection and 1 after it (the camera's eye and
+// target blended between the last two ticks for the view it builds, then put back); none in the gate
+extern "C" { __attribute__((weak)) void (*volatile xi_lim_cam)(int); }
 static inline int xi_floor(void *self_) { return xi_uncap != 0 ? 0 : *((int *)self_ + 12); }
 // the step without the truncation (floor and cap as the game's) added to the carry; its whole part is this frame's
 // answer. Exported so the host test (kit/speedfix/test/sf_host.c) can run it on the game's own ring average.
@@ -843,7 +846,9 @@ LABEL_102:
       }
     }
   }
+  if (xi_lim_cam) xi_lim_cam(0);
   orig::Camera_ApplyViewProjection();
+  if (xi_lim_cam) xi_lim_cam(1);
   v86 = *((_DWORD *)self_ + 206);
   v87 = *((_DWORD *)self_ + 202);
   *((_DWORD *)self_ + 199) = *((_DWORD *)self_ + 205);

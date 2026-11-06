@@ -478,23 +478,78 @@ static void task_dispatch_test(HMODULE sf) {
   t_n24 = 0; disp(taskC);
   check(t_n24 == 0 && t_ecx20 == taskC && t_sl20 == 1, "... +0x20 returning 1: +0x24 not called");
   check(*g_tkvt == NULL && *g_tksl == 0, "... after each dispatch: no task running");
-  /* Liminality stage 1: on a frame of 0 ticks (forced here: sf_lim_test_zero) a task that is not one of the game's three
-     drawing tasks is skipped; theirs are not (sf_task_skip with the game's vtables); with liminality off nothing is */
+  /* Liminality (sf_main.cpp sf_task_skip, sf_task_post, lim_cam): on a frame of 0 ticks (forced: sf_lim_test_zero) a task
+     that is not a drawing task is skipped; the game's three drawing tasks are not. An actor (vtable +0x20 the game's
+     OnMove; never called here) keeps what OnMove left in +0xB0 +0xB2 +0x6A4 +0x8E8 after each of its ticks, gets them back
+     when skipped, is drawn at the blend of its last two ticks' +0x5FC / +0x61C (the facing the short way round), and has
+     the tick's values back before OnMove; the camera's eye and target are blended around Camera_ApplyViewProjection */
   volatile int *zero = (volatile int *)GetProcAddress(sf, "sf_lim_test_zero");
-  int (__cdecl *skip)(const void *) = (int (__cdecl *)(const void *))GetProcAddress(sf, "sf_task_skip");
-  check(zero && skip, "liminality: speedfix exports sf_lim_test_zero and sf_task_skip");
-  if (!zero || !skip) return;
+  volatile float *alpha = (volatile float *)GetProcAddress(sf, "sf_lim_test_alpha");
+  int (__cdecl *skip)(void *) = (int (__cdecl *)(void *))GetProcAddress(sf, "sf_task_skip");
+  void (__cdecl *post)(void *) = (void (__cdecl *)(void *))GetProcAddress(sf, "sf_task_post");
+  void (*volatile *cam)(int) = (void (*volatile *)(int))GetProcAddress(sf, "xi_lim_cam");
+  check(zero && alpha && skip && post && cam && *cam, "liminality: speedfix exports its test switches, sf_task_skip, sf_task_post and xi_lim_cam");
+  if (!zero || !alpha || !skip || !post || !cam || !*cam) return;
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nliminality=1\ntask_draws=1\nstats_every=1\n");
   step_frames(70, 1, 3);
-  check(log_has("speedfix: liminality: the three drawing tasks' vtables are the game's: on"), "liminality=1: the drawing tasks' vtables checked against the game's (the log says so)");
+  check(log_has("speedfix: liminality: the three drawing tasks' vtables and CXiSkeletonActor's OnMove are the game's: on"), "liminality=1: the drawing tasks' vtables and OnMove checked against the game's (the log says so)");
   *zero = 1;
   t_ecx20 = NULL; t_n24 = 0; disp(taskA);
   int skipped = t_ecx20 == NULL && t_n24 == 0;
-  int dvt = !skip((const void *)GAME(0x10329C44u)) && !skip((const void *)GAME(0x10336748u)) && !skip((const void *)GAME(0x10329C18u));
-  int other = skip(vtA);
-  *zero = 0;
-  check(skipped && other, "liminality: on a frame of 0 ticks a task that is not a drawing task is skipped (+0x20 and +0x24 not called)");
+  static void *dA[1], *dB[1], *dC[1]; dA[0] = (void *)GAME(0x10329C44u); dB[0] = (void *)GAME(0x10336748u); dC[0] = (void *)GAME(0x10329C18u);
+  int dvt = !skip(dA) && !skip(dB) && !skip(dC);
+  check(skipped, "liminality: on a frame of 0 ticks a task that is not a drawing task is skipped (+0x20 and +0x24 not called)");
   check(dvt, "liminality: ... the game's three drawing tasks (CXiActorDraw, CTsZoneMap, CXiActorNameDraw) are not");
+  /* an actor */
+  static uint8_t act[0xA00] __attribute__((aligned(16))); static void *avt[16];
+  avt[8] = (void *)GAME(0x100C63D0u); *(void **)act = avt;
+  float *pos = (float *)(act + 0x5FC), *dir = (float *)(act + 0x61C);
+  *zero = 2; *alpha = 0.25f;
+  pos[0] = 1; pos[1] = 2; pos[2] = 3; dir[0] = 0; dir[1] = 3.1f; dir[2] = 0;
+  act[0xB0] = 0; act[0xB2] = 0; *(uint32_t *)(act + 0x6A4) = 0x10; act[0x8E8] = 1;
+  check(skip(act) == 0, "liminality: an actor on a tick frame is not skipped (its OnMove runs)");
+  post(act);
+  int first = pos[0] == 1 && pos[1] == 2 && pos[2] == 3;
+  check(first, "... after its first OnMove: no earlier tick, so drawn where it is");
+  check(skip(act) == 0 && pos[0] == 1, "... the next tick: the tick's values back before OnMove");
+  pos[0] = 5; pos[1] = 2; pos[2] = 3; dir[1] = -3.1f;      /* OnMove moved it 4 and turned it across +-pi */
+  post(act);
+  int blend1 = fabsf(pos[0] - 2.0f) < 1e-5f;                /* 1 + (5 - 1) * 0.25 */
+  float wantd = 3.1f + 0.25f * (6.28318531f - 6.2f); if (wantd > 3.14159265f) wantd -= 6.28318531f;
+  int dshort = fabsf(dir[1] - wantd) < 1e-4f;
+  printf("    liminality: after the second tick, at a quarter of a tick: x %.4f (want 2.0), facing %.4f (want %.4f, the short way)\n", pos[0], dir[1], wantd);
+  check(blend1, "... after its second OnMove: drawn at the blend of its two ticks by the carry (x 2.0 at a quarter)");
+  check(dshort, "... its facing blended the short way round across +-pi");
+  act[0xB2] |= 1; act[0xB0] = 1; act[0x8E8] = 0;           /* what the drawing does (occluded probe; drawn) */
+  *zero = 1; *alpha = 0.5f;
+  int sk = skip(act);
+  int flags = (act[0xB2] & 1) == 0 && act[0xB0] == 0 && act[0x8E8] == 1 && *(uint32_t *)(act + 0x6A4) == 0x10;
+  int blend2 = fabsf(pos[0] - 3.0f) < 1e-5f;
+  check(sk == 1 && flags, "... on a frame of 0 ticks: skipped, and +0xB0 +0xB2 +0x6A4 +0x8E8 as its OnMove left them (the drawing's changes undone)");
+  check(blend2, "... and drawn at the blend for this frame (x 3.0 at a half)");
+  *zero = 2;
+  check(skip(act) == 0 && pos[0] == 5 && fabsf(dir[1] + 3.1f) < 1e-6f, "... the next tick: the tick's own values back before its OnMove");
+  /* a warp: no blend */
+  pos[0] = 500; post(act);
+  check(pos[0] == 500, "... a move of 50 or more in a tick (a warp) is not blended");
+  /* the camera, around Camera_ApplyViewProjection */
+  { static uint8_t app[0x400], camo[0x200]; void *keep = *(void **)GAME(0x104568FCu);
+    *(void **)(app + 0x50) = camo; *(void **)GAME(0x104568FCu) = app;
+    float *eye = (float *)(camo + 0x44), *tgt = (float *)(camo + 0x50);
+    *zero = 2; *alpha = 0.5f;
+    eye[0] = 0; tgt[0] = 10; (*cam)(0); (*cam)(1);          /* a tick: the first, no earlier one */
+    eye[0] = 2; tgt[0] = 14; (*cam)(0);
+    int cb = fabsf(eye[0] - 1.0f) < 1e-6f && fabsf(tgt[0] - 12.0f) < 1e-6f;
+    (*cam)(1);
+    int cr = eye[0] == 2 && tgt[0] == 14;
+    *zero = 1; *alpha = 0.75f; (*cam)(0);
+    int cz = fabsf(eye[0] - 1.5f) < 1e-6f; (*cam)(1);
+    camo[0x88] = 1; *zero = 2; eye[0] = 9; (*cam)(0); int snap = eye[0] == 9; (*cam)(1); camo[0x88] = 0;
+    *(void **)GAME(0x104568FCu) = keep;
+    check(cb && cr, "liminality: the camera's eye and target blended for the view (a half: 1, 12) and the tick's back after (2, 14)");
+    check(cz, "... on a frame of 0 ticks blended by that frame's carry (three quarters: 1.5)");
+    check(snap, "... with a snap request pending (+0x88), not blended"); }
+  *zero = 0; *alpha = -1.0f;
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nliminality=0\ntask_draws=1\nstats_every=1\n");
   step_frames(70, 1, 3);
   *zero = 1; t_ecx20 = NULL; disp(taskA); *zero = 0;

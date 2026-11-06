@@ -4399,3 +4399,23 @@ Sources: the kit's frame log (`xikit_frames`), the timed calls (`xikit_probe_fra
    hooks hand that to d3d8on11. sf_host: every call site speedfix saw (6 of 6) resolved past the pad.
 - Tests: speedfix on both builds, the kit's suite, d3d8on11's: all pass. (A kit build without FFXI_DLL_6AC37846 left
   that manifest out and every speedfix host check of the kit failed: the build needs both.)
+
+**10 Nov (results): the owner's ab_10nov run (base 013907_12744, lim 015114_6284).**
+- **base (the new defaults, occlusion_hold):** the owner: as 8 Nov's both-settings start; pop-ins seem more frequent
+  turning the camera left than right (not explained). occlusion_hold kept 10-70 objects a minute visible one probe
+  longer. The owner suggests noting the pop-in and leaving it for now: done -- the known mechanism is occlusion_late's
+  one-probe-late answer (3-4% of probes flip visible/hidden, 9 Nov); dynamic_buffers alone gave the rarest pop-in
+  (9 Nov), why not known.
+- **lim (Liminality stage 1): does not work.** The owner: everything flashes in and out of existence; animations and run
+  speed too slow while flashing, too fast otherwise. speedfix's whole ticks added up to 100.0% of real time (the game's
+  clock right), 21-24 frames of 0 ticks a minute in the plaza (~37 fps), 22,000-28,500 tasks skipped a minute;
+  occlusion_hold fired 227-243 a minute (base 10-70) and readbacks fell to the game's own (first or stale) 777-944 a
+  minute (base 32-295). So skipping the non-drawing tasks on frames of 0 ticks breaks what the drawing needs: which
+  per-frame work of the skipped tasks it needs is not established. One lead from the code: CXiSkeletonActor_OnMove calls
+  0x100D4BC0 (at 0x100C7671), which writes a vector at +0x84..+0x8C of the object at [actor+0x818]; +0x8C is the field
+  CXiActorDraw_UpdateDrawList requires >= 0 to draw an entry -- if that object is a draw-list entry, the movement task
+  is what keeps it drawable. Not verified. The motion at under 60 fps under whole ticks (frames of 1 and 2 ticks) is the
+  game's own stepping at that rate; under 60 Liminality has nothing to add.
+- **draw_sites works:** the draws now resolve into FFXiMain: +0xCCF1 431.5 draws 2.33 ms a frame, +0xCBF3 164.3 1.37 ms,
+  +0xCDE2 225.7 0.96 ms, mods 431 0.81 ms (Windower's Hook.dll among the callers). These are the CDx draw wrappers' own
+  call sites: the requester is one level up, which the next draw_sites step must name.

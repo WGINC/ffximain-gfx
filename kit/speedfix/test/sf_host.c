@@ -500,6 +500,8 @@ static void task_dispatch_test(HMODULE sf) {
   int dvt = !skip(dA) && !skip(dB) && !skip(dC);
   check(skipped, "liminality: on a frame of 0 ticks a task that is not a drawing task is skipped (+0x20 and +0x24 not called)");
   check(dvt, "liminality: ... the game's three drawing tasks (CXiActorDraw, CTsZoneMap, CXiActorNameDraw) are not");
+  { static void *fxvt[16], *fx[1]; fxvt[8] = (void *)GAME(0x10045A40u); fx[0] = fxvt;
+    check(!skip(fx), "liminality: ... nor an effect element (+0x20 CMoElem_PrepareDraw): it puts itself in the ordering table CMoOt_Update draws and clears every frame"); }
   /* an actor */
   static uint8_t act[0xA00] __attribute__((aligned(16))); static void *avt[16];
   avt[8] = (void *)GAME(0x100C63D0u); *(void **)act = avt;
@@ -549,6 +551,25 @@ static void task_dispatch_test(HMODULE sf) {
     check(cb && cr, "liminality: the camera's eye and target blended for the view (a half: 1, 12) and the tick's back after (2, 14)");
     check(cz, "... on a frame of 0 ticks blended by that frame's carry (three quarters: 1.5)");
     check(snap, "... with a snap request pending (+0x88), not blended"); }
+  /* the ordering table (sf_main.cpp ot_*): an actor OnMove put in the table at the tick (see-through: node +0x8C8,
+     callback 0x100CBD90, +0x8D4 = the actor) is put in again on a frame of 0 ticks by the game's own insert
+     (0x100553C0), into a small table of the game's layout here; one that was not, is not */
+  { static uint8_t a3[0xA00] __attribute__((aligned(16))), otb[0x80] __attribute__((aligned(16))), ot[0x20]; static void *a3vt[16];
+    a3vt[8] = (void *)GAME(0x100C63D0u); *(void **)a3 = a3vt;
+    *(void **)(ot + 4) = otb; *(int *)(ot + 8) = 3; *(float *)(ot + 0xC) = 0.0f; *(float *)(ot + 0x10) = 100.0f; *(float *)(ot + 0x14) = 0.03f;
+    void **otg = (void **)GAME(0x1047BC94u), *keepot = *otg; *otg = ot;
+    uint8_t *node = a3 + 0x8C8; *(float *)node = 10.0f; *(void **)(node + 8) = (void *)GAME(0x100CBD90u); *(void **)(node + 0xC) = a3;
+    *(void **)(a3 + 0x8D4) = a3; *(int32_t *)(node + 0x14) = 1;      /* as OnMove leaves it on the table path */
+    *zero = 2; skip(a3); post(a3);
+    *(int32_t *)(node + 0x14) = 0; memset(otb, 0, sizeof otb);      /* the table drawn and cleared */
+    *zero = 1; int sk = skip(a3);
+    int again = *(void **)(otb + 0x20 + 4) == node && *(int32_t *)(node + 0x14) == 1;   /* bucket 1: round(10 x 0.03) + 1 (0x10055413..0x10055435) */
+    check(sk == 1 && again, "ordering table: a see-through actor OnMove put in the table at the tick is put in again on a frame of 0 ticks (the game's insert)");
+    *zero = 2; *(void **)(a3 + 0x8D4) = NULL; skip(a3); post(a3);   /* this tick: the draw-list path */
+    *(int32_t *)(node + 0x14) = 0; memset(otb, 0, sizeof otb);
+    *zero = 1; skip(a3);
+    check(*(void **)(otb + 0x20 + 4) == NULL && *(int32_t *)(node + 0x14) == 0, "... one that was on the draw list at the tick is not");
+    *otg = keepot; }
   /* the limbs (sf_main.cpp lim_limbs_*): a CYyMotionQue on a fake actor's model (+0x674 -> parts at +0x44, a part's
      motion lists at +0x24, queue +4 the element list), its frame +0x24 advanced as ComputeFrameAdvance does (step x
      res[+0x36] x 0.5 x speed +0x28), drawn at the blend of its last two ticks while CXiActorDraw runs, and its own

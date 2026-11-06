@@ -707,6 +707,10 @@ static void expand(D3DPRIMITIVETYPE t, UINT n, const BYTE *src, UINT stride, BYT
 }
 extern "C" { extern volatile int xi_phase; }      // the world pass (fork/Frame_Render.fork.cpp)
 extern "C" { volatile LONG sf_phase_draws[8]; }   // draw calls under each pass value (logged by sf_main.cpp)
+// Liminality: the task pass's draw calls on frames of 0 whole ticks and on frames with ticks, apart (sf_main.cpp logs
+// them a frame each): the pass draws what it drew at the tick again only if the two match
+extern "C" { volatile LONG sf_pass_draws_zero, sf_pass_draws_tick; extern volatile int sf_lim_on; extern float xi_step_whole; }
+static inline void pass_count(void) { if (sf_lim_on && (xi_phase & 7) == 5) { if (xi_step_whole == 0.0f) sf_pass_draws_zero++; else sf_pass_draws_tick++; } }
 // task_draws (sf_fork.cpp sf_dispatch): draw calls by the running task's vtable and slot (1: +0x20, 2: +0x24); render
 // thread only. A full table counts the rest as one row (vt 0)
 extern "C" { extern volatile void *xi_task_vt; extern volatile int xi_task_slot; }
@@ -725,7 +729,7 @@ static inline void task_count(void) {
 static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const void *data, UINT stride) {
   if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPUP, S_DPUP)(d, t, prims, data, stride); }
-  g_upIn++; sf_phase_draws[xi_phase & 7]++; task_count();
+  g_upIn++; sf_phase_draws[xi_phase & 7]++; pass_count(); task_count();
   if (g_motion) mot_count(S_DPUP);
   if (g_live) commit();                            // held changes: the batch so far goes out under the state before them
   else g_npl = 0;
@@ -752,7 +756,7 @@ static HRESULT __stdcall h_DPUP(void *d, D3DPRIMITIVETYPE t, UINT prims, const v
 // session that uses it skips those readbacks in both arms (kit/sessions/ceiling).
 typedef HRESULT (__stdcall *PFN_DIPUP)(void *, D3DPRIMITIVETYPE, UINT, UINT, UINT, const void *, D3DFORMAT, const void *, UINT);
 static inline void draw_enter(int id) {          // what stub_enter does for a draw slot
-  sf_phase_draws[xi_phase & 7]++; task_count();
+  sf_phase_draws[xi_phase & 7]++; pass_count(); task_count();
   flush();
   if (g_npl) apply_pending();
   if (g_motion) mot_count(id);

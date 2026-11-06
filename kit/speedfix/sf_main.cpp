@@ -550,6 +550,57 @@ static void lim_cam(int after) {
   }
 }
 extern "C" { __declspec(dllexport) void (*volatile xi_lim_cam)(int) = lim_cam; }
+// Step reads (task_draws, a measurement; and Liminality's one use of it): every answer of the getters' forks is told here
+// with its return address and whether it is one of frame_step_users.py's fraction sites (sf_step_sites.h: every path
+// of the value ends in an accumulator, `x += f(step)`, in every call site of its function). Counted by where the call
+// ran: inside one of the three drawing tasks, inside another task, outside the task pass (xi_task_vt, sf_fork.cpp).
+// Liminality: the drawing tasks run every frame, the others only on frames with a tick, so a fraction site reached only
+// from a drawing task can be answered with the frame's own fraction (xi_step_frac, the frame's real time in ticks): its
+// accumulator then adds up real time frame by frame instead of whole ticks on tick frames. A fraction site that is ever
+// reached outside the drawing tasks gets whole ticks from then on (the same function must not add up two clocks); the
+// log names it.
+extern "C" { extern volatile void *xi_task_vt; extern volatile int xi_task_slot; }
+struct StepRead { uint32_t ret; LONG n[3]; uint8_t fsite, mixed, frac; };
+enum { SR_N = 512 };
+static StepRead g_sr[SR_N]; static LONG g_sr_full; static uintptr_t g_sr_vt[3];
+extern "C" { __declspec(dllexport) volatile long sf_sr_frac_answers, sf_sr_calls; }
+static int step_ctx(uintptr_t ret, int fsite) {
+  if (!sf_cfg.task_draws && !sf_lim_on) return 0;
+  sf_sr_calls++;
+  if (!g_sr_vt[0]) { static const uint32_t kVt[3] = {0x10329C44u, 0x10336748u, 0x10329C18u}; for (int i = 0; i < 3; i++) g_sr_vt[i] = (uintptr_t)XI_GAME(kVt[i]); }
+  uintptr_t v = (uintptr_t)xi_task_vt;
+  int ctx = !v ? 2 : v == g_sr_vt[0] || v == g_sr_vt[1] || v == g_sr_vt[2] ? 0 : 1;   // 0 drawing task, 1 other task, 2 outside
+  unsigned h = (unsigned)((ret >> 1) * 2654435761u) % SR_N; StepRead *e = NULL;
+  for (int i = 0; i < SR_N; i++) {
+    StepRead *r = &g_sr[(h + i) % SR_N];
+    if (r->ret == (uint32_t)ret) { e = r; break; }
+    if (!r->ret) { r->ret = (uint32_t)ret; r->fsite = (uint8_t)fsite; e = r; break; }
+  }
+  if (!e) { g_sr_full++; return 0; }
+  e->n[ctx]++;
+  if (!fsite) return 0;
+  if (ctx != 0 && !e->mixed) { e->mixed = 1; LOG("speedfix: step reads: the fraction site returning to %08X runs outside the drawing tasks too: whole ticks there from now on", (unsigned)(ret - (uintptr_t)GetModuleHandleA("FFXiMain.dll") + 0x10000000u)); }
+  if (!sf_lim_on || ctx != 0 || e->mixed) return 0;
+  e->frac = 1; sf_sr_frac_answers++;
+  return 1;
+}
+extern "C" { __declspec(dllexport) int (*volatile xi_step_ctx)(uintptr_t, int) = step_ctx; }
+static void step_read_stats(LONG frames) {
+  if (!sf_cfg.task_draws) return;
+  StepRead top[32] = {}; uintptr_t base = (uintptr_t)GetModuleHandleA("FFXiMain.dll");
+  for (int i = 0; i < SR_N; i++) {
+    StepRead r = g_sr[i]; if (!r.ret) continue; LONG t = r.n[0] + r.n[1] + r.n[2];
+    for (int j = 0; j < 32; j++) { LONG u = top[j].n[0] + top[j].n[1] + top[j].n[2]; if (!top[j].ret || t > u) { memmove(top + j + 1, top + j, (31 - j) * sizeof top[0]); top[j] = r; break; } }
+    g_sr[i].n[0] = g_sr[i].n[1] = g_sr[i].n[2] = 0;
+  }
+  char line[2600]; int o = snprintf(line, sizeof line, "speedfix: step reads, %ld frames: by return address (analysed), calls a frame in the drawing tasks / other tasks / "
+                                      "outside the task pass, f = a fraction site, F = answered with the fraction:", (long)frames);
+  for (int j = 0; j < 32 && top[j].ret && o < (int)sizeof line - 60; j++)
+    o += snprintf(line + o, sizeof line - o, " %08X%s %.1f/%.1f/%.1f;", (unsigned)(top[j].ret - base + 0x10000000u), top[j].frac ? "F" : top[j].fsite ? "f" : "",
+                  frames ? (double)top[j].n[0] / frames : 0.0, frames ? (double)top[j].n[1] / frames : 0.0, frames ? (double)top[j].n[2] / frames : 0.0);
+  if (g_sr_full) o += snprintf(line + o, sizeof line - o, " (%ld calls not tabled)", (long)g_sr_full);
+  LOG("%s", line); g_sr_full = 0;
+}
 static void sf_lim_set(int on) {
   static int ok = -1;
   static const uint32_t kVt[3] = {0x10329C44u, 0x10336748u, 0x10329C18u}, kFn[3] = {0x100817E0u, 0x10178B30u, 0x100817F0u};
@@ -766,7 +817,7 @@ static void task_stats(LONG frames) {                // task_draws: the 12 tasks
 }
 
 static void st_stats(void) {
-  task_stats(g_st_frames);
+  task_stats(g_st_frames); step_read_stats(g_st_frames);
   if (sf_cfg.liminality) LOG("speedfix: liminality: %ld tasks skipped on frames of 0 ticks in these %ld frames", (long)InterlockedExchange(&sf_lim_skipped, 0), (long)g_st_frames);
   { LONG n[8]; for (int i = 0; i < 8; i++) n[i] = InterlockedExchange(&sf_phase_draws[i], 0);
     LOG("speedfix: draw calls by Frame_Render's world pass since the last line: XiZone_GetInstance %ld, sub_1018C2B0 %ld, "

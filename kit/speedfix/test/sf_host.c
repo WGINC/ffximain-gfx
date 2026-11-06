@@ -549,12 +549,36 @@ static void task_dispatch_test(HMODULE sf) {
     check(cb && cr, "liminality: the camera's eye and target blended for the view (a half: 1, 12) and the tick's back after (2, 14)");
     check(cz, "... on a frame of 0 ticks blended by that frame's carry (three quarters: 1.5)");
     check(snap, "... with a snap request pending (+0x88), not blended"); }
+  /* step reads (sf_main.cpp step_ctx): a fraction site (sf_step_sites.h) reached in a drawing task is answered with the
+     frame's fraction under Liminality; one reached outside them too gets whole ticks from then on; the getter's fork
+     reports every answer */
+  { int (*volatile *ctx)(uintptr_t, int) = (int (*volatile *)(uintptr_t, int))GetProcAddress(sf, "xi_step_ctx");
+    volatile long *calls = (volatile long *)GetProcAddress(sf, "sf_sr_calls");
+    check(ctx && *ctx && calls, "step reads: speedfix exports xi_step_ctx and sf_sr_calls");
+    if (ctx && *ctx && calls) {
+      volatile void **tv = (volatile void **)g_tkvt; volatile void *keepvt = *tv;
+      uintptr_t zone = GAME(0x10178BD5u), other = GAME(0x1001A9B0u), plain = GAME(0x1002AD5Au);
+      *tv = (void *)GAME(0x10336748u);                      /* CTsZoneMap's +0x20 running */
+      int a1 = (*ctx)(zone, 1), a2 = (*ctx)(plain, 0), a3 = (*ctx)(other, 1);
+      *tv = (void *)vtA; int a4 = (*ctx)(other, 1);
+      *tv = (void *)GAME(0x10329C44u); int a5 = (*ctx)(other, 1), a6 = (*ctx)(zone, 1);
+      *tv = NULL; int a7 = (*ctx)(plain, 0);
+      check(a1 == 1 && a6 == 1, "step reads: liminality: a fraction site in a drawing task is answered with the fraction (the zone's 0x10178BD5)");
+      check(a2 == 0 && a7 == 0, "... a site that is not a fraction site: whole ticks");
+      check(a3 == 1 && a4 == 0 && a5 == 0, "... a fraction site reached in another task too: whole there, and whole from then on in the drawing tasks");
+      check(log_has("runs outside the drawing tasks too: whole ticks there from now on"), "... the log names it");
+      long c0 = *calls; uint32_t keepm = *g_xi_mode; *g_xi_mode = 1;
+      ((long double (__cdecl *)(void))GAME(0x10014CF0u))(); ((long double (__cdecl *)(void))GAME(0x10014D20u))();
+      *g_xi_mode = keepm;
+      check(*calls - c0 == 2, "... both getters' forks report their answers (0x10014CF0, 0x10014D20)");
+      *tv = keepvt; } }
   *zero = 0; *alpha = -1.0f;
   touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nliminality=0\ntask_draws=1\nstats_every=1\n");
   step_frames(70, 1, 3);
   *zero = 1; t_ecx20 = NULL; disp(taskA); *zero = 0;
   check(t_ecx20 == taskA, "liminality=0: nothing skipped, even on a frame of 0 ticks");
   check(log_has("speedfix: liminality: ") , "the stats line counts the skipped tasks");
+  check(log_has("speedfix: step reads, "), "the stats line lists the step reads by where they ran");
 }
 
 /* occlusion_hold (sf_occlusion.cpp sf_occl_hold): a visible object answered hidden once is kept at its last count for

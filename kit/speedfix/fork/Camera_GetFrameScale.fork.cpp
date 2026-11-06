@@ -29,9 +29,13 @@ static inline bool xi_step_fraction_site(uintptr_t ret)
     if (ret == XI_GAME(kStepFractionRet[i])) return true;
   return false;
 }
+// speedfix (sf_main.cpp, step reads): told of every call answered here, with whether it is a fraction site; 1 back =
+// answer it with the fraction (Liminality: a fraction site while one of the drawing tasks runs, which run every frame)
+extern "C" { __attribute__((weak)) int (*volatile xi_step_ctx)(uintptr_t, int); }
 // the answer with the switches on, for the call returning to `ret`
 static long double xi_step_answer(uintptr_t ret)
 {
+  if (xi_step_ctx && xi_step_ctx(ret, xi_step_fraction_site(ret))) return xi_step_frac;
   // 3: as 2, and the calls whose value is a chase loop's count (sf_step_loops.h) get the fraction too; speedfix
   // gives those loops the factor that makes ceil(fraction) passes do what the fraction of a tick does (sf_main.cpp)
   if (xi_step_mode == 3)

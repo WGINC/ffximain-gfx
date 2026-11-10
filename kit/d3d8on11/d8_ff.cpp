@@ -124,6 +124,9 @@ static D3D11_PRIMITIVE_TOPOLOGY topo(D3DPRIMITIVETYPE t) {
 HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVertex, UINT minIndex, UINT numVerts, UINT startIndex,
                      const void *upv, UINT upStride, const void *upi, D3DFORMAT upiFmt) {
   if (!prims) return D3D_OK;
+  struct DrawT { Dev *d; LARGE_INTEGER t; bool on;
+    explicit DrawT(Dev *d_) : d(d_) { on = (++d->dt_draw_n & 15u) == 0; if (on) QueryPerformanceCounter(&t); }
+    ~DrawT() { if (on) { LARGE_INTEGER e; QueryPerformanceCounter(&e); d->dt_draw_ticks += (uint64_t)(e.QuadPart - t.QuadPart); d->dt_draw_s++; } } } draw_t(this);
   XDraw D; memset(&D, 0, sizeof D); D.site = draw_site;
   VSKey &vk = D.vk; PSKey &pk = D.pk;
   UINT fvfStride = 0;

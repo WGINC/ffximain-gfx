@@ -36,6 +36,7 @@ struct ExecStats {
   enum { K_DRAW, K_UPLOAD, K_PRESENT, K_READBACK, K_OTHER, NK };
   double busy[NK] = {}, since = 0; uint32_t frames = 0, records = 0;
   double up_ms[2] = {}; uint64_t u0[8] = {};              // upload time: textures, buffers; Exec's upload counters at the last line
+  uint64_t b0[6] = {};                                     // the buffer arena's counters at the last stats line
   Exec *x = nullptr; uint64_t x0[3] = {};                  // the executor's batch counters at the last stats line
   static void hook(void *s, uint16_t op, double ms) { ((ExecStats *)s)->ran(op, ms); }
   void attach(Exec *e) { x = e; e->timed = hook; e->timed_ctx = this; }
@@ -109,6 +110,15 @@ struct ExecStats {
              (double)(x->up_again[0] - u0[6]) / frames / 1048576.0, (double)(x->up_again[1] - u0[7]) / frames / 1048576.0);
       u0[0] = x->up_bytes[0]; u0[1] = x->up_n[0]; u0[2] = x->up_bytes[1]; u0[3] = x->up_n[1]; u0[4] = x->dyn_discard; u0[5] = x->dyn_noov; u0[6] = x->up_again[0]; u0[7] = x->up_again[1];
       up_ms[0] = up_ms[1] = 0;
+      if (x->arena_kb) {
+        // buffer_arena: uploads put at a new place and written in place, the MB written, the arena's Maps, how often it
+        // started again, and buffers written back to their own buffer (drawn from a place of an older generation)
+        d8_log("executor buffer arena, %u frames: %.1f buffers placed, %.1f ranges written in place, %.3f MB, %.1f Maps of an arena, "
+               "%.2f times an arena started again, %.1f buffers back to their own a frame", frames, (double)(x->ba_place - b0[0]) / frames,
+               (double)(x->ba_range - b0[1]) / frames, (double)(x->ba_bytes - b0[2]) / frames / 1048576.0, (double)(x->ba_maps - b0[3]) / frames,
+               (double)(x->ba_wraps - b0[4]) / frames, (double)(x->ba_own - b0[5]) / frames);
+        b0[0] = x->ba_place; b0[1] = x->ba_range; b0[2] = x->ba_bytes; b0[3] = x->ba_maps; b0[4] = x->ba_wraps; b0[5] = x->ba_own;
+      }
     }
     if (!sites.empty()) {
       std::vector<std::pair<uint32_t, SiteT>> v(sites.begin(), sites.end());

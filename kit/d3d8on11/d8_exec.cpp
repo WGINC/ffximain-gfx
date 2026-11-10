@@ -660,6 +660,9 @@ void Exec::shutdown() {
   // what the D3D8 side never destroyed (the tests expect none but the back buffer once the device is released)
   { size_t n = 0; for (auto &r : res) n += r.second.kind != 4; d8_log("executor shutdown: %u objects still held besides the back buffer", (unsigned)n); }
   release_swap();
+  if (arena_kb) d8_log("buffer arena totals: %llu buffers placed, %llu ranges written in place, %llu Maps of an arena, %llu times an arena started again, %llu buffers back to their own",
+                       (unsigned long long)ba_place, (unsigned long long)ba_range, (unsigned long long)ba_maps, (unsigned long long)ba_wraps, (unsigned long long)ba_own);
+  for (BArena &a : ba) { if (a.b) a.b->Release(); a.b = nullptr; }
   for (auto &r : res) free_res(r.second);
   res.clear();
   if (ff) {
@@ -694,6 +697,60 @@ static UINT sub_of(const ExecRes &x, const XRef &r) { return D3D11CalcSubresourc
 static double qpc_ms() {
   static LARGE_INTEGER f; if (!f.QuadPart) QueryPerformanceFrequency(&f);
   LARGE_INTEGER t; QueryPerformanceCounter(&t); return (double)t.QuadPart * 1000.0 / (double)f.QuadPart;
+}
+// ---- buffer_arena (d8_exec.h, BArena) ---------------------------------------------------------------------------------
+void Exec::arena_make() {
+  if (!arena_kb || ba[0].b || !dev) return;
+  D3D11_BUFFER_DESC bd = {}; bd.Usage = D3D11_USAGE_DYNAMIC; bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+  UINT cap[2] = {arena_kb * 1024u, arena_kb * 256u};          // indices: a quarter of the vertex arena
+  for (int i = 0; i < 2; i++) {
+    bd.BindFlags = i ? D3D11_BIND_INDEX_BUFFER : D3D11_BIND_VERTEX_BUFFER; bd.ByteWidth = cap[i];
+    if (FAILED(dev->CreateBuffer(&bd, NULL, &ba[i].b))) { ba[i].b = nullptr; d8_log("buffer_arena: the %s arena (%u KB) could not be made: those buffers stay their own", i ? "index" : "vertex", cap[i] / 1024); continue; }
+    ba[i].cap = cap[i]; ba[i].pos = 0; ba[i].gen = 1; ba[i].fresh = true;
+  }
+  d8_log("buffer_arena: the game's dynamic buffers live in a %u KB vertex arena and a %u KB index arena (buffers up to an eighth of it)", cap[0] / 1024, cap[1] / 1024);
+}
+// room for `bytes`; when the arena is full it starts again (a new generation, its next Map a DISCARD) if may_wrap
+bool Exec::arena_take(BArena &a, UINT bytes, bool may_wrap, UINT *at) {
+  UINT p = (a.pos + 15) & ~15u;
+  if (p + bytes > a.cap) {
+    if (!may_wrap) return false;
+    p = 0; a.fresh = true; a.gen++; ba_wraps++;
+  }
+  *at = p; a.pos = p + bytes; return true;
+}
+// a buffer whose place is of an older generation (or that must leave the arena): its contents into its own buffer
+void Exec::arena_own(ExecRes &r) {
+  D3D11_MAPPED_SUBRESOURCE m;
+  if (SUCCEEDED(ctx->Map(r.buf, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, r.shadow.data(), r.shadow.size()); ctx->Unmap(r.buf, 0); r.mapped = true; }
+  else d8_once("arenaown", "buffer_arena: Map of a buffer leaving the arena failed (its contents lost)");
+  r.in_arena = false; ba_own++;
+}
+// an upload run by itself (no batch): the shadow already holds it
+bool Exec::arena_upload_now(ExecRes &r, const XUpBuf &u, const uint8_t *data) {
+  BArena &a = ba[r.index ? 1 : 0];
+  const bool noov = (u.flags & 0x1000u) && !(u.flags & 0x2000u);
+  D3D11_MAPPED_SUBRESOURCE m;
+  if (noov && r.in_arena && r.agen == a.gen) {
+    if (FAILED(ctx->Map(a.b, 0, D3D11_MAP_WRITE_NO_OVERWRITE, 0, &m))) return false;
+    memcpy((uint8_t *)m.pData + r.at + u.offset, data, u.length); ctx->Unmap(a.b, 0); ba_range++; ba_maps++; ba_bytes += u.length;
+    return true;
+  }
+  UINT at; arena_take(a, (UINT)r.shadow.size(), true, &at);
+  if (FAILED(ctx->Map(a.b, 0, a.fresh ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE, 0, &m))) return false;
+  a.fresh = false;
+  memcpy((uint8_t *)m.pData + at, r.shadow.data(), r.shadow.size()); ctx->Unmap(a.b, 0);
+  r.in_arena = true; r.at = at; r.agen = a.gen; ba_place++; ba_maps++; ba_bytes += r.shadow.size();
+  return true;
+}
+// where a draw reads a dynamic buffer
+void Exec::arena_resolve(ExecRes &r, ID3D11Buffer **b, UINT *off) {
+  if (r.in_arena) {
+    BArena &a = ba[r.index ? 1 : 0];
+    if (r.agen == a.gen) { *b = a.b; *off = r.at; return; }
+    arena_own(r);
+  }
+  *b = r.buf; *off = 0;
 }
 static bool holdable(uint16_t op) {
   return op != X_INIT && op != X_RESIZE && op != X_READBACK && op != X_FINISH && op != X_PRESENT && op != X_OPTION && op != X_QUIT && op != X_PAD;
@@ -734,9 +791,31 @@ size_t Exec::plan(size_t i) {
     a.at = at + bytes; a.used = true; return at;
   };
   const VSConst *lv = nullptr; const PSConst *lp = nullptr; UINT lvo = 0, lpo = 0;
+  bool ba_used[2] = {false, false}, ba_refd[2] = {false, false};
   size_t k = i;
   for (; k < N; k++) {
-    Prep &q = prep[k]; q = {~0u, ~0u, ~0u, ~0u};
+    Prep &q = prep[k]; q = {~0u, ~0u, ~0u, ~0u, ~0u, 0, 0};
+    if (arena_kb && held[k].op != X_DRAW) {
+      const uint8_t *p = held[k].p ? held[k].p : hold.data() + held[k].off;
+      // a buffer made or freed: the records after it are planned once it has run
+      if (held[k].op == X_BUF) { k++; break; }
+      if (held[k].op == X_DESTROY) { auto it = res.find(*(const uint32_t *)p); if (it != res.end() && it->second.kind == 3) { k++; break; } }
+      if (held[k].op == X_UPLOAD_BUF) {
+        const XUpBuf &u = *(const XUpBuf *)p;
+        auto it = res.find(u.id);
+        if (it != res.end() && it->second.buf && arena_for(it->second) && (uint64_t)u.offset + u.length <= it->second.shadow.size()) {
+          ExecRes &r = it->second; int ai = r.index ? 1 : 0; BArena &a = ba[ai];
+          const bool noov = (u.flags & 0x1000u) && !(u.flags & 0x2000u);
+          if (noov && r.in_arena && r.agen == a.gen) { q.up = 2; q.up_at = r.at + u.offset; ba_used[ai] = true; }
+          else {
+            UINT at;
+            // the arena may start again only before this chunk has put or read anything in it
+            if (!arena_take(a, (UINT)r.shadow.size(), !ba_used[ai] && !ba_refd[ai], &at)) break;
+            q.up = 1; q.up_at = at; r.in_arena = true; r.at = at; r.agen = a.gen; ba_used[ai] = true;
+          }
+        }
+      }
+    }
     if (held[k].op != X_DRAW) continue;
     const uint8_t *p = held[k].p ? held[k].p : hold.data() + held[k].off;
     const XDraw &d = *(const XDraw *)p;
@@ -759,10 +838,50 @@ size_t Exec::plan(size_t i) {
       if (o == ~0u) stop = true; else if (o != ~0u - 1) q.ib = o;
     }
     if (stop) {                                                // this record starts the next chunk
-      memcpy(ar, save, sizeof ar); q = {~0u, ~0u, ~0u, ~0u};
+      memcpy(ar, save, sizeof ar); q = {~0u, ~0u, ~0u, ~0u, ~0u, 0, 0};
       if (k == i) k++;                                         // not expected: a first record fits from offset 0
       break;
     }
+    if (arena_kb && d.kind != XD_UP && d.kind != XD_UP_INDEXED) {   // where this draw reads its buffers, as of this record
+      PrepBufs pb = {};
+      for (UINT si = 0; si < 16; si++) {
+        if (!d.stream[si].buf) continue;
+        auto it = res.find(d.stream[si].buf);
+        if (it == res.end() || !it->second.buf) continue;
+        if (it->second.dyn) { arena_resolve(it->second, &pb.sb[si], &pb.so[si]); if (pb.sb[si] == ba[0].b) ba_refd[0] = true; }
+        else pb.sb[si] = it->second.buf;
+      }
+      if (d.kind == XD_INDEXED) {
+        auto it = res.find(d.ib);
+        if (it != res.end() && it->second.buf) {
+          if (it->second.dyn) { arena_resolve(it->second, &pb.ib, &pb.io); if (pb.ib == ba[1].b) ba_refd[1] = true; }
+          else pb.ib = it->second.buf;
+        }
+      }
+      q.bufs = (uint32_t)prep_bufs.size(); prep_bufs.push_back(pb);
+    }
+  }
+  // the buffer arenas this chunk writes: one Map each, every upload's bytes in the records' order
+  if (arena_kb) {
+    for (int ai = 0; ai < 2; ai++) {
+      BArena &a = ba[ai]; a.m = nullptr;
+      if (!ba_used[ai]) continue;
+      D3D11_MAPPED_SUBRESOURCE ms;
+      if (FAILED(ctx->Map(a.b, 0, a.fresh ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE, 0, &ms))) { d8_once("arenamap", "buffer_arena: Map of an arena failed (those uploads lost)"); continue; }
+      a.fresh = false; a.m = (uint8_t *)ms.pData; ba_maps++;
+    }
+    for (size_t j = i; j < k; j++) {
+      const Prep &q = prep[j];
+      if (!q.up) continue;
+      const uint8_t *p = held[j].p ? held[j].p : hold.data() + held[j].off;
+      const XUpBuf &u = *(const XUpBuf *)p;
+      ExecRes &r = res.find(u.id)->second; BArena &a = ba[r.index ? 1 : 0];
+      memcpy(r.shadow.data() + u.offset, p + sizeof u, u.length);
+      if (!a.m) continue;
+      if (q.up == 1) { memcpy(a.m + q.up_at, r.shadow.data(), r.shadow.size()); ba_place++; ba_bytes += r.shadow.size(); }
+      else { memcpy(a.m + q.up_at, p + sizeof u, u.length); ba_range++; ba_bytes += u.length; }
+    }
+    for (int ai = 0; ai < 2; ai++) if (ba[ai].m) { ctx->Unmap(ba[ai].b, 0); ba[ai].m = nullptr; }
   }
   // map each arena used once
   for (Ar &a : ar) {
@@ -793,7 +912,7 @@ size_t Exec::plan(size_t i) {
 void Exec::flush() {
   if (held.empty()) return;
   flushes++;
-  prep.resize(held.size());
+  prep.resize(held.size()); prep_bufs.clear();
   size_t i = 0, N = held.size();
   while (i < N) {
     double t0 = timed ? qpc_ms() : 0;
@@ -845,6 +964,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     bd.BindFlags = b.index ? D3D11_BIND_INDEX_BUFFER : D3D11_BIND_VERTEX_BUFFER;
     if (b.dyn) { bd.Usage = D3D11_USAGE_DYNAMIC; bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE; x.dyn = true; x.shadow.assign(bd.ByteWidth, 0); }
     if (FAILED(dev->CreateBuffer(&bd, NULL, &x.buf))) { d8_log("CreateBuffer %u bytes failed", b.length); break; }
+    if (b.dyn) arena_make();
     res[b.id] = x;
     break; }
   case X_DESTROY: {
@@ -874,12 +994,15 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     ExecRes &r = it->second;
     if (r.up_frame != ~0ull && presents - r.up_frame <= 1) up_again[1] += u.length;
     r.up_frame = presents;
+    if (pp && pp->up) break;                               // buffer_arena: the batch has written it (Exec::plan)
     if (!r.dyn) { D3D11_BOX bx = {u.offset, 0, 0, u.offset + u.length, 1, 1}; ctx->UpdateSubresource(r.buf, 0, &bx, p + sizeof u, 0, 0); break; }
     // a dynamic buffer (dynamic_buffers): the shadow holds what the game has written; NOOVERWRITE (every lock had it,
     // and the buffer has been mapped): the range beside what the GPU reads; otherwise DISCARD, fresh memory, and the
     // whole shadow into it, so the buffer holds what UpdateSubresource would have left in it
     if ((uint64_t)u.offset + u.length > r.shadow.size()) { d8_once("dynrange", "a dynamic buffer upload past its end (skipped)"); break; }
     memcpy(r.shadow.data() + u.offset, p + sizeof u, u.length);
+    if (arena_for(r) && arena_upload_now(r, u, p + sizeof u)) break;
+    if (r.in_arena) r.in_arena = false;                    // the arena could not take it: its own buffer, whole
     bool noov = (u.flags & 0x1000u) && !(u.flags & 0x2000u) && r.mapped;
     D3D11_MAPPED_SUBRESOURCE m;
     if (FAILED(ctx->Map(r.buf, 0, noov ? D3D11_MAP_WRITE_NO_OVERWRITE : D3D11_MAP_WRITE_DISCARD, 0, &m))) { d8_once("dynmap", "Map of a dynamic buffer failed (that upload lost)"); break; }
@@ -978,6 +1101,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     if (o.key == OPT_FILTER) { filter = o.value; forget(); }
     if (o.key == OPT_BATCH) { batch = o.value; forget(); }
     if (o.key == OPT_SITES) sites_on = o.value != 0;
+    if (o.key == OPT_BUFARENA && !ba[0].b) { arena_kb = o.value; arena_make(); }   // a start setting
     if (o.key == OPT_FLIP) {                               // the model the swap chain is made in: before it exists only
       if (!swap) flip = flip_want = o.value != 0;
       else if ((o.value != 0) != flip) d8_once("flip_live", "swap_flip=%u after the swap chain was made: not applied (the model is set for the whole start)", o.value);
@@ -1093,15 +1217,17 @@ void Exec::draw(const XDraw &d, const uint8_t *data, const Prep *pp) {
   if (!f || lay != bd.lay) { ctx->IASetInputLayout(lay); bd.lay = lay; }
   if (!arena && (!f || !bd.cbs)) { ctx->VSSetConstantBuffers(0, 1, &ff->vcb); ctx->PSSetConstantBuffers(0, 1, &ff->pcb); bd.cbs = true; bd.vco = bd.pco = ~0u; }
   if (!f || d.topology != bd.topo) { ctx->IASetPrimitiveTopology((D3D11_PRIMITIVE_TOPOLOGY)d.topology); bd.topo = d.topology; }
-  auto set_vb = [&](UINT i, ID3D11Buffer *b, UINT stride) {
-    if (f && bd.vb[i] == b && bd.stride[i] == stride && bd.voff[i] == 0) return;
-    UINT off = 0; ctx->IASetVertexBuffers(i, 1, &b, &stride, &off); bd.vb[i] = b; bd.stride[i] = stride; bd.voff[i] = 0;
+  auto set_vb = [&](UINT i, ID3D11Buffer *b, UINT stride, UINT off = 0) {
+    if (f && bd.vb[i] == b && bd.stride[i] == stride && bd.voff[i] == off) return;
+    ctx->IASetVertexBuffers(i, 1, &b, &stride, &off); bd.vb[i] = b; bd.stride[i] = stride; bd.voff[i] = off;
   };
-  auto set_ib = [&](ID3D11Buffer *b, bool i32) {
+  auto set_ib = [&](ID3D11Buffer *b, bool i32, UINT off = 0) {
     DXGI_FORMAT fm = i32 ? DXGI_FORMAT_R32_UINT : DXGI_FORMAT_R16_UINT;
-    if (f && bd.ib == b && bd.ifmt == fm) return;
-    ctx->IASetIndexBuffer(b, fm, 0); bd.ib = b; bd.ifmt = fm;
+    if (f && bd.ib == b && bd.ifmt == fm && bd.ioff == off) return;
+    ctx->IASetIndexBuffer(b, fm, off); bd.ib = b; bd.ifmt = fm; bd.ioff = off;
   };
+  // buffer_arena: the batch's places for this draw's buffers (Exec::plan), or, run by itself, where they are now
+  const PrepBufs *pb = pp && pp->bufs != ~0u ? &prep_bufs[pp->bufs] : nullptr;
   if (d.kind == XD_UP || d.kind == XD_UP_INDEXED) {
     UINT at = 0, stride = d.up_stride;
     if (pp && pp->vb != ~0u) at = pp->vb;
@@ -1120,9 +1246,15 @@ void Exec::draw(const XDraw &d, const uint8_t *data, const Prep *pp) {
   }
   for (UINT i = 0; i < 16; i++) {
     if (!d.stream[i].buf) continue;
+    if (pb) {
+      if (!pb->sb[i]) { d8_once("nostream", "a draw reads a stream whose buffer is gone (skipped)"); return; }
+      set_vb(i, pb->sb[i], d.stream[i].stride, pb->so[i]); continue;
+    }
     auto it = res.find(d.stream[i].buf);
     if (it == res.end() || !it->second.buf) { d8_once("nostream", "a draw reads a stream whose buffer is gone (skipped)"); return; }
-    set_vb(i, it->second.buf, d.stream[i].stride);
+    ID3D11Buffer *vbuf = it->second.buf; UINT voff = 0;
+    if (arena_kb && it->second.dyn) arena_resolve(it->second, &vbuf, &voff);
+    set_vb(i, vbuf, d.stream[i].stride, voff);
   }
   if (d.kind == XD_DRAW) { ctx->Draw(d.count, d.start); return; }
   if (d.kind == XD_INLINE_INDEXED) {
@@ -1134,8 +1266,15 @@ void Exec::draw(const XDraw &d, const uint8_t *data, const Prep *pp) {
     ctx->DrawIndexed(d.count, ia / isz, (INT)d.base);
     return;
   }
-  auto ib = res.find(d.ib);
-  if (ib == res.end() || !ib->second.buf) { d8_once("noib", "an indexed draw whose index buffer is gone (skipped)"); return; }
-  set_ib(ib->second.buf, d.ib32 != 0);
+  if (pb) {
+    if (!pb->ib) { d8_once("noib", "an indexed draw whose index buffer is gone (skipped)"); return; }
+    set_ib(pb->ib, d.ib32 != 0, pb->io);
+  } else {
+    auto ib = res.find(d.ib);
+    if (ib == res.end() || !ib->second.buf) { d8_once("noib", "an indexed draw whose index buffer is gone (skipped)"); return; }
+    ID3D11Buffer *ibuf = ib->second.buf; UINT ioff = 0;
+    if (arena_kb && ib->second.dyn) arena_resolve(ib->second, &ibuf, &ioff);
+    set_ib(ibuf, d.ib32 != 0, ioff);
+  }
   ctx->DrawIndexed(d.count, d.start, (INT)d.base);
 }

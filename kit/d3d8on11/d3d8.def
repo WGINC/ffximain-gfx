@@ -3,3 +3,4 @@ EXPORTS
   Direct3DCreate8@4 @1
   Direct3DCreate8 = Direct3DCreate8@4
   D8ON11_DrawSite
+  D8ON11_LockDoNotWait

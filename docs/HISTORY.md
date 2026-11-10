@@ -4564,3 +4564,51 @@ after it; the ab_13nov and ab_14nov kits have no manifest for this build and do 
   KIT.md says. The analysed build and 6AC37846 pass as before, except the native sampler. Its four checks fail on all
   three builds: this container's Wine is 32-bit only, and xisamp_x64.exe does not start ("Bad EXE format"). One
   measure check on 6AC37846 failed once and passed on a rerun.
+
+## 10 Nov (the calendar date): frame time -- the occlusion waits, a buffer arena, ab_16nov
+
+The owner, after the repo review: "Attack frametime on all fronts (without changing the game look). And improve all the
+tools you can." Read first, from the run of 12 Nov (start 3, the build as it is) and 9 Nov (the sampler start):
+
+- **The game's thread waits for occlusion answers.** speedfix's "readback time" lines over start 3 (16,930 frames):
+  the late reads 33,527, 3.87 ms a frame (minutes from 2.3 to 5.8; the longest 29 to 173 ms a minute); the game's own
+  readback (first probes) 1,136 calls of 11 to 14 ms, 0.88 ms a frame. d3d8on11's log agrees: about a quarter of the
+  late locks "read it back (the snapshot was not there yet)", and the game waited a median 3.1 ms a frame for answers
+  (90th percentile 10.7). The 9 Nov sampler: 52% of the render thread's samples in a wait.
+- **Why a late read waits:** d3d8on11's thread runs up to two frames behind the game (its pacing). A lock a frame
+  after its copy finds no snapshot. t8 `nowait` shows it: in `thread` mode an answer every third frame.
+- **d3d8on11's thread** (34 windows): busy 14.3 ms a frame median, 21.6 at the 90th percentile, 95% of the time;
+  Present 6.9 / 9.3, draws 4.4 / 6.6, uploads 1.6 / 2.5, readbacks 1.0 / 3.1. 300 to 650 buffer uploads a frame.
+
+Built:
+
+1. **d3d8on11: the do-not-wait lock** (`D8ON11_LOCK_DONOTWAIT`, export `D8ON11_LockDoNotWait`; kit/d3d8on11 README).
+2. **speedfix `occlusion_nowait=1`** (the default; sf_occlusion.cpp): the late read passes that flag. Up to three
+   pictures per object in flight; the answer is the newest finished one's, else the object's last answer again; a
+   picture older than 32 frames is dropped. What changes in the game: an answer can be two or three frames old, not one.
+3. **speedfix `occlusion_first`** (0, the default: the game's readback): 2 answers a first probe "visible", 1 "hidden",
+   without a wait. A chosen rule, for measuring whether the first-probe waits are the hitches when a crowd loads.
+   The count's three users, from the reconstruction: the actor's +0x9F4 (drawn or not, 0x100CBDE0), a visible/hidden
+   test (unit_10048000.cpp line 93) and a brightness, count / 256 (line 265). So "visible" can show a glow at full
+   brightness for one probe.
+4. **d3d8on11 `buffer_arena`** (off by default; kit/d3d8on11 README): the dynamic buffers in one shared buffer, a
+   batch's uploads under one Map. In the tests' batches: 434 buffers placed with 10 to 27 Maps (437 one by one).
+5. **measure_read.py:** the occlusion waits over a start, occlusion_nowait's counts, the executor's time a frame
+   (median and 90th percentile over the windows), the buffer arena's line, the game's waits on d3d8on11.
+
+Tests: d3d8on11's suite passes (the new nowait check and four arena comparisons in each of three modes).
+test_speedfix.py passes on 6A995428, 6AC37846 and 6AE818B4 (occlusion_nowait: no lock waits, three in flight, the
+newest answers, the 32-frame bound, nowait=0 as before; occlusion_first=2). The host's call log (4,096 device calls)
+was full once these checks were added, so a later check counted nothing and failed on two builds: the log is larger
+and says so when it fills. The arm start's ARM64 executor is not tested here (this container runs no ARM64 code).
+
+Also for the next run's reading: d3d8on11 logs the game thread's time in its draw methods and buffer unlocks (sampled,
+every 16th draw and 4th unlock), and the session's fifth start runs the executor as the native ARM64 process
+(`mode=remote`), which has not been measured in the plaza.
+
+Not known until the owner's run (ab_16nov: fast, nowait, base, first): what the waits were worth in frame time and
+stutters; whether the arena shortens the uploads or Present on Parallels; whether occlusion_first changes the hitches
+when a crowd loads, and whether its one-probe answer shows.
+
+Not done: GPU skinning and draw merging (the two larger levers against the executor's time), the first-probe wait by
+the game's own answer (no source for an answer without the GPU).

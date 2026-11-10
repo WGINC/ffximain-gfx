@@ -318,12 +318,46 @@ def main(argv):
         if tot:
             w('- draw calls by Frame_Render\'s world pass, the whole start: XiZone_GetInstance %d, sub_1018C2B0 %d, StDancer_Update %d, '
               'XiZone_DrawScene %d, **the task pass (OnMove) %d**, sub_102515F0 %d, sound %d, the rest of the frame %d' % tuple(tot))
+    if log:
+        # the occlusion readbacks' waits over the whole start (10 Nov): the game's own readback (first probes) and
+        # speedfix's late reads, from the "readback time" lines; and how the never-waiting read went (occlusion_nowait)
+        rg = rl = 0; tg = tl = 0.0; lmax = 0.0; fon = 0
+        for g_, gm, c_, cm, r_, rm, rx, fr_ in re.findall(r"readback time: the game's readback (\d+) calls, mean ([\d.]+) us,.*?copy (\d+), mean ([\d.]+) us; "
+                                                         r"its late read (\d+), mean ([\d.]+) us, longest ([\d.]+) us; the two [\d.]+ ms a frame with it on \((\d+) frames\)", log):
+            rg += int(g_); tg += int(g_) * float(gm) / 1000.0; rl += int(r_); tl += int(r_) * float(rm) / 1000.0; lmax = max(lmax, float(rx) / 1000.0); fon += int(fr_)
+        if fon:
+            w('- occlusion waits over the start (%d frames with occlusion_late on): the game\'s own readback %d calls, %.2f ms a frame; '
+              'speedfix\'s late reads %d, %.2f ms a frame, the longest %.1f ms' % (fon, rg, tg / fon, rl, tl / fon, lmax))
+            summ['occl_wait'] = {'frames': fon, 'game_calls': rg, 'game_ms_frame': tg / fon, 'late_reads': rl, 'late_ms_frame': tl / fon, 'late_longest_ms': lmax}
+        nw = [tuple(map(int, x)) for x in re.findall(r'occlusion_nowait: (\d+) locks told not yet \(no wait\), (\d+) probes answered with the object.s last answer again, (\d+) probes whose picture was not copied', log)]
+        if nw: w('- occlusion_nowait over the start: %d locks told "not yet" without a wait, %d probes answered with the last answer again, %d probes not copied (all pictures in flight)' % tuple(sum(c) for c in zip(*nw)))
+        nf = sum(int(x) for x in re.findall(r'occlusion_first=\d: (\d+) probes', log))
+        if nf: w('- occlusion_first: %d first probes answered without the game\'s readback' % nf)
     # ---------------------------------------------------------------- d3d8on11's own lines (d3d8on11.log next to the game, if collected)
-    for d8 in glob.glob(os.path.join(d, '..', 'd3d8on11.log')) + glob.glob(os.path.join(d, 'd3d8on11.log')):
+    # (remote mode: the executor's own lines are in d3d8on11_exec.log)
+    for d8 in (glob.glob(os.path.join(d, '..', 'd3d8on11.log')) + glob.glob(os.path.join(d, 'd3d8on11.log')) +
+               glob.glob(os.path.join(d, '..', 'd3d8on11_exec.log')) + glob.glob(os.path.join(d, 'd3d8on11_exec.log'))):
         t = open(d8, errors='replace').read().splitlines()
-        keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail|gpu_time|swap chain|swap_flip|draw callers|dynamic|frame_latency', l, re.I)]
+        keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail|gpu_time|swap chain|swap_flip|draw callers|dynamic|frame_latency|buffer.arena|game thread in d3d8on11', l, re.I)]
         w(); w('## d3d8on11.log (%s, %d lines; the executor, readback snapshot, interval and error lines)' % (os.path.basename(d8), len(t))); w(); w('```')
         w('\n'.join(keep[:60] + (['...'] + keep[-20:] if len(keep) > 80 else keep[60:80]))); w('```')
+        # the executor's time a frame over the start's windows (each 600 Presents): median and the busiest tenth
+        ex = [tuple(map(float, x)) for x in re.findall(r'executor stats, \d+ frames: busy ([\d.]+) ms a frame \(([\d.]+)% of the time; draws ([\d.]+), uploads ([\d.]+), Present ([\d.]+), readbacks ([\d.]+)', '\n'.join(t))]
+        if ex:
+            cols = list(zip(*ex)); nm = ['busy', 'busy %', 'draws', 'uploads', 'Present', 'readbacks']
+            w(); w('**The executor\'s time a frame** (%d windows of 600 Presents; ms, median / 90th percentile): ' % len(ex) +
+                   ', '.join('%s %.2f / %.2f' % (n_, pct(list(c), 50), pct(list(c), 90)) for n_, c in zip(nm, cols)))
+            summ['executor'] = {n_: [pct(list(c), 50), pct(list(c), 90)] for n_, c in zip(nm, cols)}
+        ar = [tuple(map(float, x)) for x in re.findall(r'executor buffer arena, \d+ frames: ([\d.]+) buffers placed, ([\d.]+) ranges written in place, ([\d.]+) MB, ([\d.]+) Maps of an arena, ([\d.]+) times an arena started again, ([\d.]+) buffers back', '\n'.join(t))]
+        if ar:
+            cols = list(zip(*ar))
+            w(); w('**The buffer arena a frame** (median of %d windows): %.1f buffers placed, %.1f ranges in place, %.3f MB, %.1f Maps, %.2f restarts, %.1f buffers back to their own' % ((len(ar),) + tuple(pct(list(c), 50) for c in cols)))
+        wt = [tuple(map(float, x)) for x in re.findall(r'ring stats, \d+ frames: the game waited ([\d.]+) ms a frame for room, ([\d.]+) for pacing \(.*?\), ([\d.]+) for answers', '\n'.join(t))]
+        if wt:
+            cols = list(zip(*wt))
+            w(); w('**The game\'s thread waiting on d3d8on11 a frame** (median / 90th percentile of %d windows, ms): for room %.2f / %.2f, for pacing %.2f / %.2f, for answers %.2f / %.2f' % (
+                (len(wt),) + tuple(v for c in cols for v in (pct(list(c), 50), pct(list(c), 90)))))
+            summ['ring_wait'] = {'answers': [pct(list(cols[2]), 50), pct(list(cols[2]), 90)]}
         # the executor's draw time by the game's call site (d3d8on11's "executor draws by game call site" lines: the Draw*
         # method's return address in FFXiMain.dll; offset + 0x10000000, the analysed image base, named from the IDB)
         tot = collections.defaultdict(lambda: [0.0, 0.0]); nwin = 0

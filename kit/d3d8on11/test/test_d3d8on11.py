@@ -414,6 +414,18 @@ for m, run_ in [(m, 'frames') for m in MODES] + ([('remote', 'orphan')] if 'remo
     print('%s: %s mode: %s' % ('ok' if ok else 'FAIL', m, what)); bad += not ok
     for l in t.splitlines():
         if 'stats,' in l or 'snapshots,' in l or 'executor process ended' in l or 'by game call site' in l: print('   ', l)
+# the do-not-wait lock (t8 nowait; D8ON11_LOCK_DONOTWAIT, speedfix's occlusion_late uses it): in each mode every lock that
+# succeeds reads the copied frame's colour, the others are told "not yet" without a read-back, and answers keep coming
+for m in MODES:
+    for f in os.listdir(ours):
+        if f.endswith('.log'): os.remove(os.path.join(ours, f))
+    out = run(ours, 'nowait 1200', True, m)
+    t = ''.join(open(os.path.join(ours, f)).read() for f in sorted(os.listdir(ours)) if f.endswith('.log'))
+    sn = re.search(r'readback snapshots, \d+ frames: (\d+) locks .*?(\d+) read it\s+back .*?(\d+) do-not-wait', t, re.S)
+    ok = out.count('ok: ') == 3 and 'FAIL' not in out and sn is not None and int(sn.group(2)) == 0
+    print('%s: %s mode: do-not-wait locks: %s; the log: %s' % ('ok' if ok else 'FAIL', m,
+          next((l for l in out.splitlines() if l.startswith('nowait:')), '(no line)'),
+          ('%s from a snapshot, %s read back, %s told not yet' % sn.groups()) if sn else '(no snapshot line)')); bad += not ok
 # a second thread making objects while this one does too (t8 threads), and 5,000 rounds of objects made and released
 # (t8 churn), in each mode: every check passes, the executor's log has no stream error (an object created twice or
 # destroyed unknown: what ids shared between threads would cause; a counter that is not atomic makes them, checked on
@@ -466,6 +478,33 @@ for m in MODES:
         if base.get(n) != dyn.get(n): print('  differs: %s' % n)
     for l in t.splitlines():
         if 'dynamic buffers' in l: print('   ', l)
+
+# buffer_arena (10 Nov): the dynamic buffers' contents in one shared Direct3D 11 buffer, a batch's uploads written under
+# one Map before its draws. Every scene (dynamic_buffers and buffer_arena among them: a buffer written again before each
+# of 320 draws, one written once and drawn after them, a dynamic index buffer, buffers made and released in between)
+# must draw exactly what it draws without the arena: in each mode, records run one by one and in batches (with the
+# filter), with the arena large and with an 8 KB test arena that starts again several times.
+for m in MODES:
+    xlog = os.path.join(ours, 'd3d8on11_exec.log')
+    base = scenes(ours, True, m, {'D8ON11_BUFFER_ARENA': '0'})
+    for name, extra in [('one by one', {}), ('batches and filter', {'D8ON11_EXEC_BATCH': '1', 'D8ON11_EXEC_FILTER': '1'}),
+                        ('one by one, an 8 KB arena', {'D8ON11_BUFFER_ARENA_TEST_KB': '8'}),
+                        ('batches and filter, an 8 KB arena', {'D8ON11_EXEC_BATCH': '1', 'D8ON11_EXEC_FILTER': '1', 'D8ON11_BUFFER_ARENA_TEST_KB': '8'})]:
+        for f in (log, xlog):
+            if os.path.exists(f): os.remove(f)
+        got = scenes(ours, True, m, dict(extra, D8ON11_BUFFER_ARENA='1'))
+        t = ''.join(open(f).read() for f in (log, xlog) if os.path.exists(f))
+        tot = re.search(r'buffer arena totals: (\d+) buffers placed, (\d+) ranges written in place, (\d+) Maps of an arena, (\d+) times an arena started again, (\d+) buffers back', t)
+        small = 'TEST_KB' in ''.join(extra)
+        ok = (base == got and base.get('buffer_arena') is not None and base.get('dynamic_buffers') is not None and tot is not None
+              and int(tot.group(1)) > 400 and (int(tot.group(4)) > 2 and int(tot.group(5)) > 0 if small else int(tot.group(2)) > 0)
+              # batches: fewer Maps than buffers placed (how many fewer depends on how far the executor's thread is behind;
+              # direct mode's batches are whole frames, so there a quarter at most)
+              and ('BATCH' not in ''.join(extra) or int(tot.group(3)) < int(tot.group(1)) // (4 if m == 'direct' else 1)))
+        print('%s: %s mode, buffer_arena=1, %s: draws exactly what it draws without the arena (%d scenes); %s' % ('ok' if ok else 'FAIL', m, name, len(base),
+              ('%s placed, %s ranges, %s Maps, %s restarts, %s back to their own' % tot.groups()) if tot else 'no totals line')); bad += not ok
+        for n in sorted(set(base) | set(got)):
+            if base.get(n) != got.get(n): print('  differs: %s' % n)
 
 if os.path.exists(log):
     t = open(log).read()

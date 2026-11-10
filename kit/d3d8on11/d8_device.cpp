@@ -89,6 +89,19 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   ne = GetEnvironmentVariableA("D8ON11_DYNAMIC_BUFFERS", env, sizeof env);
   if (ne > 0 && ne < sizeof env) dynamic_buffers = atoi(env) != 0;
   if (dynamic_buffers) d8_log("dynamic_buffers=1: the game's dynamic vertex and index buffers are written by Map");
+  // buffer_arena (10 Nov; with dynamic_buffers): the dynamic buffers' contents live in one large Direct3D 11 buffer
+  // (d8_exec.h, BArena), so a batch writes all its buffer uploads under one Map instead of one Map(DISCARD) of a buffer
+  // each (the owner's plaza: 300-650 a frame). 1: a 16 MB vertex arena; a larger number: that many KB (1024 to
+  // 262144); 0 (the default until it is measured in the game): off. Set for a whole start; D8ON11_BUFFER_ARENA overrides.
+  { int ba = (int)GetPrivateProfileIntA("d3d8on11", "buffer_arena", 0, ini);
+    ne = GetEnvironmentVariableA("D8ON11_BUFFER_ARENA", env, sizeof env);
+    if (ne > 0 && ne < sizeof env) ba = atoi(env);
+    uint32_t kb = ba <= 0 || !dynamic_buffers ? 0u : ba == 1 ? 16384u : ba < 1024 ? 1024u : ba > 262144 ? 262144u : (uint32_t)ba;
+    ne = GetEnvironmentVariableA("D8ON11_BUFFER_ARENA_TEST_KB", env, sizeof env);       // the tests: a small arena, so it starts again
+    if (kb && ne > 0 && ne < sizeof env && atoi(env) >= 4) kb = (uint32_t)atoi(env);
+    XOption o = {OPT_BUFARENA, kb, 0}; link->put(X_OPTION, &o, sizeof o);
+    if (ba > 0 && !dynamic_buffers) d8_log("buffer_arena: needs dynamic_buffers=1 (off)");
+    else if (kb) d8_log("buffer_arena=%d: the game's dynamic buffers share one Direct3D 11 buffer (%u KB of vertex data)", ba, kb); }
   draw_sites = (int)GetPrivateProfileIntA("d3d8on11", "draw_sites", 0, ini) != 0;
   ne = GetEnvironmentVariableA("D8ON11_DRAW_SITES", env, sizeof env);
   if (ne > 0 && ne < sizeof env) draw_sites = atoi(env) != 0;
@@ -295,8 +308,19 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
   if (++snap_frames >= 600) {
     if (snap_hits + snap_misses)
       d8_log("readback snapshots, %u frames: %u locks of a copied render target read its snapshot (no wait), %u read it "
-             "back (the snapshot was not there yet)", snap_frames, snap_hits, snap_misses);
-    snap_frames = snap_hits = snap_misses = 0;
+             "back (the snapshot was not there yet), %u do-not-wait locks were told it was not there yet (no wait)",
+             snap_frames, snap_hits, snap_misses, snap_notyet);
+    if (dt_draw_s || dt_unlock_s) {
+      // sampled: the mean of the sampled calls times all calls
+      LARGE_INTEGER qf; QueryPerformanceFrequency(&qf); double ms = 1000.0 / (double)qf.QuadPart;
+      d8_log("game thread in d3d8on11, %u frames (sampled): the draw methods %.1f a frame, about %.3f ms a frame (%.2f us each); buffer "
+             "unlocks that upload %.1f a frame, about %.3f ms a frame (%.2f us each)", snap_frames, (double)dt_draw_n / snap_frames,
+             dt_draw_s ? (double)dt_draw_ticks * ms / dt_draw_s * dt_draw_n / snap_frames : 0.0, dt_draw_s ? (double)dt_draw_ticks * ms * 1000.0 / dt_draw_s : 0.0,
+             (double)dt_unlock_n / snap_frames, dt_unlock_s ? (double)dt_unlock_ticks * ms / dt_unlock_s * dt_unlock_n / snap_frames : 0.0,
+             dt_unlock_s ? (double)dt_unlock_ticks * ms * 1000.0 / dt_unlock_s : 0.0);
+      dt_draw_ticks = dt_unlock_ticks = 0; dt_draw_s = dt_draw_n = dt_unlock_s = dt_unlock_n = 0;
+    }
+    snap_frames = snap_hits = snap_misses = snap_notyet = 0;
   }
   return D3D_OK;
 }
@@ -779,6 +803,9 @@ static uint32_t game_site(void *ra) {
 // speedfix's merged ...UP draws give the first merged draw's (kit/speedfix/sf_device.cpp, flush)
 static void *volatile g_ext_site;
 extern "C" void __stdcall D8ON11_DrawSite(void *ra) { g_ext_site = ra; }
+// the lock flag a mod may pass to IDirect3DSurface8::LockRect of a lockable render target on this device (d8_res.cpp,
+// Surf::LockRect): the export's presence tells the mod this d3d8.dll knows the flag
+extern "C" unsigned __stdcall D8ON11_LockDoNotWait(void) { return D8ON11_LOCK_DONOTWAIT; }
 // who calls the draws (9 Nov: draw_sites put every draw under a mod in the owner's game, and the hook order between
 // the game, the kit and speedfix there is not traced): each distinct pair (the module this method returns into, the
 // module of the address a mod handed D8ON11_DrawSite) is logged once, with the addresses as module+offset; up to 12

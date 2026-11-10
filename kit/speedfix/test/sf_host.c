@@ -37,9 +37,10 @@ static void occl_hold_test(HMODULE sf);
 
 /* ---- the fake device: what reaches it is recorded ---- */
 typedef struct { int slot; uint32_t a[4]; int nbytes; uint8_t bytes[256]; } Call;
-static Call g_log[4096]; static volatile LONG g_n;
+static Call g_log[32768]; static volatile LONG g_n;
 static void rec(int slot, uint32_t a0, uint32_t a1, uint32_t a2, uint32_t a3, const void *data, int n) {
-  LONG i = InterlockedIncrement(&g_n) - 1; if (i >= 4096) return;
+  LONG i = InterlockedIncrement(&g_n) - 1;
+  if (i >= (LONG)(sizeof g_log / sizeof g_log[0])) { if (i == (LONG)(sizeof g_log / sizeof g_log[0])) printf("FAIL: the test's call log is full (sf_host.c g_log): later checks cannot count calls\n"); return; }
   Call *c = &g_log[i]; c->slot = slot; c->a[0] = a0; c->a[1] = a1; c->a[2] = a2; c->a[3] = a3;
   c->nbytes = n > 256 ? 256 : n; if (data && n > 0) memcpy(c->bytes, data, c->nbytes);
 }
@@ -87,7 +88,10 @@ static ULONG __stdcall s_addref(FSurf *s) { return ++s->refs; }
 static ULONG __stdcall s_release(FSurf *s) { if (s != &g_boxSurf && s != &g_gameSurf) g_nSurfRelease++; return --s->refs; }
 static HRESULT __stdcall s_getdesc(FSurf *s, uint32_t *d) { memset(d, 0, 32); d[0] = 21; d[1] = 1; d[3] = s->pool; d[6] = 16; d[7] = 16; return 0; }
 typedef struct { INT Pitch; void *pBits; } FLock;
-static HRESULT __stdcall s_lock(FSurf *s, FLock *lr, const RECT *r, DWORD f) { g_nLock++; lr->Pitch = 64; lr->pBits = s->px; return 0; }
+static int g_surf_notyet; static LONG g_nNotYet;   /* locks with d3d8on11's do-not-wait flag (0x4000) are told "not yet" */
+static HRESULT __stdcall s_lock(FSurf *s, FLock *lr, const RECT *r, DWORD f) {
+  if ((f & 0x4000) && g_surf_notyet) { g_nNotYet++; return (HRESULT)0x8876021CL; }
+  g_nLock++; lr->Pitch = 64; lr->pBits = s->px; return 0; }
 static HRESULT __stdcall s_unlock(FSurf *s) { return 0; }
 static FSurf *new_surf(DWORD pool) { FSurf *s = (FSurf *)calloc(1, sizeof *s); s->vt = g_svt; s->pool = pool; s->refs = 1; return s; }
 static HRESULT __stdcall d_creatert(void *d, UINT w, UINT h, DWORD f, DWORD ms, BOOL lk, FSurf **o) { g_nRT++; *o = new_surf(0); return 0; }
@@ -171,7 +175,15 @@ static int rb_lines(long *on, long *skip) {
   if (l && (l = strstr(l, "with it on ("))) sscanf(l, "with it on (%ld frames); %ld frames with every readback skipped", on, skip);
   return c;
 }
-static void touch(const char *path, const char *body) { Sleep(30); FILE *f = fopen(path, "w"); fputs(body, f); fclose(f); }
+/* write a settings file so that speedfix sees it changed: speedfix re-reads when the file's write time differs from the
+   one it read, so a second write inside the same tick of the file system's clock is written again until the time moves */
+static void touch(const char *path, const char *body) {
+  WIN32_FILE_ATTRIBUTE_DATA a0, a1; int had = GetFileAttributesExA(path, GetFileExInfoStandard, &a0);
+  for (int i = 0; i < 200; i++) {
+    Sleep(30); FILE *f = fopen(path, "w"); fputs(body, f); fclose(f);
+    if (!had || !GetFileAttributesExA(path, GetFileExInfoStandard, &a1) || CompareFileTime(&a0.ftLastWriteTime, &a1.ftLastWriteTime)) break;
+  }
+}
 
 /* the stagger's call: ESI = the actor (0x100CC584 `mov edi, [esi+0x9F0]`) */
 extern int call_with_esi(void *fn, void *esi);
@@ -986,6 +998,47 @@ int main(int argc, char **argv) {
     check(g_nSurfRelease - rel0 == 2, "... Reset releases its surfaces first (both)");
     begin(); picture(1); int r1 = rb(&q1, 0); end(); present();
     check(r1 == 256 && g_nRT == 3, "... after Reset: the game's answer, and a new surface");
+    /* occlusion_nowait: with d3d8on11's do-not-wait flag the late read never waits: while no picture has finished the
+       object's last answer is given again and up to three pictures are in flight; then the newest finished one answers */
+    { void (*nw)(unsigned) = (void (*)(unsigned))GetProcAddress(GetModuleHandleA("speedfix.dll"), "sf_occl_test_nowait");
+      check(nw != NULL, "occlusion_nowait: speedfix exports sf_occl_test_nowait");
+      if (nw) {
+        struct { short w[2]; void *s; } q3 = {{0, 0}, &g_gameSurf};
+        nw(0x4000); g_surf_notyet = 1;
+        LONG l0 = g_nLock, rt0 = g_nRT, ny0 = g_nNotYet;
+        begin();
+        picture(1); int n1 = rb(&q3, 0);         /* no answer yet: the game's readback (256); picture 1 in flight */
+        LONG l1 = g_nLock;
+        picture(0); int n2 = rb(&q3, 0);         /* not finished: 256 again; picture 0 in flight */
+        picture(2); int n3 = rb(&q3, 0);         /* 256 again; the half picture in flight */
+        picture(1); int n4 = rb(&q3, 0);         /* 256 again; all three in flight: this picture is not copied */
+        LONG l4 = g_nLock, rt4 = g_nRT, ny4 = g_nNotYet;
+        g_surf_notyet = 0;
+        picture(0); int n5 = rb(&q3, 0);         /* all finished: the newest one's answer (the half picture) */
+        picture(1); int n6 = rb(&q3, 0);         /* the picture copied at n5 (nothing drawn): 0 */
+        end(); present();
+        check(n1 == 256 && l1 - l0 == 1, "occlusion_nowait: a first probe is answered by the game's readback");
+        check(n2 == 256 && n3 == 256 && n4 == 256 && l4 == l1 && ny4 - ny0 == 6 && rt4 - rt0 == 3,
+              "... while no picture has finished: the last answer again, no lock waits (6 told not yet), three surfaces in flight and no fourth");
+        check(n5 == truth[2] && n6 == 0, "... then the newest finished picture answers, counted as the game counts, and the next probe's follows");
+        g_surf_notyet = 1; frames(40);            /* in flight longer than OL_MAX_AGE */
+        begin(); picture(2); int n7 = rb(&q3, 0); end(); present();
+        check(n7 == truth[2], "... a picture in flight for more than 32 frames is dropped: the game's answer");
+        g_surf_notyet = 0; nw(0);
+        touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_late=1\nocclusion_hold=0\nocclusion_nowait=0\nstats_every=1\n"); frames(65);
+        nw(0x4000); g_surf_notyet = 1; LONG ny8 = g_nNotYet;
+        begin(); picture(1); rb(&q3, 0); picture(0); int n9 = rb(&q3, 0); end(); present();
+        check(g_nNotYet == ny8 && n9 == 256, "occlusion_nowait=0: the flag is not passed; the previous picture answers as before");
+        g_surf_notyet = 0; nw(0);
+        /* occlusion_first=2: a first probe is answered "visible" without the game's readback, then its own picture's */
+        touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_late=1\nocclusion_hold=0\nocclusion_first=2\nstats_every=1\n"); frames(65);
+        struct { short w[2]; void *s; } q4 = {{0, 0}, &g_gameSurf};
+        LONG lf = g_nLock;
+        begin(); picture(0); int f1 = rb(&q4, 0); LONG lf1 = g_nLock; picture(1); int f2 = rb(&q4, 0); end(); present();
+        check(f1 == 256 && lf1 == lf && f2 == 0, "occlusion_first=2: a first probe is answered visible with no lock at all; the next probe answers its picture (nothing drawn: 0)");
+        touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_late=1\nocclusion_hold=0\nstats_every=1\n"); frames(65);
+      }
+    }
     touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nocclusion_late=2\nstats_every=1\n"); frames(65);
     begin(); picture(1); int t1 = rb(&q1, 0); picture(0); int t2 = rb(&q1, 0); picture(2); int t3 = rb(&q1, 0); end(); present();
     check(t1 == 256 && t2 == 0 && t3 == truth[2], "occlusion_late=2 (measure only): every answer is the game's");

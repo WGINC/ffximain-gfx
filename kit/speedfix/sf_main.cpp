@@ -190,6 +190,13 @@ static const char kDefaultIni[] =
   ";   late answer flips visible to hidden on 3-4% of probes, 9 Nov: characters popping out and back in). A chosen\r\n"
   ";   rule, not the game's: a hidden object is drawn one probe longer. 1 = on (the default); 0 = off. Live\r\n"
   "occlusion_hold=1\r\n"
+  "; with occlusion_late=1 on d3d8on11: the late read never waits for d3d8on11's thread (it takes the newest finished\r\n"
+  "; picture, or the object's last answer again); 0 = wait for the previous probe's picture, as before 10 Nov\r\n"
+  "occlusion_nowait=1\r\n"
+  "; with occlusion_late=1: an object's first probe (no picture of its own yet) is answered by the game's own readback,\r\n"
+  "; which waits for the GPU (0, the default). 2 = answer \"visible\" that once instead, 1 = \"hidden\": no wait, but a\r\n"
+  "; chosen answer, not the game's (an effect whose brightness is the count is at full for one probe with 2)\r\n"
+  "occlusion_first=0\r\n"
   "; at the start: each minute, frame time and draws, readbacks, new textures and creations per frame, split by\r\n"
   ";   whether the camera moved (the view transform changed); hooks the draws, SetTransform and the Create methods\r\n"
   "motion_stats=0\r\n"
@@ -227,7 +234,7 @@ static SfConfig read_config(void) {
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
-  c.occlusion_hold = rd("occlusion_hold", 1); c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
+  c.occlusion_hold = rd("occlusion_hold", 1); c.occlusion_nowait = rd("occlusion_nowait", 1); c.occlusion_first = rd("occlusion_first", 0); if (c.occlusion_first < 0 || c.occlusion_first > 2) c.occlusion_first = 0; c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
   if (c.stats_every < 1) c.stats_every = 1;
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
@@ -1137,6 +1144,7 @@ static const Lever kLevers[] = {
   {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},
   {"skin_merge", &SfConfig::skin_merge, 0}, {"precise_pacing", &SfConfig::precise_pacing, 0},
   {"null_draws", &SfConfig::null_draws, 0}, {"occlusion_late", &SfConfig::occlusion_late, 0},
+  {"occlusion_nowait", &SfConfig::occlusion_nowait, 0}, {"occlusion_first", &SfConfig::occlusion_first, 0},
   {"uncap", &SfConfig::uncap, 0}, {"frame_step", &SfConfig::frame_step, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };

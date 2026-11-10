@@ -38,6 +38,8 @@ struct SfConfig {
   int precise_pacing;       // the game's frame limiter timed with the performance counter and waited on precisely
                             // (sf_main.cpp): 60.0 fps instead of 58.8
   int null_draws;           // a test: the draw calls return D3D_OK without reaching the device (sf_device.cpp)
+  int occlusion_first;      // occlusion_late=1: a probe with no finished picture is answered without a wait: 1 hidden, 2 visible (0: the game's readback)
+  int occlusion_nowait;     // occlusion_late's reads never wait when the d3d8.dll in use is d3d8on11 with D8ON11_LockDoNotWait (default 1)
   int occlusion_hold;       // occlusion_late=1: a visible object hidden only when two answers in a row say hidden (sf_occlusion.cpp)
   int occlusion_late;       // the occlusion readback answered from the query's previous probe (sf_occlusion.cpp): 1 on, 2 measure only
   int uncap;                // the game's minimum ticks a frame [g_pCamera+0x30] kept at 0: no 60 fps wait (sf_main.cpp)

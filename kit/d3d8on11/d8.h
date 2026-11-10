@@ -18,6 +18,12 @@
 
 struct Dev;
 struct Tex; struct Surf;
+// a lock flag of this device's own (bit 0x4000 is not a Direct3D 8 lock flag: d3d8types.h defines READONLY 0x10,
+// NOSYSLOCK 0x800, NOOVERWRITE 0x1000, DISCARD 0x2000, NO_DIRTY_UPDATE 0x8000); see Surf::LockRect
+#define D8ON11_LOCK_DONOTWAIT 0x4000u
+// what such a lock fails with when the snapshot is not there yet (Direct3D 9's D3DERR_WASSTILLDRAWING value,
+// MAKE_D3DHRESULT(540); Direct3D 8 has no such code)
+#define D8ON11_NOTYET ((HRESULT)0x8876021CL)
 
 // ---- a surface: a texture level, a render target, a depth-stencil surface, an image surface or the back buffer --
 enum SurfKind { SK_TEXLEVEL, SK_RT, SK_DS, SK_IMAGE, SK_BACKBUFFER };
@@ -199,7 +205,10 @@ struct Dev final : public IDirect3DDevice8_Stub {
   void destroy_obj(uint32_t id) { if (id && link) link->put(X_DESTROY, &id, 4); }
   // the snapshot slots (X_SNAP): handed out to lockable render targets as CopyRects first writes them, given back when
   // the surface goes; locks answered from a snapshot and by a readback, for the stats line
-  std::vector<int> snap_free; int snap_next = 0; uint32_t snap_hits = 0, snap_misses = 0, snap_frames = 0;
+  // the game's thread's time in this side's draw methods and buffer unlocks, sampled (every 16th draw, every 4th
+  // unlock that uploads): QueryPerformanceCounter ticks, the samples, and all calls; logged with the snapshots' line
+  uint64_t dt_draw_ticks = 0, dt_unlock_ticks = 0; uint32_t dt_draw_s = 0, dt_draw_n = 0, dt_unlock_s = 0, dt_unlock_n = 0;
+  std::vector<int> snap_free; int snap_next = 0; uint32_t snap_hits = 0, snap_misses = 0, snap_frames = 0, snap_notyet = 0;
   int snap_take() {
     if (!link || !link->snaps) return -1;
     if (!snap_free.empty()) { int s = snap_free.back(); snap_free.pop_back(); return s; }

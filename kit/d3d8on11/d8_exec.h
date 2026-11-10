@@ -16,6 +16,9 @@ struct ExecRes {
   ID3D11Texture2D *tex = nullptr; ID3D11ShaderResourceView *srv = nullptr; ID3D11DepthStencilView *dsv = nullptr;
   ID3D11Buffer *buf = nullptr;
   std::vector<uint8_t> shadow; bool dyn = false, mapped = false;
+  // buffer_arena (Exec::BArena): where a dynamic buffer's contents are for a draw: in its own buffer, or in the arena
+  // of generation agen at byte `at`
+  bool in_arena = false; uint32_t at = 0, agen = 0;
   uint64_t up_frame = ~0ull;                       // the Present count at its last upload (the stats' "again")   // a dynamic buffer: its whole contents, kept here
   ID3D11Texture2D *stage = nullptr;                // X_SNAP's staging copy (a small lockable render target)
   std::unordered_map<uint32_t, ID3D11RenderTargetView *> rtv;   // per level*8+face
@@ -82,7 +85,30 @@ struct Exec {
 private:
   struct Held { uint16_t op; uint32_t n; const uint8_t *p; size_t off; };
   std::vector<Held> held; std::vector<uint8_t> hold;
-  struct Prep { uint32_t vc, pc, vb, ib; };                // byte offsets into the arenas; ~0u: none (the draw maps)
+  // byte offsets into the arenas; ~0u: none (the draw maps). bufs: the index into prep_bufs of this draw's buffers as
+  // the batch placed them (buffer_arena), ~0u: none; up: an upload the batch has already written (not run again)
+  struct Prep { uint32_t vc, pc, vb, ib, bufs; uint8_t up; uint32_t up_at; };
+  struct PrepBufs { ID3D11Buffer *sb[16]; UINT so[16]; ID3D11Buffer *ib; UINT io; };
+  std::vector<PrepBufs> prep_bufs;
+  // buffer_arena (X_OPTION OPT_BUFARENA; d3d8on11.ini buffer_arena): the game's dynamic buffers' contents live in two
+  // large dynamic buffers, [0] vertex data and [1] indices, instead of a Direct3D 11 buffer each. An upload that
+  // replaces a buffer (DISCARD, or no flag) puts the buffer's whole contents at a new place in the arena; a
+  // NOOVERWRITE upload writes its range where the buffer already is. A draw binds the arena at the buffer's offset.
+  // A new place each time is what Map(DISCARD) of the buffer itself gives, so in a batch every upload can be written
+  // before the batch's first draw, under one Map of the arena (Exec::plan). When the arena is full it starts again
+  // with Map(DISCARD) and a new generation; a buffer still at a place of an older generation is written to its own
+  // Direct3D 11 buffer when next drawn, and stays there until its next upload.
+  struct BArena { ID3D11Buffer *b = nullptr; UINT cap = 0, pos = 0; uint32_t gen = 1; uint8_t *m = nullptr; bool fresh = true; } ba[2];
+public:
+  uint32_t arena_kb = 0;
+  uint64_t ba_place = 0, ba_range = 0, ba_bytes = 0, ba_wraps = 0, ba_own = 0, ba_maps = 0;   // for the stats
+private:
+  bool arena_for(const ExecRes &r) const { return arena_kb && r.dyn && ba[r.index ? 1 : 0].b && r.shadow.size() <= ba[r.index ? 1 : 0].cap / 8; }
+  void arena_make();
+  bool arena_take(BArena &a, UINT bytes, bool may_wrap, UINT *at);
+  void arena_own(ExecRes &r);
+  bool arena_upload_now(ExecRes &r, const XUpBuf &u, const uint8_t *data);
+  void arena_resolve(ExecRes &r, ID3D11Buffer **b, UINT *off);
   std::vector<Prep> prep;
   size_t plan(size_t i);
   void exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply, const Prep *pp);
@@ -102,7 +128,7 @@ private:
     D3D11_VIEWPORT vp = {}; UINT topo = 0; bool cbs = false; UINT vco = ~0u, pco = ~0u;   // vco, pco: the arenas' offsets bound
     ID3D11ShaderResourceView *srv[8] = {}; ID3D11SamplerState *smp[8] = {};
     ID3D11Buffer *vb[16] = {}; UINT stride[16] = {}, voff[16] = {};
-    ID3D11Buffer *ib = nullptr; DXGI_FORMAT ifmt = DXGI_FORMAT_UNKNOWN;
+    ID3D11Buffer *ib = nullptr; DXGI_FORMAT ifmt = DXGI_FORMAT_UNKNOWN; UINT ioff = 0;
   } bd;
   struct Memo {
     bool vk_ok = false, pk_ok = false, vc_ok = false, pc_ok = false, bs_ok = false, ds_ok = false, rs_ok = false, ss_ok[8] = {};

@@ -171,15 +171,15 @@ static bool read_back(Surf *s) {
 }
 // a copied render target's snapshot (X_SNAP), if it holds the surface as it is now: the slot's write count is the
 // surface's, so no copy, draw (never: `drawn`) or write-back has changed it since the copy the snapshot was taken of
-static bool read_snap(Surf *s) {
+static bool read_snap(Surf *s, bool count = true) {
   if (s->snap < 0 || s->drawn || !s->dev->link->snaps) return false;
   SnapSlot &q = s->dev->link->snaps[s->snap];
   UINT pitch = d8_pitch(s->fmt, s->w), rows = d8_rows(s->fmt, s->h);
   uint32_t v = __atomic_load_n(&q.ver, __ATOMIC_SEQ_CST);
-  if ((v & 1u) || q.id != s->id || q.wseq != s->wseq || q.bytes != pitch * rows) { s->dev->snap_misses++; return false; }
+  if ((v & 1u) || q.id != s->id || q.wseq != s->wseq || q.bytes != pitch * rows) { if (count) s->dev->snap_misses++; return false; }
   std::vector<uint8_t> got(q.data, q.data + (size_t)pitch * rows);
   __atomic_thread_fence(__ATOMIC_SEQ_CST);                 // the sequence lock's reader: the data before ver again
-  if (__atomic_load_n(&q.ver, __ATOMIC_SEQ_CST) != v) { s->dev->snap_misses++; return false; }
+  if (__atomic_load_n(&q.ver, __ATOMIC_SEQ_CST) != v) { if (count) s->dev->snap_misses++; return false; }
   s->cpu.swap(got); s->dev->snap_hits++;
   return true;
 }
@@ -196,6 +196,12 @@ HRESULT Surf::LockRect(D3DLOCKED_RECT *lr, const RECT *r, DWORD flags) {
   if (kind == SK_DS) { d8_notimpl("LockRect of a depth-stencil surface"); return D3DERR_INVALIDCALL; }
   if ((kind == SK_RT && !lockable)) { d8_notimpl("LockRect of a render target made not lockable"); return D3DERR_INVALIDCALL; }
   if (kind == SK_RT || kind == SK_BACKBUFFER) {
+    // D8ON11_LOCK_DONOTWAIT (d8.h; not a Direct3D 8 flag, used by callers that found D8ON11_LockDoNotWait exported): a
+    // lock of a copied render target whose snapshot is not there yet fails with D8ON11_NOTYET (0x8876021C) instead of
+    // waiting for the executor. A surface that takes no snapshot (never copied into, or drawn into) is locked as ever.
+    if ((flags & D8ON11_LOCK_DONOTWAIT) && kind == SK_RT && snap >= 0 && !drawn && dev->link->snaps) {
+      if (!read_snap(this, false)) { dev->snap_notyet++; return D8ON11_NOTYET; }
+    } else
     if (!(kind == SK_RT && read_snap(this)) && !read_back(this)) return D3DERR_INVALIDCALL;
   } else if (cpu.empty()) cpu.assign((size_t)d8_pitch(fmt, w) * d8_rows(fmt, h), 0);
   UINT pitch = d8_pitch(fmt, w); size_t off = 0;
@@ -247,7 +253,12 @@ HRESULT BufCore::lock(UINT off, UINT size, BYTE **p, DWORD flags) {
 HRESULT BufCore::unlock() {
   if (!locks) return D3DERR_INVALIDCALL;
   if (--locks) return D3D_OK;
-  if (id && hi > lo) dev->link->upload_buf(id, lo, cpu.data() + lo, hi - lo, lflags);
+  if (id && hi > lo) {
+    const bool on = (++dev->dt_unlock_n & 3u) == 0; LARGE_INTEGER t0, t1;
+    if (on) QueryPerformanceCounter(&t0);
+    dev->link->upload_buf(id, lo, cpu.data() + lo, hi - lo, lflags);
+    if (on) { QueryPerformanceCounter(&t1); dev->dt_unlock_ticks += (uint64_t)(t1.QuadPart - t0.QuadPart); dev->dt_unlock_s++; }
+  }
   return D3D_OK;
 }
 HRESULT VB::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DVertexBuffer8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }

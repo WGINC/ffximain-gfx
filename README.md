@@ -14,11 +14,31 @@ This is private work: nothing here is published, and no game bytes are in the re
 | `docs/` | `METHOD.md` (how it works), `HISTORY.md` (dated record), `HANDOFF.md` (state and next steps), `EFFICIENCY.md` (working cheaply), `PLAN.md` and `PLAN_TASKS.md` (the plan and its tasks), `FRAMESET_REMAINING.md` (the frame set outside the tree, by blocker), `NAMES.md` (naming evidence), `KIT.md` and `SDK.md` (the in-game tools), `ROADMAP.md`, `GAPS.md`, `RENDERER.md`, `UI.md`, `DEARTIFACT.md`, `LOCALS.md` |
 | `pipeline/` | Everything that runs outside IDA: translator, gate, fact tools, tests (`pipeline/tests/`) |
 | `ida/` | What runs inside IDA: `ffxi_ida_fix.py` (generated, self-contained), its template, the graphics-set exporter `ida_gfx.py`, `ida_regflow.py` |
-| `kit/` | The in-game kit: `xikit` (swaps reconstructed functions into the running game, traces, bisect, capture) and `d3dprof` (per-call-site Direct3D profiler). `kit/README.md`, `docs/KIT.md` |
+| `kit/` | What runs in the game: `xikit` (hooks, measuring, capture, swaps of reconstructed functions; build translation), `speedfix` (the performance mod: levers, `uncap`, `frame_step`, Liminality), `d3d8on11` (our Direct3D 8 device on Direct3D 11), `d3dprof` and `fcap` (profiler, frame capture), `xiload`, `xisamp`, and `sessions/` (each owner run's package and instructions). `kit/README.md`, `docs/KIT.md` |
 | `sdk/` | Mods for xikit: headers, template, examples, forks (`fork.py`). `docs/SDK.md` |
 | `data/` | Inputs and facts: the Hex-Rays export (`exports/`), facts read from the DLL, hand corrections (`hx_patches/`, `type_fixes.json`), the gate's input model, the class model, D3D8/D3DX data (`d3dx/`) |
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
+
+## Where things stand (10 Nov 2026)
+
+- **The game's builds:** three are known to the kit: 6A995428 (analysed), 6AC37846 and 6AE818B4 (2 Nov; translated,
+  docs/KIT.md). On 6AE818B4 speedfix and the kit's measuring work; the reconstruction is not swapped in (61 of its
+  addresses are not proven there).
+- **Frame time, Port Jeuno plaza, d3d8on11 with speedfix (the owner's run of 12 Nov, start 3):** about 60 fps
+  standing. d3d8on11's worker is busy 95% of the time, 14.3 ms a frame median (Present 6.9, draws 4.4, uploads 1.6,
+  read-backs 1.0). The game's own thread waited 3.9 ms a frame in speedfix's late occlusion reads and 0.9 ms in
+  first-probe readbacks.
+- **Built on 10 Nov, not yet run in the game** (`kit/sessions/ab_16nov`): the late occlusion read without a wait
+  (`occlusion_nowait`), a shared buffer for the game's dynamic vertex data (`buffer_arena`), a first-probe answer
+  without a wait (`occlusion_first`, a chosen rule), and a start with d3d8on11's worker as a native ARM64 program.
+- **Above 60 fps:** the game's time follows real time (`uncap`, `frame_step=3`; the camera and characters move by the
+  fraction of a tick). Liminality (`liminality=1`: whole ticks, with positions, facing, limbs and the camera blended
+  between them) is built and passes its offline tests; its last version has not run in the game
+  (`kit/sessions/ab_15nov`), and the one that ran (12 Nov) broke on four faults since fixed.
+- **Not built:** GPU skinning, draw merging in d3d8on11.
+
+The two sections below are as written on 5 Nov and 1 Nov; where they differ from the list above, the list is right.
 
 ## Performance on the owner's machine (5 Nov 2026)
 

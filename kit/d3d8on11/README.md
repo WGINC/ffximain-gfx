@@ -90,6 +90,38 @@ the 16x16 occlusion target's size) that is only written by CopyRects.
   after its copy, so it reads back as before. speedfix's `occlusion_late` lever locks a frame later.
 - Every 600 Presents the log gets `readback snapshots` (locks answered from a snapshot, and locks that read back).
 
+**The do-not-wait lock (`D8ON11_LOCK_DONOTWAIT`, 0x4000; 10 Nov).** A mod that finds `D8ON11_LockDoNotWait` exported
+(it returns the flag) may pass the flag to LockRect of a lockable render target. Bit 0x4000 is not a Direct3D 8 lock
+flag (d3d8types.h).
+- If the surface's snapshot is not there yet, the lock fails at once with 0x8876021C (`D8ON11_NOTYET`; Direct3D 9's
+  D3DERR_WASSTILLDRAWING value) and nothing waits.
+- A surface that takes no snapshot (never copied into, or drawn into) is locked as ever.
+- Why: in `thread` and `remote` the executor runs up to two frames behind the game, so a lock a frame after the copy
+  finds no snapshot. The owner's run of 12 Nov (start 3): a quarter of speedfix's late locks read back with a wait.
+- speedfix's `occlusion_nowait` uses it. The snapshots line counts the locks told "not yet".
+- t8 `nowait`: 1,200 frames in each mode. In `thread` and `remote` an answer came every third frame, each one the
+  copied frame's colour, with no read-back.
+
+**Buffer arena (`buffer_arena=1`; 10 Nov; off by default until it is measured in the game).** Needs dynamic_buffers.
+- What: the game's dynamic buffers' contents live in two large Direct3D 11 dynamic buffers (vertex data 16 MB, indices
+  4 MB; `buffer_arena=N` for N KB) instead of a Direct3D 11 buffer each. Buffers larger than an eighth of the arena
+  stay their own.
+- An upload that replaces a buffer (DISCARD, or no flag) puts the buffer's whole contents at a new place in the arena.
+  A NOOVERWRITE upload writes its range where the buffer already is. A draw binds the arena at the buffer's offset
+  (IASetVertexBuffers' offset, IASetIndexBuffer's offset).
+- A new place each time is what Map(DISCARD) of the buffer itself gives. So in a batch every upload is written before
+  the batch's first draw, under one Map of the arena (d8_exec.cpp, `Exec::plan`). A record that makes or frees a buffer
+  ends the batch's chunk.
+- When the arena is full it starts again with Map(DISCARD) and a new generation. That happens only at the start of a
+  chunk, before any of its draws has been given a place. A buffer still at a place of an older generation is written
+  to its own Direct3D 11 buffer when next drawn, and stays there until its next upload.
+- Why: the owner's plaza has 300 to 650 buffer uploads a frame, each a Map(DISCARD) of its own buffer, and Present's
+  time follows the upload time (7 Nov). Whether one Map of one buffer is cheaper on the owner's machine is not
+  known; `executor buffer arena` in the log (every 600 Presents) and the uploads line measure it.
+- Tests: every scene drawn with the arena equals the scene without it, pixel for pixel, in each mode, with records
+  run one by one and in batches, with the 16 MB arena and with an 8 KB test arena that starts again several times.
+  The `buffer_arena` scene writes one buffer again before each of 320 draws.
+
 **CopyRects into a lockable texture.** A CopyRects from a GPU surface (a render target, the back buffer, another
 texture) into a texture level marks that level's CPU copy stale; the level's next LockRect reads it back first
 (X_READBACK, which waits for the executor to run the copy), so the lock holds the copied texels and its unlock sends

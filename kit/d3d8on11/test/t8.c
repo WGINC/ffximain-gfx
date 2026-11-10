@@ -651,6 +651,47 @@ static void scenes(void) {
     end("dynamic_buffers");
     IDirect3DDevice8_SetStreamSource(d, 0, NULL, 0); IDirect3DDevice8_SetIndices(d, NULL, 0);
     if (vb) IDirect3DVertexBuffer8_Release(vb); if (ib) IDirect3DIndexBuffer8_Release(ib); }
+  /* buffer_arena: one small dynamic buffer written again with DISCARD before each of 320 draws, as the game writes a
+     skinned model's vertices and draws it (every draw must read its own write, not a later one); a second buffer
+     written once before them and drawn after them (with a small test arena it has started again in between); the same
+     with a dynamic index buffer written again before each indexed draw; and a buffer made and released in between */
+  { IDirect3DVertexBuffer8 *vb = NULL, *keep = NULL, *tmp = NULL; IDirect3DIndexBuffer8 *ib = NULL; BYTE *p = NULL;
+    IDirect3DDevice8_CreateVertexBuffer(d, 4 * sizeof(VRhw), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &vb);
+    IDirect3DDevice8_CreateVertexBuffer(d, 8 * sizeof(VRhw), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &keep);
+    IDirect3DDevice8_CreateIndexBuffer(d, 6 * 2, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, D3DFMT_INDEX16, D3DPOOL_DEFAULT, &ib);
+    reset_state(); IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_FALSE);
+    begin(0xFF101010);
+    IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+    #define AQ(q, x0, y0, x1, y1, c) do { VRhw t[4] = {{x0, y0, 0.5f, 1, c}, {x1, y0, 0.5f, 1, c}, {x0, y1, 0.5f, 1, c}, {x1, y1, 0.5f, 1, c}}; memcpy(q, t, sizeof t); } while (0)
+    if (keep && SUCCEEDED(IDirect3DVertexBuffer8_Lock(keep, 0, 0, &p, D3DLOCK_DISCARD))) {
+      AQ(p, 0, 48, 64, 56, 0xFFFFFFFF); AQ(p + 4 * sizeof(VRhw), 0, 56, 64, 64, 0xFF808080); IDirect3DVertexBuffer8_Unlock(keep); }
+    for (int i = 0; i < 320; i++) {
+      float x = (float)(i % 32) * 2, y = (float)(i / 32) * 2; DWORD c = 0xFF000000 | (DWORD)(i * 0x030507 + 0x202020);
+      if (vb && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vb, 0, 0, &p, D3DLOCK_DISCARD))) { AQ(p, x, y, x + 2, y + 2, c); IDirect3DVertexBuffer8_Unlock(vb); }
+      IDirect3DDevice8_SetStreamSource(d, 0, vb, sizeof(VRhw));
+      if (i % 3) IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLESTRIP, 0, 2);
+      else {
+        if (ib && SUCCEEDED(IDirect3DIndexBuffer8_Lock(ib, 0, 0, &p, D3DLOCK_DISCARD))) { WORD *w = (WORD *)p;
+          if (i % 2) { w[0] = 0; w[1] = 1; w[2] = 2; w[3] = 1; w[4] = 3; w[5] = 2; } else { w[0] = 2; w[1] = 0; w[2] = 1; w[3] = 2; w[4] = 1; w[5] = 3; }
+          IDirect3DIndexBuffer8_Unlock(ib); }
+        IDirect3DDevice8_SetIndices(d, ib, 0);
+        IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 0, 4, 0, i % 6 ? 2 : 1);
+      }
+      if (i == 100 || i == 200) {                      /* a buffer made, written, drawn and released among them */
+        IDirect3DDevice8_CreateVertexBuffer(d, 4 * sizeof(VRhw), D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, D3DFVF_XYZRHW | D3DFVF_DIFFUSE, D3DPOOL_DEFAULT, &tmp);
+        if (tmp && SUCCEEDED(IDirect3DVertexBuffer8_Lock(tmp, 0, 0, &p, D3DLOCK_DISCARD))) { AQ(p, (float)(i / 5), 24, (float)(i / 5 + 10), 34, 0xFFFF00FF); IDirect3DVertexBuffer8_Unlock(tmp); }
+        IDirect3DDevice8_SetStreamSource(d, 0, tmp, sizeof(VRhw)); IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLESTRIP, 0, 2);
+        IDirect3DDevice8_SetStreamSource(d, 0, NULL, 0); if (tmp) IDirect3DVertexBuffer8_Release(tmp); tmp = NULL;
+      }
+    }
+    IDirect3DDevice8_SetStreamSource(d, 0, keep, sizeof(VRhw));
+    IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLESTRIP, 0, 2);
+    if (keep && SUCCEEDED(IDirect3DVertexBuffer8_Lock(keep, 4 * sizeof(VRhw), 4 * sizeof(VRhw), &p, D3DLOCK_NOOVERWRITE))) { AQ(p, 8, 58, 56, 62, 0xFF00C000); IDirect3DVertexBuffer8_Unlock(keep); }
+    IDirect3DDevice8_DrawPrimitive(d, D3DPT_TRIANGLESTRIP, 4, 2);
+    #undef AQ
+    end("buffer_arena");
+    IDirect3DDevice8_SetStreamSource(d, 0, NULL, 0); IDirect3DDevice8_SetIndices(d, NULL, 0);
+    if (vb) IDirect3DVertexBuffer8_Release(vb); if (keep) IDirect3DVertexBuffer8_Release(keep); if (ib) IDirect3DIndexBuffer8_Release(ib); }
   if (chk) IDirect3DTexture8_Release(chk); if (grad) IDirect3DTexture8_Release(grad); if (alp) IDirect3DTexture8_Release(alp);
 }
 
@@ -884,6 +925,47 @@ int main(int argc, char **argv) {
   if (argc > 2 && !strcmp(argv[1], "random")) {
     random_cases(argv[2]);
     IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d);
+    return 0;
+  }
+  if (argc > 1 && !strcmp(argv[1], "nowait")) {
+    /* the do-not-wait lock (d8_res.cpp, D8ON11_LOCK_DONOTWAIT; the flag from the export D8ON11_LockDoNotWait): each
+       frame locks a 16x16 lockable render target that an earlier frame copied the back buffer into. A lock that
+       succeeds must read that frame's colour; one told 0x8876021C (not yet) leaves the copy as it is and no new
+       copy is made, as speedfix's occlusion_late does. No other read-back runs, so the device may run ahead. */
+    typedef unsigned (__stdcall *PFN)(void);
+    PFN pf = (PFN)(void *)GetProcAddress(GetModuleHandleA("d3d8.dll"), "D8ON11_LockDoNotWait");
+    DWORD fl = pf ? pf() : 0;
+    IDirect3DSurface8 *late = NULL, *lbb = NULL; RECT lr16 = {0, 0, 16, 16}; POINT lp0 = {0, 0};
+    D3DSURFACE_DESC lbd; memset(&lbd, 0, sizeof lbd);
+    IDirect3DDevice8_GetBackBuffer(d, 0, D3DBACKBUFFER_TYPE_MONO, &lbb); if (lbb) IDirect3DSurface8_GetDesc(lbb, &lbd);
+    IDirect3DDevice8_CreateRenderTarget(d, 16, 16, lbd.Format, D3DMULTISAMPLE_NONE, TRUE, &late);
+    int nf = argc > 2 ? atoi(argv[2]) : 600, got = 0, notyet = 0, bad = 0, other = 0, pend = -1, longest = 0, run = 0;
+    for (int f = 0; f < nf && late && lbb && fl; f++) {
+      IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF000000 | (f * 4), 1.0f, 0);
+      int copy = pend < 0;
+      if (pend >= 0) {
+        D3DLOCKED_RECT q; HRESULT hr = IDirect3DSurface8_LockRect(late, &q, NULL, D3DLOCK_READONLY | fl);
+        if (SUCCEEDED(hr)) {
+          DWORD px = ((DWORD *)((BYTE *)q.pBits + 9 * q.Pitch))[7] & 0xFFFFFF; IDirect3DSurface8_UnlockRect(late);
+          if (px != (DWORD)(pend * 4)) bad++;
+          got++; copy = 1; run = 0;
+        } else if (hr == (HRESULT)0x8876021CL) { notyet++; if (++run > longest) longest = run; }
+        else other++;
+      }
+      if (copy) { IDirect3DDevice8_CopyRects(d, lbb, &lr16, 1, late, &lp0); pend = f; }
+      IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);
+    }
+    printf("nowait: %d frames, %d locks answered, %d told not yet (longest run %d), %d wrong, %d other failures\n", nf, got, notyet, longest, bad, other);
+    check(fl == 0x4000, "the device exports D8ON11_LockDoNotWait and its flag is 0x4000");
+    check(late && lbb && got > nf / 8 && !bad && !other && longest < 64, "do-not-wait locks of a copied render target: every answer is the copied frame's colour, none fails otherwise, and answers keep coming");
+    /* a surface that takes no snapshot is locked as ever with the flag: one never copied into */
+    IDirect3DSurface8 *plain = NULL; D3DLOCKED_RECT q;
+    IDirect3DDevice8_CreateRenderTarget(d, 16, 16, lbd.Format, D3DMULTISAMPLE_NONE, TRUE, &plain);
+    HRESULT hp = plain ? IDirect3DSurface8_LockRect(plain, &q, NULL, D3DLOCK_READONLY | fl) : E_FAIL;
+    if (SUCCEEDED(hp)) IDirect3DSurface8_UnlockRect(plain);
+    check(SUCCEEDED(hp), "a render target never copied into is locked as ever with the flag");
+    if (plain) IDirect3DSurface8_Release(plain);
+    if (late) IDirect3DSurface8_Release(late); if (lbb) IDirect3DSurface8_Release(lbb);
     return 0;
   }
   if (argc > 1 && (!strcmp(argv[1], "frames") || !strcmp(argv[1], "orphan"))) {

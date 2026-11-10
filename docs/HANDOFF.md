@@ -1,5 +1,16 @@
 # Handoff (27 Oct): finishing the work in one session, without workers
 
+**10 Nov, before everything below:**
+- Where things stand: README.md, "Where things stand (10 Nov 2026)". The record: docs/HISTORY.md, from "10 Nov: the
+  four builds" to its end.
+- The session waiting for the owner: kit/sessions/ab_16nov (frame time: `fast`, `nowait`, `base`, `first`, `arm`), and
+  kit/sessions/ab_15nov (Liminality, not yet run). Read results with `kit/xikit/measure_read.py FOLDER`; it now sums the
+  occlusion waits and d3d8on11's worker time over a start.
+- The game has three builds here (`FFXI_DLL`, `FFXI_DLL_6AC37846`, `FFXI_DLL_6AE818B4`); run test_speedfix.py on each.
+  Run the Wine suites one at a time, with nothing else compiling: their timing checks fail under load.
+- Commits end with the `Claude-Session:` line only: CLAUDE.md allows no model identifier in a commit, so a
+  Co-Authored-By line that names a model is left out.
+
 **5 Nov, before the rest of this page (which is 27 Oct's):**
 - Performance: README.md "Performance on the owner's machine"; the owner's 4 Nov session in docs/HISTORY.md (5 Nov);
   the last owner session is kit/sessions/final_05nov (package.sh builds its zip). Read its results with

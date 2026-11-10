@@ -15,6 +15,24 @@
 #include <setjmp.h>
 
 #define G_PCDX 0x1045666Cu
+/* an analysed address -> the mapped game's, as the kit translates it: on another build its manifest's !shift ranges
+   (kit/xikit/manifest_for_build.py; code and, since build 6AE818B4, data). !no_swap: that build swaps nothing in. */
+static uint32_t g_hrel; static int32_t g_hshift[1 + 3 * 64]; static int g_no_swap;
+static uintptr_t ga(uint32_t a) {
+  int32_t d = 0;
+  for (int i = 0; i < g_hshift[0]; i++) if (a >= (uint32_t)g_hshift[1 + 3 * i] && a < (uint32_t)g_hshift[2 + 3 * i]) { d = g_hshift[3 + 3 * i]; break; }
+  return (uintptr_t)a + g_hrel + d;
+}
+static void load_shifts(HMODULE g) {
+  IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)((char *)g + ((IMAGE_DOS_HEADER *)g)->e_lfanew);
+  char p[64], line[512]; snprintf(p, sizeof p, "xikit_manifest_%08lX.txt", (unsigned long)nt->FileHeader.TimeDateStamp);
+  FILE *f = fopen(p, "r"); if (!f) return;
+  while (fgets(line, sizeof line, f)) { unsigned lo, hi; int d;
+    if (!strncmp(line, "!no_swap", 8)) g_no_swap = 1;
+    if (sscanf(line, "!shift %x %x %d", &lo, &hi, &d) == 3 && g_hshift[0] < 64) { int i = g_hshift[0]++; g_hshift[1 + 3 * i] = (int32_t)lo; g_hshift[2 + 3 * i] = (int32_t)hi; g_hshift[3 + 3 * i] = d; } }
+  fclose(f);
+  printf("note: build %08lX: %d shift ranges%s from %s\n", (unsigned long)nt->FileHeader.TimeDateStamp, g_hshift[0], g_no_swap ? ", no_swap" : "", p);
+}
 #define SETCOLOR 0x100A4830u          /* CXiSkeletonActor::SetColor: this+0x660 = arg */
 #define GETCOLOR 0x100A4840u          /* CXiSkeletonActor::GetColor: returns this+0x660 */
 #define GAMMA    0x1025D750u          /* FontGlyphCache_GetDevice: returns [g_pCDx+0xC] (mov eax, [g_pCDx]: a relocated operand at +1) */
@@ -128,9 +146,9 @@ static int measure_run(HMODULE g, uint32_t rel) {
   g_slot_tgt = (uint32_t)strtoul(getenv("SLOT_TGT"), NULL, 16); g_slot_dispatch = (uint32_t)strtoul(getenv("SLOT_DISPATCH"), NULL, 16);
   g_slot_heapalloc = (uint32_t)strtoul(getenv("SLOT_HEAPALLOC"), NULL, 16); g_slot_heapfree = (uint32_t)strtoul(getenv("SLOT_HEAPFREE"), NULL, 16);
   void *sleep0 = iat_fn(g_slot_sleep);
-  uint8_t *lsite = (uint8_t *)(uintptr_t)(0x10027606u + rel); int32_t lrel0; memcpy(&lrel0, lsite + 1, 4);   /* the dot product's call */
+  uint8_t *lsite = (uint8_t *)(uintptr_t)ga(0x10027606u); int32_t lrel0; memcpy(&lrel0, lsite + 1, 4);   /* the dot product's call */
   static float ment[0x40];                       /* frames_player=1: a fake entity in slot 3 of the table, moving 0.25 a frame in x */
-  *(int16_t *)(uintptr_t)(0x10485F7Au + rel) = 3; *(uint32_t *)(uintptr_t)(0x10480AF0u + rel + 12) = (uint32_t)(uintptr_t)ment;
+  *(int16_t *)(uintptr_t)ga(0x10485F7Au) = 3; *(uint32_t *)(uintptr_t)(ga(0x10480AF0u) + 12) = (uint32_t)(uintptr_t)ment;
   touch_ini("xikit.ini", "[xikit]\nlog_folder=0\nswap=0\ncount_calls=0\nreport_every=60\nhotkey=0\nframes=1\nframes_player=1\nimports=2\ncallsites=1\nsample=3\nsample_other_ms=2\nsysstats=1\nenv=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded (%lu)\n", GetLastError()); return 2; }
   for (int t = 0; t < 400 && g_dev.vt == g_vtbl; t++) Sleep(50);
@@ -143,7 +161,7 @@ static int measure_run(HMODULE g, uint32_t rel) {
      (twice, before this, the first dispatch of the test's message returned 0 under Wine; the line below says why if it recurs) */
   HANDLE oth = CreateThread(NULL, 0, m_other, NULL, 0, NULL);
   typedef float (*LenFn)(const float *); typedef void (__attribute__((thiscall)) *CopyFn)(void *, const void *); typedef char (__attribute__((thiscall)) *IncFn)(void *);
-  LenFn len = (LenFn)(uintptr_t)(0x10027600u + rel); CopyFn cp = (CopyFn)(uintptr_t)(0x1001E3B0u + rel); IncFn inc = (IncFn)(uintptr_t)(0x100142A0u + rel);
+  LenFn len = (LenFn)(uintptr_t)ga(0x10027600u); CopyFn cp = (CopyFn)(uintptr_t)ga(0x1001E3B0u); IncFn inc = (IncFn)(uintptr_t)ga(0x100142A0u);
   int okf = 1, okc = 1, oki = 1, okle = 1, okd = 1;
   for (int f = 0; f < 300; f++) {
     ((void (WINAPI *)(DWORD))iat_fn(g_slot_sleep))(2);
@@ -180,7 +198,7 @@ static int measure_run(HMODULE g, uint32_t rel) {
   check(okd, "imports: DispatchMessageA through its slot reaches the window procedure, which calls Sleep through its slot (nested), and returns its value");
   {   /* the clock test's arithmetic (measure_read.py): Frame_Render's this with the step +0x28 = 1.0; a reference segment
          moving 0.25 a frame (a tick a frame) and a test segment moving 15 a second of real time: the ratio must be 1 */
-    static float cam[0x40]; cam[0x28 / 4] = 1.0f; *(uint32_t *)(uintptr_t)(0x104568FCu + rel) = (uint32_t)(uintptr_t)cam;
+    static float cam[0x40]; cam[0x28 / 4] = 1.0f; *(uint32_t *)(uintptr_t)ga(0x104568FCu) = (uint32_t)(uintptr_t)cam;
     LARGE_INTEGER fq, a, b, last; QueryPerformanceFrequency(&fq);
     for (int seg = 0; seg < 2; seg++) {
       FILE *mk = fopen("xikit_mark.txt", "w"); if (mk) { fputs(seg ? "clock test\n" : "clock reference\n", mk); fclose(mk); }
@@ -241,11 +259,12 @@ int main(int argc, char **argv) {
   HMODULE g = LoadLibraryExA("FFXiMain.dll", NULL, DONT_RESOLVE_DLL_REFERENCES);
   if (!g) { printf("FAIL: FFXiMain.dll not mapped (%lu)\n", GetLastError()); return 2; }
   uint32_t rel = (uint32_t)(uintptr_t)g - 0x10000000u;
+  g_hrel = rel; load_shifts(g);
   /* Wine maps a DONT_RESOLVE_DLL_REFERENCES image without applying its base relocations, and the unpacked file's
      header directory covers only the last 87 blocks of its table (not .text). In the game every relocation of
      the whole chain is applied, as the dumps show (pipeline/dump_verify.py checks every relocated dword). Apply
      the same chain, read from the .reloc section's start, so the image is as the game would have it. */
-  if (rel && *(uint32_t *)(uintptr_t)(GAMMA + rel + 1) == G_PCDX) {
+  if (rel && *(uint32_t *)(uintptr_t)(ga(GAMMA) + 1) == (uint32_t)(ga(G_PCDX) - g_hrel)) {   /* (its operand: G_PCDX where it is in this build, at the preferred base) */
     IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)((char *)g + ((IMAGE_DOS_HEADER *)g)->e_lfanew);
     IMAGE_SECTION_HEADER *sh = IMAGE_FIRST_SECTION(nt), *rs = NULL;
     for (int k = 0; k < nt->FileHeader.NumberOfSections; k++) if (!memcmp(sh[k].Name, ".reloc", 7)) rs = &sh[k];
@@ -260,22 +279,22 @@ int main(int argc, char **argv) {
         if ((e[k] >> 12) == IMAGE_REL_BASED_HIGHLOW) { *(uint32_t *)((uint8_t *)g + b->VirtualAddress + (e[k] & 0xFFF)) += rel; n++; }
       p += b->SizeOfBlock;
     }
-    printf("note: applied %d base relocations (the loader's job; Wine skips it for this load mode); entry dword now %08x\n", n, *(uint32_t *)(uintptr_t)(GAMMA + rel + 1));
+    printf("note: applied %d base relocations (the loader's job; Wine skips it for this load mode); entry dword now %08x\n", n, *(uint32_t *)(uintptr_t)(ga(GAMMA) + 1));
   }
   printf("FFXiMain.dll at %p (delta %+ld)\n", g, (long)rel);
   check(!relocated || rel != 0, relocated ? "the game DLL was loaded away from its analysed base" : "the game DLL at its analysed base");
   uint8_t orig_set[5], orig_gam[5];
-  memcpy(orig_set, (void *)(uintptr_t)(SETCOLOR + rel), 5); memcpy(orig_gam, (void *)(uintptr_t)(GAMMA + rel), 5);
-  uint8_t orig_ecb[9]; memcpy(orig_ecb, (void *)(uintptr_t)(0x100096B0u + rel), 9);     /* CDx::EndClearBegin (the mod run) */
+  memcpy(orig_set, (void *)(uintptr_t)ga(SETCOLOR), 5); memcpy(orig_gam, (void *)(uintptr_t)ga(GAMMA), 5);
+  uint8_t orig_ecb[9]; memcpy(orig_ecb, (void *)(uintptr_t)ga(0x100096B0u), 9);     /* CDx::EndClearBegin (the mod run) */
   for (int k = 0; k < 97; k++) g_vtbl[k] = (void *)other_slot;
   g_vtbl[15] = (void *)fake_present;
   g_vtbl[3] = (void *)d_tcl; g_vtbl[34] = (void *)d_beginscene; g_vtbl[20] = (void *)d_createtex; g_vtbl[75] = (void *)d_createvs;
   g_vtbl[16] = (void *)d_getbb; g_vtbl[27] = (void *)d_createimg; g_vtbl[28] = (void *)d_copyrects;
   for (int k = 0; k < 11; k++) g_svt[k] = (void *)other_slot;
   g_svt[2] = (void *)s_release; g_svt[8] = (void *)s_desc; g_svt[9] = (void *)s_lock; g_svt[10] = (void *)s_unlock;
-  g_paint_site = (uint8_t *)(uintptr_t)(GETCOLOR + rel);   /* (SetColor is quarantined by the crash checks before the trace) */
+  g_paint_site = (uint8_t *)(uintptr_t)ga(GETCOLOR);   /* (SetColor is quarantined by the crash checks before the trace) */
   *(void **)(g_cdx + 0xC) = &g_dev; g_cdx[0x915] = 0x5A;
-  *(void **)(uintptr_t)(G_PCDX + rel) = g_cdx;
+  *(void **)(uintptr_t)ga(G_PCDX) = g_cdx;
   if (measrun) {
     fill_iat(g);
     int r = measure_run(g, rel);
@@ -319,7 +338,7 @@ int main(int argc, char **argv) {
   }
   /* include_untested=1: these checks are about how the kit patches, so they use functions whatever their gate
      coverage; the default (untested functions left out) is checked below */
-  uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)(FRAME_RENDER + rel), 5);
+  uint8_t orig_frame[5]; memcpy(orig_frame, (void *)(uintptr_t)ga(FRAME_RENDER), 5);
   touch_ini(ini, abrun ? "[xikit]\nlog_folder=1\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nab=1\nab_after=0\nab_phase=1\nab_rounds=2\nab_settle=3\n"
                  : profile ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nprofile=1\ncall_time=1\nkernel_calls=2\ntrace=1\ntrace_after=4\ntrace_count=1\nsample=1\ntrace_pictures=1\n"
                  : reloadrun ? "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nmods=mod_test.dll\nmod_reload=1\n"
@@ -350,12 +369,21 @@ int main(int argc, char **argv) {
   {   /* build translation: the moved code ranges the kit read from this build's manifest reach the reconstruction */
     int32_t *xs = (int32_t *)GetProcAddress(GetModuleHandleA("gfx_recon_ingame.dll"), "xi_shift");
     printf("xi_shift:");
-    if (xs) for (int i = 0; i <= 3 * xs[0] && i < 25; i++) printf(" %ld", (long)xs[i]);
+    if (xs) for (int i = 0; i <= 3 * xs[0] && i < 1 + 3 * 64; i++) printf(" %ld", (long)xs[i]);
     printf("\n");
     check(xs != NULL, "the reconstruction exports xi_shift and the kit filled it (its ranges: the xi_shift line)");
   }
   present(2);
-  uint8_t *set = (uint8_t *)(uintptr_t)(SETCOLOR + rel), *gam = (uint8_t *)(uintptr_t)(GAMMA + rel);
+  uint8_t *set = (uint8_t *)(uintptr_t)ga(SETCOLOR), *gam = (uint8_t *)(uintptr_t)ga(GAMMA);
+  if (g_no_swap && (argc < 2 || !strcmp(argv[1], "base") || !strcmp(argv[1], "relocated"))) {     /* a build where some functions changed: nothing of the reconstruction is swapped in (the mod runs go on below: mods work there) */
+    present(2); Sleep(200); present(2);
+    check(!memcmp(set, orig_set, 5) && !memcmp(gam, orig_gam, 5), "no_swap build: with swap=1 the entries stay the game's code");
+    FILE *lf = fopen("xikit.log", "r"); char line[600]; int said = 0;
+    if (lf) { while (fgets(line, sizeof line, lf)) if (strstr(line, "this build swaps nothing in from the reconstruction")) said = 1; fclose(lf); }
+    check(said, "no_swap build: xikit.log says why nothing is swapped");
+    printf("%s\n", fails ? "FAILED" : "ALL OK");
+    ExitProcess(fails ? 1 : 0);
+  }
   if (abrun) {
     /* ab=1 with log_folder=1: 4 phases of 1 s, A B B A; the swapped entries follow the phases; everything the kit writes
        goes to one new folder under xikit_logs */
@@ -390,8 +418,9 @@ int main(int argc, char **argv) {
     printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
     ExitProcess(fails ? 1 : 0);
   }
-  if (!caprun && !factrun && !(set[0] == 0xE9 && gam[0] == 0xE9)) printf("note: entry bytes SetColor %02X, FontGlyphCache_GetDevice %02X\n", set[0], gam[0]);
-  if (!caprun && !factrun) check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
+  if (!caprun && !factrun && !g_no_swap && !(set[0] == 0xE9 && gam[0] == 0xE9)) printf("note: entry bytes SetColor %02X, FontGlyphCache_GetDevice %02X\n", set[0], gam[0]);
+  if (!caprun && !factrun && !g_no_swap) check(set[0] == 0xE9 && gam[0] == 0xE9, "swap=1: the entries now jump to the reconstruction");
+  if (g_no_swap) check(!memcmp(gam, orig_gam, 5), "no_swap build: FontGlyphCache_GetDevice stays the game's code (only the mod's own hooks change entries)");
   check(presents == 2, "Present still reaches the device's own method");
   static uint8_t actor[0xA10];
   if (factrun) {
@@ -399,7 +428,7 @@ int main(int argc, char **argv) {
        region starts 2 bytes earlier) and CDx::BeginScene (0x10009736, call [ecx+0x88]): the game's own code (swap=0) runs them */
     char line[256]; int k;
     typedef BOOL (__attribute__((thiscall)) *CdxFn)(void *);
-    for (k = 0; k < 5; k++) { ((CdxFn)(uintptr_t)(0x10009710u + rel))(g_cdx); ((CdxFn)(uintptr_t)(0x10009730u + rel))(g_cdx); }
+    for (k = 0; k < 5; k++) { ((CdxFn)(uintptr_t)ga(0x10009710u))(g_cdx); ((CdxFn)(uintptr_t)ga(0x10009730u))(g_cdx); }
     check(tcl_calls == 5 && bs_calls == 5, "facts=1: the patched call sites still reach the device's methods");
     present(60);
     char name[96]; snprintf(name, sizeof name, "xikit_facts_%lu.csv", GetCurrentProcessId());
@@ -414,9 +443,9 @@ int main(int argc, char **argv) {
     static float m_this[32], m_arg[16];
     typedef void (__attribute__((thiscall)) *MatFn)(void *, void *);
     typedef int (__attribute__((thiscall)) *SwFn)(void *, int);
-    for (k = 0; k < 5; k++) ((MatFn)(uintptr_t)(0x10027C70u + rel))(m_this, m_arg);
+    for (k = 0; k < 5; k++) ((MatFn)(uintptr_t)ga(0x10027C70u))(m_this, m_arg);
     static uint8_t swobj[0x40];
-    for (k = 0; k <= 13; k++) ((SwFn)(uintptr_t)(0x101AFB40u + rel))(swobj, k);
+    for (k = 0; k <= 13; k++) ((SwFn)(uintptr_t)ga(0x101AFB40u))(swobj, k);
     present(60);
     long ecxc = -1, ecxw = -1, argc_ = -1, argw = -1, jn = 0; int jt = 0;
     fc = fopen(name, "r");
@@ -428,6 +457,11 @@ int main(int argc, char **argv) {
     printf("out: 0x10027C7A ecx %ld calls %ld changed; 0x10027C94 arg0 %ld calls %ld changed; jmp 0x101AFB56 %ld jumps to %d targets\n", ecxc, ecxw, argc_, argw, jn, jt);
     check(ecxc == 5 && ecxw >= 1, "kind out: the local `this` the identity constructor writes is seen changed");
     check(argc_ == 5 && argw == 0, "kind out: the local the matrix product only reads is never seen changed");
+    if (g_hshift[0] && ga(0x101AFB56u) != 0x101AFB56u + g_hrel) {   /* the switch moved in this build: its bytes hold a moved table address */
+      FILE *lf = fopen("xikit.log", "r"); char ln[600]; int refused = 0;
+      if (lf) { while (fgets(ln, sizeof ln, lf)) if (strstr(ln, "101AFB56") && (strstr(ln, "refus") || strstr(ln, "differ"))) refused = 1; fclose(lf); }
+      check(jn == 0 && refused, "kind jmp: on a build where the switch moved, its site is refused (its bytes hold the moved table's address) and nothing recorded");
+    } else
     check(jn == 13 && jt >= 2, "kind jmp: the switch's 13 jumps (arguments 0..12) recorded, with their targets");
     printf("%s\n", fails ? "FAILED" : "ALL OK");
     ExitProcess(fails ? 1 : 0);
@@ -437,9 +471,9 @@ int main(int argc, char **argv) {
        the game's value; after capture_count calls the entry has its own bytes again. test_xikit.py replays the
        .xcap through the gate (pipeline/xcap.py) */
     char line[256];
-    uint8_t *get = (uint8_t *)(uintptr_t)(GETCOLOR + rel);
+    uint8_t *get = (uint8_t *)(uintptr_t)ga(GETCOLOR);
     check(get[0] == 0xE9, "capture=: GetColor's entry jumps to the capture stub");
-    ((SetColorFn)(uintptr_t)(SETCOLOR + rel))(actor, 0x5566AABBu);           /* captured too: one argument */
+    ((SetColorFn)(uintptr_t)ga(SETCOLOR))(actor, 0x5566AABBu);           /* captured too: one argument */
     check(*(uint32_t *)(actor + 0x660) == 0x5566AABBu, "the captured SetColor ran the game's code");
     check(((GetColorFn)get)(actor) == 0x5566AABBu, "the captured call returned the game's value");
     present(4);
@@ -475,7 +509,7 @@ int main(int argc, char **argv) {
                   *irel = (volatile long *)GetProcAddress(m, "mod_init_rel");
     void **prev = (void **)GetProcAddress(m, "mod_prev");
     check(*irel == (long)rel, "the mod's xi_rel was the game's load delta when its init ran");
-    uint8_t *get = (uint8_t *)(uintptr_t)(GETCOLOR + rel);
+    uint8_t *get = (uint8_t *)(uintptr_t)ga(GETCOLOR);
     int32_t d; memcpy(&d, get + 1, 4); uintptr_t to = (uintptr_t)get + 5 + d;
     IMAGE_NT_HEADERS *mnt = (IMAGE_NT_HEADERS *)((char *)m + ((IMAGE_DOS_HEADER *)m)->e_lfanew);
     check(get[0] == 0xE9 && to >= (uintptr_t)m && to < (uintptr_t)m + mnt->OptionalHeader.SizeOfImage, "GetColor's entry jumps into the mod (not the reconstruction)");
@@ -485,11 +519,11 @@ int main(int argc, char **argv) {
     check(*prev < (void *)m || *prev >= (void *)((char *)m + mnt->OptionalHeader.SizeOfImage), "previous is outside the mod (the kit's trampoline)");
     check(*unk == -1, "hook() of a name not in the manifest returned XIKIT_E_UNKNOWN");
     /* CDx::EndClearBegin's trampoline (T=9:5): 9 bytes copied, the rel32 call at +4 re-aimed, then jmp entry+9 */
-    uint8_t *ecb = (uint8_t *)(uintptr_t)(0x100096B0u + rel), *tr = *(uint8_t **)GetProcAddress(m, "mod_prev_ecb");
+    uint8_t *ecb = (uint8_t *)(uintptr_t)ga(0x100096B0u), *tr = *(uint8_t **)GetProcAddress(m, "mod_prev_ecb");
     int ok = tr != NULL;
     if (ok) {
       int32_t dg, dt, dj; memcpy(&dt, tr + 5, 4); memcpy(&dj, tr + 10, 4);
-      memcpy(&dg, (uint8_t *)(uintptr_t)(0x100096B0u + rel + 5), 4);    /* (entry+5..8: after the kit's jmp, still the game's) */
+      memcpy(&dg, (uint8_t *)(uintptr_t)(ga(0x100096B0u) + 5), 4);    /* (entry+5..8: after the kit's jmp, still the game's) */
       ok = tr[4] == 0xE8 && (uintptr_t)tr + 9 + dt == (uintptr_t)ecb + 9 + dg && tr[9] == 0xE9 && (uintptr_t)tr + 14 + dj == (uintptr_t)ecb + 9
            && !memcmp(tr, orig_ecb, 4) && ecb[0] == 0xE9;    /* the 4 bytes before the call as the game had them; the entry now the kit's jmp */
     }
@@ -566,9 +600,16 @@ int main(int argc, char **argv) {
     printf("%s\n", fails ? "FAILED" : "ALL OK");
     ExitProcess(fails ? 1 : 0);
   }
+  if (g_no_swap && nativerun) {   /* a no_swap build: the sampler over the game's own GetColor (nothing is swapped in to check) */
+    DWORD t = GetTickCount(); volatile uint32_t sink = 0;
+    while (GetTickCount() - t < 2500) { for (int k = 0; k < 10000; k++) sink += ((GetColorFn)(uintptr_t)ga(GETCOLOR))(actor); present(1); }
+    Sleep(2500);
+    printf("%s\n", fails ? "FAILED" : "ALL OK");
+    ExitProcess(fails ? 1 : 0);
+  }
   ((SetColorFn)set)(actor, 0x11223344u);
   check(*(uint32_t *)(actor + 0x660) == 0x11223344u, "reconstructed SetColor wrote this+0x660");
-  check(((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor) == 0x11223344u, "GetColor (swapped too) reads it back");
+  check(((GetColorFn)(uintptr_t)ga(GETCOLOR))(actor) == 0x11223344u, "GetColor (swapped too) reads it back");
   check(((GammaFn)gam)() == (void *)&g_dev, "reconstructed FontGlyphCache_GetDevice read g_pCDx at the rebased address");
   present(60);
   FILE *csv; char name[64]; snprintf(name, sizeof name, "xikit_calls_%lu.csv", GetCurrentProcessId());
@@ -577,7 +618,7 @@ int main(int argc, char **argv) {
   check(seen, "the call count of SetColor is in the report (1 call)");
   if (nativerun) {         /* sample=2: the game's GetColor for 2.5 s, then time for the sampler's windows (test_xikit.py reads them) */
     DWORD t = GetTickCount(); volatile uint32_t sink = 0;
-    while (GetTickCount() - t < 2500) { for (int k = 0; k < 10000; k++) sink += ((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor); present(1); }
+    while (GetTickCount() - t < 2500) { for (int k = 0; k < 10000; k++) sink += ((GetColorFn)(uintptr_t)ga(GETCOLOR))(actor); present(1); }
     Sleep(2500);
   }
   touch_ini(ini, "[xikit]\nlog_folder=0\nswap=0\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
@@ -585,7 +626,7 @@ int main(int argc, char **argv) {
   check(!memcmp(set, orig_set, 5) && !memcmp(gam, orig_gam, 5), "swap=0 (ini re-read): the original bytes are back");
   /* the default: a function the gate's compared trials did not fully cover (manifest flag 4) is left out.
      Frame_Render's trials ran 53 of its 1424 instructions */
-  uint8_t *frame = (uint8_t *)(uintptr_t)(FRAME_RENDER + rel);
+  uint8_t *frame = (uint8_t *)(uintptr_t)ga(FRAME_RENDER);
   touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\n");
   present(130);
   check(frame[0] == 0xE9, "include_untested=1: Frame_Render (flag 4) is swapped");
@@ -599,7 +640,7 @@ int main(int argc, char **argv) {
   if (!profile) {          /* (its extra frames would shift the profiler's per-window counts) */
   touch_ini(ini, "[xikit]\nlog_folder=0\nswap=1\ninclude_untested=1\ncount_calls=1\nreport_every=60\nhotkey=0\nlog_each=1\nbisect=1\n");
     present(130);
-    ((SetColorFn)set)(actor, 1); ((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor); ((GammaFn)gam)();
+    ((SetColorFn)set)(actor, 1); ((GetColorFn)(uintptr_t)ga(GETCOLOR))(actor); ((GammaFn)gam)();
     present(2);
     { void (__cdecl *answer)(int) = (void (__cdecl *)(int))GetProcAddress(GetModuleHandleA("xikit.dll"), "xikit_bisect_answer");
       check(answer != NULL, "bisect: xikit_bisect_answer is exported");
@@ -621,7 +662,7 @@ int main(int argc, char **argv) {
       answer(2); present(2);
       check(set[0] == 0xE9, "bisect: F12 (stop) swaps everything again, the culprit included");
       /* two functions that break the screen only together (SetColor and GetColor swapped at once): no single culprit */
-      uint8_t *gc = (uint8_t *)(uintptr_t)(GETCOLOR + rel);
+      uint8_t *gc = (uint8_t *)(uintptr_t)ga(GETCOLOR);
       answer(1);
       for (int step = 0; step < 60; step++) {
         present(2);
@@ -657,12 +698,12 @@ int main(int argc, char **argv) {
      CDx_PushRenderTarget (0x10009E20, swapped too), whose reconstruction calls the original
      CDx_PushRenderTargetTexture (excluded from the swap above: it is in the tree too), which faults reading the null CDx. The kit finds the reconstructions' return
      addresses on the stack and quarantines the innermost, CDx_PushRenderTarget, as suspected. */
-  uint8_t *prt = (uint8_t *)(uintptr_t)(PUSHRT1 + rel);
+  uint8_t *prt = (uint8_t *)(uintptr_t)ga(PUSHRT1);
   check(prt[0] == 0xE9, "CDx::PushRenderTargetRet1 is swapped");
   if (!setjmp(jb)) { armed = 1; ((PushRt1Fn)prt)(NULL, 0, 0, 0); printf("FAIL: no exception\n"); fails++; }
   else printf("ok: the access violation in the game's code it called was raised and passed on\n");
   present(2);
-  uint8_t *pr = (uint8_t *)(uintptr_t)(0x10009E20u + rel);
+  uint8_t *pr = (uint8_t *)(uintptr_t)ga(0x10009E20u);
   check(pr[0] != 0xE9 && prt[0] == 0xE9, "the innermost reconstructed caller (CDx_PushRenderTarget) was restored at the next frame, its caller not");
   q = fopen("xikit_quarantine.txt", "r"); quar = 0;
   if (q) { while (fgets(line, sizeof line, q)) if (strstr(line, "0x10009E20") && strstr(line, "suspected")) quar = 1; fclose(q); }
@@ -698,7 +739,7 @@ int main(int argc, char **argv) {
     /* the sampler should find the render thread in game or reconstructed code when it is there: GetColor (swapped)
        called for about half a second, then a window of frames so the samples are written */
     { DWORD t = GetTickCount(); volatile uint32_t sink = 0;
-      while (GetTickCount() - t < 500) for (int k = 0; k < 10000; k++) sink += ((GetColorFn)(uintptr_t)(GETCOLOR + rel))(actor);
+      while (GetTickCount() - t < 500) for (int k = 0; k < 10000; k++) sink += ((GetColorFn)(uintptr_t)ga(GETCOLOR))(actor);
       present(60); }
     /* resources: a texture and a vertex shader created through the device (as the game would), logged by d3dprof's
        wrappers; the shader saved as the game passed it: stream 0, v0 <- FLOAT3, v5 <- D3DCOLOR; m4x4 oPos, v0, c0; mov oD0, v5 */

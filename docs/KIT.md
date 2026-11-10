@@ -458,23 +458,38 @@ repository):
 1. `python3 pipeline/unpack_pol.py SHIPPED_FFXiMain.dll OUT_unpacked.dll`. The shipped DLL's code is compressed in
    its POL1 section and unpacked by its entry stub at load. This runs the stub in an emulator up to the first
    instruction in .text and writes the image as the stub leaves it.
-2. `python3 pipeline/build_translate.py $FFXI_DLL OUT_unpacked.dll` writes `kit/xikit/builds/<stamp>.json` only when
-   everything the kit relies on is settled (its docstring has the rules):
+2. `python3 pipeline/build_translate.py $FFXI_DLL OUT_unpacked.dll [--partial]` writes `kit/xikit/builds/<stamp>.json`
+   when everything the kit relies on is settled (its docstring has the rules):
    - the code ranges that moved, from build_map's matches;
-   - every manifest function proven the same code at its range's shift;
-   - every address the reconstruction, speedfix and the SDK name either lies in an unchanged range (code), or is
-     referenced by the same operand there (data).
-   Otherwise it names each unsettled function or address.
+   - the data ranges that moved (since 12 Nov): pairs of (analysed value, new value) at every dword both builds'
+     relocation tables relocate, in the functions build_map matched, in runs of equal shift. A range only covers
+     addresses bracketed by such pairs; between one run's last pair and the next run's first, nothing is translated.
+     The relocations are the `.reloc` chain read from the section's start (the header's directory covers only its
+     end); `unpack_pol.py --text-relocs` gets the same positions from the unpacking stub run at two bases, and gave
+     the same set for 6AE818B4 and 6AC37846;
+   - every manifest function proven the same code at its range's shift (a jump into another of its chunks moves with
+     that chunk);
+   - every address the reconstruction, speedfix and the SDK name either lies in a range and outside any changed
+     function (code), or is referenced as its translated value by the same instruction wherever the analysed build
+     references it (data; references from changed code do not count). An address no instruction references is placed
+     by its data range alone, and if it is initialised data its bytes must be the same there.
+   Otherwise it names each unsettled function or address. With `--partial` it writes the file anyway, with
+   `"partial": true` and every failure listed.
 3. `FFXI_DLL_<stamp>=OUT_unpacked.dll kit/xikit/build.sh` adds `dist/xikit_manifest_<stamp>.txt`
    (manifest_for_build.py): the same functions, with that build's entry bytes and relocations, and `!shift LO HI
-   SHIFT` lines.
+   SHIFT` lines for the code and data ranges that moved, sorted. From a partial build file the unproven functions
+   are left out (named in the build's output) and the manifest says `!no_swap`: the kit swaps nothing in from the
+   reconstruction on that build (it names addresses not settled there) and logs why; mods' hooks on the functions it
+   carries, all proven the same, work as on any build.
 
 At start the kit reads the running game's TimeDateStamp and loads `xikit_manifest_<stamp>.txt` when there is one.
 It writes its jumps at the translated addresses and passes the moved ranges to the reconstruction DLL and the mods
 (`xi_shift`, beside `xi_rel`; `XI_GAME` applies them). It keeps reporting the analysed build's addresses everywhere:
-logs, profiles, traces, samples, faults. Data addresses never move in a build it accepts, so for a constant address
-`XI_GAME` folds to what it was; a code address costs a search of at most 8 ranges. A mod built before this exports
-no `xi_shift` and is refused on a translated build; the SDK's `XIKIT_MOD_GLOBALS` defines it.
+logs, profiles, traces, samples, faults. The table holds up to 64 ranges, code and data alike; `XI_GAME` translates
+any address through it (a binary search; with no ranges, one test). A module tells the kit how many ranges its
+`xi_shift` holds with `xi_shift_cap` (the SDK's `XIKIT_MOD_GLOBALS` defines both); one without it holds 8, code only,
+and is refused a table it cannot hold. A mod built before build translation exports no `xi_shift` and is refused
+on a translated build.
 
 `facts=1` keeps the analysed build's bytes for its sites. A site whose bytes differ in the running build (a call into
 code that moved) is refused, as on any mismatch.
@@ -490,6 +505,25 @@ code that moved) is refused, as on any mismatch.
   instruction-by-instruction check. Nothing of ours names them.
 - test_xikit.py and test_speedfix.py pass on both builds. On the new build the kit swapped all 774 functions and
   refused none, and the reconstruction received the two ranges.
+- Re-checked 12 Nov with the current tree and the stricter rules: all 4,826 manifest functions proven; 2 addresses
+  the reconstruction now names are unsettled (`FUN_103149d0`, `FUN_103169a0`, the copy routines above). The
+  committed build file (from 31 Oct) was left as it is.
+
+**Build 6AE818B4 (2 Nov 2026), checked 12 Nov:**
+- The code moved in 16 places (up to +5,696; one run of functions near 0x10148FB0 by -204,064). The data moved too:
+  22 ranges, +4,096 at .rdata's start to +4,736 near the end of .data.
+- 267 functions are not shown the same: mostly a large game-state object (fields from about +0x40D7C to +0x41B4
+  shifted), so functions reading fields past the insertion changed. They include the session, networking and
+  interface units (Unit100D7420, Unit10086E90), App_InitCamera, Acter_UpdateFrame, and the interface drawing
+  ActerBuff_DrawNearby, Unit1021D930_DrawPanelForActor and Unit101D7020_FormatTargetMapGrid. Two tables of jump stubs
+  (0x10054450.., 0x10062F50..) now point at other functions.
+- 4,746 of the 4,826 manifest functions are proven the same; the 80 others are left out. 61 addresses the
+  reconstruction names are not settled, so the manifest says `!no_swap`.
+- Every address speedfix names (206 code, the rest data) is settled, none inside a changed function. Neither are the
+  35 functions Liminality's facts come from (OnMove, the drawing path, the motion queues, the ordering table, the
+  effect elements, the camera and the frame loop), so the offsets they use are unchanged.
+- test_speedfix.py passes on all three builds; on 6AE818B4 speedfix's 24 loop changes went in and Liminality's live
+  checks passed.
 
 ## Measuring what the gate cannot settle (`facts=1`)
 

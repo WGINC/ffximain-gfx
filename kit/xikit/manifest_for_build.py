@@ -22,8 +22,11 @@ BASE = 0x10000000
 
 def main(man_p, build_p, dll_p, out_p):
     b = json.load(open(build_p))
-    if b['failures']['manifest'] or b['failures']['addresses'] or b['manifest_proven'] != b['manifest_functions']:
+    partial = b.get('partial', False)
+    if not partial and (b['failures']['manifest'] or b['failures']['addresses'] or b['manifest_proven'] != b['manifest_functions']):
         sys.exit('manifest_for_build: %s does not settle every function and address' % build_p)
+    unproven = {int(k, 16) for k in b['failures']['manifest']}   # (absolute addresses, analysed numbering)
+    dranges = [(int(lo, 16), int(hi, 16), d) for lo, hi, d in b.get('data_ranges', [])]
     ranges = [(int(lo, 16), int(hi, 16), d) for lo, hi, d in b['ranges']]
     live = lambda ea: ea + next((d for lo, hi, d in ranges if lo <= ea < hi), 0)
     pe = pefile.PE(dll_p, fast_load=True); img = pe.get_memory_mapped_image()
@@ -41,11 +44,15 @@ def main(man_p, build_p, dll_p, out_p):
             continue
         if l.startswith('!game_timestamp'):
             out.append('!game_timestamp %s\n!analysed_timestamp %s\n' % (b['timestamp'], b['analysed_timestamp']))
-            out += ['!shift %08X %08X %d\n' % r for r in ranges if r[2]]
+            out += ['!shift %08X %08X %d\n' % r for r in sorted(ranges + dranges) if r[2]]
+            if partial:   # some functions changed: they are left out, and the reconstruction (which names addresses not settled here) is not swapped in
+                out.append('!no_swap %d manifest functions and %d addresses the reconstruction names are not the same in this build (builds/%s.json)\n'
+                           % (len(b['failures']['manifest']), len(b['failures']['addresses']), b['timestamp']))
             continue
         if l.startswith('!') or not l.strip(): out.append(l); continue
         f = l.split(' ')
         ea = BASE + int(f[0], 16); nea = live(ea)
+        if ea in unproven: left.append('%08X: not the same code in this build' % ea); continue
         rs = ext.get('0x%x' % ea, [])
         end = max((e for s, e in rs if s <= ea < e), default=ea + 5)
         if end < ea + 5 and not all(x in (0xCC, 0x90) for x in img[end - ea + nea - BASE:nea + 5 - BASE]):
@@ -56,8 +63,8 @@ def main(man_p, build_p, dll_p, out_p):
         out.append(' '.join(f))
     open(out_p, 'w').write(''.join(out))
     n = sum(1 for x in out if x[:1] not in '#!' and x.strip())
-    print('%s: %d functions for build %s (%d code ranges moved)%s' % (out_p, n, b['timestamp'], sum(1 for r in ranges if r[2]),
-          '; left out: ' + '; '.join(left) if left else ''))
+    print('%s: %d functions for build %s (%d code ranges and %d data ranges moved)%s' % (out_p, n, b['timestamp'], sum(1 for r in ranges if r[2]),
+          sum(1 for r in dranges if r[2]), '; left out: %d (%s)' % (len(left), '; '.join(left[:6]) + (' ...' if len(left) > 6 else '')) if left else ''))
 
 
 if __name__ == '__main__':

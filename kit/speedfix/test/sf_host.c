@@ -12,7 +12,24 @@
 #define G_PCDX 0x1045666Cu
 static const float *g_follow_dec;   /* the camera follow timer's per-pass amount, in speedfix.dll */
 static uint32_t rel;
-#define GAME(a) ((uintptr_t)(a) + rel)
+/* an analysed address -> the mapped game's, as the kit translates it: on another build its manifest's !shift ranges
+   (kit/xikit/manifest_for_build.py; code and, since build 6AE818B4, data) */
+static int32_t g_shift[1 + 3 * 64];
+static uintptr_t game_addr(uint32_t a) {
+  int32_t d = 0;
+  for (int i = 0; i < g_shift[0]; i++) if (a >= (uint32_t)g_shift[1 + 3 * i] && a < (uint32_t)g_shift[2 + 3 * i]) { d = g_shift[3 + 3 * i]; break; }
+  return (uintptr_t)a + rel + d;
+}
+static void load_shifts(HMODULE g) {
+  IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)((char *)g + ((IMAGE_DOS_HEADER *)g)->e_lfanew);
+  char p[64], line[512]; snprintf(p, sizeof p, "xikit_manifest_%08lX.txt", (unsigned long)nt->FileHeader.TimeDateStamp);
+  FILE *f = fopen(p, "r"); if (!f) return;
+  while (fgets(line, sizeof line, f)) { unsigned lo, hi; int d;
+    if (sscanf(line, "!shift %x %x %d", &lo, &hi, &d) == 3 && g_shift[0] < 64) { int i = g_shift[0]++; g_shift[1 + 3 * i] = (int32_t)lo; g_shift[2 + 3 * i] = (int32_t)hi; g_shift[3 + 3 * i] = d; } }
+  fclose(f);
+  printf("    this build (%08lX): %d shift ranges from %s\n", (unsigned long)nt->FileHeader.TimeDateStamp, g_shift[0], p);
+}
+#define GAME(a) game_addr((uint32_t)(a))
 static int fails;
 static void check(int c, const char *what) { printf("%s: %s\n", c ? "ok" : "FAIL", what); if (!c) fails++; }
 static void task_dispatch_test(HMODULE sf);
@@ -676,6 +693,7 @@ int main(int argc, char **argv) {
   HMODULE g = LoadLibraryExA("FFXiMain.dll", NULL, DONT_RESOLVE_DLL_REFERENCES);
   if (!g) { printf("FAIL: FFXiMain.dll not mapped\n"); return 2; }
   rel = (uint32_t)(uintptr_t)g - 0x10000000u;
+  load_shifts(g);
   if (rel) { printf("FAIL: the test needs the game DLL at its analysed base\n"); return 2; }
   for (int k = 0; k < 97; k++) g_vt[k] = (void *)d_other;
   g_vt[7] = (void *)d_caps; g_vt[15] = (void *)d_present; g_vt[34] = (void *)d_begin; g_vt[35] = (void *)d_end; g_vt[36] = (void *)d_clear;

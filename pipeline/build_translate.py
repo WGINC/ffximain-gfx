@@ -1,6 +1,6 @@
 """build_translate.py -- can the kit run on another build of FFXiMain.dll, and how its addresses translate.
 
-    python3 build_translate.py ANALYSED.dll OTHER_unpacked.dll [OUT.json]
+    python3 build_translate.py ANALYSED.dll OTHER_unpacked.dll [OUT.json] [--partial]
       (OTHER_unpacked.dll: pipeline/unpack_pol.py of the shipped DLL; OUT defaults to kit/xikit/builds/<stamp>.json)
 
 The kit, the reconstruction and the mods address the game in the analysed build's numbering (XI_GAME). For another
@@ -35,7 +35,7 @@ def load(p):
     return pe, pe.get_memory_mapped_image()
 
 
-def main(old_p, new_p, out=None):
+def main(old_p, new_p, out=None, partial=False):
     ope, oimg = load(old_p); npe, nimg = load(new_p)
     ots, nts = ope.FILE_HEADER.TimeDateStamp, npe.FILE_HEADER.TimeDateStamp
     text = ope.sections[0]; TLO, THI = B + text.VirtualAddress, B + ope.sections[1].VirtualAddress     # .text .. .rdata
@@ -73,10 +73,63 @@ def main(old_p, new_p, out=None):
         i = bisect.bisect_right(starts, a) - 1
         return ranges[i][2] if i >= 0 and ranges[i][0] <= a < ranges[i][1] else None
 
+    # data pairs from the relocation tables (definitive: a dword is an address exactly where the loader relocates it):
+    # for each function build_map matched, every position the analysed build relocates whose counterpart (the same
+    # offset in the matched function) the other build relocates too gives (old value -> new value). An analysed value
+    # given two different new values is dropped.
+    # the relocated dwords: the .reloc section read as one chain from its start (pipeline/dump_verify.py reloc_blocks:
+    # the header's directory points at only the last blocks; the chain covers .text). Checked 12 Nov against the stub
+    # run at two bases (unpack_pol.py --text-relocs) for 6AE818B4 and 6AC37846: the same positions exactly.
+    sys.path.insert(0, os.path.join(R, 'pipeline'))
+    from dump_verify import reloc_blocks
+    def relocs(pe, img):
+        bl, whole = reloc_blocks(pe, img)
+        if not whole: sys.exit('build_translate: the .reloc chain does not reach the section end')
+        return {B + pg + (e & 0xFFF) for pg, es in bl for e in es if e >> 12 == 3}
+    orel, nrel = relocs(ope, oimg), relocs(npe, nimg)
+    dpair = collections.defaultdict(set)
+    for a, na in fmap.items():
+        ch = ext.get(a)
+        if not ch or len(ch) != 1: continue
+        s0, e0 = ch[0]
+        for k in range(s0, e0 - 3):
+            if k in orel and (k - a + na) in nrel:
+                v = int.from_bytes(oimg[k - B:k - B + 4], 'little'); nv = int.from_bytes(nimg[k - a + na - B:k - a + na - B + 4], 'little')
+                if v >= THI: dpair[v].add(nv)
+    gmap = {v: next(iter(ns)) for v, ns in dpair.items() if len(ns) == 1}
+    # 1b. data ranges (12 Nov: build 6AE818B4 moved its data sections too): build_map's pairs of data addresses (the
+    # absolute operands of the functions it matched, analysed -> other) in runs of equal shift, as the code ranges. A
+    # data address between the last pair of one run and the first of the next is in no range (its shift is not known).
+    IMG_END = B + ope.OPTIONAL_HEADER.SizeOfImage
+    dpts = sorted((a, g - a) for a, g in gmap.items() if THI <= a < IMG_END)
+    druns = []
+    for a, d in dpts:
+        if druns and druns[-1][2] == d: druns[-1][1] = a; druns[-1][3] += 1
+        else: druns.append([a, a, d, 1])
+    druns = [x for x in druns if x[3] >= 3]
+    dmerged = []
+    for x in druns:
+        if dmerged and dmerged[-1][2] == x[2]: dmerged[-1][1] = x[1]; dmerged[-1][3] += x[3]
+        else: dmerged.append(x)
+    dranges = []
+    for i, x in enumerate(dmerged):
+        lo = THI if i == 0 else x[0]
+        hi = IMG_END if i + 1 == len(dmerged) else dmerged[i + 1][0]
+        dranges.append([lo, hi, x[2], x[1]])        # (lo, hi, shift, the last pair of the run: beyond it, up to hi, unproven)
+    dstarts = [x[0] for x in dranges]
+
+    def dshift_of(a):
+        i = bisect.bisect_right(dstarts, a) - 1
+        if i < 0 or not (dranges[i][0] <= a < dranges[i][1]): return None
+        if a > dranges[i][3]: return None      # after the run's last pair: in the gap before the next run (or the image's end)
+        return dranges[i][2]
+
     def tr(v):
         if TLO <= v < THI:
             d = shift_of(v); return v + d if d is not None else None
-        return gmap.get(v, v)                       # data: as build_map paired it (checked in step 3 for what we use)
+        if v in gmap: return gmap[v]
+        d = dshift_of(v)
+        return v + d if d is not None else None
 
     # the functions whose bytes are not the same at their range's shift: what changed
     changed = []
@@ -130,23 +183,40 @@ def main(old_p, new_p, out=None):
             ndata += 1
             refs = data_refs.get(v, [])
             for site in refs:
+                k2 = bisect.bisect_right(chg_starts, site) - 1        # a reference from code that changed is no evidence
+                if k2 >= 0 and changed[k2][0] <= site < changed[k2][1]: continue
                 ns = tr(site)
                 if ns is None: lit_bad['%08X' % v] = 'referenced at %08X, which is in no range' % site; break
                 ins = next(md.disasm(oimg[site - B:site - B + 16], site)); n2 = next(md.disasm(nimg[ns - B:ns - B + 16], ns), None)
-                if n2 is None or n2.bytes != ins.bytes and n2.size == ins.size and v.to_bytes(4, 'little') not in n2.bytes:
-                    lit_bad['%08X' % v] = 'referenced at %08X, not at %08X in the other build' % (site, ns); break
+                tv = tr(v)
+                if tv is None: lit_bad['%08X' % v] = 'in no data range'; break
+                if n2 is None or n2.size != ins.size or tv.to_bytes(4, 'little') not in n2.bytes:
+                    lit_bad['%08X' % v] = 'referenced at %08X, not as %08X at %08X in the other build' % (site, tv, ns); break
+            if not refs and '%08X' % v not in lit_bad:      # named, never referenced by an instruction: its initialised bytes
+                tv = tr(v); sec = next((x for x in ope.sections if B + x.VirtualAddress <= v < B + x.VirtualAddress + x.SizeOfRawData), None)
+                # not referenced by an instruction: its place is what its data range gives, a range being bracketed by
+                # relocated references of the same shift on both sides (dshift_of: in the gap after a run's last pair it
+                # is in no range); initialised, its bytes must also be the same there
+                if tv is None: lit_bad['%08X' % v] = 'in no data range, not referenced'
+                elif sec is not None and oimg[v - B:v - B + 8] != nimg[tv - B:tv - B + 8]: lit_bad['%08X' % v] = 'not referenced, and its bytes differ at %08X' % tv
     rep = {
         'analysed_timestamp': '%08X' % ots, 'timestamp': '%08X' % nts,
         'ranges': [['%08X' % lo, '%08X' % hi, d] for lo, hi, d in ranges],
+        'data_ranges': [['%08X' % lo, '%08X' % (min(hi, last + 1) if i + 1 < len(dranges) else hi), d] for i, (lo, hi, d, last) in enumerate(dranges)],
         'functions_mapped_by_build_map': len(fmap), 'manifest_functions': len(man), 'manifest_proven': len(man) - len(bad),
         'functions_not_shown_same': ['%08X-%08X' % c for c in changed],   # changed, or holding data (jump tables) the check cannot read
         'addresses_named': {'code': ncode, 'data': ndata}, 'failures': {'manifest': bad, 'addresses': lit_bad},
     }
     print(json.dumps({k: v for k, v in rep.items() if k != 'failures'}, indent=1))
-    if bad or lit_bad:
+    if (bad or lit_bad) and partial:
+        rep['partial'] = True
+        print('PARTIAL: %d manifest functions and %d named addresses not settled; written with them listed (the kit leaves the '
+              'functions out and refuses swapping the reconstruction on this build)' % (len(bad), len(lit_bad)))
+    elif bad or lit_bad:
         print('NOT SETTLED: %d manifest functions, %d named addresses' % (len(bad), len(lit_bad)))
         for k, v in list(bad.items())[:20] + list(lit_bad.items())[:20]: print('  ', k, v)
-        sys.exit(1)
+        if os.environ.get('BT_ALL'): json.dump({'manifest': bad, 'addresses': lit_bad, 'changed': rep['functions_not_shown_same']}, open(os.environ['BT_ALL'], 'w'), indent=0)
+        if not partial: sys.exit(1)
     out = out or os.path.join(R, 'kit', 'xikit', 'builds', '%08X.json' % nts)
     os.makedirs(os.path.dirname(out), exist_ok=True)
     json.dump(rep, open(out, 'w'), indent=1); open(out, 'a').write('\n')
@@ -166,7 +236,9 @@ def same_code(md, oimg, nimg, s, e, d, chunks, tr):
         if rel and ob[:i.size - 4] == nb[:i.size - 4]:
             ot = i.operands[0].imm
             nt = s + d + o + i.size + int.from_bytes(nb[i.size - 4:], 'little', signed=True)
-            exp = ot + d if any(a <= ot < b for a, b in chunks) else tr(ot)
+            # a target in one of the function's own chunks moves with that chunk (chunks can lie in different ranges)
+            own = any(a <= ot < b for a, b in chunks)
+            exp = (tr(ot) if tr(ot) is not None else ot + d) if own else tr(ot)
             if exp != nt: return False, '%s at %08X: target %08X is %08X there, expected %s' % (i.mnemonic, i.address, ot, nt, '%08X' % exp if exp else 'none')
             continue
         nb2 = bytearray(nb)
@@ -180,5 +252,6 @@ def same_code(md, oimg, nimg, s, e, d, chunks, tr):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 3: sys.exit(__doc__)
-    main(*sys.argv[1:4])
+    args = [a for a in sys.argv[1:] if a != '--partial']
+    if len(args) < 2: sys.exit(__doc__)
+    main(*args[:3], partial='--partial' in sys.argv)

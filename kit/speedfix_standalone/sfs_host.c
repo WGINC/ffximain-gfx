@@ -37,7 +37,7 @@
 /* speedfix (sf_game.cpp, sf_main.cpp), linked in */
 int  __cdecl xikit_mod_init(const XikitHost *host);
 void __cdecl xikit_mod_frame(void *device);
-extern uintptr_t xi_rel; extern int32_t xi_shift[25];
+extern uintptr_t xi_rel; extern int32_t xi_shift[1 + 3 * 64];
 
 typedef struct {
   uint32_t rva; int flags; char exp[256], name[96];
@@ -48,7 +48,7 @@ typedef struct {
 
 static Fn *g_fn; static int g_nfn;
 static uint8_t *g_tramps;
-static int32_t g_shift[25];
+static int32_t g_shift[1 + 3 * 64];
 static uint32_t g_rel, g_game_ts, g_recon_size, g_recon_crc;
 static char g_dir[MAX_PATH], g_log[MAX_PATH];
 static CRITICAL_SECTION g_loglock;
@@ -68,9 +68,8 @@ static void __cdecl host_log(const char *fmt, ...) {
 }
 
 static uint32_t live_of(uint32_t ea) {          /* an analysed address -> where it is in the running game */
-  int32_t d = 0;
-  if (ea >= TEXT_LO && ea < TEXT_HI)
-    for (int i = 0; i < g_shift[0]; i++) if (ea >= (uint32_t)g_shift[1 + 3 * i] && ea < (uint32_t)g_shift[2 + 3 * i]) d = g_shift[3 + 3 * i];
+  int32_t d = 0;                                /* code and data ranges alike (since build 6AE818B4) */
+  for (int i = 0; i < g_shift[0]; i++) if (ea >= (uint32_t)g_shift[1 + 3 * i] && ea < (uint32_t)g_shift[2 + 3 * i]) { d = g_shift[3 + 3 * i]; break; }
   return ea + g_rel + d;
 }
 static int hexval(int c) { return c >= '0' && c <= '9' ? c - '0' : (c | 32) >= 'a' && (c | 32) <= 'f' ? (c | 32) - 'a' + 10 : -1; }
@@ -86,7 +85,7 @@ static int load_manifest(const char *path) {      /* kit/xikit's manifest format
         if (!strcmp(k, "game_timestamp")) g_game_ts = v;
         else if (!strcmp(k, "recon_crc32")) g_recon_crc = v;
       }
-      if (sscanf(line + 1, "shift %x %x %d", &lo, &hi, &d) == 3 && g_shift[0] < 8) {
+      if (sscanf(line + 1, "shift %x %x %d", &lo, &hi, &d) == 3 && g_shift[0] < 64) {
         int i = g_shift[0]++; g_shift[1 + 3 * i] = (int32_t)lo; g_shift[2 + 3 * i] = (int32_t)hi; g_shift[3 + 3 * i] = d; }
       if (sscanf(line + 1, "recon_size %u", &v) == 1) g_recon_size = v;
       continue;

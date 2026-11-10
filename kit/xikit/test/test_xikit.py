@@ -41,8 +41,16 @@ for src in ('examples/overlay.cpp', 'template/my_mod.cpp'):     # the SDK's exam
     subprocess.run([os.path.join(SDK, 'build_mod.sh'), os.path.join(os.path.dirname(MODDLL), os.path.basename(src) + '.dll'),
                     os.path.join(SDK, src)], check=True)          # the host's fake device has Present only)
 FACTS = os.path.join(os.path.dirname(MODDLL), 'xikit_facts.txt')
+# a facts file is in the analysed build's numbering, with its bytes: made from the analysed DLL ($FFXI_DLL_6A995428
+# when the run is on another build). On a build where a site's code moved and its bytes hold a moved address (the
+# switch's `jmp [reg*4 + table]`), the kit refuses that site (docs/KIT.md, build translation): expected there.
+_an = os.environ.get('FFXI_DLL_6A995428', os.environ['FFXI_DLL'])
 subprocess.run([sys.executable, os.path.join(H, '..', '..', '..', 'pipeline', 'fact_sites.py'), 'sites', FACTS, '0x10009716', '0x10009736',
-                '--out', '0x10027C7A,0x10027C94', '--jmp', '0x101AFB56'], check=True)
+                '--out', '0x10027C7A,0x10027C94', '--jmp', '0x101AFB56'], check=True, env=dict(os.environ, FFXI_DLL=_an))
+import pefile as _pe1
+_ts1 = '%08X' % _pe1.PE(os.environ['FFXI_DLL'], fast_load=True).FILE_HEADER.TimeDateStamp
+_bj1 = os.path.join(H, '..', 'builds', _ts1 + '.json')
+SWITCH_MOVED = os.path.exists(_bj1) and any(int(lo, 16) <= 0x101AFB56 < int(hi, 16) and dd for lo, hi, dd in json.load(open(_bj1))['ranges'])
 ALL_MODES = ('base', 'relocated', 'profile', 'traceblock', 'mod', 'modrel', 'reload', 'capture', 'facts', 'ab', 'realdev', 'realdev_ours', 'native', 'measure')
 # the measure run's table: the game's import slots from the kit's own xikit_measure.txt, and three call sites in game
 # functions the host can run (host.c, measure mode)
@@ -59,7 +67,15 @@ def measure_table(d):
     slot = {l.split()[3]: l.split()[1] for l in lines if l.startswith('I ')}
     return {'SLOT_SLEEP': slot['Sleep'], 'SLOT_GFA': slot['GetFileAttributesA'], 'SLOT_TGT': slot['timeGetTime'], 'SLOT_DISPATCH': slot['DispatchMessageA'],
             'SLOT_HEAPALLOC': slot['HeapAlloc'], 'SLOT_HEAPFREE': slot['HeapFree']}
-for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_MODES)).split()]:
+# a build whose manifest says !no_swap (some functions changed there) swaps nothing in: the modes that test the
+# reconstruction's swaps do not apply; base and relocated check that nothing is swapped, the mod modes that mods work
+import pefile as _pe0
+_ts0 = '%08X' % _pe0.PE(os.environ['FFXI_DLL'], fast_load=True).FILE_HEADER.TimeDateStamp
+_mf0 = os.path.join(DIST, 'xikit_manifest_%s.txt' % _ts0)
+NO_SWAP = os.path.exists(_mf0) and any(l.startswith('!no_swap') for l in open(_mf0))
+SWAP_MODES = ('profile', 'traceblock', 'capture', 'ab', 'reload')
+if NO_SWAP: print('build %s is no_swap: modes %s skipped (they test the reconstruction swapped in)' % (_ts0, ', '.join(SWAP_MODES)))
+for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_MODES)).split() and not (NO_SWAP and m in SWAP_MODES)]:
     d = tempfile.mkdtemp(prefix='xikit_')
     for f in ('xikit.dll', 'gfx_recon_ingame.dll', 'xikit_manifest.txt', 'VERSION.txt'): shutil.copy(os.path.join(DIST, f), d)
     for f in os.listdir(DIST):                                   # the manifests of other builds (build translation)
@@ -85,10 +101,11 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
         import pefile as _pe
         ts = '%08X' % _pe.PE(os.environ['FFXI_DLL'], fast_load=True).FILE_HEADER.TimeDateStamp
         bj = os.path.join(H, '..', 'builds', ts + '.json')
-        want = [len([x for x in json.load(open(bj))['ranges'] if x[2]])] if os.path.exists(bj) else [0]
-        if os.path.exists(bj):
-            for lo, hi, dd in json.load(open(bj))['ranges']:
-                if dd: want += [int(lo, 16) - (1 << 32) if int(lo, 16) >= 1 << 31 else int(lo, 16), int(hi, 16), dd]
+        # the ranges the kit hands on: the build's code and data ranges that moved, sorted (manifest_for_build.py)
+        rr = sorted([tuple(x) for x in json.load(open(bj))['ranges'] + json.load(open(bj)).get('data_ranges', []) if x[2]],
+                    key=lambda x: int(x[0], 16)) if os.path.exists(bj) else []
+        want = [len(rr)]
+        for lo, hi, dd in rr: want += [int(lo, 16) - (1 << 32) if int(lo, 16) >= 1 << 31 else int(lo, 16), int(hi, 16), dd]
         got = re.search(r'^xi_shift:(.*)$', r.stdout, re.M)
         got = [int(x) for x in got.group(1).split()] if got else None
         ok = got == want
@@ -191,7 +208,7 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
                            + ['--out', out, '--switch', os.path.join(d, 'sw.json'), '--outs', os.path.join(d, 'outs.json')], capture_output=True, text=True)
         sw = json.load(open(os.path.join(d, 'sw.json'))) if os.path.exists(os.path.join(d, 'sw.json')) else {}
         oj = json.load(open(os.path.join(d, 'outs.json'))) if os.path.exists(os.path.join(d, 'outs.json')) else {}
-        ok = sum(sw.get('0x101AFB56', {}).get('targets_seen', {}).values()) == 13 \
+        ok = (sum(sw.get('0x101AFB56', {}).get('targets_seen', {}).values()) == 13 or SWITCH_MOVED) \
             and not any(c['changed'] for c in oj.get('0x10027C94', {}).get('slots', {}).get('arg0', {}).values()) \
             and set(oj.get('0x10027C7A', {}).get('slots', {})) == {'ecx0'}       # its callee takes no stack argument
         print('%s: ingest writes the switch targets seen and the output slots' % ('ok' if ok else 'FAIL')); bad += not ok

@@ -28,20 +28,25 @@ typedef float    _FLOAT;
 // at its analysed base, and the code it compiles to is the same as a plain constant's.
 #ifdef XI_INGAME
 extern "C" uintptr_t xi_rel;
-// Another build of the game (kit/xikit/builds/<stamp>.json, pipeline/build_translate.py): the analysed build's code
-// ranges that moved there, set by the kit with xi_rel. xi_shift[0] is the number of ranges, then lo, hi, shift for
-// each. Data (at or above the analysed .rdata, 0x10329000) never moves in a build the kit accepts, so for a constant
-// address the range test folds away and a data access costs what it did; a code address pays the short search.
-extern "C" int32_t xi_shift[25];
+// Another build of the game (kit/xikit/builds/<stamp>.json, pipeline/build_translate.py): the analysed build's ranges
+// that moved there, code and (since build 6AE818B4, 2 Nov) data, set by the kit with xi_rel. xi_shift[0] is the number
+// of ranges (at most XI_SHIFT_MAX), then lo, hi, shift for each, sorted by lo and not overlapping. With no ranges (the
+// analysed build, and any build whose nothing moved) an address costs one test; otherwise a binary search.
+#define XI_SHIFT_MAX 64
+extern "C" int32_t xi_shift[1 + 3 * XI_SHIFT_MAX];
 static inline uintptr_t xi_code(uint32_t ea) {
-  int32_t d = 0;
-  for (int32_t i = 0; i < xi_shift[0] && i < 8; i++)
-    if (ea >= static_cast<uint32_t>(xi_shift[1 + 3 * i]) && ea < static_cast<uint32_t>(xi_shift[2 + 3 * i])) d = xi_shift[3 + 3 * i];
+  int32_t n = xi_shift[0], d = 0;
+  if (n > 0) {
+    int32_t lo = 0, hi = n - 1;
+    while (lo <= hi) {
+      int32_t m = (lo + hi) >> 1; uint32_t a = static_cast<uint32_t>(xi_shift[1 + 3 * m]), b = static_cast<uint32_t>(xi_shift[2 + 3 * m]);
+      if (ea < a) hi = m - 1; else if (ea >= b) lo = m + 1; else { d = xi_shift[3 + 3 * m]; break; }
+    }
+  }
   return static_cast<uintptr_t>(ea) + xi_rel + d;
 }
 #ifndef XI_PROBE
-#define XI_GAME(ea) ((static_cast<uint32_t>(ea) >= 0x10001000u && static_cast<uint32_t>(ea) < 0x10329000u) \
-                     ? xi_code(static_cast<uint32_t>(ea)) : static_cast<uintptr_t>(ea) + xi_rel)
+#define XI_GAME(ea) (xi_code(static_cast<uint32_t>(ea)))
 #else
 // the probe build (build.sh XI_PROBE=1, never run): every rebased address is moved by 0x01000000 at compile time, so
 // a game-range constant (0x10001000-0x10700000) left in its code was not written through XI_GAME

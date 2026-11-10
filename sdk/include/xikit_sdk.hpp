@@ -87,4 +87,5 @@ template <class T = void> inline T *game(uint32_t analysed) { return reinterpret
 
 // the data the tree's headers expect the module to define: xi_rel (the load delta) and xi_shift (another build's
 // moved code ranges); xikit sets both before init
-#define XIKIT_MOD_GLOBALS extern "C" { __declspec(dllexport) uintptr_t xi_rel = 0; __declspec(dllexport) int32_t xi_shift[25] = {0}; }
+#define XIKIT_MOD_GLOBALS extern "C" { __declspec(dllexport) uintptr_t xi_rel = 0; __declspec(dllexport) int32_t xi_shift[1 + 3 * 64] = {0}; \
+                                       __declspec(dllexport) int32_t xi_shift_cap = 64; }

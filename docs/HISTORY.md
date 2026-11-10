@@ -4514,3 +4514,53 @@ off), base; it replaces ab_11nov.
   4. On frames of 0 ticks the ordering table was empty of effects, see-through actors and afterimages: the 12 Nov
      (later) fix, not in this run's build.
 - Session ab_14nov (replaces ab_13nov, not run): lim against base.
+
+## 12 Nov: the game's new build 6AE818B4 (2 Nov), and build translation for moved data
+
+The owner sent the live FFXiMain.dll: TimeDateStamp 6AE818B4. Unpacked with pipeline/unpack_pol.py (entry
+0x10317D6F) into runs/ghidra/, outside the repository. The 12 Nov run was still on 6AC37846, so the game updated
+after it; the ab_13nov and ab_14nov kits have no manifest for this build and do nothing on it.
+
+- **What changed** (pipeline/build_translate.py; build_map matched 18,387 functions):
+  - code moved in 16 ranges, by up to +5,696, and one run near 0x10148FB0 by -204,064;
+  - for the first time the data moved: .rdata starts 0x1000 later, and 22 data ranges move by +4,096 to +4,736;
+  - 267 functions are not shown the same. Most read fields of a game-state object that grew (offsets around +0x40D7C
+    to +0x41B4): the session, networking and interface units, App_InitCamera, Acter_UpdateFrame, some interface
+    drawing. Two tables of jump stubs (0x10054450.., 0x10062F50..) point at other functions.
+- **build_translate.py extended (the rule it had: data never moves):**
+  - data pairs from the relocation tables: every dword both builds relocate, at the same offset of a function
+    build_map matched, gives (analysed value, new value). The relocations are the whole .reloc chain (dump_verify.py
+    reloc_blocks). `unpack_pol.py --text-relocs` gets them independently from the stub run at two bases, and gave the
+    same positions exactly for 6AE818B4 (68,596) and 6AC37846 (68,475);
+  - data ranges from runs of equal shift, each covering only the addresses bracketed by its pairs;
+  - named data addresses must be referenced as their translated value by the same instruction wherever the analysed
+    build references them (references from changed code do not count). Unreferenced ones are placed by their range;
+  - a jump into another chunk of the same function moves with that chunk. This was a flaw: three manifest functions
+    of 6AC37846 with chunks in two ranges failed it. The manifest has grown from 774 to 4,826 functions since 6AC37846
+    was settled, which is how they appeared;
+  - `--partial` writes the build file with every failure listed.
+- **Result for 6AE818B4:** 4,746 of 4,826 manifest functions proven; 80 left out; 61 addresses the reconstruction
+  names not settled, so the manifest says `!no_swap`. Every address speedfix names is settled and lies outside every
+  changed function, as do the 35 functions Liminality's facts come from (OnMove, the drawing path, the motion queues,
+  the ordering table, the effect elements, the camera, the frame loop).
+- **The kit, the SDK, the reconstruction (one table for code and data):**
+  - xi_shift holds 64 ranges (was 8, code only); XI_GAME translates any address through it by a binary search;
+  - modules export xi_shift_cap. The kit refuses a table to a module that cannot hold it (one without xi_shift_cap
+    gets 8 code ranges at most);
+  - the kit's live_of translates data too (g_pCDx, the capture's .data bounds);
+  - `!no_swap` blocks the reconstruction's swaps and keeps mods' hooks;
+  - the speedfix and kit test hosts translate every game address as the kit does (they added only the load delta,
+    which happened to work on 6AC37846).
+- **Tests:** test_speedfix.py passes on 6A995428, 6AC37846 and 6AE818B4. On 6AE818B4 speedfix's 24 loop changes went
+  in and Liminality's live checks passed. test_steploops runs analysed addresses straight from the image, so it is
+  for the analysed build only (as its docstring says).
+- **6AC37846 re-checked:** all 4,826 manifest functions proven. 2 named addresses (the copy routines 0x103149D0,
+  0x103169A0, jump tables inside) are not settled. Its committed build file (31 Oct) was left as it is.
+- Session ab_15nov: ab_14nov's two starts with this kit (all three builds' manifests).
+- **test_xikit.py:** on 6AE818B4 the modes that test the reconstruction swapped in (profile, traceblock, capture, ab,
+  reload) do not apply and are skipped. base and relocated check that nothing is swapped and the log says why, and
+  the mod, facts, realdev and measure modes pass. Facts files are made from the analysed DLL ($FFXI_DLL_6A995428). The
+  facts test's switch site moved in 6AE818B4 and its bytes hold the moved table's address, so the kit refuses it, as
+  KIT.md says. The analysed build and 6AC37846 pass as before, except the native sampler. Its four checks fail on all
+  three builds: this container's Wine is 32-bit only, and xisamp_x64.exe does not start ("Bad EXE format"). One
+  measure check on 6AC37846 failed once and passed on a rerun.

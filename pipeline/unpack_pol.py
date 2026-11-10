@@ -1,6 +1,7 @@
 """unpack_pol.py -- the shipped FFXiMain.dll with its code section filled in, for analysis (never into the repository).
 
     python3 unpack_pol.py SHIPPED_FFXiMain.dll OUT_unpacked.dll
+    python3 unpack_pol.py --text-relocs SHIPPED_FFXiMain.dll OUT.json   (the .text dwords the stub relocates)
 
 The shipped DLL carries its code compressed in the POL1 section; .text is empty on disk. Its entry stub decompresses
 POL1 into .text, applies relocations for the load address, and jumps to the real entry point. This runs that stub in
@@ -69,6 +70,29 @@ def main(src, out):
           % (src, pe.FILE_HEADER.TimeDateStamp, n, oep, out))
 
 
+def text_relocs(src, out):
+    """The dwords of .text the stub relocates (it applies the code's relocations from its own data, not .reloc): the
+    stub run at the preferred base and at another (the image relocated by its .reloc first, as the loader would), and
+    every .text dword that differs by exactly the difference is one the game's own loader relocates. Written as RVAs."""
+    import json
+    pe = pefile.PE(src); a, _, _ = emulate(pe)
+    other = 0x20000000
+    pe2 = pefile.PE(src); pe2.relocate_image(other); pe2.OPTIONAL_HEADER.ImageBase = other
+    b, _, _ = emulate(pe2)
+    text = pe.sections[0]; lo, hi = text.VirtualAddress, text.VirtualAddress + text.Misc_VirtualSize
+    delta = other - pe.OPTIONAL_HEADER.ImageBase; rv = []; odd = 0; k = lo
+    while k < hi - 3:
+        x = int.from_bytes(a[k:k + 4], 'little'); y = int.from_bytes(b[k:k + 4], 'little')
+        if x != y:
+            if (y - x) & 0xFFFFFFFF == delta: rv.append(k); k += 4; continue
+            odd += 1
+        k += 1
+    if odd > 64: sys.exit('text_relocs: %d .text bytes differ by something other than the base difference' % odd)
+    json.dump({'timestamp': '%08X' % pe.FILE_HEADER.TimeDateStamp, 'text_reloc_rvas': rv, 'other_differences': odd}, open(out, 'w'))
+    print('%s: %d .text relocations (%d other differences); wrote %s' % (src, len(rv), odd, out))
+
+
 if __name__ == '__main__':
+    if len(sys.argv) == 4 and sys.argv[1] == '--text-relocs': text_relocs(*sys.argv[2:4]); sys.exit(0)
     if len(sys.argv) != 3: sys.exit(__doc__)
     main(*sys.argv[1:3])

@@ -103,17 +103,33 @@ static DWORD g_render_thread;
 static uint32_t g_frame; static int g_master_off, g_hotkey_down, g_dirty = 1, g_speedfix_loaded;
 static uint32_t g_game_ts, g_recon_size, g_recon_crc;
 /* Another build of the game (kit/xikit/builds/<stamp>.json, pipeline/build_translate.py): its manifest,
-   xikit_manifest_<stamp>.txt, carries the analysed build's code ranges that moved there (!shift LO HI SHIFT).
-   g_shift: count, then lo, hi, shift; the same table goes to the reconstruction DLL and the mods (xi_shift). The
-   kit keeps analysed addresses everywhere (manifest RVAs, logs, profiles, traces) and translates at the boundary. */
-static int32_t g_shift[25];
+   xikit_manifest_<stamp>.txt, carries the analysed build's ranges that moved there (!shift LO HI SHIFT): code, and
+   since build 6AE818B4 (2 Nov) data too, sorted, at most SHIFT_MAX. g_shift: count, then lo, hi, shift; the same
+   table goes to the reconstruction DLL and the mods (xi_shift: a module tells how many ranges it holds with
+   xi_shift_cap; one without holds 8, code only, and is refused a table it cannot hold). The kit keeps analysed
+   addresses everywhere (manifest RVAs, logs, profiles, traces) and translates at the boundary. */
+#define SHIFT_MAX 64
+static int32_t g_shift[1 + 3 * SHIFT_MAX]; static int g_shift_over;
+/* !no_swap (manifest_for_build.py, a build where some functions changed): the reconstruction names addresses not settled
+   there, so none of it is swapped in; mods' hooks on the functions the manifest carries (all proven the same) still work */
+static int g_no_swap; static char g_no_swap_why[200];
 #define TEXT_LO 0x10001000u                    /* the analysed build's code: .text up to .rdata */
 #define TEXT_HI 0x10329000u
 static uint32_t live_of(uint32_t ea) {         /* an analysed address -> where it is in the running game */
   int32_t d = 0;
-  if (ea >= TEXT_LO && ea < TEXT_HI)
-    for (int i = 0; i < g_shift[0]; i++) if (ea >= (uint32_t)g_shift[1 + 3 * i] && ea < (uint32_t)g_shift[2 + 3 * i]) d = g_shift[3 + 3 * i];
+  for (int i = 0; i < g_shift[0]; i++) if (ea >= (uint32_t)g_shift[1 + 3 * i] && ea < (uint32_t)g_shift[2 + 3 * i]) { d = g_shift[3 + 3 * i]; break; }
   return ea + g_rel + d;
+}
+static void klog(const char *fmt, ...);
+/* the shift table into a module's (or the reconstruction's) xi_shift: 1 = done, 0 = it cannot hold it */
+static int give_shift(HMODULE h, int32_t *xs, const char *who) {
+  int32_t *cap = (int32_t *)GetProcAddress(h, "xi_shift_cap"); int n = g_shift[0];
+  int fits = cap ? n <= *cap : n <= 8;
+  if (!cap) for (int i = 0; i < n; i++) if ((uint32_t)g_shift[2 + 3 * i] > TEXT_HI) fits = 0;   /* an old module translates code only */
+  if (!fits) { klog("%s holds %d shift ranges%s, this build needs %d%s: not used", who, cap ? *cap : 8, cap ? "" : " of code (built before data could move)", n,
+                    cap ? "" : " with data among them"); return 0; }
+  memcpy(xs, g_shift, (size_t)(1 + 3 * n) * sizeof g_shift[0]);
+  return 1;
 }
 static uint32_t analysed_of(uint32_t a) {      /* an address in the running game -> the analysed build's */
   uint32_t ea = a - g_rel;
@@ -331,7 +347,7 @@ static int g_bis_found[64], g_bis_nfound;           /* culprits found this sessi
 
 static int base_wanted(const Fn *f) {
   if (f->mod_target || (f->cap_stub && !f->cap_done)) return 0;   /* a mod's hook or a capture: wanted() below; never a bisect suspect */
-  if (!g_cfg.swap || g_master_off || f->refused || f->quarantined || !f->target) return 0;
+  if (!g_cfg.swap || g_no_swap || g_master_off || f->refused || f->quarantined || !f->target) return 0;
   if ((f->flags & 1) && !g_cfg.include_flagged) return 0;
   if ((f->flags & 2) && g_cfg.respect_speedfix && g_speedfix_loaded && !g_cfg.include_flagged) return 0;
   if (g_cfg.set_render && !(f->flags & 16)) return 0;
@@ -366,9 +382,11 @@ static int load_manifest(const char *path) {
         if (!strcmp(k, "game_timestamp")) g_game_ts = v;
         else if (!strcmp(k, "recon_crc32")) g_recon_crc = v;
       }
+      if (!strncmp(line + 1, "no_swap", 7)) { g_no_swap = 1; snprintf(g_no_swap_why, sizeof g_no_swap_why, "%s", line + 8); g_no_swap_why[strcspn(g_no_swap_why, "\r\n")] = 0; }
       { unsigned lo, hi; int d;
-        if (sscanf(line + 1, "shift %x %x %d", &lo, &hi, &d) == 3 && g_shift[0] < 8) {
-          int i = g_shift[0]++; g_shift[1 + 3 * i] = (int32_t)lo; g_shift[2 + 3 * i] = (int32_t)hi; g_shift[3 + 3 * i] = d; } }
+        if (sscanf(line + 1, "shift %x %x %d", &lo, &hi, &d) == 3) {
+          if (g_shift[0] >= SHIFT_MAX) g_shift_over++;
+          else { int i = g_shift[0]++; g_shift[1 + 3 * i] = (int32_t)lo; g_shift[2 + 3 * i] = (int32_t)hi; g_shift[3 + 3 * i] = d; } } }
       if (sscanf(line + 1, "recon_size %u", &v) == 1) g_recon_size = v;
       if (!strncmp(line + 1, "code ", 5) && g_ncode >= MAXCODE) { if (!code_full++) klog("manifest: more than %d !code lines; the rest are left out (MAXCODE)", MAXCODE); }
       else if (sscanf(line + 1, "code %x %255s", &v, g_code[g_ncode].sym) == 2) { g_code[g_ncode].rva = v; g_code[g_ncode].fn = -1; g_ncode++; }
@@ -392,6 +410,8 @@ static int load_manifest(const char *path) {
     g_nfn++;
   }
   fclose(m);
+  if (g_shift_over) { klog("manifest: %d shift ranges more than the %d the kit holds: nothing done on this build", g_shift_over, SHIFT_MAX); g_nfn = 0; g_shift[0] = 0; return 0; }
+  if (g_no_swap) klog("manifest: this build swaps nothing in from the reconstruction (%s); mods' hooks work", g_no_swap_why[0] ? g_no_swap_why : "no_swap");
   return g_nfn;
 }
 
@@ -1572,7 +1592,7 @@ static int start_mod(int i, HMODULE h, const char *loaded) {
   m->h = h; m->frame = (xikit_mod_frame_fn)GetProcAddress(h, "xikit_mod_frame"); m->unload = (xikit_mod_unload_fn)GetProcAddress(h, "xikit_mod_unload");
   uintptr_t *mr = (uintptr_t *)GetProcAddress(h, "xi_rel"); if (mr) *mr = g_rel;
   int32_t *ms = (int32_t *)GetProcAddress(h, "xi_shift");
-  if (ms) memcpy(ms, g_shift, sizeof g_shift);
+  if (ms) { if (!give_shift(h, ms, m->name)) return 0; }
   else if (g_shift[0]) klog("mod %s exports no xi_shift (built with an SDK older than build translation): its game addresses in moved code would be wrong; not used", m->name);
   if (!ms && g_shift[0]) return 0;
   HMODULE pin; GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_PIN, loaded, &pin);
@@ -1706,7 +1726,7 @@ static int cp_readable(uint32_t a, int *exec) {
 static void cp_take(uint32_t page) {               /* the page, if readable, not seen, and the budget allows */
   int exec = 0;
   if ((int)g_cp_n >= g_cap_pages_max || page < 0x10000) return;
-  if (page >= g_game_lo && page < g_game_hi && !(page >= ANALYSED_BASE + 0x34F000u + g_rel && page < ANALYSED_BASE + 0x9FB000u + g_rel)) return;
+  if (page >= g_game_lo && page < g_game_hi && !(page >= (live_of(ANALYSED_BASE + 0x34F000u) & ~0xFFFu) && page < live_of(ANALYSED_BASE + 0x9FAFFFu) + 1)) return;   /* .data, where it is in this build */
   if (!cp_readable(page, &exec) || cp_seen(page)) return;
   g_cp_addr[g_cp_n] = page; memcpy(g_cp_data + (size_t)g_cp_n * 4096, (void *)(uintptr_t)page, 4096); g_cp_n++;
   if (exec) for (int k = 1; k <= 3; k++) cp_take(page + 4096u * k);
@@ -1739,7 +1759,7 @@ static void __cdecl capture_c(int idx, uint32_t *r) {
   g_cp_n = 0; memset(g_cp_set, 0, g_cp_setn * 4);
   int exec;
   for (uint32_t a = esp & ~0xFFFu, k = 0; k < 64 && cp_readable(a, &exec); a += 4096, k++) cp_take(a);
-  for (uint32_t a = ANALYSED_BASE + 0x34F000u + g_rel; a < ANALYSED_BASE + 0x9FB000u + g_rel; a += 4096) cp_take(a);
+  for (uint32_t a = live_of(ANALYSED_BASE + 0x34F000u) & ~0xFFFu; a < live_of(ANALYSED_BASE + 0x9FAFFFu) + 1; a += 4096) cp_take(a);
   for (int k = 0; k < 8; k++) if (k != 4) { cp_ptr(regs[k]); cp_follow(regs[k]); }
   for (int k = 1; k <= 8; k++) {                     /* the arguments: the dwords above the return address */
     uint32_t a = esp + 4u * (uint32_t)k;
@@ -2163,7 +2183,7 @@ static DWORD WINAPI start(LPVOID self) {
   if (!xi_rel) { klog("the reconstruction DLL exports no xi_rel (not the XI_INGAME build): nothing done"); return 0; }
   *xi_rel = g_rel;
   int32_t *xs = (int32_t *)GetProcAddress(rec, "xi_shift");
-  if (xs) memcpy(xs, g_shift, sizeof g_shift);
+  if (xs) { if (!give_shift(rec, xs, "the reconstruction DLL")) return 0; }
   else if (g_shift[0]) { klog("the reconstruction DLL exports no xi_shift (built before build translation): nothing done on this build"); return 0; }
   IMAGE_NT_HEADERS *rnt = (IMAGE_NT_HEADERS *)((char *)rec + ((IMAGE_DOS_HEADER *)rec)->e_lfanew);
   g_recon_lo = (uint32_t)(uintptr_t)rec; g_recon_hi = g_recon_lo + rnt->OptionalHeader.SizeOfImage;
@@ -2197,7 +2217,7 @@ static DWORD WINAPI start(LPVOID self) {
   klog("FFXiMain.dll at %p (delta %+ld), reconstruction at %p; %d functions in the manifest (%d without an export); speedfix_hook %s",
        game, (long)g_rel, rec, g_nfn, missing, g_speedfix_loaded ? "loaded" : "not loaded");
   /* the device: [[g_pCDx]+0xC], once the game has made it */
-  void ***cdx = (void ***)(uintptr_t)(G_PCDX + g_rel); void **dev = NULL;
+  void ***cdx = (void ***)(uintptr_t)live_of(G_PCDX); void **dev = NULL;
   for (;;) { void **c = (void **)*cdx; if (c && (dev = (void **)c[CDX_DEVICE_OFF / 4]) != NULL) break; Sleep(200); }
   load_mods(dev, rec);                        /* before the Present hook: nothing is written at any entry yet */
   setup_captures();                           /* (likewise: trampolines are built from the untouched entries) */

@@ -6,7 +6,8 @@
 /* the game DLL's load address minus its analysed base (xi_decomp.hpp XI_GAME); set by the loader */
 #include <stdint.h>
 __declspec(dllexport) uintptr_t xi_rel;   /* exported: the kit sets it after loading this DLL */
-__declspec(dllexport) int32_t xi_shift[25];   /* another build's moved code ranges (xi_decomp.hpp); set by the kit */
+__declspec(dllexport) int32_t xi_shift[1 + 3 * 64];   /* another build's moved ranges, code and data (xi_decomp.hpp); set by the kit */
+__declspec(dllexport) int32_t xi_shift_cap = 64;      /* the ranges xi_shift holds: the kit writes no more */
 #endif
 #ifdef XI_BACKEND
 /* the table each Direct3D 8 interface's calls go through, or 0 for the object's own vtable (xi_d3d8_backend.hpp,

@@ -1,0 +1,22 @@
+{
+  // Attach to the running game (pol.exe hosts FFXiMain.dll and the mod). Start the game with the kit first.
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Attach (Visual Studio debugger, mod built with PDB)",
+      "type": "cppvsdbg",
+      "request": "attach",
+      "processId": "${command:pickProcess}",
+      "symbolSearchPath": "${workspaceFolder}"
+    },
+    {
+      "name": "Attach (gdb, mod built with g++)",
+      "type": "cppdbg",
+      "request": "attach",
+      "program": "${workspaceFolder}/my_mod.dll",
+      "processId": "${command:pickProcess}",
+      "MIMode": "gdb",
+      "miDebuggerPath": "gdb.exe"
+    }
+  ]
+}

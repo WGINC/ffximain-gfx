@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- my_mod.vcxproj: a Visual Studio "Makefile" project for a mod. Visual Studio's own compiler cannot compile the
+     reconstruction's headers (they use GCC attributes), so the build runs the SDK's build_mod.bat with XIKIT_PDB=1:
+     clang + lld from llvm-mingw (on PATH) write my_mod.dll and my_mod.pdb, which Visual Studio's debugger reads.
+     To debug: start the game with the kit, then Debug > Attach to Process > pol.exe (Native code).
+     Not tested in Visual Studio by its author (no Windows machine); the build command is the tested part. -->
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32"><Configuration>Debug</Configuration><Platform>Win32</Platform></ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{6B0C4E0A-5D0E-4A57-9D55-0E8A1F3C7A11}</ProjectGuid>
+    <Keyword>MakeFileProj</Keyword>
+    <RootNamespace>my_mod</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <OutDir>$(ProjectDir)</OutDir>
+    <IntDir>$(ProjectDir)obj\</IntDir>
+    <NMakeBuildCommandLine>set XIKIT_PDB=1 &amp;&amp; "$(ProjectDir)..\build_mod.bat" "$(ProjectDir)my_mod.dll" "$(ProjectDir)my_mod.cpp"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>set XIKIT_PDB=1 &amp;&amp; "$(ProjectDir)..\build_mod.bat" "$(ProjectDir)my_mod.dll" "$(ProjectDir)my_mod.cpp"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>del /q "$(ProjectDir)my_mod.dll" "$(ProjectDir)my_mod.pdb"</NMakeCleanCommandLine>
+    <NMakeOutput>$(ProjectDir)my_mod.dll</NMakeOutput>
+    <NMakeIncludeSearchPath>$(ProjectDir)..\include;$(ProjectDir)..\tree_include;$(ProjectDir)..\..\tree\include</NMakeIncludeSearchPath>
+    <NMakePreprocessorDefinitions>__GNUC__=13;__i386__</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <ItemGroup>
+    <ClCompile Include="my_mod.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+</Project>

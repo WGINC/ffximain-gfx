@@ -1035,8 +1035,13 @@ def main(exp, gate, manf, incdir, outdir):
     fwd = ''.join('class %s;\n' % c for c in sorted(layouts)) + ''.join('struct %s;\n' % c for c in sorted(replaced - set(layouts)))
     with open(os.path.join(outdir, 'include', 'gfx_types.hpp'), 'w') as f:
         f.write('// gfx_types.hpp -- game types from the IDB that this tree does not define itself.\n#pragma once\n'
-                + fwd + '\n'.join(keep).replace('#pragma once', '').replace('struct CDx *', 'CDx *') + '\n')
+                + fwd + '\n'.join(keep).replace('#pragma once', '').replace('struct CDx *', 'CDx *').replace(WCHAR_T_OLD, WCHAR_T_NEW) + '\n')
     print('functions', len(place), 'classes', len(layouts), collections.Counter(v[2] for v in place.values()))
+
+# The IDB's types header declares wchar_t (the game's compiler had none built in). In C++ that typedef does nothing
+# with g++ (a permitted error under -fpermissive, the built-in type stays) and stops clang; it is kept for C only.
+WCHAR_T_OLD = 'typedef unsigned __int16 wchar_t;'
+WCHAR_T_NEW = '#ifndef __cplusplus   /* C++ has wchar_t built in: g++ ignored this typedef (-fpermissive), clang refuses it */\ntypedef unsigned __int16 wchar_t;\n#endif'
 
 if __name__ == '__main__':
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

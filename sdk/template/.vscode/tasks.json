@@ -1,0 +1,27 @@
+{
+  // Build the mod with the SDK's script (docs/SDK.md). "with PDB" uses clang + lld (llvm-mingw on Windows) and writes
+  // my_mod.pdb beside the DLL, which the "Attach (Visual Studio debugger)" launch needs; the plain build uses
+  // MinGW g++ and is what "Attach (gdb)" debugs.
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build mod",
+      "type": "shell",
+      "command": "${workspaceFolder}/../build_mod.sh",
+      "args": ["${workspaceFolder}/my_mod.dll", "${workspaceFolder}/my_mod.cpp"],
+      "windows": { "command": "${workspaceFolder}\\..\\build_mod.bat", "args": ["${workspaceFolder}\\my_mod.dll", "${workspaceFolder}\\my_mod.cpp"] },
+      "group": { "kind": "build", "isDefault": true },
+      "problemMatcher": ["$gcc"]
+    },
+    {
+      "label": "build mod with PDB",
+      "type": "shell",
+      "command": "${workspaceFolder}/../build_mod.sh",
+      "args": ["${workspaceFolder}/my_mod.dll", "${workspaceFolder}/my_mod.cpp"],
+      "windows": { "command": "${workspaceFolder}\\..\\build_mod.bat", "args": ["${workspaceFolder}\\my_mod.dll", "${workspaceFolder}\\my_mod.cpp"] },
+      "options": { "env": { "XIKIT_PDB": "1" } },
+      "group": "build",
+      "problemMatcher": ["$gcc"]
+    }
+  ]
+}

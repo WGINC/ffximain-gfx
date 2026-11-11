@@ -246,7 +246,9 @@ typedef unsigned int UINT;
 typedef char CHAR;
 
 /* 19 */
+#ifndef __cplusplus   /* C++ has wchar_t built in: g++ ignored this typedef (-fpermissive), clang refuses it */
 typedef unsigned __int16 wchar_t;
+#endif
 
 /* 18 */
 typedef wchar_t WCHAR;

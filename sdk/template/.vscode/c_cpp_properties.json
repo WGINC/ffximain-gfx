@@ -1,0 +1,17 @@
+{
+  // IntelliSense for a mod: the SDK's headers and the reconstruction's (tree_include in the packaged SDK,
+  // ../../tree/include in the repository). The compiler is the 32-bit MinGW g++ the build uses.
+  "version": 4,
+  "configurations": [
+    {
+      "name": "xikit mod (i686 MinGW)",
+      "includePath": ["${workspaceFolder}", "${workspaceFolder}/../include", "${workspaceFolder}/../tree_include", "${workspaceFolder}/../../tree/include"],
+      "defines": [],
+      "compilerPath": "i686-w64-mingw32-g++",
+      "compilerArgs": ["-m32", "-fpermissive"],
+      "cStandard": "c11",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "windows-gcc-x86"
+    }
+  ]
+}

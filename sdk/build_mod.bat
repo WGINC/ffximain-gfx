@@ -16,6 +16,14 @@ set SRC=%SRC% "%~1"
 shift
 goto loop
 :build
+if "%XIKIT_PDB%"=="1" goto pdb
 g++ -m32 -std=c++17 -O2 -march=i686 -Wall -fpermissive -fno-strict-aliasing -fwrapv -isystem "%H%include" -isystem "%TREE%" -shared -o "%OUT%" %SRC% -static-libgcc -static-libstdc++ -Wl,--kill-at
 if errorlevel 1 exit /b 1
 echo built %OUT%
+exit /b 0
+:pdb
+rem XIKIT_PDB=1: clang (llvm-mingw's, on PATH) with CodeView debug info and lld, which writes OUT's .pdb beside it:
+rem a mod Visual Studio and WinDbg can debug at source level.
+clang++ --target=i686-w64-mingw32 -std=c++17 -O1 -g -gcodeview -march=i686 -Wall -fpermissive -fms-extensions -fno-strict-aliasing -fwrapv -isystem "%H%include" -isystem "%TREE%" -shared -o "%OUT%" %SRC% -fuse-ld=lld -Wl,--pdb="%OUT:.dll=.pdb%" -static-libgcc -static-libstdc++ -Wl,--kill-at
+if errorlevel 1 exit /b 1
+echo built %OUT% and its .pdb

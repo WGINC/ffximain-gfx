@@ -12,6 +12,10 @@ rm -rf "$H/dist"; mkdir -p "$D"
 cp -r "$H/include" "$H/template" "$H/examples" "$D/"
 cp "$H/build_mod.sh" "$H/build_mod.bat" "$H/fork.py" "$H/fork_flags.txt" "$D/"; cp "$ROOT/docs/SDK.md" "$D/"
 cp "$ROOT/tree/placement.json" "$D/tree_placement.json"
+# the seam map, the PDB generator, and FFXiMain.pdb for each build made beforehand into sdk/dist_pdb/<stamp>/
+# (make_pdb.py needs that build's DLL, which is not in the repository)
+cp "$H/seams.json" "$H/seams.py" "$D/"; cp -r "$H/pdb" "$D/pdb"; cp "$ROOT/docs/DEVKIT.md" "$D/"
+if [ -d "$H/dist_pdb" ]; then mkdir -p "$D/symbols"; cp -r "$H/dist_pdb/." "$D/symbols/"; fi
 [ -f "$ROOT/kit/xikit/dist/gfx_recon_ingame.dll" ] && cp "$ROOT/kit/xikit/dist/gfx_recon_ingame.dll" "$D/"
 cp -r "$ROOT/tree/include" "$D/tree_include"; cp -r "$ROOT/tree/src" "$D/tree_src"
 # the packaged build scripts find the headers next to them (tree_include), as the repo's find ../tree/include

@@ -11,10 +11,15 @@ Everything the SDK knows about a function comes from the reconstruction (`tree/`
 one the gate verified the reconstructed body with, and its body, which shows what the function does. Read the body
 before you change a function.
 
+Which functions are the graphics system (the seam), the symbol file for debuggers (FFXiMain.pdb), and Visual Studio /
+VS Code projects with a mod's own PDB: `docs/DEVKIT.md`.
+
 ## What you need
 
 - **MinGW-w64, 32-bit (i686) g++.** On Windows: MSYS2's `mingw32` shell (`pacman -S mingw-w64-i686-gcc`) or a
   WinLibs i686 build. On Linux: `i686-w64-mingw32-g++`. MSVC cannot compile the headers: they use GCC attributes.
+  clang can (its `i686-w64-mingw32` target; llvm-mingw on Windows): `XIKIT_PDB=1 build_mod.sh ...` builds with it and
+  writes the mod's `.pdb` for Visual Studio's debugger and WinDbg.
 - **The kit** (`xikit.dll`, `gfx_recon_ingame.dll`, `xikit_manifest.txt`, `xikit.ini`) installed as `docs/KIT.md`
   describes.
 - **This SDK** (`xikit_sdk.zip`, built by `sdk/package.sh`):

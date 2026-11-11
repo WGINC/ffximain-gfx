@@ -1,0 +1,8 @@
+# clang flags for types.cpp (the tree's headers, compiled only for their types)
+-std=c++17
+-ffreestanding
+-fno-exceptions
+-fno-rtti
+-fpermissive
+-fms-extensions
+-DXI_API=

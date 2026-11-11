@@ -246,7 +246,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
     ++v8;
   }
   while ( (int)v9 < (int)flt_10457388 );
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, TRUE);
   PartList = orig::CYyModelBase_GetPartList((char *)self);
   v11 = *(int **)PartList;
   v25 = PartList;

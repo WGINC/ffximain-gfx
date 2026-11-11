@@ -4838,6 +4838,23 @@ is what was built and how each piece was checked.
   xisamp_x64.exe), so the four sampler checks of the kit's suite and kit/xisamp/test_xisamp.py fail here, with or
   without today's changes.
 
+## 11 Nov (fifth entry): source-shaping begins -- Direct3D state values by name
+
+The owner asked whether the tree can be shaped procedurally into source-like code with everything named, and then
+to do it. docs/SHAPE.md has the measure of the tree, the passes in order and what each needs.
+
+- **The method:** a pass in pipeline/shape.py rewrites the text hx2clean.py writes; `shape.py check` compiles every
+  file of tree/src before and after and compares code, data and relocations. Same objects, so the gate's verdicts
+  stand; tree_round.py's live-gate rule compares the older tree's text after the same passes.
+- **Pass 1, d3d_values:** 744 values of SetRenderState / SetTextureStageState in 33 files are now the SDK's names;
+  0 of 410 files compile to different objects. xi_d3d8.hpp gained D3DTTFF_, D3DMCS_ and D3DTSS_TCI_ (values as in
+  d3d8types.h). Which enumeration a state takes is written out from the SDK documentation in shape.py.
+- **Measured, not done:** 5,945 raw offset reads on parameters and locals, 868 on named global objects, 530 on
+  expressions; 341 integer literals in the range of float bits; 1,132 gotos; 3,660 functions in unnamed units;
+  2,236 address-named globals; 269 `field_XX` members.
+- **Not done by the look of a number:** an integer like 1065353216 is written as 1.0f only where the game reads the
+  location as a float; that pass needs the reading instruction per site.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

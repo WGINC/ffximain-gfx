@@ -28,6 +28,8 @@ install  verification/gate_clean_final.jsonl, cases_clean_final.json, cases_raw_
          record counting only for a function whose text is the same as in the tree that gate ran on. Then run: regen_facts.py, frame_status.py, verify_all.py --quick --facts-from-state.
 """
 import argparse, collections, glob, hashlib, json, os, re, shutil, subprocess, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import shape
 P = os.path.dirname(os.path.abspath(__file__)); ROOT = os.path.join(P, '..')
 R = lambda *p: os.path.join(ROOT, *p)
 n = lambda a: '0x%08X' % int(a, 16)
@@ -137,10 +139,12 @@ def texts(files):
 
 def combine_live(o, fuzz_path, out_path):
     """combine_gates.py over the live gates of verification/live_gates.json, each restricted to the functions whose
-    text is unchanged since the tree that gate ran on (a live verdict is of that code)"""
+    text is unchanged since the tree that gate ran on (a live verdict is of that code). The older tree's text is
+    put through shape.py's passes first: they are proven to compile to the same objects (shape.py check), so a
+    function they alone changed is still the code the live gate ran."""
     lg = json.load(open(R('verification', 'live_gates.json')))
     git = lambda *a: subprocess.run(['git', '-C', ROOT] + list(a), capture_output=True, text=True, check=True).stdout
-    then = texts(git('show', '%s:tree/src/%s' % (lg['tree_commit'], f)) for f in git('ls-tree', '--name-only', '%s:tree/src' % lg['tree_commit']).split())
+    then = texts(shape.shape_source(git('show', '%s:tree/src/%s' % (lg['tree_commit'], f))) for f in git('ls-tree', '--name-only', '%s:tree/src' % lg['tree_commit']).split())
     now = texts(open(p).read() for p in sorted(glob.glob(os.path.join(o.out, 'src', '*'))))
     same = {a for a in now if then.get(a) == now[a]}
     args = []

@@ -535,7 +535,7 @@ int CMoTask::DrawQuadStates(float *a2, char arg4)
   Fn10076030_static_D1D0 = 1065353216;
   if ( arg4 != 0 )
     orig::TexRef_SetTexture(self, 0);
-  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
@@ -642,7 +642,7 @@ int CMoTask::DrawQuadDynVB(float *a2, float *a3, char a4)
   orig::DynVB_Unlock((void *)g_pDynVB_FVF144);
   if ( a4 != 0 )
     orig::TexRef_SetTexture(self, 0);
-  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
+  (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_DISABLE);
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXCOORDINDEX, 0);
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);

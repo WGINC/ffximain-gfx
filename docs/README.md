@@ -23,6 +23,7 @@ One place per subject. When two documents disagree, the one listed here as the p
 | `SDK.md` | Writing a mod: hooks, forks, device hooks |
 | `DEVKIT.md` | The devkit's parts, the seam of the graphics system, FFXiMain.pdb, editor projects, what is left |
 | `D3D11.md` | The Direct3D 11 renderer's scheme (`../kit/d3d8on11/README.md` is the device itself) |
+| `SHAPE.md` | Source-shaping: the passes that make the tree read like source, each proven to compile to the same objects |
 | `NAMES.md`, `COMMUNITY.md` | How names are given, and how the community's names enter |
 | `UI.md` | The TkMenu UI layer checked against the game |
 | `RECOMPILE.md`, `RECCMP.md` | Compiling to the game's bytes; reccmp against match.py |

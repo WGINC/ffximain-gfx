@@ -141,7 +141,7 @@ XI_API int __thiscall ZoneMap_DrawBox(void *self_)
 {
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *((_DWORD *)self_ + 58645));
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 2u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, D3DCULL_CW);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, (IDirect3DVertexBuffer8 *)g_boxPositionVB, 12u);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetStreamSource((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, (IDirect3DVertexBuffer8 *)g_boxStream1VB, 24u);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (IDirect3DIndexBuffer8 *)g_boxIB, 0);
@@ -213,13 +213,13 @@ XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(CTsZoneMap *self_, _DWORD *a
   int *v8;
   _DWORD *v10;
   (*(unsigned int *)((char *)self_ + 0x39138)) = -1;
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_NORMALIZENORMALS, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_NORMALIZENORMALS, FALSE);
   (*(unsigned int *)((char *)self_ + 0x39118)) = 0;
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 1u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, TRUE);
   if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92D)) != 0 )
   {
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, 0);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, 3u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
     pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
 LABEL_3:
     pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
@@ -227,8 +227,8 @@ LABEL_3:
   }
   if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92E)) != 0 )
   {
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, 3u);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGTABLEMODE, D3DFOG_NONE);
     pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
     if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92F)) == 0 )
       goto LABEL_3;
@@ -846,7 +846,7 @@ XI_API int __stdcall Gfx_DrawWireBox(int a1)
 {
   double v1;
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, FALSE);
   g_upVerts_1D50 = *(_DWORD *)a1;
   g_upVerts_1D50_v0_y = *(float *)(a1 + 8);
   g_upVerts_1D50_v0_z = *(float *)(a1 + 20);
@@ -960,7 +960,7 @@ XI_API int __stdcall Gfx_DrawWireBox(int a1)
   orig::CDx_DrawPrimitiveUP(g_pCDx, 3, 4, (int)&g_upVerts_1D50, 24);
   orig::CDx_DrawPrimitiveUP(g_pCDx, 3, 4, (int)&g_upVerts_1E10, 24);
   orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 4, (int)&g_upVerts_1C90, 24);
-  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
+  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, TRUE);
 }
 
 // FUNCTION: FFXIMAIN 0x10183420  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
@@ -1120,20 +1120,20 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
         lpVtbl = pDevice->lpVtbl;
         if ( *(_WORD *)(a3 + 212) != 0 )
         {
-          lpVtbl->SetRenderState(pDevice, D3DRS_CULLMODE, 2u);
+          lpVtbl->SetRenderState(pDevice, D3DRS_CULLMODE, D3DCULL_CW);
           v39 = 1;
         }
         else
         {
-          lpVtbl->SetRenderState(pDevice, D3DRS_CULLMODE, 3u);
+          lpVtbl->SetRenderState(pDevice, D3DRS_CULLMODE, D3DCULL_CCW);
           v39 = 0;
         }
         v26 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
         v27 = v26->lpVtbl;
         if ( *(_WORD *)(a3 + 214) != 0 )
-          v27->SetRenderState(v26, D3DRS_ALPHATESTENABLE, 1u);
+          v27->SetRenderState(v26, D3DRS_ALPHATESTENABLE, TRUE);
         else
-          v27->SetRenderState(v26, D3DRS_ALPHATESTENABLE, 0);
+          v27->SetRenderState(v26, D3DRS_ALPHATESTENABLE, FALSE);
         orig::CDx_SetTransform(g_pCDx, 256, (const void *)(a3 + 64));
         result = v37;
         v28 = (int *)v37[24];
@@ -1282,7 +1282,7 @@ XI_API _DWORD * __thiscall ZoneMap_DrawMeshById(int self_, int a2, int a3)
                       v38 = *((__int16 *)v30 + 16);
                       if ( *((_WORD *)v30 + 16) != 0 )
                       {
-                        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 1u);
+                        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, D3DCULL_NONE);
                       }
                       else
                       {

@@ -558,18 +558,18 @@ XI_API int __cdecl sqgxColorUpdate(void)
   {
     if ( (g_pSqgxContext[652] & 8) != 0 )
     {
-      g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 1u);
+      g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_COLOR1);
     }
     else
     {
       if ( (v5 & 2) == 0 )
-        g_pDancerDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, 0);
-      g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, 0);
+        g_pDancerDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, D3DMCS_MATERIAL);
+      g_pDancerDevice->SetRenderState(D3DRS_DIFFUSEMATERIALSOURCE, D3DMCS_MATERIAL);
     }
   }
   else
   {
-    g_pDancerDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, 1u);
+    g_pDancerDevice->SetRenderState(D3DRS_EMISSIVEMATERIALSOURCE, D3DMCS_COLOR1);
   }
   for ( i = 0; i < 4; ++i )
   {

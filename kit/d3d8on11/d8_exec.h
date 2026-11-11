@@ -8,6 +8,7 @@
 #include <dxgi.h>
 #include <string>
 #include <unordered_map>
+#include <map>
 #include <vector>
 
 struct ExecFF;
@@ -19,6 +20,7 @@ struct ExecRes {
   // buffer_arena (Exec::BArena): where a dynamic buffer's contents are for a draw: in its own buffer, or in the arena
   // of generation agen at byte `at`
   bool in_arena = false; uint32_t at = 0, agen = 0;
+  uint32_t ver = 0, ref_chunk = 0;                 // draw_merge: counts its uploads; buffer_arena: the chunk a draw last read it in
   uint64_t up_frame = ~0ull;                       // the Present count at its last upload (the stats' "again")   // a dynamic buffer: its whole contents, kept here
   ID3D11Texture2D *stage = nullptr;                // X_SNAP's staging copy (a small lockable render target)
   std::unordered_map<uint32_t, ID3D11RenderTargetView *> rtv;   // per level*8+face
@@ -87,7 +89,9 @@ private:
   std::vector<Held> held; std::vector<uint8_t> hold;
   // byte offsets into the arenas; ~0u: none (the draw maps). bufs: the index into prep_bufs of this draw's buffers as
   // the batch placed them (buffer_arena), ~0u: none; up: an upload the batch has already written (not run again)
-  struct Prep { uint32_t vc, pc, vb, ib, bufs; uint8_t up; uint32_t up_at; };
+  // merged (draw_merge): 1 the first draw of a merged run, which draws mcount indices from mfirst of the merged index
+  // arena with the run's streams bound to the slot arenas; 2 a later draw of the run (not run)
+  struct Prep { uint32_t vc, pc, vb, ib, bufs; uint8_t up; uint32_t up_at; uint8_t merged; uint32_t mfirst, mcount; };
   struct PrepBufs { ID3D11Buffer *sb[16]; UINT so[16]; ID3D11Buffer *ib; UINT io; };
   std::vector<PrepBufs> prep_bufs;
   // buffer_arena (X_OPTION OPT_BUFARENA; d3d8on11.ini buffer_arena): the game's dynamic buffers' contents live in two
@@ -100,6 +104,18 @@ private:
   // Direct3D 11 buffer when next drawn, and stays there until its next upload.
   struct BArena { ID3D11Buffer *b = nullptr; UINT cap = 0, pos = 0; uint32_t gen = 1; uint8_t *m = nullptr; bool fresh = true; } ba[2];
 public:
+  // draw_merge (X_OPTION OPT_MERGE; d3d8on11.ini draw_merge; needs buffer_arena and batches): consecutive indexed
+  // triangle-list draws whose packets are equal in everything but their buffers and index range become one draw.
+  // The game draws a character part from its own vertex buffers (three streams) and its own index buffer, so such
+  // draws differ only there (docs/HISTORY.md, 6 Oct: 1,620 a frame in the plaza, 510-771 if the buffers were shared).
+  // Each draw's stream buffers are copied whole, from the executor's copies, to one vertex slot v of the slot arenas
+  // (stream s at byte v * its stride, so one vertex number reads every stream), and its indices are written to the
+  // merged index arena as 32-bit numbers plus v and its base vertex. The run's first draw then draws all of them:
+  // the same triangles, in the same order, with the same state. A buffer set already at a slot (its buffers' upload
+  // counts unchanged) is not copied again. When an arena is full merging stops for the chunk and the arenas start
+  // again at the next.
+  uint32_t merge_on = 0, merge_cap = 0;
+  uint64_t mg_runs = 0, mg_saved = 0, mg_bytes = 0, mg_wraps = 0; uint64_t mg_kept = 0;   // bytes of static buffers' copies held
   uint32_t arena_kb = 0;
   uint64_t ba_place = 0, ba_range = 0, ba_bytes = 0, ba_wraps = 0, ba_own = 0, ba_maps = 0;   // for the stats
 private:
@@ -109,6 +125,13 @@ private:
   void arena_own(ExecRes &r);
   bool arena_upload_now(ExecRes &r, const XUpBuf &u, const uint8_t *data);
   void arena_resolve(ExecRes &r, ID3D11Buffer **b, UINT *off);
+  struct SArena { ID3D11Buffer *b = nullptr; UINT cap = 0, pos = 0; bool fresh = true, used = false; uint8_t *m = nullptr; } sa[5];   // [0..3] streams, [4] indices
+  uint32_t sgen = 1, chunk_no = 0; bool swrap = false;
+  struct SlotKey { uint32_t v[12]; bool operator<(const SlotKey &o) const { return memcmp(v, o.v, sizeof v) < 0; } };
+  std::map<SlotKey, uint32_t> slots;                 // (each stream's buffer, upload count, stride) -> the vertex slot
+  struct MOp { uint32_t j; uint8_t kind, s; uint32_t dst, id, a, b; int32_t add; };   // kind 0: copy buffer id to sa[s] at dst; 1: indices
+  std::vector<MOp> mops;
+  void merge_make();
   std::vector<Prep> prep;
   size_t plan(size_t i);
   void exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply, const Prep *pp);

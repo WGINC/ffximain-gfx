@@ -39,7 +39,7 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   if (ne > 0 && ne < sizeof env) ab.batch = atoi(env);
   // exec_ab_lever: which switch the A/B turns, filter (exec_filter) or batch (exec_batch)
   { char lv[16]; GetPrivateProfileStringA("d3d8on11", "exec_ab_lever", "filter", lv, sizeof lv, ini);
-    ab.key = !_stricmp(lv, "batch") ? OPT_BATCH : !_stricmp(lv, "flip") ? OPT_FLIP : OPT_FILTER; }
+    ab.key = !_stricmp(lv, "batch") ? OPT_BATCH : !_stricmp(lv, "flip") ? OPT_FLIP : !_stricmp(lv, "merge") ? OPT_MERGE : OPT_FILTER; }
   // swap_flip=1: the flip-model swap chain (DXGI_SWAP_EFFECT_FLIP_DISCARD, 2 buffers) instead of the blt model (DISCARD,
   // 1 buffer, as before); D8ON11_SWAP_FLIP overrides it. exec_ab_lever=flip: the A/B turns it (off = blt, on = flip)
   ab.flip = (int)GetPrivateProfileIntA("d3d8on11", "swap_flip", 0, ini);
@@ -98,8 +98,19 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
     if (ne > 0 && ne < sizeof env) ba = atoi(env);
     uint32_t kb = ba <= 0 || !dynamic_buffers ? 0u : ba == 1 ? 16384u : ba < 1024 ? 1024u : ba > 262144 ? 262144u : (uint32_t)ba;
     ne = GetEnvironmentVariableA("D8ON11_BUFFER_ARENA_TEST_KB", env, sizeof env);       // the tests: a small arena, so it starts again
-    if (kb && ne > 0 && ne < sizeof env && atoi(env) >= 4) kb = (uint32_t)atoi(env);
+    if (kb && ne > 0 && ne < sizeof env && atoi(env) >= 1) kb = (uint32_t)atoi(env);
     XOption o = {OPT_BUFARENA, kb, 0}; link->put(X_OPTION, &o, sizeof o);
+    // draw_merge (11 Nov; needs buffer_arena and exec_batch): consecutive indexed triangle-list draws equal in all but
+    // their buffers and index range are drawn as one (d8_exec.h). 0 (the default until it is measured in the game): off.
+    // Set for a whole start (the executor keeps a copy of every buffer up to 256 KB); exec_ab_lever=merge switches it
+    // off and on while the game runs. D8ON11_DRAW_MERGE overrides.
+    ab.merge = (int)GetPrivateProfileIntA("d3d8on11", "draw_merge", 0, ini);
+    ne = GetEnvironmentVariableA("D8ON11_DRAW_MERGE", env, sizeof env);
+    if (ne > 0 && ne < sizeof env) ab.merge = atoi(env);
+    if (ab.merge && !(kb && ab.batch)) { d8_log("draw_merge: needs buffer_arena=1 and exec_batch=1 (off)"); ab.merge = 0; }
+    if (ab.merge) { XOption om = {OPT_MERGE, 3u, 0}; link->put(X_OPTION, &om, sizeof om);
+                    d8_log("draw_merge=1: consecutive indexed list draws equal in all but their buffers and range are drawn as one"); }
+    if (ab.on && ab.key == OPT_MERGE && !ab.merge) { ab.on = 0; d8_log("exec_ab_lever=merge: needs draw_merge=1 at the start: the A/B is off"); }
     if (ba > 0 && !dynamic_buffers) d8_log("buffer_arena: needs dynamic_buffers=1 (off)");
     else if (kb) d8_log("buffer_arena=%d: the game's dynamic buffers share one Direct3D 11 buffer (%u KB of vertex data)", ba, kb); }
   draw_sites = (int)GetPrivateProfileIntA("d3d8on11", "draw_sites", 0, ini) != 0;
@@ -108,9 +119,11 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
   { XOption o = {OPT_SITES, (uint32_t)draw_sites, 0}; link->put(X_OPTION, &o, sizeof o); }
   if (draw_sites) d8_log("draw_sites=1: the executor's draw time is logged by the game's call site");
   d8_log("executor filter: %d, batch: %d%s", ab.filter != 0, ab.batch != 0,
-         ab.on ? (ab.key == OPT_BATCH ? "; the A/B of batch is on (exec_ab)" : ab.key == OPT_FLIP ? "; the A/B of the flip-model swap chain is on (exec_ab)" : "; the A/B of filter is on (exec_ab)") : "");
-  if (ab.on) d8_log("executor ab: %d s after the device, %d phases of %d s (filter off, on, on, off, ...), the first %d frames of each left out; "
-                    "stand still while it runs", ab.after, 4 * ab.rounds, ab.phase, ab.settle);
+         ab.on ? (ab.key == OPT_BATCH ? "; the A/B of batch is on (exec_ab)" : ab.key == OPT_FLIP ? "; the A/B of the flip-model swap chain is on (exec_ab)" :
+                  ab.key == OPT_MERGE ? "; the A/B of draw_merge is on (exec_ab)" : "; the A/B of filter is on (exec_ab)") : "");
+  if (ab.on) d8_log("executor ab: %d s after the device, %d phases of %d s (%s off, on, on, off, ...), the first %d frames of each left out; "
+                    "stand still while it runs", ab.after, 4 * ab.rounds, ab.phase,
+                    ab.key == OPT_BATCH ? "batch" : ab.key == OPT_FLIP ? "flip" : ab.key == OPT_MERGE ? "merge" : "filter", ab.settle);
   // present_interval: Present's SyncInterval, 0 to 4, instead of the one the game's parameters map to (anything else,
   // or nothing: the game's); D8ON11_PRESENT_INTERVAL overrides it (Dev::present_interval)
   { char pv[16] = ""; GetPrivateProfileStringA("d3d8on11", "present_interval", "", pv, sizeof pv, ini);
@@ -348,12 +361,13 @@ void Dev::ab_frame() {
   if (ab.i >= 0) {
     int v = (ab.i % 4 == 1 || ab.i % 4 == 2), k = ab.frames - ab.settle;
     if (k > 0) d8_log("executor ab: phase %d, %s=%d, %d frames: the game's frame %.3f ms on average (%.1f fps), %.3f at most",
-                      ab.i + 1, ab.key == OPT_BATCH ? "batch" : ab.key == OPT_FLIP ? "flip" : "filter", v, k, ab.sum / k, 1000.0 * k / ab.sum, ab.max);
+                      ab.i + 1, ab.key == OPT_BATCH ? "batch" : ab.key == OPT_FLIP ? "flip" : ab.key == OPT_MERGE ? "merge" : "filter", v, k, ab.sum / k, 1000.0 * k / ab.sum, ab.max);
   }
   ab.i++; ab.ph0 = t; ab.frames = 0; ab.sum = 0; ab.max = 0;
   XOption o = {ab.key, 0, (uint32_t)ab.settle};
   if (ab.i < n) o.value = (ab.i % 4 == 1 || ab.i % 4 == 2);
   else if (ab.key == OPT_BATCH) { o.value = ab.batch != 0; d8_log("executor ab: done; batch=%u from now on (exec_batch)", o.value); }
+  else if (ab.key == OPT_MERGE) { o.value = ab.merge != 0; d8_log("executor ab: done; merge=%u from now on (draw_merge)", o.value); }
   else if (ab.key == OPT_FLIP) { o.value = ab.flip != 0; d8_log("executor ab: done; flip=%u from now on (swap_flip)", o.value); }
   else { o.value = ab.filter != 0; d8_log("executor ab: done; filter=%u from now on (exec_filter)", o.value); }
   link->put(X_OPTION, &o, sizeof o);

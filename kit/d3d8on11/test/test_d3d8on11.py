@@ -506,6 +506,26 @@ for m in MODES:
         for n in sorted(set(base) | set(got)):
             if base.get(n) != got.get(n): print('  differs: %s' % n)
 
+# draw_merge (11 Nov): consecutive indexed list draws equal in all but their buffers and index range drawn as one, from
+# slot arenas. Every scene (draw_merge among them: five character-like parts, each range drawn from two buffer sets,
+# overlapping, with a base vertex, a material change and a buffer written again between draws) must draw exactly what
+# it draws without it, in each mode, with large arenas and with 512-byte ones that fill and start again; and draws must have merged.
+for m in MODES:
+    xlog = os.path.join(ours, 'd3d8on11_exec.log')
+    common = {'D8ON11_BUFFER_ARENA': '1', 'D8ON11_EXEC_BATCH': '1', 'D8ON11_EXEC_FILTER': '1'}
+    base = scenes(ours, True, m, dict(common, D8ON11_DRAW_MERGE='0'))
+    for name, extra in [('16 MB arenas', {}), ('512-byte slot arenas', {'D8ON11_BUFFER_ARENA_TEST_KB': '2'})]:
+        for f in (log, xlog):
+            if os.path.exists(f): os.remove(f)
+        got = scenes(ours, True, m, dict(common, D8ON11_DRAW_MERGE='1', **extra))
+        t = ''.join(open(f).read() for f in (log, xlog) if os.path.exists(f))
+        tot = re.search(r'draw merge totals: (\d+) merged draws made, (\d+) draws they took in besides their own, (\d+) times', t)
+        ok = base == got and base.get('draw_merge') is not None and tot is not None and (int(tot.group(1)) >= 1 and int(tot.group(2)) >= 3 and int(tot.group(3)) >= 1 if '512' in name else int(tot.group(1)) >= 2 and int(tot.group(2)) >= 12)
+        print('%s: %s mode, draw_merge=1, %s: draws exactly what it draws without it (%d scenes); %s' % ('ok' if ok else 'FAIL', m, name, len(base),
+              ('%s merged draws took in %s others, the arenas started again %s times' % tot.groups()) if tot else 'no totals line')); bad += not ok
+        for n in sorted(set(base) | set(got)):
+            if base.get(n) != got.get(n): print('  differs: %s' % n)
+
 if os.path.exists(log):
     t = open(log).read()
     for l in t.splitlines():

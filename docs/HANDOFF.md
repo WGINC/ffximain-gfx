@@ -1,9 +1,10 @@
 # Handoff (27 Oct): finishing the work in one session, without workers
 
-**10 Nov, before everything below:**
-- Where things stand: README.md, "Where things stand (10 Nov 2026)". The record: docs/HISTORY.md, from "10 Nov: the
+**11 Nov, before everything below:**
+- Where things stand: README.md, "Where things stand (11 Nov 2026)". Before building a lever, search docs/HISTORY.md
+  for it: the owner asked on 11 Nov whether the occlusion work had been done before, and it had, three times. The record: docs/HISTORY.md, from "10 Nov: the
   four builds" to its end.
-- The session waiting for the owner: kit/sessions/ab_16nov (frame time: `fast`, `nowait`, `base`, `first`, `arm`), and
+- The session waiting for the owner: kit/sessions/ab_17nov (draw merging: `merge`, `plain`, `hitch`), and
   kit/sessions/ab_15nov (Liminality, not yet run). Read results with `kit/xikit/measure_read.py FOLDER`; it now sums the
   occlusion waits and d3d8on11's worker time over a start.
 - The game has three builds here (`FFXI_DLL`, `FFXI_DLL_6AC37846`, `FFXI_DLL_6AE818B4`); run test_speedfix.py on each.

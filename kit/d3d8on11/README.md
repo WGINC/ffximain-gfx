@@ -115,12 +115,35 @@ flag (d3d8types.h).
 - When the arena is full it starts again with Map(DISCARD) and a new generation. That happens only at the start of a
   chunk, before any of its draws has been given a place. A buffer still at a place of an older generation is written
   to its own Direct3D 11 buffer when next drawn, and stays there until its next upload.
-- Why: the owner's plaza has 300 to 650 buffer uploads a frame, each a Map(DISCARD) of its own buffer, and Present's
-  time follows the upload time (7 Nov). Whether one Map of one buffer is cheaper on the owner's machine is not
-  known; `executor buffer arena` in the log (every 600 Presents) and the uploads line measure it.
+- Why: the owner's plaza has 300 to 650 buffer uploads a frame, each a Map(DISCARD) of its own buffer.
+- Measured (the owner's run of 16 Nov): the upload line 2.4-2.7 ms a frame without it, 0.05-0.07 with it; the
+  batch's copies are timed with the draws, which cost about 1 ms a frame more: net about 1.4 ms a frame. Present did
+  not change (it follows the draw count).
+- A NOOVERWRITE range into a buffer that a draw of the same chunk reads ends the chunk first, so the write follows
+  that draw as it does without the arena (11 Nov).
 - Tests: every scene drawn with the arena equals the scene without it, pixel for pixel, in each mode, with records
   run one by one and in batches, with the 16 MB arena and with an 8 KB test arena that starts again several times.
   The `buffer_arena` scene writes one buffer again before each of 320 draws.
+
+**Draw merging (`draw_merge=1`; 11 Nov; off by default until it is measured in the game).** Needs buffer_arena and
+exec_batch.
+- Why: the owner's run of 16 Nov. Present's time is 4.9 us a draw and the draw line 2.9 us a draw (r 0.90 and 0.95
+  over 81 windows), at 1,500 to 1,700 draws a frame in the plaza.
+- What merges: consecutive draws of a batch that are DrawIndexedPrimitive triangle lists, solid fill, streams 0 to 3
+  only, and whose packets are equal up to the stream table (shader keys, constants, states, viewport, textures and
+  samplers) with the same strides and index width. Only buffer uploads may lie between them.
+- How: the executor keeps a copy of every buffer up to 256 KB. Each draw of a run has its stream buffers copied whole
+  to one vertex slot v of the slot arenas (stream s at byte v x its stride, so one vertex number reads all streams);
+  its indices go to the index arena as 32-bit numbers plus v and its base vertex. The run's first draw draws them
+  all with one DrawIndexed. A set of buffers already at a slot, none uploaded since, is not copied again.
+- The copies are made in the records' order, so a buffer written again between two draws of a run gives each draw
+  what it read.
+- When an arena is full, merging stops for that chunk and the arenas start again at the next.
+- The same triangles are drawn in the same order with the same state, so the picture is the same. One difference
+  from the unmerged path: a 16-bit index 0xFFFF is a strip cut in Direct3D 11 but lists have no cuts, so none here.
+- `exec_ab_lever=merge` (with `exec_ab=1`) switches it off, on, on, off while the game runs; `executor draw merge` in
+  the log (every 600 Presents) counts the merged draws and the draws they took in.
+- Tests: every scene with it equals the scene without it, in each mode, with 4 MB slot arenas and with 512-byte ones that fill and start again.
 
 **CopyRects into a lockable texture.** A CopyRects from a GPU surface (a render target, the back buffer, another
 texture) into a texture level marks that level's CPU copy stale; the level's next LockRect reads it back first

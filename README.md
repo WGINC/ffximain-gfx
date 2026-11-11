@@ -20,23 +20,24 @@ This is private work: nothing here is published, and no game bytes are in the re
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
 
-## Where things stand (10 Nov 2026)
+## Where things stand (11 Nov 2026)
 
 - **The game's builds:** three are known to the kit: 6A995428 (analysed), 6AC37846 and 6AE818B4 (2 Nov; translated,
   docs/KIT.md). On 6AE818B4 speedfix and the kit's measuring work; the reconstruction is not swapped in (61 of its
   addresses are not proven there).
-- **Frame time, Port Jeuno plaza, d3d8on11 with speedfix (the owner's run of 12 Nov, start 3):** about 60 fps
-  standing. d3d8on11's worker is busy 95% of the time, 14.3 ms a frame median (Present 6.9, draws 4.4, uploads 1.6,
-  read-backs 1.0). The game's own thread waited 3.9 ms a frame in speedfix's late occlusion reads and 0.9 ms in
-  first-probe readbacks.
-- **Built on 10 Nov, not yet run in the game** (`kit/sessions/ab_16nov`): the late occlusion read without a wait
-  (`occlusion_nowait`), a shared buffer for the game's dynamic vertex data (`buffer_arena`), a first-probe answer
-  without a wait (`occlusion_first`, a chosen rule), and a start with d3d8on11's worker as a native ARM64 program.
-- **Above 60 fps:** the game's time follows real time (`uncap`, `frame_step=3`; the camera and characters move by the
-  fraction of a tick). Liminality (`liminality=1`: whole ticks, with positions, facing, limbs and the camera blended
-  between them) is built and passes its offline tests; its last version has not run in the game
-  (`kit/sessions/ab_15nov`), and the one that ran (12 Nov) broke on four faults since fixed.
-- **Not built:** GPU skinning, draw merging in d3d8on11.
+- **Frame time, Port Jeuno plaza, d3d8on11 with speedfix (the owner's run of 16 Nov):** median frame 14.5 ms standing
+  and 12.5 running with the late occlusion read that never waits (`occlusion_nowait`, the default) and the buffer
+  arena (`buffer_arena=1`); 16.9 and 19.0 without them. 0.7 to 4.2% of frames are over 33 ms.
+- **What limits it:** the number of draws. d3d8on11's worker spends about 7.7 us on each (Present's time is 4.9 us a
+  draw) and the game's thread 2.3 us, at 1,500 to 1,700 draws a frame.
+- **Built on 11 Nov, not yet run in the game** (`kit/sessions/ab_17nov`): draw merging in d3d8on11 (`draw_merge`).
+- **The long frames:** standing, the game's own thread working 24 to 31 ms; running, the thread stopped about 28 ms
+  outside Direct3D, in seconds with more file reads. Neither is named yet; ab_17nov samples them.
+- **Above 60 fps:** the game's time follows real time (`uncap`, `frame_step=3`). Liminality (`liminality=1`) is built
+  and passes its offline tests; its last version has not run in the game (`kit/sessions/ab_15nov`).
+- **Not working:** d3d8on11's worker as a native ARM64 process (`mode=remote`) crashed in Windower's Hook.dll in the
+  owner's game on 16 Nov; cause not established.
+- **Not built:** GPU skinning.
 
 The two sections below are as written on 5 Nov and 1 Nov; where they differ from the list above, the list is right.
 

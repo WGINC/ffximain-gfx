@@ -563,6 +563,58 @@ static void scenes(void) {
     IDirect3DDevice8_DeleteVertexShader(d, h);
     IDirect3DVertexBuffer8_Release(vp); IDirect3DVertexBuffer8_Release(vn); IDirect3DVertexBuffer8_Release(vt); IDirect3DIndexBuffer8_Release(ib); }
   end("three_stream_declaration");
+  /* draw_merge: character parts as the game draws them (SkinAndDrawV2): each part's positions and normals in dynamic
+     buffers of its own, written before its draws, in two sets (A and B); its texcoords and indices static; each of
+     its two index ranges drawn from set A and then from set B. With nothing else changed between them the draws
+     differ only in buffers and range. The quads overlap with the depth test off, so their order shows. Part 2 has its
+     vertices at 4 in its buffers (a base vertex), part 3 a different material (a run ends there), and part 4 writes
+     part 0's buffers again and draws from them (the earlier draws must keep what they read) */
+  reset_state(); begin(0xFF101018);
+  { static const DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT3), D3DVSD_STREAM(1), D3DVSD_REG(3, D3DVSDT_FLOAT3),
+                                 D3DVSD_STREAM(2), D3DVSD_REG(7, D3DVSDT_FLOAT2), D3DVSD_END()};
+    DWORD h = 0; IDirect3DVertexBuffer8 *vp[4][2] = {{0}}, *vn[4][2] = {{0}}, *vt[5] = {0}; IDirect3DIndexBuffer8 *ib[5] = {0}; BYTE *p;
+    IDirect3DDevice8_CreateVertexShader(d, decl, NULL, &h, 0);
+    for (int k = 0; k < 4; k++) for (int ab = 0; ab < 2; ab++) {
+      IDirect3DDevice8_CreateVertexBuffer(d, 8 * 12, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0, D3DPOOL_DEFAULT, &vp[k][ab]);
+      IDirect3DDevice8_CreateVertexBuffer(d, 8 * 12, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0, D3DPOOL_DEFAULT, &vn[k][ab]); }
+    for (int k = 0; k < 5; k++) {
+      IDirect3DDevice8_CreateVertexBuffer(d, 8 * 8, D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &vt[k]);
+      IDirect3DDevice8_CreateIndexBuffer(d, 6 * 2, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &ib[k]);
+      if (vt[k] && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vt[k], 0, 0, &p, 0))) { float *T = (float *)p;
+        for (int v = 0; v < 8; v++) { T[2 * v] = (k + 0.5f) / 5.0f * 0.9f; T[2 * v + 1] = ((v & 3) < 2 ? 0.1f : 0.8f); }
+        IDirect3DVertexBuffer8_Unlock(vt[k]); }
+      if (ib[k] && SUCCEEDED(IDirect3DIndexBuffer8_Lock(ib[k], 0, 0, &p, 0))) { WORD *I = (WORD *)p;
+        I[0] = 0; I[1] = 1; I[2] = 2; I[3] = 1; I[4] = 3; I[5] = 2; IDirect3DIndexBuffer8_Unlock(ib[k]); } }
+    IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &proj); IDirect3DDevice8_SetTransform(d, D3DTS_VIEW, &view);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_LIGHTING, TRUE); IDirect3DDevice8_SetRenderState(d, D3DRS_AMBIENT, 0xFF808080);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_FALSE); IDirect3DDevice8_SetRenderState(d, D3DRS_CULLMODE, D3DCULL_NONE);
+    D3DMATERIAL8 m; memset(&m, 0, sizeof m); m.Diffuse.r = m.Diffuse.g = m.Diffuse.b = m.Diffuse.a = 1; m.Ambient = m.Diffuse;
+    IDirect3DDevice8_SetMaterial(d, &m);
+    IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)grad);
+    IDirect3DDevice8_SetVertexShader(d, h);
+    for (int part = 0; part < 5; part++) {
+      int k = part == 4 ? 0 : part, base = part == 2 ? 4 : 0;
+      if (part == 3) { m.Ambient.g = 0.4f; IDirect3DDevice8_SetMaterial(d, &m); }
+      for (int ab = 0; ab < 2; ab++) {
+        float x0 = -2.0f + part * 0.7f + ab * 0.35f, y0 = 1.6f - part * 0.55f - ab * 0.3f, w = 1.3f;
+        if (vp[k][ab] && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vp[k][ab], 0, 0, &p, D3DLOCK_DISCARD))) { float *P = (float *)p + 3 * base;
+          float q[12] = {x0, y0, 0.2f, x0 + w, y0, 0.2f, x0, y0 - w, 0.2f, x0 + w, y0 - w, 0.2f}; memset(p, 0, 8 * 12); memcpy(P, q, sizeof q);
+          IDirect3DVertexBuffer8_Unlock(vp[k][ab]); }
+        if (vn[k][ab] && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vn[k][ab], 0, 0, &p, D3DLOCK_DISCARD))) { float *N = (float *)p;
+          for (int v = 0; v < 8; v++) { N[3 * v] = 0; N[3 * v + 1] = 0; N[3 * v + 2] = -1; } IDirect3DVertexBuffer8_Unlock(vn[k][ab]); }
+      }
+      IDirect3DDevice8_SetStreamSource(d, 2, vt[part], 8); IDirect3DDevice8_SetIndices(d, ib[part], base);
+      for (int rec = 0; rec < 2; rec++) for (int ab = 0; ab < 2; ab++) {
+        IDirect3DDevice8_SetStreamSource(d, 0, vp[k][ab], 12); IDirect3DDevice8_SetStreamSource(d, 1, vn[k][ab], 12);
+        IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 0, 4, rec * 3, 1);
+      }
+    }
+    for (int i = 0; i < 3; i++) IDirect3DDevice8_SetStreamSource(d, i, NULL, 0);
+    IDirect3DDevice8_SetIndices(d, NULL, 0); IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_DIFFUSE);
+    IDirect3DDevice8_DeleteVertexShader(d, h);
+    for (int k = 0; k < 4; k++) for (int ab = 0; ab < 2; ab++) { if (vp[k][ab]) IDirect3DVertexBuffer8_Release(vp[k][ab]); if (vn[k][ab]) IDirect3DVertexBuffer8_Release(vn[k][ab]); }
+    for (int k = 0; k < 5; k++) { if (vt[k]) IDirect3DVertexBuffer8_Release(vt[k]); if (ib[k]) IDirect3DIndexBuffer8_Release(ib[k]); } }
+  end("draw_merge");
 
   /* the declaration of the game's shader programs (data/d3d8_scope.json: stream 0, v0 FLOAT3, v3 FLOAT3, v5 D3DCOLOR,
      v7 FLOAT2, v15 FLOAT3), here without code: register 15 is D3DVSDE_POSITION2, unused unless D3DRS_VERTEXBLEND is

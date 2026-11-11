@@ -4612,3 +4612,70 @@ when a crowd loads, and whether its one-probe answer shows.
 
 Not done: GPU skinning and draw merging (the two larger levers against the executor's time), the first-probe wait by
 the game's own answer (no source for an answer without the GPU).
+
+## 11 Nov: the owner's ab_16nov run, and draw merging (ab_17nov)
+
+Starts: fast 201549_4832, nowait 202705_13272, base 203558_3768, first 204645_144, arm 205545_4436 and 205733_1948.
+The owner: some small stutters; "something in the aliasing is messing up a bit"; start 3 (base) seemed smoother;
+start 4 stutters and aliasing problems; start 5 crashed (Application Error: pol.exe, faulting module Hook.dll
+4.7.9.8, exception 0xC0000005 at offset 0x611BF).
+
+**Before building: what the history already held** (the owner asked whether this had been done before).
+- Occlusion answers without a wait were tried three times: the owner's own `occlusion_async_readback` (slower on
+  dgVoodoo), `occlusion_async` (10-11 Oct, reverted), `occlusion_late` with the snapshots (18 Oct, in use).
+  `occlusion_nowait` repairs the last: its 18 Oct test forced the executor to keep up, and in the game it did not.
+- An ARM64 executor: the 6 Oct probe had a plaza-shaped frame of Direct3D 11 calls at 8.91 ms from x86 and 8.66 from
+  ARM64. The arm start was built without that entry having been read.
+- Draw merging: the 6 Oct plaza trace (1,620 DrawIndexedPrimitive a frame: 1,561 runs as they stand, 771 if the parts
+  shared a buffer, 510 if sets of equal values did not count) and skin_merge (at most 1,330; off since run 3464).
+
+**Measured (60 s from each mark; frame ms mean / median, share over 33.4 ms):**
+
+| Start | plaza | run | crowd |
+|---|---|---|---|
+| fast (nowait + arena) | 15.8 / 14.5, 1.65% | 14.0 / 12.5, 4.24% | 16.0 / 15.2, 0.69% |
+| nowait | 19.8 / 19.1, 0.89% | 14.3 / 12.9, 4.44% | 18.7 / 18.5, 0.19% |
+| base | 17.9 / 16.9, 1.22% | 18.2 / 19.0, 2.95% | 19.2 / 17.7, 2.88% |
+| first (fast + occlusion_first=2) | 18.6 / 17.4, 1.73% | 15.9 / 15.3, 2.70% | 18.4 / 17.4, 1.53% |
+
+The scenes are not the same people from start to start, so differences of a millisecond or two between starts are
+not established.
+
+- **occlusion_nowait:** speedfix's late reads 1.50 ms a frame (base; the longest 132 ms) against 0.01 (the longest
+  0.2 to 5.5 ms). d3d8on11: 4,823 locks read back in base, 602-685 with it (the game's own first probes), 0 with
+  occlusion_first=2. The game's first-probe readback: 460-685 calls a start, 0.21-0.46 ms a frame.
+- **buffer_arena:** the upload line 2.36-2.68 ms a frame without, 0.05-0.07 with. But a batch's arena copies are
+  timed with its draws: the draw line is 3.26 us a draw with the arena (fast) and 2.59 without (nowait), about 1 ms a
+  frame more. Net about 1.4 ms a frame. 435-463 buffers placed, 12-16 ranges in place, 1.3 Maps, 0.2 restarts a frame.
+- **Present follows the draws, not the uploads** (fast, 81 windows, uploads about 0): Present = 0.98 ms + 4.86 us x
+  draws (r 0.90); the executor's draw line = 0.73 ms + 2.86 us x draws (r 0.95). So a draw costs the executor about
+  7.7 us, and the 7 Nov reading (Present follows the uploads, r 0.89) was the draws behind both. The game's thread in
+  d3d8on11's draw methods: 3.3-4.0 ms a frame, 2.2-2.4 us a draw, 1,460-1,710 draws a frame; its unlocks 0.2 ms.
+- **The executor:** busy 13.3 ms a frame median with both (fast), 14.9 (nowait), 17.0 (base, first), 97% of the time.
+- **The long frames now.** Standing (plaza, crowd): the render thread on the CPU 24-31 ms of a 46-55 ms frame, in
+  base and fast alike: the game's own work, not named. Running: 44-46 ms frames with 14-18 ms of CPU (by cycles) and
+  Present at 0: about 28 ms stopped outside Direct3D, in base, fast and first alike (first has no game readback at
+  all, so it is not the occlusion test). Per second of the run step, long frames against the process's file reads:
+  r 0.53-0.56; against page faults 0.02. The chunk reader 0x101BE590 only has Sleep(0). Where the thread is stopped
+  is not established: ab_17nov's hitch start samples it.
+- **occlusion_first=2:** 492 first probes answered; no fewer long frames than fast in any step. Not kept on.
+- **The arm start:** d8x_arm64.exe started ("built for ARM64"), made its device and ran 445-476 frames at 2.5 ms a
+  frame; the game then crashed in Hook.dll (Windower) both times. Neither log has an error before it. Cause not
+  established (no dump here). Dropped, given the 6 Oct figure.
+- **The aliasing:** not established which change it comes with (the owner's note names start 4 and seems to mean
+  starts 1 and 2 as well). One difference from the game's order was found in the arena by reading: a NOOVERWRITE
+  range written into a buffer that an earlier draw of the same batch reads was written before that draw ran. The game
+  promises not to overwrite what a draw still reads, so this changes a picture only if it does. Now the batch's chunk
+  ends there, and the write follows the draw as without the arena. Whether that was the aliasing is not known.
+
+**Built: draw_merge** (d3d8on11.ini, off by default; kit/d3d8on11 README). Consecutive indexed triangle-list draws
+whose packets are equal in everything but their buffers and index range are drawn as one, from slot arenas (one per
+vertex stream 0 to 3, one of 32-bit indices): each draw's stream buffers at one vertex slot, its indices rebased.
+The game's character draw (SkinAndDrawV2: streams 0, 1, 2 of strides 12, 12, 8, lists, each range from the +68/+72
+buffers and then the +80/+84 ones) is the case. `exec_ab_lever=merge` switches it while the game runs.
+- Tests: the `draw_merge` scene (five parts, two buffer sets each, a base vertex, a material change, a buffer written
+  again between draws): 20 draws become 2 merged draws; every scene equals the scene without it.
+- Not known: how many of the plaza's draws merge (their lights and materials decide), and the time.
+
+**ab_17nov:** merge (with `abtest merge`, d3d8on11's own off/on/on/off), plain (no arena, no merge; `abtest nowait`),
+hitch (the native sampler, a block for every frame of 33 ms or more).

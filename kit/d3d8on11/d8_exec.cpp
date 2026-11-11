@@ -662,7 +662,10 @@ void Exec::shutdown() {
   release_swap();
   if (arena_kb) d8_log("buffer arena totals: %llu buffers placed, %llu ranges written in place, %llu Maps of an arena, %llu times an arena started again, %llu buffers back to their own",
                        (unsigned long long)ba_place, (unsigned long long)ba_range, (unsigned long long)ba_maps, (unsigned long long)ba_wraps, (unsigned long long)ba_own);
+  if (merge_cap) d8_log("draw merge totals: %llu merged draws made, %llu draws they took in besides their own, %llu times the arenas started again",
+                        (unsigned long long)mg_runs, (unsigned long long)mg_saved, (unsigned long long)mg_wraps);
   for (BArena &a : ba) { if (a.b) a.b->Release(); a.b = nullptr; }
+  for (SArena &a : sa) { if (a.b) a.b->Release(); a.b = nullptr; }
   for (auto &r : res) free_res(r.second);
   res.clear();
   if (ff) {
@@ -743,6 +746,21 @@ bool Exec::arena_upload_now(ExecRes &r, const XUpBuf &u, const uint8_t *data) {
   r.in_arena = true; r.at = at; r.agen = a.gen; ba_place++; ba_maps++; ba_bytes += r.shadow.size();
   return true;
 }
+// draw_merge's arenas: one per stream 0..3 and one of 32-bit indices, each a quarter of the buffer arena's size
+void Exec::merge_make() {
+  if (!merge_cap || !arena_kb || sa[0].b || !dev) return;
+  D3D11_BUFFER_DESC bd = {}; bd.Usage = D3D11_USAGE_DYNAMIC; bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE; bd.ByteWidth = arena_kb * 256u;
+  for (int i = 0; i < 5; i++) {
+    bd.BindFlags = i == 4 ? D3D11_BIND_INDEX_BUFFER : D3D11_BIND_VERTEX_BUFFER;
+    if (FAILED(dev->CreateBuffer(&bd, NULL, &sa[i].b))) {
+      d8_log("draw_merge: an arena (%u KB) could not be made: off", bd.ByteWidth / 1024);
+      for (SArena &a : sa) { if (a.b) a.b->Release(); a.b = nullptr; }
+      return;
+    }
+    sa[i].cap = bd.ByteWidth; sa[i].pos = 0; sa[i].fresh = true;
+  }
+  d8_log("draw_merge: four %u KB slot arenas for vertex streams 0 to 3 and one for 32-bit indices", bd.ByteWidth / 1024);
+}
 // where a draw reads a dynamic buffer
 void Exec::arena_resolve(ExecRes &r, ID3D11Buffer **b, UINT *off) {
   if (r.in_arena) {
@@ -792,9 +810,64 @@ size_t Exec::plan(size_t i) {
   };
   const VSConst *lv = nullptr; const PSConst *lp = nullptr; UINT lvo = 0, lpo = 0;
   bool ba_used[2] = {false, false}, ba_refd[2] = {false, false};
+  // draw_merge: the run being built (its first draw's record, -1 none), how many draws it has, and whether an arena
+  // was full (no more merging in this chunk)
+  const bool mrg = merge_on && merge_cap && arena_kb && sa[0].b;
+  chunk_no++; mops.clear();
+  if (swrap) { for (SArena &a : sa) { a.pos = 0; a.fresh = true; } sgen++; slots.clear(); swrap = false; mg_wraps++; }
+  for (SArena &a : sa) a.used = false;
+  long run_head = -1; int run_n = 0; const XDraw *hd = nullptr; bool mfull = false;
+  uint32_t hv[4] = {};                                       // the first draw's buffers' upload counts when it was planned
+  auto m_cand = [&](const XDraw &d) -> bool {
+    if (d.kind != XD_INDEXED || d.topology != (uint32_t)D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST || d.raster.FillMode != D3D11_FILL_SOLID || !d.count || !d.stream[0].buf) return false;
+    for (UINT si = 0; si < 16; si++) {
+      if (!d.stream[si].buf) continue;
+      if (si > 3 || !d.stream[si].stride) return false;
+      auto it = res.find(d.stream[si].buf);
+      if (it == res.end() || it->second.shadow.empty() || it->second.index) return false;
+    }
+    auto ib = res.find(d.ib);
+    if (ib == res.end() || ib->second.shadow.empty() || !ib->second.index) return false;
+    return ((uint64_t)d.start + d.count) * (d.ib32 ? 4u : 2u) <= ib->second.w;
+  };
+  auto m_same = [&](const XDraw &d, const XDraw &h) -> bool {
+    if (memcmp(&d, &h, offsetof(XDraw, stream)) || d.ib32 != h.ib32) return false;
+    for (UINT si = 0; si < 16; si++) if (d.stream[si].stride != h.stream[si].stride || !d.stream[si].buf != !h.stream[si].buf) return false;
+    return true;
+  };
+  // put draw j of a run in the arenas: its streams at a vertex slot, its indices after the run's; false: no room
+  auto m_put = [&](size_t j, const XDraw &d, bool head, const uint32_t *vers) -> bool {
+    SlotKey key; memset(&key, 0, sizeof key); ExecRes *rs[4] = {}; UINT L = 0;
+    for (UINT si = 0; si < 4; si++) {
+      if (!d.stream[si].buf) continue;
+      rs[si] = &res.find(d.stream[si].buf)->second;
+      key.v[si * 3] = d.stream[si].buf; key.v[si * 3 + 1] = vers ? vers[si] : rs[si]->ver; key.v[si * 3 + 2] = d.stream[si].stride;
+      UINT n = ((UINT)rs[si]->shadow.size() + d.stream[si].stride - 1) / d.stream[si].stride; if (n > L) L = n;
+      if (rs[si]->shadow.size() > sa[si].cap / 2) return false;          // too large for the arenas: never merged
+    }
+    if ((uint64_t)d.count * 4 > sa[4].cap / 2) return false;
+    if ((uint64_t)sa[4].pos + (uint64_t)d.count * 4 > sa[4].cap) { swrap = true; return false; }
+    uint32_t v;
+    auto f = slots.find(key);
+    if (f != slots.end()) v = f->second;
+    else {
+      v = 0;
+      for (UINT si = 0; si < 4; si++) if (rs[si]) { UINT n = (sa[si].pos + d.stream[si].stride - 1) / d.stream[si].stride; if (n > v) v = n; }
+      for (UINT si = 0; si < 4; si++) if (rs[si] && (uint64_t)(v + L) * d.stream[si].stride > sa[si].cap) { swrap = true; return false; }
+      for (UINT si = 0; si < 4; si++) if (rs[si]) {
+        MOp o = {(uint32_t)j, 0, (uint8_t)si, v * d.stream[si].stride, d.stream[si].buf, (uint32_t)rs[si]->shadow.size(), 0, 0}; mops.push_back(o);
+        sa[si].pos = (v + L) * d.stream[si].stride; sa[si].used = true;
+      }
+      slots[key] = v;
+    }
+    MOp o = {(uint32_t)j, (uint8_t)(d.ib32 ? 2 : 1), 4, sa[4].pos, d.ib, d.start, d.count, (int32_t)d.base + (int32_t)v}; mops.push_back(o);
+    if (head) { prep[j].merged = 1; prep[j].mfirst = sa[4].pos / 4; prep[j].mcount = d.count; }
+    sa[4].pos += d.count * 4; sa[4].used = true;
+    return true;
+  };
   size_t k = i;
   for (; k < N; k++) {
-    Prep &q = prep[k]; q = {~0u, ~0u, ~0u, ~0u, ~0u, 0, 0};
+    Prep &q = prep[k]; q = {~0u, ~0u, ~0u, ~0u, ~0u, 0, 0, 0, 0, 0};
     if (arena_kb && held[k].op != X_DRAW) {
       const uint8_t *p = held[k].p ? held[k].p : hold.data() + held[k].off;
       // a buffer made or freed: the records after it are planned once it has run
@@ -806,6 +879,11 @@ size_t Exec::plan(size_t i) {
         if (it != res.end() && it->second.buf && arena_for(it->second) && (uint64_t)u.offset + u.length <= it->second.shadow.size()) {
           ExecRes &r = it->second; int ai = r.index ? 1 : 0; BArena &a = ba[ai];
           const bool noov = (u.flags & 0x1000u) && !(u.flags & 0x2000u);
+          // a NOOVERWRITE range into a buffer a draw of this chunk reads: the chunk ends first, so that draw is made
+          // before the write, as it is without the arena (the game promises not to write what a draw still reads; the
+          // batch would otherwise put the write before the draw whatever the game wrote)
+          if (noov && r.in_arena && r.agen == a.gen && r.ref_chunk == chunk_no && k > i) break;
+          r.ver++;
           if (noov && r.in_arena && r.agen == a.gen) { q.up = 2; q.up_at = r.at + u.offset; ba_used[ai] = true; }
           else {
             UINT at;
@@ -813,8 +891,10 @@ size_t Exec::plan(size_t i) {
             if (!arena_take(a, (UINT)r.shadow.size(), !ba_used[ai] && !ba_refd[ai], &at)) break;
             q.up = 1; q.up_at = at; r.in_arena = true; r.at = at; r.agen = a.gen; ba_used[ai] = true;
           }
-        }
+        } else if (it != res.end() && it->second.buf && !it->second.dyn && !it->second.shadow.empty() &&
+                   (uint64_t)u.offset + u.length <= it->second.shadow.size()) { q.up = 3; it->second.ver++; }   // draw_merge's copy of a static buffer
       }
+      if (!q.up) run_head = -1;                                // anything but a buffer upload between two draws ends a run
     }
     if (held[k].op != X_DRAW) continue;
     const uint8_t *p = held[k].p ? held[k].p : hold.data() + held[k].off;
@@ -838,7 +918,7 @@ size_t Exec::plan(size_t i) {
       if (o == ~0u) stop = true; else if (o != ~0u - 1) q.ib = o;
     }
     if (stop) {                                                // this record starts the next chunk
-      memcpy(ar, save, sizeof ar); q = {~0u, ~0u, ~0u, ~0u, ~0u, 0, 0};
+      memcpy(ar, save, sizeof ar); q = {~0u, ~0u, ~0u, ~0u, ~0u, 0, 0, 0, 0, 0}; run_head = -1;
       if (k == i) k++;                                         // not expected: a first record fits from offset 0
       break;
     }
@@ -848,18 +928,29 @@ size_t Exec::plan(size_t i) {
         if (!d.stream[si].buf) continue;
         auto it = res.find(d.stream[si].buf);
         if (it == res.end() || !it->second.buf) continue;
-        if (it->second.dyn) { arena_resolve(it->second, &pb.sb[si], &pb.so[si]); if (pb.sb[si] == ba[0].b) ba_refd[0] = true; }
+        if (it->second.dyn) { arena_resolve(it->second, &pb.sb[si], &pb.so[si]); if (pb.sb[si] == ba[0].b) { ba_refd[0] = true; it->second.ref_chunk = chunk_no; } }
         else pb.sb[si] = it->second.buf;
       }
       if (d.kind == XD_INDEXED) {
         auto it = res.find(d.ib);
         if (it != res.end() && it->second.buf) {
-          if (it->second.dyn) { arena_resolve(it->second, &pb.ib, &pb.io); if (pb.ib == ba[1].b) ba_refd[1] = true; }
+          if (it->second.dyn) { arena_resolve(it->second, &pb.ib, &pb.io); if (pb.ib == ba[1].b) { ba_refd[1] = true; it->second.ref_chunk = chunk_no; } }
           else pb.ib = it->second.buf;
         }
       }
       q.bufs = (uint32_t)prep_bufs.size(); prep_bufs.push_back(pb);
     }
+    // draw_merge: this draw joins the run when its packet equals the run's first in all but buffers and range
+    if (mrg && !mfull && m_cand(d)) {
+      if (run_head >= 0 && m_same(d, *hd)) {
+        bool ok = run_n > 1 || m_put((size_t)run_head, *hd, true, hv);
+        if (ok && m_put(k, d, false, nullptr)) { q.merged = 2; prep[run_head].mcount += d.count; run_n++; mg_saved++; }
+        else { mfull = swrap; run_head = -1; }
+      } else {
+        run_head = (long)k; hd = &d; run_n = 1;
+        for (UINT si = 0; si < 4; si++) hv[si] = d.stream[si].buf ? res.find(d.stream[si].buf)->second.ver : 0;
+      }
+    } else run_head = -1;
   }
   // the buffer arenas this chunk writes: one Map each, every upload's bytes in the records' order
   if (arena_kb) {
@@ -870,18 +961,42 @@ size_t Exec::plan(size_t i) {
       if (FAILED(ctx->Map(a.b, 0, a.fresh ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE, 0, &ms))) { d8_once("arenamap", "buffer_arena: Map of an arena failed (those uploads lost)"); continue; }
       a.fresh = false; a.m = (uint8_t *)ms.pData; ba_maps++;
     }
+    for (SArena &a : sa) {
+      a.m = nullptr;
+      if (!a.used) continue;
+      D3D11_MAPPED_SUBRESOURCE ms;
+      if (FAILED(ctx->Map(a.b, 0, a.fresh ? D3D11_MAP_WRITE_DISCARD : D3D11_MAP_WRITE_NO_OVERWRITE, 0, &ms))) { d8_once("mergemap", "draw_merge: Map of an arena failed (those draws lost)"); continue; }
+      a.fresh = false; a.m = (uint8_t *)ms.pData; ba_maps++;
+    }
+    std::stable_sort(mops.begin(), mops.end(), [](const MOp &x, const MOp &y) { return x.j < y.j; });
+    size_t mi = 0;
     for (size_t j = i; j < k; j++) {
       const Prep &q = prep[j];
-      if (!q.up) continue;
-      const uint8_t *p = held[j].p ? held[j].p : hold.data() + held[j].off;
-      const XUpBuf &u = *(const XUpBuf *)p;
-      ExecRes &r = res.find(u.id)->second; BArena &a = ba[r.index ? 1 : 0];
-      memcpy(r.shadow.data() + u.offset, p + sizeof u, u.length);
-      if (!a.m) continue;
-      if (q.up == 1) { memcpy(a.m + q.up_at, r.shadow.data(), r.shadow.size()); ba_place++; ba_bytes += r.shadow.size(); }
-      else { memcpy(a.m + q.up_at, p + sizeof u, u.length); ba_range++; ba_bytes += u.length; }
+      if (q.up) {
+        const uint8_t *p = held[j].p ? held[j].p : hold.data() + held[j].off;
+        const XUpBuf &u = *(const XUpBuf *)p;
+        ExecRes &r = res.find(u.id)->second; BArena &a = ba[r.index ? 1 : 0];
+        memcpy(r.shadow.data() + u.offset, p + sizeof u, u.length);
+        if (q.up == 3 || !a.m) {}
+        else if (q.up == 1) { memcpy(a.m + q.up_at, r.shadow.data(), r.shadow.size()); ba_place++; ba_bytes += r.shadow.size(); }
+        else { memcpy(a.m + q.up_at, p + sizeof u, u.length); ba_range++; ba_bytes += u.length; }
+      }
+      // draw_merge: this draw's buffers and indices, from the executor's copies as they are at this record
+      for (; mi < mops.size() && mops[mi].j == j; mi++) {
+        const MOp &o = mops[mi]; SArena &a = sa[o.s];
+        if (!a.m) continue;
+        ExecRes &r = res.find(o.id)->second;
+        if (o.kind == 0) { memcpy(a.m + o.dst, r.shadow.data(), o.a); mg_bytes += o.a; }
+        else {
+          uint32_t *out = (uint32_t *)(a.m + o.dst);
+          if (o.kind == 1) { const uint16_t *in = (const uint16_t *)r.shadow.data() + o.a; for (uint32_t t = 0; t < o.b; t++) out[t] = (uint32_t)((int32_t)in[t] + o.add); }
+          else { const uint32_t *in = (const uint32_t *)r.shadow.data() + o.a; for (uint32_t t = 0; t < o.b; t++) out[t] = (uint32_t)((int32_t)in[t] + o.add); }
+          mg_bytes += o.b * 4;
+        }
+      }
     }
     for (int ai = 0; ai < 2; ai++) if (ba[ai].m) { ctx->Unmap(ba[ai].b, 0); ba[ai].m = nullptr; }
+    for (SArena &a : sa) if (a.m) { ctx->Unmap(a.b, 0); a.m = nullptr; }
   }
   // map each arena used once
   for (Ar &a : ar) {
@@ -965,6 +1080,10 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     if (b.dyn) { bd.Usage = D3D11_USAGE_DYNAMIC; bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE; x.dyn = true; x.shadow.assign(bd.ByteWidth, 0); }
     if (FAILED(dev->CreateBuffer(&bd, NULL, &x.buf))) { d8_log("CreateBuffer %u bytes failed", b.length); break; }
     if (b.dyn) arena_make();
+    // draw_merge reads a draw's buffers from the executor's own copies: one for every buffer up to 256 KB (a chosen
+    // bound: in thread mode the copies are in the game's 32-bit address space; mg_kept counts them)
+    if (merge_cap && !b.dyn && b.length <= (256u << 10)) { x.shadow.assign(bd.ByteWidth, 0); mg_kept += bd.ByteWidth; }
+    if (merge_cap) merge_make();
     res[b.id] = x;
     break; }
   case X_DESTROY: {
@@ -974,6 +1093,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
       for (size_t i = 0; i < snap_pend.size(); i++) if (snap_pend[i].id == it->first) { snap_pend.erase(snap_pend.begin() + i); break; }
       for (auto &v : it->second.rtv) if (v.second == cur_rtv) cur_rtv = nullptr;
       if (it->second.dsv == cur_dsv) cur_dsv = nullptr;
+      if (!it->second.dyn && !it->second.shadow.empty()) mg_kept -= it->second.shadow.size();
       free_res(it->second); res.erase(it);
       forget();                                            // a view or buffer the filter holds may be this object's
     }
@@ -994,13 +1114,16 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     ExecRes &r = it->second;
     if (r.up_frame != ~0ull && presents - r.up_frame <= 1) up_again[1] += u.length;
     r.up_frame = presents;
-    if (pp && pp->up) break;                               // buffer_arena: the batch has written it (Exec::plan)
+    if (pp && (pp->up == 1 || pp->up == 2)) break;         // buffer_arena: the batch has written it (Exec::plan)
+    if (!r.dyn && !r.shadow.empty() && !(pp && pp->up == 3) && (uint64_t)u.offset + u.length <= r.shadow.size()) {
+      memcpy(r.shadow.data() + u.offset, p + sizeof u, u.length); r.ver++;   // draw_merge's copy (a batch has done this)
+    }
     if (!r.dyn) { D3D11_BOX bx = {u.offset, 0, 0, u.offset + u.length, 1, 1}; ctx->UpdateSubresource(r.buf, 0, &bx, p + sizeof u, 0, 0); break; }
     // a dynamic buffer (dynamic_buffers): the shadow holds what the game has written; NOOVERWRITE (every lock had it,
     // and the buffer has been mapped): the range beside what the GPU reads; otherwise DISCARD, fresh memory, and the
     // whole shadow into it, so the buffer holds what UpdateSubresource would have left in it
     if ((uint64_t)u.offset + u.length > r.shadow.size()) { d8_once("dynrange", "a dynamic buffer upload past its end (skipped)"); break; }
-    memcpy(r.shadow.data() + u.offset, p + sizeof u, u.length);
+    memcpy(r.shadow.data() + u.offset, p + sizeof u, u.length); r.ver++;
     if (arena_for(r) && arena_upload_now(r, u, p + sizeof u)) break;
     if (r.in_arena) r.in_arena = false;                    // the arena could not take it: its own buffer, whole
     bool noov = (u.flags & 0x1000u) && !(u.flags & 0x2000u) && r.mapped;
@@ -1041,7 +1164,8 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
       copy_draw(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, s->second.tex, sub_of(s->second, c.src), bx);
     else ctx->CopySubresourceRegion(d->second.tex, sub_of(d->second, c.dst), c.x, c.y, 0, s->second.tex, sub_of(s->second, c.src), &bx);
     break; }
-  case X_DRAW: last_site = ((const XDraw *)p)->site; draw(*(const XDraw *)p, p + sizeof(XDraw), pp); draws++; break;
+  case X_DRAW: if (pp && pp->merged == 2) { draws++; break; }   // draw_merge: drawn by its run's first draw
+    last_site = ((const XDraw *)p)->site; draw(*(const XDraw *)p, p + sizeof(XDraw), pp); draws++; break;
   case X_PRESENT: {
     drain_debug();
     gpu_frame_end();
@@ -1102,6 +1226,10 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     if (o.key == OPT_BATCH) { batch = o.value; forget(); }
     if (o.key == OPT_SITES) sites_on = o.value != 0;
     if (o.key == OPT_BUFARENA && !ba[0].b) { arena_kb = o.value; arena_make(); }   // a start setting
+    if (o.key == OPT_MERGE) {                              // bit 1 at the start: keep copies; bit 0: merge now (switched live)
+      if ((o.value & 2) && res.size() <= 2) merge_cap = 1;
+      merge_on = (o.value & 1) && merge_cap; merge_make(); forget();
+    }
     if (o.key == OPT_FLIP) {                               // the model the swap chain is made in: before it exists only
       if (!swap) flip = flip_want = o.value != 0;
       else if ((o.value != 0) != flip) d8_once("flip_live", "swap_flip=%u after the swap chain was made: not applied (the model is set for the whole start)", o.value);
@@ -1242,6 +1370,12 @@ void Exec::draw(const XDraw &d, const uint8_t *data, const Prep *pp) {
     else draw_maps++;
     set_ib(ff->upib, d.i32);
     ctx->DrawIndexed(d.count, ia / isz, (INT)first);
+    return;
+  }
+  if (pp && pp->merged == 1) {                             // draw_merge: the run, from the slot arenas (Exec::plan)
+    for (UINT i = 0; i < 4; i++) if (d.stream[i].buf) set_vb(i, sa[i].b, d.stream[i].stride, 0);
+    set_ib(sa[4].b, true, 0);
+    ctx->DrawIndexed(pp->mcount, pp->mfirst, 0); mg_runs++;
     return;
   }
   for (UINT i = 0; i < 16; i++) {

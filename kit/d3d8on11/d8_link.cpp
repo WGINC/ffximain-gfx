@@ -36,6 +36,7 @@ struct ExecStats {
   enum { K_DRAW, K_UPLOAD, K_PRESENT, K_READBACK, K_OTHER, NK };
   double busy[NK] = {}, since = 0; uint32_t frames = 0, records = 0;
   double up_ms[2] = {}; uint64_t u0[8] = {};              // upload time: textures, buffers; Exec's upload counters at the last line
+  uint64_t m0[4] = {};                                     // draw_merge's counters at the last stats line
   uint64_t b0[6] = {};                                     // the buffer arena's counters at the last stats line
   Exec *x = nullptr; uint64_t x0[3] = {};                  // the executor's batch counters at the last stats line
   static void hook(void *s, uint16_t op, double ms) { ((ExecStats *)s)->ran(op, ms); }
@@ -46,7 +47,7 @@ struct ExecStats {
     return op == X_DRAW ? K_DRAW : op == X_UPLOAD_TEX || op == X_UPLOAD_BUF ? K_UPLOAD : op == X_PRESENT ? K_PRESENT :
            op == X_READBACK ? K_READBACK : K_OTHER;
   }
-  const char *kname() const { return key == OPT_BATCH ? "batch" : key == OPT_FLIP ? "flip" : "filter"; }
+  const char *kname() const { return key == OPT_BATCH ? "batch" : key == OPT_FLIP ? "flip" : key == OPT_MERGE ? "merge" : "filter"; }
   static double sum(const double *b) { double s = 0; for (int k = 0; k < NK; k++) s += b[k]; return s; }
   void phase_end() {
     if (!ab) return;
@@ -117,6 +118,12 @@ struct ExecStats {
                "%.2f times an arena started again, %.1f buffers back to their own a frame", frames, (double)(x->ba_place - b0[0]) / frames,
                (double)(x->ba_range - b0[1]) / frames, (double)(x->ba_bytes - b0[2]) / frames / 1048576.0, (double)(x->ba_maps - b0[3]) / frames,
                (double)(x->ba_wraps - b0[4]) / frames, (double)(x->ba_own - b0[5]) / frames);
+        if (x->merge_cap) {
+          d8_log("executor draw merge, %u frames: merge=%u, %.1f merged draws a frame took in %.1f other draws, %.3f MB written to the slot arenas, "
+                 "%.2f times they started again a frame; %.1f MB of static buffers' copies kept", frames, x->merge_on, (double)(x->mg_runs - m0[0]) / frames, (double)(x->mg_saved - m0[1]) / frames,
+                 (double)(x->mg_bytes - m0[2]) / frames / 1048576.0, (double)(x->mg_wraps - m0[3]) / frames, (double)x->mg_kept / 1048576.0);
+          m0[0] = x->mg_runs; m0[1] = x->mg_saved; m0[2] = x->mg_bytes; m0[3] = x->mg_wraps;
+        }
         b0[0] = x->ba_place; b0[1] = x->ba_range; b0[2] = x->ba_bytes; b0[3] = x->ba_maps; b0[4] = x->ba_wraps; b0[5] = x->ba_own;
       }
     }

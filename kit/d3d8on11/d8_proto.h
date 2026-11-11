@@ -30,9 +30,13 @@ enum : uint16_t {
   X_FINISH,          // sync: nothing; answered when everything before it has run
   X_QUIT,            // the executor process ends
   X_OPTION,          // XOption: an executor switch (the A/B of d3d8on11.ini's exec_ab, d8_device.cpp)
-  X_SNAP             // XSnap: a small lockable render target copied now to a staging texture of its own; its rows go
+  X_SNAP,            // XSnap: a small lockable render target copied now to a staging texture of its own; its rows go
                      // to the snapshot table (SnapSlot) when a Present finds the GPU done with that copy
+  X_SKIN,            // XSkin, then its palette
+  X_DRAW_SAME        // draw_delta: an XDraw's bytes from `stream` to its end; its bytes before that are the last
+                     // X_DRAW's (or X_DRAW_SAME's): nothing a packet is built from has changed but buffers and range
 };
+enum : uint32_t { XDRAW_HEAD = 3024, XDRAW_TAIL = 176 };   // offsetof(XDraw, stream), and the rest (asserted below)
 #define X_BACKBUFFER 1u
 
 struct XHdr { uint16_t op, pad; uint32_t bytes; };              // bytes: the payload's, before padding
@@ -70,7 +74,14 @@ enum : uint32_t { SNAP_SLOTS = 1024, SNAP_BYTES = 1024 };    // 16x16 at 32 bits
 struct SnapSlot { volatile uint32_t ver, id, wseq, bytes; uint8_t data[SNAP_BYTES]; };
 
 // ---- draws: the fixed-function pipeline as generated shaders (d8_ff.cpp decides, d8_exec.cpp draws) ------------------
-enum Sem : uint8_t { SE_POS, SE_POST, SE_NORMAL, SE_COLOR, SE_TEX, SE_PSIZE, SE_WEIGHT };
+// SE_SKIN (gpu skinning, d8_skin.h): the element's stream holds 64-byte source vertices (XSkinVtx); the vertex shader
+// makes the position and the normal from them and the bone palette
+enum Sem : uint8_t { SE_POS, SE_POST, SE_NORMAL, SE_COLOR, SE_TEX, SE_PSIZE, SE_WEIGHT, SE_SKIN };
+struct XSkinVtx { float pa[4], pb[4], na[3], nb[3]; uint16_t bone[2]; uint32_t pad; };   // 64 bytes
+enum : uint32_t { SKIN_BONES = 256 };                       // the palette's size (a constant buffer of 16 KB)
+// X_SKIN: buffers pos and nrm stand for source buffer src skinned by the palette that follows (nbones x 64 bytes), or
+// by the palette of the X_SKIN before when nbones is 0; until either buffer is uploaded to
+struct XSkin { uint32_t pos, nrm, src, nbones; };
 enum VFmt : uint8_t { V_F1, V_F2, V_F3, V_F4, V_COLOR, V_UBYTE4, V_SHORT2, V_SHORT4 };
 struct VElem { uint8_t sem, idx, stream, fmt; uint16_t off; };
 struct VSKey {
@@ -131,7 +142,9 @@ struct XDraw {
 
 static_assert(sizeof(XHdr) == 8 && sizeof(XInit) == 32 && sizeof(XTex) == 32 && sizeof(XUpTex) == 32 && sizeof(XOption) == 12 &&
               sizeof(XSnap) == 20 && sizeof(SnapSlot) == 16 + SNAP_BYTES, "the stream's layout");
+static_assert(sizeof(XSkinVtx) == 64 && sizeof(XSkin) == 16, "gpu skinning's layout");
 static_assert(sizeof(VElem) == 6 && sizeof(VSKey) == 154 && sizeof(PSKey) == 96, "the keys' layout");
 // the draw packet, as both builds lay it out (checked with i686 MinGW-w64 g++ and zig 0.16.0 clang for aarch64-windows)
+static_assert(XDRAW_HEAD == offsetof(XDraw, stream) && XDRAW_HEAD + XDRAW_TAIL == sizeof(XDraw), "the draw packet's head and tail");
 static_assert(sizeof(XDraw) == 3200 && offsetof(XDraw, vc) == 252 && offsetof(XDraw, blend) == 2124 &&
               offsetof(XDraw, stage) == 2512 && offsetof(XDraw, stream) == 3024, "the draw packet's layout");

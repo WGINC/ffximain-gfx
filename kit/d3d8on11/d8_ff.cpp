@@ -127,6 +127,34 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
   struct DrawT { Dev *d; LARGE_INTEGER t; bool on;
     explicit DrawT(Dev *d_) : d(d_) { on = (++d->dt_draw_n & 15u) == 0; if (on) QueryPerformanceCounter(&t); }
     ~DrawT() { if (on) { LARGE_INTEGER e; QueryPerformanceCounter(&e); d->dt_draw_ticks += (uint64_t)(e.QuadPart - t.QuadPart); d->dt_draw_s++; } } } draw_t(this);
+  // draw_delta: nothing a packet's head is built from has changed since the last full packet of a buffer draw: only
+  // the tail is made and sent (the checks of the streams and the index buffer are the full path's)
+  bool fastp = draw_delta && fast_ok && fast_gen == sgen && kind <= 1 && type != D3DPT_TRIANGLEFAN;
+  if (fastp) {                                             // gpu skinning: the head is a skinned draw's, or it is not
+    if (fast_virt) { VB *s0 = st.stream[0], *s1 = st.stream[1]; fastp = s0 && s1 && s0->c.virt == 1 && s1->c.virt == 2 && s0->c.partner == s1->c.id; }
+    else for (int i = 0; i < 16 && fastp; i++) if ((fast_mask >> i & 1) && st.stream[i] && st.stream[i]->c.virt) fastp = false;
+  }
+  if (fastp) {
+    struct { uint32_t buf, stride; } strm[16]; memset(strm, 0, sizeof strm);
+    XDraw T; uint8_t *tail = (uint8_t *)&T + XDRAW_HEAD; memset(tail, 0, XDRAW_TAIL);
+    for (int i = 0; i < 16; i++) {
+      if (!(fast_mask >> i & 1)) continue;
+      VB *b = st.stream[i];
+      if (!b || !b->c.id) { d8_once("nostream", "a draw reads a stream with no vertex buffer (skipped)"); return D3D_OK; }
+      if (b->c.locks) { d8_once("drawlocked", "a draw with a locked vertex buffer set: failed, as the reference says"); return D3DERR_INVALIDCALL; }
+      T.stream[i].buf = b->c.id; T.stream[i].stride = st.stride[i];
+    }
+    T.topology = topo(type); T.site = draw_site; T.count = verts_for(type, prims);
+    if (kind == 0) { T.kind = XD_DRAW; T.start = startVertex; }
+    else {
+      IB *ib = st.ib;
+      if (!ib || !ib->c.id) { d8_once("noib", "an indexed draw with no index buffer (skipped)"); return D3D_OK; }
+      T.kind = XD_INDEXED; T.ib = ib->c.id; T.ib32 = ib->c.fmt == D3DFMT_INDEX32; T.start = startIndex; T.base = st.baseVertex;
+    }
+    link->put(X_DRAW_SAME, tail, XDRAW_TAIL);
+    delta_n++; delta_tot++;
+    return D3D_OK;
+  }
   XDraw D; memset(&D, 0, sizeof D); D.site = draw_site;
   VSKey &vk = D.vk; PSKey &pk = D.pk;
   UINT fvfStride = 0;
@@ -139,6 +167,28 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     d8_once(("fvf" + std::to_string(st.vs)).c_str(), "FVF 0x%lX: not implemented (draw skipped)", (unsigned long)st.vs);
     return D3D_OK;
   }
+  // gpu skinning (d8_skin.h): a stream this draw reads is a skinned mesh's stand-in. As the game's character
+  // declaration reads them (float3 positions from stream 0, float3 normals from stream 1, from the pair one job
+  // named), the position element becomes SE_SKIN and the normal element goes: the executor binds the mesh's source in
+  // stream 0's place. Read any other way the buffers hold nothing: that draw is not made, and the log says so.
+  uint8_t virt = 0;
+  { bool any = false; for (int e = 0; e < vk.nel; e++) { VB *b = st.stream[vk.el[e].stream]; any |= b && b->c.virt; }
+    if (any) {
+      VB *s0 = st.stream[0], *s1 = st.stream[1]; int pe = -1, ne2 = -1;
+      for (int e = 0; e < vk.nel; e++) {
+        const VElem &x = vk.el[e];
+        if (x.sem == SE_POS && x.idx == 0 && x.stream == 0 && x.off == 0 && x.fmt == V_F3) pe = e;
+        if (x.sem == SE_NORMAL && x.idx == 0 && x.stream == 1 && x.off == 0 && x.fmt == V_F3) ne2 = e;
+      }
+      bool only = true; for (int e = 0; e < vk.nel; e++) if (e != pe && e != ne2 && vk.el[e].stream < 2) only = false;
+      if (!(kind <= 1 && s0 && s1 && s0->c.virt == 1 && s1->c.virt == 2 && s0->c.partner == s1->c.id && pe >= 0 && ne2 >= 0 && only)) {
+        d8_once("skinread", "gpu_skin: a draw reads a skinned mesh's buffers otherwise than as float3 positions (stream 0) and normals (stream 1) of one job: not drawn");
+        return D3D_OK;
+      }
+      vk.el[pe].sem = SE_SKIN;
+      for (int e = ne2; e + 1 < vk.nel; e++) vk.el[e] = vk.el[e + 1];
+      vk.nel--; memset(&vk.el[vk.nel], 0, sizeof vk.el[0]); virt = 1;
+    } }
   if (st.rs[D3DRS_CLIPPLANEENABLE]) d8_once("clipplanes", "D3DRS_CLIPPLANEENABLE 0x%lX: user clip planes are not applied", (unsigned long)st.rs[D3DRS_CLIPPLANEENABLE]);
   if (st.ps) { d8_once("psprog", "a pixel shader (the game's own program): not translated yet (draw skipped)"); return D3D_OK; }
   const DWORD *r = st.rs;
@@ -342,6 +392,7 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
       else { idata = upi; D.ibytes = nv * isz; D.i32 = isz == 4; D.count = nv; }
     }
     if (fan) { idata = fanIdx.data(); D.ibytes = (UINT)fanIdx.size() * 4; }
+    fast_ok = false;
     uint8_t *w = link->begin(X_DRAW, sizeof D + D.up_vbytes + D.ibytes);
     memcpy(w, &D, sizeof D); memcpy(w + sizeof D, upv, D.up_vbytes); if (D.ibytes) memcpy(w + sizeof D + D.up_vbytes, idata, D.ibytes);
     link->end();
@@ -350,9 +401,11 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     if (kind == 3 && st.ib) { st.ib->Release(); st.ib = nullptr; }
     return D3D_OK;
   }
+  uint16_t mask = 0;
   for (int i = 0; i < 16; i++) {
     bool used = false; for (int e = 0; e < vk.nel; e++) used |= vk.el[e].stream == i;
     if (!used) continue;
+    mask |= (uint16_t)(1u << i);
     VB *b = st.stream[i];
     if (!b || !b->c.id) { d8_once("nostream", "a draw reads a stream with no vertex buffer (skipped)"); return D3D_OK; }
     // "DrawPrimitive calls will not succeed with any outstanding lock count on any currently set vertex buffer"
@@ -376,6 +429,9 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
   }
   if (fan) D.ibytes = (UINT)fanIdx.size() * 4;
   link->put(X_DRAW, &D, sizeof D, fan ? fanIdx.data() : nullptr, D.ibytes);
+  // the next buffer draw may send only its tail while sgen stays as it is (a fan's packet carries its own indices and
+  // a ...UP draw's its vertices: after those the next draw is built in full)
+  fast_ok = !fan; fast_gen = sgen; fast_mask = mask; fast_virt = virt; full_n++; full_tot++;
   (void)minIndex; (void)fvfStride;
   return D3D_OK;
 }

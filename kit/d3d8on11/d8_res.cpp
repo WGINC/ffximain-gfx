@@ -239,7 +239,10 @@ HRESULT BufCore::init(Dev *d, UINT len_, DWORD u, DWORD fvf_, D3DFORMAT f, D3DPO
   if (pool != D3DPOOL_SYSTEMMEM) { id = d->new_id(); XBuf b = {id, len, idx ? 1u : 0u, dyn ? 1u : 0u}; d->link->put(X_BUF, &b, sizeof b); }
   return D3D_OK;
 }
-void BufCore::destroy() { dev->destroy_obj(id); id = 0; }
+void BufCore::destroy() {
+  for (SkinSrc &k : skin) { if (k.id) dev->destroy_obj(k.id); k.id = 0; }   // gpu skinning's sources made for this mesh
+  dev->destroy_obj(id); id = 0;
+}
 HRESULT BufCore::lock(UINT off, UINT size, BYTE **p, DWORD flags) {
   if (!p || off > len) return D3DERR_INVALIDCALL;
   if (!size || off + size > len) size = len - off;               // D3D8: size 0 locks the whole buffer
@@ -254,6 +257,7 @@ HRESULT BufCore::unlock() {
   if (!locks) return D3DERR_INVALIDCALL;
   if (--locks) return D3D_OK;
   if (id && hi > lo) {
+    virt = 0;                                                  // written again: no longer a skinned mesh's stand-in
     const bool on = (++dev->dt_unlock_n & 3u) == 0; LARGE_INTEGER t0, t1;
     if (on) QueryPerformanceCounter(&t0);
     dev->link->upload_buf(id, lo, cpu.data() + lo, hi - lo, lflags);
@@ -263,7 +267,7 @@ HRESULT BufCore::unlock() {
 }
 HRESULT VB::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DVertexBuffer8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }
 ULONG VB::AddRef() { return InterlockedIncrement(&ref); }
-ULONG VB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.destroy(); delete this; } return n; }
+ULONG VB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->live_bufs.erase(this); c.destroy(); delete this; } return n; }
 HRESULT VB::GetDevice(IDirect3DDevice8 **d) { *d = c.dev; c.dev->AddRef(); return D3D_OK; }
 HRESULT VB::GetDesc(D3DVERTEXBUFFER_DESC *d) {
   if (!d) return D3DERR_INVALIDCALL;
@@ -272,7 +276,7 @@ HRESULT VB::GetDesc(D3DVERTEXBUFFER_DESC *d) {
 }
 HRESULT IB::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DIndexBuffer8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }
 ULONG IB::AddRef() { return InterlockedIncrement(&ref); }
-ULONG IB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.destroy(); delete this; } return n; }
+ULONG IB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->live_bufs.erase(this); c.destroy(); delete this; } return n; }
 HRESULT IB::GetDevice(IDirect3DDevice8 **d) { *d = c.dev; c.dev->AddRef(); return D3D_OK; }
 HRESULT IB::GetDesc(D3DINDEXBUFFER_DESC *d) {
   if (!d) return D3DERR_INVALIDCALL;

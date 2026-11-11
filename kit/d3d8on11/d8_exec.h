@@ -9,6 +9,7 @@
 #include <string>
 #include <unordered_map>
 #include <map>
+#include <memory>
 #include <vector>
 
 struct ExecFF;
@@ -20,13 +21,16 @@ struct ExecRes {
   // buffer_arena (Exec::BArena): where a dynamic buffer's contents are for a draw: in its own buffer, or in the arena
   // of generation agen at byte `at`
   bool in_arena = false; uint32_t at = 0, agen = 0;
-  uint32_t ver = 0, ref_chunk = 0;                 // draw_merge: counts its uploads; buffer_arena: the chunk a draw last read it in
+  uint32_t ver = 0, ref_chunk = 0;
+  // gpu skinning (X_SKIN): this buffer stands for source buffer skin_src skinned by palette pal (0: it does not)
+  uint32_t skin_src = 0; std::shared_ptr<struct SkinPal> pal;                 // draw_merge: counts its uploads; buffer_arena: the chunk a draw last read it in
   uint64_t up_frame = ~0ull;                       // the Present count at its last upload (the stats' "again")   // a dynamic buffer: its whole contents, kept here
   ID3D11Texture2D *stage = nullptr;                // X_SNAP's staging copy (a small lockable render target)
   std::unordered_map<uint32_t, ID3D11RenderTargetView *> rtv;   // per level*8+face
   std::unordered_map<uint32_t, ID3D11ShaderResourceView *> srv_levels;   // views of some levels: first*256+count
   uint32_t w = 0, h = 0, levels = 1, faces = 1, d3dfmt = 0, index = 0;
 };
+struct SkinPal { uint64_t serial; std::vector<uint8_t> d; };   // a bone palette: 64 bytes a bone
 struct Exec {
   ID3D11Device *dev = nullptr; ID3D11DeviceContext *ctx = nullptr; IDXGISwapChain *swap = nullptr;
   HWND wnd = NULL;
@@ -61,6 +65,10 @@ struct Exec {
   // (d8_link.cpp); copy_held (direct mode, whose buffer is reused) makes this executor copy them.
   uint32_t batch = 0; bool copy_held = false;
   bool holding() const { return !held.empty(); }
+  // X_DRAW_SAME: the head of the last draw packet run or held. While its record is held it is read where it lies
+  // (in the ring, or in `hold` at head_off); otherwise from head_copy
+  const uint8_t *head_p = nullptr; size_t head_off = ~(size_t)0; std::vector<uint8_t> head_copy; std::vector<uint8_t> same_tmp;
+  void head_keep();
   void flush();
   // the time each record took to run, for the stats (d8_link.cpp); a flush's own work counts as the draws'
   void (*timed)(void *, uint16_t, double) = nullptr; void *timed_ctx = nullptr;
@@ -91,7 +99,12 @@ private:
   // the batch placed them (buffer_arena), ~0u: none; up: an upload the batch has already written (not run again)
   // merged (draw_merge): 1 the first draw of a merged run, which draws mcount indices from mfirst of the merged index
   // arena with the run's streams bound to the slot arenas; 2 a later draw of the run (not run)
-  struct Prep { uint32_t vc, pc, vb, ib, bufs; uint8_t up; uint32_t up_at; uint8_t merged; uint32_t mfirst, mcount; };
+  // skin_src (gpu skinning): the source buffer a skinned draw reads (0: not skinned, ~0u: its stand-in holds nothing),
+  // skin_pal: 1 + the index of its palette in prep_pals
+  struct Prep { uint32_t vc, pc, vb, ib, bufs; uint8_t up; uint32_t up_at; uint8_t merged; uint32_t mfirst, mcount; uint32_t skin_src, skin_pal; };
+  std::vector<std::shared_ptr<SkinPal>> prep_pals;
+  std::shared_ptr<SkinPal> last_pal; uint64_t pal_serial = 0; ID3D11Buffer *bones_cb = nullptr;
+  void skin_apply(const XSkin &x, const uint8_t *data);
   struct PrepBufs { ID3D11Buffer *sb[16]; UINT so[16]; ID3D11Buffer *ib; UINT io; };
   std::vector<PrepBufs> prep_bufs;
   // buffer_arena (X_OPTION OPT_BUFARENA; d3d8on11.ini buffer_arena): the game's dynamic buffers' contents live in two
@@ -152,6 +165,7 @@ private:
     ID3D11ShaderResourceView *srv[8] = {}; ID3D11SamplerState *smp[8] = {};
     ID3D11Buffer *vb[16] = {}; UINT stride[16] = {}, voff[16] = {};
     ID3D11Buffer *ib = nullptr; DXGI_FORMAT ifmt = DXGI_FORMAT_UNKNOWN; UINT ioff = 0;
+    uint64_t pal = 0;                                 // the palette in bones_cb (gpu skinning)
   } bd;
   struct Memo {
     bool vk_ok = false, pk_ok = false, vc_ok = false, pc_ok = false, bs_ok = false, ds_ok = false, rs_ok = false, ss_ok[8] = {};

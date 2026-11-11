@@ -4,6 +4,8 @@
 // copies and read-backs, and keeps every state the game sets and reads back, state blocks included. Milestone 2
 // executes draws through generated shaders (d8_ff.cpp).
 #include "d8.h"
+#include "d8_skin.h"
+static Dev *g_skin_dev;                       // gpu skinning: the device D8ON11_Skin hands its jobs to (set in init)
 #include <string>
 #include <stdlib.h>
 
@@ -11,7 +13,7 @@ static DWORD fbits(float f) { DWORD d; memcpy(&d, &f, 4); return d; }
 static void identity(D3DMATRIX *m) { memset(m, 0, sizeof *m); m->_11 = m->_22 = m->_33 = m->_44 = 1; }
 
 // ---- creation, swap chain, defaults ----------------------------------------------------------------------------------
-HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
+HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen++;
   d3d = o; d3d->AddRef(); behavior = beh; pp = *p;
   wnd = pp.hDeviceWindow ? pp.hDeviceWindow : focus;
   // the executor: on this thread (direct), on its own thread (thread, the default), or in its own process (remote: the
@@ -111,6 +113,22 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) {
     if (ab.merge) { XOption om = {OPT_MERGE, 3u, 0}; link->put(X_OPTION, &om, sizeof om);
                     d8_log("draw_merge=1: consecutive indexed list draws equal in all but their buffers and range are drawn as one"); }
     if (ab.on && ab.key == OPT_MERGE && !ab.merge) { ab.on = 0; d8_log("exec_ab_lever=merge: needs draw_merge=1 at the start: the A/B is off"); }
+    // draw_delta (11 Nov): a buffer draw made while no state has changed since the last one sends only the packet's
+    // tail (176 bytes) instead of building and sending all 3,200 (the owner's run of 16 Nov: 2.3 us of the game's
+    // thread a draw). 0 (the default until it is measured in the game): off. D8ON11_DRAW_DELTA overrides.
+    { int dd = (int)GetPrivateProfileIntA("d3d8on11", "draw_delta", 0, ini);
+      ne = GetEnvironmentVariableA("D8ON11_DRAW_DELTA", env, sizeof env);
+      if (ne > 0 && ne < sizeof env) dd = atoi(env);
+      draw_delta = dd != 0;
+      if (draw_delta) d8_log("draw_delta=1: a buffer draw with no state changed since the last sends only its buffers and range"); }
+    // gpu_skin (11 Nov; d8_skin.h): D8ON11_Skin takes skinning jobs from a mod; the vertex shader then makes each
+    // vertex from a static source and a bone palette, and the game's thread neither skins nor uploads. 0 (the default
+    // until it is measured in the game): every job is refused. D8ON11_GPU_SKIN overrides.
+    { int gs = (int)GetPrivateProfileIntA("d3d8on11", "gpu_skin", 0, ini);
+      ne = GetEnvironmentVariableA("D8ON11_GPU_SKIN", env, sizeof env);
+      if (ne > 0 && ne < sizeof env) gs = atoi(env);
+      gpu_skin = gs != 0; g_skin_dev = this;
+      if (gpu_skin) d8_log("gpu_skin=1: D8ON11_Skin takes skinning jobs (positions and normals made in the vertex shader)"); }
     if (ba > 0 && !dynamic_buffers) d8_log("buffer_arena: needs dynamic_buffers=1 (off)");
     else if (kb) d8_log("buffer_arena=%d: the game's dynamic buffers share one Direct3D 11 buffer (%u KB of vertex data)", ba, kb); }
   draw_sites = (int)GetPrivateProfileIntA("d3d8on11", "draw_sites", 0, ini) != 0;
@@ -179,7 +197,7 @@ uint32_t Dev::present_interval(const D3DPRESENT_PARAMETERS &p, const char *at) {
   if (present_force >= 0) d8_log("%s: the game's parameters map to SyncInterval %u (%s); present_interval=%d is used instead", at, g, why, present_force);
   return v;
 }
-HRESULT Dev::make_swap(bool resize) {
+HRESULT Dev::make_swap(bool resize) { sgen++;
   if (!pp.Windowed) d8_once("fullscreen", "full screen was asked: rendered windowed");
   RECT cr; GetClientRect(wnd, &cr);
   if (!pp.BackBufferWidth) pp.BackBufferWidth = cr.right > 0 ? cr.right : 1;     // D3D8: 0 in windowed mode is the client area
@@ -201,13 +219,13 @@ HRESULT Dev::make_swap(bool resize) {
   targets();
   return D3D_OK;
 }
-void Dev::targets() {
+void Dev::targets() { sgen++;
   XTargets t; memset(&t, 0, sizeof t);
   if (curRT) t.rt = curRT->xref();
   t.ds = curDS ? curDS->id : 0;
   link->put(X_TARGETS, &t, sizeof t);
 }
-void Dev::release_swap() {
+void Dev::release_swap() { sgen++;
   if (curRT) curRT->Release(); if (curDS) curDS->Release(); curRT = curDS = nullptr;
   if (autods) autods->Release(); autods = nullptr;
   if (backbuf) backbuf->Release(); backbuf = nullptr;
@@ -215,7 +233,7 @@ void Dev::release_swap() {
 // D3D8's default state (the DirectX 8 SDK reference, the D3DRENDERSTATETYPE and D3DTEXTURESTAGESTATETYPE pages).
 // test/test_d3d8on11.py reads every render state and stage state back from a fresh device here and under Wine's own
 // d3d8, and lists each difference.
-void Dev::defaults() {
+void Dev::defaults() { sgen++;
   for (int i = 0; i < 8; i++) if (st.tex[i]) st.tex[i]->Release();
   for (int i = 0; i < 16; i++) if (st.stream[i]) st.stream[i]->Release();
   if (st.ib) st.ib->Release();
@@ -274,6 +292,10 @@ ULONG Dev::Release() {
   LONG n = InterlockedDecrement(&ref);
   if (n) return n;
   d8_log("device released: %llu draws, %llu of them not executed", (unsigned long long)draws, (unsigned long long)drawsNotExecuted);
+  if (gpu_skin) d8_log("gpu skin totals: %llu jobs, %llu palettes sent, %llu sources made, %llu refused", (unsigned long long)skin_jobs,
+                       (unsigned long long)skin_pals, (unsigned long long)skin_built, (unsigned long long)skin_refused);
+  g_skin_dev = nullptr;
+  if (draw_delta) d8_log("draw delta totals: %llu draws sent as deltas, %llu in full", (unsigned long long)delta_tot, (unsigned long long)full_tot);
   for (Block *b : blocks) delete b;
   st.vs = 0; defaults();
   release_swap();
@@ -301,7 +323,7 @@ void Dev::SetGammaRamp(DWORD, const D3DGAMMARAMP *r) { if (r) gamma = *r; d8_onc
 void Dev::GetGammaRamp(D3DGAMMARAMP *r) { if (r) *r = gamma; }
 
 // ---- frame ------------------------------------------------------------------------------------------------------------
-HRESULT Dev::Reset(D3DPRESENT_PARAMETERS *p) {
+HRESULT Dev::Reset(D3DPRESENT_PARAMETERS *p) { sgen++;
   if (!p) return D3DERR_INVALIDCALL;
   release_swap();
   sync = present_interval(*p, "Reset");
@@ -323,6 +345,11 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
       d8_log("readback snapshots, %u frames: %u locks of a copied render target read its snapshot (no wait), %u read it "
              "back (the snapshot was not there yet), %u do-not-wait locks were told it was not there yet (no wait)",
              snap_frames, snap_hits, snap_misses, snap_notyet);
+    if (gpu_skin) { d8_log("gpu skin, %u frames: %.1f jobs a frame, %.1f palettes sent, %.2f sources made", snap_frames, (double)(skin_jobs - skin_jobs0) / snap_frames,
+                           (double)(skin_pals - skin_pals0) / snap_frames, (double)(skin_built - skin_built0) / snap_frames);
+                    skin_jobs0 = skin_jobs; skin_pals0 = skin_pals; skin_built0 = skin_built; }
+    if (draw_delta) { d8_log("draw delta, %u frames: %.1f draws a frame sent as deltas, %.1f in full", snap_frames,
+                             (double)delta_n / snap_frames, (double)full_n / snap_frames); delta_n = full_n = 0; }
     if (dt_draw_s || dt_unlock_s) {
       // sampled: the mean of the sampled calls times all calls
       LARGE_INTEGER qf; QueryPerformanceFrequency(&qf); double ms = 1000.0 / (double)qf.QuadPart;
@@ -422,12 +449,14 @@ HRESULT Dev::CreateVertexBuffer(UINT len, DWORD u, DWORD fvf, D3DPOOL p, IDirect
   if (!o) return D3DERR_INVALIDCALL;
   VB *b = new VB(); HRESULT hr = b->c.init(this, len, u, fvf, D3DFMT_VERTEXDATA, p, false);
   if (FAILED(hr)) { delete b; *o = NULL; return hr; }
+  live_bufs.insert(b);
   *o = b; return D3D_OK;
 }
 HRESULT Dev::CreateIndexBuffer(UINT len, DWORD u, D3DFORMAT f, D3DPOOL p, IDirect3DIndexBuffer8 **o) {
   if (!o || (f != D3DFMT_INDEX16 && f != D3DFMT_INDEX32)) return D3DERR_INVALIDCALL;
   IB *b = new IB(); HRESULT hr = b->c.init(this, len, u, 0, f, p, true);
   if (FAILED(hr)) { delete b; *o = NULL; return hr; }
+  live_bufs.insert(b);
   *o = b; return D3D_OK;
 }
 HRESULT Dev::CreateRenderTarget(UINT w, UINT h, D3DFORMAT f, D3DMULTISAMPLE_TYPE ms, WINBOOL lockable, IDirect3DSurface8 **o) {
@@ -539,7 +568,7 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
   }
   return D3D_OK;
 }
-HRESULT Dev::SetRenderTarget(IDirect3DSurface8 *rt, IDirect3DSurface8 *ds) {
+HRESULT Dev::SetRenderTarget(IDirect3DSurface8 *rt, IDirect3DSurface8 *ds) { sgen++;
   Surf *r = (Surf *)rt, *z = (Surf *)ds;
   if (r && r->kind != SK_RT && r->kind != SK_BACKBUFFER && !(r->kind == SK_TEXLEVEL && (r->usage & D3DUSAGE_RENDERTARGET))) return D3DERR_INVALIDCALL;
   if (z && z->kind != SK_DS) return D3DERR_INVALIDCALL;
@@ -559,13 +588,13 @@ HRESULT Dev::GetDepthStencilSurface(IDirect3DSurface8 **o) {
 // ---- state (kept for Get*, recorded into a state block between BeginStateBlock and EndStateBlock) -------------------------
 // While a block records, a set goes into the block only: the device's state does not change (probe8 checks that).
 #define TARGET (rec ? rec->s : st)
-HRESULT Dev::SetTransform(D3DTRANSFORMSTATETYPE t, const D3DMATRIX *m) {
+HRESULT Dev::SetTransform(D3DTRANSFORMSTATETYPE t, const D3DMATRIX *m) { sgen++;
   if ((UINT)t >= 512 || !m) return D3DERR_INVALIDCALL;
   TARGET.xf[t] = *m; if (rec) rec->xf[t] = true; else st.xfSet[t] = true;
   return D3D_OK;
 }
 HRESULT Dev::GetTransform(D3DTRANSFORMSTATETYPE t, D3DMATRIX *m) { if ((UINT)t >= 512 || !m) return D3DERR_INVALIDCALL; *m = st.xf[t]; return D3D_OK; }
-HRESULT Dev::MultiplyTransform(D3DTRANSFORMSTATETYPE t, const D3DMATRIX *m) {
+HRESULT Dev::MultiplyTransform(D3DTRANSFORMSTATETYPE t, const D3DMATRIX *m) { sgen++;
   if ((UINT)t >= 512 || !m) return D3DERR_INVALIDCALL;
   D3DMATRIX a = st.xf[t], o;                                  // D3D8: the new matrix is m times the current one
   for (int i = 0; i < 4; i++) for (int j = 0; j < 4; j++) {
@@ -576,7 +605,7 @@ HRESULT Dev::MultiplyTransform(D3DTRANSFORMSTATETYPE t, const D3DMATRIX *m) {
 }
 // user clip planes: kept and read back; drawing with D3DRS_CLIPPLANEENABLE set is logged as not implemented (d8_ff.cpp).
 // The game's traces never set CLIPPLANEENABLE (data/d3d8_scope.json)
-HRESULT Dev::SetClipPlane(DWORD i, const float *p) {
+HRESULT Dev::SetClipPlane(DWORD i, const float *p) { sgen++;
   if (i >= 6 || !p) return D3DERR_INVALIDCALL;
   memcpy(TARGET.clip[i], p, 16); if (rec) rec->clip[i] = true;
   return D3D_OK;
@@ -587,7 +616,7 @@ HRESULT Dev::GetClipPlane(DWORD i, float *p) { if (i >= 6 || !p) return D3DERR_I
 // D3DPTEXTURECAPS_ALPHAPALETTE "every entry in the palette must have alpha set to 1.0 or this method will fail".
 // Kept and read back only: no palettized texture format is implemented, and the game creates none (its formats:
 // data/d3d8_scope.json, resources). The current palette's value before any set is not in the reference: 0 here
-HRESULT Dev::SetPaletteEntries(UINT n, const PALETTEENTRY *e) {
+HRESULT Dev::SetPaletteEntries(UINT n, const PALETTEENTRY *e) { sgen++;
   if (!e) return D3DERR_INVALIDCALL;
   D3DCAPS8 c; GetDeviceCaps(&c);
   if (!(c.TextureCaps & D3DPTEXTURECAPS_ALPHAPALETTE)) for (int i = 0; i < 256; i++) if (e[i].peFlags != 0xFF) return D3DERR_INVALIDCALL;
@@ -602,11 +631,11 @@ HRESULT Dev::GetPaletteEntries(UINT n, PALETTEENTRY *e) {
 }
 // not among the methods a state block records (DirectX 8.1, BeginStateBlock), so it takes effect while one records;
 // a D3DSBT_ALL block holds "the current palette"
-HRESULT Dev::SetCurrentTexturePalette(UINT n) { st.palette = n; return D3D_OK; }
+HRESULT Dev::SetCurrentTexturePalette(UINT n) { sgen++; st.palette = n; return D3D_OK; }
 HRESULT Dev::GetCurrentTexturePalette(UINT *n) { if (!n) return D3DERR_INVALIDCALL; *n = st.palette; return D3D_OK; }
-HRESULT Dev::SetViewport(const D3DVIEWPORT8 *v) { if (!v) return D3DERR_INVALIDCALL; TARGET.vp = *v; if (rec) rec->vp = true; return D3D_OK; }
+HRESULT Dev::SetViewport(const D3DVIEWPORT8 *v) { sgen++; if (!v) return D3DERR_INVALIDCALL; TARGET.vp = *v; if (rec) rec->vp = true; return D3D_OK; }
 HRESULT Dev::GetViewport(D3DVIEWPORT8 *v) { if (!v) return D3DERR_INVALIDCALL; *v = st.vp; return D3D_OK; }
-HRESULT Dev::SetMaterial(const D3DMATERIAL8 *m) { if (!m) return D3DERR_INVALIDCALL; TARGET.mat = *m; if (rec) rec->mat = true; return D3D_OK; }
+HRESULT Dev::SetMaterial(const D3DMATERIAL8 *m) { sgen++; if (!m) return D3DERR_INVALIDCALL; TARGET.mat = *m; if (rec) rec->mat = true; return D3D_OK; }
 HRESULT Dev::GetMaterial(D3DMATERIAL8 *m) { if (!m) return D3DERR_INVALIDCALL; *m = st.mat; return D3D_OK; }
 static void grow(State &s, DWORD i) {
   if (s.light.size() <= i) {
@@ -614,19 +643,19 @@ static void grow(State &s, DWORD i) {
     s.light.resize(i + 1, def); s.lightOn.resize(i + 1, FALSE);       // D3D8: LightEnable on an unset light sets this default
   }
 }
-HRESULT Dev::SetLight(DWORD i, const D3DLIGHT8 *l) {
+HRESULT Dev::SetLight(DWORD i, const D3DLIGHT8 *l) { sgen++;
   if (!l || i > 0xFFFF) return D3DERR_INVALIDCALL;
   State &s = TARGET; grow(s, i); s.light[i] = *l; if (rec) rec->lights.push_back((int)i);
   return D3D_OK;
 }
 HRESULT Dev::GetLight(DWORD i, D3DLIGHT8 *l) { if (!l || i >= st.light.size()) return D3DERR_INVALIDCALL; *l = st.light[i]; return D3D_OK; }
-HRESULT Dev::LightEnable(DWORD i, WINBOOL on) {
+HRESULT Dev::LightEnable(DWORD i, WINBOOL on) { sgen++;
   if (i > 0xFFFF) return D3DERR_INVALIDCALL;
   State &s = TARGET; grow(s, i); s.lightOn[i] = on ? TRUE : FALSE; if (rec) rec->lights.push_back((int)i);
   return D3D_OK;
 }
 HRESULT Dev::GetLightEnable(DWORD i, WINBOOL *on) { if (!on || i >= st.lightOn.size()) return D3DERR_INVALIDCALL; *on = st.lightOn[i]; return D3D_OK; }
-HRESULT Dev::SetRenderState(D3DRENDERSTATETYPE s, DWORD v) {
+HRESULT Dev::SetRenderState(D3DRENDERSTATETYPE s, DWORD v) { sgen++;
   if ((UINT)s >= 256) return D3DERR_INVALIDCALL;
   TARGET.rs[s] = v; if (rec) rec->rs[s] = true;
   return D3D_OK;
@@ -636,14 +665,14 @@ HRESULT Dev::GetTextureStageState(DWORD stg, D3DTEXTURESTAGESTATETYPE t, DWORD *
   if (stg >= 8 || (UINT)t >= 32 || !v) return D3DERR_INVALIDCALL;
   *v = st.tss[stg][t]; return D3D_OK;
 }
-HRESULT Dev::SetTextureStageState(DWORD stg, D3DTEXTURESTAGESTATETYPE t, DWORD v) {
+HRESULT Dev::SetTextureStageState(DWORD stg, D3DTEXTURESTAGESTATETYPE t, DWORD v) { sgen++;
   if (stg >= 8 || (UINT)t >= 32) return D3DERR_INVALIDCALL;
   TARGET.tss[stg][t] = v; if (rec) rec->tss[stg][t] = true;
   return D3D_OK;
 }
 // bound objects hold a reference, as D3D8 does
 template <class T> static void rebind(T *&slot, T *v) { if (v) v->AddRef(); if (slot) slot->Release(); slot = v; }
-HRESULT Dev::SetTexture(DWORD stg, IDirect3DBaseTexture8 *t) {
+HRESULT Dev::SetTexture(DWORD stg, IDirect3DBaseTexture8 *t) { sgen++;
   if (stg >= 8) return D3DERR_INVALIDCALL;
   if (rec) { rebind(rec->s.tex[stg], t); rec->tex[stg] = true; } else rebind(st.tex[stg], t);
   return D3D_OK;
@@ -701,26 +730,26 @@ static void free_block(Block *b) {
   if (b->s.ib) b->s.ib->Release();
   delete b;
 }
-HRESULT Dev::BeginStateBlock() { if (rec) return D3DERR_INVALIDCALL; rec = new_block(); return D3D_OK; }
-HRESULT Dev::EndStateBlock(DWORD *tok) {
+HRESULT Dev::BeginStateBlock() { sgen++; if (rec) return D3DERR_INVALIDCALL; rec = new_block(); return D3D_OK; }
+HRESULT Dev::EndStateBlock(DWORD *tok) { sgen++;
   if (!rec || !tok) return D3DERR_INVALIDCALL;
   blocks.push_back(rec); rec = nullptr; *tok = (DWORD)blocks.size();
   return D3D_OK;
 }
 static Block *find(std::vector<Block *> &v, DWORD t) { return t && t <= v.size() ? v[t - 1] : nullptr; }
-HRESULT Dev::ApplyStateBlock(DWORD t) {
+HRESULT Dev::ApplyStateBlock(DWORD t) { sgen++;
   Block *b = find(blocks, t);
   if (!b || rec) return D3DERR_INVALIDCALL;                  // D3D8: no apply while another block records
   copy_block(st, b->s, *b);
   return D3D_OK;
 }
-HRESULT Dev::CaptureStateBlock(DWORD t) {
+HRESULT Dev::CaptureStateBlock(DWORD t) { sgen++;
   Block *b = find(blocks, t);
   if (!b || rec) return D3DERR_INVALIDCALL;
   copy_block(b->s, st, *b);
   return D3D_OK;
 }
-HRESULT Dev::DeleteStateBlock(DWORD t) {
+HRESULT Dev::DeleteStateBlock(DWORD t) { sgen++;
   Block *b = find(blocks, t);
   if (!b) return D3DERR_INVALIDCALL;
   free_block(b); blocks[t - 1] = nullptr;
@@ -742,7 +771,7 @@ static const uint8_t SB_RS_PIXEL[] = {7, 8, 9, 10, 14, 15, 16, 19, 20, 23, 24, 2
   56, 57, 58, 59, 60, 128, 129, 130, 131, 132, 133, 134, 135, 168, 171};
 static const uint8_t SB_RS_VERTEX[] = {9, 22, 28, 29, 34, 35, 36, 37, 38, 48, 136, 137, 139, 140, 141, 142, 143, 145, 146, 147,
   148, 151, 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163, 164, 166, 167, 170, 172, 173};
-HRESULT Dev::CreateStateBlock(D3DSTATEBLOCKTYPE type, DWORD *tok) {
+HRESULT Dev::CreateStateBlock(D3DSTATEBLOCKTYPE type, DWORD *tok) { sgen++;
   if (!tok || rec || type < D3DSBT_ALL || type > D3DSBT_VERTEXSTATE) return D3DERR_INVALIDCALL;
   Block *b = new_block();
   bool all = type == D3DSBT_ALL, px = type == D3DSBT_PIXELSTATE, vx = type == D3DSBT_VERTEXSTATE;
@@ -775,7 +804,7 @@ static size_t decl_len(const DWORD *d) {                    // tokens up to and 
   }
 }
 static size_t code_len(const DWORD *c) { size_t i = 0; while (c[i] != 0x0000FFFF) i++; return i + 1; }
-HRESULT Dev::CreateVertexShader(const DWORD *decl, const DWORD *code, DWORD *h, DWORD) {
+HRESULT Dev::CreateVertexShader(const DWORD *decl, const DWORD *code, DWORD *h, DWORD) { sgen++;
   if (!decl || !h) return D3DERR_INVALIDCALL;
   VShader v; v.used = true; v.fvf = 0;
   v.decl.assign(decl, decl + decl_len(decl));
@@ -784,13 +813,13 @@ HRESULT Dev::CreateVertexShader(const DWORD *decl, const DWORD *code, DWORD *h, 
   *h = (DWORD)((vshaders.size() - 1) << 1) | 1;              // D3D8 handles have bit 0 set; FVF codes never do
   return D3D_OK;
 }
-HRESULT Dev::SetVertexShader(DWORD h) {
+HRESULT Dev::SetVertexShader(DWORD h) { sgen++;
   if (h & 1) { size_t i = h >> 1; if (i >= vshaders.size() || !vshaders[i].used) return D3DERR_INVALIDCALL; }
   TARGET.vs = h; if (rec) rec->vs = true;
   return D3D_OK;
 }
 HRESULT Dev::GetVertexShader(DWORD *h) { if (!h) return D3DERR_INVALIDCALL; *h = st.vs; return D3D_OK; }
-HRESULT Dev::DeleteVertexShader(DWORD h) {
+HRESULT Dev::DeleteVertexShader(DWORD h) { sgen++;
   size_t i = h >> 1;
   if (!(h & 1) || i >= vshaders.size() || !vshaders[i].used) return D3DERR_INVALIDCALL;
   vshaders[i].used = false; vshaders[i].decl.clear(); vshaders[i].code.clear();
@@ -820,6 +849,71 @@ extern "C" void __stdcall D8ON11_DrawSite(void *ra) { g_ext_site = ra; }
 // the lock flag a mod may pass to IDirect3DSurface8::LockRect of a lockable render target on this device (d8_res.cpp,
 // Surf::LockRect): the export's presence tells the mod this d3d8.dll knows the flag
 extern "C" unsigned __stdcall D8ON11_LockDoNotWait(void) { return D8ON11_LOCK_DONOTWAIT; }
+
+// ---- gpu skinning (d8_skin.h) ----------------------------------------------------------------------------------------
+// One job: two of this device's vertex buffers become stand-ins for a skinned mesh. The static source (64 bytes a
+// vertex: both bones' position and normal terms and the two bone numbers) is made once per mesh and variant and kept
+// with the mesh's index buffer; it is made again if the job's pointers or counts are not the ones it was made from.
+// The bone table goes with the job only when a bone this mesh uses differs from the table last sent.
+int Dev::skin(const D8Skin *j) {
+  if (!j || j->size != sizeof(D8Skin) || !gpu_skin || j->variant > 1 || !j->src || !j->words || !j->matrices || (j->ndups && !j->dups)) return 0;
+  if (!live_bufs.count(j->pos) || !live_bufs.count(j->nrm) || !live_bufs.count(j->key) || j->pos == j->nrm) {
+    if (!skin_refused++) d8_log("gpu_skin: a job's buffers are not this device's vertex and index buffers (another layer wraps them?): refused; the caller skins as before");
+    return 0;
+  }
+  VB *vp = (VB *)(IDirect3DVertexBuffer8 *)j->pos, *vn = (VB *)(IDirect3DVertexBuffer8 *)j->nrm; IB *ib = (IB *)(IDirect3DIndexBuffer8 *)j->key;
+  if (vp->c.index || vn->c.index || !ib->c.index || !vp->c.id || !vn->c.id || vp->c.locks || vn->c.locks) return 0;
+  const uint32_t n = j->count1 + j->count2 + j->ndups;
+  if (!n || n > 65536) return 0;
+  BufCore::SkinSrc &k = ib->c.skin[j->variant];
+  if (!k.id || k.src != j->src || k.words != j->words || k.bonelist != j->bonelist || k.dups != j->dups || k.c1 != j->count1 ||
+      k.c2 != j->count2 || k.nd != j->ndups || k.shift != j->shift) {
+    std::vector<XSkinVtx> v(n); bool seen[SKIN_BONES] = {}; uint32_t maxb = 0; bool ok = true;
+    auto bone = [&](uint16_t w) -> uint16_t {
+      uint32_t b = (w >> j->shift) & 0x7F;
+      if (j->bonelist) b = j->bonelist[b];
+      if (b >= SKIN_BONES) { ok = false; return 0; }
+      seen[b] = true; if (b > maxb) maxb = b;
+      return (uint16_t)b;
+    };
+    for (uint32_t i = 0; i < j->count1; i++) {
+      const float *f = j->src + 6 * i; XSkinVtx &o = v[i]; memset(&o, 0, sizeof o);
+      o.pa[0] = f[0]; o.pa[1] = f[1]; o.pa[2] = f[2]; o.pa[3] = 1; o.na[0] = f[3]; o.na[1] = f[4]; o.na[2] = f[5];
+      o.bone[0] = o.bone[1] = bone(j->words[2 * i]);
+    }
+    for (uint32_t i = 0; i < j->count2; i++) {
+      const float *f = j->src + 6 * j->count1 + 14 * i; XSkinVtx &o = v[j->count1 + i]; memset(&o, 0, sizeof o);
+      o.pa[0] = f[0]; o.pa[1] = f[2]; o.pa[2] = f[4]; o.pa[3] = f[6]; o.pb[0] = f[1]; o.pb[1] = f[3]; o.pb[2] = f[5]; o.pb[3] = f[7];
+      o.na[0] = f[8]; o.na[1] = f[10]; o.na[2] = f[12]; o.nb[0] = f[9]; o.nb[1] = f[11]; o.nb[2] = f[13];
+      o.bone[0] = bone(j->words[2 * (j->count1 + i)]); o.bone[1] = bone(j->words[2 * (j->count1 + i) + 1]);
+    }
+    for (uint32_t i = 0; i < j->ndups; i++) {
+      if (j->dups[i] >= j->count1 + j->count2) { ok = false; break; }
+      v[j->count1 + j->count2 + i] = v[j->dups[i]];
+    }
+    if (!ok) { d8_once("skinbone", "gpu_skin: a mesh names a bone past %u or a duplicate past its vertices: refused; the caller skins as before", (unsigned)SKIN_BONES); return 0; }
+    if (k.id) destroy_obj(k.id);
+    k.id = new_id(); XBuf b = {k.id, n * (uint32_t)sizeof(XSkinVtx), 0u, 0u}; link->put(X_BUF, &b, sizeof b);
+    link->upload_buf(k.id, 0, (const uint8_t *)v.data(), n * (uint32_t)sizeof(XSkinVtx), 0);
+    k.src = j->src; k.words = j->words; k.bonelist = j->bonelist; k.dups = j->dups; k.c1 = j->count1; k.c2 = j->count2; k.nd = j->ndups; k.shift = j->shift;
+    k.maxb = maxb; k.used.clear(); for (uint32_t b2 = 0; b2 <= maxb; b2++) if (seen[b2]) k.used.push_back((uint16_t)b2);
+    skin_built++;
+  }
+  // the palette: sent when a bone this mesh uses is not what the executor has
+  bool same = skin_table_n > k.maxb;
+  const uint8_t *m = (const uint8_t *)j->matrices;
+  for (size_t u = 0; same && u < k.used.size(); u++) same = !memcmp(m + 64u * k.used[u], skin_table.data() + 64u * k.used[u], 64);
+  XSkin x = {vp->c.id, vn->c.id, k.id, 0};
+  if (same) link->put(X_SKIN, &x, sizeof x);
+  else {
+    x.nbones = k.maxb + 1; skin_table.resize(64u * SKIN_BONES); memcpy(skin_table.data(), m, 64u * x.nbones); skin_table_n = x.nbones;
+    link->put(X_SKIN, &x, sizeof x, m, 64u * x.nbones); skin_pals++;
+  }
+  vp->c.virt = 1; vp->c.partner = vn->c.id; vn->c.virt = 2; vn->c.partner = vp->c.id;
+  skin_jobs++;
+  return 1;
+}
+extern "C" int __stdcall D8ON11_Skin(const D8Skin *j) { return g_skin_dev ? g_skin_dev->skin(j) : 0; }
 // who calls the draws (9 Nov: draw_sites put every draw under a mod in the owner's game, and the hook order between
 // the game, the kit and speedfix there is not traced): each distinct pair (the module this method returns into, the
 // module of the address a mod handed D8ON11_DrawSite) is logged once, with the addresses as module+offset; up to 12

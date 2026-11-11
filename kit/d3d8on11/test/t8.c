@@ -615,6 +615,97 @@ static void scenes(void) {
     for (int k = 0; k < 4; k++) for (int ab = 0; ab < 2; ab++) { if (vp[k][ab]) IDirect3DVertexBuffer8_Release(vp[k][ab]); if (vn[k][ab]) IDirect3DVertexBuffer8_Release(vn[k][ab]); }
     for (int k = 0; k < 5; k++) { if (vt[k]) IDirect3DVertexBuffer8_Release(vt[k]); if (ib[k]) IDirect3DIndexBuffer8_Release(ib[k]); } }
   end("draw_merge");
+  /* gpu skinning (d8_skin.h): one mesh in the game's skinned layout (32 one-bone vertices, 32 two-bone, 4 duplicates;
+     a bone list that names bones 5, 9 and 130), drawn three times side by side: skinned here on the CPU with the sums
+     Model_SkinVerticesCpu makes, written to dynamic buffers and drawn (scene skin_cpu); and handed to D8ON11_Skin
+     with the same source and bones (scene skin_gpu: where the export is missing or refuses, skinned here too, so the
+     scene draws on any Direct3D 8). In both, the third copy is a job followed by a lock that writes the buffers again
+     (the CPU's result with other bones): the write must win. The mirrored variant (shift 7) is the second copy. */
+  for (int gpu = 0; gpu < 2; gpu++) {
+    static const DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT3), D3DVSD_STREAM(1), D3DVSD_REG(3, D3DVSDT_FLOAT3),
+                                 D3DVSD_STREAM(2), D3DVSD_REG(7, D3DVSDT_FLOAT2), D3DVSD_END()};
+    typedef struct { unsigned size; void *pos, *nrm, *key; unsigned variant; const float *src; unsigned count1, count2;
+                     const unsigned short *words; unsigned shift; const unsigned short *bonelist; const unsigned short *dups; unsigned ndups;
+                     const float *matrices; } Skin;
+    typedef int (__stdcall *PFN_SKIN)(const Skin *);
+    PFN_SKIN pskin = (PFN_SKIN)(void *)GetProcAddress(GetModuleHandleA("d3d8.dll"), "D8ON11_Skin");
+    enum { C1 = 32, C2 = 32, ND = 4, NV = C1 + C2 + ND };
+    static float src[C1 * 6 + C2 * 14], mats[131 * 16]; static unsigned short words[2 * (C1 + C2)], dups[ND] = {0, 7, 33, 63};
+    static const unsigned short blist[3] = {5, 9, 130};
+    for (int y = 0; y < 8; y++) for (int x = 0; x < 8; x++) {
+      int k = y * 8 + x; float px = x / 7.0f * 1.2f - 0.6f, py = 0.6f - y / 7.0f * 1.2f, pz = 0.25f * px * px, nx = px * 0.5f, ny = py * 0.5f, nz = -1;
+      if (k < C1) { float *f = src + 6 * k; f[0] = px; f[1] = py; f[2] = pz; f[3] = nx; f[4] = ny; f[5] = nz;
+        words[2 * k] = (unsigned short)((x & 1) | (((x >> 1) & 1) << 7)); words[2 * k + 1] = 0; }
+      else { float w = (y - 3) / 5.0f, u = 1 - w, *f = src + 6 * C1 + 14 * (k - C1);
+        f[0] = px * w; f[1] = px * u; f[2] = py * w; f[3] = py * u; f[4] = pz * w; f[5] = pz * u; f[6] = w; f[7] = u;
+        f[8] = nx * w; f[9] = nx * u; f[10] = ny * w; f[11] = ny * u; f[12] = nz * w; f[13] = nz * u;
+        words[2 * k] = (unsigned short)(1 | (2 << 7)); words[2 * k + 1] = (unsigned short)(2 | (0 << 7)); }
+    }
+    DWORD h = 0; IDirect3DVertexBuffer8 *vp = NULL, *vn = NULL, *vt = NULL; IDirect3DIndexBuffer8 *ib = NULL; BYTE *p;
+    IDirect3DDevice8_CreateVertexShader(d, decl, NULL, &h, 0);
+    IDirect3DDevice8_CreateVertexBuffer(d, NV * 12, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0, D3DPOOL_DEFAULT, &vp);
+    IDirect3DDevice8_CreateVertexBuffer(d, NV * 12, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0, D3DPOOL_DEFAULT, &vn);
+    IDirect3DDevice8_CreateVertexBuffer(d, NV * 8, D3DUSAGE_WRITEONLY, 0, D3DPOOL_MANAGED, &vt);
+    IDirect3DDevice8_CreateIndexBuffer(d, (7 * 7 * 6 + 6) * 2, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &ib);
+    if (vt && SUCCEEDED(IDirect3DVertexBuffer8_Lock(vt, 0, 0, &p, 0))) { float *T = (float *)p;
+      for (int k = 0; k < NV; k++) { int q = k < C1 + C2 ? k : dups[k - C1 - C2]; T[2 * k] = (q % 8) / 7.0f * 0.9f; T[2 * k + 1] = (q / 8) / 7.0f * 0.9f; }
+      IDirect3DVertexBuffer8_Unlock(vt); }
+    if (ib && SUCCEEDED(IDirect3DIndexBuffer8_Lock(ib, 0, 0, &p, 0))) { WORD *I = (WORD *)p; int n = 0;
+      for (int y = 0; y < 7; y++) for (int x = 0; x < 7; x++) { WORD a0 = (WORD)(y * 8 + x); I[n++] = a0; I[n++] = a0 + 1; I[n++] = a0 + 8; I[n++] = a0 + 1; I[n++] = a0 + 9; I[n++] = a0 + 8; }
+      I[n++] = C1 + C2; I[n++] = C1 + C2 + 1; I[n++] = C1 + C2 + 2; I[n++] = C1 + C2 + 1; I[n++] = C1 + C2 + 3; I[n++] = C1 + C2 + 2;
+      IDirect3DIndexBuffer8_Unlock(ib); }
+    reset_state(); begin(0xFF181018);
+    IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &proj); IDirect3DDevice8_SetTransform(d, D3DTS_VIEW, &view);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_LIGHTING, TRUE); IDirect3DDevice8_SetRenderState(d, D3DRS_AMBIENT, 0xFF404040);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_CULLMODE, D3DCULL_NONE); IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_TRUE);
+    { D3DMATERIAL8 m; memset(&m, 0, sizeof m); m.Diffuse.r = m.Diffuse.g = m.Diffuse.b = m.Diffuse.a = 1; m.Ambient = m.Diffuse; IDirect3DDevice8_SetMaterial(d, &m);
+      D3DLIGHT8 l; memset(&l, 0, sizeof l); l.Type = D3DLIGHT_DIRECTIONAL; l.Diffuse.r = l.Diffuse.g = l.Diffuse.b = 0.8f; l.Direction.x = 0.4f; l.Direction.y = -0.6f; l.Direction.z = 1;
+      IDirect3DDevice8_SetLight(d, 0, &l); IDirect3DDevice8_LightEnable(d, 0, TRUE); }
+    IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)grad);
+    IDirect3DDevice8_SetVertexShader(d, h);
+    IDirect3DDevice8_SetStreamSource(d, 0, vp, 12); IDirect3DDevice8_SetStreamSource(d, 1, vn, 12); IDirect3DDevice8_SetStreamSource(d, 2, vt, 8);
+    IDirect3DDevice8_SetIndices(d, ib, 0);
+    int handed = 0;
+    for (int copy = 0; copy < 3; copy++) {
+      /* the bones for this copy: 5, 9 and 130 (through the list); a rotation about z and a shift each */
+      memset(mats, 0, sizeof mats);
+      for (int b = 0; b < 3; b++) { float *M = mats + 16 * blist[b], an = 0.25f * (b - 1) * (copy + 1), c = cosf(an), sn = sinf(an);
+        M[0] = c; M[1] = sn; M[4] = -sn; M[5] = c; M[10] = 1; M[15] = 1; M[12] = -1.5f + copy * 1.5f + 0.1f * b; M[13] = 0.15f * b - 0.1f; M[14] = 0.1f * b; }
+      int shift = copy == 1 ? 7 : 0, did = 0;
+      for (int pass = 0; pass < (copy == 2 ? 2 : 1); pass++) {
+        if (pass == 1) for (int b = 0; b < 3; b++) mats[16 * blist[b] + 13] -= 0.9f;     /* the write after the job: other bones */
+        if (gpu && pskin && !(copy == 2 && pass == 1)) {
+          Skin j = {sizeof j, vp, vn, ib, (unsigned)(copy == 1), src, C1, C2, words, (unsigned)shift, blist, dups, ND, mats};
+          did = pskin(&j); handed += did;
+          if (did) continue;
+        }
+        if (copy == 2 && pass == 0 && !(gpu && pskin)) continue;      /* (on the CPU the first write would only be replaced) */
+        float *P = NULL, *N = NULL;
+        if (SUCCEEDED(IDirect3DVertexBuffer8_Lock(vp, 0, 0, &p, D3DLOCK_DISCARD))) P = (float *)p;
+        if (SUCCEEDED(IDirect3DVertexBuffer8_Lock(vn, 0, 0, &p, D3DLOCK_DISCARD))) N = (float *)p;
+        for (int k = 0; P && N && k < NV; k++) {
+          int q = k < C1 + C2 ? k : dups[k - C1 - C2]; float o[6] = {0};
+          const float *A = mats + 16 * blist[(words[2 * q] >> shift) & 0x7F], *B = mats + 16 * blist[(words[2 * q + 1] >> shift) & 0x7F];
+          if (q < C1) { const float *f = src + 6 * q;
+            for (int c = 0; c < 3; c++) { o[c] = f[0] * A[c] + f[1] * A[4 + c] + f[2] * A[8 + c] + A[12 + c]; o[3 + c] = f[3] * A[c] + f[4] * A[4 + c] + f[5] * A[8 + c]; } }
+          else { const float *f = src + 6 * C1 + 14 * (q - C1);
+            for (int c = 0; c < 3; c++) { o[c] = f[0] * A[c] + f[2] * A[4 + c] + f[4] * A[8 + c] + f[6] * A[12 + c] + f[1] * B[c] + f[3] * B[4 + c] + f[5] * B[8 + c] + f[7] * B[12 + c];
+              o[3 + c] = f[8] * A[c] + f[10] * A[4 + c] + f[12] * A[8 + c] + f[9] * B[c] + f[11] * B[4 + c] + f[13] * B[8 + c]; } }
+          memcpy(P + 3 * k, o, 12); memcpy(N + 3 * k, o + 3, 12);
+        }
+        if (P) IDirect3DVertexBuffer8_Unlock(vp); if (N) IDirect3DVertexBuffer8_Unlock(vn);
+      }
+      IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 0, NV, 0, 7 * 7);
+      IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 0, NV, 7 * 7 * 6, 2);
+    }
+    if (gpu) printf("skin: %d jobs taken by D8ON11_Skin\n", handed);
+    IDirect3DDevice8_LightEnable(d, 0, FALSE);
+    for (int i = 0; i < 3; i++) IDirect3DDevice8_SetStreamSource(d, i, NULL, 0);
+    IDirect3DDevice8_SetIndices(d, NULL, 0); IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_DIFFUSE);
+    IDirect3DDevice8_DeleteVertexShader(d, h);
+    if (vp) IDirect3DVertexBuffer8_Release(vp); if (vn) IDirect3DVertexBuffer8_Release(vn); if (vt) IDirect3DVertexBuffer8_Release(vt); if (ib) IDirect3DIndexBuffer8_Release(ib);
+    end(gpu ? "skin_gpu" : "skin_cpu");
+  }
 
   /* the declaration of the game's shader programs (data/d3d8_scope.json: stream 0, v0 FLOAT3, v3 FLOAT3, v5 D3DCOLOR,
      v7 FLOAT2, v15 FLOAT3), here without code: register 15 is D3DVSDE_POSITION2, unused unless D3DRS_VERTEXBLEND is

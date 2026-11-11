@@ -526,6 +526,47 @@ for m in MODES:
         for n in sorted(set(base) | set(got)):
             if base.get(n) != got.get(n): print('  differs: %s' % n)
 
+# draw_delta (11 Nov): a buffer draw made while no state has changed since the last sends only its packet's tail; the
+# executor puts it after the last packet's head. Every scene must draw exactly what it draws without it: in each mode,
+# records run one by one, and in batches with the arena and draw_merge; and deltas must have been sent.
+for m in MODES:
+    for name, common in [('one by one', {}), ('batches, arena, merge', {'D8ON11_BUFFER_ARENA': '1', 'D8ON11_EXEC_BATCH': '1', 'D8ON11_EXEC_FILTER': '1', 'D8ON11_DRAW_MERGE': '1'})]:
+        base = scenes(ours, True, m, dict(common, D8ON11_DRAW_DELTA='0'))
+        if os.path.exists(log): os.remove(log)
+        got = scenes(ours, True, m, dict(common, D8ON11_DRAW_DELTA='1'))
+        t = open(log).read() if os.path.exists(log) else ''
+        tot = re.search(r'draw delta totals: (\d+) draws sent as deltas, (\d+) in full', t)
+        ok = base == got and len(base) > 25 and tot is not None and int(tot.group(1)) > 300 and 'stream error' not in t
+        print('%s: %s mode, draw_delta=1, %s: draws exactly what it draws without it (%d scenes); %s' % ('ok' if ok else 'FAIL', m, name, len(base),
+              ('%s draws sent as deltas, %s in full' % tot.groups()) if tot else 'no totals line')); bad += not ok
+        for n in sorted(set(base) | set(got)):
+            if base.get(n) != got.get(n): print('  differs: %s' % n)
+
+# gpu skinning (11 Nov, d8_skin.h): scenes skin_cpu and skin_gpu draw one mesh in the game's skinned layout (one-bone and
+# two-bone vertices, duplicates, a bone list naming bone 130, the mirrored variant, a lock that writes the buffers again
+# after a job): skinned by t8 on the CPU, and handed to D8ON11_Skin. With gpu_skin=1 the jobs must be taken and every
+# scene must equal the run without it (so skin_gpu, drawn by the vertex shader, equals the CPU's picture exactly on this
+# rasterizer); in each mode, one by one and with batches, the arena, draw_merge and draw_delta.
+for m in MODES:
+    base = scenes(ours, True, m, {'D8ON11_GPU_SKIN': '0'})
+    for name, common in [('one by one', {}), ('batches, arena, merge, delta', {'D8ON11_BUFFER_ARENA': '1', 'D8ON11_EXEC_BATCH': '1', 'D8ON11_EXEC_FILTER': '1', 'D8ON11_DRAW_MERGE': '1', 'D8ON11_DRAW_DELTA': '1'})]:
+        xlog = os.path.join(ours, 'd3d8on11_exec.log')
+        for f in (log, xlog):
+            if os.path.exists(f): os.remove(f)
+        out = run(ours, 'scenes', True, m, dict(common, D8ON11_GPU_SKIN='1'))
+        got = {}
+        for l in out.splitlines():
+            if l.startswith('scene '):
+                _, n, hx = l.split(' ', 2); got[n] = None if hx == 'none' else [int(hx[i:i + 6], 16) for i in range(0, len(hx), 6)]
+        t = ''.join(open(f).read() for f in (log, xlog) if os.path.exists(f))
+        tot = re.search(r'gpu skin totals: (\d+) jobs, (\d+) palettes sent, (\d+) sources made, (\d+) refused', t)
+        ok = (base == got and base.get('skin_gpu') is not None and base.get('skin_gpu') == base.get('skin_cpu') and 'skin: 3 jobs taken' in out and
+              tot is not None and tot.group(1) == '3' and tot.group(4) == '0' and 'stream error' not in t and 'not drawn' not in t and 'skipped' not in t.replace('draw skipped', ''))
+        print('%s: %s mode, gpu_skin=1, %s: 3 jobs taken; every scene equals the run without it and skin_gpu equals skin_cpu (%d scenes); %s' % (
+              'ok' if ok else 'FAIL', m, name, len(base), ('%s jobs, %s palettes, %s sources, %s refused' % tot.groups()) if tot else 'no totals line')); bad += not ok
+        for n in sorted(set(base) | set(got)):
+            if base.get(n) != got.get(n): print('  differs: %s' % n)
+
 if os.path.exists(log):
     t = open(log).read()
     for l in t.splitlines():

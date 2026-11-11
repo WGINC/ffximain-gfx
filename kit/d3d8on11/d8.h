@@ -13,6 +13,7 @@
 #include <string.h>
 #include <map>
 #include <vector>
+#include <unordered_set>
 
 #include "d8_gen.h"
 
@@ -113,6 +114,11 @@ struct BufCore {
   std::vector<uint8_t> cpu; uint32_t id = 0;     // the executor's buffer (0: system memory only)
   UINT lo = 0, hi = 0; int locks = 0;            // the range written since the last upload
   DWORD lflags = 0; bool dyn = false;            // the locks' DISCARD / NOOVERWRITE since then; a dynamic executor buffer
+  // gpu skinning (d8_skin.h): this vertex buffer stands for a skinned mesh's positions (virt 1, its normals' buffer in
+  // partner) or normals (virt 2) until it is written again; on an index buffer, the static sources made for its mesh
+  uint8_t virt = 0; uint32_t partner = 0;
+  struct SkinSrc { uint32_t id = 0; const void *src = nullptr, *words = nullptr, *bonelist = nullptr, *dups = nullptr;
+                   uint32_t c1 = 0, c2 = 0, nd = 0, shift = 0, maxb = 0; std::vector<uint16_t> used; } skin[2];
   HRESULT init(Dev *d, UINT len_, DWORD u, DWORD fvf_, D3DFORMAT f, D3DPOOL p, bool idx);
   void destroy();
   HRESULT lock(UINT off, UINT size, BYTE **p, DWORD flags);
@@ -183,6 +189,18 @@ struct Dev final : public IDirect3DDevice8_Stub {
   uint32_t new_id() { return (uint32_t)InterlockedIncrement(&next_id); }
   Surf *backbuf = nullptr, *autods = nullptr, *curRT = nullptr, *curDS = nullptr;
   State st;
+  // draw_delta: sgen counts every call that can change what a draw's packet is built from, other than the stream
+  // sources and the index buffer (every device method that writes st, the targets, the vertex shader table or the
+  // state blocks adds one). A buffer draw made with sgen as it was at the last full packet sends only the packet's
+  // tail (X_DRAW_SAME); the executor puts it after the last full packet's head. fast_mask: the streams that packet read
+  uint32_t sgen = 0, fast_gen = 0; bool fast_ok = false, draw_delta = false; uint16_t fast_mask = 0;
+  uint64_t delta_n = 0, full_n = 0, delta_tot = 0, full_tot = 0;
+  uint8_t fast_virt = 0;                         // the last full packet was a skinned draw (its head differs)
+  // gpu skinning: the live vertex and index buffer objects (a mod's pointers are checked against them), the bone
+  // table last sent (D8ON11_Skin sends it again only when a bone the mesh uses differs), and counts for the log
+  std::unordered_set<void *> live_bufs; std::vector<uint8_t> skin_table; uint32_t skin_table_n = 0;
+  uint64_t skin_jobs = 0, skin_pals = 0, skin_built = 0, skin_refused = 0, skin_jobs0 = 0, skin_pals0 = 0, skin_built0 = 0; bool gpu_skin = false;
+  int skin(const struct D8Skin *j);
   std::vector<Block *> blocks; Block *rec = nullptr;
   struct VShader { bool used; DWORD fvf; std::vector<DWORD> decl, code; };
   std::vector<VShader> vshaders;                // handle = (index << 1) | 1, as D3D8 handles have bit 0 set

@@ -70,7 +70,7 @@ struct RingHdr {
 };
 static_assert(sizeof(RingHdr) == 80, "the ring header's layout (shared by x86 and ARM64 processes)");
 #define RING_MAGIC 0x52384438u                    /* "8D8R" */
-#define RING_VERSION 5u                           /* 2: VSKey.vfog (the draw packet grew); 3: X_OPTION; 4: X_SNAP and
+#define RING_VERSION 7u                           /* 2: VSKey.vfog (the draw packet grew); 3: X_OPTION; 4: X_SNAP and
                                                      the snapshot table after the reply area; 5: replies in pieces
                                                      (reply_part, reply_ack), XInit.interval */
 // the executor's side: run records until X_QUIT (remote) or quit is set; `wake` is signalled when data comes,

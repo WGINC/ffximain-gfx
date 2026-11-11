@@ -66,14 +66,22 @@ static std::string io_struct(const char *name, bool flat) {
 static std::string gen_vs(const VSKey &k) {
   std::string s = VS_CB;
   s += "struct VI {\n";
-  int has[7][8] = {};
+  int has[8][8] = {};
   for (int i = 0; i < k.nel; i++) {
     const VElem &e = k.el[i]; const char *t[] = {"float", "float2", "float3", "float4", "float4", "uint4", "int2", "int4"};
-    const char *sem[] = {"POSITION", "POSITIONT", "NORMAL", "COLOR", "TEXCOORD", "PSIZE", "BLENDWEIGHT"};
+    const char *sem[] = {"POSITION", "POSITIONT", "NORMAL", "COLOR", "TEXCOORD", "PSIZE", "BLENDWEIGHT", "SKIN"};
+    if (e.sem == SE_SKIN) {                                  // gpu skinning: a source vertex (XSkinVtx)
+      s += "  float4 ska : SKINA0; float4 skb : SKINB0; float3 skna : SKINNA0; float3 sknb : SKINNB0; uint2 ski : SKINI0;\n";
+      has[SE_SKIN][0] = i + 1; continue;
+    }
     char b[96]; snprintf(b, sizeof b, "  %s a%d : %s%d;\n", t[e.fmt], i, e.sem == SE_POST ? "POSITION" : sem[e.sem], e.sem == SE_POST ? 0 : e.idx);
     s += b; has[e.sem][e.idx] = i + 1;
   }
   s += "};\n" + io_struct("VO", k.flat);
+  // gpu skinning (d8_skin.h): position = pa . bones[a] + pb . bones[b] with the w components on row 3, the normal the
+  // same from rows 0 to 2: the sums Model_SkinVerticesCpu (0x1002F1D0) makes on the CPU
+  const bool skin = has[SE_SKIN][0] != 0;
+  if (skin) s = std::string("cbuffer B : register(b1) { row_major float4x4 bones[256]; };\n") + s;
   s += "VO main(VI v) {\n  VO o = (VO)0;\n";
   auto in = [&](int sem, int idx, const char *def) -> std::string {
     if (!has[sem][idx]) return def;
@@ -94,7 +102,8 @@ static std::string gen_vs(const VSKey &k) {
       s += std::string("  float2 n = float2((p.x + ") + off + " - vp.x) / vp.z * 2 - 1, 1 - (p.y + " + off + " - vp.y) / vp.w * 2);\n"; }
     s += "  o.pos = float4(n * w, p.z * w, w);\n  float3 cp = float3(0, 0, p.z);\n";
   } else {
-    s += "  float4 p = float4(" + in(SE_POS, 0, "float4(0,0,0,1)") + ".xyz, 1);\n";
+    if (skin) s += "  float4 p = float4(mul(v.ska, bones[v.ski.x]).xyz + mul(v.skb, bones[v.ski.y]).xyz, 1);\n";
+    else s += "  float4 p = float4(" + in(SE_POS, 0, "float4(0,0,0,1)") + ".xyz, 1);\n";
     // tweening, before lighting: "POSITION = POSITION1 * (1.0 - TWEENFACTOR) + POSITION2 * TWEENFACTOR, and likewise for
     // normals" (DirectX 8.1, "Vertex Tweening"); fix.z holds D3DRS_TWEENFACTOR
     if (k.tween && has[SE_POS][1]) s += "  p.xyz = p.xyz * (1.0 - fix.z) + " + in(SE_POS, 1, "float4(0,0,0,1)") + ".xyz * fix.z;\n";
@@ -105,6 +114,7 @@ static std::string gen_vs(const VSKey &k) {
   bool needN = k.lighting || [&] { for (int i = 0; i < k.ntc; i++) if (k.tc[i].src == 1 || k.tc[i].src == 3) return true; return false; }();
   if (needN && !k.rhw) {
     std::string n0 = in(SE_NORMAL, 0, "float4(0,0,0,0)") + ".xyz";
+    if (skin) n0 = "(mul(float4(v.skna, 0), bones[v.ski.x]).xyz + mul(float4(v.sknb, 0), bones[v.ski.y]).xyz)";
     if (k.tween && has[SE_NORMAL][1]) n0 = "(" + n0 + " * (1.0 - fix.z) + " + in(SE_NORMAL, 1, "float4(0,0,0,0)") + ".xyz * fix.z)";
     s += "  float3 nrm = mul(float4(" + n0 + ", 0), wvn).xyz;\n";
     // normals are normalized only with D3DRS_NORMALIZENORMALS, after the transform (DirectX 8.1, "Camera Space
@@ -388,6 +398,7 @@ void Exec::ff_init() {
   D3D11_BUFFER_DESC bd = {}; bd.Usage = D3D11_USAGE_DYNAMIC; bd.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
   bd.BindFlags = D3D11_BIND_CONSTANT_BUFFER; bd.ByteWidth = (sizeof(VSConst) + 15) & ~15u; dev->CreateBuffer(&bd, NULL, &ff->vcb);
   bd.ByteWidth = (sizeof(PSConst) + 15) & ~15u; dev->CreateBuffer(&bd, NULL, &ff->pcb);
+  bd.ByteWidth = 64u * SKIN_BONES; dev->CreateBuffer(&bd, NULL, &bones_cb);   // gpu skinning's palette
   bd.BindFlags = D3D11_BIND_VERTEX_BUFFER; bd.ByteWidth = FF::UPVB; dev->CreateBuffer(&bd, NULL, &ff->upvb);
   bd.BindFlags = D3D11_BIND_INDEX_BUFFER; bd.ByteWidth = FF::UPIB; dev->CreateBuffer(&bd, NULL, &ff->upib);
   D3D11_FEATURE_DATA_D3D11_OPTIONS o = {};
@@ -664,6 +675,7 @@ void Exec::shutdown() {
                        (unsigned long long)ba_place, (unsigned long long)ba_range, (unsigned long long)ba_maps, (unsigned long long)ba_wraps, (unsigned long long)ba_own);
   if (merge_cap) d8_log("draw merge totals: %llu merged draws made, %llu draws they took in besides their own, %llu times the arenas started again",
                         (unsigned long long)mg_runs, (unsigned long long)mg_saved, (unsigned long long)mg_wraps);
+  if (bones_cb) { bones_cb->Release(); bones_cb = nullptr; }
   for (BArena &a : ba) { if (a.b) a.b->Release(); a.b = nullptr; }
   for (SArena &a : sa) { if (a.b) a.b->Release(); a.b = nullptr; }
   for (auto &r : res) free_res(r.second);
@@ -746,6 +758,16 @@ bool Exec::arena_upload_now(ExecRes &r, const XUpBuf &u, const uint8_t *data) {
   r.in_arena = true; r.at = at; r.agen = a.gen; ba_place++; ba_maps++; ba_bytes += r.shadow.size();
   return true;
 }
+// gpu skinning: buffers pos and nrm stand for the source skinned by a palette (this record's, or the last one's)
+void Exec::skin_apply(const XSkin &x, const uint8_t *data) {
+  if (x.nbones) {
+    last_pal = std::make_shared<SkinPal>(); last_pal->serial = ++pal_serial;
+    last_pal->d.assign(64u * SKIN_BONES, 0); memcpy(last_pal->d.data(), data, 64u * (x.nbones < SKIN_BONES ? x.nbones : (uint32_t)SKIN_BONES));
+  }
+  auto p = res.find(x.pos), n = res.find(x.nrm);
+  if (p == res.end() || n == res.end() || !res.count(x.src) || !last_pal) { d8_once("skinjob", "stream error: X_SKIN names an object not held, or has no palette (skipped)"); return; }
+  p->second.skin_src = x.src; p->second.pal = last_pal; n->second.skin_src = 0; n->second.pal.reset();
+}
 // draw_merge's arenas: one per stream 0..3 and one of 32-bit indices, each a quarter of the buffer arena's size
 void Exec::merge_make() {
   if (!merge_cap || !arena_kb || sa[0].b || !dev) return;
@@ -774,7 +796,38 @@ static bool holdable(uint16_t op) {
   return op != X_INIT && op != X_RESIZE && op != X_READBACK && op != X_FINISH && op != X_PRESENT && op != X_OPTION && op != X_QUIT && op != X_PAD;
 }
 enum { HOLD_MAX = 16384, HOLD_BYTES = 32 << 20 };          // a batch is flushed at this many records or copied bytes
+// the last draw packet's head, copied before its record's bytes go (a flush frees the held records)
+void Exec::head_keep() {
+  const uint8_t *src = head_off != ~(size_t)0 ? hold.data() + head_off : head_p;
+  if (src && src != head_copy.data()) { head_copy.resize(XDRAW_HEAD); memcpy(head_copy.data(), src, XDRAW_HEAD); }
+  if (src) { head_p = head_copy.data(); head_off = ~(size_t)0; }
+}
 void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply) {
+  if (op == X_DRAW_SAME) {                                 // draw_delta: the last packet's head, then this tail
+    if (n < XDRAW_TAIL || (!head_p && head_off == ~(size_t)0)) { d8_once("samenohead", "stream error: X_DRAW_SAME with no draw before it (skipped)"); return; }
+    if (batch) {
+      size_t off = hold.size(); hold.resize(off + sizeof(XDraw));
+      const uint8_t *src = head_off != ~(size_t)0 ? hold.data() + head_off : head_p;
+      memcpy(hold.data() + off, src, XDRAW_HEAD); memcpy(hold.data() + off + XDRAW_HEAD, p, XDRAW_TAIL);
+      Held h = {X_DRAW, (uint32_t)sizeof(XDraw), nullptr, off};
+      held.push_back(h); head_off = off; head_p = nullptr;
+      if (held.size() >= HOLD_MAX || hold.size() >= HOLD_BYTES) flush();
+      return;
+    }
+    same_tmp.resize(sizeof(XDraw));
+    memcpy(same_tmp.data(), head_p, XDRAW_HEAD); memcpy(same_tmp.data() + XDRAW_HEAD, p, XDRAW_TAIL);
+    p = same_tmp.data(); n = (uint32_t)sizeof(XDraw); op = X_DRAW;
+    if (!held.empty()) flush();
+    double t0 = timed ? qpc_ms() : 0;
+    exec(op, p, n, hr, reply, nullptr);
+    if (timed) timed(timed_ctx, op, qpc_ms() - t0);
+    return;                                                // head_p stays: the head has not changed
+  }
+  if (op == X_DRAW && n >= sizeof(XDraw)) {                // remember this packet's head for an X_DRAW_SAME
+    if (batch && copy_held) { head_off = hold.size(); head_p = nullptr; }
+    else if (batch) { head_p = p; head_off = ~(size_t)0; }
+    else { head_copy.resize(XDRAW_HEAD); memcpy(head_copy.data(), p, XDRAW_HEAD); head_p = head_copy.data(); head_off = ~(size_t)0; }
+  }
   if (batch && holdable(op)) {
     Held h = {op, n, p, 0};
     if (copy_held) { h.p = nullptr; h.off = hold.size(); hold.insert(hold.end(), p, p + n); }
@@ -818,13 +871,21 @@ size_t Exec::plan(size_t i) {
   for (SArena &a : sa) a.used = false;
   long run_head = -1; int run_n = 0; const XDraw *hd = nullptr; bool mfull = false;
   uint32_t hv[4] = {};                                       // the first draw's buffers' upload counts when it was planned
-  auto m_cand = [&](const XDraw &d) -> bool {
+  // the buffer and stride stream si of a draw reads: for a skinned draw's stand-in, the mesh's source (64 bytes)
+  auto m_eff = [&](const XDraw &d, const Prep &q, UINT si, uint32_t *stride) -> ExecRes * {
+    if (!d.stream[si].buf) return nullptr;
+    bool sk = false; if (q.skin_src) for (int e = 0; e < d.vk.nel; e++) sk |= d.vk.el[e].sem == SE_SKIN && d.vk.el[e].stream == si;
+    auto it = res.find(sk ? q.skin_src : d.stream[si].buf);
+    *stride = sk ? (uint32_t)sizeof(XSkinVtx) : d.stream[si].stride;
+    return it == res.end() ? nullptr : &it->second;
+  };
+  auto m_cand = [&](const XDraw &d, const Prep &q) -> bool {
     if (d.kind != XD_INDEXED || d.topology != (uint32_t)D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST || d.raster.FillMode != D3D11_FILL_SOLID || !d.count || !d.stream[0].buf) return false;
     for (UINT si = 0; si < 16; si++) {
       if (!d.stream[si].buf) continue;
       if (si > 3 || !d.stream[si].stride) return false;
-      auto it = res.find(d.stream[si].buf);
-      if (it == res.end() || it->second.shadow.empty() || it->second.index) return false;
+      uint32_t st2; ExecRes *r2 = m_eff(d, q, si, &st2);
+      if (!r2 || r2->shadow.empty() || r2->index) return false;
     }
     auto ib = res.find(d.ib);
     if (ib == res.end() || ib->second.shadow.empty() || !ib->second.index) return false;
@@ -838,11 +899,14 @@ size_t Exec::plan(size_t i) {
   // put draw j of a run in the arenas: its streams at a vertex slot, its indices after the run's; false: no room
   auto m_put = [&](size_t j, const XDraw &d, bool head, const uint32_t *vers) -> bool {
     SlotKey key; memset(&key, 0, sizeof key); ExecRes *rs[4] = {}; UINT L = 0;
+    uint32_t strd[4] = {}, ids[4] = {};
     for (UINT si = 0; si < 4; si++) {
       if (!d.stream[si].buf) continue;
-      rs[si] = &res.find(d.stream[si].buf)->second;
-      key.v[si * 3] = d.stream[si].buf; key.v[si * 3 + 1] = vers ? vers[si] : rs[si]->ver; key.v[si * 3 + 2] = d.stream[si].stride;
-      UINT n = ((UINT)rs[si]->shadow.size() + d.stream[si].stride - 1) / d.stream[si].stride; if (n > L) L = n;
+      rs[si] = m_eff(d, prep[j], si, &strd[si]);
+      ids[si] = strd[si] == sizeof(XSkinVtx) && prep[j].skin_src ? prep[j].skin_src : d.stream[si].buf;
+      { bool sk = false; for (int e = 0; e < d.vk.nel; e++) sk |= d.vk.el[e].sem == SE_SKIN && d.vk.el[e].stream == si; if (!sk) ids[si] = d.stream[si].buf; }
+      key.v[si * 3] = ids[si]; key.v[si * 3 + 1] = vers ? vers[si] : rs[si]->ver; key.v[si * 3 + 2] = strd[si];
+      UINT n = ((UINT)rs[si]->shadow.size() + strd[si] - 1) / strd[si]; if (n > L) L = n;
       if (rs[si]->shadow.size() > sa[si].cap / 2) return false;          // too large for the arenas: never merged
     }
     if ((uint64_t)d.count * 4 > sa[4].cap / 2) return false;
@@ -852,11 +916,11 @@ size_t Exec::plan(size_t i) {
     if (f != slots.end()) v = f->second;
     else {
       v = 0;
-      for (UINT si = 0; si < 4; si++) if (rs[si]) { UINT n = (sa[si].pos + d.stream[si].stride - 1) / d.stream[si].stride; if (n > v) v = n; }
-      for (UINT si = 0; si < 4; si++) if (rs[si] && (uint64_t)(v + L) * d.stream[si].stride > sa[si].cap) { swrap = true; return false; }
+      for (UINT si = 0; si < 4; si++) if (rs[si]) { UINT n = (sa[si].pos + strd[si] - 1) / strd[si]; if (n > v) v = n; }
+      for (UINT si = 0; si < 4; si++) if (rs[si] && (uint64_t)(v + L) * strd[si] > sa[si].cap) { swrap = true; return false; }
       for (UINT si = 0; si < 4; si++) if (rs[si]) {
-        MOp o = {(uint32_t)j, 0, (uint8_t)si, v * d.stream[si].stride, d.stream[si].buf, (uint32_t)rs[si]->shadow.size(), 0, 0}; mops.push_back(o);
-        sa[si].pos = (v + L) * d.stream[si].stride; sa[si].used = true;
+        MOp o = {(uint32_t)j, 0, (uint8_t)si, v * strd[si], ids[si], (uint32_t)rs[si]->shadow.size(), 0, 0}; mops.push_back(o);
+        sa[si].pos = (v + L) * strd[si]; sa[si].used = true;
       }
       slots[key] = v;
     }
@@ -868,14 +932,17 @@ size_t Exec::plan(size_t i) {
   size_t k = i;
   for (; k < N; k++) {
     Prep &q = prep[k]; q = {~0u, ~0u, ~0u, ~0u, ~0u, 0, 0, 0, 0, 0};
-    if (arena_kb && held[k].op != X_DRAW) {
+    if (held[k].op != X_DRAW) {
       const uint8_t *p = held[k].p ? held[k].p : hold.data() + held[k].off;
-      // a buffer made or freed: the records after it are planned once it has run
+      // a buffer made or freed: the records after it are planned once it has run (the arena's uploads and a skinning
+      // job's source are looked up here, before anything runs)
       if (held[k].op == X_BUF) { k++; break; }
       if (held[k].op == X_DESTROY) { auto it = res.find(*(const uint32_t *)p); if (it != res.end() && it->second.kind == 3) { k++; break; } }
+      if (held[k].op == X_SKIN) { skin_apply(*(const XSkin *)p, p + sizeof(XSkin)); q.up = 4; }   // in the records' order; not run again
       if (held[k].op == X_UPLOAD_BUF) {
         const XUpBuf &u = *(const XUpBuf *)p;
         auto it = res.find(u.id);
+        if (it != res.end()) { it->second.skin_src = 0; it->second.pal.reset(); }   // written: no longer a skinned mesh's stand-in
         if (it != res.end() && it->second.buf && arena_for(it->second) && (uint64_t)u.offset + u.length <= it->second.shadow.size()) {
           ExecRes &r = it->second; int ai = r.index ? 1 : 0; BArena &a = ba[ai];
           const bool noov = (u.flags & 0x1000u) && !(u.flags & 0x2000u);
@@ -940,15 +1007,22 @@ size_t Exec::plan(size_t i) {
       }
       q.bufs = (uint32_t)prep_bufs.size(); prep_bufs.push_back(pb);
     }
+    // gpu skinning: the source and palette this draw's stand-in buffer has as of this record
+    int sks = -1; for (int e = 0; e < d.vk.nel; e++) if (d.vk.el[e].sem == SE_SKIN) sks = d.vk.el[e].stream;
+    if (sks >= 0) {
+      auto it = res.find(d.stream[sks].buf);
+      if (it == res.end() || !it->second.skin_src || !it->second.pal || !res.count(it->second.skin_src)) q.skin_src = ~0u;
+      else { q.skin_src = it->second.skin_src; prep_pals.push_back(it->second.pal); q.skin_pal = (uint32_t)prep_pals.size(); }
+    }
     // draw_merge: this draw joins the run when its packet equals the run's first in all but buffers and range
-    if (mrg && !mfull && m_cand(d)) {
-      if (run_head >= 0 && m_same(d, *hd)) {
+    if (mrg && !mfull && q.skin_src != ~0u && m_cand(d, q)) {
+      if (run_head >= 0 && m_same(d, *hd) && (!q.skin_src || prep_pals[q.skin_pal - 1]->serial == prep_pals[prep[run_head].skin_pal - 1]->serial)) {
         bool ok = run_n > 1 || m_put((size_t)run_head, *hd, true, hv);
         if (ok && m_put(k, d, false, nullptr)) { q.merged = 2; prep[run_head].mcount += d.count; run_n++; mg_saved++; }
         else { mfull = swrap; run_head = -1; }
       } else {
         run_head = (long)k; hd = &d; run_n = 1;
-        for (UINT si = 0; si < 4; si++) hv[si] = d.stream[si].buf ? res.find(d.stream[si].buf)->second.ver : 0;
+        for (UINT si = 0; si < 4; si++) { uint32_t st2; ExecRes *r2 = m_eff(d, q, si, &st2); hv[si] = r2 ? r2->ver : 0; }
       }
     } else run_head = -1;
   }
@@ -972,7 +1046,7 @@ size_t Exec::plan(size_t i) {
     size_t mi = 0;
     for (size_t j = i; j < k; j++) {
       const Prep &q = prep[j];
-      if (q.up) {
+      if (q.up && q.up != 4) {
         const uint8_t *p = held[j].p ? held[j].p : hold.data() + held[j].off;
         const XUpBuf &u = *(const XUpBuf *)p;
         ExecRes &r = res.find(u.id)->second; BArena &a = ba[r.index ? 1 : 0];
@@ -1027,7 +1101,7 @@ size_t Exec::plan(size_t i) {
 void Exec::flush() {
   if (held.empty()) return;
   flushes++;
-  prep.resize(held.size()); prep_bufs.clear();
+  prep.resize(held.size()); prep_bufs.clear(); prep_pals.clear();
   size_t i = 0, N = held.size();
   while (i < N) {
     double t0 = timed ? qpc_ms() : 0;
@@ -1042,6 +1116,7 @@ void Exec::flush() {
     if (timed && extra > 0) timed(timed_ctx, X_DRAW, extra);   // a chunk without draws: charged as a draw's time
     i = k;
   }
+  head_keep();                                             // before the held records' bytes go
   held.clear(); hold.clear();
 }
 void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply, const Prep *pp) {
@@ -1114,6 +1189,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     ExecRes &r = it->second;
     if (r.up_frame != ~0ull && presents - r.up_frame <= 1) up_again[1] += u.length;
     r.up_frame = presents;
+    if (!pp) { r.skin_src = 0; r.pal.reset(); }             // written: no longer a skinned mesh's stand-in (a batch did this in Exec::plan)
     if (pp && (pp->up == 1 || pp->up == 2)) break;         // buffer_arena: the batch has written it (Exec::plan)
     if (!r.dyn && !r.shadow.empty() && !(pp && pp->up == 3) && (uint64_t)u.offset + u.length <= r.shadow.size()) {
       memcpy(r.shadow.data() + u.offset, p + sizeof u, u.length); r.ver++;   // draw_merge's copy (a batch has done this)
@@ -1133,6 +1209,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     else { memcpy(m.pData, r.shadow.data(), r.shadow.size()); if (!dyn_discard++) d8_log("dynamic buffers: the first DISCARD Map"); }
     ctx->Unmap(r.buf, 0); r.mapped = true;
     break; }
+  case X_SKIN: if (!pp) skin_apply(*(const XSkin *)p, p + sizeof(XSkin)); break;   // (a batch applied it in Exec::plan)
   case X_TARGETS: {
     const XTargets &t = *(const XTargets *)p;
     cur_rtv = t.rt.id ? rtv_of(t.rt) : nullptr; last_rt = t.rt; last_ds = t.ds;
@@ -1260,11 +1337,21 @@ void Exec::draw(const XDraw &d, const uint8_t *data, const Prep *pp) {
       ID3DBlob *b = compile(ff, gen_vs(d.vk), "vs_4_0");
       if (b) {
         dev->CreateVertexShader(b->GetBufferPointer(), b->GetBufferSize(), NULL, &vsh);
-        D3D11_INPUT_ELEMENT_DESC ie[16];
+        D3D11_INPUT_ELEMENT_DESC ie[24]; UINT nie = 0;
         static const char *sn[] = {"POSITION", "POSITION", "NORMAL", "COLOR", "TEXCOORD", "PSIZE", "BLENDWEIGHT"};
-        for (int i = 0; i < d.vk.nel; i++)
-          ie[i] = {sn[d.vk.el[i].sem], d.vk.el[i].sem == SE_POST ? 0u : d.vk.el[i].idx, vdxgi(d.vk.el[i].fmt), d.vk.el[i].stream, d.vk.el[i].off, D3D11_INPUT_PER_VERTEX_DATA, 0};
-        if (FAILED(dev->CreateInputLayout(ie, d.vk.nel, b->GetBufferPointer(), b->GetBufferSize(), &lay))) d8_log("CreateInputLayout failed");
+        for (int i = 0; i < d.vk.nel; i++) {
+          const VElem &e = d.vk.el[i];
+          if (e.sem == SE_SKIN) {                            // gpu skinning: the source vertex's five parts (XSkinVtx)
+            ie[nie++] = {"SKINA", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, e.stream, 0, D3D11_INPUT_PER_VERTEX_DATA, 0};
+            ie[nie++] = {"SKINB", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, e.stream, 16, D3D11_INPUT_PER_VERTEX_DATA, 0};
+            ie[nie++] = {"SKINNA", 0, DXGI_FORMAT_R32G32B32_FLOAT, e.stream, 32, D3D11_INPUT_PER_VERTEX_DATA, 0};
+            ie[nie++] = {"SKINNB", 0, DXGI_FORMAT_R32G32B32_FLOAT, e.stream, 44, D3D11_INPUT_PER_VERTEX_DATA, 0};
+            ie[nie++] = {"SKINI", 0, DXGI_FORMAT_R16G16_UINT, e.stream, 56, D3D11_INPUT_PER_VERTEX_DATA, 0};
+            continue;
+          }
+          ie[nie++] = {sn[e.sem], e.sem == SE_POST ? 0u : e.idx, vdxgi(e.fmt), e.stream, e.off, D3D11_INPUT_PER_VERTEX_DATA, 0};
+        }
+        if (FAILED(dev->CreateInputLayout(ie, nie, b->GetBufferPointer(), b->GetBufferSize(), &lay))) d8_log("CreateInputLayout failed");
         b->Release();
       }
       ff->vs[vks] = vsh; ff->il[vks] = lay;
@@ -1372,14 +1459,30 @@ void Exec::draw(const XDraw &d, const uint8_t *data, const Prep *pp) {
     ctx->DrawIndexed(d.count, ia / isz, (INT)first);
     return;
   }
+  // gpu skinning: this draw's stream `sks` reads a mesh's source, skinned by a palette in constant buffer 1
+  int sks = -1; for (int e = 0; e < d.vk.nel; e++) if (d.vk.el[e].sem == SE_SKIN) sks = d.vk.el[e].stream;
+  ID3D11Buffer *skbuf = nullptr;
+  if (sks >= 0) {
+    std::shared_ptr<SkinPal> pal; uint32_t src = 0;
+    if (pp) { if (pp->skin_src && pp->skin_src != ~0u) { src = pp->skin_src; pal = prep_pals[pp->skin_pal - 1]; } }
+    else { auto it = res.find(d.stream[sks].buf); if (it != res.end()) { src = it->second.skin_src; pal = it->second.pal; } }
+    auto sr = src ? res.find(src) : res.end();
+    if (sr == res.end() || !sr->second.buf || !pal || !bones_cb) { d8_once("skindraw", "a skinned draw whose buffer stands for no mesh (skipped)"); return; }
+    skbuf = sr->second.buf;
+    if (!f || bd.pal != pal->serial) {
+      if (SUCCEEDED(ctx->Map(bones_cb, 0, D3D11_MAP_WRITE_DISCARD, 0, &m))) { memcpy(m.pData, pal->d.data(), pal->d.size()); ctx->Unmap(bones_cb, 0); draw_maps++; }
+      ctx->VSSetConstantBuffers(1, 1, &bones_cb); bd.pal = pal->serial;
+    }
+  }
   if (pp && pp->merged == 1) {                             // draw_merge: the run, from the slot arenas (Exec::plan)
-    for (UINT i = 0; i < 4; i++) if (d.stream[i].buf) set_vb(i, sa[i].b, d.stream[i].stride, 0);
+    for (UINT i = 0; i < 4; i++) if (d.stream[i].buf) set_vb(i, sa[i].b, (int)i == sks ? (UINT)sizeof(XSkinVtx) : d.stream[i].stride, 0);
     set_ib(sa[4].b, true, 0);
     ctx->DrawIndexed(pp->mcount, pp->mfirst, 0); mg_runs++;
     return;
   }
   for (UINT i = 0; i < 16; i++) {
     if (!d.stream[i].buf) continue;
+    if ((int)i == sks) { set_vb(i, skbuf, (UINT)sizeof(XSkinVtx), 0); continue; }
     if (pb) {
       if (!pb->sb[i]) { d8_once("nostream", "a draw reads a stream whose buffer is gone (skipped)"); return; }
       set_vb(i, pb->sb[i], d.stream[i].stride, pb->so[i]); continue;

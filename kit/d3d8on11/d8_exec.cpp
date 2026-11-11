@@ -1247,7 +1247,10 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     drain_debug();
     gpu_frame_end();
     HRESULT h = swap ? swap->Present(sync, 0) : E_FAIL;
-    if (FAILED(h)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure)", (unsigned long)h);
+    // (the removal reason is the device's own answer: 0x887A0006 the GPU hung on what it was sent, 0x887A0007 a reset,
+    // 0x887A0020 a driver fault, 0x887A002B the device was taken away by the system, e.g. the session or the VM's adapter)
+    if (FAILED(h)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure); the device's removal reason: 0x%08lX; frame %llu, %llu draws so far",
+                           (unsigned long)h, dev ? (unsigned long)dev->GetDeviceRemovedReason() : 0ul, (unsigned long long)presents, (unsigned long long)draws);
     presents++;
     if (flip && swap) {                                    // the flip model unbinds the back buffer at each Present: bound again
       cur_rtv = last_rt.id ? rtv_of(last_rt) : nullptr;

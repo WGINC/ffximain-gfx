@@ -559,11 +559,11 @@ for m in MODES:
             if l.startswith('scene '):
                 _, n, hx = l.split(' ', 2); got[n] = None if hx == 'none' else [int(hx[i:i + 6], 16) for i in range(0, len(hx), 6)]
         t = ''.join(open(f).read() for f in (log, xlog) if os.path.exists(f))
-        tot = re.search(r'gpu skin totals: (\d+) jobs, (\d+) palettes sent, (\d+) sources made, (\d+) refused', t)
+        tot = re.search(r'gpu skin totals: (\d+) jobs, (\d+) palettes sent, (\d+) sources made, (\d+) refused, (\d+) draws not made', t)
         ok = (base == got and base.get('skin_gpu') is not None and base.get('skin_gpu') == base.get('skin_cpu') and 'skin: 3 jobs taken' in out and
-              tot is not None and tot.group(1) == '3' and tot.group(4) == '0' and 'stream error' not in t and 'not drawn' not in t and 'skipped' not in t.replace('draw skipped', ''))
+              tot is not None and tot.group(1) == '3' and tot.group(4) == '0' and tot.group(5) == '0' and 'stream error' not in t and 'not drawn' not in t and 'skipped' not in t.replace('draw skipped', ''))
         print('%s: %s mode, gpu_skin=1, %s: 3 jobs taken; every scene equals the run without it and skin_gpu equals skin_cpu (%d scenes); %s' % (
-              'ok' if ok else 'FAIL', m, name, len(base), ('%s jobs, %s palettes, %s sources, %s refused' % tot.groups()) if tot else 'no totals line')); bad += not ok
+              'ok' if ok else 'FAIL', m, name, len(base), ('%s jobs, %s palettes, %s sources, %s refused, %s draws not made' % tot.groups()) if tot else 'no totals line')); bad += not ok
         for n in sorted(set(base) | set(got)):
             if base.get(n) != got.get(n): print('  differs: %s' % n)
 

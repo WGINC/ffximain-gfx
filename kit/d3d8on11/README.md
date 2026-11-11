@@ -173,6 +173,9 @@ exec_batch.
 - draw_merge treats a skinned draw's stream 0 as its source, and merges only draws of one palette.
 - Tests: scenes `skin_cpu` (t8 skins on the CPU) and `skin_gpu` (through D8ON11_Skin) are equal pixel for pixel in
   each mode, alone and with every other lever on.
+A draw from the caller's memory reads no stream and is never looked at for this (until 11 Nov it was, and the game's
+occlusion rectangles were dropped while a skinned buffer was bound: docs/HISTORY.md). The log's periodic `gpu skin`
+line and the totals count the draws not made; 0 is right.
 
 **CopyRects into a lockable texture.** A CopyRects from a GPU surface (a render target, the back buffer, another
 texture) into a texture level marks that level's CPU copy stale; the level's next LockRect reads it back first

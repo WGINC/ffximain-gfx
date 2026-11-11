@@ -172,7 +172,11 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
   // named), the position element becomes SE_SKIN and the normal element goes: the executor binds the mesh's source in
   // stream 0's place. Read any other way the buffers hold nothing: that draw is not made, and the log says so.
   uint8_t virt = 0;
-  { bool any = false; for (int e = 0; e < vk.nel; e++) { VB *b = st.stream[vk.el[e].stream]; any |= b && b->c.virt; }
+  // A draw from the caller's memory (kind 2, 3) reads no stream, whatever is still bound: it is not looked at here.
+  // (Until 11 Nov it was, and every ...UP draw made while a skinned buffer was still bound was dropped: in the game
+  // the occlusion test's rectangles, tree/src/unit_1006C210_Occlusion.cpp lines 175 to 201, so every tested character
+  // counted as hidden.)
+  { bool any = false; if (kind <= 1) for (int e = 0; e < vk.nel; e++) { VB *b = st.stream[vk.el[e].stream]; any |= b && b->c.virt; }
     if (any) {
       VB *s0 = st.stream[0], *s1 = st.stream[1]; int pe = -1, ne2 = -1;
       for (int e = 0; e < vk.nel; e++) {
@@ -182,7 +186,11 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
       }
       bool only = true; for (int e = 0; e < vk.nel; e++) if (e != pe && e != ne2 && vk.el[e].stream < 2) only = false;
       if (!(kind <= 1 && s0 && s1 && s0->c.virt == 1 && s1->c.virt == 2 && s0->c.partner == s1->c.id && pe >= 0 && ne2 >= 0 && only)) {
-        d8_once("skinread", "gpu_skin: a draw reads a skinned mesh's buffers otherwise than as float3 positions (stream 0) and normals (stream 1) of one job: not drawn");
+        if (!skin_undrawn++) {
+          char dl[256]; int n = 0; for (int e = 0; e < vk.nel && n < 220; e++) n += snprintf(dl + n, sizeof dl - n, " [s%d o%d f%d sem%d.%d]", vk.el[e].stream, vk.el[e].off, vk.el[e].fmt, vk.el[e].sem, vk.el[e].idx);
+          d8_log("gpu_skin: a draw reads a skinned mesh's buffers otherwise than as float3 positions (stream 0) and normals (stream 1) of one job: not drawn (kind %d; stream 0 role %d id %u partner %u; stream 1 role %d id %u; elements%s)",
+                 kind, s0 ? s0->c.virt : -1, s0 ? (unsigned)s0->c.id : 0, s0 ? (unsigned)s0->c.partner : 0, s1 ? s1->c.virt : -1, s1 ? (unsigned)s1->c.id : 0, dl);
+        }
         return D3D_OK;
       }
       vk.el[pe].sem = SE_SKIN;

@@ -697,6 +697,12 @@ static void scenes(void) {
       }
       IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 0, NV, 0, 7 * 7);
       IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 0, NV, 7 * 7 * 6, 2);
+      /* a draw from memory while the skinned buffers are still bound (the game's occlusion rectangles come like this),
+         then the mesh's shader and stream 0 again (a draw from memory unsets stream 0) */
+      { float x0 = 20 + 70 * copy; struct { float x, y, z, w; DWORD c; } q[4] = {{x0, 20, 0.5f, 1, 0xFF30C060}, {x0 + 50, 20, 0.5f, 1, 0xFF30C060}, {x0, 50, 0.5f, 1, 0xFFC03060}, {x0 + 50, 50, 0.5f, 1, 0xFFC03060}};
+        IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+        IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, q, sizeof q[0]);
+        IDirect3DDevice8_SetVertexShader(d, h); IDirect3DDevice8_SetStreamSource(d, 0, vp, 12); }
     }
     if (gpu) printf("skin: %d jobs taken by D8ON11_Skin\n", handed);
     IDirect3DDevice8_LightEnable(d, 0, FALSE);

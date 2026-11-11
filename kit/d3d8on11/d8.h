@@ -203,7 +203,7 @@ struct Dev final : public IDirect3DDevice8_Stub {
   struct BufLock { CRITICAL_SECTION cs; BufLock() { InitializeCriticalSection(&cs); } ~BufLock() { DeleteCriticalSection(&cs); } } buf_lock;
   void buf_live(void *b, bool on) { EnterCriticalSection(&buf_lock.cs); if (on) live_bufs.insert(b); else live_bufs.erase(b); LeaveCriticalSection(&buf_lock.cs); }
   bool buf_is_live(void *b) { EnterCriticalSection(&buf_lock.cs); bool r = live_bufs.count(b) != 0; LeaveCriticalSection(&buf_lock.cs); return r; }
-  uint64_t skin_jobs = 0, skin_pals = 0, skin_built = 0, skin_refused = 0, skin_jobs0 = 0, skin_pals0 = 0, skin_built0 = 0; bool gpu_skin = false;
+  uint64_t skin_jobs = 0, skin_pals = 0, skin_built = 0, skin_refused = 0, skin_undrawn = 0, skin_jobs0 = 0, skin_pals0 = 0, skin_built0 = 0; bool gpu_skin = false;
   int skin(const struct D8Skin *j);
   std::vector<Block *> blocks; Block *rec = nullptr;
   struct VShader { bool used; DWORD fvf; std::vector<DWORD> decl, code; };

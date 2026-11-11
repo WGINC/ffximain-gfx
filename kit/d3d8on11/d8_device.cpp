@@ -292,8 +292,8 @@ ULONG Dev::Release() {
   LONG n = InterlockedDecrement(&ref);
   if (n) return n;
   d8_log("device released: %llu draws, %llu of them not executed", (unsigned long long)draws, (unsigned long long)drawsNotExecuted);
-  if (gpu_skin) d8_log("gpu skin totals: %llu jobs, %llu palettes sent, %llu sources made, %llu refused", (unsigned long long)skin_jobs,
-                       (unsigned long long)skin_pals, (unsigned long long)skin_built, (unsigned long long)skin_refused);
+  if (gpu_skin) d8_log("gpu skin totals: %llu jobs, %llu palettes sent, %llu sources made, %llu refused, %llu draws not made", (unsigned long long)skin_jobs,
+                       (unsigned long long)skin_pals, (unsigned long long)skin_built, (unsigned long long)skin_refused, (unsigned long long)skin_undrawn);
   g_skin_dev = nullptr;
   if (draw_delta) d8_log("draw delta totals: %llu draws sent as deltas, %llu in full", (unsigned long long)delta_tot, (unsigned long long)full_tot);
   for (Block *b : blocks) delete b;
@@ -345,8 +345,8 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
       d8_log("readback snapshots, %u frames: %u locks of a copied render target read its snapshot (no wait), %u read it "
              "back (the snapshot was not there yet), %u do-not-wait locks were told it was not there yet (no wait)",
              snap_frames, snap_hits, snap_misses, snap_notyet);
-    if (gpu_skin) { d8_log("gpu skin, %u frames: %.1f jobs a frame, %.1f palettes sent, %.2f sources made", snap_frames, (double)(skin_jobs - skin_jobs0) / snap_frames,
-                           (double)(skin_pals - skin_pals0) / snap_frames, (double)(skin_built - skin_built0) / snap_frames);
+    if (gpu_skin) { d8_log("gpu skin, %u frames: %.1f jobs a frame, %.1f palettes sent, %.2f sources made; %llu draws not made so far (0 is right)", snap_frames, (double)(skin_jobs - skin_jobs0) / snap_frames,
+                           (double)(skin_pals - skin_pals0) / snap_frames, (double)(skin_built - skin_built0) / snap_frames, (unsigned long long)skin_undrawn);
                     skin_jobs0 = skin_jobs; skin_pals0 = skin_pals; skin_built0 = skin_built; }
     if (draw_delta) { d8_log("draw delta, %u frames: %.1f draws a frame sent as deltas, %.1f in full", snap_frames,
                              (double)delta_n / snap_frames, (double)full_n / snap_frames); delta_n = full_n = 0; }

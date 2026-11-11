@@ -23,6 +23,10 @@ samples in the windows chosen (--from/--to: local times, compared with each wind
              paired with it as a check (a stub's samples should sit in one thunk), then stub by call site counting
              only samples whose native pc is in wow64win.dll or ntdll.dll (inside the call, not a stale return
              address left on the stack while other code runs);
+  chains     the image addresses on the x86 stack, nearest first (--chain N deep; module+rva, the game's as analysed
+             addresses), and the same as modules only; for a stutter file, the frames counted by the module chain most
+             of their samples were in. The elsewhere and stutters views name the innermost GAME address, which can be
+             a word an earlier call left behind when another module's addresses lie nearer: this view does not choose;
   focus      for each --focus call site (analysed address, as the elsewhere view prints it): its samples split by
              x86 module!export, then native module!export, then the system-call stub.
 Names: a game address is the analysed build's (the header's rel and shift table) with its function (samples.py's
@@ -121,6 +125,7 @@ def main():
     ap.add_argument('file'); ap.add_argument('--from', dest='t0'); ap.add_argument('--to', dest='t1')
     ap.add_argument('--focus', nargs='*', default=[]); ap.add_argument('--top', type=int, default=25)
     ap.add_argument('--frames', nargs='*', type=int, default=[]); ap.add_argument('--min-ms', type=float, default=0)
+    ap.add_argument('--chain', type=int, default=6)
     ap.add_argument('--manifest', default=os.path.join(H, '..', 'xikit', 'dist', 'xikit_manifest.txt'))
     ap.add_argument('--extents', default=os.path.join(H, '..', '..', 'data', 'func_extents.json'))
     o = ap.parse_args()
@@ -178,6 +183,48 @@ def main():
                 at[k] += c
             print('  frame %d: %.1f ms, %d samples (missed %d, dropped %d)' % (w.n, w.ms, n, w.missed, w.dropped))
             for k, c in at.most_common(6): print('      %5.1f%%  %s' % (100 * c / max(n, 1), k))
+    # chains: the return addresses on the x86 stack, nearest first, as module+rva (the game: the analysed address).
+    # The "elsewhere" and "stutters" views name the innermost GAME address; where another module's addresses lie
+    # nearer (a wait inside d3d8.dll, a hook's DLL, an addon runtime), that game address can be a word left on the
+    # stack by an earlier call (11 Nov: 34% of a run's long-frame samples were named 0x100FA64A, a call that had
+    # returned; the thread was waiting inside LuaCore.dll, called from Hook.dll at 0x100FA79A). This view shows what
+    # is there, without choosing.
+    def chain_of(w, eip, xc, depth):
+        out = []
+        for a in ([eip] if w.mod(eip) else []) + list(xc):
+            m = w.mod(a)
+            if not m: continue
+            t = ('game 0x%08X' % nm.analysed(a)) if m[2].lower() == GAME else '%s+0x%X' % (os.path.splitext(m[2])[0], a - m[0])
+            if not out or out[-1] != t: out.append(t)
+            if len(out) >= depth: break
+        return out
+    chains, heads = collections.Counter(), collections.Counter()
+    for w in sel:
+        for c, eip, xc, pc, lr, nc in w.rows:
+            ch = chain_of(w, eip, xc, o.chain)
+            chains[' < '.join(ch) or '(no image address on the stack)'] += c
+            mods_ = []
+            for t in ch:
+                mname = 'game' if t.startswith('game ') else t.split('+')[0]
+                if not mods_ or mods_[-1] != mname: mods_.append(mname)
+            heads[' < '.join(mods_[:4]) or '(no image address on the stack)'] += c
+    table('chains: the modules on the x86 stack, nearest first (adjacent repeats as one)', heads)
+    table('chains: the return addresses on the x86 stack, nearest first, %d deep' % o.chain, chains)
+    if stutter:
+        kind, kms = collections.Counter(), collections.Counter()
+        for w in sel:
+            n = sum(c for c, *_ in w.rows); at = collections.Counter()
+            for c, eip, xc, pc, lr, nc in w.rows:
+                ch = chain_of(w, eip, xc, 12); mods_ = []
+                for t in ch:
+                    mname = 'game' if t.startswith('game ') else t.split('+')[0]
+                    if not mods_ or mods_[-1] != mname: mods_.append(mname)
+                at[' < '.join(mods_[:3])] += c
+            k, c = at.most_common(1)[0] if at else ('(no samples)', 0)
+            if n and c * 2 < n: k = '(no one chain with half the frame\'s samples)'
+            kind[k] += 1; kms[k] += w.ms
+        print('\nstutters: the frames by the module chain most of their samples were in (frames, their ms in all)')
+        for k, c in kind.most_common(o.top): print('  %5d frames  %8.0f ms  %s' % (c, kms[k], k))
     table('x86: the module the x86 code was in', x86)
     table('native: the module the native code was in', nat)
     table('joint: x86 module | native module', joint)

@@ -30,10 +30,17 @@ This is private work: nothing here is published, and no game bytes are in the re
   arena (`buffer_arena=1`); 16.9 and 19.0 without them. 0.7 to 4.2% of frames are over 33 ms.
 - **What limits it:** the number of draws. d3d8on11's worker spends about 7.7 us on each (Present's time is 4.9 us a
   draw) and the game's thread 2.3 us, at 1,500 to 1,700 draws a frame.
-- **Built on 11 Nov, not yet run in the game** (`kit/sessions/ab_18nov`): in d3d8on11 draw merging (`draw_merge`),
-  delta draws (`draw_delta`) and GPU skinning (`gpu_skin`, with speedfix's fork of the game's character draw).
-- **The long frames:** standing, the game's own thread working 24 to 31 ms; running, the thread stopped about 28 ms
-  outside Direct3D, in seconds with more file reads. Neither is named yet; ab_18nov samples them.
+- **Run once in the game (the owner's 18 Nov session), not yet measured:** draw merging (`draw_merge`), delta draws
+  (`draw_delta`) and GPU skinning (`gpu_skin`). GPU skinning hid every character but the owner's: d3d8on11 dropped
+  the game's occlusion rectangles while a skinned buffer was bound. Fixed and tested on 11 Nov; not yet run again
+  (`kit/sessions/ab_19nov`). In that run the graphics device was lost once (0x887A0005) and the game crashed; the
+  cause is not known, and the build now logs the device's reason.
+- **The long frames while running (that run's samples, 191 frames of 33 ms or more in 145 s):** 97 were the game's
+  thread waiting inside Windower's Lua runtime, entered from Windower's hook on a packet from the server; 84 were
+  the game's waiting readback for a first occlusion test. Both counts are from the start with the defect above;
+  ab_19nov repeats them and switches each cause off in turn.
+- **Not explained:** shimmering in the distance and nameplates jittering while the camera moves (both also with the
+  new pieces off).
 - **Above 60 fps:** the game's time follows real time (`uncap`, `frame_step=3`). Liminality (`liminality=1`) is built
   and passes its offline tests; its last version has not run in the game (`kit/sessions/ab_15nov`).
 - **Not working:** d3d8on11's worker as a native ARM64 process (`mode=remote`) crashed in Windower's Hook.dll in the

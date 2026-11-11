@@ -4733,3 +4733,70 @@ d3d8on11's draw methods, building a 3,200-byte packet from the device state ever
 still scene.
 
 **ab_18nov:** all (everything on; `abtest merge`, `abtest skin`), plain (`abtest nowait`), hitch (the sampler).
+
+## 11 Nov (third entry): the owner's ab_18nov run -- the vanishing characters, the stutters named, ab_19nov
+
+**What the owner saw.** Start all: other characters load in, then vanish; the owner's own stays. In `abtest skin`
+only in the B segments (gpu_skin=1). In `abtest merge` (second try, camera turning) some segments much smoother.
+`mark run`: stutters, then a freeze and a crash (pol.exe, 0xC0000005 at address 0). Shimmering only in the
+distance. Start plain: the same distant jitter, stutters when characters load, nameplates jitter while the camera
+moves. Start hitch: as the first.
+
+**The vanishing characters: a defect in d3d8on11's gpu_skin, fixed.**
+- Source: d8_ff.cpp's check for "a draw reads a skinned mesh's buffers" looked at the streams still bound for
+  every draw, including draws from the caller's memory (DrawPrimitiveUP, kind 2 and 3), which read no stream. Such a
+  draw made while stream 0 still held a skinned buffer was dropped (the log's one line: "not drawn").
+- The game's occlusion test draws its rectangles with DrawPrimitiveUP (tree/src/unit_1006C210_Occlusion.cpp lines
+  175 to 201), and CXiSkeletonActor stores the count as visibleSampleCount and does not draw the actor when it is 0
+  (tree/src/CXiSkeletonActor.cpp, the call at line 2336). With the rectangles dropped every count was 0.
+- The log agrees: in the B segments the game handed 20 to 27 skinning jobs a frame against about 325 buffer pairs
+  uploaded a frame in the A segments, and about 220 buffer draws a frame against about 1,140: the game itself had
+  stopped drawing the other characters.
+- Why the owner's own character stayed is not traced in the game's code.
+- Fix: the check is made only for buffer draws (kind 0 and 1). t8's skin scenes now make a draw from memory after
+  each skinned draw: with the 18 Nov build skin_gpu differs from the run without gpu_skin and the log has the line;
+  with the fix they are equal. d3d8on11 now counts the draws it does not make (the periodic "gpu skin" line and the
+  totals; the suite requires 0) and the first such line carries the draw's kind, the buffers' roles and the
+  declaration.
+- Not known: whether anything else is wrong with gpu_skin in the game. The 18 Nov run could not show it.
+
+**The device loss.** d3d8on11's log of the all start, during `mark run`: `IDXGISwapChain::Present: 0x887A0005`, then
+every Map and Create failing. That is DXGI_ERROR_DEVICE_REMOVED; the crash followed. The reason was not logged. It
+is the first device loss in any of the owner's logs. The hitch start ran the same settings (gpu_skin, merge, delta,
+arena) for four minutes without it. Whether one of the new pieces caused it is not known. d3d8on11 now logs
+GetDeviceRemovedReason, the frame and the draw count at the first failing Present.
+
+**The stutters (hitch start, xikit_stutters, frames of 33 ms or more; `mark run` at 03:44:40, 191 frames in 145 s).**
+- kit/xisamp/read.py's "stutters" and "elsewhere" views name the innermost GAME return address on the stack. For
+  these samples that named 0x100FA64A (a call in the game's packet handler 0x100FA5C0) for 34% of the samples. That
+  address was a word an earlier call left on the stack: nearer to the top of the stack lay return addresses in other
+  modules. read.py has a new view, **chains** (the image addresses on the stack, nearest first, as they are; and the
+  frames counted by the module chain most of their samples were in), which does not choose.
+- By that view, with the offsets resolved against the shipped builds' symbols:
+  - **97 frames (4,139 ms, median 39.5):** ntdll (ZwWaitForAlertByThreadId) < LuaCore.dll < Hook.dll < game
+    0x100FA79A (in the packet handler). The game's thread was waiting inside Windower's Lua runtime, entered from
+    Windower's hook on an incoming packet. Which addon: not in the samples. The 5 Nov recording
+    (r09, xikit_stutters_8516) has 43 such frames.
+  - **84 frames (3,105 ms, median 35.8):** ntdll (ZwWaitForMultipleObjects) < d3d8on11 RingLink::answer <
+    Surf::LockRect < game 0x1006C91F (Occlusion_ReadbackCount) < speedfix sf_occl_game < sf_occl_readback: the
+    game's waiting readback, which speedfix uses for an object with no finished picture (a first test, or one older
+    than 32 frames). speedfix's own count for that minute: 241 probes "by the game's readback (first or stale)",
+    189 query objects seen.
+  - 2 frames in d3d8on11's Present (the pacing wait), 8 mixed.
+- This start had the gpu_skin defect (characters hidden by the dropped rectangles), which may have changed how many
+  first tests there were. The counts need a clean run.
+- occlusion_first=2 removes the second kind by answering "visible". On 16 Nov it gave no fewer long frames; that run
+  had no samples to tell the two kinds apart.
+- Earlier readings that rest on the "innermost game call site" of a waiting sample (among them 16 Nov's "blocked
+  outside Present, correlated with file reads") were made with the view that can name a stale address. They are not
+  re-read here.
+
+**Shimmering, nameplates.** Both were in the plain start, with arena, merging, delta draws and gpu_skin off. Their
+cause is not known.
+
+**What the new pieces did in the game** (all start, with the characters missing, so not a measurement of the plaza):
+draw_merge took 50 to 80 draws a frame into 25 to 35; delta draws were 76 to 110 a frame against 550 to 600 in full;
+the game's thread spent 1.65 to 1.73 millionths of a second a draw call in d3d8on11.
+
+**ab_19nov:** all (as 18 Nov's, fixed: plaza, `abtest skin`, `abtest merge`, run, crowd) and hitch (the sampler:
+run, `abtest first` switching occlusion_first 0 and 2 while running, a minute with Windower's addons unloaded).

@@ -30,14 +30,14 @@ This is private work: nothing here is published, and no game bytes are in the re
   arena (`buffer_arena=1`); 16.9 and 19.0 without them. 0.7 to 4.2% of frames are over 33 ms.
 - **What limits it:** the number of draws. d3d8on11's worker spends about 7.7 us on each (Present's time is 4.9 us a
   draw) and the game's thread 2.3 us, at 1,500 to 1,700 draws a frame.
-- **Built on 11 Nov, not yet run in the game** (`kit/sessions/ab_17nov`): draw merging in d3d8on11 (`draw_merge`).
+- **Built on 11 Nov, not yet run in the game** (`kit/sessions/ab_18nov`): in d3d8on11 draw merging (`draw_merge`),
+  delta draws (`draw_delta`) and GPU skinning (`gpu_skin`, with speedfix's fork of the game's character draw).
 - **The long frames:** standing, the game's own thread working 24 to 31 ms; running, the thread stopped about 28 ms
-  outside Direct3D, in seconds with more file reads. Neither is named yet; ab_17nov samples them.
+  outside Direct3D, in seconds with more file reads. Neither is named yet; ab_18nov samples them.
 - **Above 60 fps:** the game's time follows real time (`uncap`, `frame_step=3`). Liminality (`liminality=1`) is built
   and passes its offline tests; its last version has not run in the game (`kit/sessions/ab_15nov`).
 - **Not working:** d3d8on11's worker as a native ARM64 process (`mode=remote`) crashed in Windower's Hook.dll in the
   owner's game on 16 Nov; cause not established.
-- **Not built:** GPU skinning.
 
 The two sections below are as written on 5 Nov and 1 Nov; where they differ from the list above, the list is right.
 

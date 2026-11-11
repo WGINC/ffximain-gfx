@@ -4677,5 +4677,59 @@ buffers and then the +80/+84 ones) is the case. `exec_ab_lever=merge` switches i
   again between draws): 20 draws become 2 merged draws; every scene equals the scene without it.
 - Not known: how many of the plaza's draws merge (their lights and materials decide), and the time.
 
-**ab_17nov:** merge (with `abtest merge`, d3d8on11's own off/on/on/off), plain (no arena, no merge; `abtest nowait`),
-hitch (the native sampler, a block for every frame of 33 ms or more).
+**ab_17nov** (sent, superseded by ab_18nov before it was run; its folder removed): merge, plain, hitch.
+
+## 11 Nov (later): delta draws, GPU skinning, ab_18nov
+
+The owner, on ab_17nov: the aliasing is shimmering edges; how does this differ from what was tried before; and
+"build all that you can before I test it. The game thread's thing and GPU skinning should have been in that kit."
+
+**How draw_merge differs from the earlier attempts** (6 Oct):
+- merging where the draws stand (the 6 Oct count: 1,620 to 1,561 or 1,525): neighbours differ in their vertex buffers;
+- skin_merge, a fork of the game's SkinAndDrawV2 that issues fewer DrawIndexedPrimitive calls (at most 1,330): it
+  changes the game's own draw calls and reorders a record's second draw; off since run 3464's exploding vertices;
+- draw_merge leaves the game's calls and their order alone. The device copies each draw's buffers to a common place,
+  so the buffer difference goes (the 6 Oct "shared buffer" count, 771, or 510 with equal values not counted).
+
+**draw_delta** (d3d8on11.ini, off by default). From the 16 Nov run: the game's thread spent 2.2-2.4 us a draw in
+d3d8on11's draw methods, building a 3,200-byte packet from the device state every time.
+- Every device method that writes what a packet's head is built from (28 of them: the state setters, the state
+  blocks, the targets, the vertex shader table) adds one to a counter. A buffer draw made with the counter as it was
+  at the last full packet sends only the packet's last 176 bytes (X_DRAW_SAME); the executor puts them after the last
+  head.
+- The stream sources and the index buffer are in those 176 bytes, so the game's alternation between a part's buffer
+  sets does not end a run of deltas.
+- Tests: 346 of the test scenes' 354 buffer draws go as deltas; every scene equals the scene without it.
+
+**gpu_skin** (d3d8on11.ini and speedfix.ini, off by default; kit/d3d8on11/d8_skin.h).
+- Read first: Model_SkinVerticesCpu (0x1002F1D0, tree/src/unit_1002F130.cpp) is in the tree and is what
+  docs/FORMATS.md 2.4 says: one-bone vertices `v . M` (+ row 3), two-bone vertices the sum of both bones' terms with
+  their w on row 3, duplicates skinned again from their source vertex, the mirrored set from *(v10+0x76) with bone
+  bits 7-13. Nothing in it depends on anything but the source, the bone words, the bone list and the matrices.
+- d3d8on11: `D8ON11_Skin` takes a job in that layout. The D3D8 side makes a static source once per mesh and variant
+  (64 bytes a vertex; kept with the mesh's index buffer, which the game creates per mesh; made again if the job's
+  pointers or counts differ), sends the bone table when a bone the mesh uses differs from the one last sent, and marks
+  the two vertex buffers as standing for the mesh until they are written again. A draw that reads them as the game's
+  character declaration does gets a vertex key with SE_SKIN; the executor binds the source and the palette (constant
+  buffer 1) and the generated vertex shader makes position and normal. Read any other way, the draw is not made and
+  the log says so. draw_merge merges skinned draws of one palette from the static sources (no per-frame vertex copy).
+- speedfix: the fork of SkinAndDrawV2 hands the job over in place of the locks, the routine and the unlocks
+  (sf_skin.cpp names each field and where the routine reads it). Left to the game: the routine's second route
+  ([0x1045B774]), counts that do not agree, a device that declines. The lever switches live.
+- Tests:
+  - t8 scenes skin_cpu and skin_gpu (one-bone and two-bone vertices, duplicates, a bone list naming bone 130, the
+    mirrored variant, a write after a job): pixel for pixel equal, in each mode, alone and with batches, arena, merge
+    and delta;
+  - sf_host: the game's own routine run on a mesh of 43 vertices laid out as it reads it, against the job speedfix
+    hands over, skinned by the shader's sums: worst difference 0 with the game's x87 loop, 2.4e-7 with its SSE loop,
+    both sets;
+  - the fork with its switches off: fork.py gate PASS (test_skinmerge.py).
+- Not known: whether Windower's Hook.dll leaves the game's buffer pointers as d3d8on11's own (if not, every job is
+  refused and the log says so); whether any other code of the game draws from those buffers with another
+  declaration (those draws would be missing; the log line `gpu_skin: a draw reads a skinned mesh's buffers otherwise`
+  names it); how much of the game thread's time the skinning is.
+
+**The shimmering edges:** not explained. ab_18nov switches merging, skinning and occlusion_nowait one at a time in a
+still scene.
+
+**ab_18nov:** all (everything on; `abtest merge`, `abtest skin`), plain (`abtest nowait`), hitch (the sampler).

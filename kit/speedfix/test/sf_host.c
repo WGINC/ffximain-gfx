@@ -34,6 +34,7 @@ static int fails;
 static void check(int c, const char *what) { printf("%s: %s\n", c ? "ok" : "FAIL", what); if (!c) fails++; }
 static void task_dispatch_test(HMODULE sf);
 static void occl_hold_test(HMODULE sf);
+static void gpu_skin_test(void);
 
 /* ---- the fake device: what reaches it is recorded ---- */
 typedef struct { int slot; uint32_t a[4]; int nbytes; uint8_t bytes[256]; } Call;
@@ -1067,6 +1068,7 @@ int main(int argc, char **argv) {
   check(g_cpu[9] == 1, "sse_skinning=1: the flag is 1, so 0x1002F1D0 takes the game's SSE loop");
   touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\nsse_skinning=0\n"); frames(65);
   check(g_cpu[9] == 0, "sse_skinning=0 again: the game's own value (0) is back");
+  gpu_skin_test();
   /* merge_scenes: inside a frame the game's EndScene and the BeginScene after it never reach the device; the scene
      ends once, before Present; a CopyRects closes it first (then the next BeginScene goes through) */
   touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nocclusion_stagger=8\nskip_all_occlusion_readbacks=1\nmerge_scenes=1\nstats_every=1\n"); frames(65);
@@ -1096,4 +1098,90 @@ int main(int argc, char **argv) {
 
   printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
   return fails ? 1 : 0;
+}
+
+
+/* gpu_skin (sf_skin.cpp, kit/d3d8on11/d8_skin.h): the job speedfix hands the device, checked against the game's own
+   skinning. A mesh object is laid out here as Model_SkinVerticesCpu (0x1002F1D0) reads it: 20 one-bone and 20 two-bone
+   vertices, 3 duplicates, a bone list, a mirrored source. The game's routine skins it into four arrays. Then
+   sf_gpu_skin is called with a function that keeps its jobs, and each job is skinned here by the sums d3d8on11's
+   vertex shader makes from the 64-byte source d3d8on11 builds (Dev::skin): positions and normals must equal the game's
+   within float rounding, for the plain and the mirrored set, with the game's x87 loop and with its SSE loop. */
+typedef struct { unsigned size; void *pos, *nrm, *key; unsigned variant; const float *src; unsigned count1, count2;
+                 const unsigned short *words; unsigned shift; const unsigned short *bonelist; const unsigned short *dups; unsigned ndups;
+                 const float *matrices; } GsJob;
+static GsJob g_gsjob[4]; static int g_gsn;
+static int __stdcall gs_take(const GsJob *j) { if (g_gsn < 4) g_gsjob[g_gsn] = *j; g_gsn++; return 1; }
+static void gs_skin(const GsJob *j, float *P, float *N) {
+  unsigned n = j->count1 + j->count2 + j->ndups;
+  for (unsigned k = 0; k < n; k++) {
+    unsigned q = k < j->count1 + j->count2 ? k : j->dups[k - j->count1 - j->count2];
+    float pa[4] = {0, 0, 0, 0}, pb[4] = {0, 0, 0, 0}, na[3] = {0, 0, 0}, nb[3] = {0, 0, 0}; unsigned ba, bb;
+    #define GSB(w) (j->bonelist ? j->bonelist[((w) >> j->shift) & 0x7F] : (((w) >> j->shift) & 0x7F))
+    if (q < j->count1) { const float *f = j->src + 6 * q; pa[0] = f[0]; pa[1] = f[1]; pa[2] = f[2]; pa[3] = 1; na[0] = f[3]; na[1] = f[4]; na[2] = f[5]; ba = bb = GSB(j->words[2 * q]); }
+    else { const float *f = j->src + 6 * j->count1 + 14 * (q - j->count1);
+      pa[0] = f[0]; pa[1] = f[2]; pa[2] = f[4]; pa[3] = f[6]; pb[0] = f[1]; pb[1] = f[3]; pb[2] = f[5]; pb[3] = f[7];
+      na[0] = f[8]; na[1] = f[10]; na[2] = f[12]; nb[0] = f[9]; nb[1] = f[11]; nb[2] = f[13];
+      ba = GSB(j->words[2 * q]); bb = GSB(j->words[2 * q + 1]); }
+    #undef GSB
+    const float *A = j->matrices + 16 * ba, *B = j->matrices + 16 * bb;
+    for (int c = 0; c < 3; c++) {
+      P[3 * k + c] = pa[0] * A[c] + pa[1] * A[4 + c] + pa[2] * A[8 + c] + pa[3] * A[12 + c] + pb[0] * B[c] + pb[1] * B[4 + c] + pb[2] * B[8 + c] + pb[3] * B[12 + c];
+      N[3 * k + c] = na[0] * A[c] + na[1] * A[4 + c] + na[2] * A[8 + c] + nb[0] * B[c] + nb[1] * B[4 + c] + nb[2] * B[8 + c];
+    }
+  }
+}
+static void gpu_skin_test(void) {
+  enum { C1 = 20, C2 = 20, ND = 3, NV = C1 + C2 + ND };
+  HMODULE sf = GetModuleHandleA("speedfix.dll");
+  int (*job)(void *, int) = (int (*)(void *, int))GetProcAddress(sf, "sf_gpu_skin");
+  void (*settest)(void *) = (void (*)(void *))GetProcAddress(sf, "sf_gpu_skin_test");
+  check(job && settest, "gpu_skin: speedfix exports sf_gpu_skin and sf_gpu_skin_test");
+  if (!job || !settest) return;
+  static uint8_t self[0x80], v10[0xA0]; static float src[C1 * 6 + C2 * 14 + 16], msrc[C1 * 6 + C2 * 14 + 16], mats[40 * 16];
+  static uint16_t words[2 * (C1 + C2)], blist[8] = {3, 7, 12, 20, 31, 5, 9, 1}, dups[ND] = {2, 25, 39}, counts[2] = {C1, C2};
+  static float out[4][NV * 3 + 8], ref[2][NV * 3];
+  unsigned seed = 12345;
+  #define RNDF() (seed = seed * 1103515245u + 12345u, (float)((seed >> 8) & 0xFFFF) / 32768.0f - 1.0f)
+  for (unsigned i = 0; i < sizeof src / 4; i++) { src[i] = RNDF(); msrc[i] = RNDF(); }
+  for (unsigned i = 0; i < sizeof mats / 4; i++) mats[i] = RNDF();
+  for (int i = 0; i < 2 * (C1 + C2); i++) { seed = seed * 1103515245u + 12345u; words[i] = (uint16_t)(((seed >> 9) & 7) | (((seed >> 13) & 7) << 7)); }
+  memset(self, 0, sizeof self); memset(v10, 0, sizeof v10);
+  *(uint16_t *)(self + 0x32) = 0x80; self[0x34] = 1;                    /* a bone list; mirrored */
+  *(void **)(self + 0x3C) = blist; *(void **)(self + 0x42) = counts; *(void **)(self + 0x48) = words; *(void **)(self + 0x5E) = v10;
+  *(void **)(v10 + 0x6E) = src; *(void **)(v10 + 0x76) = msrc; *(void **)(v10 + 0x5C) = dups; *(uint32_t *)(v10 + 0x60) = ND;
+  *(void **)(v10 + 0x8E) = out[0]; *(void **)(v10 + 0x92) = out[1]; *(void **)(v10 + 0x96) = out[2]; *(void **)(v10 + 0x9A) = out[3];
+  *(void **)(v10 + 0x40) = (void *)0x1111; *(void **)(v10 + 0x44) = (void *)0x2222; *(void **)(v10 + 0x48) = (void *)0x3333;
+  *(void **)(v10 + 0x50) = (void *)0x4444; *(void **)(v10 + 0x54) = (void *)0x5555;
+  void *old774 = *(void **)GAME(0x1045B774u); uint32_t old618 = *(uint32_t *)GAME(0x1045B618u); void *old550 = *(void **)GAME(0x10457550u);
+  *(void **)GAME(0x1045B774u) = NULL; *(uint32_t *)GAME(0x1045B618u) = C1 | (C2 << 16); *(void **)GAME(0x10457550u) = mats;
+  typedef void (__attribute__((thiscall)) *SkinFn)(void *);
+  settest((void *)gs_take);
+  for (int sse = 0; sse < 2; sse++) {
+    uint8_t keep = g_cpu[9]; g_cpu[9] = (uint8_t)sse;
+    memset(out, 0, sizeof out);
+    ((SkinFn)GAME(0x1002F1D0u))(self);
+    g_cpu[9] = keep;
+    g_gsn = 0; int took = job(self, (int)(uintptr_t)v10);
+    double worst = 0; int okjobs = took == 1 && g_gsn == 2;
+    for (int v = 0; okjobs && v < 2; v++) {
+      const GsJob *j = &g_gsjob[v];
+      okjobs = j->variant == (unsigned)v && j->pos == (void *)(uintptr_t)(v ? 0x4444 : 0x2222) && j->nrm == (void *)(uintptr_t)(v ? 0x5555 : 0x3333) &&
+               j->key == (void *)0x1111 && j->count1 == C1 && j->count2 == C2 && j->ndups == ND;
+      if (!okjobs) break;
+      gs_skin(j, ref[0], ref[1]);
+      for (int k = 0; k < NV * 3; k++) { double e1 = fabs((double)ref[0][k] - out[v * 2][k]), e2 = fabs((double)ref[1][k] - out[v * 2 + 1][k]); if (e1 > worst) worst = e1; if (e2 > worst) worst = e2; }
+    }
+    printf("    gpu_skin: the game's %s loop against the job's sums: jobs taken %d (%d handed), worst difference %.3g over %d vertices x 2 sets\n",
+           sse ? "SSE" : "x87", took, g_gsn, worst, NV);
+    char what[200]; snprintf(what, sizeof what, "gpu_skin: the job equals the game's own skinning (0x1002F1D0, its %s loop): positions and normals of both sets within 1e-4", sse ? "SSE" : "x87");
+    check(okjobs && worst < 1e-4, what);
+  }
+  /* the second route ([0x1045B774] set) and counts that do not agree are left to the game */
+  *(void **)GAME(0x1045B774u) = (void *)self; g_gsn = 0; int t1 = job(self, (int)(uintptr_t)v10);
+  *(void **)GAME(0x1045B774u) = NULL; counts[0] = C1 + 1; int t2 = job(self, (int)(uintptr_t)v10); counts[0] = C1;
+  check(t1 == 0 && t2 == 0 && g_gsn == 0, "gpu_skin: the routine's second route, and counts that do not agree, are left to the game (no job)");
+  settest(NULL);
+  *(void **)GAME(0x1045B774u) = old774; *(uint32_t *)GAME(0x1045B618u) = old618; *(void **)GAME(0x10457550u) = old550;
+  #undef RNDF
 }

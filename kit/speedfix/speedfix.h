@@ -38,6 +38,7 @@ struct SfConfig {
   int precise_pacing;       // the game's frame limiter timed with the performance counter and waited on precisely
                             // (sf_main.cpp): 60.0 fps instead of 58.8
   int null_draws;           // a test: the draw calls return D3D_OK without reaching the device (sf_device.cpp)
+  int gpu_skin;             // skinning handed to d3d8on11 (D8ON11_Skin) from the fork of SkinAndDrawV2; set at the start, then switches live
   int occlusion_first;      // occlusion_late=1: a probe with no finished picture is answered without a wait: 1 hidden, 2 visible (0: the game's readback)
   int occlusion_nowait;     // occlusion_late's reads never wait when the d3d8.dll in use is d3d8on11 with D8ON11_LockDoNotWait (default 1)
   int occlusion_hold;       // occlusion_late=1: a visible object hidden only when two answers in a row say hidden (sf_occlusion.cpp)
@@ -57,6 +58,8 @@ int  sf_hook_query(const XikitHost *host);
 int  sf_fork_skinmerge(const XikitHost *host);   // XI_FORK of CYyModelDt::SkinAndDrawV2
 int  sf_fork_framestep(const XikitHost *host);   // XI_FORK of Frame_Render and the two step getters (frame_step, uncap)
 extern volatile int sf_group_on;              // skin_merge=2: sf_device.cpp groups a model's draws
+extern volatile int xi_gpuskin_on;            // the fork's gpu skinning switch (the same file)
+extern volatile long sf_gs_jobs, sf_gs_refused; extern int sf_gpuskin_api;   // sf_fork.cpp: models handed to the device, declined; D8ON11_Skin found
 extern volatile int xi_skinmerge_on;          // the fork's switch (fork/CYyModelDt__SkinAndDrawV2.fork.cpp)
 extern int sf_skinmerge_installed;
 extern int sf_framestep_installed;

@@ -449,14 +449,14 @@ HRESULT Dev::CreateVertexBuffer(UINT len, DWORD u, DWORD fvf, D3DPOOL p, IDirect
   if (!o) return D3DERR_INVALIDCALL;
   VB *b = new VB(); HRESULT hr = b->c.init(this, len, u, fvf, D3DFMT_VERTEXDATA, p, false);
   if (FAILED(hr)) { delete b; *o = NULL; return hr; }
-  live_bufs.insert(b);
+  buf_live(b, true);
   *o = b; return D3D_OK;
 }
 HRESULT Dev::CreateIndexBuffer(UINT len, DWORD u, D3DFORMAT f, D3DPOOL p, IDirect3DIndexBuffer8 **o) {
   if (!o || (f != D3DFMT_INDEX16 && f != D3DFMT_INDEX32)) return D3DERR_INVALIDCALL;
   IB *b = new IB(); HRESULT hr = b->c.init(this, len, u, 0, f, p, true);
   if (FAILED(hr)) { delete b; *o = NULL; return hr; }
-  live_bufs.insert(b);
+  buf_live(b, true);
   *o = b; return D3D_OK;
 }
 HRESULT Dev::CreateRenderTarget(UINT w, UINT h, D3DFORMAT f, D3DMULTISAMPLE_TYPE ms, WINBOOL lockable, IDirect3DSurface8 **o) {
@@ -857,7 +857,7 @@ extern "C" unsigned __stdcall D8ON11_LockDoNotWait(void) { return D8ON11_LOCK_DO
 // The bone table goes with the job only when a bone this mesh uses differs from the table last sent.
 int Dev::skin(const D8Skin *j) {
   if (!j || j->size != sizeof(D8Skin) || !gpu_skin || j->variant > 1 || !j->src || !j->words || !j->matrices || (j->ndups && !j->dups)) return 0;
-  if (!live_bufs.count(j->pos) || !live_bufs.count(j->nrm) || !live_bufs.count(j->key) || j->pos == j->nrm) {
+  if (!buf_is_live(j->pos) || !buf_is_live(j->nrm) || !buf_is_live(j->key) || j->pos == j->nrm) {
     if (!skin_refused++) d8_log("gpu_skin: a job's buffers are not this device's vertex and index buffers (another layer wraps them?): refused; the caller skins as before");
     return 0;
   }

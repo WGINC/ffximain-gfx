@@ -145,6 +145,35 @@ exec_batch.
   the log (every 600 Presents) counts the merged draws and the draws they took in.
 - Tests: every scene with it equals the scene without it, in each mode, with 4 MB slot arenas and with 512-byte ones that fill and start again.
 
+**Delta draws (`draw_delta=1`; 11 Nov; off by default until it is measured in the game).**
+- A draw packet is 3,200 bytes, built from the device's state at every draw (2.2-2.4 us of the game's thread each in
+  the owner's run of 16 Nov).
+- `sgen` counts every device call that can change what the packet's first 3,024 bytes are built from: the 28 methods
+  that write the state, the state blocks, the targets or the vertex shader table. The stream sources and the index
+  buffer are in the last 176 bytes.
+- A buffer draw (not a fan, not ...UP) made with `sgen` as it was at the last full packet sends only those 176 bytes
+  (X_DRAW_SAME). The executor puts them after the last packet's head and runs the draw as any other.
+- `draw delta` in the log (every 600 Presents) counts draws sent as deltas and in full.
+- Tests: every scene equals the scene without it, in each mode, one by one and with batches, the arena and merging.
+
+**GPU skinning (`gpu_skin=1`; 11 Nov; off by default until it is measured in the game; `d8_skin.h`).**
+- `D8ON11_Skin(const D8Skin *)` (exported) takes one skinning job from a mod in the game's own layout
+  (docs/FORMATS.md 2.4): the source vertices, the bone words, the bone list, the duplicates, the bone matrices, and the
+  two vertex buffers the skinned positions and normals would have been written to. It answers 1 if taken.
+- The D3D8 side makes a static source buffer once per mesh and variant: 64 bytes a vertex (both bones' position and
+  normal terms, the two bone numbers after the bone list). It is kept with the mesh's index buffer and freed with it.
+- The bone table (up to 256 bones) is sent with the job only when a bone this mesh uses differs from the last sent.
+- The two buffers then stand for the mesh until either is written again. A draw that reads them as float3 positions
+  from stream 0 and float3 normals from stream 1 of one job gets its position element as `SE_SKIN` and no normal
+  element; the executor binds the source in stream 0's place and the palette as constant buffer 1, and the vertex
+  shader computes `pa . bones[a] + pb . bones[b]` (w on row 3) and the normal from rows 0 to 2.
+- A draw that reads such a buffer any other way is not made; the log says so once.
+- Refused (the caller skins as before): buffers that are not this device's (another layer wrapping them), a bone
+  number of 256 or more, a duplicate past the mesh's vertices, a locked buffer.
+- draw_merge treats a skinned draw's stream 0 as its source, and merges only draws of one palette.
+- Tests: scenes `skin_cpu` (t8 skins on the CPU) and `skin_gpu` (through D8ON11_Skin) are equal pixel for pixel in
+  each mode, alone and with every other lever on.
+
 **CopyRects into a lockable texture.** A CopyRects from a GPU surface (a render target, the back buffer, another
 texture) into a texture level marks that level's CPU copy stale; the level's next LockRect reads it back first
 (X_READBACK, which waits for the executor to run the copy), so the lock holds the copied texels and its unlock sends

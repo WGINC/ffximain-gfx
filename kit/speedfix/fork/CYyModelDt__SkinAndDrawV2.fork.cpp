@@ -13,6 +13,11 @@ extern "C" { volatile int xi_skinmerge_on = 1; }     // the gate's run of the me
 #else
 extern "C" { volatile int xi_skinmerge_on; }
 #endif
+// ---- gpu skinning (kit/d3d8on11/d8_skin.h): with xi_gpuskin_on the model's skinning is handed to the device in place
+// of the locks, Model_SkinVerticesCpu and the unlocks (speedfix's sf_gpu_skin, sf_fork.cpp; it answers 0 when the
+// device does not take the job, and the game's own calls run). speedfix sets it in the game (the lever gpu_skin); in
+// the gate it is 0.
+extern "C" { volatile int xi_gpuskin_on; int sf_gpu_skin(void *self, int v10) __attribute__((weak)); }
 enum { XM_MAX = 256 };
 // the held records go out: one draw per stream set for the whole run, or, for a run of one, the game's own calls
 static void xm_flush(CYyModelDt *self, int v10, unsigned first, unsigned prims, int *n)
@@ -101,6 +106,13 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
     v11 = *(_DWORD *)(v10 + 72);
     if ( v11 == 0 )
       return v11;
+    // gpu skinning: the device takes the job (never when the mirrored set's buffers are missing: the game returns there)
+    if ( xi_gpuskin_on && sf_gpu_skin && ((this->field_34 & 1) == 0 || (*(_DWORD *)(v10 + 80) != 0 && *(_DWORD *)(v10 + 84) != 0))
+         && sf_gpu_skin((void *)self, v10) )
+    {
+      *(_BYTE *)(a3 + 184) = 1;
+      goto xi_skinned;
+    }
     while ( (*(int (__stdcall **)(_DWORD, _DWORD, int, int, int))(**(_DWORD **)(v10 + 68) + 44))(
               *(_DWORD *)(v10 + 68),
               0,
@@ -161,6 +173,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
         Sleep(0);
     }
   }
+xi_skinned:
   a1 = 0;
   v12 = (unsigned __int8)((unsigned int)(g_modelColor * c_ps2White) >> 7)
       | (((HIWORD(g_modelColor) * HIWORD(c_ps2White)) & 0x7F80 | 0xFFC00000) << 9)

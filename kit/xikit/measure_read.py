@@ -282,7 +282,7 @@ def main(argv):
               s['mean'], s['p50'], s['p95'], s['p99'], s['max'], walked / real))
             byseg[nm].append({'frame_mean': s['mean'], 'frame_p95': s['p95'], 'speed': walked / real})
         summ['ab'] = byseg
-        for l in re.findall(r'speedfix: (?:frame_step=3|occlusion_late|liminality).*', log)[-10:]: w('- `%s`' % l[:300])
+        for l in re.findall(r'speedfix: (?:frame_step=3|occlusion_late|liminality|gpu_skin).*', log)[-12:]: w('- `%s`' % l[:300])
         for l in re.findall(r'speedfix: occlusion_late=2: .*', log)[-4:]: w('- `%s`' % l[:300])
         # the draw calls by Frame_Render's world pass (8 Nov): summed over the start
         tot = None
@@ -338,7 +338,7 @@ def main(argv):
     for d8 in (glob.glob(os.path.join(d, '..', 'd3d8on11.log')) + glob.glob(os.path.join(d, 'd3d8on11.log')) +
                glob.glob(os.path.join(d, '..', 'd3d8on11_exec.log')) + glob.glob(os.path.join(d, 'd3d8on11_exec.log'))):
         t = open(d8, errors='replace').read().splitlines()
-        keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail|gpu_time|swap chain|swap_flip|draw callers|dynamic|frame_latency|buffer.arena|game thread in d3d8on11|draw.merge', l, re.I)]
+        keep = [l for l in t if re.search(r'executor|readback snapshots|present interval|CreateDevice|not implemented|error|fail|gpu_time|swap chain|swap_flip|draw callers|dynamic|frame_latency|buffer.arena|game thread in d3d8on11|draw.merge|draw delta|gpu.skin', l, re.I)]
         w(); w('## d3d8on11.log (%s, %d lines; the executor, readback snapshot, interval and error lines)' % (os.path.basename(d8), len(t))); w(); w('```')
         w('\n'.join(keep[:60] + (['...'] + keep[-20:] if len(keep) > 80 else keep[60:80]))); w('```')
         # the executor's time a frame over the start's windows (each 600 Presents): median and the busiest tenth

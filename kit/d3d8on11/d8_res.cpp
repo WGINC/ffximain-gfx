@@ -267,7 +267,7 @@ HRESULT BufCore::unlock() {
 }
 HRESULT VB::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DVertexBuffer8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }
 ULONG VB::AddRef() { return InterlockedIncrement(&ref); }
-ULONG VB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->live_bufs.erase(this); c.destroy(); delete this; } return n; }
+ULONG VB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->buf_live(this, false); c.destroy(); delete this; } return n; }
 HRESULT VB::GetDevice(IDirect3DDevice8 **d) { *d = c.dev; c.dev->AddRef(); return D3D_OK; }
 HRESULT VB::GetDesc(D3DVERTEXBUFFER_DESC *d) {
   if (!d) return D3DERR_INVALIDCALL;
@@ -276,7 +276,7 @@ HRESULT VB::GetDesc(D3DVERTEXBUFFER_DESC *d) {
 }
 HRESULT IB::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DIndexBuffer8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }
 ULONG IB::AddRef() { return InterlockedIncrement(&ref); }
-ULONG IB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->live_bufs.erase(this); c.destroy(); delete this; } return n; }
+ULONG IB::Release() { LONG n = InterlockedDecrement(&ref); if (!n) { c.dev->buf_live(this, false); c.destroy(); delete this; } return n; }
 HRESULT IB::GetDevice(IDirect3DDevice8 **d) { *d = c.dev; c.dev->AddRef(); return D3D_OK; }
 HRESULT IB::GetDesc(D3DINDEXBUFFER_DESC *d) {
   if (!d) return D3DERR_INVALIDCALL;

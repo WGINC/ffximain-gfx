@@ -168,6 +168,10 @@ static const char kDefaultIni[] =
   ";   texture or offscreen pass) drawn as one DrawIndexedPrimitive (docs/SKINMERGE.md). Forks SkinAndDrawV2 at the\r\n"
   ";   start when on there; then live both ways\r\n"
   "skin_merge=0\r\n"
+  "; gpu_skin=1 (needs d3d8on11 with gpu_skin=1 in d3d8on11.ini): characters are skinned in d3d8on11's vertex shader;\r\n"
+  "; the game's thread neither computes nor uploads their vertices. It takes effect at the next start (SkinAndDrawV2\r\n"
+  "; is forked), then switches live; where the device declines a model, the game skins it as before.\r\n"
+  "gpu_skin=0\r\n"
   "; a measurement: the draw calls counted by the task the game's task pass is running (its vtable, and whether in the\r\n"
   ";   task's +0x20 call -- the actors' OnMove -- or its +0x24), logged with the stats. Hooks CMoTask::Dispatch at the start\r\n"
   "task_draws=0\r\n"
@@ -230,7 +234,7 @@ static SfConfig read_config(void) {
   c.texture_compression = rd("texture_compression", 1); c.texture_compression_value = rd("texture_compression_value", 15);
   c.cpu_tier = rd("cpu_tier", 1);
   c.lazy_state = rd("lazy_state", 0); c.vs_dedupe = rd("vs_dedupe", 0); c.sse_skinning = rd("sse_skinning", 0); c.block_cache = rd("block_cache", 0);
-  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.task_draws = rd("task_draws", 0); c.liminality = rd("liminality", 0) ? 1 : 0; c.lim_limbs = rd("lim_limbs", 1) ? 1 : 0; c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
+  c.merge_scenes = rd("merge_scenes", 0); c.skin_merge = rd("skin_merge", 0); c.gpu_skin = rd("gpu_skin", 0) ? 1 : 0; c.task_draws = rd("task_draws", 0); c.liminality = rd("liminality", 0) ? 1 : 0; c.lim_limbs = rd("lim_limbs", 1) ? 1 : 0; c.motion_stats = rd("motion_stats", 0); c.stats_every = rd("stats_every", 60);
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
@@ -1075,6 +1079,7 @@ static void apply_code(void) {                      // render thread, inside Pre
   apply_step_loops();
   apply_sse_skinning();
   xi_skinmerge_on = sf_cfg.skin_merge && sf_skinmerge_installed && sf_hooks_live();   // the game's draws otherwise
+  xi_gpuskin_on = sf_cfg.gpu_skin && sf_skinmerge_installed && sf_hooks_live();        // the game's skinning otherwise
   sf_group_on = sf_cfg.skin_merge >= 2 && sf_skinmerge_installed && sf_hooks_live();   // skin_merge=2: a model's draws grouped (sf_device.cpp)
   log_cpu_tier();
 }
@@ -1142,7 +1147,7 @@ static const Lever kLevers[] = {
   {"occlusion_stagger", &SfConfig::occlusion_stagger, 4}, {"skip_actor_occlusion", &SfConfig::skip_actor_occlusion, 0},
   {"skip_all_occlusion_readbacks", &SfConfig::skip_all_occlusion_readbacks, 0}, {"frame_cap_fps", &SfConfig::frame_cap_fps, 0},
   {"sse_skinning", &SfConfig::sse_skinning, 0}, {"merge_scenes", &SfConfig::merge_scenes, 0},
-  {"skin_merge", &SfConfig::skin_merge, 0}, {"precise_pacing", &SfConfig::precise_pacing, 0},
+  {"skin_merge", &SfConfig::skin_merge, 0}, {"gpu_skin", &SfConfig::gpu_skin, 0}, {"precise_pacing", &SfConfig::precise_pacing, 0},
   {"null_draws", &SfConfig::null_draws, 0}, {"occlusion_late", &SfConfig::occlusion_late, 0},
   {"occlusion_nowait", &SfConfig::occlusion_nowait, 0}, {"occlusion_first", &SfConfig::occlusion_first, 0},
   {"uncap", &SfConfig::uncap, 0}, {"frame_step", &SfConfig::frame_step, 0},
@@ -1209,7 +1214,7 @@ static void ab_read(void) {                 // ab_levers and its timings from th
   for (char *t = strtok(list, ", \t"); t; t = strtok(NULL, ", \t")) {
     int j = 0; while (j < NLEV && strcmp(kLevers[j].key, t)) j++;
     if (j == NLEV) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (not a lever)", t); continue; }
-    if (!sf_device_allows(t) || (!strcmp(t, "skin_merge") && !sf_skinmerge_installed) || ((!strcmp(t, "frame_step") || !strcmp(t, "uncap")) && !sf_framestep_installed)) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (off at this start: its hooks are not in place)", t); continue; }
+    if (!sf_device_allows(t) || ((!strcmp(t, "skin_merge") || !strcmp(t, "gpu_skin")) && !sf_skinmerge_installed) || ((!strcmp(t, "frame_step") || !strcmp(t, "uncap")) && !sf_framestep_installed)) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (off at this start: its hooks are not in place)", t); continue; }
     if (g_base.*(kLevers[j].field) == kLevers[j].off) { snprintf(bad + strlen(bad), sizeof bad - strlen(bad), " %s (set to its off value: A and B would be the same)", t); continue; }
     g_ab_use[j] = true; n++;
   }
@@ -1262,7 +1267,8 @@ extern "C" int sf_init(const XikitHost *host) {
   sf_occl_init(host);
   if (sf_device_install(host) != 0) return 1;
   if (sf_hook_query(host) != XIKIT_OK) LOG("speedfix: Occlusion_QueryScreenRect not hooked: skip_actor_occlusion does nothing");
-  if (sf_cfg.skin_merge && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge does nothing");
+  if ((sf_cfg.skin_merge || sf_cfg.gpu_skin) && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge and gpu_skin do nothing");
+  if (sf_cfg.gpu_skin && sf_skinmerge_installed) LOG("speedfix: gpu_skin: SkinAndDrawV2 runs speedfix's fork; a model's skinning is handed to d3d8on11 (D8ON11_Skin) where it takes it");
   if (sf_cfg.task_draws || sf_cfg.liminality) { if (sf_hook_dispatch(host) != XIKIT_OK) LOG("speedfix: CMoTask::Dispatch not hooked: task_draws does nothing"); }
   if ((sf_cfg.frame_step || sf_cfg.uncap) && sf_fork_framestep(host) != XIKIT_OK) LOG("speedfix: Frame_Render and the step getters not forked: frame_step and uncap do nothing");
   else if (sf_framestep_installed) LOG("speedfix: frame_step / uncap: Frame_Render (0x10011A00), Camera_GetFrameScale (0x10014CF0) and Camera_GetClampedField28 (0x10014D20) run speedfix's gated forks");
@@ -1281,6 +1287,7 @@ extern "C" void sf_frame(void) {
       if (!sf_device_allows("batch_up_draws")) g_base.batch_up = g_base.ext_cache = 0;
       if (!sf_device_allows("lazy_state")) g_base.lazy_state = 0;
       if ((g_base.frame_step || g_base.uncap) && !sf_framestep_installed) { g_base.frame_step = g_base.uncap = 0; LOG("speedfix: frame_step / uncap take effect at the next start (both were off at this one, so Frame_Render is not forked)"); }
+      if (g_base.gpu_skin && !sf_skinmerge_installed) { g_base.gpu_skin = 0; LOG("speedfix: gpu_skin takes effect at the next start (it was off at this one, so SkinAndDrawV2 is not forked)"); }
       if (g_base.skin_merge && !sf_skinmerge_installed) { g_base.skin_merge = 0; LOG("speedfix: skin_merge takes effect at the next start (it was off at this one, so SkinAndDrawV2 is not forked)"); }
       log_config(g_base, "changed");
       if (sf_cfg.cpu_tier && !before.cpu_tier) LOG("speedfix: cpu_tier is decided once per start");
@@ -1294,6 +1301,8 @@ extern "C" void sf_frame(void) {
   if (GetTickCount() - last_stats >= (DWORD)sf_cfg.stats_every * 1000) {
     last_stats = GetTickCount();
     sf_device_stats();
+    { long gj = __atomic_exchange_n(&sf_gs_jobs, 0L, __ATOMIC_SEQ_CST), gr = __atomic_exchange_n(&sf_gs_refused, 0L, __ATOMIC_SEQ_CST);
+      if (gj + gr || sf_cfg.gpu_skin) LOG("speedfix: gpu_skin: %ld models' skinning handed to the device, %ld left to the game (declined); D8ON11_Skin %s", gj, gr, sf_gpuskin_api ? "found" : "not found yet or not exported"); }
     LONG rs = InterlockedExchange(&g_rb_skipped, 0), rr = InterlockedExchange(&g_rb_run, 0);
     LONG as = InterlockedExchange(&sf_aq_skipped, 0), ar = InterlockedExchange(&sf_aq_run, 0);
     if (rs + rr) LOG("speedfix: occlusion readbacks: %ld run, %ld skipped", rr, rs);

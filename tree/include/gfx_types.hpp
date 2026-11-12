@@ -139,7 +139,6 @@ class CYyModelDt_VT_1032A72C;
 class CYyMotionQue;
 class CYyMusicLoadTask;
 class CYyObject;
-class CYyObject_VT_1032A9F8;
 class CYyOs2VtxBuffer;
 class CYySkl;
 class CYySoundElem;

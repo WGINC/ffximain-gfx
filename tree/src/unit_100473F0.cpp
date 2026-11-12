@@ -8,8 +8,8 @@ XI_API unsigned __int8 * __cdecl Unit100473F0_InitFromRenderTarget(void)
   unsigned __int8 *result;
   g_lightmapFrameTable = 0.0;
   flt_1047BBCC = 0.0;
-  flt_1047BBD0 = (float)*((int *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 2);
+  g_targetRectMaxX = (float)*((int *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 2);
   result = orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528));
-  flt_1047BBD4 = (float)*((int *)result + 3);
+  g_targetRectMaxY = (float)*((int *)result + 3);
   return result;
 }

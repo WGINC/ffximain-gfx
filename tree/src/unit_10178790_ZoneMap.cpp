@@ -216,7 +216,7 @@ XI_API int __thiscall ZoneMap_DrawMeshGroupsWithFog(CTsZoneMap *self_, _DWORD *a
   (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_NORMALIZENORMALS, FALSE);
   (*(unsigned int *)((char *)self_ + 0x39118)) = 0;
   (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_FOGENABLE, TRUE);
-  if ( (*(unsigned __int8 *)&g_pCDx->field_92D) != 0 )
+  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92D)) != 0 )
   {
     (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_FOGVERTEXMODE, D3DFOG_NONE);
     (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_FOGTABLEMODE, D3DFOG_LINEAR);
@@ -225,12 +225,12 @@ LABEL_3:
     pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
     goto LABEL_4;
   }
-  if ( (*(unsigned __int8 *)&g_pCDx->field_92E) != 0 )
+  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92E)) != 0 )
   {
     (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_FOGVERTEXMODE, D3DFOG_LINEAR);
     (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_FOGTABLEMODE, D3DFOG_NONE);
     pDevice = (g_pCDx->pDevice);
-    if ( (*(unsigned __int8 *)&g_pCDx->field_92F) == 0 )
+    if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x92F)) == 0 )
       goto LABEL_3;
     pDevice->SetRenderState(D3DRS_RANGEFOGENABLE, TRUE);
   }
@@ -1878,19 +1878,6 @@ XI_API void * __thiscall ZoneMap_SetVtableApplyRecord(void * self_)
   *(uint8_t ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_103367b8;
   orig::FUN_10187050(self_);
   return self_;
-}
-
-// FUNCTION: FFXIMAIN 0x10187470  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
-XI_API void __thiscall ZoneMap_Destroy(void * self_)
-{
-  *(uint8_t ***)self_ = &PTR_CYyObject_GetRuntimeClass_variant18_103367b8;
-  if (*(void **)(g_pXiZone_as_s32 + 0x1c4) == self_) {
-    *(uint32_t *)(g_pXiZone_as_s32 + 0x1c4) = 0;
-  }
-  orig::XiZone_DestroyChildList(self_);
-  orig::FUN_10188940();
-  return;
 }
 
 // FUNCTION: FFXIMAIN 0x101874A0  (unit unit_10178790_ZoneMap: no unit evidence of its own; in the gap between 0x10178780 (CTsZoneMap) and 0x101889C0 (XiZone) -- an unnamed source file)

@@ -163,20 +163,20 @@ char CMoElem::CMoElemFamily_SharedCleanup()
   int v9;
   *self = (int)&CMoElem_vtbl_ambiguous3;
   v2 = --g_countdown_1047BC6C;
-  v3 = (int *)this->field_FC;
+  v3 = (int *)this->listAResourceHandle;
   if ( v3 != nullptr )
     v4 = *v3;
   else
     v4 = 0;
-  v5 = (_DWORD **)this->field_100;
-  this->field_FC = 0;
+  v5 = (_DWORD **)this->listBResourceHandle;
+  this->listAResourceHandle = 0;
   if ( v5 == nullptr )
-    v5 = (_DWORD **)this->field_FC;
+    v5 = (_DWORD **)this->listAResourceHandle;
   if ( v5 != nullptr )
     v6 = *v5;
   else
     v6 = nullptr;
-  this->field_100 = 0;
+  this->listBResourceHandle = 0;
   if ( v6 != nullptr )
     orig::CMoGeneratorClone_UnlinkElemListB(v6, (int)self);
   if ( v4 != 0 )
@@ -184,13 +184,13 @@ char CMoElem::CMoElemFamily_SharedCleanup()
     orig::CMoGeneratorClone_UnlinkElemListA((_DWORD *)v4, (int)self);
     orig::CMoResource_ReleaseChain(v4, v7);
   }
-  v8 = (int *)this->field_164;
+  v8 = (int *)this->backrefResourceHandle;
   if ( v8 != nullptr )
   {
     v9 = *v8;
     orig::CMoResource_ReleaseChain(*v8, v2);
     *(_DWORD *)(v9 + 248) = 0;
-    this->field_164 = 0;
+    this->backrefResourceHandle = 0;
     if ( (*(_WORD *)(v9 + 24) & 0x7FFF) == 0 )
     {
       orig::MoRes_FreeIfUnreferenced(*(int **)(v9 + 20));
@@ -202,29 +202,15 @@ char CMoElem::CMoElemFamily_SharedCleanup()
     orig::MoRes_FreeIfUnreferenced(*(int **)(v4 + 20));
     orig::NodePool_ReleaseNode((unsigned int *)g_pMeshResourceMng, *(unsigned int **)(v4 + 20));
   }
-  if ( this->field_108 != 0 )
+  if ( this->headeredAllocation != 0 )
   {
-    orig::Mem_FreeWithHeader12(this->field_108);
-    this->field_108 = 0;
+    orig::Mem_FreeWithHeader12(this->headeredAllocation);
+    this->headeredAllocation = 0;
   }
   orig::OcclusionQuery_Release((int *)((char *)self + 383));
   *self = (int)&CMoOtTask_vtbl_ambiguous1;
   orig::LinkNode_Unlink(self + 13);
   return orig::CMoTask_Destructor(self);
-}
-
-// FUNCTION: FFXIMAIN 0x10044AA0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
-undefined4 __thiscall CMoElem::SetSourceAt0FC(void * self, int param_1)
-{
-  uint32_t uVar1;
-  
-  if (param_1 != 0) {
-    *(uint32_t *)((int)self + 0xfc) = *(uint32_t *)(param_1 + 0x14);
-    uVar1 = orig::FUN_10048100((int)self);
-    return uVar1;
-  }
-  return self;
 }
 
 // FUNCTION: FFXIMAIN 0x10044AC0  (placed by IDB name; static (takes no this))
@@ -327,15 +313,6 @@ LAB_10044bfd:
   *(uint32_t *)((int)self + 0x18c) = 0;
   *(uint32_t *)((int)self + 400) = 0;
   return uVar4 & 0xffffff00;
-}
-
-// FUNCTION: FFXIMAIN 0x10044C20  (unit CMoElem: class model places it in CMoElem)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
-XI_API void __thiscall CMoElem_SetSourceAt100(void * self_, int param_1)
-{
-  *(uint32_t *)((int)self_ + 0x100) = *(uint32_t *)(param_1 + 0x14);
-  orig::FUN_10048190((int)self_);
-  return;
 }
 
 // FUNCTION: FFXIMAIN 0x10045800  (placed by IDB name; static (takes no this))
@@ -566,9 +543,9 @@ XI_API int __thiscall YmElem_SetupDevice(void *self_, int a1)
   v35 = (int)self_;
   if ( (_WORD)a1 == 0xFFFF )
     a1 = (int)(((uint32_t)(a1) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*((_WORD *)self_ + 182)) << 0));
-  ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
+  ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
   v4 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-  (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
+  (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
   orig::CMoDX_SetViewMatrix((_DWORD ***)g_pResourceMng, ((float *)((char *)g_pProcessor + 0x810)));
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
   v34 = 0;
@@ -647,51 +624,51 @@ LABEL_9:
       v8 = (*(_BYTE *)(*v7 + 223) & 2) != 0;
     if ( *((_BYTE *)v2 + 377) == 0 && !v8 && orig::CMoElem_GetActiveField0A4(v2) != 0 )
     {
-      v9 = (g_pProcessor->ScratchMatrixStackTop);
+      v9 = (*(int *)((char *)g_pProcessor + 0xA90));
       v10 = ((float * *)((char *)g_pProcessor + 0xA10))[v9];
-      (g_pProcessor->ScratchMatrixStackTop) = v9 + 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v9 + 1;
       qmemcpy(v10, (const void *)orig::CMoElem_GetActiveField0A4((int **)v35), 0x40u);
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))(*(void * *)&g_pProcessor->vftable) + 30))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))(*(void * *)((char *)g_pProcessor + 0x0)) + 30))(
         g_pProcessor,
         v4,
         v4,
         1083624418);
       orig::CMoElem_InvertInPlace(v10);
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)&g_pProcessor->vftable) + 8))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 8))(
         g_pProcessor,
         v4,
         v4,
         v10);
       v11 = g_pProcessor;
-      v12 = (g_pProcessor->ScratchMatrixStackTop) - 1;
-      (g_pProcessor->ScratchMatrixStackTop) = v12;
+      v12 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v12;
       ((float * *)((char *)v11 + 0xA10))[v12] = v10;
       v2 = (int **)v35;
     }
     if ( (((unsigned int)v2[67] >> 6) & 7) != 0 && (((unsigned int)v2[67] >> 6) & 7) <= 2 && ((_BYTE)v2[67] & 1) != 0 )
     {
-      v13 = (g_pProcessor->ScratchMatrixStackTop);
+      v13 = (*(int *)((char *)g_pProcessor + 0xA90));
       v14 = ((float * *)((char *)g_pProcessor + 0xA10))[v13];
-      (g_pProcessor->ScratchMatrixStackTop) = v13 + 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v13 + 1;
       qmemcpy(v14, (const void *)(g_pResourceMng + 2896), 0x40u);
       v14[12] = 0.0;
       v14[13] = 0.0;
       v14[14] = 0.0;
       v14[15] = 1.0;
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)&g_pProcessor->vftable) + 9))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 9))(
         g_pProcessor,
         v4,
         v14,
         v4);
       qmemcpy(v4, v14, 0x40u);
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))(*(void * *)&g_pProcessor->vftable) + 30))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, int))(*(void * *)((char *)g_pProcessor + 0x0)) + 30))(
         g_pProcessor,
         v4,
         v4,
         1078530008);
       v15 = g_pProcessor;
-      v16 = (g_pProcessor->ScratchMatrixStackTop) - 1;
-      (g_pProcessor->ScratchMatrixStackTop) = v16;
+      v16 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+      (*(int *)((char *)g_pProcessor + 0xA90)) = v16;
       ((float * *)((char *)v15 + 0xA10))[v16] = v14;
       v2 = (int **)v35;
     }
@@ -702,7 +679,7 @@ LABEL_9:
         orig::XiZone_GetDirLight(g_pXiZone, &v36, 0, *(_DWORD *)(*v17 + 196));
       else
         orig::XiZone_GetDirLight(g_pXiZone, &v36, 0, 0);
-      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))(*(void * *)&g_pProcessor->vftable) + 20))(
+      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))(*(void * *)((char *)g_pProcessor + 0x0)) + 20))(
         g_pProcessor,
         v37,
         v4,
@@ -726,12 +703,12 @@ LABEL_9:
       {
         orig::XiZone_GetDirLights((int)g_pXiZone, &v36, v38);
       }
-      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))(*(void * *)&g_pProcessor->vftable) + 20))(
+      (*((void (__thiscall **)(CMoProcessor *, _BYTE *, float *, _BYTE *))(*(void * *)((char *)g_pProcessor + 0x0)) + 20))(
         g_pProcessor,
         v37,
         v4,
         v37);
-      (*((void (__thiscall **)(CMoProcessor *, int *, float *, int *))(*(void * *)&g_pProcessor->vftable) + 20))(
+      (*((void (__thiscall **)(CMoProcessor *, int *, float *, int *))(*(void * *)((char *)g_pProcessor + 0x0)) + 20))(
         g_pProcessor,
         &v39,
         v4,
@@ -823,8 +800,8 @@ LABEL_9:
       orig::XiZone_GetAmbient((char *)g_pXiZone, &v35, 0, *(_DWORD *)(*v27 + 196));
     else
       orig::XiZone_GetAmbient((char *)g_pXiZone, &v35, 0, 0);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_AMBIENT, v35);
-    (g_pCDx->pDevice)->lpVtbl->SetMaterial((g_pCDx->pDevice), &Fn100467E0_material);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_AMBIENT, v35);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetMaterial((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &Fn100467E0_material);
   }
   if ( (Fn100467E0_staticGuards & 1) == 0 )
   {
@@ -834,8 +811,8 @@ LABEL_9:
   }
   orig::StateBlock_ApplyTSS(Fn100467E0_stateBlock, (int)Fn100467E0_textureStageStates);
   result = (int)g_pProcessor;
-  v28 = (g_pProcessor->ScratchMatrixStackTop) - 1;
-  (g_pProcessor->ScratchMatrixStackTop) = v28;
+  v28 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+  (*(int *)((char *)g_pProcessor + 0xA90)) = v28;
   *(_DWORD *)(result + 4 * v28 + 2576) = v4;
   result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(0) << 0));
   return result;

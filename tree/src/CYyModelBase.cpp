@@ -217,7 +217,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
   char *v24;
   char *v25;
   int v26;
-  v5 = this->field_C4;
+  v5 = this->cubemapSpecTexture;
   v26 = self;
   if ( v5 == -1 )
   {
@@ -226,7 +226,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
       v7 = *v6;
     else
       v7 = 0;
-    this->field_C4 = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, c_texNameCubemapSpec, v7);
+    this->cubemapSpecTexture = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, c_texNameCubemapSpec, v7);
   }
   (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_AMBIENT, g_ambientColor);
   v8 = 0;

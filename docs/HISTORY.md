@@ -4900,6 +4900,18 @@ before any of 11-12 Nov's generator changes: so it predates them (the last commi
 - every other function compiles to the same code (shape.py same, per function).
 Tree round r20 (regen, cases, gate) is run so that the 41 are gated again before the tree is installed.
 
+## 12 Nov (later): tree rounds r20 and r21 -- the names, the shaping rules, and the current facts installed
+
+- **r20** (tree_round.py regen, cases, gate, install): 4,880 functions (the 17 the facts leave out are gone).
+  Fuzz gate against the installed record: 3 functions PASS -> not PASS (0x10003890 INCONCLUSIVE, 0x10010D20
+  UNRESOLVED, 0x100E08D0 INCONCLUSIVE). Read: each was already non-PASS under the fuzz gate in the committed record
+  and PASS only by the live gates on the owner's dumps; install's live-gate merge gave all three PASS again. For
+  that merge, tree_round.py now compares both trees' text after the same shaping rewrites (one side had a rule put
+  back). Installed: 4,867 PASS, the same 13 not verified as before (8 FAIL, 3 INCONCLUSIVE, 2 UNRESOLVED).
+  regen_facts.py: nothing changed (fixpoint).
+- In r20 source_shape.py put the new rules back in 46 functions for a reason that was not theirs (docs/SHAPE.md);
+  the proof's baseline is fixed, and **r21** regenerates with it.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

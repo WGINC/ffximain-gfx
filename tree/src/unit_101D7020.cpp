@@ -5739,7 +5739,7 @@ XI_API undefined4 __thiscall Unit101D7020_HandleChoice(void * self_, undefined4 
        (((iVar1 == 3 || (iVar1 == 2)) && ((short)param_1 == 2)))) {
       uVar3 = orig::FUN_1011ba40(DAT_10578188);
       if ((char)uVar3 == '\0') {
-        uVar2 = orig::FUN_1012ca90(&LAB_10211330);
+        uVar2 = orig::FUN_1012ca90(*(void **)(unsigned int)XI_GAME(0x10578188u), &LAB_10211330);
         return uVar2;
       }
       uVar2 = orig::Unit101D7020_ApplyMusicVolume();
@@ -5767,7 +5767,7 @@ XI_API undefined4 __cdecl Unit101D7020_ApplyMusicVolume(void)
   if (((char)uVar2 != '\0') && (*(char *)((int)DAT_10578188 + 0x24) != '\0')) {
     orig::SetMusicTrackVolume_B();
   }
-  uVar1 = orig::FUN_1012cad0();
+  uVar1 = orig::FUN_1012cad0(*(void **)(unsigned int)XI_GAME(0x10578188u));
   return uVar1;
 }
 

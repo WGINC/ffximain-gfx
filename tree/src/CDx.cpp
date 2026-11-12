@@ -51,74 +51,74 @@ char CDx::Initialize()
 
   v2 = &at<uint8_t>(this, 0x834);
   (this->pDevice)->lpVtbl->GetDeviceCaps((this->pDevice), &at<uint8_t>(this, 0x834));
-  *(_DWORD *)&this->field_924 = 8;
-  *(_DWORD *)&this->field_928 = 1;
+  *(_DWORD *)&this->vertexBufferUsage = 8;
+  *(_DWORD *)&this->vertexBufferPool = 1;
   if ( (*((_DWORD *)v2 + 7) & 0x10000) != 0 )
   {
-    this->field_908 = 1;
-    *(_DWORD *)&this->field_924 = 8;
-    *(_DWORD *)&this->field_928 = 1;
+    this->hasHwTransformAndLight = 1;
+    *(_DWORD *)&this->vertexBufferUsage = 8;
+    *(_DWORD *)&this->vertexBufferPool = 1;
   }
   else
   {
-    *(_DWORD *)&this->field_924 = 16;
-    *(_DWORD *)&this->field_928 = 2;
+    *(_DWORD *)&this->vertexBufferUsage = 16;
+    *(_DWORD *)&this->vertexBufferPool = 2;
   }
   if ( *((_DWORD *)v2 + 49) >= 0xFFFE0101 )
   {
-    this->field_909 = 1;
-    *(_WORD *)&this->field_90C = 257;
+    this->hasVertexShader11 = 1;
+    *(_WORD *)&this->vertexShaderVersion = 257;
   }
   if ( *((_DWORD *)v2 + 51) >= 0xFFFF0101 )
   {
-    this->field_90A = 1;
-    *(_WORD *)&this->field_90E = 257;
+    this->hasPixelShader11 = 1;
+    *(_WORD *)&this->pixelShaderVersion = 257;
     if ( *((_DWORD *)v2 + 51) >= 0xFFFF0104 )
-      *(_WORD *)&this->field_90E = 260;
+      *(_WORD *)&this->pixelShaderVersion = 260;
     if ( *((_DWORD *)v2 + 51) >= 0xFFFF0200 )
-      *(_WORD *)&this->field_90E = 512;
+      *(_WORD *)&this->pixelShaderVersion = 512;
   }
   if ( (*((_DWORD *)v2 + 8) & 0x800) != 0 )
-    this->field_913 = 1;
+    this->supportsBlendOp = 1;
   if ( (*((_DWORD *)v2 + 8) & 0x400) != 0 )
-    this->field_914 = 1;
+    this->supportsTssArgTemp = 1;
   if ( (*((_DWORD *)v2 + 3) & 0x20000) != 0 )
-    this->field_915 = 1;
-  *(_DWORD *)&this->field_918 = *((_DWORD *)v2 + 43);
+    this->supportsFullscreenGamma = 1;
+  *(_DWORD *)&this->maxVertexBlendMatrixIndex = *((_DWORD *)v2 + 43);
   if ( (*((_DWORD *)v2 + 9) & 0x20000) != 0 )
   {
     v3 = *((_DWORD *)v2 + 16);
     if ( (v3 & 0x4000000) != 0 && (v3 & 0x400) != 0 && *((_DWORD *)v2 + 27) >= 2u )
-      this->field_92C = 1;
+      this->supportsAnisotropicFilter = 1;
   }
   if ( (*((_DWORD *)v2 + 15) & 0x800) != 0 )
-    this->field_921 = 1;
+    this->supportsCubeMap = 1;
   if ( (v2[60] & 2) != 0 )
-    this->field_930 = 1;
+    this->texturesMustBePow2 = 1;
   if ( (v2[60] & 0x20) != 0 )
-    this->field_931 = 1;
+    this->texturesMustBeSquare = 1;
   *(_DWORD *)&at<uint8_t>(this, 0x934) = *((_DWORD *)v2 + 22);
   pDevice = (this->pDevice);
   *(_DWORD *)&at<uint8_t>(this, 0x938) = *((_DWORD *)v2 + 23);
   pDevice->GetDisplayMode(v21);
   v5 = v22;
-  *(_DWORD *)&this->field_830 = 32;
+  *(_DWORD *)&this->displayBitDepth = 32;
   switch ( v5 )
   {
     case 21:
     case 22:
-      *(_DWORD *)&this->field_830 = 32;
+      *(_DWORD *)&this->displayBitDepth = 32;
       break;
     case 23:
     case 24:
     case 25:
-      *(_DWORD *)&this->field_830 = 16;
+      *(_DWORD *)&this->displayBitDepth = 16;
       break;
     default:
       break;
   }
   (this->pD3D)->lpVtbl->GetAdapterDisplayMode((this->pD3D), 0, v19);
-  this->field_910 = (this->pD3D)->lpVtbl->CheckDeviceFormat(
+  this->supportsDxt1 = (this->pD3D)->lpVtbl->CheckDeviceFormat(
                               (this->pD3D),
                               0,
                               D3DDEVTYPE_HAL,
@@ -126,7 +126,7 @@ char CDx::Initialize()
                               0,
                               D3DRTYPE_TEXTURE,
                               D3DFMT_DXT1) >= 0;
-  this->field_911 = (this->pD3D)->lpVtbl->CheckDeviceFormat(
+  this->supportsDxt3 = (this->pD3D)->lpVtbl->CheckDeviceFormat(
                               (this->pD3D),
                               0,
                               D3DDEVTYPE_HAL,
@@ -134,7 +134,7 @@ char CDx::Initialize()
                               0,
                               D3DRTYPE_TEXTURE,
                               D3DFMT_DXT3) >= 0;
-  this->field_912 = (this->pD3D)->lpVtbl->CheckDeviceFormat(
+  this->supportsP8Texture = (this->pD3D)->lpVtbl->CheckDeviceFormat(
                               (this->pD3D),
                               0,
                               D3DDEVTYPE_HAL,
@@ -143,26 +143,26 @@ char CDx::Initialize()
                               D3DRTYPE_TEXTURE,
                               D3DFMT_P8) >= 0;
   if ( (this->pD3D)->lpVtbl->CheckDeviceMultiSampleType((this->pD3D), 0, D3DDEVTYPE_HAL, v20, 0, D3DMULTISAMPLE_2_SAMPLES) >= 0 )
-    *(_DWORD *)&this->field_91C = 2;
+    *(_DWORD *)&this->maxMultiSampleType = 2;
   if ( (this->pD3D)->lpVtbl->CheckDeviceMultiSampleType((this->pD3D), 0, D3DDEVTYPE_HAL, v20, 0, D3DMULTISAMPLE_4_SAMPLES) >= 0 )
-    *(_DWORD *)&this->field_91C = 4;
+    *(_DWORD *)&this->maxMultiSampleType = 4;
   if ( (*((_DWORD *)v2 + 9) & 0x100) != 0 )
-    this->field_92D = 1;
+    this->supportsTableFog = 1;
   if ( (v2[36] & 0x80u) != 0 )
-    this->field_92E = 1;
+    this->supportsVertexFog = 1;
   if ( (*((_DWORD *)v2 + 9) & 0x10000) != 0 )
-    this->field_92F = 1;
+    this->supportsRangeFog = 1;
   pD3D = (this->pD3D);
-  this->field_920 = 0;
+  this->isAtiAdapter = 0;
   pD3D->GetAdapterIdentifier(0, 2u, v24);
   if ( v25 == 4098 )
-    this->field_920 = 1;
+    this->isAtiAdapter = 1;
   *(_DWORD *)&this->field_A00 = -1;
   v7 = 0;
   if ( GetCurrentDirectoryA(0x104u, g_currentDirectory) == 0 )
   {
     v13 = aMousenorAni;
-    v18 = &this->field_A04;
+    v18 = &this->hardwareCursors;
     do
     {
       v14 = 0;
@@ -194,7 +194,7 @@ LABEL_68:
         *(_WORD *)(v9 - 1) = c_strBackslash;
     }
     v10 = aMousenorAni;
-    v17 = &this->field_A04;
+    v17 = &this->hardwareCursors;
     do
     {
       v11 = 0;
@@ -1230,9 +1230,9 @@ int CDx::SetLight(int a2, float *a3)
   }
   qmemcpy(v5, a3, sizeof(v5));
   if ( orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)this, v5) == 1 )
-    return (this->pDevice)->lpVtbl->SetLight((this->pDevice), a2, v5);
+    return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetLight((*(IDirect3DDevice8 * *)((char *)this + 0xC)), a2, v5);
   else
-    return (this->pDevice)->lpVtbl->SetLight((this->pDevice), a2, a3);
+    return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetLight((*(IDirect3DDevice8 * *)((char *)this + 0xC)), a2, a3);
 }
 
 // FUNCTION: FFXIMAIN 0x1000C0B0  (placed by IDB name)
@@ -1466,35 +1466,35 @@ int CDx::ReleaseStereoResources()
   int v5;
   int v6;
   int result;
-  v2 = *(_DWORD *)&this->field_814;
+  v2 = *(_DWORD *)&this->stereoStripeTexture0;
   if ( v2 != 0 )
   {
     (*(void (__stdcall **)(int))(*(_DWORD *)v2 + 8))(v2);
-    *(_DWORD *)&this->field_814 = 0;
+    *(_DWORD *)&this->stereoStripeTexture0 = 0;
   }
-  v3 = *(_DWORD *)&this->field_818;
+  v3 = *(_DWORD *)&this->stereoStripeTexture1;
   if ( v3 != 0 )
   {
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v3 + 8))(*(_DWORD *)&this->field_818);
-    *(_DWORD *)&this->field_818 = 0;
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v3 + 8))(*(_DWORD *)&this->stereoStripeTexture1);
+    *(_DWORD *)&this->stereoStripeTexture1 = 0;
   }
-  v4 = *(_DWORD *)&this->field_81C;
+  v4 = *(_DWORD *)&this->stereoStripeTexture2;
   if ( v4 != 0 )
   {
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v4 + 8))(*(_DWORD *)&this->field_81C);
-    *(_DWORD *)&this->field_81C = 0;
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v4 + 8))(*(_DWORD *)&this->stereoStripeTexture2);
+    *(_DWORD *)&this->stereoStripeTexture2 = 0;
   }
-  v5 = *(_DWORD *)&this->field_820;
+  v5 = *(_DWORD *)&this->stereoStripeTexture3;
   if ( v5 != 0 )
   {
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v5 + 8))(*(_DWORD *)&this->field_820);
-    *(_DWORD *)&this->field_820 = 0;
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v5 + 8))(*(_DWORD *)&this->stereoStripeTexture3);
+    *(_DWORD *)&this->stereoStripeTexture3 = 0;
   }
-  v6 = *(_DWORD *)&this->field_824;
+  v6 = *(_DWORD *)&this->stereoRenderTargetTexture;
   if ( v6 != 0 )
   {
-    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v6 + 8))(*(_DWORD *)&this->field_824);
-    *(_DWORD *)&this->field_824 = 0;
+    (*(void (__stdcall **)(_DWORD))(*(_DWORD *)v6 + 8))(*(_DWORD *)&this->stereoRenderTargetTexture);
+    *(_DWORD *)&this->stereoRenderTargetTexture = 0;
   }
   result = *(_DWORD *)&at<uint8_t>(this, 0x82C);
   if ( result != 0 )

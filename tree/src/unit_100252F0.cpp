@@ -238,7 +238,7 @@ XI_API void __cdecl Unit100252F0_Nop_10025BE0(void)
 XI_API void __thiscall Unit100252F0_ClearCounter(void * self_)
 {
   *(uint8_t ***)self_ = &PTR_FUN_1032a480;
-  dword_10456E88_as_v0 = 0;
+  g_pEnvMapTexObj_as_v0 = 0;
   return;
 }
 
@@ -248,13 +248,13 @@ XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
 {
   float v4[16];
   orig::fn_10027990((Iostream_init *)v4);
-  if ( dword_10456E88 != 0 )
+  if ( g_pEnvMapTexObj != 0 )
   {
     g_envMapPrevTex0 = *a1;
     g_envMapPrevTex1 = a1[1];
     g_envMapPrevFactor = a2;
-    if ( *(_DWORD *)dword_10456E88 != 0 )
-      orig::TexRef_SetTexture((int *)(*(_DWORD *)dword_10456E88 + 48), 0);
+    if ( *(_DWORD *)g_pEnvMapTexObj != 0 )
+      orig::TexRef_SetTexture((int *)(*(_DWORD *)g_pEnvMapTexObj + 48), 0);
     (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHAFUNC, D3DCMP_ALWAYS);
     (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ZWRITEENABLE, FALSE);
     (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
@@ -262,8 +262,8 @@ XI_API char __stdcall EnvMap_BeginPass(int *a1, int a2, float *a3)
     if ( *(_DWORD *)(g_pAppSettings + 92) == 0 && g_cfgGraphicsStabilization == 0 )
       (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_WRAP0, 7u);
     orig::Mat4_SetIdentity(v4);
-    LODWORD(v4[12]) = dword_10456E74;
-    LODWORD(v4[13]) = dword_10456E78;
+    LODWORD(v4[12]) = g_envMapTexOffsetU;
+    LODWORD(v4[13]) = g_envMapTexOffsetV;
     orig::Mat4_PreMultiply(v4, a3);
     (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_LIGHTING, FALSE);
     (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHABLENDENABLE, TRUE);
@@ -308,8 +308,8 @@ XI_API int __stdcall EnvMap_EndPass(int a1)
   IDirect3DDevice8 *v5;
   struct IDirect3DDevice8Vtbl *lpVtbl;
   int v7;
-  result = dword_10456E88;
-  if ( dword_10456E88 != 0 )
+  result = g_pEnvMapTexObj;
+  if ( g_pEnvMapTexObj != 0 )
   {
     if ( g_envMapPrevTex0 != 0 )
     {

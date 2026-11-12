@@ -36,7 +36,7 @@ XI_API uint8_t __thiscall TexMgr_UploadPumpEntry(void * self_)
 XI_API void __thiscall TexMgr_Enqueue(void * self_, int param_1)
 {
   *(uint32_t *)(param_1 + 0x3c) = 1;
-  orig::FUN_1003ab40(param_1);
+  orig::FUN_1003ab40(self_, param_1);
   return;
 }
 

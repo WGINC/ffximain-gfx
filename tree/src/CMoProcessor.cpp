@@ -154,11 +154,11 @@ CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, in
   if ( g_pResourceMng != 0 )
   {
     v6 = (float *)(g_pResourceMng + 2832);
-    ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
+    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
     v27 = 10000.0;
     v8 = -10000.0;
     v9 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-    (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
+    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
     qmemcpy(v9, a5, 0x40u);
     v26 = 10000.0;
     v28 = -10000.0;
@@ -204,8 +204,8 @@ CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, in
     a1[3] = v8;
     a1[2] = v28;
     result = g_pProcessor;
-    v25 = (g_pProcessor->ScratchMatrixStackTop) - 1;
-    (g_pProcessor->ScratchMatrixStackTop) = v25;
+    v25 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
+    (*(int *)((char *)g_pProcessor + 0xA90)) = v25;
     ((float * *)((char *)result + 0xA10))[v25] = v9;
   }
   return result;

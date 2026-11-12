@@ -10,9 +10,9 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0xF8];
-    int * field_FC;  // +0xFC
+    int * listAResourceHandle;  // +0xFC pointer to a handle of the linked resource (same member as CMoElem+0xFC)
     uint8_t _pad_100[0x94];
 };
 #pragma pack(pop)
 static_assert(sizeof(CMoElem_VT_1032ADE8) == 0x194, "CMoElem_VT_1032ADE8: sizeof");
-static_assert(XI_OFFSETOF(CMoElem_VT_1032ADE8, field_FC) == 0xFC, "CMoElem_VT_1032ADE8: layout");
+static_assert(XI_OFFSETOF(CMoElem_VT_1032ADE8, listAResourceHandle) == 0xFC, "CMoElem_VT_1032ADE8: layout");

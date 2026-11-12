@@ -9,7 +9,7 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x8];
-    uint32_t field_C;  // +0xC
+    uint32_t textBlock;  // +0xC text block drawn by Obj_10621944_Draw
 };
 #pragma pack(pop)
-static_assert(XI_OFFSETOF(Obj_10621944, field_C) == 0xC, "Obj_10621944: layout");
+static_assert(XI_OFFSETOF(Obj_10621944, textBlock) == 0xC, "Obj_10621944: layout");

@@ -29,7 +29,7 @@ _DWORD * CMoOcclusionMng::OcclusionMng_CreateTarget()
   a4 = 0;
   result = orig::CDx_CreateTexture(g_pCDx, 0x10u, 0x10u, &a4, 1, 0);
   v3 = a4;
-  this->field_C = result;
+  this->occlusionTexture = result;
   this->field_10 = v3;
   return result;
 }

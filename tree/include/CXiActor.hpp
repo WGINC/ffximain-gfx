@@ -41,7 +41,6 @@ public:
     static uint32_t __thiscall GetModelFlags130Top2(void * self);  // 0x10084520
     static long double __thiscall GetModelFloat9AEC0(void * self);  // 0x10084540
     static uint32_t __thiscall IsModelMissingOrSuppressed(void * self);  // 0x10084580
-    static undefined4 __thiscall GetSubModelResult(void * self);  // 0x100845E0
     static uint32_t __thiscall TestModelFlags100000_200000_4000(void * self);  // 0x10084640
     static uint32_t __thiscall GetModelFlag120Bit5(void * self);  // 0x10084670
     static undefined4 __thiscall GetModelWord166(void * self);  // 0x10084690

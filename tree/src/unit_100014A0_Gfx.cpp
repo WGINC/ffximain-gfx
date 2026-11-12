@@ -1005,6 +1005,6 @@ XI_API void * __thiscall Gfx_InitObject(void * self_)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API void __thiscall Gfx_ResetObject(void * self_)
 {
-  orig::FUN_10003700();
+  orig::FUN_10003700((void *)((int)self_ + 0x4));
   return;
 }

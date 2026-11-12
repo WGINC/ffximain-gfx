@@ -1541,7 +1541,7 @@ XI_API int __cdecl StAvatarRender(_BYTE *arg0)
   if ( result >= 2 )
   {
     if ( g_stateBlock_914C != 0 )
-      (g_pCDx->pDevice)->lpVtbl->ApplyStateBlock((g_pCDx->pDevice), g_stateBlock_914C);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->ApplyStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), g_stateBlock_914C);
     ((void (__stdcall *)(IDirect3DDevice8 *, _DWORD, _DWORD, int, int, int, _DWORD))g_pDancerDevice->lpVtbl->XI_SLOT(Clear))(
       g_pDancerDevice,
       0,

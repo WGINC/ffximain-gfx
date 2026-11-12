@@ -8,12 +8,12 @@ int Obj_10621944::Obj_10621944_Draw()
 {
   void * self = reinterpret_cast<void *>(this);  // byte-exact view for the rest
   int result;
-  result = this->field_C;
+  result = this->textBlock;
   if ( result != 0 )
   {
     orig::Obj_10621944_DrawBgRect(self);
     (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
-    orig::Unit1018BA60_DrawTextBlockOnce(this->field_C);
+    orig::Unit1018BA60_DrawTextBlockOnce(this->textBlock);
     return (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
   }
   return result;

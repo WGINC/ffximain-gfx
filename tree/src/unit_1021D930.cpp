@@ -162,7 +162,7 @@ XI_API int __thiscall Movie_CreateFrameTextures(Vt_1033BE90 *self_, int a2)
   self_->field_168 = (3 * (v4 + 1)) & 0xFFFFFFFC;
   while ( 1 )
   {
-    result = orig::fn_102D2FB9((g_pCDx->pDevice), 0x200u, 0x200u, 1u, 0, D3DFMT_A8R8G8B8, 1, v5);
+    result = orig::fn_102D2FB9((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0x200u, 0x200u, 1u, 0, D3DFMT_A8R8G8B8, 1, v5);
     if ( result < 0 )
       break;
     ++v6;
@@ -555,7 +555,7 @@ XI_API undefined4 __attribute__((cdecl, regparm(1))) Unit1021D930_Call1021EF30If
   uint32_t uVar1;
   
   if (DAT_10666e84 != 0) {
-    uVar1 = orig::FUN_1021ef30();
+    uVar1 = orig::FUN_1021ef30(*(void **)(unsigned int)XI_GAME(0x10666E84u));
     return uVar1;
   }
   return xi_eax;
@@ -2339,14 +2339,6 @@ XI_API int __cdecl Unit1021D930_GetSlotInfo(undefined4 param_1, undefined4 * par
   return iVar3;
 }
 
-// FUNCTION: FFXIMAIN 0x10222DF0  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
-XI_API void __cdecl Unit1021D930_Call102250F0(void)
-{
-  orig::FUN_102250f0();
-  return;
-}
-
 // FUNCTION: FFXIMAIN 0x10222E20  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
 // NOT VERIFIED -- UNRESOLVED
 XI_API uint32_t __cdecl Unit1021D930_FindRecordIdByText(char * param_1, undefined4 param_2, undefined4 param_3, undefined4 param_4, undefined4 param_5)
@@ -3083,14 +3075,6 @@ LAB_10226285:
       }
     }
   }
-  return;
-}
-
-// FUNCTION: FFXIMAIN 0x10226540  (unit unit_1021D930: no unit evidence of its own; in the gap between 0x1021D880 (CXiMovie) and 0x10237710 (StAvatar) -- an unnamed source file)
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
-XI_API void __cdecl Unit1021D930_Call10226E30(void)
-{
-  orig::FUN_10226e30();
   return;
 }
 

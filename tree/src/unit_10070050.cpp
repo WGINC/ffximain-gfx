@@ -58,6 +58,6 @@ XI_API void __thiscall Unit10070050_InitMatrices(void * self_)
     puVar2 = puVar2 + 1;
     puVar3 = puVar3 + 1;
   }
-  orig::FUN_1006ce40();
+  orig::FUN_1006ce40(self_);
   return;
 }

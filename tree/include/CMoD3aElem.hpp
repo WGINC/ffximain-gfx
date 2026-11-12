@@ -14,9 +14,9 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x100];
-    int * field_104;  // +0x104
+    int * d3aDrawHandle;  // +0x104 pointer to a handle (dereferenced once) that vf18 passes to YmElem_DrawD3ASegment; null means nothing is drawn
     uint8_t _pad_108[0x8C];
 };
 #pragma pack(pop)
 static_assert(sizeof(CMoD3aElem) == 0x194, "CMoD3aElem: sizeof");
-static_assert(XI_OFFSETOF(CMoD3aElem, field_104) == 0x104, "CMoD3aElem: layout");
+static_assert(XI_OFFSETOF(CMoD3aElem, d3aDrawHandle) == 0x104, "CMoD3aElem: layout");

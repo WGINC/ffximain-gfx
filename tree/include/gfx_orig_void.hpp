@@ -143,7 +143,6 @@ namespace orig_void {
 #include "CYyMotionQue.hpp"
 #include "CYyMusicLoadTask.hpp"
 #include "CYyObject.hpp"
-#include "CYyObject_VT_1032A9F8.hpp"
 #include "CYyOs2VtxBuffer.hpp"
 #include "CYySkl.hpp"
 #include "CYySoundElem.hpp"

@@ -78,52 +78,52 @@ public:
     uint8_t clearStencil;  // +0x170 fourth Clear value (Stencil)
     uint8_t _pad_171[0x69F];
     uint32_t stereoEye;  // +0x810 0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting
-    uint8_t field_814;  // +0x814
+    uint8_t stereoStripeTexture0;  // +0x814 First of the two 1024x2 column-stripe textures made by the first CreateRampTextures1024x2 call in CreateStereoResources.
     uint8_t _pad_815[0x3];
-    uint8_t field_818;  // +0x818
+    uint8_t stereoStripeTexture1;  // +0x818 Second texture of the first stripe-texture pair.
     uint8_t _pad_819[0x3];
-    uint8_t field_81C;  // +0x81C
+    uint8_t stereoStripeTexture2;  // +0x81C First texture of the second stripe-texture pair.
     uint8_t _pad_81D[0x3];
-    uint8_t field_820;  // +0x820
+    uint8_t stereoStripeTexture3;  // +0x820 Second texture of the second stripe-texture pair.
     uint8_t _pad_821[0x3];
-    uint8_t field_824;  // +0x824
+    uint8_t stereoRenderTargetTexture;  // +0x824 Render-target texture created at the requested size for stereo mode and pushed as render target when compositing.
     uint8_t _pad_825[0x7];
     IDirect3DTexture8 * stereoOddLineTexture;  // +0x82C
-    uint8_t field_830;  // +0x830
+    uint8_t displayBitDepth;  // +0x830 Bits per pixel of the current display mode format.
     uint8_t _pad_831[0x3];
     D3DCAPS8 caps;  // +0x834
-    uint8_t field_908;  // +0x908
-    uint8_t field_909;  // +0x909
-    uint8_t field_90A;  // +0x90A
+    uint8_t hasHwTransformAndLight;  // +0x908 Device reports hardware transform and lighting.
+    uint8_t hasVertexShader11;  // +0x909 Device supports vertex shader version 1.1 or later.
+    uint8_t hasPixelShader11;  // +0x90A Device supports pixel shader version 1.1 or later.
     uint8_t _pad_90B[0x1];
-    uint8_t field_90C;  // +0x90C
+    uint8_t vertexShaderVersion;  // +0x90C Supported vertex shader version as major/minor bytes (0x0101 = 1.1).
     uint8_t _pad_90D[0x1];
-    uint8_t field_90E;  // +0x90E
+    uint8_t pixelShaderVersion;  // +0x90E Highest supported pixel shader version as major/minor bytes.
     uint8_t _pad_90F[0x1];
-    uint8_t field_910;  // +0x910
-    uint8_t field_911;  // +0x911
-    uint8_t field_912;  // +0x912
-    uint8_t field_913;  // +0x913
-    uint8_t field_914;  // +0x914
-    uint8_t field_915;  // +0x915
+    uint8_t supportsDxt1;  // +0x910 DXT1 textures are supported.
+    uint8_t supportsDxt3;  // +0x911 DXT3 textures are supported.
+    uint8_t supportsP8Texture;  // +0x912 8-bit palettized (P8) textures are supported.
+    uint8_t supportsBlendOp;  // +0x913 Device supports D3DRS_BLENDOP.
+    uint8_t supportsTssArgTemp;  // +0x914 Device supports the D3DTA_TEMP texture-stage argument.
+    uint8_t supportsFullscreenGamma;  // +0x915 Device supports a full-screen gamma ramp.
     uint8_t _pad_916[0x2];
-    uint8_t field_918;  // +0x918
+    uint8_t maxVertexBlendMatrixIndex;  // +0x918 Copy of D3DCAPS8::MaxVertexBlendMatrixIndex.
     uint8_t _pad_919[0x3];
-    uint8_t field_91C;  // +0x91C
+    uint8_t maxMultiSampleType;  // +0x91C Highest of the 2/4-sample multisample types the adapter format supports.
     uint8_t _pad_91D[0x3];
-    uint8_t field_920;  // +0x920
-    uint8_t field_921;  // +0x921
+    uint8_t isAtiAdapter;  // +0x920 Adapter's PCI vendor ID is 0x1002 (ATI).
+    uint8_t supportsCubeMap;  // +0x921 Device supports cube textures.
     uint8_t _pad_922[0x2];
-    uint8_t field_924;  // +0x924
+    uint8_t vertexBufferUsage;  // +0x924 Usage flags passed to CreateVertexBuffer, chosen by hardware T&L support.
     uint8_t _pad_925[0x3];
-    uint8_t field_928;  // +0x928
+    uint8_t vertexBufferPool;  // +0x928 D3DPOOL passed to CreateVertexBuffer, chosen by hardware T&L support.
     uint8_t _pad_929[0x3];
-    uint8_t field_92C;  // +0x92C
-    uint8_t field_92D;  // +0x92D
-    uint8_t field_92E;  // +0x92E
-    uint8_t field_92F;  // +0x92F
-    uint8_t field_930;  // +0x930
-    uint8_t field_931;  // +0x931
+    uint8_t supportsAnisotropicFilter;  // +0x92C Device supports anisotropic min/mag filtering with MaxAnisotropy of at least 2.
+    uint8_t supportsTableFog;  // +0x92D Device supports table (pixel) fog.
+    uint8_t supportsVertexFog;  // +0x92E Device supports vertex fog.
+    uint8_t supportsRangeFog;  // +0x92F Device supports range-based vertex fog.
+    uint8_t texturesMustBePow2;  // +0x930 Device requires power-of-two texture dimensions.
+    uint8_t texturesMustBeSquare;  // +0x931 Device requires square textures.
     uint8_t _pad_932[0x2];
     uint32_t maxTextureWidth;  // +0x934
     uint32_t maxTextureHeight;  // +0x938
@@ -133,7 +133,7 @@ public:
     uint8_t _pad_9FC[0x4];
     uint8_t field_A00;  // +0xA00
     uint8_t _pad_A01[0x3];
-    uint8_t field_A04;  // +0xA04
+    uint8_t hardwareCursors;  // +0xA04 Array of loaded hardware cursor handles indexed by cursor slot.
     uint8_t _pad_A05[0x47];
     uint8_t field_A4C;  // +0xA4C
     uint8_t _pad_A4D[0x3];
@@ -150,42 +150,42 @@ static_assert(XI_OFFSETOF(CDx, clearColor) == 0x168, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearZ) == 0x16C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, clearStencil) == 0x170, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, stereoEye) == 0x810, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_814) == 0x814, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_818) == 0x818, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_81C) == 0x81C, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_820) == 0x820, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_824) == 0x824, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, stereoStripeTexture0) == 0x814, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, stereoStripeTexture1) == 0x818, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, stereoStripeTexture2) == 0x81C, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, stereoStripeTexture3) == 0x820, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, stereoRenderTargetTexture) == 0x824, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, stereoOddLineTexture) == 0x82C, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_830) == 0x830, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, displayBitDepth) == 0x830, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, caps) == 0x834, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_908) == 0x908, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_909) == 0x909, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_90A) == 0x90A, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_90C) == 0x90C, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_90E) == 0x90E, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_910) == 0x910, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_911) == 0x911, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_912) == 0x912, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_913) == 0x913, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_914) == 0x914, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_915) == 0x915, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_918) == 0x918, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_91C) == 0x91C, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_920) == 0x920, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_921) == 0x921, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_924) == 0x924, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_928) == 0x928, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_92C) == 0x92C, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_92D) == 0x92D, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_92E) == 0x92E, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_92F) == 0x92F, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_930) == 0x930, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_931) == 0x931, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, hasHwTransformAndLight) == 0x908, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, hasVertexShader11) == 0x909, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, hasPixelShader11) == 0x90A, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, vertexShaderVersion) == 0x90C, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, pixelShaderVersion) == 0x90E, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsDxt1) == 0x910, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsDxt3) == 0x911, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsP8Texture) == 0x912, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsBlendOp) == 0x913, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsTssArgTemp) == 0x914, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsFullscreenGamma) == 0x915, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, maxVertexBlendMatrixIndex) == 0x918, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, maxMultiSampleType) == 0x91C, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, isAtiAdapter) == 0x920, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsCubeMap) == 0x921, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, vertexBufferUsage) == 0x924, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, vertexBufferPool) == 0x928, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsAnisotropicFilter) == 0x92C, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsTableFog) == 0x92D, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsVertexFog) == 0x92E, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, supportsRangeFog) == 0x92F, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, texturesMustBePow2) == 0x930, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, texturesMustBeSquare) == 0x931, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, maxTextureWidth) == 0x934, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, maxTextureHeight) == 0x938, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, cachedWorld) == 0x93C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, cachedView) == 0x97C, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, cachedProjection) == 0x9BC, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_A00) == 0xA00, "CDx: layout");
-static_assert(XI_OFFSETOF(CDx, field_A04) == 0xA04, "CDx: layout");
+static_assert(XI_OFFSETOF(CDx, hardwareCursors) == 0xA04, "CDx: layout");
 static_assert(XI_OFFSETOF(CDx, field_A4C) == 0xA4C, "CDx: layout");

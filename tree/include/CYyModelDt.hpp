@@ -21,14 +21,14 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x4];
-    int32_t field_8;  // +0x8
+    int32_t modelResourceHandle;  // +0x8 handle of the model resource, dereferenced with ResourceHandle_Deref
     uint8_t _pad_C[0x27];
-    uint8_t field_33;  // +0x33
-    uint8_t field_34;  // +0x34
+    uint8_t renderVariant;  // +0x33 selector of which flag bytes SkinAndDrawV2 sets
+    uint8_t extraStreamFlags;  // +0x34 bit 0: also bind the two extra vertex streams and draw them
     uint8_t _pad_35[0x7];
 };
 #pragma pack(pop)
 static_assert(sizeof(CYyModelDt) == 0x3C, "CYyModelDt: sizeof");
-static_assert(XI_OFFSETOF(CYyModelDt, field_8) == 0x8, "CYyModelDt: layout");
-static_assert(XI_OFFSETOF(CYyModelDt, field_33) == 0x33, "CYyModelDt: layout");
-static_assert(XI_OFFSETOF(CYyModelDt, field_34) == 0x34, "CYyModelDt: layout");
+static_assert(XI_OFFSETOF(CYyModelDt, modelResourceHandle) == 0x8, "CYyModelDt: layout");
+static_assert(XI_OFFSETOF(CYyModelDt, renderVariant) == 0x33, "CYyModelDt: layout");
+static_assert(XI_OFFSETOF(CYyModelDt, extraStreamFlags) == 0x34, "CYyModelDt: layout");

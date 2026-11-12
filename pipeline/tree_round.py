@@ -145,7 +145,7 @@ def combine_live(o, fuzz_path, out_path):
     lg = json.load(open(R('verification', 'live_gates.json')))
     git = lambda *a: subprocess.run(['git', '-C', ROOT] + list(a), capture_output=True, text=True, check=True).stdout
     then = texts(shape.shape_source(git('show', '%s:tree/src/%s' % (lg['tree_commit'], f))) for f in git('ls-tree', '--name-only', '%s:tree/src' % lg['tree_commit']).split())
-    now = texts(open(p).read() for p in sorted(glob.glob(os.path.join(o.out, 'src', '*'))))
+    now = texts(shape.shape_source(open(p).read()) for p in sorted(glob.glob(os.path.join(o.out, 'src', '*'))))   # both sides through the same rewrites (source_shape.py can put one back in a function)
     same = {a for a in now if then.get(a) == now[a]}
     args = []
     for name, path in lg['gates'].items():

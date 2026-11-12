@@ -246,7 +246,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
   result = (int)orig::CMoDistModelElem_GetDataEnd((char *)self);
   if ( *(_DWORD *)(result + 4) == 0 )
     return result;
-  if ( (this->field_32 & 1) != 0 )
+  if ( (this->alphaTestFlags & 1) != 0 )
   {
     (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
     (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
@@ -265,7 +265,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     v8 = *(_DWORD *)a2;
   }
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_TEXTUREFACTOR, v8);
-  if ( this->field_34 == 0 && (_BYTE)a4 != 0 )
+  if ( this->batchCount == 0 && (_BYTE)a4 != 0 )
   {
     if ( (CMoDistModelElem_DrawMesh_staticGuards & 1) == 0 )
     {
@@ -284,7 +284,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
       }
       orig::StateBlock_ApplyTSS(CMoDistModelElem_DrawMesh_stateBlock2, (int)CMoDistModelElem_DrawMesh_textureStageStates2);
     }
-    v28 = this->field_36;
+    v28 = this->triangleCount;
     v9 = orig::CMoDistModelElem_GetDataEnd((char *)self);
     return orig::VertexBatch_BindAndDraw(*((int **)v9 + 1), 0, v28, 4, 0, -1);
   }
@@ -323,7 +323,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
   }
   v14 = 0;
   v15 = 0;
-  if ( this->field_34 != 0 )
+  if ( this->batchCount != 0 )
   {
     v16 = orig::CMoDistModelElem_GetVertexBase((char *)self);
     do
@@ -340,7 +340,7 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
       v18 = *(_WORD *)&v16[2 * v15++];
       v14 += v18 + 2 * v18;
     }
-    while ( (int)(v15) < (int)(this->field_34) );
+    while ( (int)(v15) < (int)(this->batchCount) );
     v7 = a3;
   }
   if ( this->field_35 != 0 )
@@ -361,11 +361,11 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     {
       if ( v19 != 0 || !orig::CMoDistModelElem_IsDistortedMode(self) )
       {
-        orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, v14, this->field_36 - v14 / 3, 4, 0, -1);
+        orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, v14, this->triangleCount - v14 / 3, 4, 0, -1);
       }
       else
       {
-        v20 = this->field_36 - v14 / 3 - 1;
+        v20 = this->triangleCount - v14 / 3 - 1;
         if ( v20 > 0 )
           orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, v14 + 3, v20, 4, 0, -1);
       }
@@ -421,14 +421,14 @@ int CMoDistModelElem::Draw()
   float *v3;
   CMoProcessor *v4;
   int v5;
-  if ( (this->field_17B & 3) != 0 )
+  if ( (this->textureTransformFlags & 3) != 0 )
   {
     ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
     v3 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
     (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
     orig::MoProcessor_CallVSlot49(v3);
-    v3[8] = this->field_120;
-    v3[9] = this->field_124;
+    v3[8] = this->textureOffsetU;
+    v3[9] = this->textureOffsetV;
     (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, v3);
     v4 = g_pProcessor;

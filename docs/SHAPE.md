@@ -9,7 +9,12 @@ the place for this subject; `docs/NAMES.md` stays the place for how a name is gi
 (12 Nov) The passes are rules of `pipeline/source_shape.py`, which `regen_clean.sh` runs after the compile repairs
 and which proves each rule per function by its compiled code (its `objcode` proof), putting back any function where
 the proof fails. They were first written as a hook in `hx2clean.py`, before the repairs; that was moved, because
-`source_shape.py` already existed for exactly this and runs at the right point. `pipeline/shape.py` holds the two
+`source_shape.py` already existed for exactly this and runs at the right point. In the first round with them (r20), `source_shape.py` put the members rule back in 31 functions and d3d_values in
+15. Reproduced on CDx.cpp: the rewrite alone, and over the whole file, gives identical code. The cause was the
+proof's baseline: an `objcode` rule was compared with the file's code before any rule ran, so a code change made
+earlier by a rule proven another way (undefined4's probe; GCC's register choice can follow a type's spelling) failed
+every later `objcode` rule in that file. The baseline is now the code just before the rule (r21).
+`pipeline/shape.py` holds the two
 rules' text rewrites and two checks: `check` (the whole tree before and after the rewrites, per file) and `same OLD
 NEW` (two trees, per function).
 

@@ -51,10 +51,10 @@ void CMoDistRingElem::AllocRingGeometry()
   int a2;
   int a2a;
   _BYTE v38[16];
-  a2 = 2 * (char)this->field_1B4 + 2;
-  v35 = a2 * (char)this->field_1B5;
+  a2 = 2 * (char)this->segmentCount + 2;
+  v35 = a2 * (char)this->ringLevelCount;
   v2 = (float *)orig::Allocator_Generic(36 * v35);
-  v3 = (char)this->field_1B5;
+  v3 = (char)this->ringLevelCount;
   v4 = 0;
   a3 = (int)v2;
   if ( v3 > 0 )
@@ -79,7 +79,7 @@ void CMoDistRingElem::AllocRingGeometry()
   v8 = 0;
   v31 = v3 - 1;
   v29 = 0;
-  v34 = 0x1.921fb00000000p+2 / (double)(char)this->field_1B4;
+  v34 = 0x1.921fb00000000p+2 / (double)(char)this->segmentCount;
   if ( v3 - 1 > 0 )
   {
     v9 = (float *)&this->field_198;
@@ -88,7 +88,7 @@ void CMoDistRingElem::AllocRingGeometry()
       v10 = 0.0;
       v11 = 0;
       v27 = v2;
-      if ( (char)this->field_1B4 > 0 )
+      if ( (char)this->segmentCount > 0 )
       {
         v12 = *(_DWORD *)&v38[4 * v8];
         v13 = *(_DWORD *)&v38[4 * v8 + 4];
@@ -110,7 +110,7 @@ void CMoDistRingElem::AllocRingGeometry()
           *(v2 - 8) = v17;
           v10 = v10 + v34;
         }
-        while ( v11 < (char)this->field_1B4 );
+        while ( v11 < (char)this->segmentCount );
         v8 = v29;
       }
       qmemcpy(v2, v27, 0x24u);

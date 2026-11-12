@@ -22,7 +22,7 @@ void CMoElem_VT_1032ADE8::vf18()
   float (&v12)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x2C);
   _BYTE (&v13)[16] = *reinterpret_cast<_BYTE (*)[16]>(xi_frame + 0x38);
 
-  v2 = this->field_FC;
+  v2 = this->listAResourceHandle;
   if ( v2 != nullptr )
     v3 = *v2;
   else

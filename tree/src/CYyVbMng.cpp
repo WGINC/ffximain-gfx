@@ -65,10 +65,10 @@ LABEL_15:
           if ( v15 < 3 )
             v10[1] = v15 - 1;
         }
-        else if ( (int)this->field_4 > 300 )
+        else if ( (int)this->pooledBufferCount > 300 )
         {
           (*(void (__thiscall **)(_DWORD *, int))(*v10 + 24))(v10, 1);
-          --this->field_4;
+          --this->pooledBufferCount;
         }
       }
       v10 = v14;

@@ -84,7 +84,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
         *(v12 - 1) = v8[9 * *(v10 - 1) + 8];
         ++v36;
       }
-      while ( v36 < 3 * this->field_3A );
+      while ( v36 < 3 * this->triangleCount );
     }
   }
   else if ( 3 * *(unsigned __int16 *)(v7 + 58) != 0 )
@@ -122,7 +122,7 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
       v26 = v34[1];
       v34 += 2;
       *(v12 - 1) = v26;
-      if ( ++v36 >= 3 * this->field_3A )
+      if ( ++v36 >= 3 * this->triangleCount )
         break;
       v11 = (unsigned __int16 *)v33;
     }
@@ -205,7 +205,7 @@ _DWORD * CMoDistMorphElem::ComputeMorphHandle(int a2, int a3)
   v30 = orig::Mem_AllocObject(36 * v4, 4);
   v6 = 0;
   v7 = 0.0;
-  v8 = (char)(2 * this->field_32) >> 1;
+  v8 = (char)(2 * this->morphTargetCountAndFlags) >> 1;
   v9 = 0;
   if ( v8 <= 0 )
     goto LABEL_6;
@@ -238,7 +238,7 @@ LABEL_6:
   v7 = 1.0 / v7;
 LABEL_13:
   v11 = 0;
-  v12 = (char)(2 * this->field_32) >> 1;
+  v12 = (char)(2 * this->morphTargetCountAndFlags) >> 1;
   if ( v12 > 0 )
   {
     do
@@ -248,9 +248,9 @@ LABEL_13:
     }
     while ( v11 < v12 );
   }
-  v14 = this->field_34;
+  v14 = this->positionCount;
   v15 = 0;
-  v16 = 4 * (this->field_36 + 3 * v14);
+  v16 = 4 * (this->packedNormalCount + 3 * v14);
   if ( v12 > 0 )
   {
     v17 = self + 80 + 12 * v14;
@@ -274,7 +274,7 @@ LABEL_13:
       *(v20 - 1) = 0.0;
       *(v20 - 2) = 0.0;
       v21 = 0;
-      if ( (char)(2 * this->field_32) > 0 )
+      if ( (char)(2 * this->morphTargetCountAndFlags) > 0 )
       {
         do
         {
@@ -287,15 +287,15 @@ LABEL_13:
           *(v20 - 1) = v32 * v34[v21 - 1] + *(v20 - 1);
           *v20 = v33 * v34[v21 - 1] + *v20;
         }
-        while ( v21 < (char)(2 * this->field_32) >> 1 );
+        while ( v21 < (char)(2 * this->morphTargetCountAndFlags) >> 1 );
       }
       v20 += 9;
       ++v19;
     }
-    while ( v19 < this->field_34 );
+    while ( v19 < this->positionCount );
   }
   v24 = 0;
-  if ( this->field_36 > 0 )
+  if ( this->packedNormalCount > 0 )
   {
     v25 = (float *)(v30 + 4);
     do
@@ -304,7 +304,7 @@ LABEL_13:
       *v25 = 0.0;
       *(v25 - 1) = 0.0;
       v26 = 0;
-      if ( (char)(2 * this->field_32) > 0 )
+      if ( (char)(2 * this->morphTargetCountAndFlags) > 0 )
       {
         do
         {
@@ -316,12 +316,12 @@ LABEL_13:
           *v25 = (double)((int)(*(_DWORD *)(LODWORD(v27) - 4) << 12) >> 22) * v34[v26++] * 0.001953125 + *v25;
           v25[1] = (double)((4 * *(_DWORD *)(LODWORD(v27) - 4)) >> 22) * v34[v26 - 1] * 0.001953125 + v25[1];
         }
-        while ( v26 < (char)(2 * this->field_32) >> 1 );
+        while ( v26 < (char)(2 * this->morphTargetCountAndFlags) >> 1 );
       }
       v25 += 9;
       ++v24;
     }
-    while ( v24 < this->field_36 );
+    while ( v24 < this->packedNormalCount );
   }
   return v30;
 }

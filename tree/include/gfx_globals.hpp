@@ -5105,20 +5105,20 @@ typedef _DWORD dword_10456E70_t;
 #define dword_10456E70 XI_EA(dword_10456E70_t, 0x10456E70u)
 typedef int * dword_10456E70_as_v0_t;
 #define dword_10456E70_as_v0 XI_EA(dword_10456E70_as_v0_t, 0x10456E70u)
-typedef int dword_10456E74_t;
-#define dword_10456E74 XI_EA(dword_10456E74_t, 0x10456E74u)
-typedef int dword_10456E78_t;
-#define dword_10456E78 XI_EA(dword_10456E78_t, 0x10456E78u)
+typedef int g_envMapTexOffsetU_t;
+#define g_envMapTexOffsetU XI_EA(g_envMapTexOffsetU_t, 0x10456E74u)
+typedef int g_envMapTexOffsetV_t;
+#define g_envMapTexOffsetV XI_EA(g_envMapTexOffsetV_t, 0x10456E78u)
 typedef int g_envMapPrevFactor_t;
 #define g_envMapPrevFactor XI_EA(g_envMapPrevFactor_t, 0x10456E7Cu)
 typedef int g_envMapPrevTex0_t;
 #define g_envMapPrevTex0 XI_EA(g_envMapPrevTex0_t, 0x10456E80u)
 typedef int g_envMapPrevTex1_t;
 #define g_envMapPrevTex1 XI_EA(g_envMapPrevTex1_t, 0x10456E84u)
-typedef int dword_10456E88_t;
-#define dword_10456E88 XI_EA(dword_10456E88_t, 0x10456E88u)
-typedef undefined4 dword_10456E88_as_v0_t;
-#define dword_10456E88_as_v0 XI_EA(dword_10456E88_as_v0_t, 0x10456E88u)
+typedef int g_pEnvMapTexObj_t;
+#define g_pEnvMapTexObj XI_EA(g_pEnvMapTexObj_t, 0x10456E88u)
+typedef undefined4 g_pEnvMapTexObj_as_v0_t;
+#define g_pEnvMapTexObj_as_v0 XI_EA(g_pEnvMapTexObj_as_v0_t, 0x10456E88u)
 typedef int g_envMapFactor_t;
 #define g_envMapFactor XI_EA(g_envMapFactor_t, 0x10456E8Cu)
 typedef uint8_t DAT_10456fa8_t;
@@ -5271,10 +5271,10 @@ typedef char byte_10457538_t;
 #define byte_10457538 XI_EA(byte_10457538_t, 0x10457538u)
 typedef int g_vertexBuffer_7540_t;
 #define g_vertexBuffer_7540 XI_EA(g_vertexBuffer_7540_t, 0x10457540u)
-typedef int dword_10457548_t;
-#define dword_10457548 XI_EA(dword_10457548_t, 0x10457548u)
-typedef undefined4 dword_10457548_as_v0_t;
-#define dword_10457548_as_v0 XI_EA(dword_10457548_as_v0_t, 0x10457548u)
+typedef int g_sharedVertexBuffersCreated_t;
+#define g_sharedVertexBuffersCreated XI_EA(g_sharedVertexBuffersCreated_t, 0x10457548u)
+typedef undefined4 g_sharedVertexBuffersCreated_as_v0_t;
+#define g_sharedVertexBuffersCreated_as_v0 XI_EA(g_sharedVertexBuffersCreated_as_v0_t, 0x10457548u)
 typedef int g_boneWeightMatrixTableCur_t;
 #define g_boneWeightMatrixTableCur XI_EA(g_boneWeightMatrixTableCur_t, 0x10457550u)
 typedef int g_streamSourceStride_t[5];
@@ -5673,10 +5673,10 @@ typedef float g_lightmapFrameTable_t;
 #define g_lightmapFrameTable XI_EA(g_lightmapFrameTable_t, 0x1047BBC8u)
 typedef float flt_1047BBCC_t;
 #define flt_1047BBCC XI_EA(flt_1047BBCC_t, 0x1047BBCCu)
-typedef float flt_1047BBD0_t;
-#define flt_1047BBD0 XI_EA(flt_1047BBD0_t, 0x1047BBD0u)
-typedef float flt_1047BBD4_t;
-#define flt_1047BBD4 XI_EA(flt_1047BBD4_t, 0x1047BBD4u)
+typedef float g_targetRectMaxX_t;
+#define g_targetRectMaxX XI_EA(g_targetRectMaxX_t, 0x1047BBD0u)
+typedef float g_targetRectMaxY_t;
+#define g_targetRectMaxY XI_EA(g_targetRectMaxY_t, 0x1047BBD4u)
 typedef undefined4 DAT_1047bbd8_t;
 #define DAT_1047bbd8 XI_EA(DAT_1047bbd8_t, 0x1047BBD8u)
 typedef int g_zoneFogOut2_t;
@@ -6377,8 +6377,8 @@ typedef char Fn100759C0_staticGuards_t;
 #define Fn100759C0_staticGuards XI_EA(Fn100759C0_staticGuards_t, 0x1047D154u)
 typedef int g_pCubeMapTarget_t;
 #define g_pCubeMapTarget XI_EA(g_pCubeMapTarget_t, 0x1047D158u)
-typedef int dword_1047D15C_t[3];
-#define dword_1047D15C XI_EA(dword_1047D15C_t, 0x1047D15Cu)
+typedef int g_cubeMapTexObjs_t[3];
+#define g_cubeMapTexObjs XI_EA(g_cubeMapTexObjs_t, 0x1047D15Cu)
 typedef int g_cubeMapTextures_t[3];
 #define g_cubeMapTextures XI_EA(g_cubeMapTextures_t, 0x1047D168u)
 typedef _DWORD Fn10075700_stateBlock_t[3];
@@ -7943,10 +7943,6 @@ typedef D3DVIEWPORT8 Fn10162010_static_191C_t;
 #define Fn10162010_static_191C XI_EA(Fn10162010_static_191C_t, 0x1062191Cu)
 typedef int * DAT_10621934_t;
 #define DAT_10621934 XI_EA(DAT_10621934_t, 0x10621934u)
-typedef int DAT_10621934_as_s32_t;
-#define DAT_10621934_as_s32 XI_EA(DAT_10621934_as_s32_t, 0x10621934u)
-typedef undefined4 DAT_10621938_t;
-#define DAT_10621938 XI_EA(DAT_10621938_t, 0x10621938u)
 typedef int * DAT_1062193c_t;
 #define DAT_1062193c XI_EA(DAT_1062193c_t, 0x1062193Cu)
 typedef int DAT_1062193c_as_s32_t;

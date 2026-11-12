@@ -13,11 +13,11 @@ char Obj_104E1BF8::ShapeMng_BindFontTexture(int a2, _DWORD *a3, _DWORD *a4)
   int *v9;
   int v10;
   IDirect3DBaseTexture8 *v11;
-  v5 = this->field_1C;
+  v5 = this->fontTexture;
   if ( v5 == 0 )
   {
     orig::ShapeMng_LoadFontTextures(self);
-    v5 = this->field_1C;
+    v5 = this->fontTexture;
     if ( v5 == 0 )
       return 0;
   }
@@ -78,11 +78,11 @@ char Obj_104E1BF8::ShapeMng_BindDmgNumTexture(int a2, _DWORD *a3, _DWORD *a4)
   int *v9;
   int v10;
   IDirect3DBaseTexture8 *v11;
-  v5 = this->field_30;
+  v5 = this->dmgNumTexture;
   if ( v5 == 0 )
   {
     orig::ShapeMng_LoadDmgNumTextures(self);
-    v5 = this->field_30;
+    v5 = this->dmgNumTexture;
     if ( v5 == 0 )
       return 0;
   }

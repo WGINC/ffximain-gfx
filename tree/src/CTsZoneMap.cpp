@@ -373,14 +373,14 @@ char CTsZoneMap::CTsZoneMap_Destructor()
     (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->vsHandleB);
   if ( this->vsHandles != 0 )
     (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->vsHandles);
-  if ( this->field_39470 != 0 )
-    (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->field_39470);
-  if ( this->field_39474 != 0 )
-    (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->field_39474);
-  if ( this->field_39478 != 0 )
-    (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->field_39478);
-  if ( this->field_3947C != 0 )
-    (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->field_3947C);
+  if ( this->vsHandleExtra1 != 0 )
+    (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->vsHandleExtra1);
+  if ( this->vsHandleExtra2 != 0 )
+    (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->vsHandleExtra2);
+  if ( this->vsHandleExtra3 != 0 )
+    (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->vsHandleExtra3);
+  if ( this->vsHandleExtra4 != 0 )
+    (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), this->vsHandleExtra4);
   if ( this->psHandle != 0 )
     (g_pCDx->pDevice)->lpVtbl->DeletePixelShader((g_pCDx->pDevice), this->psHandle);
   orig::Vt1032B6D8_Destructor((int **)&this->field_3959C);
@@ -409,7 +409,7 @@ int CTsZoneMap::InitZBiasPresets()
   g_zbiasOverlay = 15;
   g_zbiasRestore = 0;
   this->field_3954C = 1065353216;
-  if ( (*(unsigned __int8 *)&g_pCDx->field_920) != 0 )
+  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x920)) != 0 )
   {
     g_zbiasZoneMesh = 0;
     g_zbiasPresetAux = 1;
@@ -692,15 +692,15 @@ float * CTsZoneMap::DrawProjectedTexture(float *arg0, int a3, IDirect3DBaseTextu
     CTsZoneMap_DrawProjectedTexture_m22 = 1.0 / a5;
     CTsZoneMap_DrawProjectedTexture_m00 = CTsZoneMap_DrawProjectedTexture_m22;
   }
-  (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, a4);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, a4);
   v88 = -*arg0;
-  pDevice = (g_pCDx->pDevice);
+  pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
   v89 = -arg0[1];
   lpVtbl = pDevice->lpVtbl;
   v90 = -arg0[2];
-  lpVtbl->SetTextureStageState(pDevice, 0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
-  (g_pCDx->pDevice)->lpVtbl->SetVertexShader((g_pCDx->pDevice), 322u);
+  lpVtbl->SetTextureStageState(pDevice, 0, D3DTSS_ADDRESSU, 3u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, 3u);
+  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 322u);
   v72 = v88;
   v73 = LODWORD(v89);
   v74 = v90;
@@ -1084,27 +1084,27 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
     v5 = *(IDirect3DBaseTexture8 **)(result + 64);
     if ( v5 == nullptr )
       v5 = *(IDirect3DBaseTexture8 **)(result + 68);
-    (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, v5);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_LIGHTING, FALSE);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHABLENDENABLE, TRUE);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_ZERO);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_INVSRCCOLOR);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_FOGENABLE, FALSE);
-    (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_MINFILTER, D3DTEXF_POINT);
-    (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_CULLMODE, D3DCULL_CCW);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v5);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, 4u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 3u);
     v91 = 0;
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ZWRITEENABLE, FALSE);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 0);
     if ( this->overlayUseProjection != 0 )
     {
-      (g_pCDx->pDevice)->lpVtbl->GetTransform((g_pCDx->pDevice), D3DTS_PROJECTION, &v101);
+      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->GetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DTS_PROJECTION, &v101);
       orig::ZoneMap_SetOverlayProjection((float *)self);
     }
     else
     {
       orig::Gfx_SetZBias(g_zbiasOverlay);
     }
-    (g_pCDx->pDevice)->lpVtbl->SetVertexShader((g_pCDx->pDevice), 0x142u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0x142u);
     v100[10] = v94;
     v100[0] = v93;
     memset(&v100[1], 0, 16);
@@ -1197,9 +1197,9 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
                     {
                       v91 = v17[41] & 1;
                       if ( v19 != 0 )
-                        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_CULLMODE, D3DCULL_CW);
+                        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 2u);
                       else
-                        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_CULLMODE, D3DCULL_CCW);
+                        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 3u);
                     }
                     v20 = *((_WORD **)v82 + 2);
                     v21 = *(_DWORD *)v82;
@@ -1379,13 +1379,13 @@ int CTsZoneMap::DrawProjectedShadow(int a1, int a2)
         }
       }
     }
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_LIGHTING, TRUE);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHABLENDENABLE, FALSE);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_FOGENABLE, FALSE);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_CULLMODE, D3DCULL_NONE);
-    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ZWRITEENABLE, TRUE);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, 0);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_CULLMODE, 1u);
+    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, 1u);
     if ( *((_BYTE *)v90 + 234904) != 0 )
-      return (g_pCDx->pDevice)->lpVtbl->SetTransform((g_pCDx->pDevice), D3DTS_PROJECTION, &v101);
+      return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DTS_PROJECTION, &v101);
     else
       return orig::Gfx_SetZBias(g_zbiasRestore);
   }

@@ -52,7 +52,7 @@ void __thiscall CYyVb::Destroy(void * self)
       ((int (__stdcall *)(XI_ANY))((**(code **)(*a1 + 8))))(a1);
       *(uint32_t *)((int)self + 0x1c) = 0;
     }
-    orig::FUN_1003b4e0();
+    orig::FUN_1003b4e0(self);
     return;
   }
   return;

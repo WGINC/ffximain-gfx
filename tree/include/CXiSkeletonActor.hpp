@@ -151,7 +151,7 @@ public:
     float moveSpeed;  // +0x98
     float walkSpeed;  // +0x9C
     uint8_t _pad_A0[0x4];
-    uint32_t field_A4;  // +0xA4
+    uint32_t attachKind;  // +0xA4 Kind number of an owned attachment actor created by the factory constructor.
     uint8_t _pad_A8[0x8];
     char hiddenFlagByte;  // +0xB0
     uint8_t _pad_B1[0x1];
@@ -165,29 +165,29 @@ public:
     uint8_t _pad_FA[0x82];
     uint8_t field_17C;  // +0x17C
     uint8_t _pad_17D[0x41F];
-    int32_t field_59C;  // +0x59C
+    int32_t opacity;  // +0x59C Opacity factor that becomes the alpha byte of the draw color.
     uint8_t _pad_5A0[0x58];
-    uint32_t field_5F8;  // +0x5F8
-    int32_t field_5FC;  // +0x5FC
-    int32_t field_600;  // +0x600
-    int32_t field_604;  // +0x604
-    uint32_t field_608;  // +0x608
-    int32_t field_60C;  // +0x60C
-    int32_t field_610;  // +0x610
-    int32_t field_614;  // +0x614
+    uint32_t worldMatrixOverride;  // +0x5F8 Pointer to a matrix that replaces the computed world matrix when set.
+    int32_t posX;  // +0x5FC X of the position vector GetPos returns a pointer to.
+    int32_t posY;  // +0x600 Y of the position vector returned by GetPos.
+    int32_t posZ;  // +0x604 Z of the position vector returned by GetPos.
+    uint32_t posW;  // +0x608 W component of the GetPos position vector, forced to 1.0 by the constructors.
+    int32_t posOffsetX;  // +0x60C X of an offset added to the position when the world matrix translation is built.
+    int32_t posOffsetY;  // +0x610 Y of the position offset used for the world matrix translation.
+    int32_t posOffsetZ;  // +0x614 Z of the position offset used for the world matrix translation.
     int32_t field_618;  // +0x618
-    int32_t field_61C;  // +0x61C
-    int32_t field_620;  // +0x620
-    int32_t field_624;  // +0x624
-    int32_t field_628;  // +0x628
-    int32_t field_62C;  // +0x62C
-    int32_t field_630;  // +0x630
-    int32_t field_634;  // +0x634
+    int32_t rotX;  // +0x61C First element of the direction (rotation angle) vector GetDir returns.
+    int32_t rotY;  // +0x620 Second element of the direction vector returned by GetDir.
+    int32_t rotZ;  // +0x624 Third element of the direction vector returned by GetDir.
+    int32_t rotW;  // +0x628 Fourth element of the GetDir vector.
+    int32_t rotOffsetX;  // +0x62C X of an angle offset added to the direction before the rotation matrix is built.
+    int32_t rotOffsetY;  // +0x630 Y of the angle offset added to the direction.
+    int32_t rotOffsetZ;  // +0x634 Z of the angle offset added to the direction.
     int32_t field_638;  // +0x638
     uint8_t _pad_63C[0x20];
     int32_t field_65C;  // +0x65C
     unsigned int color;  // +0x660
-    int32_t field_664;  // +0x664
+    int32_t opacityFade;  // +0x664 Fade value that scales opacity down when below 0.8.
     unsigned int multiTexAlpha;  // +0x668
     unsigned int shadowAlpha;  // +0x66C
     uint16_t field_670;  // +0x670
@@ -207,9 +207,9 @@ public:
     float depthScale;  // +0x758 GetDepthScale returns it (x model depth x 0.588) when >= 0, else baseScale
     float heightScale;  // +0x75C GetHeightScale returns it when >= 0, else baseScale
     float widthScale;  // +0x760 GetWidthScale returns it when >= 0, else baseScale
-    uint32_t field_764;  // +0x764
-    uint32_t field_768;  // +0x768
-    uint32_t field_76C;  // +0x76C
+    uint32_t generatorCloneRef;  // +0x764 Reference to a generator clone that the destructor releases and kills.
+    uint32_t linkedActor0;  // +0x768 Slot 0 of the mutual actor link table (owner/attached actor).
+    uint32_t linkedActor1;  // +0x76C Slot 1 of the mutual actor link table.
     uint8_t _pad_770[0x28];
     int32_t field_798;  // +0x798
     uint8_t field_79C;  // +0x79C
@@ -239,7 +239,7 @@ public:
     int32_t field_808;  // +0x808
     int32_t field_80C;  // +0x80C
     int32_t field_810;  // +0x810
-    uint32_t field_814;  // +0x814
+    uint32_t generatorCloneRef2;  // +0x814 Second reference to a generator clone released by the destructor.
     int32_t field_818;  // +0x818
     int32_t field_81C;  // +0x81C
     int32_t field_820;  // +0x820
@@ -252,14 +252,14 @@ public:
     uint16_t constrain2;  // +0x83E returned by CXiSkeletonActor::IsConstrain2
     int32_t lockFlags;  // +0x840 bit 0x40 is the motion lock (IsMotionLock / IsMotionLock_Set)
     int32_t field_844;  // +0x844
-    int32_t field_848;  // +0x848
-    int32_t field_84C;  // +0x84C
-    int32_t field_850;  // +0x850
-    int32_t field_854;  // +0x854
+    int32_t headLookTargetX;  // +0x848 X of the point the head looks at.
+    int32_t headLookTargetY;  // +0x84C Y of the point the head looks at.
+    int32_t headLookTargetZ;  // +0x850 Z of the point the head looks at.
+    int32_t headLookTargetW;  // +0x854 State word of the head-look target vector (-1 none, 0 point valid, 1 forced).
     int32_t field_858;  // +0x858
     int32_t field_85C;  // +0x85C
     int32_t field_860;  // +0x860
-    uint32_t field_864;  // +0x864
+    uint32_t partSlot9Resource;  // +0x864 Resource pointer of the part added in slot 9.
     int32_t field_868;  // +0x868
     int32_t field_86C;  // +0x86C
     int32_t field_870;  // +0x870
@@ -267,7 +267,7 @@ public:
     uint8_t field_878;  // +0x878
     uint8_t _pad_879[0x27];
     int32_t field_8A0;  // +0x8A0
-    uint8_t field_8A4;  // +0x8A4
+    uint8_t pendingPartStep;  // +0x8A4 Which part-loading step is still to be run.
     uint8_t field_8A5;  // +0x8A5
     uint8_t field_8A6;  // +0x8A6
     uint8_t field_8A7;  // +0x8A7
@@ -277,19 +277,19 @@ public:
     uint8_t field_8AB;  // +0x8AB
     uint8_t field_8AC;  // +0x8AC
     uint8_t _pad_8AD[0x3];
-    int32_t field_8B0;  // +0x8B0
+    int32_t loadedPartMask;  // +0x8B0 Bit mask of the part slots that have been added.
     uint8_t field_8B4;  // +0x8B4
     uint8_t field_8B5;  // +0x8B5
     uint8_t field_8B6;  // +0x8B6
     uint8_t _pad_8B7[0x1];
-    int32_t field_8B8;  // +0x8B8
+    int32_t randomTimer;  // +0x8B8 Countdown that triggers a random action and is refilled with a random value.
     int32_t field_8BC;  // +0x8BC
     float nameHeightOffset;  // +0x8C0 added to the Y of the position returned by GetNamePos and GetArrowPos
-    uint32_t field_8C4;  // +0x8C4
+    uint32_t pendingFourCC;  // +0x8C4 FourCC tag held until resources are loaded, then dispatched and cleared.
     uint8_t _pad_8C8[0xC];
-    int32_t field_8D4;  // +0x8D4
+    int32_t updateOnRequestOnly;  // +0x8D4 When set, updates run only on request.
     uint8_t _pad_8D8[0x10];
-    uint8_t field_8E8;  // +0x8E8
+    uint8_t updateRequested;  // +0x8E8 Requests one update while updates are restricted by 0x8D4.
     uint8_t _pad_8E9[0x3];
     int32_t field_8EC;  // +0x8EC
     char boundUnk0[16];  // +0x8F0
@@ -326,7 +326,7 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, posHandle) == 0x88, "CXiSkeletonActo
 static_assert(XI_OFFSETOF(CXiSkeletonActor, moveSpeedBase) == 0x94, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, moveSpeed) == 0x98, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, walkSpeed) == 0x9C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_A4) == 0xA4, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, attachKind) == 0xA4, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, hiddenFlagByte) == 0xB0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, hiddenFlagWord) == 0xB2, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_B4) == 0xB4, "CXiSkeletonActor: layout");
@@ -334,27 +334,27 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_B8) == 0xB8, "CXiSkeletonActor
 static_assert(XI_OFFSETOF(CXiSkeletonActor, distanceToCamera) == 0xBC, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_F9) == 0xF9, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_17C) == 0x17C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_59C) == 0x59C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_5F8) == 0x5F8, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_5FC) == 0x5FC, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_600) == 0x600, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_604) == 0x604, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_608) == 0x608, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_60C) == 0x60C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_610) == 0x610, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_614) == 0x614, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, opacity) == 0x59C, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, worldMatrixOverride) == 0x5F8, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, posX) == 0x5FC, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, posY) == 0x600, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, posZ) == 0x604, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, posW) == 0x608, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, posOffsetX) == 0x60C, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, posOffsetY) == 0x610, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, posOffsetZ) == 0x614, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_618) == 0x618, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_61C) == 0x61C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_620) == 0x620, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_624) == 0x624, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_628) == 0x628, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_62C) == 0x62C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_630) == 0x630, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_634) == 0x634, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, rotX) == 0x61C, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, rotY) == 0x620, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, rotZ) == 0x624, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, rotW) == 0x628, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, rotOffsetX) == 0x62C, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, rotOffsetY) == 0x630, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, rotOffsetZ) == 0x634, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_638) == 0x638, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_65C) == 0x65C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, color) == 0x660, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_664) == 0x664, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, opacityFade) == 0x664, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, multiTexAlpha) == 0x668, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, shadowAlpha) == 0x66C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_670) == 0x670, "CXiSkeletonActor: layout");
@@ -372,9 +372,9 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, baseScale) == 0x754, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, depthScale) == 0x758, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, heightScale) == 0x75C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, widthScale) == 0x760, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_764) == 0x764, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_768) == 0x768, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_76C) == 0x76C, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, generatorCloneRef) == 0x764, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, linkedActor0) == 0x768, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, linkedActor1) == 0x76C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_798) == 0x798, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_79C) == 0x79C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_7A0) == 0x7A0, "CXiSkeletonActor: layout");
@@ -400,7 +400,7 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_804) == 0x804, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_808) == 0x808, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_80C) == 0x80C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_810) == 0x810, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_814) == 0x814, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, generatorCloneRef2) == 0x814, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_818) == 0x818, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_81C) == 0x81C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_820) == 0x820, "CXiSkeletonActor: layout");
@@ -411,21 +411,21 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, constrain) == 0x83C, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, constrain2) == 0x83E, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, lockFlags) == 0x840, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_844) == 0x844, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_848) == 0x848, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_84C) == 0x84C, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_850) == 0x850, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_854) == 0x854, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, headLookTargetX) == 0x848, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, headLookTargetY) == 0x84C, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, headLookTargetZ) == 0x850, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, headLookTargetW) == 0x854, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_858) == 0x858, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_85C) == 0x85C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_860) == 0x860, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_864) == 0x864, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, partSlot9Resource) == 0x864, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_868) == 0x868, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_86C) == 0x86C, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_870) == 0x870, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_874) == 0x874, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_878) == 0x878, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8A0) == 0x8A0, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8A4) == 0x8A4, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, pendingPartStep) == 0x8A4, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8A5) == 0x8A5, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8A6) == 0x8A6, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8A7) == 0x8A7, "CXiSkeletonActor: layout");
@@ -434,16 +434,16 @@ static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8A9) == 0x8A9, "CXiSkeletonAct
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8AA) == 0x8AA, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8AB) == 0x8AB, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8AC) == 0x8AC, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8B0) == 0x8B0, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, loadedPartMask) == 0x8B0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8B4) == 0x8B4, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8B5) == 0x8B5, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8B6) == 0x8B6, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8B8) == 0x8B8, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, randomTimer) == 0x8B8, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8BC) == 0x8BC, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, nameHeightOffset) == 0x8C0, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8C4) == 0x8C4, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8D4) == 0x8D4, "CXiSkeletonActor: layout");
-static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8E8) == 0x8E8, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, pendingFourCC) == 0x8C4, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, updateOnRequestOnly) == 0x8D4, "CXiSkeletonActor: layout");
+static_assert(XI_OFFSETOF(CXiSkeletonActor, updateRequested) == 0x8E8, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, field_8EC) == 0x8EC, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, boundUnk0) == 0x8F0, "CXiSkeletonActor: layout");
 static_assert(XI_OFFSETOF(CXiSkeletonActor, boundRadius) == 0x900, "CXiSkeletonActor: layout");

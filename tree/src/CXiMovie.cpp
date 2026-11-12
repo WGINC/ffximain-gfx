@@ -109,7 +109,7 @@ undefined4 __cdecl CXiMovie::UpdateIfPresent()
   uint32_t uVar1;
   
   if (g_pMovie != 0) {
-    uVar1 = orig::FUN_1021d960();
+    uVar1 = orig::FUN_1021d960(*(void **)(unsigned int)XI_GAME(0x10666E7Cu));
     return uVar1;
   }
   return xi_entry_eax & 0xffffff00;

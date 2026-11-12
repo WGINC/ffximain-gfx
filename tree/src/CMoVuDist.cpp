@@ -43,7 +43,7 @@ int CMoVuDist::vf008()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int * CMoVuDist::ScalarDeletingDtor(char a2)
 {
-  orig::MoProgElem_FreeBuffer40((int *)&this->field_198);
+  orig::MoProgElem_FreeBuffer40((int *)&this->programBuffer);
   orig::CMoElemFamily_SharedCleanup((int *)this);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)this);

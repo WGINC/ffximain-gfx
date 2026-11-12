@@ -22,8 +22,8 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0xC0];
-    uint32_t field_C4;  // +0xC4
+    uint32_t cubemapSpecTexture;  // +0xC4 texture found by the cubemap-specular name, -1 until looked up
 };
 #pragma pack(pop)
 static_assert(sizeof(CYyModelBase) == 0xC8, "CYyModelBase: sizeof");
-static_assert(XI_OFFSETOF(CYyModelBase, field_C4) == 0xC4, "CYyModelBase: layout");
+static_assert(XI_OFFSETOF(CYyModelBase, cubemapSpecTexture) == 0xC4, "CYyModelBase: layout");

@@ -12,7 +12,7 @@ XI_API int __cdecl CreateSharedVertexBuffers(void)
   g_vertexBuffer_714C = 0;
   g_vertexBuffer_7150 = 0;
   g_vertexBuffer_7154 = 0;
-  if ( dword_10457548 != 0 )
+  if ( g_sharedVertexBuffersCreated != 0 )
     goto LABEL_7;
   result = (g_pCDx->pDevice)->lpVtbl->CreateVertexBuffer(
              (g_pCDx->pDevice),
@@ -50,7 +50,7 @@ XI_API int __cdecl CreateSharedVertexBuffers(void)
                    (IDirect3DVertexBuffer8 **)&g_vertexBuffer_7154);
         if ( result >= 0 )
         {
-          dword_10457548 = 1;
+          g_sharedVertexBuffersCreated = 1;
 LABEL_7:
           orig::Model_CreateTranslucentTargets();
           orig::Unit100310A0_InitTargets();
@@ -84,7 +84,7 @@ XI_API void __cdecl Unit100298D0_ReleaseAll(void)
     }
     piVar1 = piVar1 + 1;
   } while ((int)piVar1 < (int)XI_GAME(0x10457158u));
-  dword_10457548_as_v0 = 0;
+  g_sharedVertexBuffersCreated_as_v0 = 0;
   orig::Unit10025220_Release();
   orig::Unit100252F0_Nop_10025BE0();
   orig::Unit10038930_ReleaseTextures();

@@ -115,10 +115,10 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
   orig::sub_10071F50(v3);
   this->pIndices = 0;
   this->field_60 = 0;
-  this->field_40 = 0;
+  this->indexBuffer = 0;
   this->field_44 = 0;
   this->field_48 = 0;
-  this->field_4C = 0;
+  this->vertexBuffer = 0;
   this->field_50 = 0;
   this->field_54 = 0;
   this->indexCount = 0;
@@ -150,19 +150,19 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
     orig::Mem_FreeObject(v2);
     this->pIndices = 0;
   }
-  v3 = this->field_40;
+  v3 = this->indexBuffer;
   this->field_60 = 0;
   if ( v3 != 0 )
   {
     (*(void (__stdcall **)(unsigned int))(*(_DWORD *)v3 + 8))(v3);
-    this->field_40 = 0;
+    this->indexBuffer = 0;
   }
-  if ( this->field_4C != 0 )
+  if ( this->vertexBuffer != 0 )
   {
-    orig::CYyVbMng_ReleaseVertexBuffer(&this->field_4C);
-    this->field_4C = 0;
+    orig::CYyVbMng_ReleaseVertexBuffer(&this->vertexBuffer);
+    this->vertexBuffer = 0;
   }
-  v4 = this->field_64;
+  v4 = this->vertexShader;
   this->field_44 = 0;
   this->field_48 = 0;
   this->field_50 = 0;
@@ -171,7 +171,7 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
   if ( v4 != 0 )
   {
     (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), v4);
-    this->field_64 = 0;
+    this->vertexShader = 0;
   }
   v5 = this->field_6A;
   this->field_68 = 0;

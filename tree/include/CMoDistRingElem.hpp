@@ -20,8 +20,8 @@ public:
     uint8_t _pad_199[0xC];
     uint8_t field_1A5;  // +0x1A5
     uint8_t _pad_1A6[0xE];
-    uint8_t field_1B4;  // +0x1B4
-    uint8_t field_1B5;  // +0x1B5
+    uint8_t segmentCount;  // +0x1B4 number of segments around the ring
+    uint8_t ringLevelCount;  // +0x1B5 number of levels (rings) along the profile; field_1B5-1 strips are drawn
     uint8_t _pad_1B6[0x4];
 };
 #pragma pack(pop)
@@ -29,5 +29,5 @@ static_assert(sizeof(CMoDistRingElem) == 0x1BA, "CMoDistRingElem: sizeof");
 static_assert(XI_OFFSETOF(CMoDistRingElem, field_A0) == 0xA0, "CMoDistRingElem: layout");
 static_assert(XI_OFFSETOF(CMoDistRingElem, field_198) == 0x198, "CMoDistRingElem: layout");
 static_assert(XI_OFFSETOF(CMoDistRingElem, field_1A5) == 0x1A5, "CMoDistRingElem: layout");
-static_assert(XI_OFFSETOF(CMoDistRingElem, field_1B4) == 0x1B4, "CMoDistRingElem: layout");
-static_assert(XI_OFFSETOF(CMoDistRingElem, field_1B5) == 0x1B5, "CMoDistRingElem: layout");
+static_assert(XI_OFFSETOF(CMoDistRingElem, segmentCount) == 0x1B4, "CMoDistRingElem: layout");
+static_assert(XI_OFFSETOF(CMoDistRingElem, ringLevelCount) == 0x1B5, "CMoDistRingElem: layout");

@@ -16,7 +16,7 @@ int * CMoD3aElem::vf18()
 {
   int ** self = reinterpret_cast<int **>(this);  // byte-exact view for the rest
   int *result;
-  result = this->field_104;
+  result = this->d3aDrawHandle;
   if ( result != nullptr )
     return (int *)orig::YmElem_DrawD3ASegment(*result, g_pResourceMng, (int)&g_scratchValue, (int)self);
   return result;

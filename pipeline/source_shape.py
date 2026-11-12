@@ -343,7 +343,7 @@ def main(tree):
         obj = os.path.join(objd, base + '.base.o')      # the untouched file, compiled as the rewrites are below
         if not compile_one(tree, os.path.join('src', fn), os.path.join('build', 'obj', base + '.base.o')): return fn, None
         before = objcode(obj); bdata = datasecs(obj); os.remove(obj)
-        text = open(path).read()
+        text = open(path).read(); base_text = text      # base_text: the text whose code `before` and `bdata` are
         notes = {r: [0, []] for r, _ in RULES}
         for rname, rule in RULES:
             pre, bl = blocks(text)
@@ -422,6 +422,14 @@ def main(tree):
                 open(path, 'w').write(text)
                 if os.path.exists(tmp): os.remove(tmp)
                 continue
+            # the baseline is the code just before this rule: an earlier rule proven another way (undefined4's probe,
+            # 'compiles') may have changed code that this rule then does not touch (12 Nov: 31 functions put back so)
+            if base_text != text:
+                open(path, 'w').write(text)
+                if compile_one(tree, os.path.join('src', fn), os.path.join('build', 'obj', base + '.cur.o')):
+                    cur = os.path.join(objd, base + '.cur.o'); before, bdata = objcode(cur), datasecs(cur); os.remove(cur)
+                    base_text = text
+                open(path, 'w').write(cand)
             after = objcode(tmp) if ok else {}
             syms = fn_symbols(cand)
             # everything that is not one of the tree's functions (GCC's .part/.constprop pieces, inline helpers) and

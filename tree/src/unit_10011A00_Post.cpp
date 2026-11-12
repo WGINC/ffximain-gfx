@@ -819,7 +819,7 @@ LABEL_102:
     *((_DWORD *)self_ + 201) = v98;
   }
   result = (int)g_pCDx;
-  if ( (*(unsigned __int8 *)&g_pCDx->field_915) != 0 )
+  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x915)) != 0 )
     orig::GammaRamp_ApplyIfChanged((int)((unsigned __int8 *)((char *)g_pCDx + 0x1F4)));
   result = (int)(((uint32_t)(result) & 0xFFFFFF00u) | ((uint32_t)(uint8_t)(*((_BYTE *)self_ + 10)) << 0));
   return result;

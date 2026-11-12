@@ -33,7 +33,7 @@ char CApp::RunMainLoop()
             goto LABEL_23;
         }
         while ( v5 != 1 );
-        this->field_1D = 1;
+        this->mainLoopActive = 1;
 LABEL_9:
         orig::App_ForceForegroundWindow(*((HWND *)self + 6));
         if ( (unsigned __int8)orig::App_RenderFrameMaskedFPU(self) == 0 )
@@ -77,7 +77,7 @@ LABEL_17:
     }
   }
 LABEL_23:
-  this->field_1D = 0;
+  this->mainLoopActive = 0;
   return orig::Camera_ReleaseAll(g_pCamera);
 }
 

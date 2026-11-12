@@ -54,7 +54,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
   {
     v1 = g_pCDx;
     g_cubeMapTextures[v0] = 0;
-    dword_1047D15C[v0] = 0;
+    g_cubeMapTexObjs[v0] = 0;
     result = orig::CDx_CreateDepthSurfaceLikeMain(v1, 32 << v0, 32 << v0);
     g_cubeMapTextures[v0] = result;
     if ( result == 0 )
@@ -70,7 +70,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
       v13[0],
       0,
       4 * v0 + (int)XI_GAME(0x1047D15Cu));
-    if ( dword_1047D15C[v0] == 0 )
+    if ( g_cubeMapTexObjs[v0] == 0 )
     {
       result = g_cubeMapTextures[v0];
       if ( result != 0 )
@@ -85,7 +85,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
       v5 = c_cubeFaceOrder[i];
       if ( v5 != 5 )
       {
-        v6 = dword_1047D15C[v0];
+        v6 = g_cubeMapTexObjs[v0];
         v11 = 0;
         (*(void (__stdcall **)(int, int, _DWORD, int *))(*(_DWORD *)v6 + 60))(v6, v5, 0, &v11);
         orig::sub_1006A070(g_pResourceMng, v11, 0, g_cubeMapTextures[v0]);
@@ -98,7 +98,7 @@ XI_API int __cdecl Gfx_InitCubeMapTextures(void)
         v8 = *(void **)(v7 + 3528);
         v9 = orig::Gfx_CalcFVFStride(0x44u);
         orig::CDx_DrawPrimitiveUP(v8, 5, 2, (int)&Gfx_InitCubeMapTextures_quadVerts, v9);
-        orig::sub_1006A0E0(g_pResourceMng, dword_1047D15C[v0], i);
+        orig::sub_1006A0E0(g_pResourceMng, g_cubeMapTexObjs[v0], i);
         (*(void (__stdcall **)(int))(*(_DWORD *)v11 + 8))(v11);
       }
     }

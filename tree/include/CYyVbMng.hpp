@@ -9,9 +9,9 @@ public:
     static undefined4 __stdcall ReleaseVertexBuffer(int * param_1);  // 0x1003B3C0
 
     void **vftable;  // +0x0
-    uint32_t field_4;  // +0x4
+    uint32_t pooledBufferCount;  // +0x4 number of pooled vertex buffers
     uint8_t _pad_8[0x4];
 };
 #pragma pack(pop)
 static_assert(sizeof(CYyVbMng) == 0xC, "CYyVbMng: sizeof");
-static_assert(XI_OFFSETOF(CYyVbMng, field_4) == 0x4, "CYyVbMng: layout");
+static_assert(XI_OFFSETOF(CYyVbMng, pooledBufferCount) == 0x4, "CYyVbMng: layout");

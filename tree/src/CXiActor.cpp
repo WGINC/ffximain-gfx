@@ -1008,19 +1008,6 @@ uint32_t __thiscall CXiActor::IsModelMissingOrSuppressed(void * self)
   return 1;
 }
 
-// FUNCTION: FFXIMAIN 0x100845E0  (placed by IDB name; static (takes no this))
-// GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
-undefined4 __thiscall CXiActor::GetSubModelResult(void * self)
-{
-  uint32_t uVar1;
-  
-  if (*(int *)((int)self + 0x70) != 0) {
-    uVar1 = orig::FUN_10098360();
-    return uVar1;
-  }
-  return 0;
-}
-
 // FUNCTION: FFXIMAIN 0x10084640  (placed by IDB name; static (takes no this))
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 uint32_t __thiscall CXiActor::TestModelFlags100000_200000_4000(void * self)

@@ -13,9 +13,9 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x194];
-    uint8_t field_198;  // +0x198
+    uint8_t programBuffer;  // +0x198 buffer object freed by MoProgElem_FreeBuffer40 in the destructor
     uint8_t _pad_199[0x47];
 };
 #pragma pack(pop)
 static_assert(sizeof(CMoVuDist) == 0x1E0, "CMoVuDist: sizeof");
-static_assert(XI_OFFSETOF(CMoVuDist, field_198) == 0x198, "CMoVuDist: layout");
+static_assert(XI_OFFSETOF(CMoVuDist, programBuffer) == 0x198, "CMoVuDist: layout");

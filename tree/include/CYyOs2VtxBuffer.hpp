@@ -14,16 +14,16 @@ public:
     uint32_t field_34;  // +0x34
     uint32_t field_38;  // +0x38
     uint8_t _pad_3C[0x4];
-    uint32_t field_40;  // +0x40
+    uint32_t indexBuffer;  // +0x40 IDirect3DIndexBuffer8 of 16-bit indices created in CreateBuffersStep.
     uint32_t field_44;  // +0x44
     uint32_t field_48;  // +0x48
-    uint32_t field_4C;  // +0x4C
+    uint32_t vertexBuffer;  // +0x4C Vertex buffer handle acquired from the CYyVbMng vertex-buffer manager.
     uint32_t field_50;  // +0x50
     uint32_t field_54;  // +0x54
     uint32_t indexCount;  // +0x58 loop bound over the 16-bit index array in CreateBuffersStep
     uint32_t pIndices;  // +0x5C 16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed wit
     uint32_t field_60;  // +0x60
-    uint32_t field_64;  // +0x64
+    uint32_t vertexShader;  // +0x64 Vertex shader handle created from g_vsDecl_1628.
     uint8_t field_68;  // +0x68
     uint8_t field_69;  // +0x69
     uint32_t field_6A;  // +0x6A
@@ -37,16 +37,16 @@ public:
 static_assert(sizeof(CYyOs2VtxBuffer) == 0x9E, "CYyOs2VtxBuffer: sizeof");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_34) == 0x34, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_38) == 0x38, "CYyOs2VtxBuffer: layout");
-static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_40) == 0x40, "CYyOs2VtxBuffer: layout");
+static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, indexBuffer) == 0x40, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_44) == 0x44, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_48) == 0x48, "CYyOs2VtxBuffer: layout");
-static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_4C) == 0x4C, "CYyOs2VtxBuffer: layout");
+static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, vertexBuffer) == 0x4C, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_50) == 0x50, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_54) == 0x54, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, indexCount) == 0x58, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, pIndices) == 0x5C, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_60) == 0x60, "CYyOs2VtxBuffer: layout");
-static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_64) == 0x64, "CYyOs2VtxBuffer: layout");
+static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, vertexShader) == 0x64, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_68) == 0x68, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_69) == 0x69, "CYyOs2VtxBuffer: layout");
 static_assert(XI_OFFSETOF(CYyOs2VtxBuffer, field_6A) == 0x6A, "CYyOs2VtxBuffer: layout");

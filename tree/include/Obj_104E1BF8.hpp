@@ -10,10 +10,10 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x18];
-    int32_t field_1C;  // +0x1C
+    int32_t fontTexture;  // +0x1C font texture entry, loaded on first use
     uint8_t _pad_20[0x10];
-    int32_t field_30;  // +0x30
+    int32_t dmgNumTexture;  // +0x30 damage-number texture entry, loaded on first use
 };
 #pragma pack(pop)
-static_assert(XI_OFFSETOF(Obj_104E1BF8, field_1C) == 0x1C, "Obj_104E1BF8: layout");
-static_assert(XI_OFFSETOF(Obj_104E1BF8, field_30) == 0x30, "Obj_104E1BF8: layout");
+static_assert(XI_OFFSETOF(Obj_104E1BF8, fontTexture) == 0x1C, "Obj_104E1BF8: layout");
+static_assert(XI_OFFSETOF(Obj_104E1BF8, dmgNumTexture) == 0x30, "Obj_104E1BF8: layout");

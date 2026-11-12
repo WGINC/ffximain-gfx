@@ -2604,7 +2604,7 @@ XI_API void __thiscall Acter_ReleaseAllSlots(void * self_)
       *(uint8_t *)((int)self_ + 0x1bc) = 3;
     }
   }
-  orig::FUN_1008f1d0();
+  orig::FUN_1008f1d0(self_);
   return;
 }
 

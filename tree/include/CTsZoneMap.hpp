@@ -32,10 +32,10 @@ public:
     uint32_t vsHandleB;  // +0x39458 vertex shader from g_zoneVSDeclB
     uint8_t _pad_3945C[0x10];
     uint32_t vsHandles;  // +0x3946C 5 more vertex shader handles
-    uint32_t field_39470;  // +0x39470
-    uint32_t field_39474;  // +0x39474
-    uint32_t field_39478;  // +0x39478
-    uint32_t field_3947C;  // +0x3947C
+    uint32_t vsHandleExtra1;  // +0x39470 Vertex shader handle deleted in the destructor.
+    uint32_t vsHandleExtra2;  // +0x39474 Vertex shader handle deleted in the destructor.
+    uint32_t vsHandleExtra3;  // +0x39478 Vertex shader handle deleted in the destructor.
+    uint32_t vsHandleExtra4;  // +0x3947C Vertex shader handle deleted in the destructor.
     uint8_t _pad_39480[0x14];
     uint32_t psHandle;  // +0x39494 pixel shader handle
     uint8_t _pad_39498[0xB4];
@@ -57,10 +57,10 @@ static_assert(XI_OFFSETOF(CTsZoneMap, field_34428) == 0x34428, "CTsZoneMap: layo
 static_assert(XI_OFFSETOF(CTsZoneMap, vsHandleA) == 0x39454, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, vsHandleB) == 0x39458, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, vsHandles) == 0x3946C, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_39470) == 0x39470, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_39474) == 0x39474, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_39478) == 0x39478, "CTsZoneMap: layout");
-static_assert(XI_OFFSETOF(CTsZoneMap, field_3947C) == 0x3947C, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, vsHandleExtra1) == 0x39470, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, vsHandleExtra2) == 0x39474, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, vsHandleExtra3) == 0x39478, "CTsZoneMap: layout");
+static_assert(XI_OFFSETOF(CTsZoneMap, vsHandleExtra4) == 0x3947C, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, psHandle) == 0x39494, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, field_3954C) == 0x3954C, "CTsZoneMap: layout");
 static_assert(XI_OFFSETOF(CTsZoneMap, overlayUseProjection) == 0x39598, "CTsZoneMap: layout");

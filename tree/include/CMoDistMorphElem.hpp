@@ -15,19 +15,19 @@ public:
 
     void **vftable;  // +0x0
     uint8_t _pad_4[0x2E];
-    uint8_t field_32;  // +0x32
+    uint8_t morphTargetCountAndFlags;  // +0x32 low 7 bits: number of morph targets/weights; bit 7: alpha test
     uint8_t _pad_33[0x1];
-    int16_t field_34;  // +0x34
-    int16_t field_36;  // +0x36
+    int16_t positionCount;  // +0x34 number of 3-float positions per morph target
+    int16_t packedNormalCount;  // +0x36 number of packed 10:10:10 normals per morph target
     uint8_t _pad_38[0x2];
-    uint16_t field_3A;  // +0x3A
+    uint16_t triangleCount;  // +0x3A number of triangles emitted by ApplyMorph (3 vertices each)
     uint8_t _pad_3C[0x184];
     uint32_t field_1C0;  // +0x1C0
 };
 #pragma pack(pop)
 static_assert(sizeof(CMoDistMorphElem) == 0x1C4, "CMoDistMorphElem: sizeof");
-static_assert(XI_OFFSETOF(CMoDistMorphElem, field_32) == 0x32, "CMoDistMorphElem: layout");
-static_assert(XI_OFFSETOF(CMoDistMorphElem, field_34) == 0x34, "CMoDistMorphElem: layout");
-static_assert(XI_OFFSETOF(CMoDistMorphElem, field_36) == 0x36, "CMoDistMorphElem: layout");
-static_assert(XI_OFFSETOF(CMoDistMorphElem, field_3A) == 0x3A, "CMoDistMorphElem: layout");
+static_assert(XI_OFFSETOF(CMoDistMorphElem, morphTargetCountAndFlags) == 0x32, "CMoDistMorphElem: layout");
+static_assert(XI_OFFSETOF(CMoDistMorphElem, positionCount) == 0x34, "CMoDistMorphElem: layout");
+static_assert(XI_OFFSETOF(CMoDistMorphElem, packedNormalCount) == 0x36, "CMoDistMorphElem: layout");
+static_assert(XI_OFFSETOF(CMoDistMorphElem, triangleCount) == 0x3A, "CMoDistMorphElem: layout");
 static_assert(XI_OFFSETOF(CMoDistMorphElem, field_1C0) == 0x1C0, "CMoDistMorphElem: layout");

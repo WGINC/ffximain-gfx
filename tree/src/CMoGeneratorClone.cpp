@@ -10,8 +10,8 @@ int CMoGeneratorClone::InitCloneFromSource(_DWORD *a2)
   _DWORD * self = reinterpret_cast<_DWORD *>(this);  // byte-exact view for the rest
   memset(self + 28, 0, 0x50u);
   this->typeTag = *a2;
-  this->field_24 = a2[1];
-  this->field_28 = a2[2];
+  this->typeSizeFlags = a2[1];
+  this->pParentNode = a2[2];
   this->field_2C = a2[3];
   this->field_34 = a2[4];
   this->field_38 = a2[5];
@@ -47,16 +47,16 @@ _DWORD * CMoGeneratorClone::FixupClonedPointers()
   bool v16; // zf
   int v17;
   _DWORD *result;
-  v2 = this->field_E8;
-  v3 = this->field_EC;
-  v4 = this->field_E4;
+  v2 = this->pResolveCommandStream;
+  v3 = this->pExecCommandStream;
+  v4 = this->pFindCommandStream;
   this->pCommandStream += self + 96;
-  this->field_E4 = self + 96 + v4;
-  this->field_E8 = self + 96 + v2;
+  this->pFindCommandStream = self + 96 + v4;
+  this->pResolveCommandStream = self + 96 + v2;
   v5 = self + 48;
   this->field_DC = 0;
-  this->field_B0 = 0;
-  this->field_EC = self + 96 + v3;
+  this->elemListHead = 0;
+  this->pExecCommandStream = self + 96 + v3;
   orig::CMoAttachments_ClearCaster((_DWORD *)(self + 48), 0);
   orig::CMoAttachments_ClearTarget((_DWORD *)v5, 0);
   this->field_78 = 1065353216;
@@ -1043,7 +1043,7 @@ void CMoGeneratorClone::ExecuteCmdList(int a2)
   int v17;
   _DWORD *v18;
   v2 = a2;
-  v3 = (_DWORD *)this->field_EC;
+  v3 = (_DWORD *)this->pExecCommandStream;
   v4 = a2 + *(__int16 *)(a2 + 374);
   v18 = self;
   v17 = v4;

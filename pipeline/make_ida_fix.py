@@ -18,6 +18,13 @@ data = {'names': json.load(open(os.path.join(D, 'names_pending_idb.json'), encod
 # CDx draw wrapper), exported from the next run on
 _more = sorted(int(k, 16) for k in json.load(open(os.path.join(D, 'gfx_device_users.json')))['functions'])
 data['export'] += [e for e in _more if e not in set(data['export'])]
+# (12 Nov) the frame-set functions of the game's own code that are not in the tree yet (verification/
+# frame_set_status.json: tree false, d3dx false): exported too, so that Hex-Rays' text of each can be translated and
+# gated (most had no export, or only a Ghidra one that did not pass)
+_fs = json.load(open(os.path.join(D, '..', 'verification', 'frame_set_status.json')))
+_missing = sorted(int(a, 16) for a, v in _fs.items() if not v.get('tree') and not v.get('d3dx'))
+_have = set(data['export']); data['export'] += [e for e in _missing if e not in _have]
+data['export_missing_frame_set'] = len([e for e in _missing if e not in _have])
 # names that state a fact (evidence_names.py), for functions with no other pending name
 for k, v in json.load(open(os.path.join(D, 'evidence_names.json'))).items():
     if k.startswith('_') or k in data['names']: continue

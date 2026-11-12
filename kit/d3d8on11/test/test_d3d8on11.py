@@ -567,6 +567,19 @@ for m in MODES:
         for n in sorted(set(base) | set(got)):
             if base.get(n) != got.get(n): print('  differs: %s' % n)
 
+# the hang watch (12 Nov): the executor stalled 8 s before its 3rd Present (D8ON11_TEST_STALL=3, thread mode); the log must
+# say after 5 s what the game waits for and what the executor runs and where (op 12 = X_PRESENT, d8_proto.h; its thread
+# in d3d8.dll), then that the wait ended; and t8's checks must pass as without the stall
+if 'thread' in MODES:
+    if os.path.exists(log): os.remove(log)
+    out = run(ours, '', True, 'thread', {'D8ON11_TEST_STALL': '3'})
+    t = open(log).read() if os.path.exists(log) else ''
+    rep = re.search(r'hang watch: the game has waited (\d+) ms for (.*?) \(.*?the executor runs op (\d+) since (\d+) ms.*?executor thread at (\S+), stack:(.*)', t)
+    ok = (rep is not None and rep.group(3) == '12' and 'd3d8.dll+' in rep.group(6) and re.search(r'hang watch: the wait for .* ended after \d+ ms', t) is not None
+          and 'ALL OK' in out)
+    print('%s: hang watch: an 8 s executor stall is reported after 5 s (%s), the executor thread\'s stack in d3d8.dll, then the wait\'s end; t8 passes' % (
+          'ok' if ok else 'FAIL', ('%s, op %s' % (rep.group(2), rep.group(3))) if rep else 'no report')); bad += not ok
+
 if os.path.exists(log):
     t = open(log).read()
     for l in t.splitlines():

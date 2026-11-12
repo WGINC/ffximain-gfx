@@ -25,6 +25,19 @@ _fs = json.load(open(os.path.join(D, '..', 'verification', 'frame_set_status.jso
 _missing = sorted(int(a, 16) for a, v in _fs.items() if not v.get('tree') and not v.get('d3dx'))
 _have = set(data['export']); data['export'] += [e for e in _missing if e not in _have]
 data['export_missing_frame_set'] = len([e for e in _missing if e not in _have])
+# (12 Nov) D3DX 8.1's functions, matched byte for byte against the DirectX 8.1 SDK's d3dx8.lib (data/d3dx/
+# d3dx81_manifest.json, pipeline/d3dx_data.py): the library's own (mangled) symbol, which IDA shows demangled; only where
+# the match is by name and bytes, or by at least 32 bytes, and no other name is pending. (Public FLIRT signatures for
+# DirectX 8 were measured against this list on 12 Nov and name a different library build: not used.)
+_dx = json.load(open(os.path.join(D, 'd3dx', 'd3dx81_manifest.json'))); _ndx = 0
+for k, v in _dx.items():
+    a = '0x%08X' % int(k, 16)
+    if a in data['names'] or k in data['names']: continue
+    if v['how'] != 'name+bytes' and v.get('bytes_compared', 0) < 32: continue
+    data['names'][a] = {'old': 'sub_%X' % int(k, 16), 'name': v['symbol'], 'confidence': 'proven',
+                        'evidence': 'D3DX 8.1: matched against d3dx8.lib (%s, %s, %d bytes compared)' % (v['object'], v['how'], v.get('bytes_compared', 0))}
+    _ndx += 1
+data['d3dx_names'] = _ndx
 # (12 Nov) the build the IDB holds: 16 functions' entry bytes (from 4 before the entry) as the analysed build has them (the kit's manifest,
 # EXPECTED column), spread over .text; the IDA pass changes nothing unless every one matches (an IDB of another build
 # would get names and stack points at the wrong addresses)

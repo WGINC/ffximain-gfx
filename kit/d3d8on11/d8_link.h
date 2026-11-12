@@ -61,18 +61,22 @@ struct RingHdr {
   volatile uint32_t ready, quit;                 // the executor is up / asked to stop
   int32_t reply_hr; uint32_t reply_bytes;
   uint32_t parent_pid;
-  uint32_t pad[2];
+  uint32_t pad[2];                               // reader_sleeping, writer_waiting (d8_link.cpp)
   // a reply larger than the reply area goes in pieces (d8_link.cpp, ring_consume and RingLink::answer): the executor
   // writes a piece of reply_bytes, raises reply_part and waits until the writer has copied it and set reply_ack to
   // it; the last piece is answered as a reply of one piece is
   volatile uint32_t reply_part, reply_ack;
-  uint32_t pad2[2];
+  volatile uint32_t exec_records, exec_site;     // (version 8) records run; the game's call site of the last draw
+  // (version 8) what the executor is doing, for the game side's hang watch: the record it runs (0 between records) and
+  // since when (GetTickCount)
+  volatile uint32_t exec_op, exec_since;
 };
-static_assert(sizeof(RingHdr) == 80, "the ring header's layout (shared by x86 and ARM64 processes)");
+static_assert(sizeof(RingHdr) == 88, "the ring header's layout (shared by x86 and ARM64 processes)");
 #define RING_MAGIC 0x52384438u                    /* "8D8R" */
-#define RING_VERSION 7u                           /* 2: VSKey.vfog (the draw packet grew); 3: X_OPTION; 4: X_SNAP and
+#define RING_VERSION 8u                           /* 2: VSKey.vfog (the draw packet grew); 3: X_OPTION; 4: X_SNAP and
                                                      the snapshot table after the reply area; 5: replies in pieces
-                                                     (reply_part, reply_ack), XInit.interval */
+                                                     (reply_part, reply_ack), XInit.interval; 8: exec_op, exec_since,
+                                                     exec_records, exec_site (the hang watch) */
 // the executor's side: run records until X_QUIT (remote) or quit is set; `wake` is signalled when data comes,
 // `space` / `replied` signalled by the reader
 struct Exec;

@@ -147,6 +147,13 @@ struct ExecStats {
   }
 };
 
+// the hang watch's test (test_d3d8on11.py): D8ON11_TEST_STALL=N makes the executor stop 8 s before its Nth Present
+static bool stall_test(uint16_t op) {
+  static int n = -1, seen = 0;
+  if (n < 0) { char b[16] = ""; GetEnvironmentVariableA("D8ON11_TEST_STALL", b, sizeof b); n = atoi(b); }
+  return n > 0 && op == X_PRESENT && ++seen == n;
+}
+
 // ---- the reader (the executor's side) -----------------------------------------------------------------------------
 void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wake, HANDLE space, HANDLE replied, HANDLE parent) {
   std::vector<uint8_t> out; ExecStats xs; xs.since = qpc_ms(); xs.attach(x);
@@ -179,7 +186,10 @@ void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wak
     if (hd->op == X_QUIT) { x->flush(); st(&h->read, r + need); return; }
     if (hd->op != X_PAD) {
       int32_t hr = 0; out.clear();
+      st(&h->exec_since, GetTickCount()); st(&h->exec_op, hd->op);
+      if (stall_test(hd->op)) Sleep(8000);
       x->run(hd->op, (const uint8_t *)(hd + 1), hd->bytes, &hr, &out);
+      st(&h->exec_op, 0); st(&h->exec_records, ld(&h->exec_records) + 1); st(&h->exec_site, x->last_site);
       if (hd->op == X_OPTION) xs.option((const uint8_t *)(hd + 1));
       if (is_sync(hd->op)) {
         // a reply larger than the reply area goes in pieces of the area's size: each but the last is handed over by
@@ -216,8 +226,59 @@ struct RingLink : Link {
   HANDLE wake = NULL, space = NULL, replied = NULL;
   HANDLE peer = NULL;                                            // remote: the executor's process
   CRITICAL_SECTION lock;
+  // the hang watch (12 Nov): every wait of the game's thread for the executor (room, pacing, an answer) has no time
+  // limit, so an executor that stops makes the game stop with it ("stopped interacting with Windows"). After 5 s of one
+  // wait with no record finished, and every 30 s after, the log says what the game waits for, what the executor runs and
+  // for how long, and (thread mode) where the executor thread is: its EIP and the return addresses on its stack, by
+  // module. The wait goes on: there is nothing safe to give the game instead.
+  const char *wait_what = nullptr; uint32_t wait_tick = 0, wait_start = 0, wait_records = 0, wait_next = 0; bool wait_reported = false;
+  virtual HANDLE exec_thread() { return NULL; }
+  void watch_begin(const char *what) { wait_what = what; wait_tick = wait_start = GetTickCount(); wait_records = ld(&h->exec_records); wait_next = 5000; wait_reported = false; }
+  void watch_end() { if (wait_reported) d8_log("hang watch: the wait for %s ended after %lu ms", wait_what, (unsigned long)(GetTickCount() - wait_start)); wait_what = nullptr; }
+  void watch() {
+    if (!wait_what) return;
+    uint32_t now = GetTickCount(), recs = ld(&h->exec_records);
+    if (recs != wait_records) { wait_records = recs; wait_tick = now; wait_next = 5000; return; }   // progress: not stuck
+    if (now - wait_tick < wait_next) return;
+    wait_next += 30000; wait_reported = true;
+    uint32_t op = ld(&h->exec_op), since = ld(&h->exec_since);
+    char line[1400]; int n = snprintf(line, sizeof line, "hang watch: the game has waited %lu ms for %s (record %u of op %u) with no record finished; the executor %s",
+      (unsigned long)(now - wait_tick), wait_what, (unsigned)sent, (unsigned)cur_op,
+      op ? "" : "is between records");
+    if (op) n += snprintf(line + n, sizeof line - n, "runs op %u since %lu ms (records run %u, last draw's call site 0x%08X)", op, (unsigned long)(now - since), recs, ld(&h->exec_site));
+    n += snprintf(line + n, sizeof line - n, "; ring write %u read %u, presents sent %u done %u, answered %u", ld(&h->write), ld(&h->read), ld(&h->presents_sent), ld(&h->presents_done), ld(&h->answered));
+    HANDLE t = exec_thread();
+    if (t) {
+      DWORD code = 0; GetExitCodeThread(t, &code);
+      if (code != STILL_ACTIVE) n += snprintf(line + n, sizeof line - n, "; the executor thread has ENDED (exit code 0x%lX)", (unsigned long)code);
+#if defined(__i386__) || defined(_M_IX86)                       // (the game side is x86; the ARM64 build is only the executor)
+      else if (SuspendThread(t) != (DWORD)-1) {
+        CONTEXT c; memset(&c, 0, sizeof c); c.ContextFlags = CONTEXT_CONTROL;
+        if (GetThreadContext(t, &c)) {
+          auto where = [&](uintptr_t a, char *o, int cap) {
+            if (a < 0x10000) return 0;                                 // (0 would name the main program)
+            HMODULE m = NULL; char path[MAX_PATH] = "?";
+            if (GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)a, &m) && m) {
+              GetModuleFileNameA(m, path, sizeof path); const char *b = strrchr(path, '\\'); return snprintf(o, cap, "%s+0x%lX", b ? b + 1 : path, (unsigned long)(a - (uintptr_t)m)); }
+            return 0; };
+          n += snprintf(line + n, sizeof line - n, "; executor thread at ");
+          int w = where(c.Eip, line + n, sizeof line - n); n += w ? w : snprintf(line + n, sizeof line - n, "0x%08lX", (unsigned long)c.Eip);
+          n += snprintf(line + n, sizeof line - n, ", stack:");
+          const uintptr_t *sp = (const uintptr_t *)(uintptr_t)c.Esp; int found = 0;
+          for (int k = 0; k < 512 && found < 12 && n < (int)sizeof line - 80; k++) {
+            uintptr_t v; if (!ReadProcessMemory(GetCurrentProcess(), sp + k, &v, sizeof v, NULL)) break;
+            char tmp[160]; if (where(v, tmp, sizeof tmp) > 0) { n += snprintf(line + n, sizeof line - n, " %s", tmp); found++; }
+          }
+        }
+        ResumeThread(t);
+      }
+#endif
+    }
+    d8_log("%s", line);
+  }
   // every wait for the executor: if its process has ended nothing will ever answer, and the game's state is in it
   void wait_for(HANDLE ev) {
+    watch();
     HANDLE hs[2] = {ev, peer};
     if (WaitForMultipleObjects(peer ? 2 : 1, hs, FALSE, 5) == WAIT_OBJECT_0 + 1) {
       DWORD code = 0; GetExitCodeProcess(peer, &code);
@@ -244,13 +305,13 @@ struct RingLink : Link {
     if (need > size / 2) { d8_log("a record of %u bytes does not fit the ring (%u): the device stops", bytes, size); ExitProcess(3); }
     uint32_t w = h->write, pos = w % size, padb = pos + need > size ? size - pos : 0;
     if (size - (w - ld(&h->read)) < need + padb) {
-      double t0 = qpc_ms();
+      double t0 = qpc_ms(); watch_begin("room in the ring");
       while (size - (w - ld(&h->read)) < need + padb) {         // wait for room
         st(&h->writer_waiting, 1);
         if (size - (w - ld(&h->read)) < need + padb) wait_for(space);
         st(&h->writer_waiting, 0);
       }
-      waited[0] += qpc_ms() - t0;
+      watch_end(); waited[0] += qpc_ms() - t0;
     }
     sent_bytes += need + padb; records++;
     if (padb) { XHdr *p = (XHdr *)(data + pos); p->op = X_PAD; p->pad = 0; p->bytes = padb - 8; w += padb; pos = 0; }
@@ -267,9 +328,9 @@ struct RingLink : Link {
     if (cur_op == X_PRESENT) {                                   // pacing: at most MAX_AHEAD frames queued
       uint32_t sent_p = ld(&h->presents_sent) + 1; st(&h->presents_sent, sent_p);
       if (sent_p - ld(&h->presents_done) > MAX_AHEAD) {
-        double t0 = qpc_ms();
+        double t0 = qpc_ms(); watch_begin("pacing (the executor's Presents)");
         while (sent_p - ld(&h->presents_done) > MAX_AHEAD) wait_for(replied);
-        waited[1] += qpc_ms() - t0;
+        watch_end(); waited[1] += qpc_ms() - t0;
       }
       stats_frame();
     }
@@ -277,7 +338,7 @@ struct RingLink : Link {
     LeaveCriticalSection(&lock);
   }
   int32_t answer(std::vector<uint8_t> *out) override {
-    double t0 = qpc_ms();
+    double t0 = qpc_ms(); watch_begin("an answer");
     if (out) out->clear();
     for (;;) {
       if ((int32_t)(ld(&h->answered) - sent) >= 0) break;
@@ -289,7 +350,7 @@ struct RingLink : Link {
       }
       wait_for(replied);
     }
-    waited[2] += qpc_ms() - t0;
+    watch_end(); waited[2] += qpc_ms() - t0;
     int32_t hr = h->reply_hr;
     if (out) out->insert(out->end(), reply, reply + h->reply_bytes);
     LeaveCriticalSection(&lock);
@@ -317,6 +378,7 @@ static uint32_t ring_bytes() {
 
 // thread: the ring in this process, the executor on a thread of its own
 struct ThreadLink : RingLink {
+  HANDLE exec_thread() override { return thread; }               // the hang watch reads where it is
   Exec x; HANDLE thread = NULL; uint8_t *mem = nullptr;
   static DWORD WINAPI main(LPVOID p) {
     ThreadLink *t = (ThreadLink *)p;

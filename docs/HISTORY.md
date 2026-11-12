@@ -4912,6 +4912,45 @@ Tree round r20 (regen, cases, gate) is run so that the 41 are gated again before
 - In r20 source_shape.py put the new rules back in 46 functions for a reason that was not theirs (docs/SHAPE.md);
   the proof's baseline is fixed, and **r21** regenerates with it.
 
+## 12 Nov (third entry): the hang watch; crowds; FLIRT signatures; the kit rebuilt from r21
+
+**The owner:** below 60 fps in crowded areas (the goal: 60 minimum, 100+ everywhere); the game "really vulnerable to
+infinite hangs", with an Application Hang event (pol.exe 1.18.13.0 stopped interacting with Windows, 12 Nov 03:53).
+
+**Hangs, from d3d8on11's code.** In thread mode (the owner's) every wait of the game's thread for the executor -- room
+in the ring, pacing (2 frames ahead), an answer (readbacks, X_INIT, X_FINISH) -- loops on 5 ms waits with no time
+limit; the only way out was the executor's *process* ending, which exists only in remote mode. An executor stuck
+anywhere (the driver, a lost device) hangs the game with nothing in the log. Earlier unexplained freezes (6 Nov
+`abtest flip`, 19 Nov first hitch start) fit this; their logs did not survive, so it is not established.
+- The hang watch (d8_link.cpp): the executor publishes its current record, since when, its record count and the
+  last draw's call site in the ring header (RING_VERSION 8, 88 bytes). A game-side wait with no record finished for
+  5 s, and every 30 s after, logs what the game waits for, the executor's record and time in it, the ring's
+  counters, and (thread mode) the executor thread: ended or not, its EIP and the return addresses on its stack by
+  module; then the wait's end. The wait goes on: there is nothing safe to give the game instead.
+- Test: D8ON11_TEST_STALL=3 stalls the executor 8 s before its third Present; the report names op 12 (X_PRESENT),
+  the thread in ring_consume+0x810 under ThreadLink::main, and the end after 8,022 ms; test_d3d8on11.py ALL OK.
+
+**Crowds, from the 19 Nov all start's d3d8on11 log** (600-frame windows): the executor busy 95.5-97.6% of the time in
+every window; 1,300-2,200 draws a frame; executor 10.6-24.5 ms a frame, of it Present 6.0-13.3 ms and draws 4.3-11.0
+ms. The game's thread spends 2-3.6 ms a frame in d3d8on11. The executor (one thread feeding Parallels' D3D11 driver)
+is the limit. Whether Present's time is the host's GPU or the driver's per-draw work is not separable here: D3D11
+timestamp queries return nothing on Parallels (6 Nov) and PresentMon did not see the game's swap chain in this start.
+On 9 Nov frame_latency did not shorten Present, so it is not simply waiting for the GPU. 100 fps in a crowd needs the
+executor under 10 ms: about half the draws or half the cost per draw.
+
+**FLIRT signatures.** Downloaded Maktm/FLIRTDB, rizinorg/sigdb, push0ebp/sig-database (outside the repository). None
+has Visual C++ 6.0. Measured with a .pat matcher at every function start of the game against data/d3dx/d3dx81_manifest
+(825 functions matched to the DirectX 8.1 SDK's d3dx8.lib by bytes): FLIRTDB's d3dx8.pat names 165 of them the same,
+147 differently and misses 513 (d3dx.pat, d3dx8dt.pat worse; dxerr8.pat hits nothing): a different D3DX build, not
+used. Instead the IDA pass applies 622 D3DX 8.1 names from the manifest (name+bytes matches, or byte matches of 32
+bytes or more). The game also carries zlib (inflate 1.1.4), libpng 1.0.5 and 1.2.5 and IJG libjpeg (1996); no
+signature fits those either; exact ones would be built from the same versions compiled with VC6 (not done).
+
+**Kit from r21:** the manifest 4,846 functions (20 more: their calls are now right); test_xikit 275 ok, 5 FAIL: the 4
+known Wine 64-bit sampler checks, and a timing check (DispatchMessageA inclusive 374.7 ms vs 100 x exclusive 3.94 ms)
+that passes run alone on an idle machine (370.8 / 1.2). One run before it timed out in mode `profile`; run alone it
+passed, and the next full run did not time out.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

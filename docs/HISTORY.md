@@ -5088,6 +5088,28 @@ pixels through the draw path: LINEAR blends, CLAMP clamps), two ways of writing 
 when neither is right. Also fixed: a snapshot of an object whose previous copy was not yet submitted waited on a fence
 no submission would signal (not seen to happen; it would have hung).
 
+## 13 Nov (second entry): the GPU's time, caches on disk, draw merging on Direct3D 12; on more cores
+
+The owner: "get the rest of that started", and: "can we not split all of this among multiple cores for both the GPU
+and CPU to run these frames exceedingly fast?"
+
+**Built (d8_exec12.cpp; README "The Direct3D 12 executor" has the details):** GPU timestamps per frame and per
+render-target size (Wine: 1.5 ms a frame for t8's 40 quads, in two 64x64 passes); a binds line (draws, pipeline
+switches, tables, barriers, pipelines and shaders made and the time); compiled shaders cached on disk by their HLSL
+text's hash and the driver's pipeline library (Wine has none: 0x887A0004; a second start loaded its 6 shaders and
+compiled none, 4.2 ms of making them down to 0.2); draw_merge on Direct3D 12 for runs of delta draws (scenes identical
+with and without it, with gpu_skin, and with the slots restarting every second run). The D3D8 side no longer turns
+draw_merge off for want of buffer_arena and exec_batch when the backend is d3d12.
+
+**More cores, from the owner's 13 Nov numbers:** the game's frames are made by three things in a row, and each is
+already working on its own: the game's thread (single-threaded original code; 7.5 ms a frame with nothing drawn in the
+plaza, 26 Oct), d3d8on11's executor thread (11-13 ms a frame in crowds on Direct3D 12, of it about 5 ms recording and
+the rest Present, which includes waiting for the GPU), and the GPU (PresentMon's GPU busy about 11-12 ms a frame on
+Direct3D 12 in frames over 14 ms; from a run whose picture was wrong, so not settled). Recording on more CPU threads
+takes 0.1-0.2 ms per 2,000 draws (probe12): nothing to split. The GPU already runs every draw's pixels on all its cores
+at once; what limits it here is not known until the timestamps say which pass costs what. The game's thread could
+only be split by changing its original code, which nothing here proves safe.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

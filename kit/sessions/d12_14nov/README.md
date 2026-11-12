@@ -22,6 +22,17 @@ driver and keeps the first that gives the right pixels. If neither does, it uses
 (as smooth as your start 1) and the log says so. Either way the log line "D3D12 sampler check" tells us what your
 Mac does.
 
+## Also in this build (the next steps, measured in this start)
+
+- **Where the GPU's time goes:** the log now has the GPU's time for each frame, split by what it draws into (your
+  double-size scene, the screen, the rest), every 10 seconds or so. That says whether the double-size scene or the
+  number of draws is what costs.
+- **Fewer draws:** draw merging now works on Direct3D 12 (on in this start, as before): the many draws of a crowd that
+  differ only in which model part they draw are sent as one. In your 13 Nov crowd about 1,040 of 1,650 draws a frame
+  were of that kind.
+- **Fewer hitches next time:** the shaders and pipeline states this start makes are saved next to d3d8on11 (two files,
+  d3d8on11_d3d12_*.bin) and loaded at the next start, so a place you have been before does not compile them again.
+
 ## Before you start
 
 As before: unzip into the PlayOnlineViewer folder so that `d12_14nov` sits inside it, copy the zip's `kit` files next

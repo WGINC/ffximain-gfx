@@ -27,6 +27,17 @@
 #include <dxgi1_4.h>
 #include <deque>
 
+// ID3D12PipelineLibrary as d3d12.h declares it (the Windows SDK's; zig's mingw-w64 headers have it, the i686 MinGW-w64
+// headers here do not): its IID and its methods after ID3D12DeviceChild's, in that order
+struct D8PipelineLibrary : public ID3D12DeviceChild {
+  virtual HRESULT STDMETHODCALLTYPE StorePipeline(const WCHAR *name, ID3D12PipelineState *pipeline) = 0;
+  virtual HRESULT STDMETHODCALLTYPE LoadGraphicsPipeline(const WCHAR *name, const D3D12_GRAPHICS_PIPELINE_STATE_DESC *desc, REFIID riid, void **pso) = 0;
+  virtual HRESULT STDMETHODCALLTYPE LoadComputePipeline(const WCHAR *name, const D3D12_COMPUTE_PIPELINE_STATE_DESC *desc, REFIID riid, void **pso) = 0;
+  virtual SIZE_T STDMETHODCALLTYPE GetSerializedSize() = 0;
+  virtual HRESULT STDMETHODCALLTYPE Serialize(void *data, SIZE_T bytes) = 0;
+};
+static const GUID IID_D8PipelineLibrary = {0xc64226a8, 0x9201, 0x46af, {0xb4, 0xcc, 0x53, 0xfb, 0x9f, 0xf7, 0x41, 0x4f}};
+
 struct Exec;
 struct Exec12 {
   explicit Exec12(Exec &owner) : o(owner) {}
@@ -100,7 +111,8 @@ struct Exec12 {
     // a buffer
     bool dyn = false; std::vector<uint8_t> shadow; D3D12_GPU_VIRTUAL_ADDRESS va = 0; uint8_t *cpu = nullptr; uint64_t epoch = ~0ull;
     uint32_t skin_src = 0; std::shared_ptr<SkinPal> pal;
-    uint64_t up_frame = ~0ull;
+    uint64_t up_frame = ~0ull; uint32_t ver = 0;   // ver: its uploads, counted (draw merging's slots are per version)
+    uint32_t serial = 0;                           // a number no other object of this executor has had (draw merging's slot keys)
     // X_SNAP: a readback buffer of its own and the fence value its copy is done at
     ID3D12Resource *snap = nullptr; uint32_t snap_pitch = 0;
   };
@@ -111,7 +123,7 @@ struct Exec12 {
   std::vector<D3D12_RESOURCE_BARRIER> bars;
   void to(Res &r, D3D12_RESOURCE_STATES s) { to(r.r, r.st, s); }
   void to(ID3D12Resource *r, D3D12_RESOURCE_STATES &cur, D3D12_RESOURCE_STATES s);
-  void barriers() { if (!bars.empty()) { cl->ResourceBarrier((UINT)bars.size(), bars.data()); bars.clear(); } }
+  void barriers() { if (!bars.empty()) { cl->ResourceBarrier((UINT)bars.size(), bars.data()); c_bars += bars.size(); bars.clear(); } }
 
   // ---- targets ----
   XRef tgt_rt = {}; uint32_t tgt_ds = 0; bool tgt_dirty = true;
@@ -124,8 +136,8 @@ struct Exec12 {
   typedef HRESULT (WINAPI *PFN_Compile)(const void *, SIZE_T, const char *, const D3D_SHADER_MACRO *, ID3DInclude *,
                                          const char *, const char *, UINT, UINT, ID3DBlob **, ID3DBlob **);
   PFN_Compile compile = nullptr;
-  struct VSh { ID3DBlob *code = nullptr; std::vector<D3D12_INPUT_ELEMENT_DESC> il; uint32_t id = 0; };
-  struct PSh { ID3DBlob *code = nullptr; uint32_t id = 0; };
+  struct VSh { ID3DBlob *code = nullptr; std::vector<D3D12_INPUT_ELEMENT_DESC> il; uint32_t id = 0; uint64_t h = 0; };   // h: the bytecode's and layout's hash
+  struct PSh { ID3DBlob *code = nullptr; uint32_t id = 0; uint64_t h = 0; };
   std::unordered_map<std::string, VSh> vsh; std::unordered_map<std::string, PSh> psh;
   std::unordered_map<std::string, ID3D12PipelineState *> psos;
   ID3DBlob *compile_hlsl(const std::string &src, const char *entry, const char *target);
@@ -153,7 +165,26 @@ struct Exec12 {
     D3D11_SAMPLER_DESC skd[8]; uint32_t smp = 0;
     uint8_t pkey[512]; ID3D12PipelineState *pso = nullptr;
   } memo;
-  void draw(const XDraw &d, const uint8_t *data);
+  // ---- draw merging (OPT_MERGE, d3d8on11.ini draw_merge=1; 13 Nov): a run of X_DRAW_SAME records -- packets equal in all
+  // but buffers and range, as the D3D8 side sends them with draw_delta=1 -- of indexed triangle lists becomes one draw,
+  // as the Direct3D 11 executor's draw_merge does (d8_exec.h). Each draw's vertex buffers are copied by the GPU, whole
+  // and once per version, to a vertex slot v of four slot buffers (stream s at v * its stride); its indices are written
+  // to the ring as 32-bit numbers plus its base vertex and v. The run's head draws them all: the same triangles, in the
+  // same order, with the same state. A run is held until a record that is not part of it comes.
+  bool merge_on = false; std::vector<uint8_t> run_head, run_tails; uint32_t run_n = 0;
+  // each slot buffer's size: 16 MB (GPU memory: not in the game's address space); D8ON11_TEST_SLOT_KB (a test) makes
+  // them small so that they fill and start again
+  static uint64_t sa_cap() { static uint64_t c = getenv("D8ON11_TEST_SLOT_KB") && atoi(getenv("D8ON11_TEST_SLOT_KB")) > 0 ? (uint64_t)atoi(getenv("D8ON11_TEST_SLOT_KB")) << 10 : 16ull << 20; return c; }
+  ID3D12Resource *sa[4] = {}; D3D12_RESOURCE_STATES sa_st[4] = {}; uint64_t sa_pos[4] = {};
+  struct SlotKey { uint32_t v[12]; bool operator<(const SlotKey &o2) const { return memcmp(v, o2.v, sizeof v) < 0; } };
+  std::map<SlotKey, uint32_t> slots;
+  uint64_t mg_runs = 0, mg_saved = 0, mg_bytes = 0, mg_wraps = 0; uint32_t res_serial = 0; bool mg_fell = false; uint64_t mg_total_runs = 0, mg_total_saved = 0;
+  Res *eff_stream(const XDraw &d, int s, uint32_t *stride);   // the buffer stream s reads (a skinned stand-in's source)
+  bool mergeable(const XDraw &d);
+  bool same_run(const XDraw &first, const XDraw &d);
+  void flush_run();
+  struct MergeIn { const uint8_t *tails; uint32_t n; };
+  void draw(const XDraw &d, const uint8_t *data, const MergeIn *mi = nullptr);
   bool dyn_view(Res &r, D3D12_GPU_VIRTUAL_ADDRESS *va);   // a dynamic buffer's contents for this submission
   void upload_tex(const XUpTex &u, const uint8_t *rows);
   void upload_buf(const XUpBuf &u, const uint8_t *data);
@@ -167,4 +198,28 @@ struct Exec12 {
   std::vector<SnapPend> snap_pend;
   void snap_poll();
   bool lost = false; void check_lost(const char *where, HRESULT h);
+
+  // ---- the GPU's time (13 Nov): timestamps at a frame's start, at each change of render target, and before its Present,
+  // resolved with the frame and read once its fence has passed (never waited for); logged every 600 Presents by
+  // render-target size: what the game's double-size scene pass costs against the rest
+  ID3D12QueryHeap *qh = nullptr; ID3D12Resource *qrb = nullptr; const uint64_t *qrb_m = nullptr; double tfreq = 0;
+  enum { TQ_FR = 8, TQ_N = 64 };
+  struct TFrame { uint32_t n = 0; uint64_t fence = 0; bool pending = false; uint32_t key[TQ_N]; } tq[TQ_FR];
+  uint32_t tq_cur = 0; bool tq_on = false;
+  struct PassT { double ms = 0; uint32_t n = 0; };
+  std::map<uint32_t, PassT> tq_pass; std::vector<float> tq_ms; uint32_t tq_frames = 0, tq_bad = 0;
+  void ts_init(); void ts_mark(uint32_t key); void ts_begin(); void ts_end(); void ts_collect(); void ts_report();
+  uint32_t tgt_key() const { return has_rtv ? (rt_w << 16 | (rt_h & 0xFFFF)) : (0x80000000u | rt_w << 16 | (rt_h & 0xFFFF)); }
+  // what the list did, every 600 Presents: pipeline switches, table changes, barriers; pipelines and shaders made
+  // (and the time it took: a first use of a state combination costs the frame it happens in)
+  uint64_t c_pso = 0, c_srvtab = 0, c_smptab = 0, c_bars = 0, c_draws = 0; uint32_t c_frames = 0;
+  double c_pso_ms = 0, c_cmp_ms = 0; uint32_t c_pso_new = 0, c_pso_loaded = 0, c_cmp_new = 0, c_cmp_loaded = 0;
+  // ---- caches on disk, next to the executor's module (13 Nov): compiled shaders by their HLSL text's hash
+  // (d3d8on11_d3d12_shaders.bin) and the driver's own pipeline library (d3d8on11_d3d12_pipelines.bin), so a state
+  // combination met in an earlier start is not compiled again. Written at shutdown and every 1,800 Presents with news
+  D8PipelineLibrary *plib = nullptr; std::vector<uint8_t> plib_blob; bool plib_dirty = false;
+  std::unordered_map<std::string, std::vector<uint8_t>> sh_disk; bool sh_dirty = false; std::string cache_dir;
+  typedef HRESULT (WINAPI *PFN_CreateBlob)(SIZE_T, ID3DBlob **); PFN_CreateBlob create_blob = nullptr;
+  void caches_load(); void caches_save(); uint64_t cache_saved_at = 0;
+  ID3D12PipelineState *make_pso(const D3D12_GRAPHICS_PIPELINE_STATE_DESC &g, uint64_t vh, uint64_t ph);
 };

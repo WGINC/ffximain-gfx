@@ -675,6 +675,40 @@ for m in MODES:
           and tot.group(5) == '0' and 'skin: 3 jobs taken' in out)
     print('%s: d3d12, %s mode, gpu_skin=1: every scene equals the run without it, skin_gpu equals skin_cpu (%s)' % (
           'ok' if ok else 'FAIL', m, ('%s jobs, %s draws not made' % (tot.group(1), tot.group(5))) if tot else 'no totals line')); bad += not ok
+    # draw merging on Direct3D 12 (13 Nov): runs of delta draws drawn as one must draw exactly what the run draws without it;
+    # also with the slot buffers forced to start again every second run (D8ON11_TEST_SLOT_WRAP=2), and with gpu skinning
+    for name, extra in [('merge', {}), ('merge, slots restarting', {'D8ON11_TEST_SLOT_WRAP': '2'}), ('merge, gpu_skin', {'D8ON11_GPU_SKIN': '1'})]:
+        sk = extra.get('D8ON11_GPU_SKIN', '0')
+        base12 = scenes(ours, True, m, dict(D12, D8ON11_GPU_SKIN=sk))
+        clear_logs(); sm = scenes(ours, True, m, dict(D12, D8ON11_DRAW_MERGE='1', D8ON11_DRAW_DELTA='1', **extra)); t = logs()
+        mm = re.search(r'draw_merge: (\d+) merged draws took in (\d+) others, the slots started again (\d+) times', t)
+        fell = 'Direct3D 11 runs the stream' in t
+        ok = sm == base12 and (fell or (mm is not None and int(mm.group(1)) > 0 and (name != 'merge, slots restarting' or int(mm.group(3)) > 0)))
+        print('%s: d3d12, %s mode, %s: every scene as without merging (%s)' % ('ok' if ok else 'FAIL', m, name,
+              'Direct3D 11 after the fallback' if fell else ('%s merged draws took in %s others, the slots started again %s times' % mm.groups()) if mm else 'no merge line')); bad += not ok
+# the GPU's time and the binds (13 Nov): logged every 600 frames by the Direct3D 12 executor; and the shader cache on disk: a
+# second start compiles nothing it compiled before (Wine's Direct3D 12 has no pipeline library: that half is logged as none)
+if 'thread' in MODES:
+    for f in os.listdir(ours):
+        if f.startswith('d3d8on11_d3d12_') and f.endswith('.bin'): os.remove(os.path.join(ours, f))
+    got = []
+    for k in range(2):
+        clear_logs(); out = run(ours, 'frames 700 draw', True, 'thread', D12); t = logs()
+        gt = re.search(r'D3D12 gpu time, 600 frames: a frame\'s GPU work ([0-9.]+) ms on average.*?by render target: (.*)', t)
+        bl = re.search(r'D3D12 binds, 600 frames: .*?(\d+) shaders compiled \((\d+) from the disk cache\)', t)
+        sv = 'D3D12 caches written' in t or os.path.exists(os.path.join(ours, 'd3d8on11_d3d12_shaders.bin'))
+        got.append((gt, bl, sv, 'presented 699' in out))
+    (g1, b1, s1, p1), (g2, b2, s2, p2) = got
+    # (700 frames is under the 1,800 Presents after which the cache is written while running; the first run writes it at
+    # shutdown only if its device is released, which t8 frames does not do: so the first run's file is made here by a
+    # longer run when it is missing)
+    ok = p1 and p2 and g1 is not None and float(g1.group(1)) > 0 and b1 is not None
+    print('%s: d3d12: the GPU\'s time per frame and by render target is logged (%s), and the binds line' % ('ok' if ok else 'FAIL', (g1.group(1) + ' ms; ' + g1.group(2)[:80]) if g1 else 'no line')); bad += not ok
+    clear_logs(); run(ours, 'frames 2000 draw', True, 'thread', D12)
+    clear_logs(); out = run(ours, 'frames 700 draw', True, 'thread', D12); t = logs()
+    bl = re.search(r'D3D12 binds, 600 frames: .*?(\d+) shaders compiled \((\d+) from the disk cache\)', t)
+    ok = 'presented 699' in out and bl is not None and bl.group(1) == '0' and int(bl.group(2)) > 0 and re.search(r'D3D12 caches: [1-9]\d* compiled shaders from the last starts', t) is not None
+    print('%s: d3d12: a start after one that ran 2,000 frames compiles no shader: %s' % ('ok' if ok else 'FAIL', bl.group(0)[bl.group(0).find('frame;') + 7:] if bl else 'no binds line')); bad += not ok
 # when Direct3D 12 cannot start (D8ON11_TEST_D3D12_FAIL), the stream runs on Direct3D 11: logged, and the scenes are the
 # Direct3D 11 executor's exactly
 if 'thread' in MODES:

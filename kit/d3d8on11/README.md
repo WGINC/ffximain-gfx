@@ -240,7 +240,7 @@ upload ring, the root signature or the swap chain cannot be made, the log says w
   before each use. A draw that samples the texture it renders into reads no texture, as Direct3D 11 does.
 - **Swap chain:** the flip model (FLIP_DISCARD, 2 buffers), the only one Direct3D 12 has; the CPU may be
   `frame_latency + 1` frames ahead of the GPU (at most 3).
-- **Not used:** exec_batch, exec_filter, buffer_arena, draw_merge, gpu_time. They exist to save Direct3D 11 Map calls
+- **Not used:** exec_batch, exec_filter, buffer_arena, gpu_time (the Direct3D 12 executor measures the GPU's time always). They exist to save Direct3D 11 Map calls
   or measure through Direct3D 11 queries; the log names each one set as not applied. draw_delta and gpu_skin are the
   D3D8 side's and work as before.
 - **A lost device:** the first failed call logs the device's removal reason; from then on nothing waits for the GPU
@@ -264,6 +264,20 @@ upload ring, the root signature or the swap chain cannot be made, the log says w
   colours slightly off), blob shadows speckled, the projected shadow wrapping inside its box. That those come from the
   sampler state is a reading of the symptoms; the check's log line on the owner's machine settles it.
   D8ON11_TEST_D3D12_SAMPLERS makes both ways count as wrong (the fallback's test).
+- **Measured in every start (13 Nov):** `D3D12 gpu time` every 600 frames: the GPU's time for a frame (timestamps at
+  its start, at each change of render target and before its Present, read once its fence has passed), by render-target
+  size, so the game's double-size scene pass shows apart from the rest; `D3D12 binds`: draws, pipeline switches,
+  descriptor tables and barriers a frame, and the pipelines and shaders made with the time it took.
+- **Caches on disk (13 Nov):** compiled shaders by their HLSL text's hash (`d3d8on11_d3d12_shaders.bin`) and the
+  driver's pipeline library (`d3d8on11_d3d12_pipelines.bin`, where the device has ID3D12Device1; Wine's has none) next
+  to the executor's module, written every 1,800 Presents with news (the game never releases its device at exit, so a
+  write at shutdown would not come). D8ON11_NO_DISK_CACHE=1 turns them off.
+- **draw_merge on Direct3D 12 (13 Nov):** with draw_delta=1, a run of delta draws of indexed triangle lists is drawn as
+  one: each draw's vertex buffers copied by the GPU, once per version, to a slot of four 16 MB slot buffers (GPU
+  memory, not the game's address space), its indices rewritten as 32-bit into the ring. Needs neither buffer_arena nor
+  exec_batch. Tested: every scene identical with and without it, also with gpu_skin and with the slots forced to start
+  again every second run (D8ON11_TEST_SLOT_WRAP=2). The 13 Nov crowd frames had about 1,040 of 1,650 draws a frame as
+  delta draws: what merging can take there, not yet measured in the game.
 - **The owner's run (13 Nov), crowd windows of 1,600-2,000 draws:** the executor 11-13 ms a frame on Direct3D 12
   against 17.5-19.7 ms on Direct3D 11 (draws about 5 ms against 8.5-9; the 13 Nov build counted delta draws as
   "other", fixed). The picture was wrong as above.

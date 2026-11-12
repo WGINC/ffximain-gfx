@@ -25,7 +25,11 @@ static double qpc12() {
   LARGE_INTEGER t; QueryPerformanceCounter(&t); return (double)t.QuadPart * 1000.0 / (double)f.QuadPart;
 }
 template <class T> static void rel(T *&p) { if (p) { p->Release(); p = nullptr; } }
-static const D3D12_RESOURCE_STATES ST_VBIB = (D3D12_RESOURCE_STATES)(D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER | D3D12_RESOURCE_STATE_INDEX_BUFFER);
+static uint64_t fnv64(const void *p, size_t n, uint64_t h = 14695981039346656037ull) {
+  const uint8_t *b = (const uint8_t *)p; for (size_t i = 0; i < n; i++) { h ^= b[i]; h *= 1099511628211ull; } return h;
+}
+// a static buffer's read state: vertex, index, and copy source (draw merging copies it into its slots)
+static const D3D12_RESOURCE_STATES ST_VBIB = D3D12_RESOURCE_STATE_GENERIC_READ;
 enum { RING_MB = 64, GV_CAP = 65536 };
 
 // ---- the bridge to Exec (d8_exec.cpp includes no Direct3D 12 header of ours) -------------------------------------
@@ -180,6 +184,7 @@ void Exec12::bind_targets() {
     else ds_res = nullptr;
     tgt_dirty = false;
     cl->OMSetRenderTargets(has_rtv ? 1 : 0, has_rtv ? &cur_rtv : nullptr, FALSE, has_dsv ? &cur_dsv : nullptr);
+    ts_mark(tgt_key());                                      // the GPU's time from here on is this target's
   }
   if (rt_res && rt_st) to(rt_res, *rt_st, D3D12_RESOURCE_STATE_RENDER_TARGET);
   if (ds_res) to(*ds_res, D3D12_RESOURCE_STATE_DEPTH_WRITE);
@@ -263,6 +268,8 @@ int32_t Exec12::init(const XInit &x, bool resize) {
       if (FAILED(h)) { d8_log("D3D12: CreateRootSignature: 0x%08lX", (unsigned long)h); return D3DERR_NOTAVAILABLE; } }
     HMODULE cm = LoadLibraryA("d3dcompiler_47.dll");
     compile = cm ? (PFN_Compile)(void *)GetProcAddress(cm, "D3DCompile") : nullptr;
+    create_blob = cm ? (PFN_CreateBlob)(void *)GetProcAddress(cm, "D3DCreateBlob") : nullptr;
+    caches_load();
     if (!compile) d8_log("D3D12: d3dcompiler_47.dll not found: draws cannot be executed");
     // the swap chain: the flip model (the only one Direct3D 12 has)
     DXGI_SWAP_CHAIN_DESC1 sd = {}; sd.Width = x.width; sd.Height = x.height; sd.Format = DXGI_FORMAT_B8G8R8A8_UNORM; sd.SampleDesc.Count = 1;
@@ -286,6 +293,7 @@ int32_t Exec12::init(const XInit &x, bool resize) {
       if (ra == 3) smp_copy = true;
       else if (rb2 == 3) smp_copy = false;
       else { d8_log("D3D12: this driver does not sample as the stream asks by either way: Direct3D 11 runs the stream"); return D3DERR_NOTAVAILABLE; } }
+    ts_init(); ts_begin();
     D3D12_FEATURE_DATA_D3D12_OPTIONS op = {}; dev->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &op, sizeof op);
     d8_log("D3D12 executor: device made; resource binding tier %d; upload ring %d MB; swap chain %ux%u, FLIP_DISCARD, %d buffers; up to %u frames in flight",
            (int)op.ResourceBindingTier, RING_MB, x.width, x.height, NBB, inflight);
@@ -302,11 +310,23 @@ int32_t Exec12::init(const XInit &x, bool resize) {
 
 // ---- records -------------------------------------------------------------------------------------------------------------
 void Exec12::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply) {
+  bool was_same = false;
   if (op == X_DRAW_SAME) {                                 // draw_delta: the last packet's head, then this tail
     if (n < XDRAW_TAIL || head.size() != XDRAW_HEAD) { d8_once("samenohead12", "stream error: X_DRAW_SAME with no draw before it (skipped)"); return; }
     same.resize(sizeof(XDraw)); memcpy(same.data(), head.data(), XDRAW_HEAD); memcpy(same.data() + XDRAW_HEAD, p, XDRAW_TAIL);
-    p = same.data(); n = (uint32_t)sizeof(XDraw); op = X_DRAW;
+    p = same.data(); n = (uint32_t)sizeof(XDraw); op = X_DRAW; was_same = true;
   } else if (op == X_DRAW && n >= sizeof(XDraw)) head.assign(p, p + XDRAW_HEAD);
+  // draw merging: a draw that continues the held run joins it; anything else draws the run first
+  if (merge_on && dev && !lost) {
+    if (op == X_DRAW && was_same && run_n) {
+      std::vector<uint8_t> first(sizeof(XDraw)); memcpy(first.data(), run_head.data(), XDRAW_HEAD); memcpy(first.data() + XDRAW_HEAD, run_tails.data(), XDRAW_TAIL);
+      if (same_run(*(const XDraw *)first.data(), *(const XDraw *)p)) { run_tails.insert(run_tails.end(), p + XDRAW_HEAD, p + sizeof(XDraw)); run_n++; return; }
+    }
+    if (run_n) flush_run();
+    if (op == X_DRAW && n >= sizeof(XDraw) && mergeable(*(const XDraw *)p)) {
+      run_head.assign(p, p + XDRAW_HEAD); run_tails.assign(p + XDRAW_HEAD, p + sizeof(XDraw)); run_n = 1; return;
+    }
+  }
   if (!dev && op != X_INIT && op != X_OPTION) return;
   if (lost && op != X_INIT && op != X_RESIZE && op != X_OPTION && op != X_READBACK && op != X_FINISH && op != X_PRESENT) {
     if (op == X_DRAW) o.draws++;
@@ -351,10 +371,11 @@ void Exec12::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::ve
   case X_BUF: {
     const XBuf &b = *(const XBuf *)p;
     if (res.count(b.id)) { d8_log("stream error: object %u created twice (the earlier one is replaced)", b.id); free_res(res[b.id], false); res.erase(b.id); }
-    Res x; x.kind = 3; x.index = b.index; x.w = b.length; x.dyn = b.dyn != 0;
+    Res x; x.kind = 3; x.index = b.index; x.w = b.length; x.dyn = b.dyn != 0; x.serial = ++res_serial;
     uint32_t size = (b.length + 15) & ~15u;
     if (x.dyn) x.shadow.assign(size, 0);                    // its contents live in the ring (dyn_view); this is the CPU's copy
     else {
+      if (merge_on && b.index && size <= (256u << 10)) x.shadow.assign(size, 0);   // draw merging rewrites its indices from this copy
       D3D12_HEAP_PROPERTIES hp = {}; hp.Type = D3D12_HEAP_TYPE_DEFAULT;
       D3D12_RESOURCE_DESC rd = {}; rd.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER; rd.Width = size; rd.Height = 1; rd.DepthOrArraySize = 1;
       rd.MipLevels = 1; rd.SampleDesc.Count = 1; rd.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
@@ -405,6 +426,10 @@ void Exec12::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::ve
       // frame_latency=N: DXGI lets N frames queue for the GPU; here the CPU may be N+1 submissions of frames ahead (it
       // records the next while N wait), at most NF
       if (x.value) inflight = std::min<uint32_t>(x.value + 1, NF);
+    } else if (x.key == OPT_MERGE) {
+      if (run_n) flush_run();
+      merge_on = (x.value & 1) != 0;
+      d8_once("merge12", "draw_merge: the Direct3D 12 executor merges runs of delta draws (needs draw_delta=1)");
     } else if (x.key == OPT_SITES || x.key == OPT_D3D12) {
     } else if (x.key == OPT_FLIP) {
       if (!x.value) d8_once("flip12", "swap_flip=0: Direct3D 12 has only the flip model; it is used");
@@ -456,6 +481,8 @@ void Exec12::upload_buf(const XUpBuf &u, const uint8_t *data) {
   if (x->up_frame != ~0ull && o.presents - x->up_frame <= 1) o.up_again[1] += u.length;
   x->up_frame = o.presents;
   x->skin_src = 0; x->pal.reset();                         // written: no longer a skinned mesh's stand-in
+  x->ver++;
+  if (!x->dyn && !x->shadow.empty() && (uint64_t)u.offset + u.length <= x->shadow.size()) memcpy(x->shadow.data() + u.offset, data, u.length);
   if (x->dyn) {
     if ((uint64_t)u.offset + u.length > x->shadow.size()) { d8_once("dynrange12", "a dynamic buffer upload past its end (skipped)"); return; }
     memcpy(x->shadow.data() + u.offset, data, u.length);
@@ -484,13 +511,176 @@ bool Exec12::dyn_view(Res &r, D3D12_GPU_VIRTUAL_ADDRESS *va) {
 }
 
 // ---- shaders and pipelines -----------------------------------------------------------------------------------------------
+// compiled once per HLSL text: from the disk cache when an earlier start compiled the same text for the same target
+// (the key is the text's hash and length, so a changed generator never reads old code)
 ID3DBlob *Exec12::compile_hlsl(const std::string &src, const char *entry, const char *target) {
   if (!compile) return nullptr;
-  ID3DBlob *code = nullptr, *err = nullptr;
+  char k[96]; snprintf(k, sizeof k, "%s|%s|%016llx|%u", target, entry, (unsigned long long)fnv64(src.data(), src.size()), (unsigned)src.size());
+  auto it = sh_disk.find(k);
+  if (it != sh_disk.end() && create_blob) {
+    ID3DBlob *b = nullptr;
+    if (SUCCEEDED(create_blob(it->second.size(), &b)) && b) { memcpy(b->GetBufferPointer(), it->second.data(), it->second.size()); c_cmp_loaded++; return b; }
+  }
+  ID3DBlob *code = nullptr, *err = nullptr; double t0 = qpc12();
   HRESULT h = compile(src.data(), src.size(), "d3d8on11", NULL, NULL, entry, target, D3DCOMPILE_OPTIMIZATION_LEVEL3, 0, &code, &err);
+  c_cmp_ms += qpc12() - t0; c_cmp_new++;
   if (FAILED(h)) { d8_log("shader compile failed (%s, 0x%08lX): %s\n----\n%s----", target, (unsigned long)h, err ? (const char *)err->GetBufferPointer() : "", src.c_str()); rel(err); return nullptr; }
-  rel(err); return code;
+  rel(err);
+  const uint8_t *cb = (const uint8_t *)code->GetBufferPointer();
+  sh_disk[k].assign(cb, cb + code->GetBufferSize()); sh_dirty = true;
+  return code;
 }
+// a pipeline state: from the driver's pipeline library when an earlier start stored it under the same name, else made and
+// stored. The name is a hash of everything the description holds by value and of the shaders' code and layout
+ID3D12PipelineState *Exec12::make_pso(const D3D12_GRAPHICS_PIPELINE_STATE_DESC &g, uint64_t vh, uint64_t ph) {
+  uint64_t h = fnv64(&g.BlendState, sizeof g.BlendState);
+  h = fnv64(&g.SampleMask, sizeof g.SampleMask, h); h = fnv64(&g.RasterizerState, sizeof g.RasterizerState, h);
+  h = fnv64(&g.DepthStencilState, sizeof g.DepthStencilState, h); h = fnv64(&g.PrimitiveTopologyType, sizeof g.PrimitiveTopologyType, h);
+  h = fnv64(&g.NumRenderTargets, sizeof g.NumRenderTargets, h); h = fnv64(g.RTVFormats, sizeof g.RTVFormats, h);
+  h = fnv64(&g.DSVFormat, sizeof g.DSVFormat, h); h = fnv64(&g.SampleDesc, sizeof g.SampleDesc, h);
+  h = fnv64(&vh, sizeof vh, h); h = fnv64(&ph, sizeof ph, h);
+  WCHAR name[40]; swprintf(name, 40, L"d8_%016llx", (unsigned long long)h);
+  ID3D12PipelineState *pso = nullptr; double t0 = qpc12();
+  if (plib && SUCCEEDED(plib->LoadGraphicsPipeline(name, &g, __uuidof(ID3D12PipelineState), (void **)&pso)) && pso) { c_pso_loaded++; c_pso_ms += qpc12() - t0; return pso; }
+  pso = nullptr;
+  HRESULT hr = dev->CreateGraphicsPipelineState(&g, __uuidof(ID3D12PipelineState), (void **)&pso);
+  c_pso_ms += qpc12() - t0; c_pso_new++;
+  if (FAILED(hr)) { d8_log("D3D12: CreateGraphicsPipelineState: 0x%08lX (render target format %u, depth format %u)", (unsigned long)hr, (unsigned)g.RTVFormats[0], (unsigned)g.DSVFormat); return nullptr; }
+  if (plib && SUCCEEDED(plib->StorePipeline(name, pso))) plib_dirty = true;
+  return pso;
+}
+
+// ---- the caches on disk ---------------------------------------------------------------------------------------------------
+static bool read_file(const std::string &path, std::vector<uint8_t> *out, size_t limit) {
+  HANDLE f = CreateFileA(path.c_str(), GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, 0, NULL);
+  if (f == INVALID_HANDLE_VALUE) return false;
+  LARGE_INTEGER sz; bool ok = GetFileSizeEx(f, &sz) && sz.QuadPart > 0 && (uint64_t)sz.QuadPart <= limit;
+  if (ok) { out->resize((size_t)sz.QuadPart); DWORD got = 0; ok = ReadFile(f, out->data(), (DWORD)out->size(), &got, NULL) && got == out->size(); }
+  CloseHandle(f); return ok;
+}
+static bool write_file(const std::string &path, const void *p, size_t n) {   // a new file in place of the old, whole or not at all
+  std::string tmp = path + ".new";
+  HANDLE f = CreateFileA(tmp.c_str(), GENERIC_WRITE, 0, NULL, CREATE_ALWAYS, 0, NULL);
+  if (f == INVALID_HANDLE_VALUE) return false;
+  DWORD put = 0; bool ok = WriteFile(f, p, (DWORD)n, &put, NULL) && put == n; CloseHandle(f);
+  return ok && MoveFileExA(tmp.c_str(), path.c_str(), MOVEFILE_REPLACE_EXISTING);
+}
+void Exec12::caches_load() {
+  { HMODULE hm = NULL; char path[MAX_PATH] = {};
+    GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)(void *)&fnv64, &hm);
+    GetModuleFileNameA(hm, path, sizeof path); char *sl = strrchr(path, '\\'); if (sl) sl[1] = 0; else path[0] = 0;
+    cache_dir = path; }
+  if (getenv("D8ON11_NO_DISK_CACHE")) { d8_log("D3D12 caches: off (D8ON11_NO_DISK_CACHE)"); return; }
+  std::vector<uint8_t> b; size_t nsh = 0;
+  if (read_file(cache_dir + "d3d8on11_d3d12_shaders.bin", &b, 64u << 20) && b.size() >= 12 && !memcmp(b.data(), "D8SH", 4)) {
+    size_t at = 12;                                            // "D8SH", version 1, count; then key length, key, code length, code
+    uint32_t ver, cnt; memcpy(&ver, b.data() + 4, 4); memcpy(&cnt, b.data() + 8, 4);
+    for (uint32_t i = 0; ver == 1 && i < cnt; i++) {
+      uint32_t kl, cl2;
+      if (at + 4 > b.size()) break; memcpy(&kl, &b[at], 4); at += 4; if (at + kl + 4 > b.size()) break;
+      std::string key((const char *)&b[at], kl); at += kl; memcpy(&cl2, &b[at], 4); at += 4; if (at + cl2 > b.size()) break;
+      sh_disk[key].assign(b.begin() + at, b.begin() + at + cl2); at += cl2; nsh++;
+    }
+  }
+  ID3D12Device1 *d1 = nullptr; HRESULT h = E_NOINTERFACE;
+  if (SUCCEEDED(dev->QueryInterface(__uuidof(ID3D12Device1), (void **)&d1))) {
+    if (read_file(cache_dir + "d3d8on11_d3d12_pipelines.bin", &plib_blob, 256u << 20))
+      h = d1->CreatePipelineLibrary(plib_blob.data(), plib_blob.size(), IID_D8PipelineLibrary, (void **)&plib);
+    if (FAILED(h) || !plib) {                                  // none yet, or made by another driver or device: a new one
+      if (!plib_blob.empty()) d8_log("D3D12 caches: the stored pipeline library was not taken (0x%08lX: another driver, device or build); a new one", (unsigned long)h);
+      plib_blob.clear(); plib = nullptr;
+      h = d1->CreatePipelineLibrary(nullptr, 0, IID_D8PipelineLibrary, (void **)&plib);
+      if (FAILED(h)) { plib = nullptr; d8_log("D3D12 caches: no pipeline library on this device (0x%08lX): pipelines are made each start", (unsigned long)h); }
+    }
+    d1->Release();
+  } else d8_log("D3D12 caches: no ID3D12Device1: pipelines are made each start");
+  d8_log("D3D12 caches: %u compiled shaders from the last starts; pipeline library %s (%u KB) in %s", (unsigned)nsh,
+         plib ? (plib_blob.empty() ? "new" : "loaded") : "none", (unsigned)(plib_blob.size() >> 10), cache_dir.c_str());
+}
+void Exec12::caches_save() {
+  if (getenv("D8ON11_NO_DISK_CACHE") || cache_dir.empty()) return;
+  if (sh_dirty) {
+    std::vector<uint8_t> b(12); memcpy(b.data(), "D8SH", 4); uint32_t ver = 1, cnt = (uint32_t)sh_disk.size(); memcpy(&b[4], &ver, 4); memcpy(&b[8], &cnt, 4);
+    for (auto &e : sh_disk) {
+      uint32_t kl = (uint32_t)e.first.size(), cl2 = (uint32_t)e.second.size();
+      b.insert(b.end(), (uint8_t *)&kl, (uint8_t *)&kl + 4); b.insert(b.end(), e.first.begin(), e.first.end());
+      b.insert(b.end(), (uint8_t *)&cl2, (uint8_t *)&cl2 + 4); b.insert(b.end(), e.second.begin(), e.second.end());
+    }
+    if (write_file(cache_dir + "d3d8on11_d3d12_shaders.bin", b.data(), b.size())) sh_dirty = false;
+    else d8_once("shsave12", "D3D12 caches: d3d8on11_d3d12_shaders.bin could not be written in %s", cache_dir.c_str());
+  }
+  if (plib && plib_dirty) {
+    std::vector<uint8_t> b(plib->GetSerializedSize());
+    if (!b.empty() && SUCCEEDED(plib->Serialize(b.data(), b.size())) && write_file(cache_dir + "d3d8on11_d3d12_pipelines.bin", b.data(), b.size())) plib_dirty = false;
+    else d8_once("plsave12", "D3D12 caches: d3d8on11_d3d12_pipelines.bin could not be written in %s", cache_dir.c_str());
+  }
+}
+
+// ---- the GPU's time -------------------------------------------------------------------------------------------------------
+void Exec12::ts_init() {
+  UINT64 f = 0;
+  if (FAILED(q->GetTimestampFrequency(&f)) || !f) { d8_log("D3D12 gpu time: the queue gives no timestamp frequency: not measured"); return; }
+  tfreq = (double)f;
+  D3D12_QUERY_HEAP_DESC qd = {}; qd.Type = D3D12_QUERY_HEAP_TYPE_TIMESTAMP; qd.Count = TQ_FR * TQ_N;
+  if (FAILED(dev->CreateQueryHeap(&qd, __uuidof(ID3D12QueryHeap), (void **)&qh))) { d8_log("D3D12 gpu time: no timestamp query heap: not measured"); return; }
+  qrb = readback_buffer12(dev, (uint64_t)TQ_FR * TQ_N * 8);
+  void *m = nullptr;
+  if (!qrb || FAILED(qrb->Map(0, nullptr, &m))) { d8_log("D3D12 gpu time: no readback buffer: not measured"); rel(qh); rel(qrb); return; }
+  qrb_m = (const uint64_t *)m; tq_on = true;
+}
+void Exec12::ts_mark(uint32_t key) {
+  if (!tq_on) return;
+  TFrame &f = tq[tq_cur];
+  if (f.n >= TQ_N - 1) return;                                 // (the last one is the frame's end)
+  cl->EndQuery(qh, D3D12_QUERY_TYPE_TIMESTAMP, tq_cur * TQ_N + f.n); f.key[f.n++] = key;
+}
+void Exec12::ts_begin() {
+  if (!tq_on) return;
+  TFrame &f = tq[tq_cur];
+  if (f.pending) { ts_collect(); if (f.pending) { f.pending = false; tq_bad++; } }   // (8 frames behind: not measured)
+  f.n = 0; ts_mark(tgt_dirty ? 0 : tgt_key());
+}
+void Exec12::ts_end() {
+  if (!tq_on) return;
+  TFrame &f = tq[tq_cur];
+  cl->EndQuery(qh, D3D12_QUERY_TYPE_TIMESTAMP, tq_cur * TQ_N + f.n); f.key[f.n++] = ~0u;
+  cl->ResolveQueryData(qh, D3D12_QUERY_TYPE_TIMESTAMP, tq_cur * TQ_N, f.n, qrb, (UINT64)tq_cur * TQ_N * 8);
+  f.fence = fval + 1; f.pending = true; tq_cur = (tq_cur + 1) % TQ_FR;
+}
+void Exec12::ts_collect() {
+  if (!tq_on) return;
+  uint64_t done = fence->GetCompletedValue();
+  for (int i = 0; i < TQ_FR; i++) {
+    TFrame &f = tq[i];
+    if (!f.pending || f.fence > done) continue;
+    f.pending = false;
+    const uint64_t *v = qrb_m + (size_t)i * TQ_N;
+    bool ok = f.n >= 2 && v[0] != 0;
+    for (uint32_t j = 1; ok && j < f.n; j++) ok = v[j] >= v[j - 1];
+    if (!ok) { tq_bad++; continue; }
+    for (uint32_t j = 0; j + 1 < f.n; j++) { PassT &p = tq_pass[f.key[j]]; p.ms += (double)(v[j + 1] - v[j]) * 1000.0 / tfreq; p.n++; }
+    tq_ms.push_back((float)((double)(v[f.n - 1] - v[0]) * 1000.0 / tfreq)); tq_frames++;
+  }
+}
+void Exec12::ts_report() {
+  if (!tq_on) return;
+  if (tq_ms.empty()) { d8_log("D3D12 gpu time: %u frames not measured (timestamps zero or out of order)", tq_bad); tq_bad = 0; return; }
+  std::vector<float> v = tq_ms; std::sort(v.begin(), v.end()); double sum = 0; for (float x : v) sum += x;
+  std::vector<std::pair<double, uint32_t>> ps; for (auto &e : tq_pass) ps.push_back({e.second.ms, e.first});
+  std::sort(ps.rbegin(), ps.rend());
+  char by[512] = {}; size_t at = 0;
+  for (size_t i = 0; i < ps.size() && i < 6 && at < sizeof by - 64; i++) {
+    uint32_t k = ps[i].second; const PassT &p = tq_pass[k];
+    if (k == 0) at += snprintf(by + at, sizeof by - at, "%s(before any target) %.2f ms", i ? "; " : "", p.ms / tq_frames);
+    else at += snprintf(by + at, sizeof by - at, "%s%ux%u%s %.2f ms (%.1f passes)", i ? "; " : "", (k >> 16) & 0x7FFF, k & 0xFFFF, (k & 0x80000000u) ? " depth only" : "",
+                        p.ms / tq_frames, (double)p.n / tq_frames);
+  }
+  d8_log("D3D12 gpu time, %u frames: a frame's GPU work %.3f ms on average, 95%% %.3f, longest %.3f (%u not measured); by render target: %s",
+         tq_frames, sum / v.size(), v[(size_t)(v.size() * 0.95)], v.back(), tq_bad, by);
+  tq_ms.clear(); tq_pass.clear(); tq_frames = 0; tq_bad = 0;
+}
+
+// ---- pipeline state descriptions from the stream's Direct3D 11 ones ------------------------------------------------
 static D3D12_PRIMITIVE_TOPOLOGY_TYPE topo_type(uint32_t t) {
   switch (t) {
   case D3D_PRIMITIVE_TOPOLOGY_POINTLIST: return D3D12_PRIMITIVE_TOPOLOGY_TYPE_POINT;
@@ -645,8 +835,53 @@ int Exec12::sampler_check(bool copy, uint32_t px[2]) {
   return result;
 }
 
+// ---- draw merging -----------------------------------------------------------------------------------------------------
+Exec12::Res *Exec12::eff_stream(const XDraw &d, int s, uint32_t *stride) {
+  if (!d.stream[s].buf) return nullptr;
+  bool sk = false; for (int e = 0; e < d.vk.nel; e++) sk |= d.vk.el[e].sem == SE_SKIN && d.vk.el[e].stream == s;
+  Res *r = res_of(d.stream[s].buf);
+  if (!r) return nullptr;
+  if (sk) { if (!r->skin_src || !r->pal) return nullptr; *stride = (uint32_t)sizeof(XSkinVtx); return res_of(r->skin_src); }
+  *stride = d.stream[s].stride; return r;
+}
+bool Exec12::mergeable(const XDraw &d) {
+  if (d.kind != XD_INDEXED || d.topology != (uint32_t)D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST || d.raster.FillMode != D3D11_FILL_SOLID || !d.count || !d.stream[0].buf) return false;
+  for (int s = 0; s < 16; s++) {
+    if (!d.stream[s].buf) continue;
+    uint32_t st; Res *r = eff_stream(d, s, &st);
+    if (s > 3 || !st || !r || r->kind != 3 || (!r->dyn && !r->r)) return false;
+    if ((uint64_t)(r->dyn ? r->shadow.size() : r->w) > sa_cap() / 4) return false;
+  }
+  Res *ib = res_of(d.ib);
+  if (!ib || !ib->index || ib->shadow.empty()) return false;
+  return ((uint64_t)d.start + d.count) * (d.ib32 ? 4u : 2u) <= ib->w;
+}
+bool Exec12::same_run(const XDraw &first, const XDraw &d) {
+  if (!mergeable(d) || d.ib32 != first.ib32) return false;
+  for (int s = 0; s < 16; s++) if (!d.stream[s].buf != !first.stream[s].buf || d.stream[s].stride != first.stream[s].stride) return false;
+  for (int e = 0; e < d.vk.nel; e++) if (d.vk.el[e].sem == SE_SKIN) {     // one palette for the run (b1 holds one)
+    Res *a = res_of(first.stream[d.vk.el[e].stream].buf), *b = res_of(d.stream[d.vk.el[e].stream].buf);
+    if (!a || !b || !a->pal || !b->pal || a->pal->serial != b->pal->serial) return false;
+  }
+  return true;
+}
+void Exec12::flush_run() {
+  uint32_t n = run_n; run_n = 0;
+  if (!n) return;
+  std::vector<uint8_t> first(sizeof(XDraw)); memcpy(first.data(), run_head.data(), XDRAW_HEAD); memcpy(first.data() + XDRAW_HEAD, run_tails.data(), XDRAW_TAIL);
+  const XDraw &d = *(const XDraw *)first.data();
+  const XDraw &last = *(const XDraw *)(first.data());
+  (void)last;
+  MergeIn mi = {run_tails.data(), n};
+  mg_fell = false;
+  draw(d, nullptr, n > 1 ? &mi : nullptr);
+  o.draws += n;
+  if (n > 1 && !mg_fell) { mg_runs++; mg_saved += n - 1; mg_total_runs++; mg_total_saved += n - 1; }
+  { XDraw tl; memcpy(&tl.stream, run_tails.data() + (size_t)(n - 1) * XDRAW_TAIL, XDRAW_TAIL); last_site = o.last_site = tl.site; }
+}
+
 // ---- a draw --------------------------------------------------------------------------------------------------------------
-void Exec12::draw(const XDraw &d, const uint8_t *data) {
+void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   if (!compile) return;
   // shaders (the Direct3D 11 executor's HLSL), compiled once per key
   // the last draw's shaders, pipeline state and sampler table, when this draw's keys equal its (most draws: no lookup)
@@ -674,11 +909,19 @@ void Exec12::draw(const XDraw &d, const uint8_t *data) {
     }
     vi = vsh.emplace(vks, std::move(v)).first;
   }
-  if (!Vp) { Vp = &vi->second; memo.vk = d.vk; memo.v = Vp; memo.vk_ok = true; }
+  if (!Vp) {
+    Vp = &vi->second; memo.vk = d.vk; memo.v = Vp; memo.vk_ok = true;
+    if (!Vp->h && Vp->code) {                                  // the code's and the input layout's hash (the pipeline library's names)
+      uint64_t h = fnv64(Vp->code->GetBufferPointer(), Vp->code->GetBufferSize());
+      for (auto &e : Vp->il) { h = fnv64(e.SemanticName, strlen(e.SemanticName), h); h = fnv64(&e.SemanticIndex, sizeof(UINT) * 4, h); h = fnv64(&e.Format, sizeof e.Format, h); }
+      Vp->h = h | 1;
+    }
+  }
   if (!Pp) {
     auto pi = psh.find(pks);
     if (pi == psh.end()) { PSh s; s.id = (uint32_t)psh.size() + 1; s.code = compile_hlsl(gen_ps(d.pk), "main", "ps_5_0"); pi = psh.emplace(pks, s).first; }
     Pp = &pi->second; memo.pk = d.pk; memo.p = Pp; memo.pk_ok = true;
+    if (!Pp->h && Pp->code) Pp->h = fnv64(Pp->code->GetBufferPointer(), Pp->code->GetBufferSize()) | 1;
   }
   VSh &V = *Vp; PSh &P = *Pp;
   if (!V.code || !P.code) return;
@@ -712,6 +955,13 @@ void Exec12::draw(const XDraw &d, const uint8_t *data) {
     for (UINT i = 0; i < 16; i++) if (d.stream[i].buf) { Res *r = res_of(d.stream[i].buf); if (r && r->dyn && r->epoch != submits) need += r->shadow.size() + 256; }
     if (d.kind == XD_INDEXED) { Res *r = res_of(d.ib); if (r && r->dyn && r->epoch != submits) need += r->shadow.size() + 256; }
     if (sks >= 0) { Res *r = res_of(d.stream[sks].buf); if (r && r->skin_src) { Res *s = res_of(r->skin_src); if (s && s->dyn) need += s->shadow.size() + 256; } }
+    if (mi) {                                              // the run's indices, and its dynamic sources' copies
+      XDraw t; memcpy(&t, &d, XDRAW_HEAD);
+      for (uint32_t j = 0; j < mi->n; j++) {
+        memcpy(&t.stream, mi->tails + (size_t)j * XDRAW_TAIL, XDRAW_TAIL); need += (uint64_t)t.count * 4 + 16;
+        for (int s = 0; s < 4; s++) { uint32_t st; Res *r = eff_stream(t, s, &st); if (r && r->dyn && r->epoch != submits) need += r->shadow.size() + 256; }
+      }
+    }
     if (need > ring_cap / 4) { d8_once("drawbig12", "D3D12: a draw needs %llu bytes of the ring, more than a quarter of it (skipped)", (unsigned long long)need); return; }
     // room for all of it (twice, for the wrap): waits here, not between this draw's allocations
     for (;;) {
@@ -729,6 +979,71 @@ void Exec12::draw(const XDraw &d, const uint8_t *data) {
       if (gv_marks.empty()) submit();
       wait(gv_marks.front().fence);
     }
+  }
+  // ---- draw merging: each draw's vertex slot (its buffers copied there once per version); may wait for the GPU when the
+  // slot buffers are full, so before anything is bound
+  std::vector<uint32_t> mslot;
+  if (mi) {
+    if (!sa[0]) {
+      D3D12_HEAP_PROPERTIES hp = {}; hp.Type = D3D12_HEAP_TYPE_DEFAULT;
+      D3D12_RESOURCE_DESC rd = {}; rd.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER; rd.Width = sa_cap(); rd.Height = 1; rd.DepthOrArraySize = 1;
+      rd.MipLevels = 1; rd.SampleDesc.Count = 1; rd.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+      for (int i = 0; i < 4; i++) {
+        sa_st[i] = D3D12_RESOURCE_STATE_COPY_DEST;
+        if (FAILED(dev->CreateCommittedResource(&hp, D3D12_HEAP_FLAG_NONE, &rd, sa_st[i], nullptr, __uuidof(ID3D12Resource), (void **)&sa[i]))) {
+          for (int k = 0; k < 4; k++) rel(sa[k]);
+          d8_log("draw_merge (D3D12): the slot buffers (4 x %u KB) could not be made: off", (unsigned)(sa_cap() >> 10)); merge_on = false; break;
+        }
+      }
+      if (sa[0]) d8_log("draw_merge (D3D12): four %u KB slot buffers for vertex streams 0 to 3", (unsigned)(sa_cap() >> 10));
+    }
+    const uint64_t cap = sa_cap();
+    XDraw t; memcpy(&t, &d, XDRAW_HEAD);
+    for (int attempt = 0; sa[0] && attempt < 2 && mslot.size() < mi->n; attempt++) {
+      mslot.clear(); bool full = false;
+      // a test (D8ON11_TEST_SLOT_WRAP=N): every Nth merged run finds the slots full, so they start again
+      { static long tw = getenv("D8ON11_TEST_SLOT_WRAP") ? atol(getenv("D8ON11_TEST_SLOT_WRAP")) : 0; static long tc = 0;
+        if (tw > 0 && attempt == 0 && ++tc % tw == 0) full = true; }
+      std::vector<std::pair<int, std::pair<Res *, uint64_t>>> copies;   // (stream, (source, its slot's byte offset))
+      for (uint32_t j = 0; j < mi->n && !full; j++) {
+        memcpy(&t.stream, mi->tails + (size_t)j * XDRAW_TAIL, XDRAW_TAIL);
+        SlotKey key; memset(&key, 0, sizeof key); Res *rs[4] = {}; uint32_t st[4] = {}; uint64_t L = 0, sz[4] = {};
+        for (int s = 0; s < 4; s++) {
+          rs[s] = eff_stream(t, s, &st[s]); if (!rs[s]) continue;
+          key.v[s * 3] = rs[s]->serial; key.v[s * 3 + 1] = rs[s]->ver; key.v[s * 3 + 2] = st[s];
+          sz[s] = rs[s]->dyn ? rs[s]->shadow.size() : rs[s]->w; L = std::max<uint64_t>(L, (sz[s] + st[s] - 1) / st[s]);
+        }
+        auto f = slots.find(key);
+        if (f != slots.end()) { mslot.push_back(f->second); continue; }
+        uint64_t v = 0;
+        for (int s = 0; s < 4; s++) if (rs[s]) v = std::max<uint64_t>(v, (sa_pos[s] + st[s] - 1) / st[s]);
+        for (int s = 0; s < 4; s++) if (rs[s] && (v + L) * st[s] > cap) full = true;
+        if (full) break;
+        for (int s = 0; s < 4; s++) if (rs[s]) { copies.push_back({s, {rs[s], v * st[s]}}); sa_pos[s] = (v + L) * st[s]; }
+        slots[key] = (uint32_t)v; mslot.push_back((uint32_t)v);
+      }
+      if (full) {                                          // the slot buffers are full: start them again (once the GPU is done)
+        wait_idle(); slots.clear(); for (auto &x : sa_pos) x = 0; mg_wraps++; mslot.clear(); continue;
+      }
+      if (!copies.empty()) {
+        for (int s = 0; s < 4; s++) to(sa[s], sa_st[s], D3D12_RESOURCE_STATE_COPY_DEST);
+        for (auto &c : copies) { Res *r = c.second.first; if (!r->dyn) to(*r, ST_VBIB); }
+        barriers();
+        for (auto &c : copies) {
+          Res *r = c.second.first; uint64_t bytes = r->dyn ? r->shadow.size() : r->w;
+          if (r->dyn) { D3D12_GPU_VIRTUAL_ADDRESS va; if (dyn_view(*r, &va)) cl->CopyBufferRegion(sa[c.first], c.second.second, ring, va - ring_va, bytes); }
+          else cl->CopyBufferRegion(sa[c.first], c.second.second, r->r, 0, bytes);
+          mg_bytes += bytes;
+        }
+      }
+    }
+    if (mslot.size() < mi->n) {                            // could not place the run: its draws one by one
+      d8_once("mergeplace12", "draw_merge (D3D12): a run did not fit the slot buffers: drawn one by one");
+      XDraw t2; memcpy(&t2, &d, XDRAW_HEAD);
+      for (uint32_t j = 0; j < mi->n; j++) { memcpy(&t2.stream, mi->tails + (size_t)j * XDRAW_TAIL, XDRAW_TAIL); draw(t2, nullptr, nullptr); }
+      mg_fell = true; return;
+    }
+    for (int s = 0; s < 4; s++) to(sa[s], sa_st[s], D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
   }
   bind_targets();
 
@@ -751,9 +1066,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data) {
     g.PrimitiveTopologyType = (D3D12_PRIMITIVE_TOPOLOGY_TYPE)k.tt; g.NumRenderTargets = has_rtv ? 1 : 0;
     if (has_rtv) g.RTVFormats[0] = rt_fmt;
     g.DSVFormat = has_dsv ? ds_fmt : DXGI_FORMAT_UNKNOWN; g.SampleDesc.Count = 1;
-    pso = nullptr;
-    HRESULT h = dev->CreateGraphicsPipelineState(&g, __uuidof(ID3D12PipelineState), (void **)&pso);
-    if (FAILED(h)) { d8_log("D3D12: CreateGraphicsPipelineState: 0x%08lX (render target format %u, depth format %u)", (unsigned long)h, (unsigned)rt_fmt, (unsigned)ds_fmt); pso = nullptr; }
+    pso = make_pso(g, V.h, P.h);
     psos[pk] = pso; pso_made++;
     if (pso_made == 256 || pso_made == 1024 || pso_made == 4096) d8_log("D3D12: %llu pipeline states made so far", (unsigned long long)pso_made);
   }
@@ -816,7 +1129,36 @@ void Exec12::draw(const XDraw &d, const uint8_t *data) {
     to(r, ST_VBIB); *va = r.va; *size = (r.w + 15) & ~15u; return true;
   };
   if (sks >= 0 && (d.kind == XD_UP || d.kind == XD_UP_INDEXED)) sks = -1;
-  if (sks >= 0) {                                          // gpu skinning: stream sks reads the mesh's source; the palette in b1
+  uint32_t mcount = 0;
+  if (mi) {                                                // the run: the slot buffers, and its indices rewritten into the ring
+    for (int s = 0; s < 4; s++) if (d.stream[s].buf) {
+      vb[s] = {sa[s]->GetGPUVirtualAddress(), (UINT)sa_cap(), s == sks ? (UINT)sizeof(XSkinVtx) : d.stream[s].stride}; nvb = std::max<UINT>(nvb, s + 1);
+    }
+    XDraw t; memcpy(&t, &d, XDRAW_HEAD);
+    for (uint32_t j = 0; j < mi->n; j++) { memcpy(&t.stream, mi->tails + (size_t)j * XDRAW_TAIL, XDRAW_TAIL); mcount += t.count; }
+    uint8_t *c; D3D12_GPU_VIRTUAL_ADDRESS g;
+    if (!ring_alloc((uint64_t)mcount * 4, 16, &c, &g)) return;
+    uint32_t *out = (uint32_t *)c;
+    for (uint32_t j = 0; j < mi->n; j++) {
+      memcpy(&t.stream, mi->tails + (size_t)j * XDRAW_TAIL, XDRAW_TAIL);
+      Res *ib2 = res_of(t.ib); if (!ib2) return;
+      int32_t add = (int32_t)t.base + (int32_t)mslot[j];
+      if (t.ib32) { const uint32_t *ix = (const uint32_t *)ib2->shadow.data() + t.start; for (uint32_t k = 0; k < t.count; k++) *out++ = ix[k] + add; }
+      else { const uint16_t *ix = (const uint16_t *)ib2->shadow.data() + t.start; for (uint32_t k = 0; k < t.count; k++) *out++ = (uint32_t)(ix[k] + add); }
+    }
+    ib = {g, mcount * 4, DXGI_FORMAT_R32_UINT}; use_ib = true;
+    if (sks >= 0) {                                        // the run's palette (one for all of it, same_run)
+      Res *st2 = res_of(d.stream[sks].buf);
+      if (!st2 || !st2->pal) return;
+      if (last_pal_epoch != submits || last_pal != st2->pal->serial) {
+        uint8_t *pc; D3D12_GPU_VIRTUAL_ADDRESS pg; ring_alloc(64u * SKIN_BONES, 256, &pc, &pg);
+        memcpy(pc, st2->pal->d.data(), st2->pal->d.size()); last_pal = st2->pal->serial; last_pal_epoch = submits; last_pal_va = pg;
+      }
+    }
+    sks = sks >= 0 ? sks : -1;
+  }
+  if (mi) {}
+  else if (sks >= 0) {                                     // gpu skinning: stream sks reads the mesh's source; the palette in b1
     Res *st2 = res_of(d.stream[sks].buf); Res *src = st2 && st2->skin_src ? res_of(st2->skin_src) : nullptr;
     if (!src || !st2->pal) { d8_once("skindraw12", "a skinned draw whose buffer stands for no mesh (skipped)"); return; }
     D3D12_GPU_VIRTUAL_ADDRESS va; UINT size;
@@ -827,7 +1169,8 @@ void Exec12::draw(const XDraw &d, const uint8_t *data) {
       memcpy(c, st2->pal->d.data(), st2->pal->d.size()); last_pal = st2->pal->serial; last_pal_epoch = submits; last_pal_va = g;
     }
   }
-  if (d.kind == XD_UP || d.kind == XD_UP_INDEXED) {
+  if (mi) {}
+  else if (d.kind == XD_UP || d.kind == XD_UP_INDEXED) {
     uint8_t *c; D3D12_GPU_VIRTUAL_ADDRESS g;
     if (!ring_alloc(d.up_vbytes, 16, &c, &g)) { d8_once("upbig12", "a ...UP draw larger than the ring: skipped"); return; }
     memcpy(c, data, d.up_vbytes);
@@ -859,13 +1202,14 @@ void Exec12::draw(const XDraw &d, const uint8_t *data) {
 
   // ---- bind what differs from what the list has, and draw
   barriers();
-  if (bd.pso != pso) { cl->SetPipelineState(pso); bd.pso = pso; }
+  c_draws++;
+  if (bd.pso != pso) { cl->SetPipelineState(pso); bd.pso = pso; c_pso++; }
   if (bd.vcb != last_vca) { cl->SetGraphicsRootConstantBufferView(0, last_vca); bd.vcb = last_vca; }
   D3D12_GPU_VIRTUAL_ADDRESS bones = sks >= 0 ? last_pal_va : last_vca;   // (b1 is read only by a skinning shader)
   if (bd.bones != bones) { cl->SetGraphicsRootConstantBufferView(1, bones); bd.bones = bones; }
   if (bd.pcb != last_pca) { cl->SetGraphicsRootConstantBufferView(2, last_pca); bd.pcb = last_pca; }
-  if (bd.srv_tab != srv_tab) { D3D12_GPU_DESCRIPTOR_HANDLE h = gv_srv->GetGPUDescriptorHandleForHeapStart(); h.ptr += srv_tab * gv_inc; cl->SetGraphicsRootDescriptorTable(3, h); bd.srv_tab = srv_tab; }
-  if (bd.smp_tab != smp_tab) { D3D12_GPU_DESCRIPTOR_HANDLE h = gv_smp->GetGPUDescriptorHandleForHeapStart(); h.ptr += (UINT64)smp_tab * smp_inc; cl->SetGraphicsRootDescriptorTable(4, h); bd.smp_tab = smp_tab; }
+  if (bd.srv_tab != srv_tab) { D3D12_GPU_DESCRIPTOR_HANDLE h = gv_srv->GetGPUDescriptorHandleForHeapStart(); h.ptr += srv_tab * gv_inc; cl->SetGraphicsRootDescriptorTable(3, h); bd.srv_tab = srv_tab; c_srvtab++; }
+  if (bd.smp_tab != smp_tab) { D3D12_GPU_DESCRIPTOR_HANDLE h = gv_smp->GetGPUDescriptorHandleForHeapStart(); h.ptr += (UINT64)smp_tab * smp_inc; cl->SetGraphicsRootDescriptorTable(4, h); bd.smp_tab = smp_tab; c_smptab++; }
   D3D12_VIEWPORT vp; memcpy(&vp, &d.viewport, sizeof vp);
   if (memcmp(&bd.vp, &vp, sizeof vp)) { cl->RSSetViewports(1, &vp); bd.vp = vp; }
   D3D12_RECT sc = {0, 0, (LONG)(rt_w ? rt_w : width), (LONG)(rt_h ? rt_h : height)};
@@ -874,6 +1218,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data) {
   if (bd.sref != d.stencil_ref) { cl->OMSetStencilRef(d.stencil_ref); bd.sref = d.stencil_ref; }
   for (UINT i = 0; i < nvb; i++) if (memcmp(&bd.vb[i], &vb[i], sizeof vb[i])) { cl->IASetVertexBuffers(i, 1, &vb[i]); bd.vb[i] = vb[i]; }
   if (use_ib && memcmp(&bd.ib, &ib, sizeof ib)) { cl->IASetIndexBuffer(&ib); bd.ib = ib; }
+  if (mi) { cl->DrawIndexedInstanced(mcount, 1, 0, 0, 0); return; }
   switch (d.kind) {
   case XD_DRAW: cl->DrawInstanced(d.count, 1, d.start, 0); break;
   case XD_UP: cl->DrawInstanced(d.count, 1, 0, 0); break;
@@ -1064,6 +1409,7 @@ void Exec12::present() {
   to(*b, D3D12_RESOURCE_STATE_PRESENT);
   bb_st[bbi] = b->st;
   barriers();
+  ts_end();
   HRESULT h = cl->Close();
   if (FAILED(h)) check_lost("ID3D12GraphicsCommandList::Close", h);
   if (!lost) { ID3D12CommandList *l = cl; q->ExecuteCommandLists(1, &l); }
@@ -1091,7 +1437,25 @@ void Exec12::present() {
   for (auto &v : b->rtv) h_rtv.give(v.second);
   b->rtv.clear(); b->r = bb[bbi]; b->st = bb_st[bbi];
   begin_list();
+  ts_collect(); ts_begin();
   if (!snap_pend.empty()) snap_poll();
+  if (++c_frames >= 600) {
+    double f = c_frames;
+    d8_log("D3D12 binds, %u frames: %.0f draws, %.0f pipeline switches, %.0f texture tables, %.0f sampler tables, %.0f barriers a frame; "
+           "%u pipelines made (%u from the library), %u shaders compiled (%u from the disk cache): %.1f ms making them in all",
+           c_frames, c_draws / f, c_pso / f, c_srvtab / f, c_smptab / f, c_bars / f, c_pso_new, c_pso_loaded, c_cmp_new, c_cmp_loaded, c_pso_ms + c_cmp_ms);
+    if (merge_on) d8_log("draw_merge (D3D12), %u frames: %.1f merged draws a frame took in %.1f others; %.3f MB copied to the slots a frame; %llu times the slots started again",
+                         c_frames, mg_runs / f, mg_saved / f, mg_bytes / f / 1048576.0, (unsigned long long)mg_wraps);
+    mg_runs = mg_saved = mg_bytes = 0;
+    ts_report();
+    c_draws = c_pso = c_srvtab = c_smptab = c_bars = 0; c_frames = 0; c_pso_new = c_pso_loaded = c_cmp_new = c_cmp_loaded = 0; c_pso_ms = c_cmp_ms = 0;
+  }
+  // the game never releases its device at exit (the owner's 13 Nov logs: no shutdown line), so the caches are written
+  // while it runs: news, and 1,800 Presents since the last write (or since the start); the write's time is logged
+  if ((sh_dirty || plib_dirty) && o.presents - cache_saved_at >= 1800) {
+    double t0 = qpc12(); caches_save(); cache_saved_at = o.presents;
+    d8_log("D3D12 caches written (%u shaders, pipeline library %s): %.1f ms", (unsigned)sh_disk.size(), plib ? "yes" : "none", qpc12() - t0);
+  }
 }
 
 void Exec12::shutdown() {
@@ -1099,10 +1463,15 @@ void Exec12::shutdown() {
   // shutdown line is the one that counts)
   const bool started = dev && q && fence && swap;
   if (started && !lost) wait_idle();
+  if (started) caches_save();
+  if (plib) { plib->Release(); plib = nullptr; }
+  for (auto *&a : sa) rel(a);
+  if (qrb) { qrb->Unmap(0, nullptr); rel(qrb); } rel(qh);
   size_t n = 0; for (auto &r : res) n += r.second.kind != 4 && r.first < 0xFFFFFF00u;
   if (started)
-    d8_log("executor shutdown: %u objects still held besides the back buffer (D3D12; %llu pipeline states made, %llu waits for room in the upload ring)",
-           (unsigned)n, (unsigned long long)pso_made, (unsigned long long)ring_waits);
+    d8_log("executor shutdown: %u objects still held besides the back buffer (D3D12; %llu pipeline states made, %llu waits for room in the upload ring; "
+           "draw_merge: %llu merged draws took in %llu others, the slots started again %llu times)", (unsigned)n, (unsigned long long)pso_made, (unsigned long long)ring_waits,
+           (unsigned long long)mg_total_runs, (unsigned long long)mg_total_saved, (unsigned long long)mg_wraps);
   for (auto &r : res) free_res(r.second, true);
   res.clear();
   for (auto &g : graves) g.r->Release(); graves.clear();

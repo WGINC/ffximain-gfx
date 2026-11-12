@@ -4855,6 +4855,51 @@ to do it. docs/SHAPE.md has the measure of the tree, the passes in order and wha
 - **Not done by the look of a number:** an integer like 1065353216 is written as 1.0f only where the game reads the
   location as a float; that pass needs the reading instruction per site.
 
+## 12 Nov: the owner's ab_19nov run; the tree found stale against the facts
+
+**The owner's notes:** all A/B segments looked the same; "the first B segment of the merge test sent the game into
+an irrecoverable freeze"; FFXiMain.pdb does not load in Visual Studio, and does in x32dbg with validation off.
+
+**Where the freeze was, from the files** (r19: starts all 21:20, hitch 21:34, hitch again 21:42):
+- The all start's merge A/B ran its phases without a stall: d3d8on11's own A/B lines give the game's frame 18.9 ms
+  (merge off), 19.4 and 18.8 ms (merge on); frames continued through `mark run` and `mark crowd`.
+- The all start and the second hitch start end alike (a 250 ms frame, two short ones, a long Present): the game's
+  close. Neither d3d8on11 log has totals; the second hitch start was closed normally, so that is the game's exit,
+  not a crash.
+- The first hitch start stops dead (frames at 11-12 ms, then none), about 30 s after `ab first done`: where the
+  README's step 8 unloads Windower's addons. Its d3d8on11 log was overwritten by the restart (the second start was
+  not made through start.bat), so the device's reason, if any, is not recorded. Which segment the owner meant is not
+  settled by the files; no merge segment stalled.
+
+**The new pieces in the game:** GPU skinning A/B 19.3 / 19.0 / 19.8 / 20.0 ms (no difference), every character
+drawn, 0 draws not made, up to 192 jobs a frame. Plaza with everything on: 19-20 ms; d3d8on11's worker 97% busy
+(Present 10.8 ms of 17 ms).
+
+**The stutters, named (xisamp chains, frames of 33 ms or more):**
+- Windower's addons: running with them loaded, 217 long frames a minute; unloaded (second hitch start, 10 min),
+  39 a minute; frame mean 15.1 -> 10.4 ms, p99 58 -> 25.5 ms. The frames with the game's thread inside LuaCore.dll
+  went from 202 to 0. Which addon: not in the samples.
+- The rest: the game's waiting occlusion readback (game 0x1006C91F, Occlusion_ReadbackCount, through speedfix's
+  sf_occl_readback into d3d8on11's RingLink::answer). 160 of 293 long frames in the run before the A/B; 68 of 130
+  in the first A; 0 in every later segment, with occlusion_first on or off: once an area's objects have been tested
+  they stop. The A/B therefore does not separate occlusion_first from having seen the area.
+
+**Visual Studio and the PDB:** the CodeView debug entry of every build points at no mapped data (RVA 0), so the
+record cannot be supplied in memory. sdk/pdb/stamp_dll.py writes the PDB's RSDS record into a copy's 80 bytes
+(33 bytes change); dbghelp then matches the PDB to that copy by itself (test_pdb.py). Visual Studio: not tested.
+
+**The tree is stale against the facts.** verify_all's tree-regen check fails, and fails identically at 720492c,
+before any of 11-12 Nov's generator changes: so it predates them (the last committed record of it passing is
+28 Oct). Regenerated from the current facts, the tree:
+- leaves out 17 functions, each "calls X, which reads ECX (or EAX), which its wrapper does not pass"; none is in the
+  kit's manifest;
+- changes the code of 41 functions: they now pass the object their game callee reads in ECX, which the committed
+  tree omits (`orig::FUN_1021d960()` becomes `orig::FUN_1021d960(*(void **)XI_GAME(0x10666E7C))`): task 25's defect,
+  corrected by the facts. 31 of them are in the kit's manifest (most flagged untested); the owner's starts use
+  swap=0, so none of them has run in the game.
+- every other function compiles to the same code (shape.py same, per function).
+Tree round r20 (regen, cases, gate) is run so that the 41 are gated again before the tree is installed.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

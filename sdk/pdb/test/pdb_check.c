@@ -7,7 +7,11 @@ int main(int argc, char **argv) {
   DWORD64 b = SymLoadModuleEx(p, NULL, argv[1], NULL, 0x10000000, 0xC15000, NULL, 0);
   printf("SymLoadModuleEx: base %llx (error %lu)\n", (unsigned long long)b, b ? 0 : GetLastError());
   IMAGEHLP_MODULE64 mi; memset(&mi, 0, sizeof mi); mi.SizeOfStruct = sizeof mi;
-  if (SymGetModuleInfo64(p, 0x10000000, &mi)) printf("symbol type %d, %lu symbols, pdb %s\n", mi.SymType, mi.NumSyms, mi.LoadedPdbName);
+  if (SymGetModuleInfo64(p, 0x10000000, &mi)) {
+    printf("symbol type %d, %lu symbols, pdb %s\n", mi.SymType, mi.NumSyms, mi.LoadedPdbName);
+    printf("module's record: CVSig %08lX, PdbSig70 {%08lX-%04X-%04X-...}, PdbAge %lu, PdbUnmatched %d, CVData %s\n", mi.CVSig,
+           mi.PdbSig70.Data1, mi.PdbSig70.Data2, mi.PdbSig70.Data3, mi.PdbAge, mi.PdbUnmatched, mi.CVData);
+  }
   for (int i = 2; i < argc; i++) {
     char buf[sizeof(SYMBOL_INFO) + 256]; SYMBOL_INFO *s = (SYMBOL_INFO *)buf; memset(buf, 0, sizeof buf); s->SizeOfStruct = sizeof(SYMBOL_INFO); s->MaxNameLen = 255;
     DWORD64 a = strtoull(argv[i], NULL, 16), d = 0;

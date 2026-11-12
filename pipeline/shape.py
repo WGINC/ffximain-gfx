@@ -128,6 +128,20 @@ def members(text, count=None):
         out.append(_MEMBER.sub(sub, chunk))
     return ''.join(out)
 
+def members_in(body, cls, count=None):
+    """members() for one function's body, the class of its `this` given (source_shape.py's rule)"""
+    mem, glob = layout()
+    def sub(m):
+        b = m.group('B'); c = glob.get(b) or (cls if b == 'this' else None)
+        if c is None or c not in mem: return m.group(0)
+        e = mem[c].get(int(m.group('N'), 0))
+        if e is None: return m.group(0)
+        t = re.sub(r'\s+', '', m.group('T')); ty, nm, arr = e
+        if count is not None: count[0] += 1
+        if not arr and t == re.sub(r'\s+', '', ty): return '%s->%s' % (b, nm)
+        return '*(%s *)&%s->%s' % (m.group('T').strip(), b, nm)
+    return _MEMBER.sub(sub, body)
+
 PASSES = [('d3d_values', d3d_values), ('members', members)]
 def shape_source(text):
     for _, f in PASSES: text = f(text)
@@ -160,22 +174,34 @@ def check(tree, apply):
     return not bad
 
 def same(old, new):
-    """compile every file of OLD/src and NEW/src, each against its own include/, and compare the objects: a
-    regenerated tree that only renames (members, globals) or reshapes must give the same code, data and relocations
-    for every file. Files present in one tree only are listed."""
+    """compile every file of OLD/src and NEW/src, each in its own tree (its build.sh, its include/), and compare per
+    function (source_shape.py's objcode: the disassembly with relocations, by symbol) and the files' data sections:
+    a regenerated tree that renames or reshapes must give the same code for every function present in both. Prints
+    the functions only one tree has; returns False if any common function or a data section differs."""
     import concurrent.futures, tempfile, shutil
-    flags = [l.strip() for l in open(os.path.join(H, '..', 'sdk', 'fork_flags.txt')) if l.strip() and not l.startswith('-Iinclude')]
+    import source_shape as ss
     a = set(f for f in os.listdir(os.path.join(old, 'src')) if f.endswith('.cpp')); b = set(f for f in os.listdir(os.path.join(new, 'src')) if f.endswith('.cpp'))
-    tmp = tempfile.mkdtemp(prefix='shape_same_')
     def one(f):
-        to, tn = open(os.path.join(old, 'src', f)).read(), open(os.path.join(new, 'src', f)).read()
-        return f, _objbytes(flags, to, old, tmp, f[:-4] + '_o') == _objbytes(flags, tn, new, tmp, f[:-4] + '_n')
+        oa, ob = [os.path.join(t, 'build', 'obj', f[:-4] + '.same.o') for t in (old, new)]
+        for t, o in ((old, oa), (new, ob)): os.makedirs(os.path.dirname(o), exist_ok=True)
+        ok = ss.compile_one(old, os.path.join('src', f), oa) and ss.compile_one(new, os.path.join('src', f), ob)
+        if not ok: return f, None, None, None
+        ca, cb = ss.objcode(oa), ss.objcode(ob); da, db = ss.datasecs(oa), ss.datasecs(ob)
+        for o in (oa, ob): os.remove(o)
+        diff = sorted(k for k in set(ca) & set(cb) if ca[k] != cb[k])
+        return f, diff, (sorted(set(ca) - set(cb)), sorted(set(cb) - set(ca))), da == db
     with concurrent.futures.ThreadPoolExecutor(os.cpu_count() or 4) as ex: res = list(ex.map(one, sorted(a & b)))
-    shutil.rmtree(tmp, ignore_errors=True)
-    bad = [f for f, ok in res if not ok]
-    print('shape same: %d files in both, %d compile to different objects%s; only in the old tree: %s; only in the new: %s' % (
-        len(res), len(bad), (': ' + ' '.join(bad[:8])) if bad else '', sorted(a - b)[:8] or 'none', sorted(b - a)[:8] or 'none'))
-    return not bad and a == b
+    bad = [f for f, d, _, _ in res if d is None]; differ = [(f, d) for f, d, _, _ in res if d]
+    only_old = [x for _, _, m, _ in res if m for x in m[0]]; only_new = [x for _, _, m, _ in res if m for x in m[1]]
+    data = [f for f, d, _, ds in res if d is not None and not ds]
+    nfn = sum(1 for _ in only_old)
+    print('shape same: %d files in both; %d do not compile%s; %d with a common function whose code differs%s; '
+          'data sections differ in %d%s; functions only in the old tree: %d %s; only in the new: %d %s; files only old: %s, only new: %s' % (
+          len(res), len(bad), (' (' + ' '.join(bad[:5]) + ')') if bad else '', len(differ),
+          (' (' + '; '.join('%s: %s' % (f, ', '.join(d[:3])) for f, d in differ[:5]) + ')') if differ else '',
+          len(data), (' (' + ' '.join(data[:5]) + ')') if data else '', len(only_old), only_old[:20], len(only_new), only_new[:10],
+          sorted(a - b)[:5] or 'none', sorted(b - a)[:5] or 'none'))
+    return not bad and not differ
 
 if __name__ == '__main__':
     if sys.argv[1:2] == ['same']:

@@ -12,4 +12,5 @@ source of its name.
 |---|---|
 | `make_pdb.py` | The generator (clang, lld-link, llvm-pdbutil) |
 | `types_flags.txt` | clang's flags for the tree's headers |
+| `stamp_dll.py` | A copy of FFXiMain.dll whose CodeView record names the PDB, for Visual Studio (`docs/DEVKIT.md`) |
 | `test_pdb.py`, `test/pdb_check.c` | The PDB loaded through Windows' dbghelp API (under Wine) and asked for known answers |

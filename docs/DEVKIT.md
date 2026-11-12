@@ -68,14 +68,16 @@ with the source of its name. It holds no game code or data.
   hand.
 - **Checked:** every symbol is read back at its address (llvm-pdbutil); dbghelp (Wine's) loads it and answers
   address-to-function, function-by-name, global-by-address and the size of CDx (`sdk/pdb/test_pdb.py`).
-- **Loading it:** the game's DLL has no usable debug record (its debug directory entry is 80 bytes that are neither
-  an NB10 nor an RSDS record), so no debugger matches the PDB to it by itself.
-  - WinDbg: `.reload /i FFXiMain.dll` (its documented switch for a PDB that does not match), with the PDB's
-    folder on the symbol path. Not tried here.
-  - IDA and Ghidra import a PDB file for a module by hand. x64dbg: not checked.
-  - Visual Studio: it loads a PDB only when the module's debug record names it. Whether it can be made to load this
-    one is **not known**; it has not been tried on Windows. A mod's own PDB and the device's (`d3d8.dll`) are not
-    affected: those modules carry their records.
+- **Loading it** (the owner, 19 Nov: x32dbg loads it with validation off and reports no errors; Visual Studio does
+  not). A debugger matches a PDB to a module by the module's CodeView record (RSDS: GUID, age, file name). The game's
+  DLL has a CodeView debug entry, but its 80 bytes are not such a record (noise in 6A995428, zeros in 6AC37846 and
+  6AE818B4), and the entry is not mapped into memory (its RVA is 0), so nothing can add one at run time.
+  - x32dbg / x64dbg: load it with validation off (works). WinDbg: `.reload /i FFXiMain.dll` (not tried here).
+  - Visual Studio: `sdk/pdb/stamp_dll.py FFXiMain.dll FFXiMain.pdb OUT.dll` writes a copy whose 80-byte record is the
+    PDB's RSDS (33 bytes change, all inside that record; code, data and headers unchanged). Checked with dbghelp:
+    it reads the copy's record and loads FFXiMain.pdb as matched. Visual Studio itself is not tested. The copy is
+    not the game's file: PlayOnline's file check would fetch the original again. Use it for a debugging session
+    only (put it in place of FFXiMain.dll with the PDB beside it, then put the original back).
 
 ## Mods in Visual Studio and VS Code
 

@@ -6,6 +6,13 @@ the place for this subject; `docs/NAMES.md` stays the place for how a name is gi
 
 ## The rule that makes it safe
 
+(12 Nov) The passes are rules of `pipeline/source_shape.py`, which `regen_clean.sh` runs after the compile repairs
+and which proves each rule per function by its compiled code (its `objcode` proof), putting back any function where
+the proof fails. They were first written as a hook in `hx2clean.py`, before the repairs; that was moved, because
+`source_shape.py` already existed for exactly this and runs at the right point. `pipeline/shape.py` holds the two
+rules' text rewrites and two checks: `check` (the whole tree before and after the rewrites, per file) and `same OLD
+NEW` (two trees, per function).
+
 A shaping pass changes how the source reads and not what it compiles to. That is checked, not argued:
 
     python3 pipeline/shape.py check        # every file of tree/src, compiled before and after: the objects' code,

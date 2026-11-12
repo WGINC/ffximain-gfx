@@ -31,5 +31,17 @@ if r.returncode == 0:
     if m: check('type CDx:' in out and ', %d bytes' % int(m.group(1), 0) in out, 'class CDx is %d bytes, as the tree\'s static_assert says' % int(m.group(1), 0))
     else: check('type CDx:' in out, 'class CDx is in the type stream (the tree header has no sizeof static_assert to compare)')
     if bad: print(out)
+    # stamp_dll.py: a copy of the game's DLL with an RSDS record naming the PDB; dbghelp must then match the PDB to
+    # the DLL by itself (the record's GUID and age are the PDB's), with no throwaway image
+    st = os.path.join(w, 'stamped'); os.makedirs(st)
+    subprocess.run([sys.executable, os.path.join(H, 'stamp_dll.py'), os.environ['FFXI_DLL'], os.path.join(w, 'FFXiMain.pdb'), os.path.join(st, 'FFXiMain.dll')], check=True, capture_output=True)
+    shutil.copy(os.path.join(w, 'FFXiMain.pdb'), st); shutil.copy(os.path.join(w, 'pdb_check.exe'), st)
+    a, b = open(os.environ['FFXI_DLL'], 'rb').read(), open(os.path.join(st, 'FFXiMain.dll'), 'rb').read()
+    at = [i for i in range(len(a)) if a[i] != b[i]] if len(a) == len(b) else None
+    check(at is not None and at and at[-1] - at[0] < 80, 'stamp_dll.py: the copy differs from the DLL only inside the 80-byte CodeView record (%s bytes)' % (len(at) if at else '?'))
+    out2 = subprocess.run(['wine', 'pdb_check.exe', 'FFXiMain.dll', '%X' % fa], cwd=st, env=dict(os.environ, WINEDEBUG='-all'), capture_output=True, text=True, timeout=600).stdout
+    check('CVSig 53445352' in out2 and 'PdbUnmatched 0' in out2 and 'symbol type 3' in out2, 'dbghelp reads the stamped DLL\'s RSDS record and loads FFXiMain.pdb as matched')
+    check('%x = CApp::RunMainLoop+0x0' % fa in out2, 'and names the function at 0x%X from it' % fa)
+    if bad: print(out2)
 shutil.rmtree(w, ignore_errors=True)
 print('ALL OK' if not bad else 'FAILED'); sys.exit(1 if bad else 0)

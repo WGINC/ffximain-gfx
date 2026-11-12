@@ -148,7 +148,7 @@ def rule_macros(head, body):
 
 
 PROOF = {'types': 'compiles', 'floats': 'compiles', 'macros': 'preprocessed', 'undefined4': 'probe', 'params': 'alpha',
-         'fcmp': 'compiles'}
+         'fcmp': 'compiles', 'd3d_values': 'objcode', 'members': 'objcode'}
 _DW = {}
 
 
@@ -191,8 +191,18 @@ def rule_fcmp(head, body):
     return head, outside_literals(body, lambda t: fcmp_simplify.simplify(t)[0])
 
 
+# (12 Nov) two rules of pipeline/shape.py, proven by the compiled code of each function and of the rest of the file
+# (objcode, below): a Direct3D state value as the SDK's name; an offset read through a pointer of declared class as
+# the member that starts there
+import shape
+def rule_d3d_values(head, body): return head, shape.d3d_values(body)
+_DEFCLS = re.compile(r'\b(\w+)::~?\w+\(')
+def rule_members(head, body):
+    m = _DEFCLS.search(head)
+    return head, shape.members_in(body, m.group(1) if m else None)
 RULES = [('types', rule_types), ('floats', rule_floats), ('macros', rule_macros), ('undefined4', rule_undefined4),
-         ('fcmp', rule_fcmp), ('params', rule_params)]
+         ('fcmp', rule_fcmp), ('params', rule_params), ('d3d_values', rule_d3d_values),
+         ('members', rule_members)]
 PROBE = ('''struct xi_u4_probe {          // source_shape.py: undefined4 with the float conversions deleted
     uint32_t v;
     xi_u4_probe() = default;
@@ -322,6 +332,7 @@ def fn_symbols(text):
 
 
 def main(tree):
+    shape.set_include(os.path.join(tree, 'include'))       # the members rule reads this tree's class layouts
     srcd = os.path.join(tree, 'src'); objd = os.path.join(tree, 'build', 'obj')
     files = sorted(f for f in os.listdir(srcd) if f.endswith('.cpp'))
     report = {r: {'kept': 0, 'put_back': [], 'proof': PROOF[r]} for r, _ in RULES}

@@ -292,9 +292,9 @@ XI_API CMoProcessor * __thiscall Unit10044C40_GetFlaggedMatrix(_DWORD *self_)
   v1 = *(self_ + 67);
   if ( (v1 & 8) != 0 )
     return (CMoProcessor *)((float *)((char *)g_pProcessor + 0x810));
-  ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+  ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
   v4 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-  (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+  (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
   v5 = ((v1 & 0x2000) != 0) + 2 * ((v1 & 0x4000) != 0) - 1;
   if ( v5 != 0 )
   {
@@ -316,8 +316,8 @@ XI_API CMoProcessor * __thiscall Unit10044C40_GetFlaggedMatrix(_DWORD *self_)
     result = (CMoProcessor *)(g_pResourceMng + 3344);
   }
   v7 = g_pProcessor;
-  v8 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v8;
+  v8 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v8;
   ((float * *)((char *)v7 + 0xA10))[v8] = v4;
   return result;
 }

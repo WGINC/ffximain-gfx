@@ -289,7 +289,7 @@ XI_API char __thiscall App_InitScene(int self_, int a4)
   orig::CDx_NopA();
   if ( *(_WORD *)(self_ + 4) == 0 )
   {
-    if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x915)) != 0 )
+    if ( (*(unsigned __int8 *)&g_pCDx->field_915) != 0 )
       orig::GammaRamp_ApplyIfChanged((int)((unsigned __int8 *)((char *)g_pCDx + 0x1F4)));
     *(_DWORD *)g_pSceneState = 112;
     dword_1047D140 = 0;

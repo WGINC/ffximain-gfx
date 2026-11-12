@@ -9,5 +9,5 @@ _DWORD * CMoTask_VT_1032D6D4::ScalarDeletingDtor(char a2)
   orig::CMoTask_VT_1032D6D4_Destructor(this);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)this);
-  return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
+  return(_DWORD*)(&(*(CMoTask_vtbl * *)&this->vftable));
 }

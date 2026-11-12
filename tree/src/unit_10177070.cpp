@@ -17,7 +17,7 @@ XI_API int __stdcall Gfx_CompileVertexShader(int a1, int a2)
   orig::fn_102DAA71(v2, Buffer, 0x200u);
   if ( v2 >= 0 )
   {
-    pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+    pDevice = (g_pCDx->pDevice);
     lpVtbl = pDevice->lpVtbl;
     v5 = (*(int (__stdcall **)(int))(*(_DWORD *)v7 + 12))(v7);
     v2 = lpVtbl->CreateVertexShader(pDevice, (void *)a1, (void *)v5, (void *)a2, 0);
@@ -44,7 +44,7 @@ XI_API int __thiscall Gfx_CompilePixelShader(const char **self_, int a2)
   result = orig::fn_102DAA0D(Text, TextLength, 2u, nullptr, &v10, nullptr);
   if ( result >= 0 )
   {
-    pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+    pDevice = (g_pCDx->pDevice);
     lpVtbl = pDevice->lpVtbl;
     v7 = (*(int (__stdcall **)(struct ID3DXBuffer *))(*(_DWORD *)v10 + 12))(v10);
     v8 = lpVtbl->CreatePixelShader(pDevice, (void *)v7, (void *)a2);

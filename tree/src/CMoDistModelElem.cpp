@@ -307,9 +307,9 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
   }
   if ( (*(_BYTE *)(a3 + 379) & 3) != 0 )
   {
-    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
     v11 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+    (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
     orig::MoProcessor_CallVSlot49(v11);
     v11[8] = *(float *)(a3 + 288);
     v11[9] = *(float *)(a3 + 292);
@@ -317,8 +317,8 @@ int CMoDistModelElem::DrawMesh(int a1, int a2, int a3, int a4)
     (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(1, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 17, v11);
     v12 = g_pProcessor;
-    v13 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-    (*(int *)((char *)g_pProcessor + 0xA90)) = v13;
+    v13 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+    (g_pProcessor->ScratchMatrixStackTop) = v13;
     ((float * *)((char *)v12 + 0xA10))[v13] = v11;
   }
   v14 = 0;
@@ -423,17 +423,17 @@ int CMoDistModelElem::Draw()
   int v5;
   if ( (this->field_17B & 3) != 0 )
   {
-    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
     v3 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+    (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
     orig::MoProcessor_CallVSlot49(v3);
     v3[8] = this->field_120;
     v3[9] = this->field_124;
     (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, v3);
     v4 = g_pProcessor;
-    v5 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-    (*(int *)((char *)g_pProcessor + 0xA90)) = v5;
+    v5 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+    (g_pProcessor->ScratchMatrixStackTop) = v5;
     ((float * *)((char *)v4 + 0xA10))[v5] = v3;
   }
   else

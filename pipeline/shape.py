@@ -80,7 +80,55 @@ def d3d_values(text, count=None):
         return '%s%s, %s);' % (m.group(1), m.group(2), nm)
     return _CALL.sub(sub, text)
 
-PASSES = [('d3d_values', d3d_values)]
+
+# Pass 2, members: a read at a fixed offset from a pointer whose class the tree declares, written as the member.
+#   `*(T *)((char *)B + N)` (and the `*(T *)&(*(unsigned __int8 *)((char *)B + N))` form) where B's class has a
+#   member starting at +N (the class header's `// +0xN` comment, written by hx2clean.py from the layout) becomes
+#   `B->m` when T is the member's declared type, and `*(T *)&B->m` otherwise: the same address, the same type read.
+#   B is a global the tree declares as a class pointer (gfx_globals.hpp: `typedef C * NAME_t;`) or `this` in a
+#   member function of C (the definition `... C::name(`). Any other read stays as it is.
+_INC = [os.path.join(H, '..', 'tree', 'include')]
+def set_include(d): _INC[0] = d; _layout.clear()
+_layout = {}
+def layout():
+    if not _layout:
+        inc = _INC[0]; mem = {}
+        for f in os.listdir(inc):
+            if not f.endswith('.hpp'): continue
+            for ty, nm, arr, off in re.findall(r'^\s+([\w][\w \*:<>]*?)\s*\b(\w+)(\[[^\]]+\])?;\s*//\s*\+0x([0-9A-Fa-f]+)\s*$', open(os.path.join(inc, f)).read(), re.M):
+                mem.setdefault(f[:-4], {})[int(off, 16)] = (ty.strip(), nm, bool(arr))
+        g = {}
+        gp = os.path.join(inc, 'gfx_globals.hpp')
+        if os.path.exists(gp):
+            for t, n in re.findall(r'typedef ([^;]+?) (\w+)_t;', open(gp).read()):
+                m = re.match(r'^(?:class |struct )?(\w+) \*$', t.strip())
+                if m and m.group(1) in mem: g[n] = m.group(1)
+        _layout['mem'], _layout['glob'] = mem, g
+    return _layout['mem'], _layout['glob']
+
+_T = r'(?P<T>[A-Za-z_][\w ]*?(?:\s*\*)*)'
+_NUM = r'(?P<N>0x[0-9A-Fa-f]+|\d+)'
+_MEMBER = re.compile(r'\*\(' + _T + r' ?\*\)(?:(?P<amp>&\(\*\(unsigned __int8 \*\)\()|\()\(char \*\)(?P<B>\w+) \+ ' + _NUM + r'\)(?(amp)\)|)')
+_DEF = re.compile(r'^[A-Za-z_][^\n;]*?\b(\w+)::~?\w+\(', re.M)
+def members(text, count=None):
+    mem, glob = layout()
+    if not mem: return text
+    out = []
+    for chunk in re.split(r'(?=^// FUNCTION: )', text, flags=re.M):
+        d = _DEF.search(chunk); this_cls = d.group(1) if d and d.group(1) in mem else None
+        def sub(m):
+            b = m.group('B'); c = glob.get(b) or (this_cls if b == 'this' else None)
+            if c is None: return m.group(0)
+            e = mem[c].get(int(m.group('N'), 0))
+            if e is None: return m.group(0)
+            t = re.sub(r'\s+', '', m.group('T')); ty, nm, arr = e
+            if count is not None: count[0] += 1
+            if not arr and t == re.sub(r'\s+', '', ty): return '%s->%s' % (b, nm)
+            return '*(%s *)&%s->%s' % (m.group('T').strip(), b, nm)
+        out.append(_MEMBER.sub(sub, chunk))
+    return ''.join(out)
+
+PASSES = [('d3d_values', d3d_values), ('members', members)]
 def shape_source(text):
     for _, f in PASSES: text = f(text)
     return text
@@ -100,6 +148,7 @@ def check(tree, apply):
     files = sorted(f for f in os.listdir(os.path.join(tree, 'src')) if f.endswith('.cpp')); tmp = tempfile.mkdtemp(prefix='shape_')
     def one(f):
         t = open(os.path.join(tree, 'src', f)).read(); c = [0]; s = t
+        set_include(os.path.join(tree, 'include')) if _INC[0] != os.path.join(tree, 'include') else None
         for _, p in PASSES: s = p(s, c)
         if s == t: return f, 0, True
         return f, c[0], _objbytes(flags, t, tree, tmp, f[:-4] + '_a') == _objbytes(flags, s, tree, tmp, f[:-4] + '_b')
@@ -110,7 +159,27 @@ def check(tree, apply):
         len(files), sum(1 for _, n, _ in res if n), sum(n for _, n, _ in res), len(bad), (': ' + ' '.join(bad[:8])) if bad else ''))
     return not bad
 
+def same(old, new):
+    """compile every file of OLD/src and NEW/src, each against its own include/, and compare the objects: a
+    regenerated tree that only renames (members, globals) or reshapes must give the same code, data and relocations
+    for every file. Files present in one tree only are listed."""
+    import concurrent.futures, tempfile, shutil
+    flags = [l.strip() for l in open(os.path.join(H, '..', 'sdk', 'fork_flags.txt')) if l.strip() and not l.startswith('-Iinclude')]
+    a = set(f for f in os.listdir(os.path.join(old, 'src')) if f.endswith('.cpp')); b = set(f for f in os.listdir(os.path.join(new, 'src')) if f.endswith('.cpp'))
+    tmp = tempfile.mkdtemp(prefix='shape_same_')
+    def one(f):
+        to, tn = open(os.path.join(old, 'src', f)).read(), open(os.path.join(new, 'src', f)).read()
+        return f, _objbytes(flags, to, old, tmp, f[:-4] + '_o') == _objbytes(flags, tn, new, tmp, f[:-4] + '_n')
+    with concurrent.futures.ThreadPoolExecutor(os.cpu_count() or 4) as ex: res = list(ex.map(one, sorted(a & b)))
+    shutil.rmtree(tmp, ignore_errors=True)
+    bad = [f for f, ok in res if not ok]
+    print('shape same: %d files in both, %d compile to different objects%s; only in the old tree: %s; only in the new: %s' % (
+        len(res), len(bad), (': ' + ' '.join(bad[:8])) if bad else '', sorted(a - b)[:8] or 'none', sorted(b - a)[:8] or 'none'))
+    return not bad and a == b
+
 if __name__ == '__main__':
+    if sys.argv[1:2] == ['same']:
+        sys.exit(0 if same(os.path.abspath(sys.argv[2]), os.path.abspath(sys.argv[3])) else 1)
     if sys.argv[1:2] == ['check']:
         sys.exit(0 if check(os.path.abspath(sys.argv[2] if len(sys.argv) > 2 else os.path.join(H, '..', 'tree')), True) else 1)
     print(__doc__)

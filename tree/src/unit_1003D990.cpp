@@ -116,13 +116,13 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
             Sky_DrawDomeViewCentered_stateBlock,
             (int)Sky_DrawDomeViewCentered_renderStates,
             (int)Sky_DrawDomeViewCentered_textureStageStates);
-          ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+          ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
           v3 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-          (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+          (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
           qmemcpy(v3, (const void *)(g_pResourceMng + 2896), 0x40u);
-          v4 = (*(int *)((char *)g_pProcessor + 0xA90));
+          v4 = (g_pProcessor->ScratchMatrixStackTop);
           v5 = ((float * *)((char *)g_pProcessor + 0xA10))[v4];
-          (*(int *)((char *)g_pProcessor + 0xA90)) = v4 + 1;
+          (g_pProcessor->ScratchMatrixStackTop) = v4 + 1;
           qmemcpy(v5, (const void *)(g_pResourceMng + 3408), 0x40u);
           orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v5);
           orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, ((float *)((char *)g_pProcessor + 0x810)));
@@ -157,12 +157,12 @@ XI_API int __cdecl Sky_DrawDomeViewCentered(void)
           (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
           (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_ZWRITEENABLE, TRUE);
           v9 = g_pProcessor;
-          v10 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-          (*(int *)((char *)g_pProcessor + 0xA90)) = v10;
+          v10 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+          (g_pProcessor->ScratchMatrixStackTop) = v10;
           ((float * *)((char *)v9 + 0xA10))[v10] = v5;
           result = (int)g_pProcessor;
-          v11 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-          (*(int *)((char *)g_pProcessor + 0xA90)) = v11;
+          v11 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+          (g_pProcessor->ScratchMatrixStackTop) = v11;
           *(_DWORD *)(result + 4 * v11 + 2576) = v3;
         }
       }

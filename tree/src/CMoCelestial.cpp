@@ -16,5 +16,5 @@ _DWORD * CMoCelestial::ScalarDeletingDtor(char a2)
   orig::CMoCelestial_Destructor(this);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)this);
-  return(_DWORD*)(&(*(CMoCelestial_vtbl * *)((char *)this + 0x0)));
+  return(_DWORD*)(&(*(CMoCelestial_vtbl * *)&this->vftable));
 }

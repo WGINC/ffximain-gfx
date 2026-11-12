@@ -26,7 +26,7 @@ int CShader::CShader_Destructor()
   int result;
   unsigned int v3;
   result = (*(unsigned __int32 *)((char *)this + 0x8));
-  (*(void * *)((char *)this + 0x0)) = &CShader_vtbl;
+  (*(void * *)&this->vftable) = &CShader_vtbl;
   if ( result != 0 )
   {
     result = (*(int (__stdcall **)(int))(*(_DWORD *)result + 8))(result);
@@ -34,6 +34,6 @@ int CShader::CShader_Destructor()
   }
   v3 = (*(unsigned __int32 *)((char *)this + 0x10));
   if ( v3 != 0 )
-    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->DeleteVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v3);
+    return (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), v3);
   return result;
 }

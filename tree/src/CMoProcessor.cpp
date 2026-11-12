@@ -105,14 +105,14 @@ int CMoProcessor::ScratchMatrixOp(int a2, int a3, int a4)
   int result;
   CMoProcessor *v8;
   int v9;
-  ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+  ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
   v6 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-  (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+  (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
   (*(void (__thiscall **)(void *, float *, int))(*(_DWORD *)self + 92))(self, v6, a4);
   result = (*(int (__thiscall **)(void *, int, int, float *))(*(_DWORD *)self + 36))(self, a2, a3, v6);
   v8 = g_pProcessor;
-  v9 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v9;
+  v9 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v9;
   ((float * *)((char *)v8 + 0xA10))[v9] = v6;
   return result;
 }
@@ -154,11 +154,11 @@ CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, in
   if ( g_pResourceMng != 0 )
   {
     v6 = (float *)(g_pResourceMng + 2832);
-    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
     v27 = 10000.0;
     v8 = -10000.0;
     v9 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+    (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
     qmemcpy(v9, a5, 0x40u);
     v26 = 10000.0;
     v28 = -10000.0;
@@ -204,8 +204,8 @@ CMoProcessor * __stdcall CMoProcessor::CalcScreenBounds(float *a1, float *a2, in
     a1[3] = v8;
     a1[2] = v28;
     result = g_pProcessor;
-    v25 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-    (*(int *)((char *)g_pProcessor + 0xA90)) = v25;
+    v25 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+    (g_pProcessor->ScratchMatrixStackTop) = v25;
     ((float * *)((char *)result + 0xA10))[v25] = v9;
   }
   return result;

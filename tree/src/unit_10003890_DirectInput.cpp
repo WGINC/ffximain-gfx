@@ -18,14 +18,14 @@ XI_API void __thiscall Unit10003890_DrawActorAxes(_DWORD *self_)
   _DWORD (&v10)[16] = *reinterpret_cast<_DWORD (*)[16]>(xi_frame + 0xD8);
   _BYTE (&v11)[64] = *reinterpret_cast<_BYTE (*)[64]>(xi_frame + 0x118);
 
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_FOGENABLE, FALSE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, FALSE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_FOGENABLE, FALSE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_LIGHTING, FALSE);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
   orig::fn_10027990((Iostream_init *)self_v);
   orig::fn_10027990((Iostream_init *)v10);
   orig::fn_10027990((Iostream_init *)v11);
@@ -42,7 +42,7 @@ XI_API void __thiscall Unit10003890_DrawActorAxes(_DWORD *self_)
       orig::Mat4_PostRotateY(self_v, *(float *)(v2 + *(self_ + 4) + 12));
       orig::Mat4_SetTranslation(self_v, (_DWORD *)(v2 + *(self_ + 4)));
       orig::CDx_SetTransform(g_pCDx, 256, self_v);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 66u);
+      (g_pCDx->pDevice)->lpVtbl->SetVertexShader((g_pCDx->pDevice), 66u);
       orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 3, (int)&g_debugAxisLineVerts, 16);
       v4 = ActerBuffPtr[*(_DWORD *)(*(self_ + 3) + v3)];
       if ( v4 != 0 && (*(_DWORD *)(v4 + 288) & 0x200) != 0 )
@@ -68,8 +68,8 @@ XI_API void __thiscall Unit10003890_DrawActorAxes(_DWORD *self_)
     v7 = v3;
   }
   while ( v3 < 18432 );
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, TRUE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, D3DZB_TRUE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ZWRITEENABLE, TRUE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ZENABLE, D3DZB_TRUE);
   orig::CDx_SetTransform(g_pCDx, 256, v11);
   orig::Unit10026C70_Nop();
   orig::Unit10026C70_Nop();

@@ -334,7 +334,7 @@ _DWORD * CMoTask::ScalarDeletingDtor(char a2)
   orig::CMoTask_Destructor(this);
   if ( (a2 & 1) != 0 )
     orig::SharedDeleteHelper((int)this);
-  return(_DWORD*)(&(*(CMoTask_vtbl * *)((char *)this + 0x0)));
+  return(_DWORD*)(&(*(CMoTask_vtbl * *)&this->vftable));
 }
 
 // FUNCTION: FFXIMAIN 0x100747C0  (placed by IDB name; static (takes no this))

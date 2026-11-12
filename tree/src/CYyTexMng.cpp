@@ -29,7 +29,7 @@ _DWORD * CYyTexMng::ScalarDeletingDtor(char a2)
   orig::CYyTexMng_Destructor(this);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)this);
-  return(_DWORD*)(&(*(CYyTexMng_vtbl * *)((char *)this + 0x0)));
+  return(_DWORD*)(&(*(CYyTexMng_vtbl * *)&this->vftable));
 }
 
 // FUNCTION: FFXIMAIN 0x1003AC80  (placed by IDB name; static (takes no this))

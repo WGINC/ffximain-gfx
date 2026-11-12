@@ -50,7 +50,7 @@ _DWORD * CYyTexBase::ScalarDeletingDtor(char a2)
   orig::CYyTexBase_Destructor(this);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)this);
-  return(_DWORD*)(&(*(CYyTexBase_vtbl * *)((char *)this + 0x0)));
+  return(_DWORD*)(&(*(CYyTexBase_vtbl * *)&this->vftable));
 }
 
 // FUNCTION: FFXIMAIN 0x100398E0  (placed by IDB name; static (takes no this))

@@ -346,8 +346,8 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
         if ( v3 != 0 )
         {
           orig::MenuMng_GetUiScale(g_menuMng, (float *)&v9, &v8);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+          (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+          (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
           orig::Shape_DrawScaled(
             v3,
             0,
@@ -358,8 +358,8 @@ XI_API char * __thiscall Ui_DrawKeyPrompt(Vt_1033C8F0 *self_)
             0,
             0,
             0);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-          return (char *)(*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
+          (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+          return (char *)(g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
         }
       }
     }

@@ -10,5 +10,5 @@ _DWORD * CYyModelDt_VT_1032A72C::ScalarDeletingDtor(char a1)
   orig::CYyModelDtBase_Destructor(this, v2);
   if ( (a1 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)this);
-  return(_DWORD*)(&(*(CYyModelDt_vtbl * *)((char *)this + 0x0)));
+  return(_DWORD*)(&(*(CYyModelDt_vtbl * *)&this->vftable));
 }

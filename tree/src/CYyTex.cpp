@@ -31,5 +31,5 @@ _DWORD * CYyTex::ScalarDeletingDtor(char a2)
   orig::CYyTex_Destructor(this);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)this);
-  return(_DWORD*)(&(*(CYyTexBase_vtbl * *)((char *)this + 0x0)));
+  return(_DWORD*)(&(*(CYyTexBase_vtbl * *)&this->vftable));
 }

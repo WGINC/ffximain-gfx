@@ -646,13 +646,13 @@ XI_API int __cdecl StAvatarInit(_DWORD *a1)
   orig::Unit10252A00_Init(a1 + 144);
   if ( g_stateBlock_914C == 0 )
   {
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DSBT_ALL, &g_stateBlock_914C);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->BeginStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)));
+    (g_pCDx->pDevice)->lpVtbl->CreateStateBlock((g_pCDx->pDevice), D3DSBT_ALL, &g_stateBlock_914C);
+    (g_pCDx->pDevice)->lpVtbl->BeginStateBlock((g_pCDx->pDevice));
   }
   if ( orig::Unit102706F0_InitScene() != 0 )
     return -1;
   if ( g_stateBlock_914C != 0 )
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->EndStateBlock((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &g_stateBlock_914C);
+    (g_pCDx->pDevice)->lpVtbl->EndStateBlock((g_pCDx->pDevice), &g_stateBlock_914C);
   orig::StAvatar_SetSceneValue1(1, 64);
   orig::StAvatar_SetSceneValue2(0, 64);
   orig::StAvatar_InitEntriesFromTables();

@@ -53,7 +53,7 @@ char CXiSkeletonActorRes::Destructor()
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CXiSkeletonActorRes::CXiSkeletonActorRes_GetLinkedActor()
 {
-  return (int)(*(void * *)((char *)this + 0x34));
+  return (int)(this->pLinkedActor);
 }
 
 // FUNCTION: FFXIMAIN 0x100D70A0  (placed by IDB name; static (takes no this))

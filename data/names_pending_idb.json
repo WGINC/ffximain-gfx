@@ -165,73 +165,73 @@
   "old": "byte_1035F638",
   "name": "aNoOwnerChocobo",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: チョコボの相手がいません。チョコボコンストラクタをスキップします。 \"No owner for the chocobo; skipping the chocobo constructor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: \u30c1\u30e7\u30b3\u30dc\u306e\u76f8\u624b\u304c\u3044\u307e\u305b\u3093\u3002\u30c1\u30e7\u30b3\u30dc\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u3092\u30b9\u30ad\u30c3\u30d7\u3057\u307e\u3059\u3002 \"No owner for the chocobo; skipping the chocobo constructor.\""
  },
  "0x1035F680": {
   "old": "byte_1035F680",
   "name": "aNoOwnerGroundTarget",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: グランドターゲットを持つ相手がいません。ターゲットコンストラクタをスキップします。 \"No owner holding a ground target; skipping the target constructor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: \u30b0\u30e9\u30f3\u30c9\u30bf\u30fc\u30b2\u30c3\u30c8\u3092\u6301\u3064\u76f8\u624b\u304c\u3044\u307e\u305b\u3093\u3002\u30bf\u30fc\u30b2\u30c3\u30c8\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u3092\u30b9\u30ad\u30c3\u30d7\u3057\u307e\u3059\u3002 \"No owner holding a ground target; skipping the target constructor.\""
  },
  "0x1035F6D8": {
   "old": "byte_1035F6D8",
   "name": "aNoOwnerRange",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: レンジを持つ相手がいません。ターゲットコンストラクタをスキップします。 \"No owner holding a range; skipping the target constructor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: \u30ec\u30f3\u30b8\u3092\u6301\u3064\u76f8\u624b\u304c\u3044\u307e\u305b\u3093\u3002\u30bf\u30fc\u30b2\u30c3\u30c8\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u3092\u30b9\u30ad\u30c3\u30d7\u3057\u307e\u3059\u3002 \"No owner holding a range; skipping the target constructor.\""
  },
  "0x1035F728": {
   "old": "byte_1035F728",
   "name": "aNoOwnerBorder",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: ボーダーを持つ相手がいません。ボーダーコンストラクタをスキップします。 \"No owner holding a border; skipping the border constructor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: \u30dc\u30fc\u30c0\u30fc\u3092\u6301\u3064\u76f8\u624b\u304c\u3044\u307e\u305b\u3093\u3002\u30dc\u30fc\u30c0\u30fc\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u3092\u30b9\u30ad\u30c3\u30d7\u3057\u307e\u3059\u3002 \"No owner holding a border; skipping the border constructor.\""
  },
  "0x1035F778": {
   "old": "byte_1035F778",
   "name": "aNoOwnerChair",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: 椅子を持つ相手がいません。椅子コンストラクタをスキップします。 \"No owner holding a chair; skipping the chair constructor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: \u6905\u5b50\u3092\u6301\u3064\u76f8\u624b\u304c\u3044\u307e\u305b\u3093\u3002\u6905\u5b50\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u3092\u30b9\u30ad\u30c3\u30d7\u3057\u307e\u3059\u3002 \"No owner holding a chair; skipping the chair constructor.\""
  },
  "0x1035F7C0": {
   "old": "byte_1035F7C0",
   "name": "aNoOwnerFishingRod",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: 釣り竿を持つ相手がいません。釣り竿コンストラクタをスキップします。 \"No owner holding a fishing rod; skipping the fishing-rod constructor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: \u91e3\u308a\u7aff\u3092\u6301\u3064\u76f8\u624b\u304c\u3044\u307e\u305b\u3093\u3002\u91e3\u308a\u7aff\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u3092\u30b9\u30ad\u30c3\u30d7\u3057\u307e\u3059\u3002 \"No owner holding a fishing rod; skipping the fishing-rod constructor.\""
  },
  "0x1035F808": {
   "old": "byte_1035F808",
   "name": "aNoOwnerMagicCircle",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: 魔方陣を持つ相手がいません。魔方陣コンストラクタをスキップします。 \"No owner holding a magic circle; skipping the magic-circle constructor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_Constructor_Factory: \u9b54\u65b9\u9663\u3092\u6301\u3064\u76f8\u624b\u304c\u3044\u307e\u305b\u3093\u3002\u9b54\u65b9\u9663\u30b3\u30f3\u30b9\u30c8\u30e9\u30af\u30bf\u3092\u30b9\u30ad\u30c3\u30d7\u3057\u307e\u3059\u3002 \"No owner holding a magic circle; skipping the magic-circle constructor.\""
  },
  "0x1035F870": {
   "old": "byte_1035F870",
   "name": "aSubActorNoMainChocobo",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(チョコボ)なのに、メインアクターがいません。 \"Treated as a sub-actor (Chocobo) but there is no main actor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: \u30b5\u30d6\u30a2\u30af\u30bf\u30fc\u6271\u3044(\u30c1\u30e7\u30b3\u30dc)\u306a\u306e\u306b\u3001\u30e1\u30a4\u30f3\u30a2\u30af\u30bf\u30fc\u304c\u3044\u307e\u305b\u3093\u3002 \"Treated as a sub-actor (Chocobo) but there is no main actor.\""
  },
  "0x1035F8B0": {
   "old": "byte_1035F8B0",
   "name": "aSubActorNoMainMagicCircle",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(魔方陣)なのに、メインアクターがいません。 \"Treated as a sub-actor (MagicCircle) but there is no main actor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: \u30b5\u30d6\u30a2\u30af\u30bf\u30fc\u6271\u3044(\u9b54\u65b9\u9663)\u306a\u306e\u306b\u3001\u30e1\u30a4\u30f3\u30a2\u30af\u30bf\u30fc\u304c\u3044\u307e\u305b\u3093\u3002 \"Treated as a sub-actor (MagicCircle) but there is no main actor.\""
  },
  "0x1035F8EC": {
   "old": "byte_1035F8EC",
   "name": "aSubActorNoMainChair",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(椅子)なのに、メインアクターがいません。 \"Treated as a sub-actor (Chair) but there is no main actor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: \u30b5\u30d6\u30a2\u30af\u30bf\u30fc\u6271\u3044(\u6905\u5b50)\u306a\u306e\u306b\u3001\u30e1\u30a4\u30f3\u30a2\u30af\u30bf\u30fc\u304c\u3044\u307e\u305b\u3093\u3002 \"Treated as a sub-actor (Chair) but there is no main actor.\""
  },
  "0x1035F928": {
   "old": "byte_1035F928",
   "name": "aSubActorNoMainRange",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(レンジ)なのに、メインアクターがいません。 \"Treated as a sub-actor (Range) but there is no main actor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: \u30b5\u30d6\u30a2\u30af\u30bf\u30fc\u6271\u3044(\u30ec\u30f3\u30b8)\u306a\u306e\u306b\u3001\u30e1\u30a4\u30f3\u30a2\u30af\u30bf\u30fc\u304c\u3044\u307e\u305b\u3093\u3002 \"Treated as a sub-actor (Range) but there is no main actor.\""
  },
  "0x1035F964": {
   "old": "byte_1035F964",
   "name": "aSubActorNoMainFishingRod",
   "confidence": "high",
-  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: サブアクター扱い(釣り竿)なのに、メインアクターがいません。 \"Treated as a sub-actor (FishingRod) but there is no main actor.\""
+  "evidence": "Shift-JIS string (read from the IDA listing), passed only to nullsub_12, a compiled-out debug print, in CXiSkeletonActor_SetModel: \u30b5\u30d6\u30a2\u30af\u30bf\u30fc\u6271\u3044(\u91e3\u308a\u7aff)\u306a\u306e\u306b\u3001\u30e1\u30a4\u30f3\u30a2\u30af\u30bf\u30fc\u304c\u3044\u307e\u305b\u3093\u3002 \"Treated as a sub-actor (FishingRod) but there is no main actor.\""
  },
  "0x103601BC": {
   "old": "off_103601BC",
@@ -2826,14 +2826,14 @@
   "old": "byte_10353914",
   "name": "c_msgCounterSchedulerNotFound",
   "confidence": "high",
-  "evidence": "the Shift-JIS string \"カウンタースケジューラが見つかりませんでした。[%s:%s]\" (counter scheduler was not found); CMoSchedularTask_Interpret passes it to the debug print stub nullsub_12",
+  "evidence": "the Shift-JIS string \"\u30ab\u30a6\u30f3\u30bf\u30fc\u30b9\u30b1\u30b8\u30e5\u30fc\u30e9\u304c\u898b\u3064\u304b\u308a\u307e\u305b\u3093\u3067\u3057\u305f\u3002[%s:%s]\" (counter scheduler was not found); CMoSchedularTask_Interpret passes it to the debug print stub nullsub_12",
   "kind": "global"
  },
  "0x1035394C": {
   "old": "byte_1035394C",
   "name": "c_msgAfterimageAllocFailed",
   "confidence": "high",
-  "evidence": "the Shift-JIS string \"残像用メモリの確保に失敗しました。\" (failed to allocate memory for the afterimage); CMoSchedularTask_Interpret passes it to nullsub_12",
+  "evidence": "the Shift-JIS string \"\u6b8b\u50cf\u7528\u30e1\u30e2\u30ea\u306e\u78ba\u4fdd\u306b\u5931\u6557\u3057\u307e\u3057\u305f\u3002\" (failed to allocate memory for the afterimage); CMoSchedularTask_Interpret passes it to nullsub_12",
   "kind": "global"
  },
  "0x103546B8": {
@@ -3365,35 +3365,35 @@
   "old": "byte_1035FA30",
   "name": "c_msgActorGraphicsLoadFailed",
   "confidence": "high",
-  "evidence": "Shift-JIS \"アクターのグラフィックリソースを読み込めませんでした。リソマネでUpdateすることをお勧めします。\" (the actor's graphics resource could not be read; updating with the resource manager is recommended); CXiSkeletonActor_LoadSkeletonSync passes it to nullsub_12",
+  "evidence": "Shift-JIS \"\u30a2\u30af\u30bf\u30fc\u306e\u30b0\u30e9\u30d5\u30a3\u30c3\u30af\u30ea\u30bd\u30fc\u30b9\u3092\u8aad\u307f\u8fbc\u3081\u307e\u305b\u3093\u3067\u3057\u305f\u3002\u30ea\u30bd\u30de\u30cd\u3067Update\u3059\u308b\u3053\u3068\u3092\u304a\u52e7\u3081\u3057\u307e\u3059\u3002\" (the actor's graphics resource could not be read; updating with the resource manager is recommended); CXiSkeletonActor_LoadSkeletonSync passes it to nullsub_12",
   "kind": "global"
  },
  "0x1035FA94": {
   "old": "byte_1035FA94",
   "name": "c_msgBadRaceChairActor",
   "confidence": "high",
-  "evidence": "Shift-JIS \"種族番号がおかしいです。(椅子アクターセットアップ中です)\" (the race number is wrong, while setting up a chair actor); CXiSkeletonActor_LoadSkeletonSync",
+  "evidence": "Shift-JIS \"\u7a2e\u65cf\u756a\u53f7\u304c\u304a\u304b\u3057\u3044\u3067\u3059\u3002(\u6905\u5b50\u30a2\u30af\u30bf\u30fc\u30bb\u30c3\u30c8\u30a2\u30c3\u30d7\u4e2d\u3067\u3059)\" (the race number is wrong, while setting up a chair actor); CXiSkeletonActor_LoadSkeletonSync",
   "kind": "global"
  },
  "0x1035FAD0": {
   "old": "byte_1035FAD0",
   "name": "c_msgBadRaceFishingRodActor",
   "confidence": "high",
-  "evidence": "Shift-JIS \"種族番号がおかしいです。(釣り竿アクターセットアップ中です)\" (the race number is wrong, while setting up a fishing-rod actor); CXiSkeletonActor_LoadSkeletonSync",
+  "evidence": "Shift-JIS \"\u7a2e\u65cf\u756a\u53f7\u304c\u304a\u304b\u3057\u3044\u3067\u3059\u3002(\u91e3\u308a\u7aff\u30a2\u30af\u30bf\u30fc\u30bb\u30c3\u30c8\u30a2\u30c3\u30d7\u4e2d\u3067\u3059)\" (the race number is wrong, while setting up a fishing-rod actor); CXiSkeletonActor_LoadSkeletonSync",
   "kind": "global"
  },
  "0x1035FB0C": {
   "old": "byte_1035FB0C",
   "name": "c_msgBadGrpNumber",
   "confidence": "high",
-  "evidence": "Shift-JIS \"ＧＲＰ番号がおかしいです。:%x(cate:%d race:%d)\" (the GRP number is wrong); CXiSkeletonActor_LoadSkeletonSync, 3 calls",
+  "evidence": "Shift-JIS \"\uff27\uff32\uff30\u756a\u53f7\u304c\u304a\u304b\u3057\u3044\u3067\u3059\u3002:%x(cate:%d race:%d)\" (the GRP number is wrong); CXiSkeletonActor_LoadSkeletonSync, 3 calls",
   "kind": "global"
  },
  "0x1035FB3C": {
   "old": "byte_1035FB3C",
   "name": "c_msgBadRaceNumber",
   "confidence": "high",
-  "evidence": "Shift-JIS \"種族番号がおかしいです。\" (the race number is wrong); CXiSkeletonActor_LoadSkeletonSync",
+  "evidence": "Shift-JIS \"\u7a2e\u65cf\u756a\u53f7\u304c\u304a\u304b\u3057\u3044\u3067\u3059\u3002\" (the race number is wrong); CXiSkeletonActor_LoadSkeletonSync",
   "kind": "global"
  },
  "0x1036E4E8": {
@@ -5282,5 +5282,68 @@
   "name": "CreateSharedVertexBuffers",
   "confidence": "medium",
   "evidence": "outside write-up entry 0x10029980 (CreateSharedVertexBuffers), mapped by address drift with equal span. Checked: 4 CreateVertexBuffer; calls Model_CreateTranslucentTargets and Post_CreateScreenEffectTargets."
+ },
+ "0x1047D15C": {
+  "old": "dword_1047D15C",
+  "name": "g_cubeMapTexObjs",
+  "confidence": "high",
+  "kind": "descriptive",
+  "evidence": "Gfx_InitCubeMapTextures (tree/src/unit_10074CA0.cpp) zeroes entry v0 (v0<g_cubeMapCount=3), passes &entry as the last argument of the device vtable +88 call with edge length 32<<v0, levels 1, usage 1 (device vtable slot 22 = CreateCubeTexture in D3D8), then calls cube-texture vtable +60 (slot 15 = GetCubeMapSurface) for each face; sub_1006B3B0 releases each entry through vtable +8 and zeroes it.",
+  "summary": "Array of three IDirect3DCubeTexture8 pointers created at 32, 64 and 128 texels per edge.",
+  "round": "r6 (12 Nov)"
+ },
+ "0x10457548": {
+  "old": "dword_10457548",
+  "name": "g_sharedVertexBuffersCreated",
+  "confidence": "high",
+  "kind": "descriptive",
+  "evidence": "CreateSharedVertexBuffers (tree/src/unit_100298D0.cpp) skips creation (goto LABEL_7) when it is nonzero and sets it to 1 after the four CreateVertexBuffer calls succeed; Unit100298D0_ReleaseAll releases the buffers and sets it to 0.",
+  "summary": "Flag: the shared vertex buffers g_vertexBuffer_7148..7154 exist.",
+  "round": "r6 (12 Nov)"
+ },
+ "0x1047BBD0": {
+  "old": "flt_1047BBD0",
+  "name": "g_targetRectMaxX",
+  "confidence": "medium",
+  "kind": "descriptive",
+  "evidence": "Unit100473F0_InitFromRenderTarget (tree/src/unit_100473F0.cpp) sets it to (float) of the render-target top entry's field at +8; sub_10046550 (called from CMoElem.cpp) clamps it to that same +8 field when the field is <= it, and copies it into two vertex slots (v2[5], v2[15]).",
+  "summary": "Upper X bound of a rectangle, initialised to and clamped by the current render target's +8 extent.",
+  "round": "r6 (12 Nov)"
+ },
+ "0x1047BBD4": {
+  "old": "flt_1047BBD4",
+  "name": "g_targetRectMaxY",
+  "confidence": "medium",
+  "kind": "descriptive",
+  "evidence": "Same functions as g_targetRectMaxX: initialised to (float) of the render-target top entry's +12 field and clamped by it in sub_10046550; copied into vertex slots v2[11] and v2[16].",
+  "summary": "Upper Y bound of a rectangle, initialised to and clamped by the current render target's +12 extent.",
+  "round": "r6 (12 Nov)"
+ },
+ "0x10456E74": {
+  "old": "dword_10456E74",
+  "name": "g_envMapTexOffsetU",
+  "confidence": "low",
+  "kind": "descriptive",
+  "evidence": "EnvMap_BeginPass (tree/src/unit_100252F0.cpp) builds an identity Mat4 and stores this dword in element 12 (row 4, first component = translation) before pre-multiplying and setting it as D3DTS_TEXTURE0 with COUNT2 and CAMERASPACENORMAL coordinates. Only this one read is visible; the writer (sub_10026210) is not in the tree.",
+  "summary": "First translation component of the env-map texture transform.",
+  "round": "r6 (12 Nov)"
+ },
+ "0x10456E78": {
+  "old": "dword_10456E78",
+  "name": "g_envMapTexOffsetV",
+  "confidence": "low",
+  "kind": "descriptive",
+  "evidence": "Same as g_envMapTexOffsetU, stored in element 13 (second translation component) of the env-map texture matrix in EnvMap_BeginPass.",
+  "summary": "Second translation component of the env-map texture transform.",
+  "round": "r6 (12 Nov)"
+ },
+ "0x10456E88": {
+  "old": "dword_10456E88",
+  "name": "g_pEnvMapTexObj",
+  "confidence": "low",
+  "kind": "descriptive",
+  "evidence": "EnvMap_BeginPass returns 0 without any state change when it is zero; otherwise saves the previous textures and calls TexRef_SetTexture on (*it)+48. EnvMap_EndPass restores the saved textures only when it is nonzero; Unit100252F0_ClearCounter (the object's destructor path) zeroes it. Object type not established.",
+  "summary": "Pointer to the object gating and supplying the environment-map pass texture.",
+  "round": "r6 (12 Nov)"
  }
 }

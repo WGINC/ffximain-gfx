@@ -10,7 +10,7 @@ _DWORD * CMoTaskMng::ScalarDeletingDtor(char a2)
   orig::CMoTaskMng_Destructor(this);
   if ( (a2 & 1) != 0 )
     orig::thunk_sub_10028AA0((int)this);
-  return(_DWORD*)(&(*(void * *)((char *)this + 0x0)));
+  return(_DWORD*)(&(*(void * *)&this->vftable));
 }
 
 // FUNCTION: FFXIMAIN 0x10074A10  (placed by IDB name; static (takes no this))

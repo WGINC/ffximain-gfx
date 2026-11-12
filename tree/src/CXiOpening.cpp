@@ -18,7 +18,7 @@ void * CXiOpening::Constructor(char *Source)
   dword_10456D20 = 0;
   this->field_108 = 0;
   this->field_110 = 0;
-  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x915)) != 0 )
+  if ( (*(unsigned __int8 *)&g_pCDx->field_915) != 0 )
   {
     orig::GammaRamp_GetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), (_DWORD *)self + 69, (_DWORD *)self + 70, (_DWORD *)self + 71);
     orig::GammaRamp_SetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), 1065353216, 1065353216, 1065353216);
@@ -60,7 +60,7 @@ CDx * CXiOpening::CXiOpening_Destructor()
   void (__thiscall ***v3)(_DWORD, int);
   CDx *result;
   v2 = (void (__thiscall ***)(_DWORD, int))this->field_120;
-  (*(void * *)((char *)this + 0x0)) = &CXiOpening_vtbl;
+  (*(void * *)&this->vftable) = &CXiOpening_vtbl;
   if ( v2 != nullptr )
   {
     (**v2)(v2, 1);
@@ -73,7 +73,7 @@ CDx * CXiOpening::CXiOpening_Destructor()
     this->field_124 = 0;
   }
   result = g_pCDx;
-  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x915)) != 0 )
+  if ( (*(unsigned __int8 *)&g_pCDx->field_915) != 0 )
     return (CDx *)orig::GammaRamp_SetRGB(((unsigned __int8 *)((char *)g_pCDx + 0x1F4)), this->savedGammaR, this->savedGammaG, this->savedGammaB);
   return result;
 }

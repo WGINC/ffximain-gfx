@@ -122,7 +122,7 @@ int CYyOs2VtxBuffer::Constructor(_DWORD **a2)
   this->field_50 = 0;
   this->field_54 = 0;
   this->indexCount = 0;
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), &g_vsDecl_1628, nullptr, (void *)(self + 100), 0);
+  (g_pCDx->pDevice)->lpVtbl->CreateVertexShader((g_pCDx->pDevice), &g_vsDecl_1628, nullptr, (void *)(self + 100), 0);
   this->field_68 = 0;
   this->field_69 = 0;
   this->field_6A = 0;
@@ -144,7 +144,7 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
   unsigned int v6;
   int i;
   v2 = this->pIndices;
-  (*(CMoTask_vtbl * *)((char *)this + 0x0)) = (CMoTask_vtbl *)&CYyOs2VtxBuffer_vtbl;
+  (*(CMoTask_vtbl * *)&this->vftable) = (CMoTask_vtbl *)&CYyOs2VtxBuffer_vtbl;
   if ( v2 != 0 )
   {
     orig::Mem_FreeObject(v2);
@@ -170,7 +170,7 @@ char CYyOs2VtxBuffer::CYyOs2VtxBuffer_Destructor()
   this->indexCount = 0;
   if ( v4 != 0 )
   {
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->DeleteVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v4);
+    (g_pCDx->pDevice)->lpVtbl->DeleteVertexShader((g_pCDx->pDevice), v4);
     this->field_64 = 0;
   }
   v5 = this->field_6A;

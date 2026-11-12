@@ -672,9 +672,9 @@ XI_API char __cdecl App_CreateRendererAndApp(void)
     return 0;
   *(_DWORD *)&(*(unsigned __int8 *)((char *)v1 + 0x15C)) = xRight;
   *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x160)) = yBottom;
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->GetBackBuffer((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DBACKBUFFER_TYPE_MONO, (IDirect3DSurface8 **)&v7);
+  (g_pCDx->pDevice)->lpVtbl->GetBackBuffer((g_pCDx->pDevice), 0, D3DBACKBUFFER_TYPE_MONO, (IDirect3DSurface8 **)&v7);
   (*(void (__stdcall **)(int))(*(_DWORD *)v7 + 8))(v7);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->GetDepthStencilSurface((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), (IDirect3DSurface8 **)&v6);
+  (g_pCDx->pDevice)->lpVtbl->GetDepthStencilSurface((g_pCDx->pDevice), (IDirect3DSurface8 **)&v6);
   (*(void (__stdcall **)(int))(*(_DWORD *)v6 + 8))(v6);
   if ( orig::CDx_SetDefaultRenderTargets(g_pCDx, 0, v7, v6) == 0 )
     return 0;
@@ -740,7 +740,7 @@ XI_API _DWORD * __cdecl App_DestroyGlobalObjects(void)
   }
   if ( g_pCDx != nullptr )
   {
-    (*(CDx_vtbl * *)((char *)g_pCDx + 0x0))->vf6_CDx_ScalarDeletingDtor(g_pCDx, 1);
+    (*(CDx_vtbl * *)&g_pCDx->vftable)->vf6_CDx_ScalarDeletingDtor(g_pCDx, 1);
     g_pCDx = nullptr;
   }
   orig::sub_10120200(g_shapeMng);
@@ -1101,7 +1101,7 @@ XI_API void __thiscall GammaRamp_ApplyIfChanged(int self_)
     *(_DWORD *)(self_ + 1560) = *(_DWORD *)(self_ + 1548);
   }
   orig::GammaRamp_BuildRamps((float *)self_);
-  pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+  pDevice = (g_pCDx->pDevice);
   if ( pDevice != nullptr && g_windowMode == 0 )
     pDevice->SetGammaRamp(0, (void *)(self_ + 4));
 }
@@ -1115,17 +1115,17 @@ XI_API int __stdcall Unit10014350_Draw(int a1, int a2)
   int a2a;
   g_rampGraphVerts_v0_color = a2;
   g_rampGraphVerts_v1_color = a2;
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, TRUE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, FALSE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, D3DZB_FALSE);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_COLORARG1, D3DTA_DIFFUSE);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ALPHAARG1, D3DTA_DIFFUSE);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 1u, D3DTSS_COLOROP, D3DTOP_DISABLE);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 1u, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHABLENDENABLE, TRUE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ZWRITEENABLE, FALSE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ZENABLE, D3DZB_FALSE);
   v2 = 0;
   a2a = 0;
   do
@@ -1135,15 +1135,15 @@ XI_API int __stdcall Unit10014350_Draw(int a1, int a2)
     g_rampGraphVerts_v0_y = 480.0 - (double)*(unsigned __int16 *)(a1 + 2 * v2) * 0x1.0001000000000p-16 * 480.0;
     g_rampGraphVerts_v1_x = (double)(v2 + 1) * 2.5;
     g_rampGraphVerts_v1_y = 480.0 - (double)*(unsigned __int16 *)(a1 + 2 * v2 + 2) * 0x1.0001000000000p-16 * 480.0;
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 68u);
+    (g_pCDx->pDevice)->lpVtbl->SetVertexShader((g_pCDx->pDevice), 68u);
     orig::CDx_DrawPrimitiveUP(g_pCDx, 2, 2, (int)&g_rampGraphVerts, 20);
     v2 = v3;
     a2a = v3;
   }
   while ( v3 < 255 );
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, FALSE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZWRITEENABLE, TRUE);
-  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ZENABLE, D3DZB_TRUE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHABLENDENABLE, FALSE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ZWRITEENABLE, TRUE);
+  return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ZENABLE, D3DZB_TRUE);
 }
 
 // FUNCTION: FFXIMAIN 0x10017630  (unit unit_10014350_Camera: no unit evidence of its own; in the gap between 0x10014330 (CAtelIdleTask) and 0x10017750 (CShader) -- an unnamed source file)

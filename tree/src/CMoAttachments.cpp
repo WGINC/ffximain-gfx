@@ -49,7 +49,7 @@ _DWORD * CMoAttachments::ScalarDeletingDtor(char a2)
   orig::ReleaseSubObjectIfPresent(this);
   if ( (a2 & 1) != 0 )
     orig::operator_delete(this);
-  return(_DWORD*)(&(*(CMoAttachments_vtbl * *)((char *)this + 0x0)));
+  return(_DWORD*)(&(*(CMoAttachments_vtbl * *)&this->vftable));
 }
 
 // FUNCTION: FFXIMAIN 0x1003B640  (placed by IDB name; static (takes no this))
@@ -384,14 +384,14 @@ XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, in
   float (&v59)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x30);
   float (&v60)[3] = *reinterpret_cast<float (*)[3]>(xi_frame + 0x3C);
 
-  ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+  ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
   v6 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-  (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+  (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
   v54 = (int)v6;
   v53 = 0.0;
-  v7 = (*(int *)((char *)g_pProcessor + 0xA90));
+  v7 = (g_pProcessor->ScratchMatrixStackTop);
   v8 = ((float * *)((char *)g_pProcessor + 0xA10))[v7];
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v7 + 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v7 + 1;
   v55 = v8;
   v9 = (float *)orig::CMoAttachments_GetCaster((_DWORD *)self_);
   v10 = (int *)orig::CMoAttachments_GetTarget((_DWORD *)self_);
@@ -405,7 +405,7 @@ XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, in
         goto LABEL_63;
       orig::sub_1003BA20((float *)&v56, ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6), v9, v10, 0);
       v13 = *(_DWORD *)v9;
-      vftable = (*(void * *)((char *)g_pProcessor + 0x0));
+      vftable = (*(void * *)&g_pProcessor->vftable);
       v15 = (int *)v9;
       goto LABEL_37;
     case 2u:
@@ -474,7 +474,7 @@ XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, in
       v36 = (float *)orig::CMoAttachments_GetCaster((_DWORD *)self_);
       orig::sub_1003BA20((float *)&v56, v35, v36, v49, 0);
       v51 = -atan2(*(float *)(v54 + 40), *(float *)(v54 + 32));
-      (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))(*(void * *)((char *)g_pProcessor + 0x0)) + 25))(
+      (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))(*(void * *)&g_pProcessor->vftable) + 25))(
         g_pProcessor,
         a2,
         LODWORD(v51));
@@ -494,7 +494,7 @@ XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, in
       orig::sub_1003BA20((float *)&v56, (unsigned __int16)*(_DWORD *)(self_ + 4) >> 10, v40, v50, 0);
       v19 = a2;
       v52 = -atan2(*(float *)(v54 + 40), *(float *)(v54 + 32));
-      (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))(*(void * *)((char *)g_pProcessor + 0x0)) + 25))(
+      (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))(*(void * *)&g_pProcessor->vftable) + 25))(
         g_pProcessor,
         a2,
         LODWORD(v52));
@@ -508,7 +508,7 @@ XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, in
       a2[13] = 0;
       a2[14] = 0;
       a2[15] = 1065353216;
-      v42 = (void (__thiscall **)(CMoProcessor *, int *, _DWORD *, char *))(*(void * *)((char *)g_pProcessor + 0x0));
+      v42 = (void (__thiscall **)(CMoProcessor *, int *, _DWORD *, char *))(*(void * *)&g_pProcessor->vftable);
       v43 = orig::ZoneMap_GetAddr0B4((char *)g_pXiZone);
       goto LABEL_62;
     case 0xFu:
@@ -518,7 +518,7 @@ XI_API double __thiscall YmGenerater_BuildAttachMatrix(int self_, _DWORD *a2, in
       a2[13] = 0;
       a2[14] = 0;
       a2[15] = 1065353216;
-      v42 = (void (__thiscall **)(CMoProcessor *, int *, _DWORD *, char *))(*(void * *)((char *)g_pProcessor + 0x0));
+      v42 = (void (__thiscall **)(CMoProcessor *, int *, _DWORD *, char *))(*(void * *)&g_pProcessor->vftable);
       v43 = orig::ZoneMap_GetAddr0D4((char *)g_pXiZone);
 LABEL_62:
       v42[20](g_pProcessor, &v56, v41, v43);
@@ -584,7 +584,7 @@ LABEL_40:
       v16 = *(_DWORD *)v9;
       v17 = (int *)v9;
 LABEL_43:
-      v22 = (*(void * *)((char *)g_pProcessor + 0x0));
+      v22 = (*(void * *)&g_pProcessor->vftable);
       v23 = (*(int (__thiscall **)(int *))(v16 + 448))(v17);
       (*((void (__thiscall **)(CMoProcessor *, _DWORD *, _DWORD))v22 + 25))(g_pProcessor, a2, *(_DWORD *)(v23 + 4));
       v24 = v57;
@@ -600,7 +600,7 @@ LABEL_34:
         goto LABEL_63;
       orig::sub_1003BA20((float *)&v56, ((v12 >> 4) & 0x3F) + (((v12 & 0x40000) != 0) << 6), v9, v10, 0);
       v13 = *v10;
-      vftable = (*(void * *)((char *)g_pProcessor + 0x0));
+      vftable = (*(void * *)&g_pProcessor->vftable);
       v15 = v10;
 LABEL_37:
       v18 = (*(int (__thiscall **)(int *))(v13 + 448))(v15);
@@ -648,16 +648,16 @@ LABEL_10:
       break;
     default:
 LABEL_63:
-      (*((void (__thiscall **)(CMoProcessor *, _DWORD *))(*(void * *)((char *)g_pProcessor + 0x0)) + 49))(g_pProcessor, a2);
+      (*((void (__thiscall **)(CMoProcessor *, _DWORD *))(*(void * *)&g_pProcessor->vftable) + 49))(g_pProcessor, a2);
       break;
   }
   v44 = g_pProcessor;
-  v46 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v46;
+  v46 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v46;
   ((float * *)((char *)v44 + 0xA10))[v46] = v55;
   v47 = g_pProcessor;
-  v48 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v48;
+  v48 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v48;
   ((float * *)((char *)v47 + 0xA10))[v48] = (float *)v54;
   return v53;
 }

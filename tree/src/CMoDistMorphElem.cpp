@@ -139,17 +139,17 @@ int CMoDistMorphElem::ApplyMorph(int a2, _DWORD *a3, int a4, int a5, _DWORD *C, 
   (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetRenderState(D3DRS_TEXTUREFACTOR, *a3);
   if ( a2 != 0 && (*(_BYTE *)(a2 + 379) & 3) != 0 )
   {
-    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
     v28 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+    (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
     orig::MoProcessor_CallVSlot49(v28);
     v28[8] = *(float *)(a2 + 288);
     v28[9] = *(float *)(a2 + 292);
     (*(IDirect3DDevice8 **)(g_pResourceMng + 0xEBC))->SetTextureStageState(0, D3DTSS_TEXTURETRANSFORMFLAGS, D3DTTFF_COUNT2);
     orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 16, v28);
     v29 = g_pProcessor;
-    v30 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-    (*(int *)((char *)g_pProcessor + 0xA90)) = v30;
+    v30 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+    (g_pProcessor->ScratchMatrixStackTop) = v30;
     ((float * *)((char *)v29 + 0xA10))[v30] = v28;
   }
   result = orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF152, 0, *(unsigned __int16 *)(v7 + 58), 4, 0, -1);

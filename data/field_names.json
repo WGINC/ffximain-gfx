@@ -1,679 +1,1551 @@
 {
+ "CApp": {
+  "0x1D": {
+   "confidence": "low",
+   "evidence": "CApp::RunMainLoop stores 1 after App_InitScene reports success and 0 at LABEL_23 on every exit path of the loop; no other use in the tree.",
+   "kind": "descriptive",
+   "name": "mainLoopActive",
+   "round": "r6 (12 Nov)",
+   "summary": "set to 1 once the scene is initialised and 0 when the main loop exits"
+  }
+ },
  "CDx": {
-  "0x90": {
-   "name": "defaultBackBuffer",
-   "confidence": "high",
-   "summary": "default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarge",
-   "evidence": "default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarget (docs/NAMES.md, 1 Oct)"
-  },
-  "0x94": {
-   "name": "defaultDepthSurface",
-   "confidence": "high",
-   "summary": "default depth surface, set with defaultBackBuffer by CDx::SetDefaultRenderTargets",
-   "evidence": "default depth surface, set with defaultBackBuffer by CDx::SetDefaultRenderTargets"
-  },
   "0x158": {
-   "name": "renderTargetDepth",
    "confidence": "medium",
-   "summary": "index into the 24-byte viewport/target stack entries (CDx::SetViewport writes entry [n], C",
-   "evidence": "index into the 24-byte viewport/target stack entries (CDx::SetViewport writes entry [n], CDx::GetRenderTargetTop returns it); 0 after construction"
+   "evidence": "index into the 24-byte viewport/target stack entries (CDx::SetViewport writes entry [n], CDx::GetRenderTargetTop returns it); 0 after construction",
+   "name": "renderTargetDepth",
+   "summary": "index into the 24-byte viewport/target stack entries (CDx::SetViewport writes entry [n], C"
   },
   "0x164": {
-   "name": "clearFlags",
    "confidence": "medium",
-   "summary": "first of the four values CDx::SetClearParams stores, in IDirect3DDevice8::Clear order (Fla",
-   "evidence": "first of the four values CDx::SetClearParams stores, in IDirect3DDevice8::Clear order (Flags, Color, Z, Stencil)"
+   "evidence": "first of the four values CDx::SetClearParams stores, in IDirect3DDevice8::Clear order (Flags, Color, Z, Stencil)",
+   "name": "clearFlags",
+   "summary": "first of the four values CDx::SetClearParams stores, in IDirect3DDevice8::Clear order (Fla"
   },
   "0x168": {
-   "name": "clearColor",
    "confidence": "high",
-   "summary": "second Clear value",
-   "evidence": "second Clear value; CDx::SetClearColor writes only this one"
+   "evidence": "second Clear value; CDx::SetClearColor writes only this one",
+   "name": "clearColor",
+   "summary": "second Clear value"
   },
   "0x16C": {
-   "name": "clearZ",
    "confidence": "medium",
-   "summary": "third Clear value (Z)",
-   "evidence": "third Clear value (Z)"
+   "evidence": "third Clear value (Z)",
+   "name": "clearZ",
+   "summary": "third Clear value (Z)"
   },
   "0x170": {
-   "name": "clearStencil",
    "confidence": "medium",
-   "summary": "fourth Clear value (Stencil)",
-   "evidence": "fourth Clear value (Stencil)"
+   "evidence": "fourth Clear value (Stencil)",
+   "name": "clearStencil",
+   "summary": "fourth Clear value (Stencil)"
   },
   "0x190": {
-   "name": "acc2",
    "confidence": "medium",
-   "summary": "sub-object constructed by CAcc2_Constructor in CDx::Constructor",
-   "evidence": "sub-object constructed by CAcc2_Constructor in CDx::Constructor"
+   "evidence": "sub-object constructed by CAcc2_Constructor in CDx::Constructor",
+   "name": "acc2",
+   "summary": "sub-object constructed by CAcc2_Constructor in CDx::Constructor"
   },
   "0x194": {
-   "name": "sceneTargetA",
    "confidence": "medium",
-   "summary": "texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0",
-   "evidence": "texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0 surface (vtable +60 = GetSurfaceLevel)"
+   "evidence": "texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0 surface (vtable +60 = GetSurfaceLevel)",
+   "name": "sceneTargetA",
+   "summary": "texture: CDx::GetStereoSecondEyeTarget compares the current render target with its level-0"
   },
   "0x198": {
-   "name": "sceneTargetB",
    "confidence": "medium",
-   "summary": "texture: the second scene target",
-   "evidence": "texture: the second scene target; returned by CDx::GetStereoSecondEyeTarget when either target is current"
+   "evidence": "texture: the second scene target; returned by CDx::GetStereoSecondEyeTarget when either target is current",
+   "name": "sceneTargetB",
+   "summary": "texture: the second scene target"
   },
   "0x1A8": {
-   "name": "sceneTargetBDepth",
    "confidence": "medium",
-   "summary": "depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget",
-   "evidence": "depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget"
+   "evidence": "depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget",
+   "name": "sceneTargetBDepth",
+   "summary": "depth surface returned with sceneTargetB by CDx::GetStereoSecondEyeTarget"
   },
   "0x1DC": {
-   "name": "acc",
    "confidence": "medium",
-   "summary": "sub-object constructed by CAcc_Constructor in CDx::Constructor",
-   "evidence": "sub-object constructed by CAcc_Constructor in CDx::Constructor"
+   "evidence": "sub-object constructed by CAcc_Constructor in CDx::Constructor",
+   "name": "acc",
+   "summary": "sub-object constructed by CAcc_Constructor in CDx::Constructor"
   },
   "0x1F4": {
-   "name": "gammaRamp",
    "confidence": "high",
-   "summary": "GammaRamp_Constructor(this+0x1F4) in CDx::Constructor",
-   "evidence": "GammaRamp_Constructor(this+0x1F4) in CDx::Constructor; requested/applied gamma and three 256-entry ramps (docs/NAMES.md, 1 Oct)"
+   "evidence": "GammaRamp_Constructor(this+0x1F4) in CDx::Constructor; requested/applied gamma and three 256-entry ramps (docs/NAMES.md, 1 Oct)",
+   "name": "gammaRamp",
+   "summary": "GammaRamp_Constructor(this+0x1F4) in CDx::Constructor"
   },
   "0x810": {
-   "name": "stereoEye",
    "confidence": "high",
-   "summary": "0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting",
-   "evidence": "0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting it before CDx_ApplyStereoEyeProjection, which picks the eye offset from it"
+   "evidence": "0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting it before CDx_ApplyStereoEyeProjection, which picks the eye offset from it",
+   "name": "stereoEye",
+   "summary": "0 or 1: CDx::DrawPrimitive/DrawIndexedPrimitive/DrawPrimitiveUP draw once per eye, setting"
+  },
+  "0x814": {
+   "confidence": "medium",
+   "evidence": "CDx::CreateStereoResources passes (IDirect3DTexture8**)this+517 (=+0x814) to CDx::CreateRampTextures1024x2, which creates two 1024x2 A8R8G8B8 textures into consecutive slots (+0x814,+0x818) and fills even columns with the caller's colour and odd columns with zero; CDx::ReleaseStereoResources Releases it (vtbl+8) and zeroes it. No reader found, so its use is not shown.",
+   "kind": "descriptive",
+   "name": "stereoStripeTexture0",
+   "round": "r6 (12 Nov)",
+   "summary": "First of the two 1024x2 column-stripe textures made by the first CreateRampTextures1024x2 call in CreateStereoResources."
+  },
+  "0x818": {
+   "confidence": "medium",
+   "evidence": "Second slot written by the first CDx::CreateRampTextures1024x2 call in CDx::CreateStereoResources (a2 advances by one pointer per texture, two textures per call); Released and zeroed in CDx::ReleaseStereoResources.",
+   "kind": "descriptive",
+   "name": "stereoStripeTexture1",
+   "round": "r6 (12 Nov)",
+   "summary": "Second texture of the first stripe-texture pair."
+  },
+  "0x81C": {
+   "confidence": "medium",
+   "evidence": "CDx::CreateStereoResources passes this+519 (=+0x81C) to the second CDx::CreateRampTextures1024x2 call (different colour pair); Released and zeroed in CDx::ReleaseStereoResources.",
+   "kind": "descriptive",
+   "name": "stereoStripeTexture2",
+   "round": "r6 (12 Nov)",
+   "summary": "First texture of the second stripe-texture pair."
+  },
+  "0x820": {
+   "confidence": "medium",
+   "evidence": "Second slot of the second CDx::CreateRampTextures1024x2 call in CDx::CreateStereoResources; Released and zeroed in CDx::ReleaseStereoResources.",
+   "kind": "descriptive",
+   "name": "stereoStripeTexture3",
+   "round": "r6 (12 Nov)",
+   "summary": "Second texture of the second stripe-texture pair."
+  },
+  "0x824": {
+   "confidence": "high",
+   "evidence": "CDx::CreateStereoResources stores CDx::CreateTexture(a1, a2, nullptr, 1, 0) here; CreateTexture passes a5=1 as Usage (D3DUSAGE_RENDERTARGET) and a6=0 as Pool to IDirect3DDevice8::CreateTexture (vtbl+80). CDx::CompositeSceneToBackBuffer, when CEnv_IsStereoMode, passes it to CDx::PushRenderTarget. Released in CDx::ReleaseStereoResources.",
+   "kind": "descriptive",
+   "name": "stereoRenderTargetTexture",
+   "round": "r6 (12 Nov)",
+   "summary": "Render-target texture created at the requested size for stereo mode and pushed as render target when compositing."
   },
   "0x828": {
-   "name": "stereoTargetsReady",
    "confidence": "medium",
-   "summary": "CDx::GetStereoSecondEyeTarget does nothing unless it is set and CEnv_IsStereoMode",
-   "evidence": "CDx::GetStereoSecondEyeTarget does nothing unless it is set and CEnv_IsStereoMode"
+   "evidence": "CDx::GetStereoSecondEyeTarget does nothing unless it is set and CEnv_IsStereoMode",
+   "name": "stereoTargetsReady",
+   "summary": "CDx::GetStereoSecondEyeTarget does nothing unless it is set and CEnv_IsStereoMode"
   },
   "0x82C": {
-   "name": "stereoOddLineTexture",
    "confidence": "medium",
-   "summary": "the 1x16 texture CDx_DrawStereoOddFrameOverlay stretches over the screen in stereo mode (I",
-   "evidence": "the 1x16 texture CDx_DrawStereoOddFrameOverlay stretches over the screen in stereo mode (IDB comment from DancingMad)"
+   "evidence": "the 1x16 texture CDx_DrawStereoOddFrameOverlay stretches over the screen in stereo mode (IDB comment from DancingMad)",
+   "name": "stereoOddLineTexture",
+   "summary": "the 1x16 texture CDx_DrawStereoOddFrameOverlay stretches over the screen in stereo mode (I"
+  },
+  "0x830": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize sets it to 32, then from the D3DDISPLAYMODE.Format returned by IDirect3DDevice8::GetDisplayMode: 32 for formats 21/22 (D3DFMT_A8R8G8B8/X8R8G8B8), 16 for 23/24/25 (R5G6B5/X1R5G5B5/A1R5G5B5). Single function.",
+   "kind": "descriptive",
+   "name": "displayBitDepth",
+   "round": "r6 (12 Nov)",
+   "summary": "Bits per pixel of the current display mode format."
+  },
+  "0x90": {
+   "confidence": "high",
+   "evidence": "default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarget (docs/NAMES.md, 1 Oct)",
+   "name": "defaultBackBuffer",
+   "summary": "default render target: set by CDx::SetDefaultRenderTargets, restored by CDx_PopRenderTarge"
+  },
+  "0x908": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set to 1 when DevCaps & 0x10000 (D3DDEVCAPS_HWTRANSFORMANDLIGHT); the same test selects vertexBufferUsage/vertexBufferPool. Only use.",
+   "kind": "descriptive",
+   "name": "hasHwTransformAndLight",
+   "round": "r6 (12 Nov)",
+   "summary": "Device reports hardware transform and lighting."
+  },
+  "0x909": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set to 1 when VertexShaderVersion >= 0xFFFE0101 (D3DVS_VERSION(1,1)). Only use.",
+   "kind": "descriptive",
+   "name": "hasVertexShader11",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports vertex shader version 1.1 or later."
+  },
+  "0x90A": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set to 1 when PixelShaderVersion >= 0xFFFF0101 (D3DPS_VERSION(1,1)). Only use.",
+   "kind": "descriptive",
+   "name": "hasPixelShader11",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports pixel shader version 1.1 or later."
+  },
+  "0x90C": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): written as a WORD 0x0101 (257) when VertexShaderVersion >= D3DVS_VERSION(1,1). Only use.",
+   "kind": "descriptive",
+   "name": "vertexShaderVersion",
+   "round": "r6 (12 Nov)",
+   "summary": "Supported vertex shader version as major/minor bytes (0x0101 = 1.1)."
+  },
+  "0x90E": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): written as a WORD 0x0101, 0x0104 or 0x0200 as PixelShaderVersion reaches D3DPS_VERSION 1.1, 1.4, 2.0. Only use.",
+   "kind": "descriptive",
+   "name": "pixelShaderVersion",
+   "round": "r6 (12 Nov)",
+   "summary": "Highest supported pixel shader version as major/minor bytes."
+  },
+  "0x910": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize: result of IDirect3D8::CheckDeviceFormat(0, D3DDEVTYPE_HAL, adapter format from GetAdapterDisplayMode, 0, D3DRTYPE_TEXTURE, D3DFMT_DXT1) >= 0. Only use.",
+   "kind": "descriptive",
+   "name": "supportsDxt1",
+   "round": "r6 (12 Nov)",
+   "summary": "DXT1 textures are supported."
+  },
+  "0x911": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize: CheckDeviceFormat(..., D3DRTYPE_TEXTURE, D3DFMT_DXT3) >= 0. Only use.",
+   "kind": "descriptive",
+   "name": "supportsDxt3",
+   "round": "r6 (12 Nov)",
+   "summary": "DXT3 textures are supported."
+  },
+  "0x912": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize: CheckDeviceFormat(..., D3DRTYPE_TEXTURE, D3DFMT_P8) >= 0. Read in unit_10251320.cpp (g_pSqgxContext[180] = vendor 4098 || this == 0), which does not show more.",
+   "kind": "descriptive",
+   "name": "supportsP8Texture",
+   "round": "r6 (12 Nov)",
+   "summary": "8-bit palettized (P8) textures are supported."
+  },
+  "0x913": {
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when PrimitiveMiscCaps & 0x800 (D3DPMISCCAPS_BLENDOP). unit_100D7420.cpp tests it before SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD) and in several other blend-mode branches.",
+   "kind": "descriptive",
+   "name": "supportsBlendOp",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports D3DRS_BLENDOP."
+  },
+  "0x914": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when PrimitiveMiscCaps & 0x400 (D3DPMISCCAPS_TSSARGTEMP). Only use.",
+   "kind": "descriptive",
+   "name": "supportsTssArgTemp",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports the D3DTA_TEMP texture-stage argument."
+  },
+  "0x915": {
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when Caps2 & 0x20000 (D3DCAPS2_FULLSCREENGAMMA). Read by Gfx_IsGammaSupported (unit_100014A0_Gfx.cpp) and tested before GammaRamp_ApplyIfChanged in unit_10011A00_Post.cpp and unit_10010370_App.cpp.",
+   "kind": "descriptive",
+   "name": "supportsFullscreenGamma",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports a full-screen gamma ramp."
+  },
+  "0x918": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize copies D3DCAPS8 dword 43 (MaxVertexBlendMatrixIndex) here. Only use.",
+   "kind": "descriptive",
+   "name": "maxVertexBlendMatrixIndex",
+   "round": "r6 (12 Nov)",
+   "summary": "Copy of D3DCAPS8::MaxVertexBlendMatrixIndex."
+  },
+  "0x91C": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize: set to 2 when IDirect3D8::CheckDeviceMultiSampleType(..., D3DMULTISAMPLE_2_SAMPLES) succeeds, then to 4 when ..._4_SAMPLES succeeds. Only use.",
+   "kind": "descriptive",
+   "name": "maxMultiSampleType",
+   "round": "r6 (12 Nov)",
+   "summary": "Highest of the 2/4-sample multisample types the adapter format supports."
+  },
+  "0x920": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize sets 0, then 1 when IDirect3D8::GetAdapterIdentifier returns VendorId (D3DADAPTER_IDENTIFIER8 offset 0x408) == 4098 (0x1002, the PCI vendor ID of ATI). CTsZoneMap::InitZBiasPresets reads it to select different z-bias presets; unit_10251320.cpp compares the same identifier field with 4098 directly. -- 4098 = 0x1002, ATI's vendor ID in the PCI-SIG vendor registry (the source of \"ATI\"; not in this repository)",
+   "kind": "descriptive",
+   "name": "isAtiAdapter",
+   "round": "r6 (12 Nov)",
+   "summary": "Adapter's PCI vendor ID is 0x1002 (ATI)."
+  },
+  "0x921": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when TextureCaps & 0x800 (D3DPTEXTURECAPS_CUBEMAP). Read into a local in CYyModelDt.cpp whose use was not traced.",
+   "kind": "descriptive",
+   "name": "supportsCubeMap",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports cube textures."
+  },
+  "0x924": {
+   "confidence": "high",
+   "evidence": "CDx::Initialize sets 8 (D3DUSAGE_WRITEONLY) with hardware T&L, else 16 (D3DUSAGE_SOFTWAREPROCESSING); unit_10163E60.cpp passes it as the Usage argument of every IDirect3DDevice8::CreateVertexBuffer call.",
+   "kind": "descriptive",
+   "name": "vertexBufferUsage",
+   "round": "r6 (12 Nov)",
+   "summary": "Usage flags passed to CreateVertexBuffer, chosen by hardware T&L support."
+  },
+  "0x928": {
+   "confidence": "high",
+   "evidence": "CDx::Initialize sets 1 (D3DPOOL_MANAGED) with hardware T&L, else 2 (D3DPOOL_SYSTEMMEM); unit_10163E60.cpp passes it as the Pool argument of IDirect3DDevice8::CreateVertexBuffer.",
+   "kind": "descriptive",
+   "name": "vertexBufferPool",
+   "round": "r6 (12 Nov)",
+   "summary": "D3DPOOL passed to CreateVertexBuffer, chosen by hardware T&L support."
+  },
+  "0x92C": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when RasterCaps & 0x20000 (D3DPRASTERCAPS_ANISOTROPY), TextureFilterCaps has 0x4000000 (MAGFANISOTROPIC) and 0x400 (MINFANISOTROPIC), and MaxAnisotropy >= 2. Only use.",
+   "kind": "descriptive",
+   "name": "supportsAnisotropicFilter",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports anisotropic min/mag filtering with MaxAnisotropy of at least 2."
+  },
+  "0x92D": {
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when RasterCaps & 0x100 (D3DPRASTERCAPS_FOGTABLE). CXiSkeletonActor.cpp and unit_10178790_ZoneMap.cpp test it to choose D3DRS_FOGTABLEMODE=LINEAR with FOGVERTEXMODE=NONE.",
+   "kind": "descriptive",
+   "name": "supportsTableFog",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports table (pixel) fog."
+  },
+  "0x92E": {
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when RasterCaps & 0x80 (D3DPRASTERCAPS_FOGVERTEX). CXiSkeletonActor.cpp and unit_10178790_ZoneMap.cpp test it (when table fog is absent) to set D3DRS_FOGVERTEXMODE=LINEAR.",
+   "kind": "descriptive",
+   "name": "supportsVertexFog",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports vertex fog."
+  },
+  "0x92F": {
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when RasterCaps & 0x10000 (D3DPRASTERCAPS_FOGRANGE). CXiSkeletonActor.cpp tests it to set D3DRS_RANGEFOGENABLE TRUE, else FALSE.",
+   "kind": "descriptive",
+   "name": "supportsRangeFog",
+   "round": "r6 (12 Nov)",
+   "summary": "Device supports range-based vertex fog."
+  },
+  "0x930": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when TextureCaps (byte at caps+60) & 0x2 (D3DPTEXTURECAPS_POW2). Only use.",
+   "kind": "descriptive",
+   "name": "texturesMustBePow2",
+   "round": "r6 (12 Nov)",
+   "summary": "Device requires power-of-two texture dimensions."
+  },
+  "0x931": {
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when TextureCaps & 0x20 (D3DPTEXTURECAPS_SQUAREONLY). unit_100D7420.cpp skips the font-compression texture-size choice when it is set, next to tests of maxTextureWidth/Height.",
+   "kind": "descriptive",
+   "name": "texturesMustBeSquare",
+   "round": "r6 (12 Nov)",
+   "summary": "Device requires square textures."
   },
   "0x93C": {
-   "name": "cachedWorld",
    "confidence": "high",
-   "summary": "D3DTS_WORLD (256) matrix returned by CDx::GetTransformCached",
-   "evidence": "D3DTS_WORLD (256) matrix returned by CDx::GetTransformCached"
+   "evidence": "D3DTS_WORLD (256) matrix returned by CDx::GetTransformCached",
+   "name": "cachedWorld",
+   "summary": "D3DTS_WORLD (256) matrix returned by CDx::GetTransformCached"
+  },
+  "0x94": {
+   "confidence": "high",
+   "evidence": "default depth surface, set with defaultBackBuffer by CDx::SetDefaultRenderTargets",
+   "name": "defaultDepthSurface",
+   "summary": "default depth surface, set with defaultBackBuffer by CDx::SetDefaultRenderTargets"
   },
   "0x97C": {
-   "name": "cachedView",
    "confidence": "high",
-   "summary": "D3DTS_VIEW (2) matrix returned by CDx::GetTransformCached",
-   "evidence": "D3DTS_VIEW (2) matrix returned by CDx::GetTransformCached"
+   "evidence": "D3DTS_VIEW (2) matrix returned by CDx::GetTransformCached",
+   "name": "cachedView",
+   "summary": "D3DTS_VIEW (2) matrix returned by CDx::GetTransformCached"
   },
   "0x9BC": {
+   "confidence": "high",
+   "evidence": "D3DTS_PROJECTION (3) matrix returned by CDx::GetTransformCached; CDx::ApplyStereoEyeProjection pre-multiplies it",
    "name": "cachedProjection",
+   "summary": "D3DTS_PROJECTION (3) matrix returned by CDx::GetTransformCached"
+  },
+  "0xA04": {
    "confidence": "high",
-   "summary": "D3DTS_PROJECTION (3) matrix returned by CDx::GetTransformCached",
-   "evidence": "D3DTS_PROJECTION (3) matrix returned by CDx::GetTransformCached; CDx::ApplyStereoEyeProjection pre-multiplies it"
+   "evidence": "CDx::Initialize fills consecutive HCURSOR slots from +0xA04 with LoadCursorFromFileA(current directory + each 32-byte name starting at aMousenorAni), or LoadCursorA(IDC_ARROW) when GetCurrentDirectoryA fails; CDx::SetCursorShape indexes this+0x1F4+2064 (=+0xA04) by cursor slot, loads IDC_ARROW into an empty slot, and passes it to SetCursor.",
+   "kind": "descriptive",
+   "name": "hardwareCursors",
+   "round": "r6 (12 Nov)",
+   "summary": "Array of loaded hardware cursor handles indexed by cursor slot."
   }
  },
- "CXiSkeletonActor": {
-  "0x70": {
-   "name": "pModelInfo",
-   "confidence": "medium",
-   "summary": "model descriptor: CXiActor_GetModelField170 and CXiActor_GetModelByteEE read +0x170 and +0",
-   "evidence": "model descriptor: CXiActor_GetModelField170 and CXiActor_GetModelByteEE read +0x170 and +0xEE through it; set from the constructor argument"
-  },
-  "0x80": {
-   "name": "refCount",
-   "confidence": "high",
-   "summary": "CXiSkeletonActor::SubRef decrements and returns it",
-   "evidence": "CXiSkeletonActor::SubRef decrements and returns it"
-  },
-  "0xBC": {
-   "name": "distanceToCamera",
-   "confidence": "medium",
-   "summary": "copied to g_shadowCasterDistance",
-   "evidence": "copied to g_shadowCasterDistance; render-to-texture shadows only when < 4.0"
-  },
-  "0x73C": {
-   "name": "uvOffsetU",
-   "confidence": "high",
-   "summary": "first argument of CXiSkeletonActor::SetUVOffset",
-   "evidence": "first argument of CXiSkeletonActor::SetUVOffset"
-  },
-  "0x740": {
-   "name": "uvOffsetV",
-   "confidence": "high",
-   "summary": "second argument of CXiSkeletonActor::SetUVOffset",
-   "evidence": "second argument of CXiSkeletonActor::SetUVOffset"
-  },
-  "0x754": {
-   "name": "baseScale",
-   "confidence": "medium",
-   "summary": "set from Actor_GetPercentScaleByIndex in SetModel",
-   "evidence": "set from Actor_GetPercentScaleByIndex in SetModel; GetWidth/Height/DepthScale fall back to it when the axis override is negative"
-  },
-  "0x758": {
-   "name": "depthScale",
-   "confidence": "high",
-   "summary": "GetDepthScale returns it (x model depth x 0.588) when >= 0, else baseScale",
-   "evidence": "GetDepthScale returns it (x model depth x 0.588) when >= 0, else baseScale"
-  },
-  "0x75C": {
-   "name": "heightScale",
-   "confidence": "high",
-   "summary": "GetHeightScale returns it when >= 0, else baseScale",
-   "evidence": "GetHeightScale returns it when >= 0, else baseScale"
-  },
-  "0x760": {
-   "name": "widthScale",
-   "confidence": "high",
-   "summary": "GetWidthScale returns it when >= 0, else baseScale",
-   "evidence": "GetWidthScale returns it when >= 0, else baseScale"
-  },
-  "0x7E4": {
-   "name": "resourceList",
-   "confidence": "medium",
-   "summary": "list walked with List_GetTail in IsReadCompleteBody",
-   "evidence": "list walked with List_GetTail in IsReadCompleteBody"
-  },
-  "0x838": {
-   "name": "directionLockCount",
-   "confidence": "high",
-   "summary": "IsDirectionLock_Set increments or decrements it",
-   "evidence": "IsDirectionLock_Set increments or decrements it"
-  },
-  "0x83C": {
-   "name": "constrain",
-   "confidence": "high",
-   "summary": "returned by CXiSkeletonActor::IsConstrain",
-   "evidence": "returned by CXiSkeletonActor::IsConstrain"
-  },
-  "0x83E": {
-   "name": "constrain2",
-   "confidence": "high",
-   "summary": "returned by CXiSkeletonActor::IsConstrain2",
-   "evidence": "returned by CXiSkeletonActor::IsConstrain2"
-  },
-  "0x840": {
-   "name": "lockFlags",
-   "confidence": "high",
-   "summary": "bit 0x40 is the motion lock (IsMotionLock / IsMotionLock_Set)",
-   "evidence": "bit 0x40 is the motion lock (IsMotionLock / IsMotionLock_Set)"
-  },
-  "0x8C0": {
-   "name": "nameHeightOffset",
-   "confidence": "high",
-   "summary": "added to the Y of the position returned by GetNamePos and GetArrowPos",
-   "evidence": "added to the Y of the position returned by GetNamePos and GetArrowPos"
-  },
-  "0xA08": {
-   "name": "pSkeletonRes",
-   "confidence": "high",
-   "summary": "the CXiSkeletonActorRes load request created in LoadSkeletonResource (callback CXiSkeleton",
-   "evidence": "the CXiSkeletonActorRes load request created in LoadSkeletonResource (callback CXiSkeletonActor_OnSkeletonLoaded); cleared in DestructorBody"
+ "CMoD3aElem": {
+  "0x104": {
+   "confidence": "low",
+   "evidence": "CMoD3aElem::vf18 returns it unchanged when null, else calls YmElem_DrawD3ASegment(*field_104, g_pResourceMng, &g_scratchValue, this): a pointer to a handle whose first dword is the first argument of the D3A segment draw.",
+   "kind": "descriptive",
+   "name": "d3aDrawHandle",
+   "round": "r6 (12 Nov)",
+   "summary": "pointer to a handle (dereferenced once) that vf18 passes to YmElem_DrawD3ASegment; null means nothing is drawn"
   }
  },
- "CTsZoneMap": {
-  "0x343E4": {
-   "name": "overlayTex",
+ "CMoDistModelElem": {
+  "0x120": {
+   "confidence": "high",
+   "evidence": "In CMoDistModelElem::Draw and DrawBatches (only when field_17B&3) it is written into element 8 of a matrix that is then set with CDx_SetTransform after TEXTURETRANSFORMFLAGS=D3DTTFF_COUNT2; element 8 (_31) is the U translation of a 2D texture transform in the D3D matrix layout.",
+   "kind": "descriptive",
+   "name": "textureOffsetU",
+   "round": "r6 (12 Nov)",
+   "summary": "U translation put into the texture transform"
+  },
+  "0x124": {
+   "confidence": "high",
+   "evidence": "Same two functions write it into element 9 (_32), the V translation of the 2D texture transform.",
+   "kind": "descriptive",
+   "name": "textureOffsetV",
+   "round": "r6 (12 Nov)",
+   "summary": "V translation put into the texture transform"
+  },
+  "0x17B": {
    "confidence": "medium",
-   "summary": "CYyTex* of the multiplicative overlay quad",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: CYyTex* of the multiplicative overlay quad"
+   "evidence": "Draw and DrawBatches test (field_17B & 3) != 0 to choose between building a texture-transform matrix from field_120/field_124 and the D3DTTFF_DISABLE path.",
+   "kind": "descriptive",
+   "name": "textureTransformFlags",
+   "round": "r6 (12 Nov)",
+   "summary": "nonzero low two bits enable the texture offset transform"
   },
-  "0x390FC": {
-   "name": "cullCW",
-   "confidence": "medium",
-   "summary": "one-sided batches: nonzero -> D3DCULL_CW, else CCW",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: one-sided batches: nonzero -> D3DCULL_CW, else CCW"
+  "0x32": {
+   "confidence": "low",
+   "evidence": "CMoDistModelElem::DrawMesh: if (field_32 & 1) it sets D3DRS_ALPHATESTENABLE=TRUE, ALPHAFUNC=GREATER, ALPHAREF=96; only bit 0 is read in the tree.",
+   "kind": "descriptive",
+   "name": "alphaTestFlags",
+   "round": "r6 (12 Nov)",
+   "summary": "bit 0 enables the alpha test (ref 96) in DrawMesh"
   },
-  "0x39120": {
-   "name": "curTwoSided",
-   "confidence": "medium",
-   "summary": "cached two-sided state of the last batch",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: cached two-sided state of the last batch"
-  },
-  "0x39454": {
-   "name": "vsHandleA",
-   "confidence": "medium",
-   "summary": "vertex shader from g_zoneVSDeclA",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclA"
-  },
-  "0x39458": {
-   "name": "vsHandleB",
-   "confidence": "medium",
-   "summary": "vertex shader from g_zoneVSDeclB",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclB"
-  },
-  "0x3946C": {
-   "name": "vsHandles",
-   "confidence": "medium",
-   "summary": "5 more vertex shader handles",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: 5 more vertex shader handles"
-  },
-  "0x39494": {
-   "name": "psHandle",
-   "confidence": "medium",
-   "summary": "pixel shader handle",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: pixel shader handle"
-  },
-  "0x394A4": {
-   "name": "useTwoDirLights",
-   "confidence": "medium",
-   "summary": "nonzero: two zone-environment directional lights",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: nonzero: two zone-environment directional lights"
-  },
-  "0x394A8": {
-   "name": "lightSlotDir0",
-   "confidence": "medium",
-   "summary": "D3D light index, directional light 0",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 0"
-  },
-  "0x394AC": {
-   "name": "lightSlotDir1",
-   "confidence": "medium",
-   "summary": "D3D light index, directional light 1",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 1"
-  },
-  "0x394B0": {
-   "name": "lightSlotNamed",
-   "confidence": "medium",
-   "summary": "D3D light index of zone-table light 'l_01'",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index of zone-table light 'l_01'"
-  },
-  "0x39598": {
-   "name": "overlayUseProjection",
-   "confidence": "medium",
-   "summary": "byte: overlay uses saved projection, else Z-bias",
-   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: byte: overlay uses saved projection, else Z-bias"
-  }
- },
- "Obj_104E1D4C": {
-  "0x4": {
-   "name": "posX",
+  "0x34": {
    "confidence": "high",
-   "summary": "Cursor_SetPosition stores a2[0]",
-   "evidence": "Cursor_SetPosition stores a2[0]"
+   "evidence": "GetDataEnd sizes the data as (field_34+field_35) uint16 entries after GetVertexBase; DrawBatches and DrawMesh loop i<field_34 and issue one VertexBatch_BindAndDraw (primitive type 4 = triangle list) per uint16 entry, advancing the start vertex by 3*entry; field_34==0 selects the single-draw path.",
+   "kind": "descriptive",
+   "name": "batchCount",
+   "round": "r6 (12 Nov)",
+   "summary": "number of per-batch uint16 triangle counts that are drawn one batch at a time"
   },
-  "0x8": {
-   "name": "posY",
+  "0x36": {
    "confidence": "high",
-   "summary": "Cursor_SetPosition stores a2[1]",
-   "evidence": "Cursor_SetPosition stores a2[1]"
-  },
-  "0x4C": {
-   "name": "shapeIndex",
-   "confidence": "high",
-   "summary": "row of g_cursorShapes / g_cursorShapeFrame drawn by Cursor_Draw",
-   "evidence": "row of g_cursorShapes / g_cursorShapeFrame drawn by Cursor_Draw"
-  }
- },
- "CYyOs2VtxBuffer": {
-  "0x3C": {
-   "name": "createStep",
-   "confidence": "high",
-   "summary": "state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 an",
-   "evidence": "state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 and 4"
-  },
-  "0x58": {
-   "name": "indexCount",
-   "confidence": "medium",
-   "summary": "loop bound over the 16-bit index array in CreateBuffersStep",
-   "evidence": "loop bound over the 16-bit index array in CreateBuffersStep"
-  },
-  "0x5C": {
-   "name": "pIndices",
-   "confidence": "medium",
-   "summary": "16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed wit",
-   "evidence": "16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed with Mem_FreeObject"
-  }
- },
- "CMoGeneratorClone": {
-  "0x20": {
-   "name": "typeTag",
-   "confidence": "medium",
-   "summary": "compared with 0x31343870 (the four characters 'p841') in FixupClonedPointers: a four-chara",
-   "evidence": "compared with 0x31343870 (the four characters 'p841') in FixupClonedPointers: a four-character resource tag"
-  },
-  "0xD8": {
-   "name": "flags",
-   "confidence": "medium",
-   "summary": "bit 0x1000 tested in FixupClonedPointers; the low 9 bits are passed on as a count in Creat",
-   "evidence": "bit 0x1000 tested in FixupClonedPointers; the low 9 bits are passed on as a count in CreateInstance"
-  },
-  "0xE0": {
-   "name": "pCommandStream",
-   "confidence": "medium",
-   "summary": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks ",
-   "evidence": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks it as variable-length records (length in bits 8..12, in dwords)"
-  }
- },
- "CYyIcon": {
-  "0x8": {
-   "name": "pIconTexture",
-   "confidence": "medium",
-   "summary": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect",
-   "evidence": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect"
-  },
-  "0xC": {
-   "name": "quad0_x",
-   "confidence": "high",
-   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
-   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x10": {
-   "name": "quad0_y",
-   "confidence": "high",
-   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
-   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x1C": {
-   "name": "quad0_color",
-   "confidence": "high",
-   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
-   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x20": {
-   "name": "quad0_u",
-   "confidence": "high",
-   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
-   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x24": {
-   "name": "quad0_v",
-   "confidence": "high",
-   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
-   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x28": {
-   "name": "quad1_x",
-   "confidence": "high",
-   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
-   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x2C": {
-   "name": "quad1_y",
-   "confidence": "high",
-   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
-   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x38": {
-   "name": "quad1_color",
-   "confidence": "high",
-   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
-   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x3C": {
-   "name": "quad1_u",
-   "confidence": "high",
-   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
-   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x40": {
-   "name": "quad1_v",
-   "confidence": "high",
-   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
-   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x44": {
-   "name": "quad2_x",
-   "confidence": "high",
-   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
-   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x48": {
-   "name": "quad2_y",
-   "confidence": "high",
-   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
-   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x54": {
-   "name": "quad2_color",
-   "confidence": "high",
-   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
-   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x58": {
-   "name": "quad2_u",
-   "confidence": "high",
-   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
-   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x5C": {
-   "name": "quad2_v",
-   "confidence": "high",
-   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
-   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x60": {
-   "name": "quad3_x",
-   "confidence": "high",
-   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner ",
-   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x64": {
-   "name": "quad3_y",
-   "confidence": "high",
-   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner ",
-   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x70": {
-   "name": "quad3_color",
-   "confidence": "high",
-   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor",
-   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x74": {
-   "name": "quad3_u",
-   "confidence": "high",
-   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner ",
-   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  },
-  "0x78": {
-   "name": "quad3_v",
-   "confidence": "high",
-   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner ",
-   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)"
-  }
- },
- "CXiOpening": {
-  "0x114": {
-   "name": "savedGammaR",
-   "confidence": "high",
-   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
-   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
-  },
-  "0x118": {
-   "name": "savedGammaG",
-   "confidence": "high",
-   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
-   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
-  },
-  "0x11C": {
-   "name": "savedGammaB",
-   "confidence": "high",
-   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
-   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
-  }
- },
- "CXiMovie": {
-  "0x8": {
-   "name": "pMovieTexture",
-   "confidence": "medium",
-   "summary": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)",
-   "evidence": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)"
-  },
-  "0xC": {
-   "name": "quad0_x",
-   "confidence": "high",
-   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam",
-   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)"
-  },
-  "0x10": {
-   "name": "quad0_y",
-   "confidence": "high",
-   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam",
-   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)"
-  },
-  "0x1C": {
-   "name": "quad0_color",
-   "confidence": "high",
-   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam",
-   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)"
-  }
- },
- "Obj_104E1B90": {
-  "0x10": {
-   "name": "quad0_color",
-   "confidence": "high",
-   "summary": "colour of vertex 0 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
-   "evidence": "colour of vertex 0 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
-  },
-  "0x2C": {
-   "name": "quad1_color",
-   "confidence": "high",
-   "summary": "colour of vertex 1 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
-   "evidence": "colour of vertex 1 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
-  },
-  "0x48": {
-   "name": "quad2_color",
-   "confidence": "high",
-   "summary": "colour of vertex 2 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
-   "evidence": "colour of vertex 2 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
-  },
-  "0x64": {
-   "name": "quad3_color",
-   "confidence": "high",
-   "summary": "colour of vertex 3 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo",
-   "evidence": "colour of vertex 3 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)"
+   "evidence": "DrawBatches single-draw path calls VertexBatch_BindAndDraw(vb, 0, field_36, 4, ...) and the remainder path uses field_36 - startVertex/3; DrawMesh uses the same expressions. Primitive type 4 is D3DPT_TRIANGLELIST.",
+   "kind": "descriptive",
+   "name": "triangleCount",
+   "round": "r6 (12 Nov)",
+   "summary": "total triangle count of the mesh drawn as a triangle list"
   }
  },
  "CMoDistMorphElem": {
   "0x104": {
-   "name": "pProcessor",
    "confidence": "medium",
-   "summary": "used as the CMoProcessor in UpdateMorphBlend",
-   "evidence": "used as the CMoProcessor in UpdateMorphBlend"
+   "evidence": "used as the CMoProcessor in UpdateMorphBlend",
+   "name": "pProcessor",
+   "summary": "used as the CMoProcessor in UpdateMorphBlend"
   },
   "0x1BC": {
+   "confidence": "medium",
+   "evidence": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to ValidateMorphData",
    "name": "morphHandle",
+   "summary": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to Val"
+  },
+  "0x32": {
    "confidence": "medium",
-   "summary": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to Val",
-   "evidence": "computed once by CMoDistMorphElem_ComputeMorphHandle in UpdateMorphBlend and passed to ValidateMorphData"
+   "evidence": "ComputeMorphHandle uses (char)(2*field_32)>>1 (low 7 bits, sign-extended) as the length of the weight array a2 it sums/normalises and as the loop bound over per-target pointers; ApplyMorph tests (int8)field_32 < 0 (bit 7) to enable D3DRS_ALPHATEST (GREATER, ref 96).",
+   "kind": "descriptive",
+   "name": "morphTargetCountAndFlags",
+   "round": "r6 (12 Nov)",
+   "summary": "low 7 bits: number of morph targets/weights; bit 7: alpha test"
+  },
+  "0x34": {
+   "confidence": "high",
+   "evidence": "ComputeMorphHandle allocates 36*max(field_34,field_36) bytes, loops i<field_34 writing 3 floats (position) per output vertex from the 12-byte-per-vertex target arrays starting at this+80, and the per-target stride is 4*(field_36+3*field_34).",
+   "kind": "descriptive",
+   "name": "positionCount",
+   "round": "r6 (12 Nov)",
+   "summary": "number of 3-float positions per morph target"
+  },
+  "0x36": {
+   "confidence": "high",
+   "evidence": "ComputeMorphHandle loops i<field_36 unpacking one 32-bit word per entry as three signed 10-bit values scaled by 1/512 into the normal slot of the output vertex; those words follow the 3*field_34 position floats in each target (stride 4*(field_36+3*field_34)).",
+   "kind": "descriptive",
+   "name": "packedNormalCount",
+   "round": "r6 (12 Nov)",
+   "summary": "number of packed 10:10:10 normals per morph target"
+  },
+  "0x3A": {
+   "confidence": "medium",
+   "evidence": "ApplyMorph reserves and fills 3*uint16@+0x3A vertices in the dynamic vertex buffer and loops v36 < 3*field_3A copying three indexed vertices per unit (in the one function's reserve and loop bound).",
+   "kind": "descriptive",
+   "name": "triangleCount",
+   "round": "r6 (12 Nov)",
+   "summary": "number of triangles emitted by ApplyMorph (3 vertices each)"
   }
  },
- "CYyModelBase": {
-  "0x8": {
-   "name": "skeleton",
-   "confidence": "medium",
-   "summary": "CYySkl (embedded)",
-   "evidence": "constructor 0x10029D35-0x10029D3E `lea ecx, [esi+8]; call 0x10034230` (CYySkl constructor: stores vtable 0x1032A888, descriptor \"CYySkl\" size 0x18); destructor `lea ecx, [esi+8]` at 0x10029E3A",
-   "batch": "batches/r6_122_render_objects.json"
+ "CMoDistRingElem": {
+  "0x1B4": {
+   "confidence": "high",
+   "evidence": "AllocRingGeometry steps the angle by 0x1.921fb p+2 (2*pi) / field_1B4, loops sin/cos field_1B4 times per ring, and the vertex count per ring is 2*field_1B4+2.",
+   "kind": "descriptive",
+   "name": "segmentCount",
+   "round": "r6 (12 Nov)",
+   "summary": "number of segments around the ring"
+  },
+  "0x1B5": {
+   "confidence": "high",
+   "evidence": "AllocRingGeometry allocates 36*(2*segments+2)*field_1B5 bytes, builds field_1B5 colours from the 4-byte entries at +0x1A4, and draws field_1B5-1 triangle strips.",
+   "kind": "descriptive",
+   "name": "ringLevelCount",
+   "round": "r6 (12 Nov)",
+   "summary": "number of levels (rings) along the profile; field_1B5-1 strips are drawn"
   }
  },
- "CYySkl": {
+ "CMoElem": {
+  "0x100": {
+   "confidence": "medium",
+   "evidence": "CMoElemFamily_SharedCleanup: *field_100 is passed to CMoGeneratorClone_UnlinkElemListB(res, this); then field_100 is cleared.",
+   "kind": "descriptive",
+   "name": "listBResourceHandle",
+   "round": "r6 (12 Nov)",
+   "summary": "pointer to a handle of the resource this element is linked to through list B"
+  },
+  "0x108": {
+   "confidence": "medium",
+   "evidence": "CMoElemFamily_SharedCleanup frees it with Mem_FreeWithHeader12 when non-null and zeroes it.",
+   "kind": "descriptive",
+   "name": "headeredAllocation",
+   "round": "r6 (12 Nov)",
+   "summary": "block freed with Mem_FreeWithHeader12 by the cleanup"
+  },
+  "0x164": {
+   "confidence": "low",
+   "evidence": "CMoElemFamily_SharedCleanup: *field_164 is a resource passed to CMoResource_ReleaseChain, its +248 is cleared, field_164 is zeroed, and the resource is returned to the mesh node pool if its count (+24 & 0x7FFF) is 0.",
+   "kind": "descriptive",
+   "name": "backrefResourceHandle",
+   "round": "r6 (12 Nov)",
+   "summary": "pointer to a handle of a resource whose +248 back-reference the cleanup clears and releases"
+  },
+  "0xFC": {
+   "confidence": "medium",
+   "evidence": "CMoElemFamily_SharedCleanup: *field_FC is a resource passed to CMoGeneratorClone_UnlinkElemListA(res, this) and CMoResource_ReleaseChain; then field_FC is cleared. CMoElem_VT_1032ADE8::vf18 dereferences the same offset and reads the attachment target at resource+0x30.",
+   "kind": "descriptive",
+   "name": "listAResourceHandle",
+   "round": "r6 (12 Nov)",
+   "summary": "pointer to a handle of the resource this element is linked to through list A"
+  }
+ },
+ "CMoElem_VT_1032ADE8": {
+  "0xFC": {
+   "confidence": "medium",
+   "evidence": "vf18 loads *field_FC as a resource and calls CMoAttachments_GetTarget(res+48); same offset and use as CMoElem::field_FC, which SharedCleanup unlinks from list A.",
+   "kind": "descriptive",
+   "name": "listAResourceHandle",
+   "round": "r6 (12 Nov)",
+   "summary": "pointer to a handle of the linked resource (same member as CMoElem+0xFC)"
+  }
+ },
+ "CMoGeneratorClone": {
+  "0x20": {
+   "confidence": "medium",
+   "evidence": "compared with 0x31343870 (the four characters 'p841') in FixupClonedPointers: a four-character resource tag",
+   "name": "typeTag",
+   "summary": "compared with 0x31343870 (the four characters 'p841') in FixupClonedPointers: a four-chara"
+  },
+  "0x24": {
+   "confidence": "medium",
+   "evidence": "CMoGeneratorClone::InitCloneFromSource copies source a2[1] here and uses ((a2[1]>>7)&0x7FFFF)-6 as a length in 16-byte units for the following qmemcpy; FixupClonedPointers tests the low 7 bits of the same dword (&0x7F == 0x3D) on the ResolveTarget object and the sign bit (v6[9] < 0) on parent objects; CreateInstance sets bit 0x4000000 and clears 0x8000000 on the new instance.",
+   "kind": "descriptive",
+   "name": "typeSizeFlags",
+   "round": "r6 (12 Nov)",
+   "summary": "Packed dword: a 7-bit type, a 19-bit size in 16-byte units, and flag bits."
+  },
+  "0x28": {
+   "confidence": "medium",
+   "evidence": "FixupClonedPointers walks v6 = *(v6[10]) (i.e. *(this+0x28)) upward until typeTag 0x74617277 or a negative +0x24; ResolveTarget walks the chain from +0x14 with next = *(object+0x28); CreateInstance sets the new instance's +0x28 to this->field_14. Copied from source a2[2] in InitCloneFromSource.",
+   "kind": "descriptive",
+   "name": "pParentNode",
+   "round": "r6 (12 Nov)",
+   "summary": "Pointer to the node whose first dword is the parent object, used to walk up the object chain."
+  },
+  "0xB0": {
+   "confidence": "medium",
+   "evidence": "CMoGeneratorClone::UnlinkElemListA stores the element's next link (+0x150) here when the element's prev link (+0x14C) is null, i.e. it is the head of a doubly linked list; zeroed in FixupClonedPointers and CopyParams.",
+   "kind": "descriptive",
+   "name": "elemListHead",
+   "round": "r6 (12 Nov)",
+   "summary": "Head of a doubly linked element list (links at +0x14C/+0x150 of each element)."
+  },
+  "0xD8": {
+   "confidence": "medium",
+   "evidence": "bit 0x1000 tested in FixupClonedPointers; the low 9 bits are passed on as a count in CreateInstance",
+   "name": "flags",
+   "summary": "bit 0x1000 tested in FixupClonedPointers; the low 9 bits are passed on as a count in Creat"
+  },
+  "0xE0": {
+   "confidence": "medium",
+   "evidence": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks it as variable-length records (length in bits 8..12, in dwords)",
+   "name": "pCommandStream",
+   "summary": "stored as an offset and rebased by this+0x60 in FixupClonedPointers; CreateInstance walks "
+  },
+  "0xE4": {
+   "confidence": "high",
+   "evidence": "Stored as an offset and rebased by this+0x60 in FixupClonedPointers like pCommandStream; FindCmdByType walks it (opcode = low byte, length in dwords = bits 8..12, stops at opcode 0) to find a command by type; ResolveTarget reads and fills the first record (+8 target, +0xC id, +0x28 flag); ResolveCmdTargets fills opcode 0x21 records.",
+   "kind": "descriptive",
+   "name": "pFindCommandStream",
+   "round": "r6 (12 Nov)",
+   "summary": "Command stream searched by FindCmdByType and whose first record holds the resolved target."
+  },
+  "0xE8": {
+   "confidence": "medium",
+   "evidence": "Rebased by this+0x60 in FixupClonedPointers; walked only by ResolveCmdTargets, which fills the resource pointers of opcode 0x47 (type 10) and 0x65 (types 7 and 5) records via CMoResource_FindByTypeAndId.",
+   "kind": "descriptive",
+   "name": "pResolveCommandStream",
+   "round": "r6 (12 Nov)",
+   "summary": "Command stream whose 0x47/0x65 records get their resource pointers resolved in ResolveCmdTargets."
+  },
+  "0xEC": {
+   "confidence": "high",
+   "evidence": "Rebased by this+0x60 in FixupClonedPointers; ResolveCmdTargets fills its opcode 1 (type 5) and 2 (type 7) records; CMoGeneratorClone::ExecuteCmdList switches on each record's low byte and executes it.",
+   "kind": "descriptive",
+   "name": "pExecCommandStream",
+   "round": "r6 (12 Nov)",
+   "summary": "Command stream executed by ExecuteCmdList."
+  }
+ },
+ "CMoOcclusionMng": {
   "0xC": {
-   "name": "boneMatrices",
    "confidence": "medium",
-   "summary": "pointer to count 64-byte 4x4 float matrices, 16-byte aligned",
-   "evidence": "0x100342D5-0x100342DC: (+0x8 + 15) & ~15; loop 0x100342E7-0x100342F5 calls 0x100279B0 on each 0x40-byte element, which stores 1.0f at element +0x0/+0x14/+0x28/+0x3C and 0 elsewhere (a 4x4 float identity). Same layout as D3DMATRIX; no D3D call taking them was traced here.",
-   "batch": "batches/r6_122_render_objects.json"
+   "evidence": "OcclusionMng_CreateTarget stores the result of CDx_CreateTexture(g_pCDx, 16, 16, &a4, 1, 0) into it.",
+   "kind": "descriptive",
+   "name": "occlusionTexture",
+   "round": "r6 (12 Nov)",
+   "summary": "16x16 texture created by OcclusionMng_CreateTarget"
+  }
+ },
+ "CMoVuDist": {
+  "0x198": {
+   "confidence": "low",
+   "evidence": "CMoVuDist::ScalarDeletingDtor passes its address to MoProgElem_FreeBuffer40 before the shared cleanup (CMoDisintegrateProgElem and CMoVuLineProgElem do the same at +0x194 / +0x194).",
+   "kind": "descriptive",
+   "name": "programBuffer",
+   "round": "r6 (12 Nov)",
+   "summary": "buffer object freed by MoProgElem_FreeBuffer40 in the destructor"
+  }
+ },
+ "CTsZoneMap": {
+  "0x343E4": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: CYyTex* of the multiplicative overlay quad",
+   "name": "overlayTex",
+   "summary": "CYyTex* of the multiplicative overlay quad"
+  },
+  "0x390FC": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: one-sided batches: nonzero -> D3DCULL_CW, else CCW",
+   "name": "cullCW",
+   "summary": "one-sided batches: nonzero -> D3DCULL_CW, else CCW"
+  },
+  "0x39120": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: cached two-sided state of the last batch",
+   "name": "curTwoSided",
+   "summary": "cached two-sided state of the last batch"
+  },
+  "0x39454": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclA",
+   "name": "vsHandleA",
+   "summary": "vertex shader from g_zoneVSDeclA"
+  },
+  "0x39458": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: vertex shader from g_zoneVSDeclB",
+   "name": "vsHandleB",
+   "summary": "vertex shader from g_zoneVSDeclB"
+  },
+  "0x3946C": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: 5 more vertex shader handles",
+   "name": "vsHandles",
+   "summary": "5 more vertex shader handles"
+  },
+  "0x39470": {
+   "confidence": "high",
+   "evidence": "CTsZoneMap Init (CTsZoneMap.cpp) zeroes it; CTsZoneMap_Destructor passes it to IDirect3DDevice8::DeleteVertexShader when non-zero. The header describes vsHandles (+0x3946C) as '5 more vertex shader handles', so this is probably element 1 of that run; the creating code was not found.",
+   "kind": "descriptive",
+   "name": "vsHandleExtra1",
+   "round": "r6 (12 Nov)",
+   "summary": "Vertex shader handle deleted in the destructor."
+  },
+  "0x39474": {
+   "confidence": "high",
+   "evidence": "Zeroed in Init; DeleteVertexShader in CTsZoneMap_Destructor. Creation not found.",
+   "kind": "descriptive",
+   "name": "vsHandleExtra2",
+   "round": "r6 (12 Nov)",
+   "summary": "Vertex shader handle deleted in the destructor."
+  },
+  "0x39478": {
+   "confidence": "high",
+   "evidence": "Zeroed in Init; DeleteVertexShader in CTsZoneMap_Destructor. Creation not found.",
+   "kind": "descriptive",
+   "name": "vsHandleExtra3",
+   "round": "r6 (12 Nov)",
+   "summary": "Vertex shader handle deleted in the destructor."
+  },
+  "0x3947C": {
+   "confidence": "high",
+   "evidence": "Zeroed in Init; DeleteVertexShader in CTsZoneMap_Destructor. Creation not found.",
+   "kind": "descriptive",
+   "name": "vsHandleExtra4",
+   "round": "r6 (12 Nov)",
+   "summary": "Vertex shader handle deleted in the destructor."
+  },
+  "0x39494": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: pixel shader handle",
+   "name": "psHandle",
+   "summary": "pixel shader handle"
+  },
+  "0x394A4": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: nonzero: two zone-environment directional lights",
+   "name": "useTwoDirLights",
+   "summary": "nonzero: two zone-environment directional lights"
+  },
+  "0x394A8": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 0",
+   "name": "lightSlotDir0",
+   "summary": "D3D light index, directional light 0"
+  },
+  "0x394AC": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index, directional light 1",
+   "name": "lightSlotDir1",
+   "summary": "D3D light index, directional light 1"
+  },
+  "0x394B0": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: D3D light index of zone-table light 'l_01'",
+   "name": "lightSlotNamed",
+   "summary": "D3D light index of zone-table light 'l_01'"
+  },
+  "0x39598": {
+   "confidence": "medium",
+   "evidence": "parallel session (gfx_fields.hpp of its bundle, in git history at 3b1bb71), checked against the uses in tree/src/CTsZoneMap.cpp: byte: overlay uses saved projection, else Z-bias",
+   "name": "overlayUseProjection",
+   "summary": "byte: overlay uses saved projection, else Z-bias"
   }
  },
  "CXiActor": {
   "0x34": {
-   "name": "focal",
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
    "confidence": "medium",
-   "summary": "unknown type, 4 bytes",
    "evidence": "accessor 0x10082450 `lea eax,[ecx+0x34]; ret` is matched to PS2 XiActor::GetFocal() (slot 75 -> PC 153; data/dm_names.json)",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
+   "name": "focal",
+   "summary": "unknown type, 4 bytes"
   },
   "0x70": {
-   "name": "pModelInfo",
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
    "confidence": "medium",
-   "summary": "pointer (4 bytes)",
    "evidence": "data/field_names.json (CXiSkeletonActor +0x70, medium): read by CXiActor_GetModelField170/GetModelByteEE",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
+   "name": "pModelInfo",
+   "summary": "pointer (4 bytes)"
   },
   "0x80": {
-   "name": "refCount",
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
    "confidence": "medium",
-   "summary": "unknown type, 4 bytes",
    "evidence": "data/field_names.json (high there); accessors 0x100832D0 `inc dword [ecx+0x80]` / 0x100832E0 are matched to PS2 AddRef/SubRef slots 38/39 by elimination (data/dm_names.json), so the name rests on that match: medium",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
+   "name": "refCount",
+   "summary": "unknown type, 4 bytes"
   },
   "0x84": {
-   "name": "schRefCount",
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
    "confidence": "medium",
-   "summary": "unknown type, 4 bytes",
    "evidence": "accessors 0x10083390 `inc dword [ecx+0x84]` / 0x100833A0 matched to PS2 AddSchRef/SubSchRef (slots 42/43 -> PC 90/91; data/dm_names.json)",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
+   "name": "schRefCount",
+   "summary": "unknown type, 4 bytes"
   },
   "0xB4": {
-   "name": "model",
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
    "confidence": "medium",
-   "summary": "unknown type, 4 bytes",
    "evidence": "accessor 0x10082200 `mov eax,[ecx+0xb4]` matched to PS2 XiActor GetModel (slot 65 -> PC 119; data/dm_names.json)",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
-  }
- },
- "CXiControlActor": {
-  "0xF9": {
-   "name": "isFreeRun",
-   "confidence": "medium",
-   "summary": "unknown type, 1 bytes",
-   "evidence": "accessors 0x100A4670/0x100A4660 (byte) matched to PS2 XiControlActor::IsFreeRun() / IsFreeRun(char) (PS2 byte +0xD5; data/dm_names.json)",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
-  },
-  "0xFA": {
-   "name": "isWalkLock",
-   "confidence": "medium",
-   "summary": "unknown type, 1 bytes",
-   "evidence": "accessors 0x100A4690/0x100A4680 matched to PS2 IsWalkLock() / IsWalkLock(char) (PS2 byte +0xD6)",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
-  },
-  "0xFB": {
-   "name": "isParallelMove",
-   "confidence": "medium",
-   "summary": "unknown type, 1 bytes",
-   "evidence": "accessors 0x100A46B0/0x100A46A0 matched to PS2 IsParallelMove() / IsParallelMove(char) (PS2 byte +0xD7)",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
-  },
-  "0xFC": {
-   "name": "controlLock",
-   "confidence": "medium",
-   "summary": "unknown type, 4 bytes",
-   "evidence": "accessor 0x100A46C0 matched to PS2 IsControlLock(), which returns this counter",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
-  },
-  "0x160": {
-   "name": "groundNormal",
-   "confidence": "medium",
-   "summary": "float (4 bytes)",
-   "evidence": "accessor 0x100A4590 `lea eax,[ecx+0x160]` (PC slot 132) matched to the PS2 body `addiu v0,a0,0x140` returning ground_normal (data/dm_names.json)",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
+   "name": "model",
+   "summary": "unknown type, 4 bytes"
   }
  },
  "CXiCollisionActor": {
   "0x5C4": {
-   "name": "pos",
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
    "confidence": "medium",
-   "summary": "unknown type, 4 bytes",
    "evidence": "accessor 0x100A4CD0 `lea eax,[ecx+0x5c4]` matched to PS2 slot 56 GetPos (-> PC 111; data/dm_names.json)",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
+   "name": "pos",
+   "summary": "unknown type, 4 bytes"
   },
   "0x5E0": {
-   "name": "isTouch",
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
    "confidence": "medium",
-   "summary": "unknown type, 1 bytes",
    "evidence": "accessor 0x100A46D0 matched to PS2 IsTouchDown (slot 47 -> PC 102), which reads IsTouch at PS2 +0x1C0 (data/dm_names.json)",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
+   "name": "isTouch",
+   "summary": "unknown type, 1 bytes"
   },
   "0x5E4": {
-   "name": "currentAreaId",
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
    "confidence": "medium",
-   "summary": "unknown type, 4 bytes",
    "evidence": "accessors 0x100A4700/0x100A4710 (PC-only slots) set/get it; data/dm_names.json maps it to PS2 DWARF XiCollisionActor::current_area_id (+0x1C4) by the class-level shift",
-   "batch": "batches/r6_123_actor_camera_font_zone.json"
+   "name": "currentAreaId",
+   "summary": "unknown type, 4 bytes"
+  }
+ },
+ "CXiControlActor": {
+  "0x160": {
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
+   "confidence": "medium",
+   "evidence": "accessor 0x100A4590 `lea eax,[ecx+0x160]` (PC slot 132) matched to the PS2 body `addiu v0,a0,0x140` returning ground_normal (data/dm_names.json)",
+   "name": "groundNormal",
+   "summary": "float (4 bytes)"
+  },
+  "0xF9": {
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
+   "confidence": "medium",
+   "evidence": "accessors 0x100A4670/0x100A4660 (byte) matched to PS2 XiControlActor::IsFreeRun() / IsFreeRun(char) (PS2 byte +0xD5; data/dm_names.json)",
+   "name": "isFreeRun",
+   "summary": "unknown type, 1 bytes"
+  },
+  "0xFA": {
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
+   "confidence": "medium",
+   "evidence": "accessors 0x100A4690/0x100A4680 matched to PS2 IsWalkLock() / IsWalkLock(char) (PS2 byte +0xD6)",
+   "name": "isWalkLock",
+   "summary": "unknown type, 1 bytes"
+  },
+  "0xFB": {
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
+   "confidence": "medium",
+   "evidence": "accessors 0x100A46B0/0x100A46A0 matched to PS2 IsParallelMove() / IsParallelMove(char) (PS2 byte +0xD7)",
+   "name": "isParallelMove",
+   "summary": "unknown type, 1 bytes"
+  },
+  "0xFC": {
+   "batch": "batches/r6_123_actor_camera_font_zone.json",
+   "confidence": "medium",
+   "evidence": "accessor 0x100A46C0 matched to PS2 IsControlLock(), which returns this counter",
+   "name": "controlLock",
+   "summary": "unknown type, 4 bytes"
+  }
+ },
+ "CXiMovie": {
+  "0x10": {
+   "confidence": "high",
+   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)",
+   "name": "quad0_y",
+   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam"
+  },
+  "0x1C": {
+   "confidence": "high",
+   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)",
+   "name": "quad0_color",
+   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam"
+  },
+  "0x8": {
+   "confidence": "medium",
+   "evidence": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)",
+   "name": "pMovieTexture",
+   "summary": "read as the texture by CXiMovie::Draw (same quad layout as CYyIcon)"
+  },
+  "0xC": {
+   "confidence": "high",
+   "evidence": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (same layout as CYyIcon)",
+   "name": "quad0_x",
+   "summary": "vertex 0 of the 28-byte XYZRHW|DIFFUSE|TEX1 quad from +0xC, written by CXiMovie::Draw (sam"
+  }
+ },
+ "CXiOpening": {
+  "0x114": {
+   "confidence": "high",
+   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
+   "name": "savedGammaR",
+   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
+  },
+  "0x118": {
+   "confidence": "high",
+   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
+   "name": "savedGammaG",
+   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
+  },
+  "0x11C": {
+   "confidence": "high",
+   "evidence": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor",
+   "name": "savedGammaB",
+   "summary": "restored with GammaRamp_SetRGB(CDx gamma ramp, R, G, B) by the CXiOpening destructor"
+  },
+  "0x120": {
+   "confidence": "high",
+   "evidence": "Constructor stores the result of OpeningSubtitle_Constructor(Allocator_Generic(0x14), ...) into it and calls OpeningSubtitle_Reset; the destructor calls its virtual deleting destructor and zeroes it.",
+   "kind": "descriptive",
+   "name": "openingSubtitle",
+   "round": "r6 (12 Nov)",
+   "summary": "owned OpeningSubtitle object"
+  }
+ },
+ "CXiSkeletonActor": {
+  "0x59C": {
+   "confidence": "medium",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: v13 = fade(0x664) * float@0x59C, clamped to 1.0; alpha byte = 128*v13 is OR'ed over color & 0xFFFFFF (v96, passed to DrawModel); if v13 < ~1e-4 the draw is skipped. Init sets 0.",
+   "kind": "descriptive",
+   "name": "opacity",
+   "round": "r6 (12 Nov)",
+   "summary": "Opacity factor that becomes the alpha byte of the draw color."
+  },
+  "0x5F8": {
+   "confidence": "medium",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: after building the scale matrix at +0x998, if 0x5F8 != 0 it does Mat4_Copy(this+0x998, *(this+0x5F8)) (Mat4_Copy(dst, src) per unit_10026C70_Vec3.cpp) instead of computing rotation/translation; Init zeroes it.",
+   "kind": "descriptive",
+   "name": "worldMatrixOverride",
+   "round": "r6 (12 Nov)",
+   "summary": "Pointer to a matrix that replaces the computed world matrix when set."
+  },
+  "0x5FC": {
+   "confidence": "medium",
+   "evidence": "CXiSkeletonActor::GetPos returns this+1532 (0x5FC); every constructor fills 0x5FC..0x608 with Vec4_Copy from the position argument a2 (Constructor_1Arg: Camera_GetField50()+80); Init loads it from c_skelActorInit_5FC.",
+   "kind": "descriptive",
+   "name": "posX",
+   "round": "r6 (12 Nov)",
+   "summary": "X of the position vector GetPos returns a pointer to."
+  },
+  "0x600": {
+   "confidence": "medium",
+   "evidence": "Second float of the 4-float vector at 0x5FC returned by GetPos and filled by Vec4_Copy in every constructor.",
+   "kind": "descriptive",
+   "name": "posY",
+   "round": "r6 (12 Nov)",
+   "summary": "Y of the position vector returned by GetPos."
+  },
+  "0x604": {
+   "confidence": "medium",
+   "evidence": "Third float of the 4-float vector at 0x5FC returned by GetPos and filled by Vec4_Copy in every constructor.",
+   "kind": "descriptive",
+   "name": "posZ",
+   "round": "r6 (12 Nov)",
+   "summary": "Z of the position vector returned by GetPos."
+  },
+  "0x608": {
+   "confidence": "medium",
+   "evidence": "All five constructors write 1.0f (1065353216) here directly after Vec4_Copy(this+0x5FC, a2); Init sets it from c_skelActorInit_608.",
+   "kind": "descriptive",
+   "name": "posW",
+   "round": "r6 (12 Nov)",
+   "summary": "W component of the GetPos position vector, forced to 1.0 by the constructors."
+  },
+  "0x60C": {
+   "confidence": "medium",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: Vec3_Add(&v103, vfunc+0x1BC(self), self+0x60C) then Mat4_SetRow3(world matrix at +0x998, &v103), i.e. added to the actor position to form the translation row; Init sets it from c_skelActorInit_60C.",
+   "kind": "descriptive",
+   "name": "posOffsetX",
+   "round": "r6 (12 Nov)",
+   "summary": "X of an offset added to the position when the world matrix translation is built."
+  },
+  "0x610": {
+   "confidence": "medium",
+   "evidence": "Second float of the Vec3 at 0x60C added to the position (vfunc+0x1BC) for the world matrix translation row in PerActor_FourBucketStaggeredUpdate.",
+   "kind": "descriptive",
+   "name": "posOffsetY",
+   "round": "r6 (12 Nov)",
+   "summary": "Y of the position offset used for the world matrix translation."
+  },
+  "0x614": {
+   "confidence": "medium",
+   "evidence": "Third float of the Vec3 at 0x60C added to the position (vfunc+0x1BC) for the world matrix translation row in PerActor_FourBucketStaggeredUpdate.",
+   "kind": "descriptive",
+   "name": "posOffsetZ",
+   "round": "r6 (12 Nov)",
+   "summary": "Z of the position offset used for the world matrix translation."
+  },
+  "0x61C": {
+   "confidence": "medium",
+   "evidence": "CXiSkeletonActor::GetDir returns this+1564 (0x61C); Init loads 0x61C..0x628 from c_skelActorInit_61C.. and Vec4_Copy's it to +0x44, then wraps those floats into [-pi, pi]. -- named rot*, not dir*: Init wraps these values into [-pi, pi] and PerActor_FourBucketStaggeredUpdate feeds them (plus the offsets) to Mat4_PostRotateX/Y/Z, so they are angles (reviewed 12 Nov)",
+   "kind": "descriptive",
+   "name": "rotX",
+   "round": "r6 (12 Nov)",
+   "summary": "First element of the direction (rotation angle) vector GetDir returns."
+  },
+  "0x620": {
+   "confidence": "medium",
+   "evidence": "Second float of the vector at 0x61C returned by GetDir; Init copies it to +0x48 and wraps it into [-pi, pi]. -- named rot*, not dir*: Init wraps these values into [-pi, pi] and PerActor_FourBucketStaggeredUpdate feeds them (plus the offsets) to Mat4_PostRotateX/Y/Z, so they are angles (reviewed 12 Nov)",
+   "kind": "descriptive",
+   "name": "rotY",
+   "round": "r6 (12 Nov)",
+   "summary": "Second element of the direction vector returned by GetDir."
+  },
+  "0x624": {
+   "confidence": "medium",
+   "evidence": "Third float of the vector at 0x61C returned by GetDir; Init copies it to +0x4C and wraps it into [-pi, pi]. -- named rot*, not dir*: Init wraps these values into [-pi, pi] and PerActor_FourBucketStaggeredUpdate feeds them (plus the offsets) to Mat4_PostRotateX/Y/Z, so they are angles (reviewed 12 Nov)",
+   "kind": "descriptive",
+   "name": "rotZ",
+   "round": "r6 (12 Nov)",
+   "summary": "Third element of the direction vector returned by GetDir."
+  },
+  "0x628": {
+   "confidence": "low",
+   "evidence": "Fourth float of the vector at 0x61C (GetDir); only use is Init (from c_skelActorInit_628) and the Vec4_Copy that reads 4 floats from 0x61C. -- named rot*, not dir*: Init wraps these values into [-pi, pi] and PerActor_FourBucketStaggeredUpdate feeds them (plus the offsets) to Mat4_PostRotateX/Y/Z, so they are angles (reviewed 12 Nov)",
+   "kind": "descriptive",
+   "name": "rotW",
+   "round": "r6 (12 Nov)",
+   "summary": "Fourth element of the GetDir vector."
+  },
+  "0x62C": {
+   "confidence": "medium",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: Vec3_Add(&v98, vfunc+0x1C0(self), self+0x62C), then v98/v99/v100 drive Mat4_PostRotateX/Y/Z of the matrix at +0x998; Init sets it from c_skelActorInit_62C. -- named rot*, not dir*: Init wraps these values into [-pi, pi] and PerActor_FourBucketStaggeredUpdate feeds them (plus the offsets) to Mat4_PostRotateX/Y/Z, so they are angles (reviewed 12 Nov)",
+   "kind": "descriptive",
+   "name": "rotOffsetX",
+   "round": "r6 (12 Nov)",
+   "summary": "X of an angle offset added to the direction before the rotation matrix is built."
+  },
+  "0x630": {
+   "confidence": "medium",
+   "evidence": "Second float of the Vec3 at 0x62C added to the direction (vfunc+0x1C0) whose sum feeds Mat4_PostRotateY in PerActor_FourBucketStaggeredUpdate. -- named rot*, not dir*: Init wraps these values into [-pi, pi] and PerActor_FourBucketStaggeredUpdate feeds them (plus the offsets) to Mat4_PostRotateX/Y/Z, so they are angles (reviewed 12 Nov)",
+   "kind": "descriptive",
+   "name": "rotOffsetY",
+   "round": "r6 (12 Nov)",
+   "summary": "Y of the angle offset added to the direction."
+  },
+  "0x634": {
+   "confidence": "medium",
+   "evidence": "Third float of the Vec3 at 0x62C added to the direction (vfunc+0x1C0) whose sum feeds Mat4_PostRotateZ in PerActor_FourBucketStaggeredUpdate. -- named rot*, not dir*: Init wraps these values into [-pi, pi] and PerActor_FourBucketStaggeredUpdate feeds them (plus the offsets) to Mat4_PostRotateX/Y/Z, so they are angles (reviewed 12 Nov)",
+   "kind": "descriptive",
+   "name": "rotOffsetZ",
+   "round": "r6 (12 Nov)",
+   "summary": "Z of the angle offset added to the direction."
+  },
+  "0x664": {
+   "confidence": "low",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: if float@0x664 < 0.8 the opacity multiplier is 0x664*1.25, else 1.0; the result multiplies opacity (0x59C). Init sets 1.0f.",
+   "kind": "descriptive",
+   "name": "opacityFade",
+   "round": "r6 (12 Nov)",
+   "summary": "Fade value that scales opacity down when below 0.8."
+  },
+  "0x70": {
+   "confidence": "medium",
+   "evidence": "model descriptor: CXiActor_GetModelField170 and CXiActor_GetModelByteEE read +0x170 and +0xEE through it; set from the constructor argument",
+   "name": "pModelInfo",
+   "summary": "model descriptor: CXiActor_GetModelField170 and CXiActor_GetModelByteEE read +0x170 and +0"
+  },
+  "0x73C": {
+   "confidence": "high",
+   "evidence": "first argument of CXiSkeletonActor::SetUVOffset",
+   "name": "uvOffsetU",
+   "summary": "first argument of CXiSkeletonActor::SetUVOffset"
+  },
+  "0x740": {
+   "confidence": "high",
+   "evidence": "second argument of CXiSkeletonActor::SetUVOffset",
+   "name": "uvOffsetV",
+   "summary": "second argument of CXiSkeletonActor::SetUVOffset"
+  },
+  "0x754": {
+   "confidence": "medium",
+   "evidence": "set from Actor_GetPercentScaleByIndex in SetModel; GetWidth/Height/DepthScale fall back to it when the axis override is negative",
+   "name": "baseScale",
+   "summary": "set from Actor_GetPercentScaleByIndex in SetModel"
+  },
+  "0x758": {
+   "confidence": "high",
+   "evidence": "GetDepthScale returns it (x model depth x 0.588) when >= 0, else baseScale",
+   "name": "depthScale",
+   "summary": "GetDepthScale returns it (x model depth x 0.588) when >= 0, else baseScale"
+  },
+  "0x75C": {
+   "confidence": "high",
+   "evidence": "GetHeightScale returns it when >= 0, else baseScale",
+   "name": "heightScale",
+   "summary": "GetHeightScale returns it when >= 0, else baseScale"
+  },
+  "0x760": {
+   "confidence": "high",
+   "evidence": "GetWidthScale returns it when >= 0, else baseScale",
+   "name": "widthScale",
+   "summary": "GetWidthScale returns it when >= 0, else baseScale"
+  },
+  "0x764": {
+   "confidence": "low",
+   "evidence": "DestructorBody: if *(this+0x764) is a nonzero pointer whose target is set, calls CMoResource_ReleaseChain and CMoGeneratorClone_Kill on the target, then zeroes 0x764; Init zeroes it.",
+   "kind": "descriptive",
+   "name": "generatorCloneRef",
+   "round": "r6 (12 Nov)",
+   "summary": "Reference to a generator clone that the destructor releases and kills."
+  },
+  "0x768": {
+   "confidence": "high",
+   "evidence": "Constructor_Factory stores the owner at this+0x768+4*slot and this in the owner's same slot (slot 0 for most kinds); PerActor_FourBucketStaggeredUpdate calls vtable +772/+844/+856 on it and reads its +0x6A4; LoadSkeletonSync calls CXiActor_GetModelByteEF on it.",
+   "kind": "descriptive",
+   "name": "linkedActor0",
+   "round": "r6 (12 Nov)",
+   "summary": "Slot 0 of the mutual actor link table (owner/attached actor)."
+  },
+  "0x76C": {
+   "confidence": "medium",
+   "evidence": "Slot 1 of the table Constructor_Factory writes at this+0x768+4*slot (slot 1 for kinds 37..52); PerActor_FourBucketStaggeredUpdate reads it and tests *(ptr+0x6A4) == 4.",
+   "kind": "descriptive",
+   "name": "linkedActor1",
+   "round": "r6 (12 Nov)",
+   "summary": "Slot 1 of the mutual actor link table."
+  },
+  "0x7E4": {
+   "confidence": "medium",
+   "evidence": "list walked with List_GetTail in IsReadCompleteBody",
+   "name": "resourceList",
+   "summary": "list walked with List_GetTail in IsReadCompleteBody"
+  },
+  "0x80": {
+   "confidence": "high",
+   "evidence": "CXiSkeletonActor::SubRef decrements and returns it",
+   "name": "refCount",
+   "summary": "CXiSkeletonActor::SubRef decrements and returns it"
+  },
+  "0x814": {
+   "confidence": "low",
+   "evidence": "DestructorBody: same release pattern as 0x764 (CMoResource_ReleaseChain + CMoGeneratorClone_Kill on *ptr, then zero); Init zeroes it.",
+   "kind": "descriptive",
+   "name": "generatorCloneRef2",
+   "round": "r6 (12 Nov)",
+   "summary": "Second reference to a generator clone released by the destructor."
+  },
+  "0x838": {
+   "confidence": "high",
+   "evidence": "IsDirectionLock_Set increments or decrements it",
+   "name": "directionLockCount",
+   "summary": "IsDirectionLock_Set increments or decrements it"
+  },
+  "0x83C": {
+   "confidence": "high",
+   "evidence": "returned by CXiSkeletonActor::IsConstrain",
+   "name": "constrain",
+   "summary": "returned by CXiSkeletonActor::IsConstrain"
+  },
+  "0x83E": {
+   "confidence": "high",
+   "evidence": "returned by CXiSkeletonActor::IsConstrain2",
+   "name": "constrain2",
+   "summary": "returned by CXiSkeletonActor::IsConstrain2"
+  },
+  "0x840": {
+   "confidence": "high",
+   "evidence": "bit 0x40 is the motion lock (IsMotionLock / IsMotionLock_Set)",
+   "name": "lockFlags",
+   "summary": "bit 0x40 is the motion lock (IsMotionLock / IsMotionLock_Set)"
+  },
+  "0x848": {
+   "confidence": "medium",
+   "evidence": "UpdateHeadLook stores the target actor's point (its vfunc+0x1C4 with 3) X here, later loads 0x848..0x854 as a vec4 and subtracts the own position; Init sets it from c_skelActorInit_848.",
+   "kind": "descriptive",
+   "name": "headLookTargetX",
+   "round": "r6 (12 Nov)",
+   "summary": "X of the point the head looks at."
+  },
+  "0x84C": {
+   "confidence": "medium",
+   "evidence": "UpdateHeadLook stores the target point Y here (minus 1.2 when the target's +0xB2 is nonzero) and reads it back for the look vector; Init from c_skelActorInit_84C.",
+   "kind": "descriptive",
+   "name": "headLookTargetY",
+   "round": "r6 (12 Nov)",
+   "summary": "Y of the point the head looks at."
+  },
+  "0x850": {
+   "confidence": "medium",
+   "evidence": "UpdateHeadLook stores the target point Z here and reads it back for the look vector; Init from c_skelActorInit_850.",
+   "kind": "descriptive",
+   "name": "headLookTargetZ",
+   "round": "r6 (12 Nov)",
+   "summary": "Z of the point the head looks at."
+  },
+  "0x854": {
+   "confidence": "medium",
+   "evidence": "UpdateHeadLook sets it -1.0 (no target / model flag), 1.0 (lockFlags bit0 set, bit1 clear) or 0 (target point stored) and only increases the look weight when it is >= 0; Init sets -1.0f.",
+   "kind": "descriptive",
+   "name": "headLookTargetW",
+   "round": "r6 (12 Nov)",
+   "summary": "State word of the head-look target vector (-1 none, 0 point valid, 1 forced)."
+  },
+  "0x864": {
+   "confidence": "medium",
+   "evidence": "AddPartAndMarkSlot: for model byte EE 6/7 with part slot 9, Unit10048000_SetDwordAndCopyOut(this+0x864, ..., param_1) stores the part resource pointer and CMoResource_AddRefChain is called on it; vf256 returns it through *a2; Init zeroes it.",
+   "kind": "descriptive",
+   "name": "partSlot9Resource",
+   "round": "r6 (12 Nov)",
+   "summary": "Resource pointer of the part added in slot 9."
+  },
+  "0x8A4": {
+   "confidence": "high",
+   "evidence": "ChoosePendingPartStep sets it to 1, 2 or 5; LoadSkeletonSync sets 4; RunPendingPartStep switches on it (1 RequestModelParts, 2/3/4/5 other part routines) once all 9 part bits are loaded and resets it to 0; IsReadCompleteBody returns false while it is nonzero; Init zeroes it.",
+   "kind": "descriptive",
+   "name": "pendingPartStep",
+   "round": "r6 (12 Nov)",
+   "summary": "Which part-loading step is still to be run."
+  },
+  "0x8B0": {
+   "confidence": "high",
+   "evidence": "AddPartAndMarkSlot ORs in 1 << ((param_2 >> 12) & 0xF) for each part added; RunPendingPartStep waits until (mask & 0x1FF) == 0x1FF; Init zeroes it.",
+   "kind": "descriptive",
+   "name": "loadedPartMask",
+   "round": "r6 (12 Nov)",
+   "summary": "Bit mask of the part slots that have been added."
+  },
+  "0x8B8": {
+   "confidence": "high",
+   "evidence": "UpdateRandomTimer subtracts Camera_GetFrameScale from it and, when it goes below 0, resets it to rand() % 480 and runs the idle action path; Init sets 120.0f (1123024896).",
+   "kind": "descriptive",
+   "name": "randomTimer",
+   "round": "r6 (12 Nov)",
+   "summary": "Countdown that triggers a random action and is refilled with a random value."
+  },
+  "0x8C0": {
+   "confidence": "high",
+   "evidence": "added to the Y of the position returned by GetNamePos and GetArrowPos",
+   "name": "nameHeightOffset",
+   "summary": "added to the Y of the position returned by GetNamePos and GetArrowPos"
+  },
+  "0x8C4": {
+   "confidence": "high",
+   "evidence": "All four Constructor_NArg store their last argument here (Constructor_3Arg compares it with 'spop' 0x706F7073); RunPendingPartStep, once IsReadCompleteBody is true, passes it to vtable +0x298 (the slot called elsewhere with 'init','con0','efon' tags) and clears it on success; Init zeroes it.",
+   "kind": "descriptive",
+   "name": "pendingFourCC",
+   "round": "r6 (12 Nov)",
+   "summary": "FourCC tag held until resources are loaded, then dispatched and cleared."
+  },
+  "0x8D4": {
+   "confidence": "low",
+   "evidence": "RunStaggeredUpdates: when nonzero, the per-actor update runs only if updateRequested (0x8E8) is 1; when zero it runs every call; Init zeroes it.",
+   "kind": "descriptive",
+   "name": "updateOnRequestOnly",
+   "round": "r6 (12 Nov)",
+   "summary": "When set, updates run only on request."
+  },
+  "0x8E8": {
+   "confidence": "medium",
+   "evidence": "RunStaggeredUpdates: when 0x8D4 != 0 it calls PerActor_FourBucketStaggeredUpdate only if this byte == 1 and then clears it; Init sets it to 1.",
+   "kind": "descriptive",
+   "name": "updateRequested",
+   "round": "r6 (12 Nov)",
+   "summary": "Requests one update while updates are restricted by 0x8D4."
+  },
+  "0xA08": {
+   "confidence": "high",
+   "evidence": "the CXiSkeletonActorRes load request created in LoadSkeletonResource (callback CXiSkeletonActor_OnSkeletonLoaded); cleared in DestructorBody",
+   "name": "pSkeletonRes",
+   "summary": "the CXiSkeletonActorRes load request created in LoadSkeletonResource (callback CXiSkeleton"
+  },
+  "0xA4": {
+   "confidence": "low",
+   "evidence": "Constructor_Factory stores its a4 here and dispatches on it: ranges 37..52, 53..60, 82, 83 pick the link slot, and with no owner it prints aNoOwnerMagicCircle/FishingRod/Chair/Border/Range/GroundTarget/Chocobo by range.",
+   "kind": "descriptive",
+   "name": "attachKind",
+   "round": "r6 (12 Nov)",
+   "summary": "Kind number of an owned attachment actor created by the factory constructor."
+  },
+  "0xBC": {
+   "confidence": "medium",
+   "evidence": "copied to g_shadowCasterDistance; render-to-texture shadows only when < 4.0",
+   "name": "distanceToCamera",
+   "summary": "copied to g_shadowCasterDistance"
+  }
+ },
+ "CYyIcon": {
+  "0x10": {
+   "confidence": "high",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad0_y",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner "
+  },
+  "0x1C": {
+   "confidence": "high",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad0_color",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor"
+  },
+  "0x20": {
+   "confidence": "high",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad0_u",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner "
+  },
+  "0x24": {
+   "confidence": "high",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad0_v",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner "
+  },
+  "0x28": {
+   "confidence": "high",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad1_x",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner "
+  },
+  "0x2C": {
+   "confidence": "high",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad1_y",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner "
+  },
+  "0x38": {
+   "confidence": "high",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad1_color",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor"
+  },
+  "0x3C": {
+   "confidence": "high",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad1_u",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner "
+  },
+  "0x40": {
+   "confidence": "high",
+   "evidence": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad1_v",
+   "summary": "vertex 1 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner "
+  },
+  "0x44": {
+   "confidence": "high",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad2_x",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner "
+  },
+  "0x48": {
+   "confidence": "high",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad2_y",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner "
+  },
+  "0x54": {
+   "confidence": "high",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad2_color",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor"
+  },
+  "0x58": {
+   "confidence": "high",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad2_u",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner "
+  },
+  "0x5C": {
+   "confidence": "high",
+   "evidence": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad2_v",
+   "summary": "vertex 2 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner "
+  },
+  "0x60": {
+   "confidence": "high",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad3_x",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner "
+  },
+  "0x64": {
+   "confidence": "high",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad3_y",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component y: written per corner "
+  },
+  "0x70": {
+   "confidence": "high",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad3_color",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component color: written per cor"
+  },
+  "0x74": {
+   "confidence": "high",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad3_u",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component u: written per corner "
+  },
+  "0x78": {
+   "confidence": "high",
+   "evidence": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad3_v",
+   "summary": "vertex 3 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component v: written per corner "
+  },
+  "0x8": {
+   "confidence": "medium",
+   "evidence": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect",
+   "name": "pIconTexture",
+   "summary": "read and passed on as the texture by CYyIcon::Draw and DrawSubRect"
+  },
+  "0xC": {
+   "confidence": "high",
+   "evidence": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner by CYyIcon::Draw / DrawSubRect (u = a5 / texture width)",
+   "name": "quad0_x",
+   "summary": "vertex 0 (28-byte XYZRHW|DIFFUSE|TEX1 vertices from +0xC) component x: written per corner "
+  }
+ },
+ "CYyModelBase": {
+  "0x8": {
+   "batch": "batches/r6_122_render_objects.json",
+   "confidence": "medium",
+   "evidence": "constructor 0x10029D35-0x10029D3E `lea ecx, [esi+8]; call 0x10034230` (CYySkl constructor: stores vtable 0x1032A888, descriptor \"CYySkl\" size 0x18); destructor `lea ecx, [esi+8]` at 0x10029E3A",
+   "name": "skeleton",
+   "summary": "CYySkl (embedded)"
+  },
+  "0xC4": {
+   "confidence": "high",
+   "evidence": "DrawLit: when field_C4 == -1 it is set to CYyTexMng_FindByNameInResource(g_pTextureMng, c_texNameCubemapSpec, resource); -1 is the not-looked-up sentinel.",
+   "kind": "descriptive",
+   "name": "cubemapSpecTexture",
+   "round": "r6 (12 Nov)",
+   "summary": "texture found by the cubemap-specular name, -1 until looked up"
+  }
+ },
+ "CYyModelDt": {
+  "0x33": {
+   "confidence": "low",
+   "evidence": "SkinAndDrawV2 switches on it (2..6, 0x12, 0x22, 0x32) and sets different combinations of flag bytes at a3+169..176.",
+   "kind": "descriptive",
+   "name": "renderVariant",
+   "round": "r6 (12 Nov)",
+   "summary": "selector of which flag bytes SkinAndDrawV2 sets"
+  },
+  "0x34": {
+   "confidence": "medium",
+   "evidence": "SkinAndDrawV2 tests (field_34 & 1) before waiting on the buffers at resource+80/+84 and, after each indexed draw, binds those two as streams 0 and 1 (stride 12) and draws again.",
+   "kind": "descriptive",
+   "name": "extraStreamFlags",
+   "round": "r6 (12 Nov)",
+   "summary": "bit 0: also bind the two extra vertex streams and draw them"
+  },
+  "0x8": {
+   "confidence": "high",
+   "evidence": "PrepareRenderStateEntry and PrepareRenderStateSimpleEntry pass ResourceHandle_Deref(field_8) as the resource; MarkReferencedBones dereferences it and walks its bone index list (+60, count at +64).",
+   "kind": "descriptive",
+   "name": "modelResourceHandle",
+   "round": "r6 (12 Nov)",
+   "summary": "handle of the model resource, dereferenced with ResourceHandle_Deref"
+  }
+ },
+ "CYyOs2VtxBuffer": {
+  "0x3C": {
+   "confidence": "high",
+   "evidence": "state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 and 4",
+   "name": "createStep",
+   "summary": "state of the incremental build in CreateBuffersStep: switched on, incremented, set to 3 an"
+  },
+  "0x40": {
+   "confidence": "high",
+   "evidence": "CYyOs2VtxBuffer::CreateBuffersStep step 1 calls IDirect3DDevice8 vtbl+0x60 (slot 24, CreateIndexBuffer per tree/include/xi_d3d8.hpp) with Length indexCount*2, Usage 8, Format 0x65 (D3DFMT_INDEX16), Pool 0, ppIndexBuffer this+0x40; CreateBuffersStep's failure path and CYyOs2VtxBuffer_Destructor Release it (vtbl+8) and zero it; Constructor zeroes it.",
+   "kind": "descriptive",
+   "name": "indexBuffer",
+   "round": "r6 (12 Nov)",
+   "summary": "IDirect3DIndexBuffer8 of 16-bit indices created in CreateBuffersStep."
+  },
+  "0x4C": {
+   "confidence": "high",
+   "evidence": "CreateBuffersStep step 4 calls CYyVbMng_AcquireVertexBuffer(g_pVbMng, indexCount*8+4, 0x208, 0, 0, this+0x4C, 0); the failure path and CYyOs2VtxBuffer_Destructor call CYyVbMng_ReleaseVertexBuffer(this+0x4C) and zero it.",
+   "kind": "descriptive",
+   "name": "vertexBuffer",
+   "round": "r6 (12 Nov)",
+   "summary": "Vertex buffer handle acquired from the CYyVbMng vertex-buffer manager."
+  },
+  "0x58": {
+   "confidence": "medium",
+   "evidence": "loop bound over the 16-bit index array in CreateBuffersStep",
+   "name": "indexCount",
+   "summary": "loop bound over the 16-bit index array in CreateBuffersStep"
+  },
+  "0x5C": {
+   "confidence": "medium",
+   "evidence": "16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed with Mem_FreeObject",
+   "name": "pIndices",
+   "summary": "16-bit index array allocated in CreateBuffersStep (last entry set to 0xFFFF) and freed wit"
+  },
+  "0x64": {
+   "confidence": "high",
+   "evidence": "CYyOs2VtxBuffer::Constructor calls IDirect3DDevice8::CreateVertexShader(&g_vsDecl_1628, nullptr, this+100 (=+0x64), 0); CYyOs2VtxBuffer_Destructor passes it to DeleteVertexShader and zeroes it.",
+   "kind": "descriptive",
+   "name": "vertexShader",
+   "round": "r6 (12 Nov)",
+   "summary": "Vertex shader handle created from g_vsDecl_1628."
+  }
+ },
+ "CYySkl": {
+  "0xC": {
+   "batch": "batches/r6_122_render_objects.json",
+   "confidence": "medium",
+   "evidence": "0x100342D5-0x100342DC: (+0x8 + 15) & ~15; loop 0x100342E7-0x100342F5 calls 0x100279B0 on each 0x40-byte element, which stores 1.0f at element +0x0/+0x14/+0x28/+0x3C and 0 elsewhere (a 4x4 float identity). Same layout as D3DMATRIX; no D3D call taking them was traced here.",
+   "name": "boneMatrices",
+   "summary": "pointer to count 64-byte 4x4 float matrices, 16-byte aligned"
+  }
+ },
+ "CYyVbMng": {
+  "0x4": {
+   "confidence": "high",
+   "evidence": "AcquireVertexBuffer increments it when a new pooled vertex buffer is created (not on the a7 path) and decrements it when a free buffer is destroyed while it is above 300.",
+   "kind": "descriptive",
+   "name": "pooledBufferCount",
+   "round": "r6 (12 Nov)",
+   "summary": "number of pooled vertex buffers"
+  }
+ },
+ "Obj_104E1B90": {
+  "0x10": {
+   "confidence": "high",
+   "evidence": "colour of vertex 0 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)",
+   "name": "quad0_color",
+   "summary": "colour of vertex 0 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo"
+  },
+  "0x2C": {
+   "confidence": "high",
+   "evidence": "colour of vertex 1 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)",
+   "name": "quad1_color",
+   "summary": "colour of vertex 1 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo"
+  },
+  "0x48": {
+   "confidence": "high",
+   "evidence": "colour of vertex 2 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)",
+   "name": "quad2_color",
+   "summary": "colour of vertex 2 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo"
+  },
+  "0x64": {
+   "confidence": "high",
+   "evidence": "colour of vertex 3 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all four to 0x80808080 (PS2 white)",
+   "name": "quad3_color",
+   "summary": "colour of vertex 3 of a 28-byte-stride quad from +0x0; Obj_104E1B90_DrawString sets all fo"
+  }
+ },
+ "Obj_104E1BF8": {
+  "0x1C": {
+   "confidence": "high",
+   "evidence": "ShapeMng_BindFontTexture calls ShapeMng_LoadFontTextures when it is 0 and returns 0 if still 0; otherwise SetTexture(0, entry+64 or entry+68).",
+   "kind": "descriptive",
+   "name": "fontTexture",
+   "round": "r6 (12 Nov)",
+   "summary": "font texture entry, loaded on first use"
+  },
+  "0x30": {
+   "confidence": "high",
+   "evidence": "ShapeMng_BindDmgNumTexture calls ShapeMng_LoadDmgNumTextures when it is 0 and returns 0 if still 0; otherwise SetTexture from entry+64 or +68.",
+   "kind": "descriptive",
+   "name": "dmgNumTexture",
+   "round": "r6 (12 Nov)",
+   "summary": "damage-number texture entry, loaded on first use"
+  }
+ },
+ "Obj_104E1D4C": {
+  "0x4": {
+   "confidence": "high",
+   "evidence": "Cursor_SetPosition stores a2[0]",
+   "name": "posX",
+   "summary": "Cursor_SetPosition stores a2[0]"
+  },
+  "0x4C": {
+   "confidence": "high",
+   "evidence": "row of g_cursorShapes / g_cursorShapeFrame drawn by Cursor_Draw",
+   "name": "shapeIndex",
+   "summary": "row of g_cursorShapes / g_cursorShapeFrame drawn by Cursor_Draw"
+  },
+  "0x8": {
+   "confidence": "high",
+   "evidence": "Cursor_SetPosition stores a2[1]",
+   "name": "posY",
+   "summary": "Cursor_SetPosition stores a2[1]"
+  }
+ },
+ "Obj_10621944": {
+  "0xC": {
+   "confidence": "medium",
+   "evidence": "Obj_10621944_Draw does nothing when it is 0; otherwise passes it to Unit1018BA60_DrawTextBlockOnce between the bilinear/point MAGFILTER changes.",
+   "kind": "descriptive",
+   "name": "textBlock",
+   "round": "r6 (12 Nov)",
+   "summary": "text block drawn by Obj_10621944_Draw"
   }
  }
 }

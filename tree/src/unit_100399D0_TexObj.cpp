@@ -143,7 +143,7 @@ XI_API int __thiscall TexObj_Upload(void *self_)
   {
     case 16:
       v5 = orig::fn_102D2FB9(
-             (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
+             (g_pCDx->pDevice),
              *((unsigned __int16 *)self_ + 18),
              *((unsigned __int16 *)self_ + 19),
              0,
@@ -157,7 +157,7 @@ LABEL_10:
       break;
     case 24:
       v5 = orig::fn_102D2FB9(
-             (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
+             (g_pCDx->pDevice),
              *((unsigned __int16 *)self_ + 18),
              *((unsigned __int16 *)self_ + 19),
              0,
@@ -168,7 +168,7 @@ LABEL_10:
       goto LABEL_10;
     case 32:
       v5 = orig::fn_102D2FB9(
-             (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
+             (g_pCDx->pDevice),
              *((unsigned __int16 *)self_ + 18),
              *((unsigned __int16 *)self_ + 19),
              0,
@@ -542,12 +542,12 @@ LABEL_74:
     if ( v62 != (struct IDirect3DSurface8 *)24 && v62 != (struct IDirect3DSurface8 *)32 )
       goto LABEL_78;
 LABEL_77:
-    if ( orig::fn_102D2FB9((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v39, v38, 0, 0, D3DFMT_A8R8G8B8, 1, &v60) >= 0 )
+    if ( orig::fn_102D2FB9((g_pCDx->pDevice), v39, v38, 0, 0, D3DFMT_A8R8G8B8, 1, &v60) >= 0 )
       goto LABEL_78;
     goto LABEL_67;
   }
 LABEL_66:
-  if ( orig::fn_102D2FB9((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v39, v38, 0, 0, D3DFMT_A1R5G5B5, 1, &v60) >= 0 )
+  if ( orig::fn_102D2FB9((g_pCDx->pDevice), v39, v38, 0, 0, D3DFMT_A1R5G5B5, 1, &v60) >= 0 )
   {
 LABEL_78:
     v60->LockRect(0, (D3DLOCKED_RECT *)&v63, nullptr, 0);

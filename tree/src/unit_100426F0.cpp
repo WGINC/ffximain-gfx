@@ -108,7 +108,7 @@ XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_)
   v62 = *(_DWORD *)(g_pResourceMng + 3524);
   v59 = *(_DWORD *)(g_pResourceMng + 3520);
   orig::RegisterWithProcessor((int)self_);
-  vftable = (void (__thiscall **)(CMoProcessor *, int *, char *, int, float *, int, int, int))(*(void * *)((char *)g_pProcessor + 0x0));
+  vftable = (void (__thiscall **)(CMoProcessor *, int *, char *, int, float *, int, int, int))(*(void * *)&g_pProcessor->vftable);
   v74 = self_ + 40;
   vftable[32](g_pProcessor, &CMoDist_vf18_static_BB04, v77, 5, self_ + 40, g_pResourceMng + 2832, v59, v62);
   v63 = (float)*((int *)orig::CDx_GetRenderTargetTop(*(unsigned __int8 **)(g_pResourceMng + 3528)) + 2);
@@ -128,7 +128,7 @@ XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_)
     *(float *)&v76[v5] = v6 * *((float *)v4 - 3);
   }
   while ( v5 < 5 );
-  result =(_DWORD*)(&(*(void * *)((char *)g_pCDx + 0x0)));
+  result =(_DWORD*)(&(*(void * *)&g_pCDx->vftable));
   v10 = *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x194));
   if ( v10 != 0 )
   {
@@ -270,9 +270,9 @@ XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_)
     *((float *)v49 + 34) = v72[0] * 0x1.0101020000000p-8;
     *((float *)v49 + 35) = v69[0] * 0x1.0101020000000p-8;
     orig::DynVB_Unlock((void *)g_pDynVB_FVF142);
-    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
     v56 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+    (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
     orig::RegisterWithProcessor((int)self_);
     v57 = v73;
     qmemcpy(v56, v74, 0x40u);
@@ -291,9 +291,9 @@ XI_API _DWORD * __thiscall YmElem_DrawScreenDistortion(float *self_)
       (int)CMoDist_vf18_renderStates2,
       (int)CMoDist_vf18_textureStageStates2);
     orig::VertexBatch_BindAndDraw((int *)g_pDynVB_FVF142, 0, 4, 6, 0, -1);
-    result =(_DWORD*)(&(*(void * *)((char *)g_pProcessor + 0x0)));
-    v58 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-    (*(int *)((char *)g_pProcessor + 0xA90)) = v58;
+    result =(_DWORD*)(&(*(void * *)&g_pProcessor->vftable));
+    v58 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+    (g_pProcessor->ScratchMatrixStackTop) = v58;
     result[v58 + 644] = v56;
   }
   return result;

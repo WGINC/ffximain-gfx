@@ -15644,7 +15644,7 @@ XI_API char __thiscall Font_BindGlyphTexture(int self_)
     if ( v5 == nullptr )
       v5 = *(IDirect3DBaseTexture8 **)(v6 + 68);
   }
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v5);
+  (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, v5);
   return 1;
 }
 
@@ -15714,7 +15714,7 @@ XI_API int __thiscall Font_DrawGlyphQuad(float *self_, __int16 a2, int *a3, unsi
     v13 += 7;
   }
   while ( v12 < 4 );
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
+  (g_pCDx->pDevice)->lpVtbl->SetVertexShader((g_pCDx->pDevice), 324u);
   orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, (int)self_, 28);
   v17 = self_ + 4;
   for ( result = 0; result < 4; ++result )
@@ -15730,9 +15730,9 @@ XI_API int __thiscall Font_DrawGlyphQuad(float *self_, __int16 a2, int *a3, unsi
 // GATE: PASS -- 100 trials, 100 returned normally, 300 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 XI_API int __cdecl Gfx_SetAdditiveBlend(void)
 {
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, TRUE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_ONE);
-  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ONE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHABLENDENABLE, TRUE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_ONE);
+  return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ONE);
 }
 
 // FUNCTION: FFXIMAIN 0x1011BF40  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -15804,18 +15804,18 @@ XI_API int __cdecl Gfx_SetCellBlendMode(int a1, int a2, int a3, int a4)
 {
   if ( a1 == 0 )
   {
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, FALSE);
-    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHABLENDENABLE, FALSE);
+    return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
   }
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE2X);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, TRUE);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ALPHAOP, D3DTOP_MODULATE2X);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHABLENDENABLE, TRUE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
   if ( a2 != 0 )
   {
     if ( a2 != 1 )
     {
       if ( a2 != 2 )
-        return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+        return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
       if ( a3 != 0 )
       {
         if ( a3 != 1 )
@@ -15838,7 +15838,7 @@ XI_API int __cdecl Gfx_SetCellBlendMode(int a1, int a2, int a3, int a4)
               orig::Unit10017C10_NoOpVarargsA(aCellZeroZeroTe);
             }
           }
-          return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+          return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
         }
         if ( a4 != 0 )
         {
@@ -15846,35 +15846,35 @@ XI_API int __cdecl Gfx_SetCellBlendMode(int a1, int a2, int a3, int a4)
           {
             if ( a4 == 2 )
               orig::Unit10017C10_NoOpVarargsA(aCellZeroFrameZ);
-            return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+            return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
           }
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_ZERO);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_ZERO);
 LABEL_59:
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
-          return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+          return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
         }
 LABEL_60:
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_ONE);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_SUBTRACT);
-        return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_ONE);
+        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_SUBTRACT);
+        return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
       }
       if ( a4 == 0 )
       {
         orig::Unit10017C10_NoOpVarargsA(aCellZeroTextur_0);
-        return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+        return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
       }
       if ( a4 != 1 )
       {
         if ( a4 == 2 )
           orig::Unit10017C10_NoOpVarargsA(aCellZeroTextur);
-        return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+        return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
       }
 LABEL_43:
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ONE);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_REVSUBTRACT);
-      return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+      (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+      (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ONE);
+      (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_REVSUBTRACT);
+      return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
     }
     if ( a3 != 0 )
     {
@@ -15902,19 +15902,19 @@ LABEL_43:
         {
           if ( a4 == 1 )
           {
-            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
-            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+            (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
+            (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
           }
           else if ( a4 == 2 )
           {
-            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_ZERO);
-            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+            (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_ZERO);
+            (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
           }
         }
         else
         {
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_ONE);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_ONE);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
         }
       }
     }
@@ -15923,9 +15923,9 @@ LABEL_43:
       switch ( a4 )
       {
         case 0:
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_INVSRCALPHA);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
-          return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_INVSRCALPHA);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+          return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
         case 1:
           goto LABEL_43;
         case 2:
@@ -15945,7 +15945,7 @@ LABEL_43:
         case 0:
           goto LABEL_60;
         case 1:
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
           goto LABEL_59;
         case 2:
           orig::Unit10017C10_NoOpVarargsA(aCellTextureFra);
@@ -15960,13 +15960,13 @@ LABEL_43:
       {
         if ( a4 == 1 )
         {
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ONE);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ONE);
         }
         else if ( a4 == 2 )
         {
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ZERO);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ZERO);
         }
       }
       else
@@ -15990,7 +15990,7 @@ LABEL_43:
   {
     orig::Unit10017C10_NoOpVarargsA(aCellTextureTex_1);
   }
-  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+  return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
 }
 
 // FUNCTION: FFXIMAIN 0x1011C5D0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -16083,11 +16083,11 @@ XI_API void __thiscall Font_LoadHighResTexture(int *self_)
   if ( g_cfgFontCompression == 0 )
     goto LABEL_16;
   v2 = g_cfgFontCompression - 1;
-  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x931)) != 0 )
+  if ( (*(unsigned __int8 *)&g_pCDx->field_931) != 0 )
     goto LABEL_16;
-  if ( *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x934)) < 0x800u )
+  if ( *(_DWORD *)&g_pCDx->maxTextureWidth < 0x800u )
     v2 = 0;
-  if ( *(_DWORD *)&(*(unsigned __int8 *)((char *)g_pCDx + 0x938)) < 0x1000u )
+  if ( *(_DWORD *)&g_pCDx->maxTextureHeight < 0x1000u )
     v2 = 0;
   v3 = 3 * v2;
   v4 = g_hiResFont_width[v3];
@@ -16836,7 +16836,7 @@ XI_API int __thiscall Cell_DrawAt(void *self_, int a1, int a2)
       v6 = *(IDirect3DBaseTexture8 **)(v4 + 64);
     else
       v6 = *(IDirect3DBaseTexture8 **)(v4 + 68);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v6);
+    (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, v6);
   }
   else
   {
@@ -16947,7 +16947,7 @@ XI_API int __thiscall Cell_DrawTexturedQuad(void *self_, int a1, int a2, int a3,
       v10 = *(IDirect3DBaseTexture8 **)(v8 + 64);
     else
       v10 = *(IDirect3DBaseTexture8 **)(v8 + 68);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v10);
+    (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, v10);
   }
   else
   {
@@ -16958,8 +16958,8 @@ XI_API int __thiscall Cell_DrawTexturedQuad(void *self_, int a1, int a2, int a3,
     if ( result == 0 )
       return result;
   }
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
   v11 = (__int16 *)((char *)self_ + 200);
   v12 = (unsigned int *)((char *)self_ + 96);
   v13 = 0;
@@ -17081,8 +17081,8 @@ LABEL_35:
     v56[1] = v59;
     v56 += 7;
   }
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
+  return (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
 }
 
 // FUNCTION: FFXIMAIN 0x1011EDE0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -17114,7 +17114,7 @@ XI_API void __thiscall Cell_DrawTransformed(int self_, int a2, int a3, float a4,
       v24 = *(IDirect3DBaseTexture8 **)(v22 + 64);
     else
       v24 = *(IDirect3DBaseTexture8 **)(v22 + 68);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v24);
+    (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, v24);
   }
   else
   {
@@ -17208,8 +17208,8 @@ XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a
   float v45;
   float v46;
   v12 = 0;
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSU, D3DTADDRESS_WRAP);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSV, D3DTADDRESS_WRAP);
   v14 = *(_DWORD *)(self_ + 76);
   if ( v14 != 0 )
   {
@@ -17217,7 +17217,7 @@ XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a
       v16 = *(IDirect3DBaseTexture8 **)(v14 + 64);
     else
       v16 = *(IDirect3DBaseTexture8 **)(v14 + 68);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v16);
+    (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, v16);
   }
   else
   {
@@ -17336,8 +17336,8 @@ XI_API int __thiscall Cell_DrawStretchedWrapped(int self_, int a2, int a3, int a
     v33 += 7;
   }
   while ( v34 < 4 );
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
-  return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
+  (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP);
+  return (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP);
 }
 
 // FUNCTION: FFXIMAIN 0x1011F2D0  (unit unit_100D7420: no unit evidence of its own; in the gap between 0x100D7410 (XiSkeletonActor2) and 0x1012AB70 (YkZip) -- an unnamed source file)
@@ -17388,13 +17388,13 @@ XI_API int __thiscall Cell_DrawQuadBlended(void *self_, int a1, int a2, int a3, 
   int result;
   _DWORD v38[4];
   v6 = 0;
-  pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+  pDevice = (g_pCDx->pDevice);
   lpVtbl = pDevice->lpVtbl;
   if ( a2 == 0 )
     goto LABEL_76;
   lpVtbl->SetRenderState(pDevice, D3DRS_ALPHABLENDENABLE, TRUE);
-  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x913)) != 0 )
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+  if ( (*(unsigned __int8 *)&g_pCDx->field_913) != 0 )
+    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
   if ( a3 != 0 )
   {
     if ( a3 != 1 )
@@ -17433,17 +17433,17 @@ XI_API int __thiscall Cell_DrawQuadBlended(void *self_, int a1, int a2, int a3, 
               orig::Unit10017C10_NoOpVarargsA(aCellZeroFrameZ);
             goto LABEL_77;
           }
-          v10 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
-          if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x913)) != 0 )
+          v10 = (g_pCDx->pDevice);
+          if ( (*(unsigned __int8 *)&g_pCDx->field_913) != 0 )
           {
             v10->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ZERO);
-            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+            (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
             goto LABEL_77;
           }
           goto LABEL_22;
         }
-        v10 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
-        if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x913)) == 0 )
+        v10 = (g_pCDx->pDevice);
+        if ( (*(unsigned __int8 *)&g_pCDx->field_913) == 0 )
         {
 LABEL_22:
           v11 = v10->lpVtbl;
@@ -17452,10 +17452,10 @@ LABEL_23:
           goto LABEL_77;
         }
         v10->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_ONE);
-        v12 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+        v12 = (g_pCDx->pDevice);
 LABEL_93:
         v12->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_SUBTRACT);
+        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_SUBTRACT);
         goto LABEL_77;
       }
       if ( a5 == 0 )
@@ -17469,20 +17469,20 @@ LABEL_93:
           orig::Unit10017C10_NoOpVarargsA(aCellZeroTextur);
         goto LABEL_77;
       }
-      v13 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
-      if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x913)) != 0 )
+      v13 = (g_pCDx->pDevice);
+      if ( (*(unsigned __int8 *)&g_pCDx->field_913) != 0 )
       {
         v13->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-        v14 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+        v14 = (g_pCDx->pDevice);
 LABEL_60:
         v14->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_ONE);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_REVSUBTRACT);
+        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_REVSUBTRACT);
         goto LABEL_77;
       }
       v13->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_INVDESTCOLOR);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ZERO);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+      (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_INVDESTCOLOR);
+      (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ZERO);
+      (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, nullptr);
       v15 =(_DWORD*)((char *)self_ + 96);
       v16 = 0;
       v17 = (int *)((char *)self_ + 96);
@@ -17502,14 +17502,14 @@ LABEL_60:
         v15 += 7;
       }
 LABEL_36:
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
+      (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
       v21 = *((_DWORD *)self_ + 19);
       v22 = *(IDirect3DBaseTexture8 **)(v21 + 64);
       if ( v22 == nullptr )
         v22 = *(IDirect3DBaseTexture8 **)(v21 + 68);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, v22);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ONE);
+      (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, v22);
+      (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+      (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ONE);
       v6 = 1;
       goto LABEL_77;
     }
@@ -17523,19 +17523,19 @@ LABEL_36:
           {
             if ( a5 == 1 )
             {
-              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
-              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+              (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_DESTCOLOR);
+              (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
             }
             else if ( a5 == 2 )
             {
-              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_ZERO);
-              (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+              (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_ZERO);
+              (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
             }
           }
           else
           {
-            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_ONE);
-            (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+            (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_ONE);
+            (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
           }
         }
         goto LABEL_77;
@@ -17557,22 +17557,22 @@ LABEL_36:
     switch ( a5 )
     {
       case 0:
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_INVSRCALPHA);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
+        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_INVSRCALPHA);
+        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_SRCALPHA);
         break;
       case 1:
-        v23 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+        v23 = (g_pCDx->pDevice);
         v24 = v23->lpVtbl;
-        if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x913)) != 0 )
+        if ( (*(unsigned __int8 *)&g_pCDx->field_913) != 0 )
         {
           v24->SetRenderState(v23, D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-          v14 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+          v14 = (g_pCDx->pDevice);
           goto LABEL_60;
         }
         v24->SetTextureStageState(v23, 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_INVDESTCOLOR);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ZERO);
-        (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_INVDESTCOLOR);
+        (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ZERO);
+        (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, nullptr);
         v25 =(_DWORD*)((char *)self_ + 96);
         v26 = 0;
         v27 = (int *)((char *)self_ + 96);
@@ -17606,16 +17606,16 @@ LABEL_36:
       switch ( a5 )
       {
         case 0:
-          v10 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+          v10 = (g_pCDx->pDevice);
           v11 = v10->lpVtbl;
-          if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x913)) == 0 )
+          if ( (*(unsigned __int8 *)&g_pCDx->field_913) == 0 )
             goto LABEL_23;
           v11->SetRenderState(v10, D3DRS_SRCBLEND, D3DBLEND_ONE);
-          v12 = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+          v12 = (g_pCDx->pDevice);
           goto LABEL_93;
         case 1:
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
           break;
         case 2:
           orig::Unit10017C10_NoOpVarargsA(aCellTextureFra);
@@ -17632,18 +17632,18 @@ LABEL_36:
       {
         case 0:
 LABEL_75:
-          pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+          pDevice = (g_pCDx->pDevice);
           lpVtbl = pDevice->lpVtbl;
 LABEL_76:
           lpVtbl->SetRenderState(pDevice, D3DRS_ALPHABLENDENABLE, FALSE);
           break;
         case 1:
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ONE);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ONE);
           break;
         case 2:
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
-          (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ZERO);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+          (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ZERO);
           break;
         default:
           break;
@@ -17666,14 +17666,14 @@ LABEL_76:
     orig::Unit10017C10_NoOpVarargsA(aCellTextureTex_1);
   }
 LABEL_77:
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetVertexShader((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 324u);
+  (g_pCDx->pDevice)->lpVtbl->SetVertexShader((g_pCDx->pDevice), 324u);
   orig::CDx_DrawPrimitiveUP(g_pCDx, 5, 2, a1, 28);
   if ( v6 == 1 )
   {
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_SRCBLEND, D3DBLEND_INVDESTCOLOR);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_DESTBLEND, D3DBLEND_ZERO);
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTexture((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, nullptr);
+    (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_SRCBLEND, D3DBLEND_INVDESTCOLOR);
+    (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_DESTBLEND, D3DBLEND_ZERO);
+    (g_pCDx->pDevice)->lpVtbl->SetTexture((g_pCDx->pDevice), 0, nullptr);
     v31 =(_DWORD*)((char *)self_ + 96);
     v32 = 0;
     v33 = (int *)((char *)self_ + 96);
@@ -17692,12 +17692,12 @@ LABEL_77:
       *v31 = v36;
       v31 += 7;
     }
-    (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
+    (g_pCDx->pDevice)->lpVtbl->SetTextureStageState((g_pCDx->pDevice), 0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
   }
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_ALPHABLENDENABLE, FALSE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_ALPHABLENDENABLE, FALSE);
   result = (int)g_pCDx;
-  if ( (*(unsigned __int8 *)((char *)g_pCDx + 0x913)) != 0 )
-    return (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_BLENDOP, D3DBLENDOP_ADD);
+  if ( (*(unsigned __int8 *)&g_pCDx->field_913) != 0 )
+    return (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_BLENDOP, D3DBLENDOP_ADD);
   return result;
 }
 

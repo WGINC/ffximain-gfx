@@ -52,11 +52,11 @@ char CMoOtTask_VT_1032AE64::vf8()
     v21 = v13;
     at<float>(this, 0xB0) = v11;
     v20 = v20 - at<float>(this, 0xAC) * 0x1.b4e81c0000000p-8 * 0.5;
-    ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+    ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
     v15 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-    (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+    (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
     orig::CDx_GetTransformCached(*(CDx **)(g_pResourceMng + 3528), 3, v15);
-    (*((void (__thiscall **)(void *, int *, int, int, int, float *, float, float))(*(void * *)((char *)g_pProcessor + 0x0)) + 32))(g_pProcessor, 
+    (*((void (__thiscall **)(void *, int *, int, int, int, float *, float, float))(*(void * *)&g_pProcessor->vftable) + 32))(g_pProcessor, 
       &v19,
       self + 160,
       1,
@@ -66,8 +66,8 @@ char CMoOtTask_VT_1032AE64::vf8()
       *(float *)(g_pResourceMng + 3524));
     orig::sub_100555B0((_DWORD *)self, at<uint32_t>(this, 0xA8));
     v16 = g_pProcessor;
-    v17 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-    (*(int *)((char *)g_pProcessor + 0xA90)) = v17;
+    v17 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+    (g_pProcessor->ScratchMatrixStackTop) = v17;
     ((float * *)((char *)v16 + 0xA10))[v17] = v15;
     return 0;
   }

@@ -14,8 +14,8 @@ XI_API int __cdecl CreateSharedVertexBuffers(void)
   g_vertexBuffer_7154 = 0;
   if ( dword_10457548 != 0 )
     goto LABEL_7;
-  result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
-             (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
+  result = (g_pCDx->pDevice)->lpVtbl->CreateVertexBuffer(
+             (g_pCDx->pDevice),
              28672u,
              520u,
              82u,
@@ -23,8 +23,8 @@ XI_API int __cdecl CreateSharedVertexBuffers(void)
              (IDirect3DVertexBuffer8 **)&g_vertexBuffer_7148);
   if ( result >= 0 )
   {
-    result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
-               (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
+    result = (g_pCDx->pDevice)->lpVtbl->CreateVertexBuffer(
+               (g_pCDx->pDevice),
                36864u,
                520u,
                338u,
@@ -32,8 +32,8 @@ XI_API int __cdecl CreateSharedVertexBuffers(void)
                (IDirect3DVertexBuffer8 **)&g_vertexBuffer_714C);
     if ( result >= 0 )
     {
-      result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
-                 (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
+      result = (g_pCDx->pDevice)->lpVtbl->CreateVertexBuffer(
+                 (g_pCDx->pDevice),
                  0x8000u,
                  520u,
                  274u,
@@ -41,8 +41,8 @@ XI_API int __cdecl CreateSharedVertexBuffers(void)
                  (IDirect3DVertexBuffer8 **)&g_vertexBuffer_7150);
       if ( result >= 0 )
       {
-        result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->CreateVertexBuffer(
-                   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)),
+        result = (g_pCDx->pDevice)->lpVtbl->CreateVertexBuffer(
+                   (g_pCDx->pDevice),
                    0x4000u,
                    520u,
                    274u,

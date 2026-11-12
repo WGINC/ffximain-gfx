@@ -63,7 +63,7 @@ XI_API bool __cdecl GateEffectBoxProjection(int a1, int a2, __int16 a3, __int16 
   int v15;
   bool xi_fpu_unord = false;
 
-  (*((void (__thiscall **)(void *, int *, int, int, int, int, float, float))(*(void * *)((char *)g_pProcessor + 0x0)) + 35))(g_pProcessor, 
+  (*((void (__thiscall **)(void *, int *, int, int, int, int, float, float))(*(void * *)&g_pProcessor->vftable) + 35))(g_pProcessor, 
     v14,
     a2,
     8,
@@ -244,7 +244,7 @@ XI_API double __cdecl ScaleElemVisibilityByProbe(int a1, int a2, __int16 *a3)
   int v8[4];
   int ScreenRect;
   int v10;
-  (*((void (__thiscall **)(void *, int *, int, int, int, int, float, float))(*(void * *)((char *)g_pProcessor + 0x0)) + 35))(g_pProcessor, 
+  (*((void (__thiscall **)(void *, int *, int, int, int, int, float, float))(*(void * *)&g_pProcessor->vftable) + 35))(g_pProcessor, 
     v8,
     a2,
     8,

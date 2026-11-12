@@ -21,7 +21,7 @@ BOOL CMoVuAnmElem::vf012(int a1)
 // GATE: PASS -- 100 trials, 100 returned normally, 0 D3D calls compared (diffemu_gfx, clean build); gates: fuzz PASS 100
 int CMoVuAnmElem::vf008()
 {
-  return ((int (__thiscall *)(CMoVuAnmElem *))(*(CMoTask_vtbl * *)((char *)this + 0x0))[1].vf10_CMoTask_vf010)(this);
+  return ((int (__thiscall *)(CMoVuAnmElem *))(*(CMoTask_vtbl * *)&this->vftable)[1].vf10_CMoTask_vf010)(this);
 }
 
 // FUNCTION: FFXIMAIN 0x1003EFA0  (placed by tree manifest)

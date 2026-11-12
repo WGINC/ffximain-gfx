@@ -53,9 +53,9 @@ XI_API char __cdecl BeginEffectOffscreenPass(void)
     Fn10054D70_lookAtUp_z = -1082130432;
     orig::_atexit(XI_CODE(nullsub_130));
   }
-  ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+  ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
   v3 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-  (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+  (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
   orig::CMoDX_GetWorldMatrix((int *)g_pResourceMng, v3);
   v11 = v3[12];
   v12 = v3[13];
@@ -66,22 +66,22 @@ XI_API char __cdecl BeginEffectOffscreenPass(void)
   v14[1] = v12 - 2.0;
   orig::fn_102D7FF9(v16, v14, &v11, (float *)&Fn10054D70_lookAtUp);
   orig::CDx_SetTransform(*(_DWORD ***)(g_pResourceMng + 3528), 2, v16);
-  v5 = (*(int *)((char *)g_pProcessor + 0xA90));
+  v5 = (g_pProcessor->ScratchMatrixStackTop);
   v6 = ((float * *)((char *)g_pProcessor + 0xA10))[v5];
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v5 + 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v5 + 1;
   orig::MoProcessor_CallVSlot49(v6);
   v6[10] = 0.25;
   v6[5] = 0.25;
   *v6 = 0.25;
-  (*((void (__thiscall **)(CMoProcessor *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 9))(g_pProcessor, v3, v6);
+  (*((void (__thiscall **)(CMoProcessor *, float *, float *))(*(void * *)&g_pProcessor->vftable) + 9))(g_pProcessor, v3, v6);
   orig::CMoDX_SetWorldMatrix((_DWORD ***)g_pResourceMng, v3);
   v7 = g_pProcessor;
-  v8 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v8;
+  v8 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v8;
   ((float * *)((char *)v7 + 0xA10))[v8] = v6;
   v9 = g_pProcessor;
-  v10 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v10;
+  v10 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v10;
   ((float * *)((char *)v9 + 0xA10))[v10] = v3;
   return 1;
 }

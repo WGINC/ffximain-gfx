@@ -84,7 +84,7 @@ LABEL_15:
     return 0;
   }
 LABEL_26:
-  pDevice = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC));
+  pDevice = (g_pCDx->pDevice);
   if ( pDevice == nullptr )
     return v23;
   v23 = pDevice->CreateVertexBuffer(v9, a3, a4, (D3DPOOL)a5, (IDirect3DVertexBuffer8 **)a6);

@@ -228,7 +228,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
       v7 = 0;
     this->field_C4 = orig::CYyTexMng_FindByNameInResource(g_pTextureMng, c_texNameCubemapSpec, v7);
   }
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_AMBIENT, g_ambientColor);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_AMBIENT, g_ambientColor);
   v8 = 0;
   v9 = &g_lightTable_Start;
   do
@@ -236,17 +236,17 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
     if ( *(_DWORD *)v9 != 0 )
     {
       orig::CDx_SetLight(g_pCDx, v8, v9);
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v8, 1u);
+      (g_pCDx->pDevice)->lpVtbl->LightEnable((g_pCDx->pDevice), v8, 1u);
     }
     else
     {
-      (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), v8, 0);
+      (g_pCDx->pDevice)->lpVtbl->LightEnable((g_pCDx->pDevice), v8, 0);
     }
     v9 += 26;
     ++v8;
   }
   while ( (int)v9 < (int)flt_10457388 );
-  (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetRenderState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DRS_LIGHTING, TRUE);
+  (g_pCDx->pDevice)->lpVtbl->SetRenderState((g_pCDx->pDevice), D3DRS_LIGHTING, TRUE);
   PartList = orig::CYyModelBase_GetPartList((char *)self);
   v11 = *(int **)PartList;
   v25 = PartList;
@@ -363,7 +363,7 @@ int CYyModelBase::DrawLit(int a2, int a3, int a4)
     v18 = (char *)(*(_DWORD *)v18 + 4);
   }
   for ( k = 0; k < 4; ++k )
-    result = (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->LightEnable((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), k, 0);
+    result = (g_pCDx->pDevice)->lpVtbl->LightEnable((g_pCDx->pDevice), k, 0);
   return result;
 }
 

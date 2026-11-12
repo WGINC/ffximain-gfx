@@ -81,23 +81,23 @@ XI_API int __thiscall YmElem_ForEachInstance(__int16 *self_, void (__cdecl *a2)(
   if ( (_DWORD)v4 == 0 )
     return 0;
   v54[624] = 625;
-  ScratchMatrixStackTop = (*(int *)((char *)g_pProcessor + 0xA90));
+  ScratchMatrixStackTop = (g_pProcessor->ScratchMatrixStackTop);
   v9 = ((float * *)((char *)g_pProcessor + 0xA10))[ScratchMatrixStackTop];
-  (*(int *)((char *)g_pProcessor + 0xA90)) = ScratchMatrixStackTop + 1;
+  (g_pProcessor->ScratchMatrixStackTop) = ScratchMatrixStackTop + 1;
   qmemcpy(v9, (const void *)(g_pResourceMng + 2960), 0x40u);
-  (*((void (__thiscall **)(CMoProcessor *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 6))(g_pProcessor, v9);
+  (*((void (__thiscall **)(CMoProcessor *, float *))(*(void * *)&g_pProcessor->vftable) + 6))(g_pProcessor, v9);
   if ( dword_1047BF34 != 0 )
   {
-    (*((void (__thiscall **)(CMoProcessor *, float *, int, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 9))(
+    (*((void (__thiscall **)(CMoProcessor *, float *, int, float *))(*(void * *)&g_pProcessor->vftable) + 9))(
       g_pProcessor,
       v9,
       dword_1047BF34,
       v9);
     dword_1047BF34 = 0;
   }
-  v10 = (*(int *)((char *)g_pProcessor + 0xA90));
+  v10 = (g_pProcessor->ScratchMatrixStackTop);
   v11 = ((float * *)((char *)g_pProcessor + 0xA10))[v10];
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v10 + 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v10 + 1;
   orig::CMoDX_GetWorldMatrix((int *)g_pResourceMng, v11);
   v12 = v11[13];
   v13 = v11[14];
@@ -169,7 +169,7 @@ XI_API int __thiscall YmElem_ForEachInstance(__int16 *self_, void (__cdecl *a2)(
         v30 = v30 + v23[1];
         v31 = v31 + v23[2];
       }
-      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)((char *)g_pProcessor + 0x0)) + 20))(
+      (*((void (__thiscall **)(CMoProcessor *, float *, float *, float *))(*(void * *)&g_pProcessor->vftable) + 20))(
         g_pProcessor,
         &v29,
         v9,
@@ -183,12 +183,12 @@ XI_API int __thiscall YmElem_ForEachInstance(__int16 *self_, void (__cdecl *a2)(
   }
   *((float *)self_ + 1) = *(float *)(g_pResourceMng + 3760) + *((float *)self_ + 1);
   v25 = g_pProcessor;
-  v26 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v26;
+  v26 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v26;
   ((float * *)((char *)v25 + 0xA10))[v26] = v11;
   v27 = g_pProcessor;
-  v28 = (*(int *)((char *)g_pProcessor + 0xA90)) - 1;
-  (*(int *)((char *)g_pProcessor + 0xA90)) = v28;
+  v28 = (g_pProcessor->ScratchMatrixStackTop) - 1;
+  (g_pProcessor->ScratchMatrixStackTop) = v28;
   ((float * *)((char *)v27 + 0xA10))[v28] = v9;
   return v15;
 }

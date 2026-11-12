@@ -40,7 +40,11 @@ source or leaves the code as it is. A name that is a description and not a recov
    `D3DTA_TEXTURE | D3DTA_ALPHAREPLICATE`, `TRUE`). 744 places in 33 files; 0 objects changed. Which enumeration a
    state takes is the SDK documentation's, written out in `shape.py` (not machine-read from a file here; a wrong row
    could only mislabel, since the name is the same integer).
-2. **Layouts for the global objects.** 868 reads go through eight or so named globals. Each is one object: its
+2. **Offset reads to members (done, 12 Nov).** `*(T *)((char *)B + N)` and `*(T *)&(*(unsigned __int8 *)((char *)B + N))`
+   where B's class has a member starting at +N: `B->m` when T is the member's type, `*(T *)&B->m` otherwise (the
+   same address and the same type read). B is `g_pCDx` or `g_pProcessor` (declared class pointers) or `this` in a
+   member function. 2,088 places in 74 files; 0 objects changed. Reads at an offset where no member starts stay.
+2b. **Layouts for the other global objects.** 868 reads go through eight or so named globals. Each is one object: its
    layout is the set of (offset, width) the tree reads and writes through that global, which the generator already
    knows how to turn into a class (it does so for `this`). Members start as `field_XX`. Object-identical by
    construction; needs the generator to treat `g_x` as a typed pointer.
@@ -48,7 +52,9 @@ source or leaves the code as it is. A name that is a description and not a recov
    `data/this_class.json`, `class_flow.json` and the typed prototypes already prove many; the 5,945 that remain are
    the ones without a proof. Each needs type flow from a proven source (a caller passing a typed object, a vtable
    call on it). Where there is none the read stays raw and is listed.
-4. **Float constants.** An integer that is a float's bits is written as the float only where the game's code reads
+4. **Float constants.** Measured 12 Nov: of the stores `*(_DWORD *)&X = <float bits>` into a member, none goes
+   into a member declared `float`: the members they write are still placeholder bytes. So this needs the member's
+   type set from its float reads first (a generator change to the layout), then the constant follows from the type. An integer that is a float's bits is written as the float only where the game's code reads
    that location with a floating-point instruction (`data/fp_consts.json`, `fp_callsites.json` hold such facts for
    call arguments). Not by the look of the number: `1065353216` is also a valid integer.
 5. **Real names.** Classes and units from the game's runtime class tables and the PS2 build's debug symbols
@@ -58,6 +64,23 @@ source or leaves the code as it is. A name that is a description and not a recov
 6. **Control flow.** `goto`s removed where the flow graph reduces to loops and conditionals; the rest stay.
 7. **Descriptive names.** Where no name is recoverable, a name that says what the code shows the thing is used for,
    marked as a description, with the evidence. Last, because every earlier pass reduces how many are needed.
+
+## Naming round 6 (12 Nov)
+
+Four rounds, each one model working from `pipeline/name_context.py`'s list of every use, one file per class, every
+name with its evidence and marked `"kind": "descriptive"`; Opus for CXiSkeletonActor and the CDx group, Sonnet for
+the smaller classes and the globals. Reviewed before merging into `data/field_names.json` and
+`data/names_pending_idb.json`:
+
+- members: 107 proposed, 106 taken (211 member names now); `CMoResource*::poolNode` (5) and `CTsZoneMap::cellGrid`
+  left out (their evidence does not show the name); CXiSkeletonActor's "dir" members renamed `rot*` (the code wraps
+  them into [-pi, pi] and feeds them to Mat4_PostRotateX/Y/Z: angles, not a direction); `CDx::isAtiAdapter`'s
+  source named (VendorId 0x1002 is ATI's in the PCI-SIG registry);
+- globals: 7 named, 72 left unnamed with what is known (mostly write-only, or set and never read in the tree);
+- left unnamed in all: about 170 members, each with a sentence saying what is known.
+
+A round's agent noted that `name_context.py fields` lists only `this->field_X` uses, not raw-offset uses through
+other pointers; those were searched by hand for CXiSkeletonActor only.
 
 ## What this will not be
 

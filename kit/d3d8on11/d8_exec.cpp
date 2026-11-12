@@ -9,6 +9,7 @@
 #include <algorithm>
 #include <d3dcompiler.h>
 #include <d3d11_1.h>
+#include <d3d12.h>
 #include <math.h>
 #include <stdlib.h>
 #include <string.h>
@@ -501,6 +502,65 @@ int32_t Exec::make_swap() {
   swap->GetBuffer(0, __uuidof(ID3D11Texture2D), (void **)&b.tex);
   return D3D_OK;
 }
+// ---- whether Direct3D 12 is there (OPT_D3D12, 12 Nov) ----------------------------------------------------------------------
+// The owner asked whether D3D12 could spread the executor's work over threads. Whether the machine has it is not known
+// from a feature level a D3D11 driver reports, so this makes one: on the D3D11 device's own adapter, in this process
+// (32-bit x86 in thread mode, the executor's own architecture in remote mode), then a command queue, a command list,
+// and a fence it waits on (2 s at most). Each step's HRESULT is logged; the first failure ends it. Nothing it makes is
+// kept. d3d8on11.ini d3d12_probe=0 (or D8ON11_D3D12_PROBE=0) turns it off.
+static double qpc_ms();
+static void d3d12_wide(const WCHAR *w, char *out, int n) { out[0] = 0; WideCharToMultiByte(CP_UTF8, 0, w, -1, out, n, NULL, NULL); }
+void Exec::d3d12_probe() {
+  d8_log("D3D12 probe: starting (%d-bit process; d3d12_probe=0 in d3d8on11.ini turns it off)", (int)(sizeof(void *) * 8));
+  HMODULE m = LoadLibraryA("d3d12.dll");
+  if (!m) { d8_log("D3D12 probe: d3d12.dll not loaded (error %lu): no D3D12 in this process", (unsigned long)GetLastError()); return; }
+  PFN_D3D12_CREATE_DEVICE create = (PFN_D3D12_CREATE_DEVICE)(void *)GetProcAddress(m, "D3D12CreateDevice");
+  if (!create) { d8_log("D3D12 probe: d3d12.dll has no D3D12CreateDevice"); return; }
+  IDXGIDevice *dd = nullptr; IDXGIAdapter *ad = nullptr;
+  if (dev && SUCCEEDED(dev->QueryInterface(__uuidof(IDXGIDevice), (void **)&dd))) { dd->GetAdapter(&ad); dd->Release(); }
+  if (ad) { DXGI_ADAPTER_DESC a = {}; ad->GetDesc(&a); char nm[256]; d3d12_wide(a.Description, nm, sizeof nm);
+    d8_log("D3D12 probe: the D3D11 device's adapter: \"%s\" (vendor 0x%04X, device 0x%04X, %u MB dedicated video memory)",
+           nm, a.VendorId, a.DeviceId, (unsigned)(a.DedicatedVideoMemory >> 20)); }
+  ID3D12Device *d = nullptr; double t0 = qpc_ms();
+  HRESULT h = create(ad, D3D_FEATURE_LEVEL_11_0, __uuidof(ID3D12Device), (void **)&d);
+  if (ad) ad->Release();
+  if (FAILED(h) || !d) { d8_log("D3D12 probe: D3D12CreateDevice on that adapter: 0x%08lX: no D3D12 device here", (unsigned long)h); return; }
+  d8_log("D3D12 probe: a D3D12 device was made (%.1f ms)", qpc_ms() - t0);
+  { D3D_FEATURE_LEVEL want[] = {(D3D_FEATURE_LEVEL)0xc200, (D3D_FEATURE_LEVEL)0xc100, (D3D_FEATURE_LEVEL)0xc000,
+                                D3D_FEATURE_LEVEL_11_1, D3D_FEATURE_LEVEL_11_0};
+    D3D12_FEATURE_DATA_FEATURE_LEVELS fl = {}; fl.NumFeatureLevels = 5; fl.pFeatureLevelsRequested = want;
+    HRESULT hf = d->CheckFeatureSupport(D3D12_FEATURE_FEATURE_LEVELS, &fl, sizeof fl);
+    D3D12_FEATURE_DATA_D3D12_OPTIONS o = {}; HRESULT ho = d->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &o, sizeof o);
+    d8_log("D3D12 probe: highest feature level 0x%X (0x%08lX); resource binding tier %d, resource heap tier %d (0x%08lX)",
+           SUCCEEDED(hf) ? (unsigned)fl.MaxSupportedFeatureLevel : 0u, (unsigned long)hf,
+           (int)o.ResourceBindingTier, (int)o.ResourceHeapTier, (unsigned long)ho); }
+  ID3D12CommandQueue *q = nullptr; ID3D12CommandAllocator *al = nullptr; ID3D12GraphicsCommandList *cl = nullptr;
+  ID3D12Fence *f = nullptr; HANDLE ev = nullptr; const char *step = "";
+  do {
+    D3D12_COMMAND_QUEUE_DESC qd = {}; qd.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+    step = "CreateCommandQueue"; if (FAILED(h = d->CreateCommandQueue(&qd, __uuidof(ID3D12CommandQueue), (void **)&q))) break;
+    step = "CreateCommandAllocator"; if (FAILED(h = d->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, __uuidof(ID3D12CommandAllocator), (void **)&al))) break;
+    step = "CreateCommandList"; if (FAILED(h = d->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, al, NULL, __uuidof(ID3D12GraphicsCommandList), (void **)&cl))) break;
+    step = "Close"; if (FAILED(h = cl->Close())) break;
+    step = "CreateFence"; if (FAILED(h = d->CreateFence(0, D3D12_FENCE_FLAG_NONE, __uuidof(ID3D12Fence), (void **)&f))) break;
+    ev = CreateEventA(NULL, FALSE, FALSE, NULL);
+    ID3D12CommandList *lists[] = {cl}; double t1 = qpc_ms();
+    q->ExecuteCommandLists(1, lists);
+    step = "Signal"; if (FAILED(h = q->Signal(f, 1))) break;
+    step = "SetEventOnCompletion"; if (FAILED(h = f->SetEventOnCompletion(1, ev))) break;
+    DWORD w = WaitForSingleObject(ev, 2000);
+    if (w != WAIT_OBJECT_0) { d8_log("D3D12 probe: a command list was submitted but the GPU did not finish it in 2 s (wait %lu, fence %llu)",
+                                     (unsigned long)w, (unsigned long long)f->GetCompletedValue()); step = nullptr; break; }
+    d8_log("D3D12 probe: a command list ran on the GPU and its fence came back (%.2f ms): D3D12 works in this process", qpc_ms() - t1);
+    step = nullptr;
+  } while (0);
+  if (step) d8_log("D3D12 probe: %s: 0x%08lX (device removed reason 0x%08lX)", step, (unsigned long)h, (unsigned long)d->GetDeviceRemovedReason());
+  if (ev) CloseHandle(ev);
+  if (f) f->Release(); if (cl) cl->Release(); if (al) al->Release(); if (q) q->Release();
+  d->Release();
+  d8_log("D3D12 probe: ended, everything it made released");
+}
+
 // ---- the GPU's time per frame (OPT_GPUTIME) ----
 void Exec::gpu_collect(int j, bool) {
   if (!q_used[j]) return;
@@ -1256,6 +1316,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     if (FAILED(h)) d8_once("present", "IDXGISwapChain::Present: 0x%08lX (first failure); the device's removal reason: 0x%08lX; frame %llu, %llu draws so far",
                            (unsigned long)h, dev ? (unsigned long)dev->GetDeviceRemovedReason() : 0ul, (unsigned long long)presents, (unsigned long long)draws);
     presents++;
+    if (d3d12_want && !d3d12_done && presents == 1) { d3d12_done = true; d3d12_probe(); }
     if (flip && swap) {                                    // the flip model unbinds the back buffer at each Present: bound again
       cur_rtv = last_rt.id ? rtv_of(last_rt) : nullptr;
       auto d = last_ds ? res.find(last_ds) : res.end(); cur_dsv = d != res.end() ? d->second.dsv : nullptr;
@@ -1319,6 +1380,7 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
       else if ((o.value != 0) != flip) d8_once("flip_live", "swap_flip=%u after the swap chain was made: not applied (the model is set for the whole start)", o.value);
     }
     if (o.key == OPT_GPUTIME) gpu_on = o.value != 0;
+    if (o.key == OPT_D3D12) d3d12_want = o.value != 0;
     if (o.key == OPT_LATENCY && !swap) latency = o.value;   // a start setting: applied when the swap chain is made
     memo.vc_ok = memo.pc_ok = false;                       // the constants may be in either place: written again
     break; }

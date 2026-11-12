@@ -4984,6 +4984,25 @@ moves that work (only if the driver records them itself: the next run's `D3D11 t
 shortens both. The game's own thread is not the limit now (7.5 ms a frame with nothing drawn, plaza, 26 Oct; it
 waits 7-13 ms a frame for the executor in crowds).
 
+**Can the queue be split: D3D12 (the owner's question, 12 Nov).** In D3D12 command lists are recorded on many threads
+and handed to the queue in one call; the work of a draw is done when it is recorded. Whether the owner's machine has
+D3D12 is not known. The sources disagree (searched 12 Nov): a Parallels product page says current versions support
+DirectX 11 and 12; Parallels forum threads (2023-2026, no Parallels answer seen) report DirectX 12 as unsupported or
+incomplete, the FAQ listing DirectX 11. A feature level reported through D3D11 is not a D3D12 device. Two checks:
+- d3d8on11 `d3d12_probe` (on by default): once, after the first Present, a D3D12 device on the executor's adapter,
+  in the game's process, and a command list to its fence; each step logged. Wine: device made, the list ran.
+- `kit/d3d11probe` probe12 (x86 and native ARM64, outside the game): D3D12's existence there, and a frame of 2,000
+  small draws recorded on 1, 2, 4, 8 threads under D3D12 and D3D11 deferred contexts, against the immediate context.
+  It runs D3D12 first and names each test before it starts. Under Wine two threads on separate deferred contexts
+  crashed Wine's d3d11 in 2 of 9 runs (a write into the memory its Map returned), 0 of 10 one at a time; the test
+  here records them one at a time (`PROBE12_SERIAL=1`). The program's Wine numbers (a software GPU) say nothing
+  about the owner's machine.
+If the owner's machine has D3D12 and probe12 shows threaded recording shortening the frame there, an executor on
+D3D12 is worth building; otherwise not.
+Tests: test_d3d8on11.py ALL OK (new: thread and remote mode, d3d12_probe 1 and 0); test_probe.py ALL OK. One earlier
+suite run, made while test_probe.py ran beside it, timed out (600 s) in a remote-mode `scenes` run with
+buffer_arena; the same suite alone passed. Its cause is not established.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

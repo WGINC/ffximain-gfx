@@ -578,6 +578,20 @@ if 'thread' in MODES:
     ok = m is not None and int(m.group(2)) > 0 and 'D3D11 threading: the driver\'s concurrent creates' in t and 'presented 699' in out
     print('%s: executor split logged (%s) and the driver\'s threading capabilities' % ('ok' if ok else 'FAIL', m.group(0)[27:] if m else 'no line')); bad += not ok
 
+# the D3D12 probe (12 Nov): once, after the first Present, in the executor's process; each mode runs it and it ends
+# (whatever this machine answers: Wine's d3d12 needs Vulkan), t8 still passes; d3d12_probe=0 turns it off
+for m in [x for x in ('thread', 'remote') if x in MODES]:
+    for on in ('1', '0'):
+        for f in (log, xlog):
+            if os.path.exists(f): os.remove(f)
+        out = run(ours, 'frames 40', True, m, {'D8ON11_D3D12_PROBE': on})
+        t = ''.join(open(f).read() for f in (log, xlog) if os.path.exists(f))
+        lines = [l for l in t.splitlines() if 'D3D12 probe:' in l]
+        ended = any(('ended, everything' in l) or ('no D3D12' in l) or ('has no D3D12CreateDevice' in l) for l in lines)
+        ok = 'presented 39' in out and ((on == '1' and lines and 'starting' in lines[0] and ended) or (on == '0' and not lines))
+        print('%s: %s mode, d3d12_probe=%s: %s' % ('ok' if ok else 'FAIL', m, on, ' | '.join(l.split('D3D12 probe: ', 1)[1] for l in lines[1:]) or 'no probe lines'))
+        bad += not ok
+
 # the hang watch (12 Nov): the executor stalled 8 s before its 3rd Present (D8ON11_TEST_STALL=3, thread mode); the log must
 # say after 5 s what the game waits for and what the executor runs and where (op 12 = X_PRESENT, d8_proto.h; its thread
 # in d3d8.dll), then that the wait ended; and t8's checks must pass as without the stall

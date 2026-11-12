@@ -71,6 +71,11 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen
     ne = GetEnvironmentVariableA("D8ON11_GPU_TIME", env, sizeof env); if (ne > 0 && ne < sizeof env) g = atoi(env);
     XOption o = {OPT_GPUTIME, (uint32_t)(g != 0), 0}; link->put(X_OPTION, &o, sizeof o);
     if (g) d8_log("gpu_time=1: the GPU's time per frame is logged every 600 frames"); }
+  // d3d12_probe=1 (the default, 12 Nov): once, after the first Present, the executor tries to make a Direct3D 12 device
+  // and run a command list on it, and logs each step (Exec::d3d12_probe); 0 turns it off. D8ON11_D3D12_PROBE overrides it
+  { int p = (int)GetPrivateProfileIntA("d3d8on11", "d3d12_probe", 1, ini);
+    ne = GetEnvironmentVariableA("D8ON11_D3D12_PROBE", env, sizeof env); if (ne > 0 && ne < sizeof env) p = atoi(env);
+    XOption o = {OPT_D3D12, (uint32_t)(p != 0), 0}; link->put(X_OPTION, &o, sizeof o); }
   if (ab.flip) d8_log("swap_flip=1: the flip-model swap chain (FLIP_DISCARD, 2 buffers)");
   // frame_latency=N (1..16): IDXGIDevice1::SetMaximumFrameLatency(N), the frames the driver may queue ahead of the GPU
   // (DXGI's default 3). 1: each frame shown sooner after it is made, and Present waits instead of queueing. A start

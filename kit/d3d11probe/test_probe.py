@@ -8,8 +8,8 @@ OpenGL output, and Wine has no shared D3D11 textures).
 import os, shutil, subprocess, sys, tempfile
 H = os.path.dirname(os.path.abspath(__file__)); D = os.path.join(H, 'dist')
 w = tempfile.mkdtemp(prefix='probe_')
-for f in ('probe11_x86.exe', 'probe11_arm64.exe', 'probe8_x86.exe'): shutil.copy(os.path.join(D, f), w)
-cmd = 'wine probe11_x86.exe caps o; wine probe11_x86.exe bench o; wine probe8_x86.exe bench o; wine probe11_x86.exe xproc o probe11_x86.exe'
+for f in ('probe11_x86.exe', 'probe11_arm64.exe', 'probe8_x86.exe', 'probe12_x86.exe'): shutil.copy(os.path.join(D, f), w)
+cmd = 'wine probe11_x86.exe caps o; wine probe11_x86.exe bench o; wine probe8_x86.exe bench o; wine probe11_x86.exe xproc o probe11_x86.exe; PROBE12_SERIAL=1 wine probe12_x86.exe o'
 r = subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1600x900x24', 'sh', '-c', cmd], cwd=w, capture_output=True, text=True,
                    timeout=1800, env=dict(os.environ, WINEDEBUG='-all'))
 o = os.path.join(w, 'o'); bad = 0
@@ -28,6 +28,12 @@ checks = [
 ]
 for f, keys, what in checks:
     miss = has(f, keys); print('%s: %s%s' % ('ok' if not miss else 'FAIL', what, '' if not miss else ' (missing: %s)' % ', '.join(miss))); bad += bool(miss)
+# probe12 (12 Nov): every line, and under Wine (vkd3d) a D3D12 device and every timed frame kind; Wine's numbers mean
+# nothing for the owner's machine. Run with PROBE12_SERIAL=1: Wine's deferred contexts crashed in 2 of 9 runs with two
+# threads recording at once (probe12.cpp, D11::job), so here they record one at a time
+p12 = ['arch', 'cpus', 'adapter', 'd3d11_device', 'd3d11_threading', 'd3d11_immediate'] + ['d3d11_deferred_%d' % t for t in (1, 2, 4, 8)] + \
+      ['d3d11_deferred_serial', 'd3d12_device', 'd3d12_caps', 'd3d12_setup'] + ['d3d12_%d' % t for t in (1, 2, 4, 8)] + ['done']
+miss = has('probe12_x86.csv', p12); print('%s: probe12: every result line%s' % ('ok' if not miss else 'FAIL', '' if not miss else ' (missing: %s)' % ', '.join(miss))); bad += bool(miss)
 s = open(os.path.join(o, 'probe11_x86.csv')).read() if os.path.exists(os.path.join(o, 'probe11_x86.csv')) else ''
 ok = 'device.create,hr 0x00000000' in s
 print('%s: the D3D11 device was made (Wine on llvmpipe)' % ('ok' if ok else 'FAIL')); bad += not ok
@@ -37,7 +43,7 @@ ok = rp.returncode == 0 and 'plaza-like merged (33 draws)' in rp.stdout and 'ble
 print('%s: phase0_report.py reads the run' % ('ok' if ok else 'FAIL')); bad += not ok
 rs = subprocess.run([sys.executable, os.path.join(H, 'phase0_report.py'), '--selftest'], capture_output=True, text=True)
 print(rs.stdout.strip()); bad += rs.returncode != 0
-for f in ('probe11_arm64.exe',):
+for f in ('probe11_arm64.exe', 'probe12_arm64.exe'):
     b = open(os.path.join(D, f), 'rb').read(); pe = b.find(b'PE\0\0')
     ok = pe > 0 and b[pe + 4:pe + 6] == b'\x64\xaa'           # IMAGE_FILE_MACHINE_ARM64 0xAA64
     print('%s: %s is an ARM64 image' % ('ok' if ok else 'FAIL', f)); bad += not ok

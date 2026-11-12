@@ -210,6 +210,14 @@ largest draw record is (a ...UP draw carries its vertices) is not established.
 so 3,000 draws make about 9.4 MB a frame through the ring, written by the game's thread and read by the executor.
 What that copying costs, against `direct` (which builds the same packet but runs it in place), is not measured.
 
+**The D3D12 check (`d3d12_probe`, 12 Nov, on by default).** Once, after the first Present, the executor tries to
+make a Direct3D 12 device on its D3D11 device's adapter, in its own process (32-bit x86 in `thread` and `direct`),
+then a command queue and list, and waits up to 2 s for a fence; each step's result is a `D3D12 probe:` line, and all
+it made is released. It answers whether D3D12 exists for the game's process on the owner's machine, which a
+feature level reported through D3D11 does not. Under Wine it takes 40-230 ms once. `d3d12_probe=0` in
+d3d8on11.ini (or `D8ON11_D3D12_PROBE=0`) turns it off. Threaded recording itself is measured outside the game by
+`kit/d3d11probe` probe12.
+
 ## Present interval (`present_interval`)
 
 The executor's swap chain is windowed, DXGI_SWAP_EFFECT_DISCARD, one buffer, whatever the game asks (unchanged).

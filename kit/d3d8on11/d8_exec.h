@@ -86,6 +86,9 @@ struct Exec {
   // OPT_GPUTIME: the GPU's time for each frame's work, from timestamp queries around it (a disjoint query each); read
   // back NQ frames later without waiting (D3D11_ASYNC_GETDATA_DONOTFLUSH); a frame whose queries are not ready by then
   // is counted as not measured. Logged every 600 Presents: the mean, the 95th percentile, how many were measured.
+  // OPT_D3D12 (12 Nov): once, after the first Present, whether a Direct3D 12 device can be made on this device's
+  // adapter in this process and run a command list; logged, then everything it made is released
+  bool d3d12_want = false, d3d12_done = false; void d3d12_probe();
   bool gpu_on = false; enum { NQ = 6 };
   ID3D11Query *q_dis[NQ] = {}, *q_beg[NQ] = {}, *q_end[NQ] = {}; bool q_used[NQ] = {}; int q_i = 0; bool q_open = false;
   std::vector<float> gpu_ms; uint32_t gpu_frames = 0, gpu_lost = 0;

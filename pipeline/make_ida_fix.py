@@ -25,6 +25,13 @@ _fs = json.load(open(os.path.join(D, '..', 'verification', 'frame_set_status.jso
 _missing = sorted(int(a, 16) for a, v in _fs.items() if not v.get('tree') and not v.get('d3dx'))
 _have = set(data['export']); data['export'] += [e for e in _missing if e not in _have]
 data['export_missing_frame_set'] = len([e for e in _missing if e not in _have])
+# (12 Nov) the build the IDB holds: 16 functions' entry bytes (from 4 before the entry) as the analysed build has them (the kit's manifest,
+# EXPECTED column), spread over .text; the IDA pass changes nothing unless every one matches (an IDB of another build
+# would get names and stack points at the wrong addresses)
+_man = [l.split() for l in open(os.path.join(D, '..', 'kit', 'xikit', 'dist', 'xikit_manifest.txt')) if l[0] not in '#!' and l.strip()]
+# (EXPECTED is the 20 bytes from entry-4 to entry+16; only entries with no relocated byte in them, RELOCS '-')
+_man = [m for m in _man if len(m) >= 5 and re.match(r'^[0-9A-F]{40}$', m[3]) and m[4] == '-']
+data['build_check'] = [['0x%08X' % (0x10000000 + int(m[0], 16) - 4), m[3]] for m in _man[::max(1, len(_man) // 16)][:16]]
 # names that state a fact (evidence_names.py), for functions with no other pending name
 for k, v in json.load(open(os.path.join(D, 'evidence_names.json'))).items():
     if k.startswith('_') or k in data['names']: continue

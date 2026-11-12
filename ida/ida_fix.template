@@ -644,6 +644,13 @@ def main():
     t0 = time.time(); report = {'sp': {}, 'reverted': {}, 'call_types': {}, 'conventions': {}, 'arg_counts': {}}
     log('ffxi_ida_fix: IDA %s, IDB %s' % (idaapi.get_kernel_version(), idc.get_idb_path()))
     if not ida_hexrays.init_hexrays_plugin(): log('Hex-Rays decompiler is not available'); return
+    # the IDB must hold the analysed build (6A995428): every checked function's entry bytes as the pipeline knows them
+    bad = [(ea, want) for ea, want in DATA.get('build_check', []) if (ida_bytes.get_bytes(int(ea, 16), len(want) // 2) or b'').hex().upper() != want]
+    if bad:
+        log('ffxi_ida_fix: this IDB is not of the analysed build 6A995428 (%d of %d checked function entries differ, first %s): '
+            'nothing changed' % (len(bad), len(DATA.get('build_check', [])), bad[0][0]))
+        open(os.path.join(OUT_DIR, 'ida_fix_log.txt'), 'w').write('\n'.join(LOG) + '\n'); return
+    log('ffxi_ida_fix: build check: %d function entries match the analysed build' % len(DATA.get('build_check', [])))
     ida_kernwin.show_wait_box('ffxi_ida_fix')
     try:
         for step in (apply_names, apply_facts, apply_types, apply_viewports, lambda: fix_conventions(report), lambda: fix_arg_counts(report), lambda: apply_classes(report), lambda: ida_auto.auto_wait(),

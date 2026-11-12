@@ -1230,9 +1230,9 @@ int CDx::SetLight(int a2, float *a3)
   }
   qmemcpy(v5, a3, sizeof(v5));
   if ( orig::Light_ApplyTimeOfDayTint((unsigned __int16 *)this, v5) == 1 )
-    return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetLight((*(IDirect3DDevice8 * *)((char *)this + 0xC)), a2, v5);
+    return (this->pDevice)->lpVtbl->SetLight((this->pDevice), a2, v5);
   else
-    return (*(IDirect3DDevice8 * *)((char *)this + 0xC))->lpVtbl->SetLight((*(IDirect3DDevice8 * *)((char *)this + 0xC)), a2, a3);
+    return (this->pDevice)->lpVtbl->SetLight((this->pDevice), a2, a3);
 }
 
 // FUNCTION: FFXIMAIN 0x1000C0B0  (placed by IDB name)

@@ -5003,6 +5003,44 @@ Tests: test_d3d8on11.py ALL OK (new: thread and remote mode, d3d12_probe 1 and 0
 suite run, made while test_probe.py ran beside it, timed out (600 s) in a remote-mode `scenes` run with
 buffer_arena; the same suite alone passed. Its cause is not established.
 
+## 12 Nov (fifth entry): probe12 on the owner's Mac -- D3D12 is there and is cheaper; threads are not the lever
+
+**probe12 (the owner's run, 12 Nov 05:43, Parallels Display Adapter, 6 logical processors).** Medians of 32 frames of
+2,000 draws (one four-constant change and one triangle each), to the GPU's finish:
+
+| | x86 (emulated) | ARM64 (native) |
+|---|---|---|
+| D3D12 device | made, 51 ms; feature level 11_1, binding tier 1, heap tier 1 | made, 18 ms; the same |
+| d3d12, 1 thread: record / GPU wait / total | 0.21 / 1.81 / 2.03 ms | 0.10 / 1.76 / 1.87 ms |
+| d3d12, 2 / 4 / 8 threads: total | 2.04 / 2.00 / 2.12 ms | 1.95 / 1.94 / 1.94 ms |
+| d3d11 immediate (what the executor does): total | 6.14 ms (all of it recording; the GPU wait 0) | 5.38 ms |
+| d3d11 deferred, 1 / 2 / 4 / 8 threads: total | 6.15 / 6.10 / 6.30 / 6.17 ms (recording 0.12-0.19, executing on the immediate context 5.96-6.18) | 5.37 / 5.70 / 5.36 / 5.39 ms |
+| D3D11 threading caps | driver concurrent creates 0, driver command lists 0 | the same |
+
+What it shows, for this model frame on this machine: (1) D3D12 exists for both architectures, in the game's own
+(x86) kind of process too. (2) The same draws cost about a third under D3D12: 2.0 against 6.1 ms (x86); the CPU's part
+is 0.1-0.2 ms, the rest is the GPU's. (3) More threads change nothing in either API: D3D12's recording is already
+0.1-0.2 ms, and Parallels' D3D11 driver does not record command lists itself, so a deferred context's work all
+happens when the immediate context executes it (as the caps say). (4) ARM64 is 7-12% faster than x86 here, not more.
+What it does not show: a frame like the game's. The model has no texture binds, no state or pipeline changes and no
+Present; on D3D11 Present was the larger half of the executor's time in crowds (10.6-13.4 ms), and what Present
+costs under D3D12 on Parallels, and what pipeline-state objects cost (D3D12 needs one per combination of states the
+game uses), are not measured. Its D3D11 path changes constants by Map, the D3D12 path by root constants: each API's
+usual way, not the same calls.
+
+**The game run (ab_19nov results, 12 Nov 05:46 and 05:50):** both starts ran the 19 Nov d3d8on11, not the 12 Nov
+build: their logs lack the `D3D11 threading` line, which every start of the new build writes (ff_init,
+unconditional when CheckFeatureSupport succeeds, as it does on this driver per probe12). So no D3D12-in-game, split
+or hang-watch lines. Crowd windows of the second start (40 windows): 937-2,034 draws a frame, executor busy 96-97%,
+draws 4.4-10.6 ms and Present 6.6-12.1 ms a frame: as on 19 Nov.
+
+**A device loss in an earlier start** (the log kept as `d3d8on11_before_all_20261112_054629.log`, last written 04:03;
+no timestamps inside): during a stretch of 3,118 draws a frame (GPU skinning 7.5 jobs, merging on), an arena Map
+failed, then Present returned 0x887A0005 with the device's removal reason 0x887A0020 (DXGI_ERROR_DRIVER_INTERNAL_ERROR)
+at frame 15,758, 4,123,871 draws. Every later create failed (1.52 million `a view ... failed` lines): from then on
+nothing is drawn while the game runs on. The 18 Nov loss had no reason recorded. Not known: what triggers it, and
+whether the owner's 3:53 Application Hang event is this start (the log has no times).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

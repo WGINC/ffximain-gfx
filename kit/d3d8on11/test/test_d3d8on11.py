@@ -624,10 +624,13 @@ for m in MODES:
     # that (CreateSwapChainForHwnd 0x8007000E, 12 Nov), so there the stream falls back to Direct3D 11, which is checked
     # instead (whether Windows allows it is not known: not run there)
     fell = m == 'remote' and 'CreateSwapChainForHwnd' in t and 'Direct3D 11 runs the stream' in t
+    # (13 Nov) the sampler check at the start: a linear sample between four texels blends, a clamped one clamps
+    smp = re.search(r'D3D12 sampler check: samplers copied into the shader heap: linear sample (\d+) .*?clamped sample (\d+) .*?: (\w+)', t)
     ok = ('ALL OK' in out and 'executor shutdown: 0 objects still held' in t and t.count('executor shutdown') == 1 and 'Nothing more is drawn' not in t and
-          (('D3D12 executor: device made' in t and 'Direct3D 11 runs the stream' not in t) or fell))
-    print('%s: d3d12, %s mode: t8 basic (Reset included) passes %s; it ends holding nothing' % ('ok' if ok else 'FAIL', m,
-          'after the fallback to Direct3D 11 (Wine makes no Direct3D 12 swap chain on another process\'s window)' if fell else 'on the Direct3D 12 executor')); bad += not ok
+          (('D3D12 executor: device made' in t and 'Direct3D 11 runs the stream' not in t and smp is not None and smp.group(3) == 'right') or fell))
+    print('%s: d3d12, %s mode: t8 basic (Reset included) passes %s; it ends holding nothing%s' % ('ok' if ok else 'FAIL', m,
+          'after the fallback to Direct3D 11 (Wine makes no Direct3D 12 swap chain on another process\'s window)' if fell else 'on the Direct3D 12 executor',
+          '; the sampler check: linear %s, clamped %s, %s' % smp.groups() if smp else '')); bad += not ok
     s11 = scenes(ours, True, m)
     clear_logs(); s12 = scenes(ours, True, m, D12); t = logs()
     st = scenes(ours, True, m, dict(D12, D8ON11_TEST_TIES='0.01'))
@@ -678,6 +681,11 @@ if 'thread' in MODES:
     clear_logs(); sf = scenes(ours, True, 'thread', dict(D12, D8ON11_TEST_D3D12_FAIL='1')); t = logs()
     ok = sf == scenes(ours, True, 'thread') and 'Direct3D 11 runs the stream' in t
     print('%s: d3d12 that cannot start: the stream runs on Direct3D 11 (logged), the scenes exactly the Direct3D 11 executor\'s' % ('ok' if ok else 'FAIL')); bad += not ok
+    # a driver whose samplers are wrong by both ways (D8ON11_TEST_D3D12_SAMPLERS makes the check count them wrong): the
+    # start runs on Direct3D 11, logged, and draws exactly what the Direct3D 11 executor draws
+    clear_logs(); sf = scenes(ours, True, 'thread', dict(D12, D8ON11_TEST_D3D12_SAMPLERS='1')); t = logs()
+    ok = sf == scenes(ours, True, 'thread') and 'does not sample as the stream asks by either way: Direct3D 11 runs the stream' in t
+    print('%s: d3d12 whose sampler check fails: the stream runs on Direct3D 11 (logged), the scenes exactly the Direct3D 11 executor\'s' % ('ok' if ok else 'FAIL')); bad += not ok
     # a lost device (D8ON11_TEST_D3D12_LOST=50: from the 50th Present the device counts as removed): logged with the
     # device's reason, and nothing waits for the GPU after it, so the game goes on to its end instead of hanging
     clear_logs()

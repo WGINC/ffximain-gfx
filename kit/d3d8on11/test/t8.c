@@ -841,6 +841,50 @@ static void scenes(void) {
     end("buffer_arena");
     IDirect3DDevice8_SetStreamSource(d, 0, NULL, 0); IDirect3DDevice8_SetIndices(d, NULL, 0);
     if (vb) IDirect3DVertexBuffer8_Release(vb); if (keep) IDirect3DVertexBuffer8_Release(keep); if (ib) IDirect3DIndexBuffer8_Release(ib); }
+  /* rt_downsample (13 Nov): what the game's "background resolution" twice the window does (the owner's registry:
+     3024x1898 for a 1512x949 window): the scene drawn into a render-target texture twice the size, then that texture
+     drawn onto the back buffer at half size with linear filtering. Here a one-pixel checker in a 128x128 render target,
+     drawn into the 64x64 back buffer: each pixel's sample falls between four texels, so the picture is their blend. A
+     point sample there shows the checker (the owner's 13 Nov Direct3D 12 start: "everything looks pixelated").
+     rt_sample_after: the same render target drawn again after another draw into it, bound as a texture while a
+     different target is set; and its one-pixel border, by CLAMP */
+  { IDirect3DTexture8 *rt = NULL; IDirect3DSurface8 *rs = NULL, *bbs = NULL, *ds = NULL;
+    if (SUCCEEDED(IDirect3DDevice8_CreateTexture(d, 128, 128, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &rt)) && rt) {
+      IDirect3DTexture8_GetSurfaceLevel(rt, 0, &rs);
+      IDirect3DDevice8_GetRenderTarget(d, &bbs); IDirect3DDevice8_GetDepthStencilSurface(d, &ds);
+      for (int pass = 0; pass < 2; pass++) {
+        reset_state();
+        IDirect3DDevice8_SetRenderTarget(d, rs, NULL);
+        IDirect3DDevice8_BeginScene(d);
+        IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF000000, 1.0f, 0);
+        IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)chk);      /* 16x16 checker, one texel per pixel */
+        { VRhwT v[4] = {{0, 0, 0.5f, 1, 0xFFFFFFFF, 0, 0}, {128, 0, 0.5f, 1, 0xFFFFFFFF, 8, 0}, {0, 128, 0.5f, 1, 0xFFFFFFFF, 0, 8}, {128, 128, 0.5f, 1, 0xFFFFFFFF, 8, 8}};
+          IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+          IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v); }
+        if (pass) {                                    /* a red band drawn into it as well */
+          IDirect3DDevice8_SetTexture(d, 0, NULL);
+          VRhwT v[4] = {{0, 40, 0.5f, 1, 0xFFFF0000, 0, 0}, {128, 40, 0.5f, 1, 0xFFFF0000, 1, 0}, {0, 56, 0.5f, 1, 0xFFFF0000, 0, 1}, {128, 56, 0.5f, 1, 0xFFFF0000, 1, 1}};
+          IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLOROP, D3DTOP_SELECTARG2);
+          IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v);
+          IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+        }
+        IDirect3DDevice8_EndScene(d);
+        IDirect3DDevice8_SetRenderTarget(d, bbs, ds);
+        begin(0xFF101010);
+        IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)rt);
+        IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR); IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
+        if (pass) { IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_ADDRESSU, D3DTADDRESS_CLAMP); IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_ADDRESSV, D3DTADDRESS_CLAMP); }
+        { float e = pass ? 0.1f : 0;                  /* pass 1 reads a little past the edges (CLAMP) */
+          VRhwT v[4] = {{0, 0, 0.5f, 1, 0xFFFFFFFF, -e, -e}, {64, 0, 0.5f, 1, 0xFFFFFFFF, 1 + e, -e}, {0, 64, 0.5f, 1, 0xFFFFFFFF, -e, 1 + e}, {64, 64, 0.5f, 1, 0xFFFFFFFF, 1 + e, 1 + e}};
+          IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+          IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v); }
+        IDirect3DDevice8_SetTexture(d, 0, NULL);
+        end(pass ? "rt_sample_after" : "rt_downsample");
+      }
+      if (bbs) IDirect3DSurface8_Release(bbs); if (ds) IDirect3DSurface8_Release(ds); if (rs) IDirect3DSurface8_Release(rs);
+      IDirect3DTexture8_Release(rt);
+    } else printf("scene rt_downsample none\nscene rt_sample_after none\n");
+  }
   if (chk) IDirect3DTexture8_Release(chk); if (grad) IDirect3DTexture8_Release(grad); if (alp) IDirect3DTexture8_Release(alp);
 }
 

@@ -888,7 +888,8 @@ void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vect
   if (x12) {
     double t0 = timed ? qpc_ms() : 0;
     exec12_run(x12, op, p, n, hr, reply);
-    if (timed) timed(timed_ctx, op, qpc_ms() - t0);
+    // (an X_DRAW_SAME is a draw: counted as one, as the Direct3D 11 path's flush counts it)
+    if (timed) timed(timed_ctx, op == X_DRAW_SAME ? X_DRAW : op, qpc_ms() - t0);
     return;
   }
   if (want12 && op == X_OPTION) opts12.emplace_back(p, p + n);   // for Exec12 at X_INIT (applied here as well)

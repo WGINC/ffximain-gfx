@@ -63,9 +63,9 @@ struct Exec12 {
   bool ring_alloc(uint64_t bytes, uint64_t align, uint8_t **cpu, D3D12_GPU_VIRTUAL_ADDRESS *gpu, uint64_t *off = nullptr);
   void ring_retire();
   // an upload larger than half the ring: a buffer of its own, released when the GPU is done with it
-  struct Grave { uint64_t fence; ID3D12Resource *r; };
+  struct Grave { uint64_t fence; IUnknown *r; };
   std::vector<Grave> graves;
-  void bury(ID3D12Resource *r) { if (r) graves.push_back({fval + 1, r}); }
+  void bury(IUnknown *r) { if (r) graves.push_back({fval + 1, r}); }
   void dig();
 
   // ---- descriptors ----
@@ -75,12 +75,18 @@ struct Exec12 {
     D3D12_CPU_DESCRIPTOR_HANDLE at(uint32_t i) const;
     uint32_t take(ID3D12Device *d);
     void give(uint32_t i) { free_.push_back(i); }
-  } h_srv, h_rtv, h_dsv;
+  } h_srv, h_rtv, h_dsv, h_smp;
   // (a CPU descriptor is read when a command is recorded -- copied into gv_srv, or by OMSetRenderTargets -- so a destroyed
   // object's descriptors are free at once; its resource is buried until the GPU has passed the submission)
   ID3D12DescriptorHeap *gv_srv = nullptr; UINT gv_inc = 0; uint64_t gv_cap = 0, gv_head = 0, gv_tail = 0; std::deque<Mark> gv_marks;
   ID3D12DescriptorHeap *gv_smp = nullptr; UINT smp_inc = 0; uint32_t smp_next = 0; enum { SMP_CAP = 2048 };
   std::unordered_map<std::string, uint32_t> smp_tables;   // eight sampler descriptions -> their table in gv_smp
+  // how a table's samplers are written (13 Nov): copied from CPU-only descriptors (h_smp, smp_cpu) into gv_smp, or made in
+  // gv_smp directly. The owner's Parallels run drew as if no sampler state applied (point filtering, wrap addressing);
+  // init's sampler check draws through each way and keeps the first that samples right (sampler_check)
+  bool smp_copy = true; std::unordered_map<std::string, uint32_t> smp_cpu;
+  void write_samplers(uint32_t table, const D3D12_SAMPLER_DESC *s);   // eight descriptions into gv_smp at `table`
+  int sampler_check(bool copy, uint32_t px[2]);   // bit 0: the linear sample blends; bit 1: the clamped sample clamps; -1: not run
   uint32_t null_srv2d = ~0u, null_srvcube = ~0u;   // in h_srv
   ID3D12RootSignature *rs = nullptr;
 

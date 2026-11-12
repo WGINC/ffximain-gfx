@@ -5066,6 +5066,28 @@ Direct3D 11 when it cannot start (kit/d3d8on11/README.md, "The Direct3D 12 execu
 - **For the owner:** `kit/sessions/d12_13nov`: start d11 and start d12, the same settings and place (crowd 2 min still,
   1 min running); start.bat copies the session's own d3d8on11 into place.
 
+## 13 Nov: the owner's D3D11-against-D3D12 run, and the Direct3D 12 picture
+
+**The owner:** start 1 (Direct3D 11) "very smooth ... some occasional stutters"; the nameplate lettering's white
+perhaps a bit darker ("may just be my eyes"). Start 2 (Direct3D 12): everything pixelated, many jittering edges,
+colours very slightly different; models and effects otherwise right; simple shadows under others "arrays of black
+dots"; the character's advanced shadow moving up and down inside a box ahead of them.
+
+**Measured (d3d8on11.log of each start, 600-frame windows of 1,600-2,000 draws):** executor 17.5-19.7 ms a frame on
+Direct3D 11 (draws 8.3-9.1, Present 8.8-10.1) and 11-13 ms on Direct3D 12 (draws about 3 plus 1.9 counted as "other":
+the delta draws, which the Direct3D 12 path timed as their own op; fixed). PresentMon, whole starts: median 14.1 ms
+(D3D11, "Composed: Copy with GPU GDI") against 11.4 ms (D3D12, "Composed: Flip").
+
+**The picture:** the D3D12 log has no error. The window, the desktop and the back buffer are all 1512x949
+(xikit_env), so no display scaling. The game's registry has the background resolution at 3024x1898 (keys 0003/0004):
+the scene is drawn into a render target twice the size and shrunk. The symptoms read as sampler state not applying
+(point filtering, wrap addressing): that is a reading, not established. Not reproduced under Wine: two new t8 scenes
+(rt_downsample, rt_sample_after) draw identically on both executors there. The one known difference between the two
+drivers: resource binding tier 1 on Parallels, 3 under Wine. Done: a sampler check at the executor's start (two
+pixels through the draw path: LINEAR blends, CLAMP clamps), two ways of writing samplers tried in turn, Direct3D 11
+when neither is right. Also fixed: a snapshot of an object whose previous copy was not yet submitted waited on a fence
+no submission would signal (not seen to happen; it would have hung).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

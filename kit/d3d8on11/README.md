@@ -247,14 +247,26 @@ upload ring, the root signature or the swap chain cannot be made, the log says w
   (a wait is in 5 s steps, checking the device between), so the game goes on without drawing instead of hanging.
 - **Tested here (test_d3d8on11.py, Wine: Direct3D 12 is vkd3d on Mesa's Vulkan rasterizer):** in direct, thread and
   remote mode, t8 basic (Reset included), the 33 scenes, frames 600, nowait 1200 (the occlusion snapshots), threads,
-  churn and gpu skinning. 28 scenes are pixel for pixel the Direct3D 11 executor's; in the other 5 every differing pixel
+  churn and gpu skinning; rt_downsample and rt_sample_after (13 Nov: a render-target texture twice the size shrunk
+  with LINEAR, and sampled with CLAMP after another draw into it; both executors draw them identically). 28 scenes are pixel for pixel the Direct3D 11 executor's; in the other 5 every differing pixel
   is a point-sampling tie (marked by D8ON11_TEST_TIES=0.01: a sample within 0.01 texel of a texel boundary, where a
   driver may read either texel), which the two rasterizers (Vulkan for 12, OpenGL for 11) break differently. Also
   tested: the fallback (D8ON11_TEST_D3D12_FAIL) and a device lost at the 50th Present (D8ON11_TEST_D3D12_LOST=50: logged,
   and t8 runs to its end). In remote mode Wine makes no Direct3D 12 swap chain on another process's window
   (0x8007000E), so there the start falls back to Direct3D 11 (checked); whether Windows does is not known.
-- **Not known until the owner's run:** what it does to the game's frame on Parallels (the probe was a model frame
-  without textures, state changes or Present), and whether the picture is the same there.
+- **The sampler check (13 Nov).** At the start the executor draws two pixels through the same root signature,
+  descriptor tables and sampler path as a draw: a LINEAR sample between four texels of a 2x2 checker (128 is right) and
+  a CLAMP sample past the edge (255 is right; WRAP gives 0). Samplers are written into the shader-visible heap by
+  copying CPU-only descriptors (tried first), else made there directly; the first way that samples right is kept;
+  neither: the start runs on Direct3D 11 (logged). Why: in the owner's 13 Nov run on Parallels (resource binding tier
+  1; Wine's is tier 3) the Direct3D 12 start drew as if no sampler state applied: the game's double-size scene
+  (background resolution 3024x1898 for a 1512x949 window) shrunk without blending ("pixelated", shimmering edges,
+  colours slightly off), blob shadows speckled, the projected shadow wrapping inside its box. That those come from the
+  sampler state is a reading of the symptoms; the check's log line on the owner's machine settles it.
+  D8ON11_TEST_D3D12_SAMPLERS makes both ways count as wrong (the fallback's test).
+- **The owner's run (13 Nov), crowd windows of 1,600-2,000 draws:** the executor 11-13 ms a frame on Direct3D 12
+  against 17.5-19.7 ms on Direct3D 11 (draws about 5 ms against 8.5-9; the 13 Nov build counted delta draws as
+  "other", fixed). The picture was wrong as above.
 
 ## Present interval (`present_interval`)
 

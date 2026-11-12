@@ -14,6 +14,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <algorithm>
+static ID3D12Resource *readback_buffer12(ID3D12Device *dev, uint64_t bytes);
 
 DXGI_FORMAT vdxgi(uint8_t f);                      // d8_exec.cpp
 std::string gen_vs(const VSKey &k);
@@ -233,7 +234,8 @@ int32_t Exec12::init(const XInit &x, bool resize) {
       ring_va = ring->GetGPUVirtualAddress(); ring_cap = rd.Width; }
     // descriptor heaps
     h_srv.type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV; h_rtv.type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV; h_dsv.type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-    for (CpuHeap *c : {&h_srv, &h_rtv, &h_dsv}) c->inc = dev->GetDescriptorHandleIncrementSize(c->type);
+    h_smp.type = D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER;
+    for (CpuHeap *c : {&h_srv, &h_rtv, &h_dsv, &h_smp}) c->inc = dev->GetDescriptorHandleIncrementSize(c->type);
     { D3D12_DESCRIPTOR_HEAP_DESC hd = {}; hd.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV; hd.NumDescriptors = GV_CAP; hd.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
       if (FAILED(h = dev->CreateDescriptorHeap(&hd, __uuidof(ID3D12DescriptorHeap), (void **)&gv_srv))) { d8_log("D3D12: the shader-visible descriptor heap: 0x%08lX", (unsigned long)h); return D3DERR_NOTAVAILABLE; }
       gv_inc = h_srv.inc; gv_cap = GV_CAP;
@@ -273,6 +275,17 @@ int32_t Exec12::init(const XInit &x, bool resize) {
     rel(s1);
     fac->MakeWindowAssociation(wnd, DXGI_MWA_NO_ALT_ENTER);
     begin_list();
+    // the sampler check (sampler_check): the copied descriptors first, then made in place; neither right: Direct3D 11
+    { uint32_t a[2] = {0, 0}, b[2] = {0, 0};
+      const bool force_wrong = getenv("D8ON11_TEST_D3D12_SAMPLERS") != nullptr;   // a test: both ways count as wrong
+      int ra = sampler_check(true, a), rb2 = ra == 3 && !force_wrong ? 3 : sampler_check(false, b);
+      if (force_wrong) { ra = rb2 = 0; d8_log("D3D12 sampler check: both ways treated as wrong whatever they draw (D8ON11_TEST_D3D12_SAMPLERS, a test)"); }
+      d8_log("D3D12 sampler check: samplers copied into the shader heap: linear sample %u (128 is right), clamped sample %u (255 is right): %s%s",
+             a[0], a[1], ra == 3 ? "right" : ra < 0 ? "not run" : "WRONG", ra == 3 ? "" : "");
+      if (ra != 3) d8_log("D3D12 sampler check: samplers made in the shader heap: linear sample %u, clamped sample %u: %s", b[0], b[1], rb2 == 3 ? "right" : rb2 < 0 ? "not run" : "WRONG");
+      if (ra == 3) smp_copy = true;
+      else if (rb2 == 3) smp_copy = false;
+      else { d8_log("D3D12: this driver does not sample as the stream asks by either way: Direct3D 11 runs the stream"); return D3DERR_NOTAVAILABLE; } }
     D3D12_FEATURE_DATA_D3D12_OPTIONS op = {}; dev->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &op, sizeof op);
     d8_log("D3D12 executor: device made; resource binding tier %d; upload ring %d MB; swap chain %ux%u, FLIP_DISCARD, %d buffers; up to %u frames in flight",
            (int)op.ResourceBindingTier, RING_MB, x.width, x.height, NBB, inflight);
@@ -534,6 +547,104 @@ static D3D12_SAMPLER_DESC sampler12(const D3D11_SAMPLER_DESC *s) {
   return d;
 }
 
+// ---- samplers ------------------------------------------------------------------------------------------------------------
+void Exec12::write_samplers(uint32_t table, const D3D12_SAMPLER_DESC *sd) {
+  D3D12_CPU_DESCRIPTOR_HANDLE h = gv_smp->GetCPUDescriptorHandleForHeapStart(); h.ptr += (SIZE_T)table * smp_inc;
+  for (uint32_t i = 0; i < 8; i++) {
+    D3D12_CPU_DESCRIPTOR_HANDLE hi = h; hi.ptr += (SIZE_T)i * smp_inc;
+    if (!smp_copy) { dev->CreateSampler(&sd[i], hi); continue; }
+    std::string k((const char *)&sd[i], sizeof sd[i]);
+    auto it = smp_cpu.find(k); uint32_t ci;
+    if (it != smp_cpu.end()) ci = it->second;
+    else { ci = h_smp.take(dev); if (ci == ~0u) { dev->CreateSampler(&sd[i], hi); continue; } dev->CreateSampler(&sd[i], h_smp.at(ci)); smp_cpu[k] = ci; }
+    dev->CopyDescriptorsSimple(1, hi, h_smp.at(ci), D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
+  }
+}
+// Two pixels drawn through the same root signature, descriptor tables and sampler path as a draw: pixel 0 samples a 2x2
+// black-and-white checker at its centre with a LINEAR / WRAP sampler (s0): the four texels' blend, about 128; pixel 1
+// samples it at u = 1.25 with a POINT / CLAMP sampler (s1): the right column's top texel (white, 255), where WRAP would
+// give the left's (black). Red channels into px. Nothing it makes is kept.
+int Exec12::sampler_check(bool copy, uint32_t px[2]) {
+  if (!compile || lost) return -1;
+  static const char *src =
+    "Texture2D t : register(t0); SamplerState s0 : register(s0); SamplerState s1 : register(s1);\n"
+    "float4 vs(uint i : SV_VertexID) : SV_Position { return float4(i == 1 ? 3 : -1, i == 2 ? -3 : 1, 0, 1); }\n"
+    "float4 ps(float4 p : SV_Position) : SV_Target { return p.x < 1 ? t.Sample(s0, float2(0.5, 0.5)) : t.Sample(s1, float2(1.25, 0.25)); }\n";
+  ID3DBlob *vb = compile_hlsl(src, "vs", "vs_5_0"), *pb = compile_hlsl(src, "ps", "ps_5_0");
+  if (!vb || !pb) { rel(vb); rel(pb); return -1; }
+  bool was = smp_copy; smp_copy = copy;
+  D3D12_HEAP_PROPERTIES hp = {}; hp.Type = D3D12_HEAP_TYPE_DEFAULT;
+  D3D12_RESOURCE_DESC rd = {}; rd.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D; rd.Width = 2; rd.Height = 2; rd.DepthOrArraySize = 1;
+  rd.MipLevels = 1; rd.Format = DXGI_FORMAT_R8G8B8A8_UNORM; rd.SampleDesc.Count = 1;
+  ID3D12Resource *tex = nullptr, *rt = nullptr, *rb = nullptr; ID3D12PipelineState *pso = nullptr;
+  D3D12_RESOURCE_STATES ts = D3D12_RESOURCE_STATE_COPY_DEST, rs_ = D3D12_RESOURCE_STATE_RENDER_TARGET;
+  uint32_t si = ~0u, ri = ~0u; int result = -1;
+  do {
+    if (FAILED(dev->CreateCommittedResource(&hp, D3D12_HEAP_FLAG_NONE, &rd, ts, nullptr, __uuidof(ID3D12Resource), (void **)&tex))) break;
+    rd.Height = 1; rd.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+    if (FAILED(dev->CreateCommittedResource(&hp, D3D12_HEAP_FLAG_NONE, &rd, rs_, nullptr, __uuidof(ID3D12Resource), (void **)&rt))) break;
+    rb = readback_buffer12(dev, 512); if (!rb) break;
+    uint8_t *c; D3D12_GPU_VIRTUAL_ADDRESS g; uint64_t off;
+    if (!ring_alloc(512, D3D12_TEXTURE_DATA_PLACEMENT_ALIGNMENT, &c, &g, &off)) break;
+    static const uint32_t texels[4] = {0xFF000000u, 0xFFFFFFFFu, 0xFFFFFFFFu, 0xFF000000u};   // black white / white black
+    memcpy(c, texels, 8); memcpy(c + 256, texels + 2, 8);
+    D3D12_TEXTURE_COPY_LOCATION dl = {}, sl = {};
+    dl.pResource = tex; dl.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+    sl.pResource = ring; sl.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT; sl.PlacedFootprint.Offset = off;
+    sl.PlacedFootprint.Footprint = {DXGI_FORMAT_R8G8B8A8_UNORM, 2, 2, 1, 256};
+    cl->CopyTextureRegion(&dl, 0, 0, 0, &sl, nullptr);
+    to(tex, ts, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE); barriers();
+    si = h_srv.take(dev); ri = h_rtv.take(dev); if (si == ~0u || ri == ~0u) break;
+    D3D12_SHADER_RESOURCE_VIEW_DESC v = srv_desc(DXGI_FORMAT_R8G8B8A8_UNORM, false, 0, 1); dev->CreateShaderResourceView(tex, &v, h_srv.at(si));
+    dev->CreateRenderTargetView(rt, nullptr, h_rtv.at(ri));
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC gd = {};
+    gd.pRootSignature = rs; gd.VS = {vb->GetBufferPointer(), vb->GetBufferSize()}; gd.PS = {pb->GetBufferPointer(), pb->GetBufferSize()};
+    D3D11_BLEND_DESC b11 = {}; b11.RenderTarget[0].RenderTargetWriteMask = 0xF; gd.BlendState = blend12(b11);
+    D3D11_RASTERIZER_DESC r11 = {}; r11.FillMode = D3D11_FILL_SOLID; r11.CullMode = D3D11_CULL_NONE; gd.RasterizerState = raster12(r11);
+    D3D11_DEPTH_STENCIL_DESC d11 = {}; gd.DepthStencilState = depth12(d11, false);
+    gd.SampleMask = 0xFFFFFFFFu; gd.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE; gd.NumRenderTargets = 1;
+    gd.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; gd.SampleDesc.Count = 1;
+    if (FAILED(dev->CreateGraphicsPipelineState(&gd, __uuidof(ID3D12PipelineState), (void **)&pso))) break;
+    // the tables, as a draw makes them
+    if (smp_next + 8 > SMP_CAP) break;
+    uint32_t tab = smp_next; smp_next += 8;
+    D3D12_SAMPLER_DESC sd[8];
+    for (int i = 0; i < 8; i++) sd[i] = sampler12(nullptr);
+    sd[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR;                          // s0: LINEAR, WRAP
+    sd[1].AddressU = sd[1].AddressV = sd[1].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;   // s1: POINT, CLAMP
+    write_samplers(tab, sd);
+    uint64_t start = gv_head, phys = start % gv_cap; if (phys + 8 > gv_cap) { start += gv_cap - phys; phys = 0; } gv_head = start + 8;
+    D3D12_CPU_DESCRIPTOR_HANDLE t0 = gv_srv->GetCPUDescriptorHandleForHeapStart(); t0.ptr += (SIZE_T)phys * gv_inc;
+    for (uint32_t i = 0; i < 8; i++) { D3D12_CPU_DESCRIPTOR_HANDLE di = t0; di.ptr += (SIZE_T)i * gv_inc; dev->CopyDescriptorsSimple(1, di, h_srv.at(i ? null_srv2d : si), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV); }
+    D3D12_CPU_DESCRIPTOR_HANDLE rh = h_rtv.at(ri); cl->OMSetRenderTargets(1, &rh, FALSE, nullptr);
+    D3D12_VIEWPORT vp = {0, 0, 2, 1, 0, 1}; D3D12_RECT sc = {0, 0, 2, 1};
+    cl->RSSetViewports(1, &vp); cl->RSSetScissorRects(1, &sc); cl->SetPipelineState(pso);
+    D3D12_GPU_DESCRIPTOR_HANDLE gt = gv_srv->GetGPUDescriptorHandleForHeapStart(); gt.ptr += phys * gv_inc; cl->SetGraphicsRootDescriptorTable(3, gt);
+    D3D12_GPU_DESCRIPTOR_HANDLE gs = gv_smp->GetGPUDescriptorHandleForHeapStart(); gs.ptr += (UINT64)tab * smp_inc; cl->SetGraphicsRootDescriptorTable(4, gs);
+    cl->SetGraphicsRootConstantBufferView(0, ring_va); cl->SetGraphicsRootConstantBufferView(1, ring_va); cl->SetGraphicsRootConstantBufferView(2, ring_va);
+    cl->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    cl->DrawInstanced(3, 1, 0, 0);
+    to(rt, rs_, D3D12_RESOURCE_STATE_COPY_SOURCE); barriers();
+    D3D12_TEXTURE_COPY_LOCATION rl = {}, ss = {};
+    rl.pResource = rb; rl.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT; rl.PlacedFootprint.Footprint = {DXGI_FORMAT_R8G8B8A8_UNORM, 2, 1, 1, 256};
+    ss.pResource = rt; ss.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+    cl->CopyTextureRegion(&rl, 0, 0, 0, &ss, nullptr);
+    submit(); wait(fval);
+    uint8_t *m = nullptr;
+    if (lost || FAILED(rb->Map(0, nullptr, (void **)&m))) break;
+    px[0] = m[0]; px[1] = m[4];
+    D3D12_RANGE none = {0, 0}; rb->Unmap(0, &none);
+    result = (px[0] >= 100 && px[0] <= 155 ? 1 : 0) | (px[1] >= 200 ? 2 : 0);
+  } while (0);
+  if (si != ~0u) h_srv.give(si); if (ri != ~0u) h_rtv.give(ri);
+  bury(tex); bury(rt); bury(rb); bury(pso);
+  rel(vb); rel(pb);
+  smp_tables.clear(); smp_cpu.clear(); smp_next = 0; memo.smp_ok = false;   // (the check's samplers are not the stream's)
+  if (result < 0) smp_copy = was;
+  bd = Bound(); bd.valid = true; tgt_dirty = true;
+  return result;
+}
+
 // ---- a draw --------------------------------------------------------------------------------------------------------------
 void Exec12::draw(const XDraw &d, const uint8_t *data) {
   if (!compile) return;
@@ -586,11 +697,9 @@ void Exec12::draw(const XDraw &d, const uint8_t *data) {
   else {
     if (smp_next + 8 > SMP_CAP) { wait_idle(); smp_tables.clear(); smp_next = 0; memo.smp_ok = false; d8_once("smpfull12", "D3D12: the sampler heap was full: waited for the GPU and started it again"); }
     smp_tab = smp_next; smp_next += 8;
-    D3D12_CPU_DESCRIPTOR_HANDLE h = gv_smp->GetCPUDescriptorHandleForHeapStart(); h.ptr += (SIZE_T)smp_tab * smp_inc;
-    for (uint32_t i = 0; i < 8; i++) {
-      D3D12_SAMPLER_DESC s = sampler12(i < ns && d.stage[i].tex ? &d.stage[i].sampler : nullptr);
-      D3D12_CPU_DESCRIPTOR_HANDLE hi = h; hi.ptr += (SIZE_T)i * smp_inc; dev->CreateSampler(&s, hi);
-    }
+    D3D12_SAMPLER_DESC sd[8];
+    for (uint32_t i = 0; i < 8; i++) sd[i] = sampler12(i < ns && d.stage[i].tex ? &d.stage[i].sampler : nullptr);
+    write_samplers(smp_tab, sd);
     smp_tables[sk] = smp_tab;
   }
   memcpy(memo.skd, skd, sizeof skd); memo.smp = smp_tab; memo.smp_ok = true;
@@ -866,7 +975,7 @@ void Exec12::copy_draw(Res &dst, UINT dsub, UINT x, UINT y, Res &src, UINT ssub,
 }
 
 // ---- readbacks and snapshots -------------------------------------------------------------------------------------------------
-static ID3D12Resource *readback_buffer(ID3D12Device *dev, uint64_t bytes) {
+static ID3D12Resource *readback_buffer12(ID3D12Device *dev, uint64_t bytes) {
   D3D12_HEAP_PROPERTIES hp = {}; hp.Type = D3D12_HEAP_TYPE_READBACK;
   D3D12_RESOURCE_DESC rd = {}; rd.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER; rd.Width = bytes; rd.Height = 1; rd.DepthOrArraySize = 1;
   rd.MipLevels = 1; rd.SampleDesc.Count = 1; rd.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
@@ -881,7 +990,7 @@ int32_t Exec12::readback(const XRef &r, std::vector<uint8_t> *reply) {
   D3D12_RESOURCE_DESC rd = x->r->GetDesc();
   D3D12_PLACED_SUBRESOURCE_FOOTPRINT fp; UINT nrows; UINT64 rowsize, total;
   dev->GetCopyableFootprints(&rd, sub, 1, 0, &fp, &nrows, &rowsize, &total);
-  ID3D12Resource *rb = readback_buffer(dev, total);
+  ID3D12Resource *rb = readback_buffer12(dev, total);
   if (!rb) return D3DERR_INVALIDCALL;
   to(*x, D3D12_RESOURCE_STATE_COPY_SOURCE); barriers();
   D3D12_TEXTURE_COPY_LOCATION dl = {}, sl = {};
@@ -909,9 +1018,11 @@ void Exec12::snap(const XSnap &s) {
   D3D12_PLACED_SUBRESOURCE_FOOTPRINT fp; UINT nrows; UINT64 rowsize, total;
   UINT sub = sub12(*x, s.dst);
   dev->GetCopyableFootprints(&rd, sub, 1, 0, &fp, &nrows, &rowsize, &total);
-  if (!x->snap) { x->snap = readback_buffer(dev, total); if (!x->snap) { d8_once("snapbuf12", "X_SNAP: a readback buffer could not be made (snapshots off for it)"); return; } }
+  if (!x->snap) { x->snap = readback_buffer12(dev, total); if (!x->snap) { d8_once("snapbuf12", "X_SNAP: a readback buffer could not be made (snapshots off for it)"); return; } }
   // a copy still pending for this object: the later one replaces it, but its buffer is in use; wait for that one first
-  for (auto &e : snap_pend) if (e.id == s.dst.id && e.fence > fence->GetCompletedValue()) { wait(e.fence); break; }
+  // (a copy of it not yet sent with a submission: send it first, then wait; waiting on a fence value not yet signalled
+  // by any submission would never end)
+  for (auto &e : snap_pend) if (e.id == s.dst.id && e.fence > fence->GetCompletedValue()) { if (e.fence > fval) submit(); wait(e.fence); break; }
   to(*x, D3D12_RESOURCE_STATE_COPY_SOURCE); barriers();
   D3D12_TEXTURE_COPY_LOCATION dl = {}, sl = {};
   dl.pResource = x->snap; dl.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT; dl.PlacedFootprint = fp;
@@ -1001,7 +1112,7 @@ void Exec12::shutdown() {
   rel(cpy_vs); rel(cpy_ps);
   for (int i = 0; i < NBB; i++) rel(bb[i]);
   rel(swap);
-  for (CpuHeap *c : {&h_srv, &h_rtv, &h_dsv}) { for (auto *p : c->pages) p->Release(); c->pages.clear(); }
+  for (CpuHeap *c : {&h_srv, &h_rtv, &h_dsv, &h_smp}) { for (auto *p : c->pages) p->Release(); c->pages.clear(); }
   rel(gv_srv); rel(gv_smp); rel(rs);
   if (ring) { ring->Unmap(0, nullptr); rel(ring); }
   rel(cl); for (int i = 0; i < NF; i++) rel(alloc[i]);

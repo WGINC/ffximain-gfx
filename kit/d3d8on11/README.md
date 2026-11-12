@@ -218,6 +218,44 @@ feature level reported through D3D11 does not. Under Wine it takes 40-230 ms onc
 d3d8on11.ini (or `D8ON11_D3D12_PROBE=0`) turns it off. Threaded recording itself is measured outside the game by
 `kit/d3d11probe` probe12.
 
+## The Direct3D 12 executor (`backend=d3d12`, 12 Nov; `d8_exec12.h`, `d8_exec12.cpp`)
+
+The same command stream, run on Direct3D 12 instead of Direct3D 11. Chosen in d3d8on11.ini (`backend=d3d12`; default
+`d3d11`) or by `D8ON11_BACKEND`, for a whole start (X_OPTION OPT_BACKEND before X_INIT). If a Direct3D 12 device, the
+upload ring, the root signature or the swap chain cannot be made, the log says which and the start runs on Direct3D
+11 as before. Why: on the owner's Mac (kit/d3d11probe probe12, 12 Nov) 2,000 small draws took 6.1 ms through Direct3D
+11's immediate context and 2.0 ms through Direct3D 12 (docs/HISTORY.md).
+
+- **Shading:** the Direct3D 11 executor's own HLSL (gen_vs, gen_ps), compiled for shader model 5.0; one root
+  signature: b0 (vertex constants), b1 (gpu skinning's bone palette), b0 (pixel constants) as root descriptors, t0-t7
+  and s0-s7 as tables.
+- **Memory the CPU writes for the GPU:** one 64 MB upload ring, mapped once; a region is reused only after the GPU has
+  passed the submission that read it (fence values). A dynamic buffer's contents are copied into the ring from its
+  CPU copy at its first draw in each submission; within a submission DISCARD gives it a new place, NOOVERWRITE writes
+  in place. An upload larger than half the ring gets a buffer of its own. Static buffers and textures live in default
+  heaps and are written by copies recorded in order with the draws.
+- **State:** a pipeline state object per combination of shaders, blend, depth-stencil, rasterizer, topology type and
+  target formats, made once and cached; the last draw's keys are remembered so a repeated draw looks nothing up.
+  Resources are moved between states (render target, shader resource, copy source/destination, depth write, present)
+  before each use. A draw that samples the texture it renders into reads no texture, as Direct3D 11 does.
+- **Swap chain:** the flip model (FLIP_DISCARD, 2 buffers), the only one Direct3D 12 has; the CPU may be
+  `frame_latency + 1` frames ahead of the GPU (at most 3).
+- **Not used:** exec_batch, exec_filter, buffer_arena, draw_merge, gpu_time. They exist to save Direct3D 11 Map calls
+  or measure through Direct3D 11 queries; the log names each one set as not applied. draw_delta and gpu_skin are the
+  D3D8 side's and work as before.
+- **A lost device:** the first failed call logs the device's removal reason; from then on nothing waits for the GPU
+  (a wait is in 5 s steps, checking the device between), so the game goes on without drawing instead of hanging.
+- **Tested here (test_d3d8on11.py, Wine: Direct3D 12 is vkd3d on Mesa's Vulkan rasterizer):** in direct, thread and
+  remote mode, t8 basic (Reset included), the 33 scenes, frames 600, nowait 1200 (the occlusion snapshots), threads,
+  churn and gpu skinning. 28 scenes are pixel for pixel the Direct3D 11 executor's; in the other 5 every differing pixel
+  is a point-sampling tie (marked by D8ON11_TEST_TIES=0.01: a sample within 0.01 texel of a texel boundary, where a
+  driver may read either texel), which the two rasterizers (Vulkan for 12, OpenGL for 11) break differently. Also
+  tested: the fallback (D8ON11_TEST_D3D12_FAIL) and a device lost at the 50th Present (D8ON11_TEST_D3D12_LOST=50: logged,
+  and t8 runs to its end). In remote mode Wine makes no Direct3D 12 swap chain on another process's window
+  (0x8007000E), so there the start falls back to Direct3D 11 (checked); whether Windows does is not known.
+- **Not known until the owner's run:** what it does to the game's frame on Parallels (the probe was a model frame
+  without textures, state changes or Present), and whether the picture is the same there.
+
 ## Present interval (`present_interval`)
 
 The executor's swap chain is windowed, DXGI_SWAP_EFFECT_DISCARD, one buffer, whatever the game asks (unchanged).

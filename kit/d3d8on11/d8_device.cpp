@@ -71,6 +71,11 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen
     ne = GetEnvironmentVariableA("D8ON11_GPU_TIME", env, sizeof env); if (ne > 0 && ne < sizeof env) g = atoi(env);
     XOption o = {OPT_GPUTIME, (uint32_t)(g != 0), 0}; link->put(X_OPTION, &o, sizeof o);
     if (g) d8_log("gpu_time=1: the GPU's time per frame is logged every 600 frames"); }
+  // backend=d3d12 (12 Nov; default d3d11): the executor runs the stream on Direct3D 12 (d8_exec12.h), or on Direct3D 11
+  // when Direct3D 12 cannot start. Before X_INIT, for the whole start. D8ON11_BACKEND overrides it
+  { char be[16] = {}; GetPrivateProfileStringA("d3d8on11", "backend", "d3d11", be, sizeof be, ini);
+    ne = GetEnvironmentVariableA("D8ON11_BACKEND", env, sizeof env); if (ne > 0 && ne < sizeof env) snprintf(be, sizeof be, "%s", env);
+    if (!_stricmp(be, "d3d12")) { XOption o = {OPT_BACKEND, 12u, 0}; link->put(X_OPTION, &o, sizeof o); } }
   // d3d12_probe=1 (the default, 12 Nov): once, after the first Present, the executor tries to make a Direct3D 12 device
   // and run a command list on it, and logs each step (Exec::d3d12_probe); 0 turns it off. D8ON11_D3D12_PROBE overrides it
   { int p = (int)GetPrivateProfileIntA("d3d8on11", "d3d12_probe", 1, ini);

@@ -58,7 +58,7 @@ struct XUpBuf { uint32_t id, offset, length, flags; };   // flags: the game's D3
 struct XTargets { XRef rt; uint32_t ds; };                          // ds 0: none
 struct XClear { uint32_t flags, color; float z; uint32_t stencil; uint32_t width, height, nrects; };  // then nrects XRect
 struct XRect { int32_t x1, y1, x2, y2; };   // nrects 0: the whole target (and depth surface); else these, in target pixels
-enum : uint32_t { OPT_FILTER = 1, OPT_BATCH = 2, OPT_SITES = 3, OPT_FLIP = 4, OPT_GPUTIME = 5, OPT_LATENCY = 6, OPT_BUFARENA = 7, OPT_MERGE = 8, OPT_D3D12 = 9 };   // OPT_D3D12: d3d12_probe (Exec::d3d12_probe)   // OPT_MERGE: draw_merge (bit 0: on now; bit 1: set at the start, the executor keeps what it needs)   // OPT_BUFARENA: buffer_arena, value = the arena's KB (0: off)
+enum : uint32_t { OPT_FILTER = 1, OPT_BATCH = 2, OPT_SITES = 3, OPT_FLIP = 4, OPT_GPUTIME = 5, OPT_LATENCY = 6, OPT_BUFARENA = 7, OPT_MERGE = 8, OPT_D3D12 = 9, OPT_BACKEND = 10 };   // OPT_BACKEND: 12 runs the stream on Direct3D 12 (d8_exec12.h), before X_INIT   // OPT_D3D12: d3d12_probe (Exec::d3d12_probe)   // OPT_MERGE: draw_merge (bit 0: on now; bit 1: set at the start, the executor keeps what it needs)   // OPT_BUFARENA: buffer_arena, value = the arena's KB (0: off)
 //   // OPT_LATENCY: IDXGIDevice1::SetMaximumFrameLatency (frame_latency)   // OPT_FLIP: the flip-model swap chain (swap_flip); OPT_GPUTIME: the GPU's time per frame (gpu_time)   // OPT_SITES: the draw time by the game's call site (d3d8on11.ini draw_sites)   // OPT_BATCH: Exec::batch (d8_exec.h)
 struct XOption { uint32_t key, value, settle; };   // settle: frames after it that the executor's phase figures leave out
 struct XCopy { XRef src, dst; int32_t left, top, right, bottom, x, y; };

@@ -14,11 +14,13 @@
 #include <stdlib.h>
 #include <string.h>
 static float rhw_offset();   // (below; a test switch)
+Exec12 *exec12_new(Exec &o); void exec12_delete(Exec12 *x);    // the Direct3D 12 executor (d8_exec12.cpp)
+void exec12_run(Exec12 *x, uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply);
 
 typedef HRESULT (WINAPI *PFN_Compile)(const void *, SIZE_T, const char *, const D3D_SHADER_MACRO *, ID3DInclude *,
                                        const char *, const char *, UINT, UINT, ID3DBlob **, ID3DBlob **);
 
-static DXGI_FORMAT vdxgi(uint8_t f) {
+DXGI_FORMAT vdxgi(uint8_t f) {
   switch (f) {
   case V_F1: return DXGI_FORMAT_R32_FLOAT; case V_F2: return DXGI_FORMAT_R32G32_FLOAT;
   case V_F3: return DXGI_FORMAT_R32G32B32_FLOAT; case V_F4: return DXGI_FORMAT_R32G32B32A32_FLOAT;
@@ -64,7 +66,7 @@ static std::string io_struct(const char *name, bool flat) {
   return std::string("struct ") + name + " { float4 pos : SV_Position; " + q + "float4 d0 : COLOR0; " + q +
          "float4 d1 : COLOR1; float d1a : SPECALPHA; float4 tc[8] : TEXCOORD0; float fog : FOG; };\n";
 }
-static std::string gen_vs(const VSKey &k) {
+std::string gen_vs(const VSKey &k) {
   std::string s = VS_CB;
   s += "struct VI {\n";
   int has[8][8] = {};
@@ -269,7 +271,7 @@ static std::string op(int o, const std::string &a1, const std::string &a2, const
 static float rhw_offset() { static float e = getenv("D8ON11_TEST_RHW_OFFSET") ? (float)atof(getenv("D8ON11_TEST_RHW_OFFSET")) : 0.5f; return e; }
 static float texedge() { static float e = getenv("D8ON11_TEST_TEXEDGE") ? (float)atof(getenv("D8ON11_TEST_TEXEDGE")) : 0; return e; }
 static float ties() { static float e = getenv("D8ON11_TEST_TIES") ? (float)atof(getenv("D8ON11_TEST_TIES")) : 0; return e > 0 ? e : 1.0f / 256; }
-static std::string gen_ps(const PSKey &k) {
+std::string gen_ps(const PSKey &k) {
   std::string s =
     "cbuffer C : register(b0) { float4 tfactor, fogcolor, fogp, aref; };\n"
     + io_struct("PI", k.flat);
@@ -728,6 +730,7 @@ void Exec::snap_poll() {
   }
 }
 void Exec::shutdown() {
+  if (x12) { exec12_delete(x12); x12 = nullptr; return; }   // (this executor made no Direct3D 11 objects)
   for (int i = 0; i < NQ; i++) { if (q_dis[i]) q_dis[i]->Release(); if (q_beg[i]) q_beg[i]->Release(); if (q_end[i]) q_end[i]->Release(); q_dis[i] = q_beg[i] = q_end[i] = nullptr; }
   if (clr_vs) clr_vs->Release(); if (clr_ps) clr_ps->Release(); if (clr_cb) clr_cb->Release(); clr_vs = nullptr; clr_ps = nullptr; clr_cb = nullptr;
   if (cpy_vs) cpy_vs->Release(); if (cpy_ps) cpy_ps->Release(); cpy_vs = nullptr; cpy_ps = nullptr;
@@ -867,6 +870,28 @@ void Exec::head_keep() {
   if (src) { head_p = head_copy.data(); head_off = ~(size_t)0; }
 }
 void Exec::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply) {
+  // ---- the Direct3D 12 executor (OPT_BACKEND), when chosen and started
+  if (op == X_OPTION && n >= sizeof(XOption) && ((const XOption *)p)->key == OPT_BACKEND) {
+    want12 = ((const XOption *)p)->value == 12;
+    if (want12 && !x12) d8_log("backend=d3d12: the Direct3D 12 executor runs the stream (d8_exec12.h); Direct3D 11 if it cannot start");
+    return;
+  }
+  if (want12 && !x12 && op == X_INIT) {
+    x12 = exec12_new(*this);
+    for (auto &o2 : opts12) { int32_t h2 = 0; exec12_run(x12, X_OPTION, o2.data(), (uint32_t)o2.size(), &h2, nullptr); }
+    double t0 = timed ? qpc_ms() : 0;
+    exec12_run(x12, op, p, n, hr, reply);
+    if (*hr >= 0) { if (timed) timed(timed_ctx, op, qpc_ms() - t0); return; }
+    d8_log("the Direct3D 12 executor could not start (0x%08X): Direct3D 11 runs the stream", (unsigned)*hr);
+    exec12_delete(x12); x12 = nullptr; want12 = false;
+  }
+  if (x12) {
+    double t0 = timed ? qpc_ms() : 0;
+    exec12_run(x12, op, p, n, hr, reply);
+    if (timed) timed(timed_ctx, op, qpc_ms() - t0);
+    return;
+  }
+  if (want12 && op == X_OPTION) opts12.emplace_back(p, p + n);   // for Exec12 at X_INIT (applied here as well)
   if (op == X_DRAW_SAME) {                                 // draw_delta: the last packet's head, then this tail
     if (n < XDRAW_TAIL || (!head_p && head_off == ~(size_t)0)) { d8_once("samenohead", "stream error: X_DRAW_SAME with no draw before it (skipped)"); return; }
     if (batch) {

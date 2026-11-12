@@ -13,6 +13,7 @@
 #include <vector>
 
 struct ExecFF;
+struct Exec12;                                     // the Direct3D 12 executor (d8_exec12.h)
 struct ExecRes {
   uint32_t kind = 0;                               // XT_*, or 3: a buffer, 4: the back buffer
   ID3D11Texture2D *tex = nullptr; ID3D11ShaderResourceView *srv = nullptr; ID3D11DepthStencilView *dsv = nullptr;
@@ -98,6 +99,9 @@ struct Exec {
   uint64_t up_bytes[2] = {}, up_n[2] = {}, dyn_discard = 0, dyn_noov = 0;
   uint64_t up_again[2] = {};                       // bytes to an object uploaded in this frame or the one before too   // uploads: [0] textures, [1] buffers; dynamic Maps   // for the stats: flushes, Maps of the arenas, Maps by a draw
   void shutdown();
+  // OPT_BACKEND (d3d8on11.ini backend=d3d12): the stream runs on Exec12 from X_INIT on; the options sent before X_INIT are
+  // given to it then. When it cannot start, this executor runs the stream on Direct3D 11 (logged)
+  bool want12 = false; Exec12 *x12 = nullptr; std::vector<std::vector<uint8_t>> opts12;
 private:
   struct Held { uint16_t op; uint32_t n; const uint8_t *p; size_t off; };
   std::vector<Held> held; std::vector<uint8_t> hold;

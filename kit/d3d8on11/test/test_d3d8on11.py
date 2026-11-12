@@ -605,6 +605,91 @@ if 'thread' in MODES:
     print('%s: hang watch: an 8 s executor stall is reported after 5 s (%s), the executor thread\'s stack in d3d8.dll, then the wait\'s end; t8 passes' % (
           'ok' if ok else 'FAIL', ('%s, op %s' % (rep.group(2), rep.group(3))) if rep else 'no report')); bad += not ok
 
+# ---- the Direct3D 12 executor (12 Nov, d8_exec12.h; backend=d3d12, D8ON11_BACKEND) ----------------------------------------
+# Under Wine, Direct3D 12 is vkd3d on Vulkan (Mesa lavapipe) and Direct3D 11 is wined3d on OpenGL (Mesa llvmpipe): two
+# rasterizers. So a D3D12 scene is compared with the D3D11 executor's: every pixel equal, or a point-sampling tie (the
+# test switch D8ON11_TEST_TIES=0.01 marks the pixels that sample within 0.01 texel of a texel boundary, where Direct3D
+# lets the driver read either texel: D3D11.3 functional spec 7.18.7, d8_exec.cpp gen_ps). Measured 12 Nov: 28 of 33
+# scenes identical, the other 5 differ only at marked ties.
+D12 = {'D8ON11_BACKEND': 'd3d12'}
+def logs():
+    return ''.join(open(os.path.join(ours, f)).read() for f in sorted(os.listdir(ours)) if f.endswith('.log'))
+def clear_logs():
+    for f in os.listdir(ours):
+        if f.endswith('.log'): os.remove(os.path.join(ours, f))
+for m in MODES:
+    clear_logs()
+    out = run(ours, 'basic', True, m, D12); t = logs()
+    # remote mode: the executor process makes its swap chain on the game process's window; Wine's Direct3D 12 refuses
+    # that (CreateSwapChainForHwnd 0x8007000E, 12 Nov), so there the stream falls back to Direct3D 11, which is checked
+    # instead (whether Windows allows it is not known: not run there)
+    fell = m == 'remote' and 'CreateSwapChainForHwnd' in t and 'Direct3D 11 runs the stream' in t
+    ok = ('ALL OK' in out and 'executor shutdown: 0 objects still held' in t and t.count('executor shutdown') == 1 and 'Nothing more is drawn' not in t and
+          (('D3D12 executor: device made' in t and 'Direct3D 11 runs the stream' not in t) or fell))
+    print('%s: d3d12, %s mode: t8 basic (Reset included) passes %s; it ends holding nothing' % ('ok' if ok else 'FAIL', m,
+          'after the fallback to Direct3D 11 (Wine makes no Direct3D 12 swap chain on another process\'s window)' if fell else 'on the Direct3D 12 executor')); bad += not ok
+    s11 = scenes(ours, True, m)
+    clear_logs(); s12 = scenes(ours, True, m, D12); t = logs()
+    st = scenes(ours, True, m, dict(D12, D8ON11_TEST_TIES='0.01'))
+    nsame = 0; unmarked = 0; worst = []
+    for n in sorted(set(s11) | set(s12)):
+        a, b, c = s11.get(n), s12.get(n), st.get(n)
+        if not a or not b or len(a) != len(b): unmarked += 1; worst.append('%s: no picture' % n); continue
+        if a == b: nsame += 1; continue
+        um = [i for i in range(len(a)) if a[i] != b[i] and not (c and c[i] == 0xFF00FF)]
+        unmarked += len(um)
+        if um: worst.append('%s: %d pixels differ and are not ties' % (n, len(um)))
+    ok = unmarked == 0 and len(s12) == len(s11) and 'stream error' not in t
+    print('%s: d3d12, %s mode: %d scenes; %d identical to the Direct3D 11 executor\'s, the rest differ only at point-sampling ties%s%s' % (
+          'ok' if ok else 'FAIL', m, len(s12), nsame, ' (drawn by Direct3D 11 after the fallback)' if 'Direct3D 11 runs the stream' in t else '',
+          ''.join('\n    ' + x for x in worst))); bad += not ok
+    for run_, arg, want in (('frames', 'frames 600', 'presented 599'), ('nowait', 'nowait 1200', None)):
+        clear_logs(); out = run(ours, arg, True, m, D12); t = logs()
+        if want: ok = want in out and 'FAIL' not in out
+        else:
+            sn = re.search(r'readback snapshots, \d+ frames: (\d+) locks .*?(\d+) read it\s+back .*?(\d+) do-not-wait', t, re.S)
+            ok = out.count('ok: ') == 3 and 'FAIL' not in out and sn is not None and int(sn.group(2)) == 0
+        print('%s: d3d12, %s mode: t8 %s' % ('ok' if ok else 'FAIL', m, arg)); bad += not ok
+    for run_ in ('threads', 'churn'):
+        clear_logs()
+        env = dict(os.environ, WINEDEBUG='-all', WINEDLLOVERRIDES='d3d8=n', D8ON11_MODE=m, **D12)
+        try:
+            r = subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', run_], cwd=ours, capture_output=True, text=True, timeout=900, env=env)
+            code, out = r.returncode, r.stdout
+        except subprocess.TimeoutExpired: code, out = None, '(timed out)'
+        t = logs()
+        ok = code == 0 and 'ALL OK' in out and 'stream error' not in t and 'executor shutdown: 0 objects still held' in t
+        print('%s: d3d12, %s mode: t8 %s (exit %s)' % ('ok' if ok else 'FAIL', m, run_, code)); bad += not ok
+    # gpu skinning on Direct3D 12: the jobs taken, and every scene as without it on Direct3D 12
+    b12 = scenes(ours, True, m, dict(D12, D8ON11_GPU_SKIN='0'))
+    clear_logs(); out = run(ours, 'scenes', True, m, dict(D12, D8ON11_GPU_SKIN='1')); t = logs()
+    g12 = {}
+    for l in out.splitlines():
+        if l.startswith('scene '):
+            _, n, hx = l.split(' ', 2); g12[n] = None if hx == 'none' else [int(hx[i:i + 6], 16) for i in range(0, len(hx), 6)]
+    tot = re.search(r'gpu skin totals: (\d+) jobs, (\d+) palettes sent, (\d+) sources made, (\d+) refused, (\d+) draws not made', t)
+    ok = (g12 == b12 and b12.get('skin_gpu') is not None and b12.get('skin_gpu') == b12.get('skin_cpu') and tot is not None and tot.group(1) == '3'
+          and tot.group(5) == '0' and 'skin: 3 jobs taken' in out)
+    print('%s: d3d12, %s mode, gpu_skin=1: every scene equals the run without it, skin_gpu equals skin_cpu (%s)' % (
+          'ok' if ok else 'FAIL', m, ('%s jobs, %s draws not made' % (tot.group(1), tot.group(5))) if tot else 'no totals line')); bad += not ok
+# when Direct3D 12 cannot start (D8ON11_TEST_D3D12_FAIL), the stream runs on Direct3D 11: logged, and the scenes are the
+# Direct3D 11 executor's exactly
+if 'thread' in MODES:
+    clear_logs(); sf = scenes(ours, True, 'thread', dict(D12, D8ON11_TEST_D3D12_FAIL='1')); t = logs()
+    ok = sf == scenes(ours, True, 'thread') and 'Direct3D 11 runs the stream' in t
+    print('%s: d3d12 that cannot start: the stream runs on Direct3D 11 (logged), the scenes exactly the Direct3D 11 executor\'s' % ('ok' if ok else 'FAIL')); bad += not ok
+    # a lost device (D8ON11_TEST_D3D12_LOST=50: from the 50th Present the device counts as removed): logged with the
+    # device's reason, and nothing waits for the GPU after it, so the game goes on to its end instead of hanging
+    clear_logs()
+    env = dict(os.environ, WINEDEBUG='-all', WINEDLLOVERRIDES='d3d8=n', D8ON11_MODE='thread', D8ON11_TEST_D3D12_LOST='50', **D12)
+    try:
+        r = subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', 'frames', '600'], cwd=ours, capture_output=True, text=True, timeout=300, env=env)
+        code, out = r.returncode, r.stdout
+    except subprocess.TimeoutExpired: code, out = None, '(timed out)'
+    t = logs()
+    ok = code is not None and 'presented 599' in out and 'D8ON11_TEST_D3D12_LOST (a test)' in t and 'Nothing more is drawn' in t
+    print('%s: d3d12, a device lost at the 50th Present: logged, and t8 frames 600 runs to its end (exit %s) instead of hanging' % ('ok' if ok else 'FAIL', code)); bad += not ok
+
 if os.path.exists(log):
     t = open(log).read()
     for l in t.splitlines():

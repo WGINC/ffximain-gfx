@@ -5041,6 +5041,31 @@ at frame 15,758, 4,123,871 draws. Every later create failed (1.52 million `a vie
 nothing is drawn while the game runs on. The 18 Nov loss had no reason recorded. Not known: what triggers it, and
 whether the owner's 3:53 Application Hang event is this start (the log has no times).
 
+## 12 Nov (sixth entry): the Direct3D 12 executor
+
+The owner: "Focus on getting d3d12 fully fledged and tested, where it would be prudent to." Built: `kit/d3d8on11`
+`d8_exec12.h` / `d8_exec12.cpp`, the command stream run on Direct3D 12, chosen by `backend=d3d12`, falling back to
+Direct3D 11 when it cannot start (kit/d3d8on11/README.md, "The Direct3D 12 executor", has the design and the tests).
+
+- **Same shading:** the Direct3D 11 executor's HLSL generators are shared (made non-static), compiled for SM 5.0.
+- **Tested (Wine; Direct3D 12 = vkd3d on Vulkan/lavapipe, Direct3D 11 = wined3d on OpenGL/llvmpipe):** direct, thread
+  and remote modes; t8 basic, scenes, frames 600, nowait 1200, threads, churn, gpu skinning; the fallback; a lost
+  device. 28 of 33 scenes identical to the Direct3D 11 executor's; in the other 5 (texture_transform_2d 546 pixels,
+  stages_blend_alphatest 244, texgen_cameraspace_transform 70, decl_short2 and decl_short4 54 each) every differing
+  pixel is marked by D8ON11_TEST_TIES=0.01 as a point sample within 0.01 texel of a texel boundary. On Wine's Vulkan
+  renderer setting (WINE_D3D_CONFIG=renderer=vulkan) the D3D11 executor gave the same differences; whether that
+  setting took effect for Wine's d3d11 was not checked.
+- **Remote mode:** Wine's Direct3D 12 makes no swap chain on another process's window (CreateSwapChainForHwnd
+  0x8007000E); the start falls back to Direct3D 11 (tested). Windows not known.
+- **Found on the way:** the shutdown of an executor whose start failed closed a closed command list and logged a
+  false device loss; fixed (only a started executor submits at shutdown).
+- **Lost device, the hang question:** every wait for the GPU is in 5 s steps with the device's state checked between;
+  a lost device ends the waits (logged with its removal reason), so the game runs on without drawing. Through Direct3D
+  11 a lost device's Present returns at once anyway; whether the owner's hangs are waits on a GPU that never answers
+  is not established (the hang watch build was not run: the 12 Nov run used the 19 Nov DLL).
+- **For the owner:** `kit/sessions/d12_13nov`: start d11 and start d12, the same settings and place (crowd 2 min still,
+  1 min running); start.bat copies the session's own d3d8on11 into place.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

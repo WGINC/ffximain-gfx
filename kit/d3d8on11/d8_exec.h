@@ -40,6 +40,9 @@ struct Exec {
   ID3D11InfoQueue *iq = nullptr;                   // D8ON11_DEBUG_LAYER only: drained to the log at each Present
   void drain_debug();
   uint64_t draws = 0, presents = 0;
+  // (12 Nov) what a second thread could take: the per-flush planning (Exec::plan), and a sample (1 draw in 32) of draw()
+  // split at its first D3D11 bind into preparing (records, keys, cached objects) and submitting (the binds and the draw)
+  double plan_ms = 0, split_prep = 0, split_sub = 0; uint64_t split_n = 0; uint32_t split_ctr = 0;
   uint32_t sync = 0;                               // Present's SyncInterval, from X_INIT / X_RESIZE (XInit.interval)
   int32_t fail_init = 0;                           // tests only (d8x.exe): X_INIT answers this when nonzero
   // X_OPTION OPT_FILTER: a draw skips the Direct3D 11 calls that would set what is already set (Bound, below)

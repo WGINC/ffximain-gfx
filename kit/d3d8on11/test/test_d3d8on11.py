@@ -567,6 +567,17 @@ for m in MODES:
         for n in sorted(set(base) | set(got)):
             if base.get(n) != got.get(n): print('  differs: %s' % n)
 
+# what a second executor thread could take (12 Nov): t8 frames 700 draw (40 quads a frame), thread mode: the log has the
+# driver's threading capabilities (D3D11_FEATURE_THREADING) and, after 600 frames, the planning time and the sampled
+# draw split (preparing / submitting, 1 draw in 32)
+if 'thread' in MODES:
+    if os.path.exists(log): os.remove(log)
+    out = run(ours, 'frames 700 draw', True, 'thread')
+    t = open(log).read() if os.path.exists(log) else ''
+    m = re.search(r'executor split, 600 frames: planning ([0-9.]+) ms a frame; draws \((\d+) sampled\): preparing ([0-9.]+) us, submitting ([0-9.]+) us each', t)
+    ok = m is not None and int(m.group(2)) > 0 and 'D3D11 threading: the driver\'s concurrent creates' in t and 'presented 699' in out
+    print('%s: executor split logged (%s) and the driver\'s threading capabilities' % ('ok' if ok else 'FAIL', m.group(0)[27:] if m else 'no line')); bad += not ok
+
 # the hang watch (12 Nov): the executor stalled 8 s before its 3rd Present (D8ON11_TEST_STALL=3, thread mode); the log must
 # say after 5 s what the game waits for and what the executor runs and where (op 12 = X_PRESENT, d8_proto.h; its thread
 # in d3d8.dll), then that the wait ended; and t8's checks must pass as without the stall

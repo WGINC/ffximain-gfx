@@ -401,6 +401,10 @@ void Exec::ff_init() {
   bd.ByteWidth = 64u * SKIN_BONES; dev->CreateBuffer(&bd, NULL, &bones_cb);   // gpu skinning's palette
   bd.BindFlags = D3D11_BIND_VERTEX_BUFFER; bd.ByteWidth = FF::UPVB; dev->CreateBuffer(&bd, NULL, &ff->upvb);
   bd.BindFlags = D3D11_BIND_INDEX_BUFFER; bd.ByteWidth = FF::UPIB; dev->CreateBuffer(&bd, NULL, &ff->upib);
+  { D3D11_FEATURE_DATA_THREADING th = {};                 // (12 Nov) can the driver take work from several threads itself
+    if (SUCCEEDED(dev->CheckFeatureSupport(D3D11_FEATURE_THREADING, &th, sizeof th)))
+      d8_log("D3D11 threading: the driver's concurrent creates %d, the driver's command lists %d (0: the runtime emulates them)",
+             (int)th.DriverConcurrentCreates, (int)th.DriverCommandLists); }
   D3D11_FEATURE_DATA_D3D11_OPTIONS o = {};
   if (SUCCEEDED(ctx->QueryInterface(__uuidof(ID3D11DeviceContext1), (void **)&ff->ctx1)) &&
       SUCCEEDED(dev->CheckFeatureSupport(D3D11_FEATURE_D3D11_OPTIONS, &o, sizeof o)) && o.ConstantBufferOffsetting) {
@@ -1106,7 +1110,7 @@ void Exec::flush() {
   while (i < N) {
     double t0 = timed ? qpc_ms() : 0;
     size_t k = plan(i);
-    double extra = timed ? qpc_ms() - t0 : 0;
+    double extra = timed ? qpc_ms() - t0 : 0; plan_ms += extra;
     for (size_t j = i; j < k; j++) {
       const Held &h = held[j]; const uint8_t *p = h.p ? h.p : hold.data() + h.off;
       int32_t hr = 0; double t1 = timed ? qpc_ms() : 0;
@@ -1325,6 +1329,10 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
 // ---- a draw -------------------------------------------------------------------------------------------------------------------
 void Exec::draw(const XDraw &d, const uint8_t *data, const Prep *pp) {
   if (!ff || !ff->compile) return;
+  struct Split { Exec *x; double t0 = 0, t1 = 0; bool on;
+    Split(Exec *e) : x(e), on((++e->split_ctr & 31) == 0) { if (on) t0 = qpc_ms(); }
+    void bind() { if (on && !t1) t1 = qpc_ms(); }
+    ~Split() { if (on && t1) { double t2 = qpc_ms(); x->split_prep += t1 - t0; x->split_sub += t2 - t1; x->split_n++; } } } split(this);
   // the filter (X_OPTION OPT_FILTER): a key, description or constant block equal to the last draw's reuses what that
   // draw found or wrote, and a bind equal to what this executor last set (Bound) is not made again. Direct3D 11 keeps
   // a context's state until it is set again, and a dynamic buffer's contents until it is mapped again, so the context
@@ -1398,6 +1406,7 @@ void Exec::draw(const XDraw &d, const uint8_t *data, const Prep *pp) {
   else { dss = cached(ff->ds, d.depth, [&](const D3D11_DEPTH_STENCIL_DESC *x, ID3D11DepthStencilState **o) { dev->CreateDepthStencilState(x, o); }); memo.dsd = d.depth; memo.dss = dss; memo.ds_ok = true; }
   if (f && memo.rs_ok && !memcmp(&memo.rsd, &d.raster, sizeof d.raster)) rs = memo.rs;
   else { rs = cached(ff->rs, d.raster, [&](const D3D11_RASTERIZER_DESC *x, ID3D11RasterizerState **o) { dev->CreateRasterizerState(x, o); }); memo.rsd = d.raster; memo.rs = rs; memo.rs_ok = true; }
+  split.bind();                                            // (the split's boundary: the first bind)
   if (!f || bs != bd.bs) { ctx->OMSetBlendState(bs, NULL, 0xFFFFFFFF); bd.bs = bs; }
   if (!f || dss != bd.dss || d.stencil_ref != bd.sref) { ctx->OMSetDepthStencilState(dss, d.stencil_ref); bd.dss = dss; bd.sref = d.stencil_ref; }
   if (!f || rs != bd.rs) { ctx->RSSetState(rs); bd.rs = rs; }

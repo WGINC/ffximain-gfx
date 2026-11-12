@@ -4951,6 +4951,39 @@ known Wine 64-bit sampler checks, and a timing check (DispatchMessageA inclusive
 that passes run alone on an idle machine (370.8 / 1.2). One run before it timed out in mode `profile`; run alone it
 passed, and the next full run did not time out.
 
+## 12 Nov (fourth entry): the owner's two proposals -- a non-blocking main loop, and more threads
+
+**Non-blocking main loop.** The 19 Nov crowd windows (ring stats): the game's thread waited 0 ms a frame for room,
+7.0-13.0 ms for pacing, 0-1.2 ms for answers. It is already idle half of each crowded frame, waiting for the
+executor; letting it run further ahead queues more frames and adds latency without the executor finishing them any
+sooner. The blocking that costs is the answers (the first occlusion probes: the stutters); occlusion_first=2 is that
+change, the owner's to choose (a chosen answer, not the game's).
+
+**More threads.** The target is the executor (busy 95-98%). What a second thread could take is not known yet, so the
+next run measures it (d3d8on11, logged every 600 frames):
+- `D3D11 threading`: the driver's DriverConcurrentCreates and DriverCommandLists. With command lists emulated by the
+  runtime, recording on other threads only moves the work back onto the thread that executes them.
+- `executor split`: the batch planning time (Exec::plan, until now counted with the draws), and draw() sampled one in
+  32 at its first D3D11 bind: preparing (records, keys, cached objects) against submitting (the binds and the draw).
+  Under Wine: planning 0.10-0.13 ms a frame, 0.44-0.48 us preparing and 0.56-0.64 us submitting a draw (not the
+  owner's driver). If preparing and planning are large on Parallels, a thread that prepares frame N+1 while frame N is
+  submitted takes them off; if submitting dominates, only fewer draws help.
+- Test: t8 `frames 700 draw` (a new optional argument: 40 quads a frame); test_d3d8on11.py checks both lines.
+
+**The ceiling of more threads, from the 19 Nov hitch start's crowd windows** (66 windows of 600 frames, the
+executor's own figures): 950-1,700 draws a frame; the executor's draw time 3.7-11.0 ms, Present 3.7-13.4 ms
+(10.6-13.4 ms in the windows of 1,100 or more draws). Present follows the draw time (correlation 0.73 over the
+windows; Present about 1.6 times the draw time, median), more than the draw count (0.66): the same ~1,000 draws took
+5.6 ms of Present in one window and 13.4 ms in another. A draw costs the executor 4-11 us, and Present 6-13 us more
+per draw; under Wine a draw is about 1 us. What this proves: in D3D11 every draw and Present goes through the one
+immediate context in order, and Present is one call, so the Present time is on one thread whatever the threads
+before it. With every draw's cost taken off the executor by other threads and Present unchanged, a crowd frame is
+10.6-13.4 ms: 75-94 fps. Above that needs Present itself shorter. Not known: why Present tracks the draws (Parallels
+doing the draws' work at Present is consistent with it, not shown); whether recording command lists on other threads
+moves that work (only if the driver records them itself: the next run's `D3D11 threading` line). Fewer draws
+shortens both. The game's own thread is not the limit now (7.5 ms a frame with nothing drawn, plaza, 26 Oct; it
+waits 7-13 ms a frame for the executor in crowds).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

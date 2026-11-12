@@ -1126,6 +1126,7 @@ int main(int argc, char **argv) {
     IDirect3DDevice8_GetBackBuffer(d, 0, D3DBACKBUFFER_TYPE_MONO, &lbb); if (lbb) IDirect3DSurface8_GetDesc(lbb, &lbd);
     IDirect3DDevice8_CreateRenderTarget(d, 16, 16, lbd.Format, D3DMULTISAMPLE_NONE, TRUE, &late);
     int nf = argc > 2 ? atoi(argv[2]) : 600; if (nf < 31) nf = 600;   /* t8 frames N: N frames (600 by default) */
+    int fdraw = argc > 3 && !strcmp(argv[3], "draw");   /* t8 frames N draw: also a small quad each frame (d3d8on11's executor split line) */
     for (int f = 0; f < nf; f++) {
       if (f == 30 && kill) {
         int n = 0; HANDLE sn = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0); PROCESSENTRY32 pe; pe.dwSize = sizeof pe;
@@ -1145,6 +1146,10 @@ int main(int argc, char **argv) {
         if (px != (DWORD)((f - 1) * 4)) late_bad++;
       }
       if (!kill && late && lbb) IDirect3DDevice8_CopyRects(d, lbb, &lr16, 1, late, &lp0);
+      if (fdraw) { struct { float x, y, z, w; DWORD c; } q[4] = {{40, 40, 0.5f, 1, 0xFF20A040}, {50, 40, 0.5f, 1, 0xFF20A040}, {40, 50, 0.5f, 1, 0xFF20A040}, {50, 50, 0.5f, 1, 0xFF20A040}};   /* (clear of the 16x16 the readback check reads) */
+        IDirect3DDevice8_BeginScene(d); IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE);
+        for (int k = 0; k < 40; k++) IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, q, sizeof q[0]);
+        IDirect3DDevice8_EndScene(d); }
       IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);
       if (f >= 30) bb_pixel(1, 1);                 /* a read-back: waits for an answer that cannot come */
       printf("presented %d\n", f);

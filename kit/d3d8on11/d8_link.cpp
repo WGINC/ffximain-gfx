@@ -39,6 +39,7 @@ struct ExecStats {
   uint64_t m0[4] = {};                                     // draw_merge's counters at the last stats line
   uint64_t b0[6] = {};                                     // the buffer arena's counters at the last stats line
   Exec *x = nullptr; uint64_t x0[3] = {};                  // the executor's batch counters at the last stats line
+  double s0p = 0, s0a = 0, s0b = 0; uint64_t s0n = 0;          // the split's counters at the last stats line
   static void hook(void *s, uint16_t op, double ms) { ((ExecStats *)s)->ran(op, ms); }
   void attach(Exec *e) { x = e; e->timed = hook; e->timed_ctx = this; }
   // the A/B: the phase now running, its option value, frames still to leave out, totals per value (0 and 1)
@@ -102,6 +103,11 @@ struct ExecStats {
       d8_log("executor batches, %u frames: batch=%u, %.1f flushes, %.1f arena Maps, %.1f draw Maps a frame", frames, x->batch,
              (double)(x->flushes - x0[0]) / frames, (double)(x->arena_maps - x0[1]) / frames, (double)(x->draw_maps - x0[2]) / frames);
       x0[0] = x->flushes; x0[1] = x->arena_maps; x0[2] = x->draw_maps;
+      // (12 Nov) what a second thread could take: planning, and draws' preparing vs submitting (sampled 1 in 32)
+      if (x->split_n > s0n) d8_log("executor split, %u frames: planning %.3f ms a frame; draws (%llu sampled): preparing %.2f us, submitting %.2f us each",
+                                  frames, (x->plan_ms - s0p) / frames, (unsigned long long)(x->split_n - s0n),
+                                  1000.0 * (x->split_prep - s0a) / (x->split_n - s0n), 1000.0 * (x->split_sub - s0b) / (x->split_n - s0n));
+      s0p = x->plan_ms; s0a = x->split_prep; s0b = x->split_sub; s0n = x->split_n;
       // uploads split: textures and buffers, their time, count and MB a frame; the dynamic buffers' Maps a frame
       d8_log("executor uploads, %u frames: textures %.3f ms, %.1f uploads, %.3f MB a frame; buffers %.3f ms, %.1f uploads, %.3f MB "
              "a frame (dynamic: %.1f DISCARD, %.1f NOOVERWRITE Maps a frame); to objects also uploaded this frame or the one before: "

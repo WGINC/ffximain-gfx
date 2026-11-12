@@ -1,0 +1,48 @@
+{
+ "class": "CTsZoneMap",
+ "named": {
+  "0x39470": {
+   "name": "vsHandleExtra1",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CTsZoneMap Init (CTsZoneMap.cpp) zeroes it; CTsZoneMap_Destructor passes it to IDirect3DDevice8::DeleteVertexShader when non-zero. The header describes vsHandles (+0x3946C) as '5 more vertex shader handles', so this is probably element 1 of that run; the creating code was not found.",
+   "summary": "Vertex shader handle deleted in the destructor."
+  },
+  "0x39474": {
+   "name": "vsHandleExtra2",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "Zeroed in Init; DeleteVertexShader in CTsZoneMap_Destructor. Creation not found.",
+   "summary": "Vertex shader handle deleted in the destructor."
+  },
+  "0x39478": {
+   "name": "vsHandleExtra3",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "Zeroed in Init; DeleteVertexShader in CTsZoneMap_Destructor. Creation not found.",
+   "summary": "Vertex shader handle deleted in the destructor."
+  },
+  "0x3947C": {
+   "name": "vsHandleExtra4",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "Zeroed in Init; DeleteVertexShader in CTsZoneMap_Destructor. Creation not found.",
+   "summary": "Vertex shader handle deleted in the destructor."
+  },
+  "0x178": {
+   "name": "cellGrid",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "Embedded object built by ZoneMap_ConstructVt10336634 in Init and destroyed by Vt10336634_Destructor; ZoneMap_ReleaseSlot calls ZoneMap_UnlinkSlotCells(this+0x178, slot); DrawProjectedTexture calls GetPtr8IfField60Set(this+376) and indexes the result by (world x + result[14])*0.25 and (z + result[15])*0.25 clamped to a count at +64. The 'cells' reading rests on that indexing and a callee name.",
+   "summary": "Embedded grid object that slots link cells into and DrawProjectedTexture indexes by world position."
+  }
+ },
+ "unnamed": {
+  "0x17C": "Set to 0xFFFFFFFF in Init and read as a float in DrawProjectedTexture; it lies inside the embedded object at +0x178 (just after its vtable), and the read alone does not show what it is.",
+  "0x194": "Only used as the end pointer for destroying the two 0x78-byte Vt10336668 objects at +0xA4 and +0x11C in CTsZoneMap_Destructor; it is an iteration bound, not shown to hold anything.",
+  "0x34330": "Embedded object constructed by ZoneMap_ConstructVt1033668C and destroyed by Vt1033668C_Destructor; no use shows its role.",
+  "0x34428": "Embedded object constructed by ZoneMap_ConstructVt10336614 and destroyed by Vt10336614_Destructor; no use shows its role.",
+  "0x3954C": "Set to 1.0f in Init and InitZBiasPresets; no reader found, so its meaning is not shown.",
+  "0x3959C": "Embedded object initialised by Unit100548D0_Init, freed by Unit100548D0_FreeSplineSet in ZoneMap_Reset, and in Render queried with a time value (FUN_10055130) and then read as 16 floats (FUN_10055160) that are multiplied with the matrix at +0x38E1C; callee names are not evidence, and what it represents is not established."
+ }
+}

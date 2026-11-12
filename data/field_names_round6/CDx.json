@@ -1,0 +1,219 @@
+{
+ "class": "CDx",
+ "named": {
+  "0x814": {
+   "name": "stereoStripeTexture0",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::CreateStereoResources passes (IDirect3DTexture8**)this+517 (=+0x814) to CDx::CreateRampTextures1024x2, which creates two 1024x2 A8R8G8B8 textures into consecutive slots (+0x814,+0x818) and fills even columns with the caller's colour and odd columns with zero; CDx::ReleaseStereoResources Releases it (vtbl+8) and zeroes it. No reader found, so its use is not shown.",
+   "summary": "First of the two 1024x2 column-stripe textures made by the first CreateRampTextures1024x2 call in CreateStereoResources."
+  },
+  "0x818": {
+   "name": "stereoStripeTexture1",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Second slot written by the first CDx::CreateRampTextures1024x2 call in CDx::CreateStereoResources (a2 advances by one pointer per texture, two textures per call); Released and zeroed in CDx::ReleaseStereoResources.",
+   "summary": "Second texture of the first stripe-texture pair."
+  },
+  "0x81C": {
+   "name": "stereoStripeTexture2",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::CreateStereoResources passes this+519 (=+0x81C) to the second CDx::CreateRampTextures1024x2 call (different colour pair); Released and zeroed in CDx::ReleaseStereoResources.",
+   "summary": "First texture of the second stripe-texture pair."
+  },
+  "0x820": {
+   "name": "stereoStripeTexture3",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Second slot of the second CDx::CreateRampTextures1024x2 call in CDx::CreateStereoResources; Released and zeroed in CDx::ReleaseStereoResources.",
+   "summary": "Second texture of the second stripe-texture pair."
+  },
+  "0x824": {
+   "name": "stereoRenderTargetTexture",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CDx::CreateStereoResources stores CDx::CreateTexture(a1, a2, nullptr, 1, 0) here; CreateTexture passes a5=1 as Usage (D3DUSAGE_RENDERTARGET) and a6=0 as Pool to IDirect3DDevice8::CreateTexture (vtbl+80). CDx::CompositeSceneToBackBuffer, when CEnv_IsStereoMode, passes it to CDx::PushRenderTarget. Released in CDx::ReleaseStereoResources.",
+   "summary": "Render-target texture created at the requested size for stereo mode and pushed as render target when compositing."
+  },
+  "0x830": {
+   "name": "displayBitDepth",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize sets it to 32, then from the D3DDISPLAYMODE.Format returned by IDirect3DDevice8::GetDisplayMode: 32 for formats 21/22 (D3DFMT_A8R8G8B8/X8R8G8B8), 16 for 23/24/25 (R5G6B5/X1R5G5B5/A1R5G5B5). Single function.",
+   "summary": "Bits per pixel of the current display mode format."
+  },
+  "0x908": {
+   "name": "hasHwTransformAndLight",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set to 1 when DevCaps & 0x10000 (D3DDEVCAPS_HWTRANSFORMANDLIGHT); the same test selects vertexBufferUsage/vertexBufferPool. Only use.",
+   "summary": "Device reports hardware transform and lighting."
+  },
+  "0x909": {
+   "name": "hasVertexShader11",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set to 1 when VertexShaderVersion >= 0xFFFE0101 (D3DVS_VERSION(1,1)). Only use.",
+   "summary": "Device supports vertex shader version 1.1 or later."
+  },
+  "0x90A": {
+   "name": "hasPixelShader11",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set to 1 when PixelShaderVersion >= 0xFFFF0101 (D3DPS_VERSION(1,1)). Only use.",
+   "summary": "Device supports pixel shader version 1.1 or later."
+  },
+  "0x90C": {
+   "name": "vertexShaderVersion",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): written as a WORD 0x0101 (257) when VertexShaderVersion >= D3DVS_VERSION(1,1). Only use.",
+   "summary": "Supported vertex shader version as major/minor bytes (0x0101 = 1.1)."
+  },
+  "0x90E": {
+   "name": "pixelShaderVersion",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): written as a WORD 0x0101, 0x0104 or 0x0200 as PixelShaderVersion reaches D3DPS_VERSION 1.1, 1.4, 2.0. Only use.",
+   "summary": "Highest supported pixel shader version as major/minor bytes."
+  },
+  "0x910": {
+   "name": "supportsDxt1",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize: result of IDirect3D8::CheckDeviceFormat(0, D3DDEVTYPE_HAL, adapter format from GetAdapterDisplayMode, 0, D3DRTYPE_TEXTURE, D3DFMT_DXT1) >= 0. Only use.",
+   "summary": "DXT1 textures are supported."
+  },
+  "0x911": {
+   "name": "supportsDxt3",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize: CheckDeviceFormat(..., D3DRTYPE_TEXTURE, D3DFMT_DXT3) >= 0. Only use.",
+   "summary": "DXT3 textures are supported."
+  },
+  "0x912": {
+   "name": "supportsP8Texture",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize: CheckDeviceFormat(..., D3DRTYPE_TEXTURE, D3DFMT_P8) >= 0. Read in unit_10251320.cpp (g_pSqgxContext[180] = vendor 4098 || this == 0), which does not show more.",
+   "summary": "8-bit palettized (P8) textures are supported."
+  },
+  "0x913": {
+   "name": "supportsBlendOp",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when PrimitiveMiscCaps & 0x800 (D3DPMISCCAPS_BLENDOP). unit_100D7420.cpp tests it before SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD) and in several other blend-mode branches.",
+   "summary": "Device supports D3DRS_BLENDOP."
+  },
+  "0x914": {
+   "name": "supportsTssArgTemp",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when PrimitiveMiscCaps & 0x400 (D3DPMISCCAPS_TSSARGTEMP). Only use.",
+   "summary": "Device supports the D3DTA_TEMP texture-stage argument."
+  },
+  "0x915": {
+   "name": "supportsFullscreenGamma",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when Caps2 & 0x20000 (D3DCAPS2_FULLSCREENGAMMA). Read by Gfx_IsGammaSupported (unit_100014A0_Gfx.cpp) and tested before GammaRamp_ApplyIfChanged in unit_10011A00_Post.cpp and unit_10010370_App.cpp.",
+   "summary": "Device supports a full-screen gamma ramp."
+  },
+  "0x918": {
+   "name": "maxVertexBlendMatrixIndex",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize copies D3DCAPS8 dword 43 (MaxVertexBlendMatrixIndex) here. Only use.",
+   "summary": "Copy of D3DCAPS8::MaxVertexBlendMatrixIndex."
+  },
+  "0x91C": {
+   "name": "maxMultiSampleType",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize: set to 2 when IDirect3D8::CheckDeviceMultiSampleType(..., D3DMULTISAMPLE_2_SAMPLES) succeeds, then to 4 when ..._4_SAMPLES succeeds. Only use.",
+   "summary": "Highest of the 2/4-sample multisample types the adapter format supports."
+  },
+  "0x920": {
+   "name": "isAtiAdapter",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize sets 0, then 1 when IDirect3D8::GetAdapterIdentifier returns VendorId (D3DADAPTER_IDENTIFIER8 offset 0x408) == 4098 (0x1002, the PCI vendor ID of ATI). CTsZoneMap::InitZBiasPresets reads it to select different z-bias presets; unit_10251320.cpp compares the same identifier field with 4098 directly.",
+   "summary": "Adapter's PCI vendor ID is 0x1002 (ATI)."
+  },
+  "0x921": {
+   "name": "supportsCubeMap",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when TextureCaps & 0x800 (D3DPTEXTURECAPS_CUBEMAP). Read into a local in CYyModelDt.cpp whose use was not traced.",
+   "summary": "Device supports cube textures."
+  },
+  "0x924": {
+   "name": "vertexBufferUsage",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CDx::Initialize sets 8 (D3DUSAGE_WRITEONLY) with hardware T&L, else 16 (D3DUSAGE_SOFTWAREPROCESSING); unit_10163E60.cpp passes it as the Usage argument of every IDirect3DDevice8::CreateVertexBuffer call.",
+   "summary": "Usage flags passed to CreateVertexBuffer, chosen by hardware T&L support."
+  },
+  "0x928": {
+   "name": "vertexBufferPool",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CDx::Initialize sets 1 (D3DPOOL_MANAGED) with hardware T&L, else 2 (D3DPOOL_SYSTEMMEM); unit_10163E60.cpp passes it as the Pool argument of IDirect3DDevice8::CreateVertexBuffer.",
+   "summary": "D3DPOOL passed to CreateVertexBuffer, chosen by hardware T&L support."
+  },
+  "0x92C": {
+   "name": "supportsAnisotropicFilter",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when RasterCaps & 0x20000 (D3DPRASTERCAPS_ANISOTROPY), TextureFilterCaps has 0x4000000 (MAGFANISOTROPIC) and 0x400 (MINFANISOTROPIC), and MaxAnisotropy >= 2. Only use.",
+   "summary": "Device supports anisotropic min/mag filtering with MaxAnisotropy of at least 2."
+  },
+  "0x92D": {
+   "name": "supportsTableFog",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when RasterCaps & 0x100 (D3DPRASTERCAPS_FOGTABLE). CXiSkeletonActor.cpp and unit_10178790_ZoneMap.cpp test it to choose D3DRS_FOGTABLEMODE=LINEAR with FOGVERTEXMODE=NONE.",
+   "summary": "Device supports table (pixel) fog."
+  },
+  "0x92E": {
+   "name": "supportsVertexFog",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when RasterCaps & 0x80 (D3DPRASTERCAPS_FOGVERTEX). CXiSkeletonActor.cpp and unit_10178790_ZoneMap.cpp test it (when table fog is absent) to set D3DRS_FOGVERTEXMODE=LINEAR.",
+   "summary": "Device supports vertex fog."
+  },
+  "0x92F": {
+   "name": "supportsRangeFog",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when RasterCaps & 0x10000 (D3DPRASTERCAPS_FOGRANGE). CXiSkeletonActor.cpp tests it to set D3DRS_RANGEFOGENABLE TRUE, else FALSE.",
+   "summary": "Device supports range-based vertex fog."
+  },
+  "0x930": {
+   "name": "texturesMustBePow2",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when TextureCaps (byte at caps+60) & 0x2 (D3DPTEXTURECAPS_POW2). Only use.",
+   "summary": "Device requires power-of-two texture dimensions."
+  },
+  "0x931": {
+   "name": "texturesMustBeSquare",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CDx::Initialize, on the D3DCAPS8 that IDirect3DDevice8::GetDeviceCaps fills at +0x834 (field index per the D3DCAPS8 layout in tree/include/xi_d3d8.hpp; flag value per the D3D8 SDK d3d8caps.h, not in the repo header): set when TextureCaps & 0x20 (D3DPTEXTURECAPS_SQUAREONLY). unit_100D7420.cpp skips the font-compression texture-size choice when it is set, next to tests of maxTextureWidth/Height.",
+   "summary": "Device requires square textures."
+  },
+  "0xA04": {
+   "name": "hardwareCursors",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CDx::Initialize fills consecutive HCURSOR slots from +0xA04 with LoadCursorFromFileA(current directory + each 32-byte name starting at aMousenorAni), or LoadCursorA(IDC_ARROW) when GetCurrentDirectoryA fails; CDx::SetCursorShape indexes this+0x1F4+2064 (=+0xA04) by cursor slot, loads IDC_ARROW into an empty slot, and passes it to SetCursor.",
+   "summary": "Array of loaded hardware cursor handles indexed by cursor slot."
+  }
+ },
+ "unnamed": {
+  "0xA00": "Set to -1 in CDx::Initialize; no other use found in tree/src, so what it holds is not shown.",
+  "0xA4C": "Set to 0 in CDx::Initialize just after the cursor array is filled; no other use found, so it may or may not relate to the cursors."
+ }
+}

@@ -1,0 +1,17 @@
+{
+ "class": "CXiOpening",
+ "named": {
+  "0x120": {
+   "name": "openingSubtitle",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "Constructor stores the result of OpeningSubtitle_Constructor(Allocator_Generic(0x14), ...) into it and calls OpeningSubtitle_Reset; the destructor calls its virtual deleting destructor and zeroes it.",
+   "summary": "owned OpeningSubtitle object"
+  }
+ },
+ "unnamed": {
+  "0x108": "only zeroed in the constructor; no other use.",
+  "0x110": "only zeroed in the constructor; no other use.",
+  "0x124": "constructor stores Vt10329FE0_Constructor(Allocator_Generic(0x3C)) after the subtitle exists and resets it; destructor deletes it virtually. The class of that object has no name in the tree, so its role is not shown."
+ }
+}

@@ -1,0 +1,13 @@
+{
+ "class": "CMoVuDist",
+ "named": {
+  "0x198": {
+   "name": "programBuffer",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "CMoVuDist::ScalarDeletingDtor passes its address to MoProgElem_FreeBuffer40 before the shared cleanup (CMoDisintegrateProgElem and CMoVuLineProgElem do the same at +0x194 / +0x194).",
+   "summary": "buffer object freed by MoProgElem_FreeBuffer40 in the destructor"
+  }
+ },
+ "unnamed": {}
+}

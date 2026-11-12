@@ -1,0 +1,13 @@
+{
+ "class": "Obj_10621944",
+ "named": {
+  "0xC": {
+   "name": "textBlock",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Obj_10621944_Draw does nothing when it is 0; otherwise passes it to Unit1018BA60_DrawTextBlockOnce between the bilinear/point MAGFILTER changes.",
+   "summary": "text block drawn by Obj_10621944_Draw"
+  }
+ },
+ "unnamed": {}
+}

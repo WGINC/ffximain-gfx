@@ -1,0 +1,13 @@
+{
+ "class": "CApp",
+ "named": {
+  "0x1D": {
+   "name": "mainLoopActive",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "CApp::RunMainLoop stores 1 after App_InitScene reports success and 0 at LABEL_23 on every exit path of the loop; no other use in the tree.",
+   "summary": "set to 1 once the scene is initialised and 0 when the main loop exits"
+  }
+ },
+ "unnamed": {}
+}

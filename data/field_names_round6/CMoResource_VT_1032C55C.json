@@ -1,0 +1,7 @@
+{
+ "class": "CMoResource_VT_1032C55C",
+ "named": {},
+ "unnamed": {
+  "0x34": "only vf008 writes it (0); no reader in the tree."
+ }
+}

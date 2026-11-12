@@ -1,0 +1,13 @@
+{
+ "class": "CYyVbMng",
+ "named": {
+  "0x4": {
+   "name": "pooledBufferCount",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "AcquireVertexBuffer increments it when a new pooled vertex buffer is created (not on the a7 path) and decrements it when a free buffer is destroyed while it is above 300.",
+   "summary": "number of pooled vertex buffers"
+  }
+ },
+ "unnamed": {}
+}

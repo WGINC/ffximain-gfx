@@ -1,0 +1,13 @@
+{
+ "class": "CMoResource_VT_1032C8AC",
+ "named": {
+  "0x14": {
+   "name": "poolNode",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "vf004 (CMoResource::CMoCamera_SetLinkedObject / same slot in this class) executes *this->field_14 = a2, so the member is a pointer to a dword slot written by the vf. CMoElem::CMoElemFamily_SharedCleanup passes *(resource+20) to MoRes_FreeIfUnreferenced and NodePool_ReleaseNode(g_pMeshResourceMng, ...), i.e. +0x14 of a resource is a mesh-resource pool node.",
+   "summary": "pointer to the pool node whose first dword vf004 overwrites with its argument"
+  }
+ },
+ "unnamed": {}
+}

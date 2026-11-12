@@ -1,0 +1,36 @@
+{
+ "class": "CMoDistMorphElem",
+ "named": {
+  "0x32": {
+   "name": "morphTargetCountAndFlags",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "ComputeMorphHandle uses (char)(2*field_32)>>1 (low 7 bits, sign-extended) as the length of the weight array a2 it sums/normalises and as the loop bound over per-target pointers; ApplyMorph tests (int8)field_32 < 0 (bit 7) to enable D3DRS_ALPHATEST (GREATER, ref 96).",
+   "summary": "low 7 bits: number of morph targets/weights; bit 7: alpha test"
+  },
+  "0x34": {
+   "name": "positionCount",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "ComputeMorphHandle allocates 36*max(field_34,field_36) bytes, loops i<field_34 writing 3 floats (position) per output vertex from the 12-byte-per-vertex target arrays starting at this+80, and the per-target stride is 4*(field_36+3*field_34).",
+   "summary": "number of 3-float positions per morph target"
+  },
+  "0x36": {
+   "name": "packedNormalCount",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "ComputeMorphHandle loops i<field_36 unpacking one 32-bit word per entry as three signed 10-bit values scaled by 1/512 into the normal slot of the output vertex; those words follow the 3*field_34 position floats in each target (stride 4*(field_36+3*field_34)).",
+   "summary": "number of packed 10:10:10 normals per morph target"
+  },
+  "0x3A": {
+   "name": "triangleCount",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "ApplyMorph reserves and fills 3*uint16@+0x3A vertices in the dynamic vertex buffer and loops v36 < 3*field_3A copying three indexed vertices per unit (in the one function's reserve and loop bound).",
+   "summary": "number of triangles emitted by ApplyMorph (3 vertices each)"
+  }
+ },
+ "unnamed": {
+  "0x1C0": "only CMoDistMorphElem::set_field_1C0 stores a2 into it; no reader."
+ }
+}

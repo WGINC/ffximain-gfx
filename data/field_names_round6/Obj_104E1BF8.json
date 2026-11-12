@@ -1,0 +1,20 @@
+{
+ "class": "Obj_104E1BF8",
+ "named": {
+  "0x1C": {
+   "name": "fontTexture",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "ShapeMng_BindFontTexture calls ShapeMng_LoadFontTextures when it is 0 and returns 0 if still 0; otherwise SetTexture(0, entry+64 or entry+68).",
+   "summary": "font texture entry, loaded on first use"
+  },
+  "0x30": {
+   "name": "dmgNumTexture",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "ShapeMng_BindDmgNumTexture calls ShapeMng_LoadDmgNumTextures when it is 0 and returns 0 if still 0; otherwise SetTexture from entry+64 or +68.",
+   "summary": "damage-number texture entry, loaded on first use"
+  }
+ },
+ "unnamed": {}
+}

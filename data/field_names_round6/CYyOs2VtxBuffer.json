@@ -1,0 +1,42 @@
+{
+ "class": "CYyOs2VtxBuffer",
+ "named": {
+  "0x40": {
+   "name": "indexBuffer",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CYyOs2VtxBuffer::CreateBuffersStep step 1 calls IDirect3DDevice8 vtbl+0x60 (slot 24, CreateIndexBuffer per tree/include/xi_d3d8.hpp) with Length indexCount*2, Usage 8, Format 0x65 (D3DFMT_INDEX16), Pool 0, ppIndexBuffer this+0x40; CreateBuffersStep's failure path and CYyOs2VtxBuffer_Destructor Release it (vtbl+8) and zero it; Constructor zeroes it.",
+   "summary": "IDirect3DIndexBuffer8 of 16-bit indices created in CreateBuffersStep."
+  },
+  "0x4C": {
+   "name": "vertexBuffer",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CreateBuffersStep step 4 calls CYyVbMng_AcquireVertexBuffer(g_pVbMng, indexCount*8+4, 0x208, 0, 0, this+0x4C, 0); the failure path and CYyOs2VtxBuffer_Destructor call CYyVbMng_ReleaseVertexBuffer(this+0x4C) and zero it.",
+   "summary": "Vertex buffer handle acquired from the CYyVbMng vertex-buffer manager."
+  },
+  "0x64": {
+   "name": "vertexShader",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "CYyOs2VtxBuffer::Constructor calls IDirect3DDevice8::CreateVertexShader(&g_vsDecl_1628, nullptr, this+100 (=+0x64), 0); CYyOs2VtxBuffer_Destructor passes it to DeleteVertexShader and zeroes it.",
+   "summary": "Vertex shader handle created from g_vsDecl_1628."
+  }
+ },
+ "unnamed": {
+  "0x34": "Constructor stores its argument a2 here and passes *a2 to sub_10071F50; no other use, so what the argument is is not shown.",
+  "0x38": "Zeroed in Constructor; no other use.",
+  "0x44": "Zeroed in Constructor, in CreateBuffersStep's failure path and in the destructor alongside the buffers; no write of a real value found.",
+  "0x48": "Zeroed together with 0x44/0x50/0x54 in Constructor, CreateBuffersStep's failure path and destructor; no value write found.",
+  "0x50": "Zeroed together with 0x44/0x48/0x54; no value write found.",
+  "0x54": "Zeroed together with 0x44/0x48/0x50; no value write found.",
+  "0x60": "Zeroed in Constructor and right after pIndices is freed (destructor, CreateBuffersStep failure path); paired with pIndices but its own value is never shown.",
+  "0x68": "Byte zeroed in Constructor and destructor; no other use.",
+  "0x69": "Byte zeroed in Constructor and destructor; no other use.",
+  "0x6A": "Heap block freed with Mem_FreeObject in the destructor; what it contains is not shown.",
+  "0x6E": "Zeroed in Constructor and in the destructor next to 0x72; no other use.",
+  "0x72": "Heap block freed with Mem_FreeObject in the destructor; contents not shown.",
+  "0x76": "Zeroed in Constructor and destructor; no other use.",
+  "0x7A": "Heap block freed with Mem_FreeObject at the end of the destructor; contents not shown."
+ }
+}

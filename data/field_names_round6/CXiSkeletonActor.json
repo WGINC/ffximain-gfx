@@ -1,0 +1,312 @@
+{
+ "class": "CXiSkeletonActor",
+ "named": {
+  "0x5FC": {
+   "name": "posX",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CXiSkeletonActor::GetPos returns this+1532 (0x5FC); every constructor fills 0x5FC..0x608 with Vec4_Copy from the position argument a2 (Constructor_1Arg: Camera_GetField50()+80); Init loads it from c_skelActorInit_5FC.",
+   "summary": "X of the position vector GetPos returns a pointer to."
+  },
+  "0x600": {
+   "name": "posY",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Second float of the 4-float vector at 0x5FC returned by GetPos and filled by Vec4_Copy in every constructor.",
+   "summary": "Y of the position vector returned by GetPos."
+  },
+  "0x604": {
+   "name": "posZ",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Third float of the 4-float vector at 0x5FC returned by GetPos and filled by Vec4_Copy in every constructor.",
+   "summary": "Z of the position vector returned by GetPos."
+  },
+  "0x608": {
+   "name": "posW",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "All five constructors write 1.0f (1065353216) here directly after Vec4_Copy(this+0x5FC, a2); Init sets it from c_skelActorInit_608.",
+   "summary": "W component of the GetPos position vector, forced to 1.0 by the constructors."
+  },
+  "0x60C": {
+   "name": "posOffsetX",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: Vec3_Add(&v103, vfunc+0x1BC(self), self+0x60C) then Mat4_SetRow3(world matrix at +0x998, &v103), i.e. added to the actor position to form the translation row; Init sets it from c_skelActorInit_60C.",
+   "summary": "X of an offset added to the position when the world matrix translation is built."
+  },
+  "0x610": {
+   "name": "posOffsetY",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Second float of the Vec3 at 0x60C added to the position (vfunc+0x1BC) for the world matrix translation row in PerActor_FourBucketStaggeredUpdate.",
+   "summary": "Y of the position offset used for the world matrix translation."
+  },
+  "0x614": {
+   "name": "posOffsetZ",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Third float of the Vec3 at 0x60C added to the position (vfunc+0x1BC) for the world matrix translation row in PerActor_FourBucketStaggeredUpdate.",
+   "summary": "Z of the position offset used for the world matrix translation."
+  },
+  "0x61C": {
+   "name": "dirX",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CXiSkeletonActor::GetDir returns this+1564 (0x61C); Init loads 0x61C..0x628 from c_skelActorInit_61C.. and Vec4_Copy's it to +0x44, then wraps those floats into [-pi, pi].",
+   "summary": "First element of the direction (rotation angle) vector GetDir returns."
+  },
+  "0x620": {
+   "name": "dirY",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Second float of the vector at 0x61C returned by GetDir; Init copies it to +0x48 and wraps it into [-pi, pi].",
+   "summary": "Second element of the direction vector returned by GetDir."
+  },
+  "0x624": {
+   "name": "dirZ",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Third float of the vector at 0x61C returned by GetDir; Init copies it to +0x4C and wraps it into [-pi, pi].",
+   "summary": "Third element of the direction vector returned by GetDir."
+  },
+  "0x628": {
+   "name": "dirW",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "Fourth float of the vector at 0x61C (GetDir); only use is Init (from c_skelActorInit_628) and the Vec4_Copy that reads 4 floats from 0x61C.",
+   "summary": "Fourth element of the GetDir vector."
+  },
+  "0x62C": {
+   "name": "dirOffsetX",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: Vec3_Add(&v98, vfunc+0x1C0(self), self+0x62C), then v98/v99/v100 drive Mat4_PostRotateX/Y/Z of the matrix at +0x998; Init sets it from c_skelActorInit_62C.",
+   "summary": "X of an angle offset added to the direction before the rotation matrix is built."
+  },
+  "0x630": {
+   "name": "dirOffsetY",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Second float of the Vec3 at 0x62C added to the direction (vfunc+0x1C0) whose sum feeds Mat4_PostRotateY in PerActor_FourBucketStaggeredUpdate.",
+   "summary": "Y of the angle offset added to the direction."
+  },
+  "0x634": {
+   "name": "dirOffsetZ",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Third float of the Vec3 at 0x62C added to the direction (vfunc+0x1C0) whose sum feeds Mat4_PostRotateZ in PerActor_FourBucketStaggeredUpdate.",
+   "summary": "Z of the angle offset added to the direction."
+  },
+  "0x59C": {
+   "name": "opacity",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: v13 = fade(0x664) * float@0x59C, clamped to 1.0; alpha byte = 128*v13 is OR'ed over color & 0xFFFFFF (v96, passed to DrawModel); if v13 < ~1e-4 the draw is skipped. Init sets 0.",
+   "summary": "Opacity factor that becomes the alpha byte of the draw color."
+  },
+  "0x664": {
+   "name": "opacityFade",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: if float@0x664 < 0.8 the opacity multiplier is 0x664*1.25, else 1.0; the result multiplies opacity (0x59C). Init sets 1.0f.",
+   "summary": "Fade value that scales opacity down when below 0.8."
+  },
+  "0x5F8": {
+   "name": "worldMatrixOverride",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "PerActor_FourBucketStaggeredUpdate: after building the scale matrix at +0x998, if 0x5F8 != 0 it does Mat4_Copy(this+0x998, *(this+0x5F8)) (Mat4_Copy(dst, src) per unit_10026C70_Vec3.cpp) instead of computing rotation/translation; Init zeroes it.",
+   "summary": "Pointer to a matrix that replaces the computed world matrix when set."
+  },
+  "0x768": {
+   "name": "linkedActor0",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "Constructor_Factory stores the owner at this+0x768+4*slot and this in the owner's same slot (slot 0 for most kinds); PerActor_FourBucketStaggeredUpdate calls vtable +772/+844/+856 on it and reads its +0x6A4; LoadSkeletonSync calls CXiActor_GetModelByteEF on it.",
+   "summary": "Slot 0 of the mutual actor link table (owner/attached actor)."
+  },
+  "0x76C": {
+   "name": "linkedActor1",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Slot 1 of the table Constructor_Factory writes at this+0x768+4*slot (slot 1 for kinds 37..52); PerActor_FourBucketStaggeredUpdate reads it and tests *(ptr+0x6A4) == 4.",
+   "summary": "Slot 1 of the mutual actor link table."
+  },
+  "0x848": {
+   "name": "headLookTargetX",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "UpdateHeadLook stores the target actor's point (its vfunc+0x1C4 with 3) X here, later loads 0x848..0x854 as a vec4 and subtracts the own position; Init sets it from c_skelActorInit_848.",
+   "summary": "X of the point the head looks at."
+  },
+  "0x84C": {
+   "name": "headLookTargetY",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "UpdateHeadLook stores the target point Y here (minus 1.2 when the target's +0xB2 is nonzero) and reads it back for the look vector; Init from c_skelActorInit_84C.",
+   "summary": "Y of the point the head looks at."
+  },
+  "0x850": {
+   "name": "headLookTargetZ",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "UpdateHeadLook stores the target point Z here and reads it back for the look vector; Init from c_skelActorInit_850.",
+   "summary": "Z of the point the head looks at."
+  },
+  "0x854": {
+   "name": "headLookTargetW",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "UpdateHeadLook sets it -1.0 (no target / model flag), 1.0 (lockFlags bit0 set, bit1 clear) or 0 (target point stored) and only increases the look weight when it is >= 0; Init sets -1.0f.",
+   "summary": "State word of the head-look target vector (-1 none, 0 point valid, 1 forced)."
+  },
+  "0x864": {
+   "name": "partSlot9Resource",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "AddPartAndMarkSlot: for model byte EE 6/7 with part slot 9, Unit10048000_SetDwordAndCopyOut(this+0x864, ..., param_1) stores the part resource pointer and CMoResource_AddRefChain is called on it; vf256 returns it through *a2; Init zeroes it.",
+   "summary": "Resource pointer of the part added in slot 9."
+  },
+  "0x8A4": {
+   "name": "pendingPartStep",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "ChoosePendingPartStep sets it to 1, 2 or 5; LoadSkeletonSync sets 4; RunPendingPartStep switches on it (1 RequestModelParts, 2/3/4/5 other part routines) once all 9 part bits are loaded and resets it to 0; IsReadCompleteBody returns false while it is nonzero; Init zeroes it.",
+   "summary": "Which part-loading step is still to be run."
+  },
+  "0x8B0": {
+   "name": "loadedPartMask",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "AddPartAndMarkSlot ORs in 1 << ((param_2 >> 12) & 0xF) for each part added; RunPendingPartStep waits until (mask & 0x1FF) == 0x1FF; Init zeroes it.",
+   "summary": "Bit mask of the part slots that have been added."
+  },
+  "0x8B8": {
+   "name": "randomTimer",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "UpdateRandomTimer subtracts Camera_GetFrameScale from it and, when it goes below 0, resets it to rand() % 480 and runs the idle action path; Init sets 120.0f (1123024896).",
+   "summary": "Countdown that triggers a random action and is refilled with a random value."
+  },
+  "0x8C4": {
+   "name": "pendingFourCC",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "All four Constructor_NArg store their last argument here (Constructor_3Arg compares it with 'spop' 0x706F7073); RunPendingPartStep, once IsReadCompleteBody is true, passes it to vtable +0x298 (the slot called elsewhere with 'init','con0','efon' tags) and clears it on success; Init zeroes it.",
+   "summary": "FourCC tag held until resources are loaded, then dispatched and cleared."
+  },
+  "0x8E8": {
+   "name": "updateRequested",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "RunStaggeredUpdates: when 0x8D4 != 0 it calls PerActor_FourBucketStaggeredUpdate only if this byte == 1 and then clears it; Init sets it to 1.",
+   "summary": "Requests one update while updates are restricted by 0x8D4."
+  },
+  "0x8D4": {
+   "name": "updateOnRequestOnly",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "RunStaggeredUpdates: when nonzero, the per-actor update runs only if updateRequested (0x8E8) is 1; when zero it runs every call; Init zeroes it.",
+   "summary": "When set, updates run only on request."
+  },
+  "0x764": {
+   "name": "generatorCloneRef",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "DestructorBody: if *(this+0x764) is a nonzero pointer whose target is set, calls CMoResource_ReleaseChain and CMoGeneratorClone_Kill on the target, then zeroes 0x764; Init zeroes it.",
+   "summary": "Reference to a generator clone that the destructor releases and kills."
+  },
+  "0x814": {
+   "name": "generatorCloneRef2",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "DestructorBody: same release pattern as 0x764 (CMoResource_ReleaseChain + CMoGeneratorClone_Kill on *ptr, then zero); Init zeroes it.",
+   "summary": "Second reference to a generator clone released by the destructor."
+  },
+  "0xA4": {
+   "name": "attachKind",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "Constructor_Factory stores its a4 here and dispatches on it: ranges 37..52, 53..60, 82, 83 pick the link slot, and with no owner it prints aNoOwnerMagicCircle/FishingRod/Chair/Border/Range/GroundTarget/Chocobo by range.",
+   "summary": "Kind number of an owned attachment actor created by the factory constructor."
+  }
+ },
+ "unnamed": {
+  "0x4": "Only use is PoseCompose returning this->field_4; no caller of PoseCompose in the tree shows that its this is a CXiSkeletonActor, so not even the owning object is known.",
+  "0x30": "Uses are in DrawModel/PrepareModelsOnce, which are called with this = actor+0x674 (the CYyModel member), so the member belongs to that model object, not to CXiSkeletonActor at +0x30; bits 1 and 0x12 are OR'ed in.",
+  "0xB4": "Written with g_modelPrimitiveCount in DrawModel, whose this is actor+0x674 (CYyModel), so it is a model member, not a CXiSkeletonActor one at +0xB4.",
+  "0xB8": "Compared with 1 in DrawModel (this = actor+0x674, CYyModel) together with g_skinningCapabilityFlag; it belongs to the model object and its meaning is not shown.",
+  "0x44": "Init copies the GetDir vector (0x61C) and later the GetPos vector (0x5FC) into 0x44..0x50 and wraps each float into [-pi, pi]; receiving both vectors leaves its role unclear.",
+  "0x48": "Second float of the 0x44 vector; Init copies into it and wraps it to [-pi, pi]; role unclear for the same reason as 0x44.",
+  "0x4C": "Third float of the 0x44 vector; Init copies into it and wraps it to [-pi, pi]; role unclear for the same reason as 0x44.",
+  "0xF9": "Byte tested in DestructorBody: if this actor is the current target and the byte is 0, the target mode is reset; nothing shows what sets it.",
+  "0x17C": "Byte; nonzero selects g_actorShadowMode 2 instead of 0 in PerActor_FourBucketStaggeredUpdate and is passed to FUN_100aaee0; its own meaning is not shown.",
+  "0x618": "Fourth dword after posOffset XYZ, set only by Init from c_skelActorInit_618; never read.",
+  "0x638": "Fourth dword after dirOffset XYZ, set only by Init from c_skelActorInit_638; never read.",
+  "0x65C": "Only zeroed in Init.",
+  "0x670": "Only accessed through the placeholder-named SetField670/GetField670 and zeroed in Init; no caller shows the value's meaning.",
+  "0x728": "Compared <= 1 / > 1 in PerActor_FourBucketStaggeredUpdate to choose shadow mode and whether to draw; what the count is is not shown.",
+  "0x738": "Only zeroed in the constructors next to the emap/UV members.",
+  "0x798": "Only zeroed in Init.",
+  "0x79C": "Only accessed through the placeholder-named GetField79C/SetField79C.",
+  "0x7A0": "Only zeroed in Init.",
+  "0x7A4": "Only set to -1 in Init.",
+  "0x7B4": "Only set from c_skelActorInit_7B4 in Init.",
+  "0x7B8": "Only set from c_skelActorInit_7B8 in Init.",
+  "0x7BC": "Only set from c_skelActorInit_7BC in Init.",
+  "0x7C0": "Only set from c_skelActorInit_7C0 in Init.",
+  "0x7C4": "ReverseFindRes skips type-7 resource entries whose +32 equals this value (unless a7 == 1); Init zeroes it; what the value identifies is not shown.",
+  "0x7D9": "Only zeroed in Init.",
+  "0x7DA": "Only zeroed in Init.",
+  "0x7DC": "Only set to 1.0f in Init.",
+  "0x7E0": "Only set to 1.0f in Init.",
+  "0x7E8": "Only zeroed in Init.",
+  "0x7EC": "Only zeroed in Init.",
+  "0x7F0": "Only zeroed in Init.",
+  "0x7F4": "Only zeroed in Init.",
+  "0x7F8": "Only set to 0x20202020 (four spaces, a blank FourCC) in Init.",
+  "0x7FC": "Only zeroed in Init.",
+  "0x800": "Only zeroed in Init.",
+  "0x804": "Only set to 0x20202020 (blank FourCC) in Init.",
+  "0x808": "Only zeroed in Init.",
+  "0x80C": "Only set to 0x20202020 (blank FourCC) in Init.",
+  "0x810": "Only zeroed in Init.",
+  "0x818": "Only zeroed in Init.",
+  "0x81C": "Only zeroed in Init.",
+  "0x820": "Only zeroed in Init.",
+  "0x824": "Only zeroed in Init.",
+  "0x828": "Only zeroed in Init.",
+  "0x844": "Only zeroed in Init.",
+  "0x858": "Only zeroed in Init.",
+  "0x85C": "fn_100CD040: when nonzero and speed*1.2 > 0.5, two local parameters are set from the speed instead of constants 0.2/0.5; otherwise only zeroed in Init; what it holds is not shown.",
+  "0x860": "Only zeroed in Init.",
+  "0x868": "Only zeroed in Init.",
+  "0x86C": "Only zeroed in Init.",
+  "0x870": "Only zeroed in Init.",
+  "0x874": "Only zeroed in Init.",
+  "0x878": "Signed byte: <= 0 or == 3 selects the Euler-rotation path instead of CalcGroundTiltMatrix in PerActor_FourBucketStaggeredUpdate; GetField878Ptr_Candidate exposes it; values' meaning not shown.",
+  "0x8A0": "LoadSkeletonSync stores its (non-negative) argument here when it sets pendingPartStep to 4; no reader is in the tree.",
+  "0x8A5": "Only read/written by placeholder-named vf041/vf042.",
+  "0x8A6": "Only read/written by placeholder-named vf043/vf044.",
+  "0x8A7": "Only read/written by placeholder-named vf045/vf046.",
+  "0x8A8": "Only read/written by vf047 and ActivateFlag9F8 (a placeholder name that does not match this offset).",
+  "0x8A9": "Only read/written by ActivateFlagA04 (placeholder name) and vf050.",
+  "0x8AA": "UpdateRandomTimer runs the random action only when this byte is 0; Init zeroes it; what sets it is not shown.",
+  "0x8AB": "Only zeroed in Init.",
+  "0x8AC": "Bit 0 is set/cleared/tested by the placeholder-named EnableFlag8AC/DisableFlag8AC/IsFlag8ACSet; Init clears bits 0-2; meaning not shown.",
+  "0x8B4": "Only set to 1 in Init.",
+  "0x8B5": "LoadSkeletonSync sets it to 1 when part slot 7's group number lies outside fixed ranges; it selects between two part routines in RunPendingPartStep and two resource bytes in AddPartAndMarkSlot; what the condition means is not shown.",
+  "0x8B6": "Only zeroed in Init.",
+  "0x8BC": "Only zeroed in Init.",
+  "0x8EC": "Only zeroed in Init.",
+  "0x910": "Float; PerActor_FourBucketStaggeredUpdate uses boundRadius + 0.25*(this - boundRadius) as the occlusion query radius; what the value itself is is not shown.",
+  "0x9D8": "Constructors Vec4_Copy the same initial position vector into 0x9D8 as into 0x5FC; Init sets it from a constant; no reader seen, so its role (e.g. which copy of the position) is not known.",
+  "0x9DC": "Second float of the 0x9D8 vector; same as 0x9D8.",
+  "0x9E0": "Third float of the 0x9D8 vector; same as 0x9D8.",
+  "0x9E4": "Set to 1.0f in every constructor after the copy into 0x9D8; role of the vector not known.",
+  "0x9E8": "Only zeroed in Init.",
+  "0xA00": "PerActor_FourBucketStaggeredUpdate sets it to 1 on the path that keeps g_skinningCapabilityFlag = 1, and when it is nonzero on the next eligible pass clears it and sets the flag to 0; its purpose is not shown."
+ }
+}

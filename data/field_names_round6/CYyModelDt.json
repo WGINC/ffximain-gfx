@@ -1,0 +1,27 @@
+{
+ "class": "CYyModelDt",
+ "named": {
+  "0x8": {
+   "name": "modelResourceHandle",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "PrepareRenderStateEntry and PrepareRenderStateSimpleEntry pass ResourceHandle_Deref(field_8) as the resource; MarkReferencedBones dereferences it and walks its bone index list (+60, count at +64).",
+   "summary": "handle of the model resource, dereferenced with ResourceHandle_Deref"
+  },
+  "0x33": {
+   "name": "renderVariant",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "SkinAndDrawV2 switches on it (2..6, 0x12, 0x22, 0x32) and sets different combinations of flag bytes at a3+169..176.",
+   "summary": "selector of which flag bytes SkinAndDrawV2 sets"
+  },
+  "0x34": {
+   "name": "extraStreamFlags",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "SkinAndDrawV2 tests (field_34 & 1) before waiting on the buffers at resource+80/+84 and, after each indexed draw, binds those two as streams 0 and 1 (stride 12) and draws again.",
+   "summary": "bit 0: also bind the two extra vertex streams and draw them"
+  }
+ },
+ "unnamed": {}
+}

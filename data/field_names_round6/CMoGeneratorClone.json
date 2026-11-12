@@ -1,0 +1,69 @@
+{
+ "class": "CMoGeneratorClone",
+ "named": {
+  "0x24": {
+   "name": "typeSizeFlags",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CMoGeneratorClone::InitCloneFromSource copies source a2[1] here and uses ((a2[1]>>7)&0x7FFFF)-6 as a length in 16-byte units for the following qmemcpy; FixupClonedPointers tests the low 7 bits of the same dword (&0x7F == 0x3D) on the ResolveTarget object and the sign bit (v6[9] < 0) on parent objects; CreateInstance sets bit 0x4000000 and clears 0x8000000 on the new instance.",
+   "summary": "Packed dword: a 7-bit type, a 19-bit size in 16-byte units, and flag bits."
+  },
+  "0x28": {
+   "name": "pParentNode",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "FixupClonedPointers walks v6 = *(v6[10]) (i.e. *(this+0x28)) upward until typeTag 0x74617277 or a negative +0x24; ResolveTarget walks the chain from +0x14 with next = *(object+0x28); CreateInstance sets the new instance's +0x28 to this->field_14. Copied from source a2[2] in InitCloneFromSource.",
+   "summary": "Pointer to the node whose first dword is the parent object, used to walk up the object chain."
+  },
+  "0xB0": {
+   "name": "elemListHead",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CMoGeneratorClone::UnlinkElemListA stores the element's next link (+0x150) here when the element's prev link (+0x14C) is null, i.e. it is the head of a doubly linked list; zeroed in FixupClonedPointers and CopyParams.",
+   "summary": "Head of a doubly linked element list (links at +0x14C/+0x150 of each element)."
+  },
+  "0xE4": {
+   "name": "pFindCommandStream",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "Stored as an offset and rebased by this+0x60 in FixupClonedPointers like pCommandStream; FindCmdByType walks it (opcode = low byte, length in dwords = bits 8..12, stops at opcode 0) to find a command by type; ResolveTarget reads and fills the first record (+8 target, +0xC id, +0x28 flag); ResolveCmdTargets fills opcode 0x21 records.",
+   "summary": "Command stream searched by FindCmdByType and whose first record holds the resolved target."
+  },
+  "0xE8": {
+   "name": "pResolveCommandStream",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Rebased by this+0x60 in FixupClonedPointers; walked only by ResolveCmdTargets, which fills the resource pointers of opcode 0x47 (type 10) and 0x65 (types 7 and 5) records via CMoResource_FindByTypeAndId.",
+   "summary": "Command stream whose 0x47/0x65 records get their resource pointers resolved in ResolveCmdTargets."
+  },
+  "0xEC": {
+   "name": "pExecCommandStream",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "Rebased by this+0x60 in FixupClonedPointers; ResolveCmdTargets fills its opcode 1 (type 5) and 2 (type 7) records; CMoGeneratorClone::ExecuteCmdList switches on each record's low byte and executes it.",
+   "summary": "Command stream executed by ExecuteCmdList."
+  }
+ },
+ "unnamed": {
+  "0x14": "Read in ResolveTarget as the start of a node chain (*node is an object, next node at object+0x28) and copied by CreateInstance into the new instance's +0x28 and +0xF4; it is a node pointer, but whose node (this object's own or another) is not shown.",
+  "0x2C": "Copied from source a2[3] in InitCloneFromSource and from the source object in CopyParams; no reader shows its meaning.",
+  "0x34": "Copied from source a2[4] in InitCloneFromSource; no other use.",
+  "0x38": "Copied from source a2[5] in InitCloneFromSource; no other use.",
+  "0x3C": "Copied from source a2[6] in InitCloneFromSource; no other use.",
+  "0x40": "Copied from source a2[7] in InitCloneFromSource; no other use.",
+  "0x70": "Copied from source a2[8] in InitCloneFromSource and in CopyParams (which also copies it with +0x74/+0x78 into +0xB4..); no reader shows its meaning.",
+  "0x74": "Copied from source a2[9] in InitCloneFromSource and in CopyParams; no reader shows its meaning.",
+  "0x78": "One of six consecutive dwords (+0x78..+0x8C) set to 1.0f together in FixupClonedPointers, InitDefaultParams and CreateInstance; no reader found, so what the 1.0 values are is not shown.",
+  "0x7C": "Second of the six dwords reset to 1.0f together (see 0x78); no reader found.",
+  "0x80": "Third of the six dwords reset to 1.0f together (see 0x78); no reader found.",
+  "0x84": "Fourth of the six dwords reset to 1.0f together (see 0x78); no reader found.",
+  "0x88": "Fifth of the six dwords reset to 1.0f together (see 0x78); no reader found.",
+  "0x8C": "Sixth of the six dwords reset to 1.0f together (see 0x78); no reader found.",
+  "0x98": "Copied from source a2[11] in InitCloneFromSource and zeroed by FixupClonedPointers when FindCmdByType(123) finds no command; tied to command type 123, but what it holds is not shown.",
+  "0x9C": "Zeroed in InitCloneFromSource and CreateInstance, copied in CopyParams; no reader found.",
+  "0xA4": "InitDefaultParams lazily allocates a 64-byte block here (Mem_AllocWithHeader12(64,1)), calls MoProcessor_CallVSlot49 on it and returns it; CopyParams zeroes it. What the object is is not shown beyond that callee name.",
+  "0xDC": "WORD zeroed in FixupClonedPointers and copied in CopyParams; no reader found.",
+  "0xDE": "Flag byte built in FixupClonedPointers ((byte at +0x21 - 48) & 0x7B | 0x80, then |0x83, |0x40, |0x20 by parent typeTag); the meaning of the bits is not shown.",
+  "0xDF": "Flag byte set in FixupClonedPointers (bit 1 / bit 2) from GetGlobal_1047D114 values and typeTag values; the meaning of the bits is not shown."
+ }
+}

@@ -1,0 +1,12 @@
+{
+ "class": "CMoResource_VT_1032C854",
+ "named": {},
+ "unnamed": {
+  "0x36": "vf004 rewrites it from an absolute pointer to (value - this - 48) >> 1, a halfword offset from this+0x30; what the section it locates holds is not shown by this function.",
+  "0x3C": "vf004 rewrites it from an absolute pointer to (value - this - 48) >> 1, a halfword offset from this+0x30; what the section it locates holds is not shown by this function.",
+  "0x42": "vf004 rewrites it from an absolute pointer to (value - this - 48) >> 1, a halfword offset from this+0x30; what the section it locates holds is not shown by this function.",
+  "0x48": "vf004 rewrites it from an absolute pointer to (value - this - 48) >> 1, a halfword offset from this+0x30; what the section it locates holds is not shown by this function.",
+  "0x4E": "vf004 rewrites it from an absolute pointer to (value - this - 48) >> 1, a halfword offset from this+0x30; what the section it locates holds is not shown by this function.",
+  "0x54": "vf004 rewrites it from an absolute pointer to (value - this - 48) >> 1, a halfword offset from this+0x30; what the section it locates holds is not shown by this function."
+ }
+}

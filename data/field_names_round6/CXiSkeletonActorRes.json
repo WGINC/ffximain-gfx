@@ -1,0 +1,7 @@
+{
+ "class": "CXiSkeletonActorRes",
+ "named": {},
+ "unnamed": {
+  "0x40": "only the constructor writes 0; no reader."
+ }
+}

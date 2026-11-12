@@ -1,0 +1,51 @@
+{
+ "class": "CMoDistModelElem",
+ "named": {
+  "0x32": {
+   "name": "alphaTestFlags",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "CMoDistModelElem::DrawMesh: if (field_32 & 1) it sets D3DRS_ALPHATESTENABLE=TRUE, ALPHAFUNC=GREATER, ALPHAREF=96; only bit 0 is read in the tree.",
+   "summary": "bit 0 enables the alpha test (ref 96) in DrawMesh"
+  },
+  "0x34": {
+   "name": "batchCount",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "GetDataEnd sizes the data as (field_34+field_35) uint16 entries after GetVertexBase; DrawBatches and DrawMesh loop i<field_34 and issue one VertexBatch_BindAndDraw (primitive type 4 = triangle list) per uint16 entry, advancing the start vertex by 3*entry; field_34==0 selects the single-draw path.",
+   "summary": "number of per-batch uint16 triangle counts that are drawn one batch at a time"
+  },
+  "0x36": {
+   "name": "triangleCount",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "DrawBatches single-draw path calls VertexBatch_BindAndDraw(vb, 0, field_36, 4, ...) and the remainder path uses field_36 - startVertex/3; DrawMesh uses the same expressions. Primitive type 4 is D3DPT_TRIANGLELIST.",
+   "summary": "total triangle count of the mesh drawn as a triangle list"
+  },
+  "0x120": {
+   "name": "textureOffsetU",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "In CMoDistModelElem::Draw and DrawBatches (only when field_17B&3) it is written into element 8 of a matrix that is then set with CDx_SetTransform after TEXTURETRANSFORMFLAGS=D3DTTFF_COUNT2; element 8 (_31) is the U translation of a 2D texture transform in the D3D matrix layout.",
+   "summary": "U translation put into the texture transform"
+  },
+  "0x124": {
+   "name": "textureOffsetV",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "Same two functions write it into element 9 (_32), the V translation of the 2D texture transform.",
+   "summary": "V translation put into the texture transform"
+  },
+  "0x17B": {
+   "name": "textureTransformFlags",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "Draw and DrawBatches test (field_17B & 3) != 0 to choose between building a texture-transform matrix from field_120/field_124 and the D3DTTFF_DISABLE path.",
+   "summary": "nonzero low two bits enable the texture offset transform"
+  }
+ },
+ "unnamed": {
+  "0x35": "read by GetDataEnd (added to field_34 for the uint16 table length) and DrawBatches/DrawMesh (nonzero => draws the remaining triangles field_36 - drawn after the batches with another state block), but whether it is a count or a flag is not shown.",
+  "0x104": "passed unchanged as the third argument of XiZone_DrawModelAtMatrix in Draw; that callee is not in the tree, so what it is is not shown."
+ }
+}

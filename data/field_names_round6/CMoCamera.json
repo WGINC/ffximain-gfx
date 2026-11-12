@@ -1,0 +1,10 @@
+{
+ "class": "CMoCamera",
+ "named": {},
+ "unnamed": {
+  "0x34": "CMoCamera::SetPathData copies a2[4] into it (a2[0..3] go to +0x20, a2[5..7] to +0x38..+0x40); nothing reads it in the tree, so what the path-data words mean is not shown.",
+  "0x38": "copied from a2[5] by SetPathData only; no reader.",
+  "0x3C": "copied from a2[6] by SetPathData only; no reader.",
+  "0x40": "copied from a2[7] by SetPathData only; no reader."
+ }
+}

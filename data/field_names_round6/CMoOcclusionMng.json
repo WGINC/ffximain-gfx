@@ -1,0 +1,15 @@
+{
+ "class": "CMoOcclusionMng",
+ "named": {
+  "0xC": {
+   "name": "occlusionTexture",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "OcclusionMng_CreateTarget stores the result of CDx_CreateTexture(g_pCDx, 16, 16, &a4, 1, 0) into it.",
+   "summary": "16x16 texture created by OcclusionMng_CreateTarget"
+  }
+ },
+ "unnamed": {
+  "0x10": "OcclusionMng_CreateTarget stores the local that it passed as the out pointer to CDx::CreateTexture; that function only writes 0 through it, so the stored value is not shown to mean anything."
+ }
+}

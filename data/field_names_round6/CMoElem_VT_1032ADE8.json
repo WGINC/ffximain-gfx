@@ -1,0 +1,13 @@
+{
+ "class": "CMoElem_VT_1032ADE8",
+ "named": {
+  "0xFC": {
+   "name": "listAResourceHandle",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "vf18 loads *field_FC as a resource and calls CMoAttachments_GetTarget(res+48); same offset and use as CMoElem::field_FC, which SharedCleanup unlinks from list A.",
+   "summary": "pointer to a handle of the linked resource (same member as CMoElem+0xFC)"
+  }
+ },
+ "unnamed": {}
+}

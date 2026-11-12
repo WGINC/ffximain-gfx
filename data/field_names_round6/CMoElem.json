@@ -1,0 +1,34 @@
+{
+ "class": "CMoElem",
+ "named": {
+  "0xFC": {
+   "name": "listAResourceHandle",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CMoElemFamily_SharedCleanup: *field_FC is a resource passed to CMoGeneratorClone_UnlinkElemListA(res, this) and CMoResource_ReleaseChain; then field_FC is cleared. CMoElem_VT_1032ADE8::vf18 dereferences the same offset and reads the attachment target at resource+0x30.",
+   "summary": "pointer to a handle of the resource this element is linked to through list A"
+  },
+  "0x100": {
+   "name": "listBResourceHandle",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CMoElemFamily_SharedCleanup: *field_100 is passed to CMoGeneratorClone_UnlinkElemListB(res, this); then field_100 is cleared.",
+   "summary": "pointer to a handle of the resource this element is linked to through list B"
+  },
+  "0x108": {
+   "name": "headeredAllocation",
+   "kind": "descriptive",
+   "confidence": "medium",
+   "evidence": "CMoElemFamily_SharedCleanup frees it with Mem_FreeWithHeader12 when non-null and zeroes it.",
+   "summary": "block freed with Mem_FreeWithHeader12 by the cleanup"
+  },
+  "0x164": {
+   "name": "backrefResourceHandle",
+   "kind": "descriptive",
+   "confidence": "low",
+   "evidence": "CMoElemFamily_SharedCleanup: *field_164 is a resource passed to CMoResource_ReleaseChain, its +248 is cleared, field_164 is zeroed, and the resource is returned to the mesh node pool if its count (+24 & 0x7FFF) is 0.",
+   "summary": "pointer to a handle of a resource whose +248 back-reference the cleanup clears and releases"
+  }
+ },
+ "unnamed": {}
+}

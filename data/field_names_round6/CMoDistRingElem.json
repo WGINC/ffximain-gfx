@@ -1,0 +1,24 @@
+{
+ "class": "CMoDistRingElem",
+ "named": {
+  "0x1B4": {
+   "name": "segmentCount",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "AllocRingGeometry steps the angle by 0x1.921fb p+2 (2*pi) / field_1B4, loops sin/cos field_1B4 times per ring, and the vertex count per ring is 2*field_1B4+2.",
+   "summary": "number of segments around the ring"
+  },
+  "0x1B5": {
+   "name": "ringLevelCount",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "AllocRingGeometry allocates 36*(2*segments+2)*field_1B5 bytes, builds field_1B5 colours from the 4-byte entries at +0x1A4, and draws field_1B5-1 triangle strips.",
+   "summary": "number of levels (rings) along the profile; field_1B5-1 strips are drawn"
+  }
+ },
+ "unnamed": {
+  "0xA0": "its address is passed as the third argument of CMoDistMorphElem_ValidateMorphData(a3, v35, &field_A0, 0) in AllocRingGeometry; what that sub-object is is not shown.",
+  "0x198": "AllocRingGeometry walks floats starting at +0x194 (v9[-1] and v9[0] for the first strip), so +0x198 is the second element of a per-level float array that begins at +0x194, not a separate member.",
+  "0x1A5": "AllocRingGeometry reads 4-byte entries starting at +0x1A4 (v5-1 on the first pass), so +0x1A5 is the second byte of the first entry of a per-level colour array at +0x1A4, not a separate member."
+ }
+}

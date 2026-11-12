@@ -1,0 +1,13 @@
+{
+ "class": "CYyModelBase",
+ "named": {
+  "0xC4": {
+   "name": "cubemapSpecTexture",
+   "kind": "descriptive",
+   "confidence": "high",
+   "evidence": "DrawLit: when field_C4 == -1 it is set to CYyTexMng_FindByNameInResource(g_pTextureMng, c_texNameCubemapSpec, resource); -1 is the not-looked-up sentinel.",
+   "summary": "texture found by the cubemap-specular name, -1 until looked up"
+  }
+ },
+ "unnamed": {}
+}

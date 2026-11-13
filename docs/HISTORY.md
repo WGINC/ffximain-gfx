@@ -5196,6 +5196,29 @@ line counts the heap changes. Tests: D8ON11_D3D12_DIAG=heaps forces the mode (sc
 the usual executor under Wine), heaps,fresh past 1,024 heaps, D8ON11_TEST_D3D12_HEAPS_WRONG the fallback. Not known:
 the cost of a heap change on Parallels (the 15 Nov session measures it). kit/sessions/d12_15nov.
 
+## 13 Nov (eighth entry): the owner's 15 Nov run -- the picture fixed; shadows; the 16 Nov session
+
+- **Picture check (run_formats.bat):** place check wrong as before, heap check right (128, 0), heaps chosen; all 35
+  scenes identical to Direct3D 11. The owner: "Beautiful, all fixed."
+- **The game (2026-11-12_225133_5032, Direct3D 12, heaps):** 46,394 frames in 398 s, mean 8.58 ms (116.6 fps), p95
+  12.97 ms; marks: 7.70 / 8.97 / 8.66 ms mean (p95 12.41 / 12.56 / 13.68). Sampler heap changes 5-97 a frame against
+  21-1,712 draws. GPU time not measured (Parallels timestamps). speedfix's step 100.0% of real time each minute.
+  measure_read.py's "the getter's step ... % of real time" line assumed the game's own getter (0x10014CF0); under
+  frame_step speedfix's fork answers the step, so the line printed 194.9%, which does not apply: the reader now says
+  so and points at speedfix's lines.
+- **The owner: simple shadows load at their right size, then a second later all pop to one very small size; advanced
+  shadows drawn directly under the character, not cast (cloudy, daytime: perhaps the game's own).** From the code
+  (labels are names, not evidence): Shadow_DrawByMode (unit_100310A0.cpp) draws the simple shadow (mode 2,
+  XiZone_DrawGroundShadowQuad) at [0x1045B810] x 1/3 for every character: one global. It is 1.0 from the constructor
+  (unit_100310A0.cpp:292) and rewritten by 0x100CBDE0 (CXiSkeletonActor.cpp:2288) from the light-space extent of that
+  character's eight box corners (+0x918.., written by OnMove 0x100C63D0 at 0x100C7988 from the box its model returns
+  through vtable +0x3C8), x 0.5556 unless mode 1, at least 0.01. So the last character computed sets every simple
+  shadow's size. Mode 0 draws the projected shadow only while [0x1045B80C] < 20, else the same ground quad. Not
+  established: whether the original game shows the same shrink (dgVoodoo comparison), and whether anything of ours
+  (gpu_skin is the one lever touching models) changes the box.
+- **Session d12_16nov:** a look without the kit (dgVoodoo), then d12 (as 15 Nov), noskin (gpu_skin=0), lim (Liminality
+  with the 12 Nov fixes, never run: liminality=1, lim_limbs=1, task_draws=1, gpu_skin=0 as in ab_15nov).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

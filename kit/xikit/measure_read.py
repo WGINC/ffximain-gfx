@@ -181,7 +181,14 @@ def main(argv):
                   dict(collections.Counter(p30).most_common(4)), sum(tf) / len(tf) if tf else float('nan')))
             # real ticks against the step: what the step under-counts (the truncation, RENDERER.md 3a)
             real = [x / (1000.0 / 60) for x in ft]; step = [max(x or 0, 1.0) for x in p28]
-            if len(real) == len(step) and real:
+            fs_on = False
+            try:
+                fs_on = re.search(r'^\s*frame_step\s*=\s*[1-9]', open(os.path.join(d, 'copy_speedfix.ini'), errors='replace').read(), re.M) is not None
+            except OSError: pass
+            if fs_on and real:   # (16 Nov) under frame_step speedfix's fork answers the step, not 0x10014CF0: its own log line counts it
+                w('The getter\'s step against real time: not given here; frame_step is on (copy_speedfix.ini), so the step is speedfix\'s fork\'s, '
+                  'whose whole and fraction ticks against real time are in its `speedfix: frame_step=` lines (xikit.log).')
+            elif len(real) == len(step) and real:
                 w('Real elapsed ticks per frame (frame ms / 16.67) mean %.3f; the getter\'s step (max(this+0x28, 1), 0x10014CF0) mean %.3f: what the step advances is %.1f%% of real time.' % (
                     sum(real) / len(real), sum(step) / len(step), 100.0 * sum(step) / sum(real)))
                 summ['step_over_real'] = sum(step) / sum(real)

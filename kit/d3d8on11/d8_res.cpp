@@ -39,6 +39,7 @@ HRESULT TexCore::init(Dev *d, UINT w_, UINT h_, UINT lv, UINT faces_, DWORD u, D
   return D3D_OK;
 }
 void TexCore::destroy() {
+  if (mipped && id) dev->mip_live.erase(id);
   for (Surf *s : surfs) if (s) { s->container = nullptr; s->Release(); }
   dev->destroy_obj(id); id = 0;
 }
@@ -93,6 +94,55 @@ HRESULT TexCore::unlock(UINT face, UINT l) {
 // mipmaps (d8_mip.cpp): levels 1 .. xlevels-1 from level 0's CPU copy, sent as the executor's subresources 1 ..
 // A write to part of level 0 (LockRect with a rectangle, CopyRects) makes again only the part of each level it reaches
 // (mip_update: equal to a whole build, mip_test), when the texture is 32-bit and not a cutout; otherwise all of it
+// the worker: jobs in, results out, each under one lock; the game's thread never waits on a build
+struct MipJob { uint32_t id, serial; D3DFORMAT f; UINT w, h, xl; std::vector<uint8_t> l0; std::vector<std::vector<uint8_t>> out; int n = 0; bool cut = false; double ms = 0; };
+struct MipWorker {
+  CRITICAL_SECTION cs; HANDLE ev = nullptr, th = nullptr; volatile LONG quit = 0;
+  std::vector<MipJob *> in, out;
+  static DWORD WINAPI run(void *p) {
+    MipWorker *w = (MipWorker *)p;
+    for (;;) {
+      WaitForSingleObject(w->ev, INFINITE);
+      if (w->quit) return 0;
+      for (;;) {
+        MipJob *j = nullptr;
+        EnterCriticalSection(&w->cs); if (!w->in.empty()) { j = w->in.front(); w->in.erase(w->in.begin()); } LeaveCriticalSection(&w->cs);
+        if (!j) break;
+        double t0 = qpc_now_ms(); j->n = mip_build(j->f, j->w, j->h, j->l0.data(), j->xl, j->out, &j->cut); j->ms = qpc_now_ms() - t0;
+        std::vector<uint8_t>().swap(j->l0);
+        EnterCriticalSection(&w->cs); w->out.push_back(j); LeaveCriticalSection(&w->cs);
+        if (w->quit) return 0;
+      }
+    }
+  }
+  MipWorker() { InitializeCriticalSection(&cs); ev = CreateEventA(nullptr, FALSE, FALSE, nullptr); th = CreateThread(nullptr, 0, run, this, 0, nullptr); }
+  ~MipWorker() {
+    InterlockedExchange(&quit, 1); SetEvent(ev); if (th) { WaitForSingleObject(th, 5000); CloseHandle(th); }
+    for (MipJob *j : in) delete j; for (MipJob *j : out) delete j; CloseHandle(ev); DeleteCriticalSection(&cs);
+  }
+  void put(MipJob *j) { EnterCriticalSection(&cs); in.push_back(j); LeaveCriticalSection(&cs); SetEvent(ev); }
+  std::vector<MipJob *> take() { std::vector<MipJob *> r; EnterCriticalSection(&cs); r.swap(out); LeaveCriticalSection(&cs); return r; }
+};
+void mip_worker_stop(Dev *d) { delete d->mipw; d->mipw = nullptr; }
+MipWorker *mip_worker_new() { return new MipWorker; }
+// at Present (the game's thread): finished builds whose texture still exists and has not been written since
+void Dev::mip_take() {
+  if (!mipw) return;
+  for (MipJob *j : mipw->take()) {
+    auto it = mip_live.find(j->id); TexCore *tc = it == mip_live.end() ? nullptr : it->second;
+    if (!tc || !tc->mipped || tc->mserial != j->serial) { mip_void++; delete j; continue; }
+    for (int k = 0; k < j->n; k++) {
+      UINT l = (UINT)k + 1, lw_ = tc->w >> l ? tc->w >> l : 1, lh_ = tc->h >> l ? tc->h >> l : 1;
+      XUpTex u = {tc->id, D3D11CalcSubresource(l, 0, tc->xlevels), 0, 0, 0, 0, d8_pitch(tc->fmt, lw_), d8_rows(tc->fmt, lh_)};
+      link->upload_tex(u, j->out[k].data(), lw_, lh_, d8_fmt(tc->fmt).block ? 4 : 1);
+    }
+    tc->cut = j->cut;
+    if (!tc->cut && (tc->fmt == D3DFMT_A8R8G8B8 || tc->fmt == D3DFMT_X8R8G8B8)) tc->mcpu.swap(j->out); else { tc->mcpu.clear(); tc->mcpu.shrink_to_fit(); }
+    mip_ms += j->ms; mip_ms_t += j->ms; if (j->ms > mip_ms_max) mip_ms_max = j->ms; if (j->ms > mip_ms_max_t) mip_ms_max_t = j->ms;
+    if (j->n == (int)tc->xlevels - 1) { if (!tc->gen) mip_textures++; tc->gen = true; sgen++; }
+    delete j;
+  }
+}
 void TexCore::dirty(const RECT *r) {
   if (!r) { dall = true; dany = true; return; }
   UINT x0 = r->left < 0 ? 0 : (UINT)r->left, y0 = r->top < 0 ? 0 : (UINT)r->top, x1 = r->right < 0 ? 0 : (UINT)r->right, y1 = r->bottom < 0 ? 0 : (UINT)r->bottom;
@@ -112,9 +162,18 @@ void TexCore::build_mips() {
     d8_once("mipdrop", "mipmaps: a texture %ux%u rebuilt more than twice its size in 60 frames: no levels for it from now (first case logged)", w, h); return; }
   std::vector<uint8_t> &b = cpu[0];
   if (b.size() < (size_t)d8_pitch(fmt, w) * d8_rows(fmt, h)) return;
+  dev->mip_live[id] = this;
+  mserial++;                                                // any build still on the worker is now void
   double t0 = qpc_now_ms();
   std::vector<MipBox> ch;
   bool part = !whole && gen && !cut && mip_update(fmt, w, h, b.data(), xlevels, box, mcpu, ch);
+  if (!part && dev->mipw) {                                 // mip_async: the build on the worker, level 0 as it is now
+    MipJob *j = new MipJob; j->id = id; j->serial = mserial; j->f = fmt; j->w = w; j->h = h; j->xl = xlevels;
+    j->l0.assign(b.begin(), b.begin() + (size_t)d8_pitch(fmt, w) * d8_rows(fmt, h));
+    if (gen) { gen = false; dev->sgen++; }                  // the old levels no longer hold level 0: drawn without them until the new ones come
+    dev->mipw->put(j); dev->mip_built++; dev->mip_built_t++; dev->mip_async_n++;
+    return;
+  }
   int n;
   if (part) {
     for (size_t k = 0; k < ch.size(); k++) {

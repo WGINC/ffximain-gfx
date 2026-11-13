@@ -159,7 +159,10 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen
       ne = GetEnvironmentVariableA("D8ON11_ANISOTROPY", env, sizeof env); if (ne > 0 && ne < sizeof env) an = atoi(env);
       int pm = (int)GetPrivateProfileIntA("d3d8on11", "mipmaps_point_mag", 1, ini);
       ne = GetEnvironmentVariableA("D8ON11_MIPMAPS_POINT_MAG", env, sizeof env); if (ne > 0 && ne < sizeof env) pm = atoi(env);
+      int ma = (int)GetPrivateProfileIntA("d3d8on11", "mip_async", 1, ini);
+      ne = GetEnvironmentVariableA("D8ON11_MIP_ASYNC", env, sizeof env); if (ne > 0 && ne < sizeof env) ma = atoi(env);
       mipmaps = mm != 0; mip_point_mag = pm != 0; anisotropy = an < 0 ? 0 : an > 16 ? 16 : an;
+      if (mipmaps && ma) { extern MipWorker *mip_worker_new(); mipw = mip_worker_new(); d8_log("mip_async=1: whole level builds on a worker thread; a texture is drawn without its levels until its build is taken at a Present"); }
       if (mipmaps) d8_log("mipmaps=1: one-level managed textures get mip levels, sampled trilinear in 3D draws%s",
                           mip_point_mag ? "" : " where the game magnifies LINEAR (mipmaps_point_mag=0: draws that magnify POINT, e.g. the names, as the game samples them)");
       if (mipmaps && anisotropy > 1) d8_log("anisotropy=%d: anisotropic filtering in 3D draws of textures with made levels, where the game magnifies LINEAR", anisotropy); }
@@ -326,6 +329,7 @@ ULONG Dev::Release() {
   LONG n = InterlockedDecrement(&ref);
   if (n) return n;
   d8_log("device released: %llu draws, %llu of them not executed", (unsigned long long)draws, (unsigned long long)drawsNotExecuted);
+  { extern void mip_worker_stop(Dev *); mip_worker_stop(this); }
   if (gpu_skin) d8_log("gpu skin totals: %llu jobs, %llu palettes sent, %llu sources made, %llu refused, %llu draws not made", (unsigned long long)skin_jobs,
                        (unsigned long long)skin_pals, (unsigned long long)skin_built, (unsigned long long)skin_refused, (unsigned long long)skin_undrawn);
   g_skin_dev = nullptr;
@@ -376,10 +380,11 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
   if (s || d || w) d8_once("presentargs", "Present with rectangles or another window: they are not used in milestone 1");
   link->put(X_PRESENT, nullptr, 0);
   frame_no++;
+  if (mipw) mip_take();
   if (interp) interp_present();
   if (ab.on) ab_frame();
   if (snap_frames + 1 >= 600) { d8_rb_log(600);
-    if (mipmaps) { d8_log("mipmaps, 600 frames: levels built whole %llu times, in part %llu times, %.1f ms in all, the longest %.2f ms; %llu textures with made levels so far, %llu dropped (rebuilt more than twice their size in 60 frames)",
+    if (mipmaps) { d8_log("mipmaps, 600 frames: levels built whole %llu times, in part %llu times, %.1f ms in all, the longest %.2f ms (on the worker with mip_async); %llu textures with made levels so far, %llu dropped (rebuilt more than twice their size in 60 frames)",
                           (unsigned long long)mip_built, (unsigned long long)mip_parts, mip_ms, mip_ms_max, (unsigned long long)mip_textures, (unsigned long long)mip_dropped);
                    mip_built = mip_parts = 0; mip_ms = mip_ms_max = 0; } }
   if (++snap_frames >= 600) {

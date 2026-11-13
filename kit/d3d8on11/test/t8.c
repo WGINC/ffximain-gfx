@@ -877,6 +877,8 @@ static void scenes(void) {
       for (int l = 0, sz = 64; tm && l < 7; l++, sz /= 2) if (SUCCEEDED(IDirect3DTexture8_LockRect(tm, l, &lr, NULL, 0))) {
         for (int y = 0; y < sz; y++) memcpy((BYTE *)lr.pBits + y * lr.Pitch, &lv[l][y * sz], sz * 4); IDirect3DTexture8_UnlockRect(tm, l); }
     }
+    /* mip_async: the levels are built on d3d8on11's worker and taken at a Present: two Presents around a wait first */
+    IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL); Sleep(300); IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);
     for (int side = 0; side < 2; side++) {
     reset_state(); begin(0xFF102010);
     D3DMATRIX pr, vw; persp(&pr, 1.0f, 0.5f, 200.0f); memset(&vw, 0, sizeof vw); vw._11 = vw._22 = vw._33 = vw._44 = 1;

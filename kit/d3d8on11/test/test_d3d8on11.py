@@ -749,7 +749,11 @@ if 'thread' in MODES:
              off.get('mipmaps_one') != a and bool(an.get('mipmaps_one')) and 'mipmaps=1: one-level' in t
         print('%s: %s: mipmaps=1 draws the one-level texture as its mip chain sampled trilinear (%s pixels differ), and again after a write to part of it (%s differ); the strip and the reference unchanged; anisotropy=8 draws' %
               ('ok' if ok else 'FAIL', be, px(a, b) if a and b else 'no picture', px(pa, pb) if pa and pb else 'no picture')); bad += not ok
-        ch = sorted(n for n in off if not n.startswith('mipmaps') and off[n] != on.get(n))
+        sy = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='1', D8ON11_MIP_ASYNC='0'))
+        ok = all(sy.get(k) == on.get(k) for k in ('mipmaps_one', 'mipmaps_ref', 'mipmaps_part_one', 'mipmaps_part_ref', 'mipmaps_pointmag')) and 'mip_async=1' in t
+        print('%s: %s: mip_async=1 (levels built on the worker, taken at a Present) draws the mipmaps scenes as mip_async=0 does' % ('ok' if ok else 'FAIL', be)); bad += not ok
+        print('note: %s: scenes that draw a one-level texture in the frame it was made, so with mip_async before its levels come: %s' % (be, ', '.join(sorted(n for n in sy if not n.startswith('mipmaps') and sy[n] != on.get(n))) or 'none'))
+        ch = sorted(n for n in off if not n.startswith('mipmaps') and off[n] != sy.get(n))
         print('note: %s: scenes that minify a one-level texture in a 3D draw, changed by mipmaps=1: %s' % (be, ', '.join(ch) or 'none'))
 # interp (17 Nov, d8_device.cpp): t8 interp is the step clock and draws a skinned mesh through D8ON11_Skin; each case's
 # picture must equal its reference, drawn with the clock off and the palette and world matrix the case expects

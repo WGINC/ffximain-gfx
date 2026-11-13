@@ -215,7 +215,10 @@ block formats decoded, averaged and encoded again (a principal-axis endpoint fit
 the alpha reference of the draws is not known when the levels are made). The game still sees one level. A write to
 part of level 0 (LockRect with a rectangle, CopyRects) of a 32-bit texture that is not a cutout makes again only the
 part of each level it reaches (mip_update, equal to a whole build byte for byte: test/mip_test.cpp). A texture rebuilt
-more than twice its size within 60 frames gets no levels from then on (`mipdrop`). Only draws with 3D vertices use the
+more than twice its size within 60 frames gets no levels from then on (`mipdrop`). With `mip_async=1` (the default since 21 Nov) a whole build runs on a worker
+thread: the game's thread copies level 0 and goes on, and at the next Present finished builds whose texture has not
+been written since are sent; until then the texture is drawn with level 0 only (one or a few frames after a load).
+Only draws with 3D vertices use the
 levels (pre-transformed draws, the interface, keep the game's sampler): MINFILTER and MIPFILTER LINEAR, the game's
 MAGFILTER; with `anisotropy` above 1, anisotropic where the game's MAGFILTER is LINEAR. `mipmaps_point_mag=0` leaves
 draws that magnify POINT (the names: the font atlas is drawn MAGFILTER POINT, MINFILTER LINEAR) to the game's sampling.

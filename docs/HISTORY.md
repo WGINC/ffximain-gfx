@@ -5444,6 +5444,22 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   sampling to it; the decal samples the shared texture with earlier silhouettes in it, so that has to be shown
   equal first. Not started: the owner's call (21 Nov: leave advanced shadows for another day if nothing simple shows).
 
+## 13 Nov (twentieth entry): the start-up readback named; mip builds off the game's thread
+
+- **FFXiMain.dll+0x2E2A3D** (6AE818B4) is the return from IDirect3DSurface8::LockRect (vtable +0x24) in D3DX 8.1's
+  CD3DXLockSurface::Lock (data/d3dx/d3dx81_manifest.json, 0x102E140D in 6A995428; the shift 5680 from
+  kit/xikit/builds/6AE818B4.json). It runs under D3DXLoadSurfaceFromSurface (0x102D5B45 in 6AE818B4), called from
+  TexObj_Upload (0x1003A5FD ..), from 0x10002040 (copies a rectangle of a surface into a texture with
+  D3DX_FILTER_LINEAR, then 0x10002130 reads it with LockRect READONLY: the screenshot path, 0x101D2630 -> 0x101D25D0,
+  "screenshots/%s.jpg", 512x382, quality 90) and from 0x10283908. Which caller makes the four reads is not known. In
+  every log of the 20 and 21 Nov runs they fall in the first 600 frames of a start, 4 of them, 123-512 ms together,
+  and never later: start-up, not a hitch in play. Correction: the 20 Nov reply called them 4 per 600 frames.
+- **mip_async=1 (default 1; d8_res.cpp MipWorker):** whole level builds on a worker thread; the game's thread copies
+  level 0 (and still makes partial rebuilds, mip_update, itself); finished builds are taken at Present if the texture
+  still exists and was not written since (TexCore::mserial). A texture is drawn without its levels until then. t8: the
+  mipmaps scenes (which Present twice around a 300 ms wait first) equal mip_async=0 on both executors; skin_cpu,
+  skin_gpu, v15_declaration and decl_short2 draw a texture in the frame it was made, so with mip_async without levels.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

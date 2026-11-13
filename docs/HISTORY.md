@@ -5392,6 +5392,16 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   mipmaps_point_mag=1, on both executors. The scenes skin_cpu, skin_gpu, v15_declaration and decl_short2 (POINT
   magnification) no longer change with mipmaps on.
 
+## 13 Nov (seventeenth entry): the pulse is the game's own; names back on the levels; text_linear
+
+- The owner: the names pulse in start plain too (no levels). So the levels are not the cause, and the sixteenth
+  entry's rule (no levels where the game magnifies POINT) rested on a wrong reading: removed as the default
+  (`mipmaps_point_mag`, default 1 now). A likely reading of the pulse, not shown: the glyphs are drawn near their atlas
+  size, so as a name's size on screen changes they cross between magnified (POINT) and minified (LINEAR) sampling.
+- `text_linear=1` (off by default): with mipmaps on, draws that magnify POINT are magnified LINEAR. t8 scene
+  mipmaps_pointmag (a plane magnified near, minified far): with it on, equal to mipmaps_pointmag_ref (the same texels
+  with t8's chain, LINEAR/LINEAR/LINEAR) on both executors; mipmaps_point_mag=0 equal to mipmaps off.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

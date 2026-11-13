@@ -216,11 +216,12 @@ the alpha reference of the draws is not known when the levels are made). The gam
 part of level 0 (LockRect with a rectangle, CopyRects) of a 32-bit texture that is not a cutout makes again only the
 part of each level it reaches (mip_update, equal to a whole build byte for byte: test/mip_test.cpp). A texture rebuilt
 more than twice its size within 60 frames gets no levels from then on (`mipdrop`). Only draws with 3D vertices use the
-levels (pre-transformed draws, the interface, keep the game's sampler), and only where the game magnifies LINEAR: draws
-that magnify POINT keep the game's sampling (the names: the font atlas is drawn MAGFILTER POINT, MINFILTER LINEAR, and
-in the owner's 20 Nov run the names pulsed in sharpness while moving with levels on; `mipmaps_point_mag=1` gives them
-levels too). In the owner's capture the atlas draws are the only 3D draws that magnify POINT. The levels are sampled
-MINFILTER and MIPFILTER LINEAR, the game's MAGFILTER; with `anisotropy` above 1, anisotropic. Measured natively here: a
+levels (pre-transformed draws, the interface, keep the game's sampler): MINFILTER and MIPFILTER LINEAR, the game's
+MAGFILTER; with `anisotropy` above 1, anisotropic where the game's MAGFILTER is LINEAR. `mipmaps_point_mag=0` leaves
+draws that magnify POINT (the names: the font atlas is drawn MAGFILTER POINT, MINFILTER LINEAR) to the game's sampling.
+The names pulse as one moves with levels and without (the owner's 20 Nov run, start plain too): a likely reading, not
+shown, is that their glyphs are drawn near their atlas size, where the sampling switches between POINT (magnified) and
+LINEAR (minified). `text_linear=1` (an experiment, off by default) magnifies those draws LINEAR too. Measured natively here: a
 whole build takes about 1.3-1.7 ms for a 256x256 DXT texture, 45 ms for the 2048x4096 atlas; the log gives the counts
 and times (`mipmaps, 600 frames`, `mipmaps totals`). Replays of the owner's two captures: the far ground's speckle
 becomes even; the distant names change little (their glyphs are drawn near their size). Tests: t8's mipmaps scenes

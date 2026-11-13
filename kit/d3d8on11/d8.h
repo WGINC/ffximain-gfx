@@ -56,6 +56,15 @@ struct Surf final : public IDirect3DSurface8_Stub {
 // ---- a 2D texture (cube textures are Tex with six faces) -------------------------------------------------------------
 struct TexCore {
   Dev *dev; UINT w, h, levels, faces; D3DFORMAT fmt; D3DPOOL pool; DWORD usage;
+  // mipmaps (19 Nov; d8_mip.cpp): the executor's texture has xlevels levels; levels 1.. are made here from level 0
+  // (the game still sees `levels`); gen: they hold level 0 as it is now; regen counts the level-0 texels rebuilt from
+  // regen_frame on (a texture that rebuilds more than twice its size in 60 frames stops getting levels: it would cost
+  // every frame); mcpu: the made levels (kept to make again only the part a write reaches: mip_update); cut: a cutout
+  // (always made whole); dirty: the part of level 0 locked for writing since the last build (dall: all of it)
+  UINT xlevels = 0; bool gen = false, mipped = false, cut = false, dall = false, dany = false; uint32_t regen_frame = 0; uint64_t regen = 0;
+  UINT dx0 = 0, dy0 = 0, dx1 = 0, dy1 = 0; std::vector<std::vector<uint8_t>> mcpu;
+  void dirty(const RECT *r);
+  void build_mips();
   uint32_t id = 0;                               // the executor's texture (0: kept on the CPU only, D3DPOOL_SYSTEMMEM)
   std::vector<std::vector<uint8_t>> cpu;         // per face*levels+level: what the game writes through LockRect
   std::vector<Surf *> surfs;                     // per face*levels+level, made on first GetSurfaceLevel
@@ -215,6 +224,10 @@ struct Dev final : public IDirect3DDevice8_Stub {
   void buf_live(void *b, bool on) { EnterCriticalSection(&buf_lock.cs); if (on) live_bufs.insert(b); else live_bufs.erase(b); LeaveCriticalSection(&buf_lock.cs); }
   bool buf_is_live(void *b) { EnterCriticalSection(&buf_lock.cs); bool r = live_bufs.count(b) != 0; LeaveCriticalSection(&buf_lock.cs); return r; }
   uint64_t skin_jobs = 0, skin_pals = 0, skin_built = 0, skin_refused = 0, skin_undrawn = 0, skin_jobs0 = 0, skin_pals0 = 0, skin_built0 = 0; bool gpu_skin = false;
+  // mipmaps (19 Nov; d8_mip.cpp, d8_ff.cpp): levels made for the game's one-level managed textures, sampled trilinear
+  // (anisotropic when `anisotropy` > 1 and the game magnifies LINEAR) in 3D draws; screen-space draws as the game has them
+  uint32_t frame_no = 0;                       // Presents so far
+  bool mipmaps = false; int anisotropy = 0; uint64_t mip_built = 0, mip_parts = 0, mip_textures = 0, mip_dropped = 0, mip_built_t = 0, mip_parts_t = 0; double mip_ms = 0, mip_ms_max = 0, mip_ms_t = 0, mip_ms_max_t = 0;
   int skin(const struct D8Skin *j);
   // interp (17 Nov; d8_device.cpp, "interp"): frames between the game's ticks drawn with each skinned character at the
   // blend of its last two ticks' bone palettes and world matrices. Needs gpu_skin and the clock of a mod (speedfix's

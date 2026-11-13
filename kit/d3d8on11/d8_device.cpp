@@ -150,6 +150,16 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen
       interp = it != 0 && gpu_skin;
       if (it && !gpu_skin) d8_log("interp: needs gpu_skin=1 (off)");
       if (interp) d8_log("interp=1: between the game's ticks, skinned characters are drawn at the blend of their last two ticks (needs a mod's step clock: D8ON11_InterpClock)"); }
+    // mipmaps (19 Nov; d8_mip.cpp): the game's one-level managed textures (A8R8G8B8, X8R8G8B8, DXT1/3/5) get levels,
+    // sampled trilinear in 3D draws; anisotropy N > 1: anisotropic where the game magnifies LINEAR. Changes the look at
+    // a distance (that is its purpose). 0 (the default): the game's textures as they are. D8ON11_MIPMAPS and
+    // D8ON11_ANISOTROPY override
+    { int mm = (int)GetPrivateProfileIntA("d3d8on11", "mipmaps", 0, ini), an = (int)GetPrivateProfileIntA("d3d8on11", "anisotropy", 0, ini);
+      ne = GetEnvironmentVariableA("D8ON11_MIPMAPS", env, sizeof env); if (ne > 0 && ne < sizeof env) mm = atoi(env);
+      ne = GetEnvironmentVariableA("D8ON11_ANISOTROPY", env, sizeof env); if (ne > 0 && ne < sizeof env) an = atoi(env);
+      mipmaps = mm != 0; anisotropy = an < 0 ? 0 : an > 16 ? 16 : an;
+      if (mipmaps) d8_log("mipmaps=1: one-level managed textures get mip levels, sampled trilinear in 3D draws%s", "");
+      if (mipmaps && anisotropy > 1) d8_log("anisotropy=%d: anisotropic filtering in 3D draws of textures with made levels, where the game magnifies LINEAR", anisotropy); }
     if (ba > 0 && !dynamic_buffers) d8_log("buffer_arena: needs dynamic_buffers=1 (off)");
     else if (kb) d8_log("buffer_arena=%d: the game's dynamic buffers share one Direct3D 11 buffer (%u KB of vertex data)", ba, kb); }
   draw_sites = (int)GetPrivateProfileIntA("d3d8on11", "draw_sites", 0, ini) != 0;
@@ -316,6 +326,8 @@ ULONG Dev::Release() {
   if (gpu_skin) d8_log("gpu skin totals: %llu jobs, %llu palettes sent, %llu sources made, %llu refused, %llu draws not made", (unsigned long long)skin_jobs,
                        (unsigned long long)skin_pals, (unsigned long long)skin_built, (unsigned long long)skin_refused, (unsigned long long)skin_undrawn);
   g_skin_dev = nullptr;
+  if (mipmaps) d8_log("mipmaps totals: levels built whole %llu times, in part %llu times, %.1f ms in all, the longest %.2f ms; %llu textures with made levels, %llu dropped",
+                      (unsigned long long)mip_built_t, (unsigned long long)mip_parts_t, mip_ms_t, mip_ms_max_t, (unsigned long long)mip_textures, (unsigned long long)mip_dropped);
   if (draw_delta) d8_log("draw delta totals: %llu draws sent as deltas, %llu in full", (unsigned long long)delta_tot, (unsigned long long)full_tot);
   for (Block *b : blocks) delete b;
   st.vs = 0; defaults();
@@ -360,9 +372,13 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
   if (notReset) return D3DERR_DEVICELOST;
   if (s || d || w) d8_once("presentargs", "Present with rectangles or another window: they are not used in milestone 1");
   link->put(X_PRESENT, nullptr, 0);
+  frame_no++;
   if (interp) interp_present();
   if (ab.on) ab_frame();
-  if (snap_frames + 1 >= 600) d8_rb_log(600);
+  if (snap_frames + 1 >= 600) { d8_rb_log(600);
+    if (mipmaps) { d8_log("mipmaps, 600 frames: levels built whole %llu times, in part %llu times, %.1f ms in all, the longest %.2f ms; %llu textures with made levels so far, %llu dropped (rebuilt more than twice their size in 60 frames)",
+                          (unsigned long long)mip_built, (unsigned long long)mip_parts, mip_ms, mip_ms_max, (unsigned long long)mip_textures, (unsigned long long)mip_dropped);
+                   mip_built = mip_parts = 0; mip_ms = mip_ms_max = 0; } }
   if (++snap_frames >= 600) {
     if (snap_hits + snap_misses)
       d8_log("readback snapshots, %u frames: %u locks of a copied render target read its snapshot (no wait), %u read it "
@@ -539,6 +555,7 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
         UINT sub = d->face * tc->levels + d->level;
         if (tc->stale.size() < tc->cpu.size()) tc->stale.resize(tc->cpu.size(), 0);
         tc->stale[sub] = 1;
+        if (tc->gen && d->level == 0) { tc->gen = false; sgen++; }   // mipmaps: the made levels no longer hold level 0
         if (tc->pool != D3DPOOL_DEFAULT || (tc->usage & D3DUSAGE_DYNAMIC))
           { char at[MAX_PATH + 16]; d8_once("copystale", "CopyRects from a GPU surface into a lockable texture level: its next LockRect reads it back (waits for the executor); first called from %s", d8_caller(__builtin_return_address(0), at, sizeof at)); }
       }
@@ -562,9 +579,10 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
         UINT dp = d8_pitch(d->fmt, d->w);
         for (UINT y = 0; y < rows; y++) memcpy(&d->cpu[(size_t)(p.y / bw + y) * dp + d8_pitch(d->fmt, (UINT)p.x)], src + (size_t)y * sp, rowb);
       } else {
-        UINT levels = 1;
-        if (d->kind == SK_TEXLEVEL && d->container)
-          levels = ((IDirect3DBaseTexture8 *)d->container)->GetType() == D3DRTYPE_CUBETEXTURE ? ((CubeTex *)(IDirect3DCubeTexture8 *)d->container)->c.levels : ((Tex *)(IDirect3DTexture8 *)d->container)->c.levels;
+        UINT levels = 1;                                    // the executor's level count (mipmaps: xlevels)
+        if (d->kind == SK_TEXLEVEL && d->container) {
+          const TexCore &cc = ((IDirect3DBaseTexture8 *)d->container)->GetType() == D3DRTYPE_CUBETEXTURE ? ((CubeTex *)(IDirect3DCubeTexture8 *)d->container)->c : ((Tex *)(IDirect3DTexture8 *)d->container)->c;
+          levels = cc.xlevels ? cc.xlevels : cc.levels; }
         std::vector<uint8_t> rowsdata((size_t)rowb * rows);
         for (UINT y = 0; y < rows; y++) memcpy(&rowsdata[(size_t)y * rowb], src + (size_t)y * sp, rowb);
         XUpTex u = {d->id, d->kind == SK_TEXLEVEL ? D3D11CalcSubresource(d->level, d->face, levels) : 0u, (uint32_t)p.x, (uint32_t)p.y,
@@ -576,6 +594,8 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
           UINT dp = d8_pitch(d->fmt, d->w);
           if (lv.size() < (size_t)dp * d8_rows(d->fmt, d->h)) lv.resize((size_t)dp * d8_rows(d->fmt, d->h), 0);
           for (UINT y = 0; y < rows; y++) memcpy(&lv[(size_t)(p.y / bw + y) * dp + d8_pitch(d->fmt, (UINT)p.x)], &rowsdata[(size_t)y * rowb], rowb);
+          if (tc->mipped && d->level == 0 && d->face == 0) {     // mipmaps: level 0 changed, its levels with it (the part copied)
+            RECT dr = {p.x, p.y, p.x + (r.right - r.left), p.y + (r.bottom - r.top)}; tc->dirty(&dr); tc->build_mips(); }
         }
       }
     } else {

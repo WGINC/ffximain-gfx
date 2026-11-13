@@ -4,7 +4,7 @@ set -euo pipefail
 H="$(cd "$(dirname "$0")" && pwd)"; mkdir -p "$H/dist"; cd "$H"
 python3 gen_stubs.py > d8_gen.h
 i686-w64-mingw32-g++ -O2 -std=gnu++17 -Wall -Wno-unused-parameter -Wno-misleading-indentation -Wno-delete-non-virtual-dtor -shared -o dist/d3d8.dll \
-  d8_main.cpp d8_device.cpp d8_res.cpp d8_ff.cpp d8_guid.cpp d8_common.cpp d8_exec.cpp d8_exec12.cpp d8_link.cpp d3d8.def \
+  d8_main.cpp d8_device.cpp d8_res.cpp d8_ff.cpp d8_guid.cpp d8_common.cpp d8_exec.cpp d8_exec12.cpp d8_link.cpp d8_mip.cpp d3d8.def \
   -ld3d11 -ldxgi -luuid -static-libgcc -static-libstdc++ -Wl,--no-insert-timestamp -Wl,--enable-stdcall-fixup
 echo "built dist/d3d8.dll"
 # the executor as a process of its own (D8ON11_MODE=remote / mode=remote): x86 here (the tests, under Wine) ...

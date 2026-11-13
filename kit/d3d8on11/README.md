@@ -204,6 +204,26 @@ line counts each case every 600 frames. Not blended: anything else (effects, nam
 Tests: `t8 interp`, six cases each equal to a reference drawn with the clock off and the expected palette and world
 (both executors, draw_delta on and off).
 
+**Mip levels (`mipmaps=1`, `anisotropy=N`; 19 Nov; off by default; d8_mip.cpp, d8_res.cpp, d8_ff.cpp).** The owner's
+frame captures: every texture the game draws has one level (148 of 148), no draw has a mip filter, and the names come
+from a 2048x4096 A8R8G8B8 font atlas drawn as 3D quads; minified with no levels, distant text and textures skip texels.
+With mipmaps on, a managed one-level 2D texture (A8R8G8B8, X8R8G8B8, DXT1/3/5; not a render target, dynamic or a cube;
+4x4 or larger, whole blocks) is created on the executor with a full chain, and levels 1.. are made here from level 0
+each time it is written: the 2x2 box average in the stored values (odd sizes: the last row or column read twice);
+block formats decoded, averaged and encoded again (a principal-axis endpoint fit; DXT1's punch-through kept); a cutout
+(every alpha 0 or full) has each level's alpha scaled so that the share at or above 128 is level 0's (128 is a choice:
+the alpha reference of the draws is not known when the levels are made). The game still sees one level. A write to
+part of level 0 (LockRect with a rectangle, CopyRects) of a 32-bit texture that is not a cutout makes again only the
+part of each level it reaches (mip_update, equal to a whole build byte for byte: test/mip_test.cpp). A texture rebuilt
+more than twice its size within 60 frames gets no levels from then on (`mipdrop`). Only draws with 3D vertices use the
+levels (pre-transformed draws, the interface, keep the game's sampler): MINFILTER and MIPFILTER LINEAR, the game's
+MAGFILTER; with `anisotropy` above 1, anisotropic where the game's MAGFILTER is LINEAR. Measured natively here: a
+whole build takes about 1.3-1.7 ms for a 256x256 DXT texture, 45 ms for the 2048x4096 atlas; the log gives the counts
+and times (`mipmaps, 600 frames`, `mipmaps totals`). Replays of the owner's two captures: the far ground's speckle
+becomes even; the distant names change little (their glyphs are drawn near their size). Tests: t8's mipmaps scenes
+(the one-level texture with mipmaps on draws exactly as t8's own chain sampled trilinear, before and after a write to
+part of it, on both executors) and mip_test.
+
 **CopyRects into a lockable texture.** A CopyRects from a GPU surface (a render target, the back buffer, another
 texture) into a texture level marks that level's CPU copy stale; the level's next LockRect reads it back first
 (X_READBACK, which waits for the executor to run the copy), so the lock holds the copied texels and its unlock sends

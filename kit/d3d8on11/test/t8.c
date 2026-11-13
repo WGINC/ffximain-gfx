@@ -841,6 +841,66 @@ static void scenes(void) {
     end("buffer_arena");
     IDirect3DDevice8_SetStreamSource(d, 0, NULL, 0); IDirect3DDevice8_SetIndices(d, NULL, 0);
     if (vb) IDirect3DVertexBuffer8_Release(vb); if (keep) IDirect3DVertexBuffer8_Release(keep); if (ib) IDirect3DIndexBuffer8_Release(ib); }
+  /* mipmaps (19 Nov; d8_mip.cpp): a receding plane, drawn in two scenes. mipmaps_one: a one-level managed
+     A8R8G8B8 texture with the game's sampling (MINFILTER POINT, MIPFILTER NONE). mipmaps_ref: the same texels with a mip
+     chain made here (the 2x2 box average, d8_mip.cpp's rule) and MINFILTER LINEAR, MIPFILTER LINEAR. With mipmaps=1
+     mipmaps_one must equal mipmaps_ref; off, it is the game's look. A screen-space strip of the one-level texture on top
+     stays as the game draws it either way */
+  { IDirect3DTexture8 *t1 = NULL, *tm = NULL; D3DLOCKED_RECT lr;
+    IDirect3DDevice8_CreateTexture(d, 64, 64, 1, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &t1);
+    IDirect3DDevice8_CreateTexture(d, 64, 64, 0, 0, D3DFMT_A8R8G8B8, D3DPOOL_MANAGED, &tm);
+    static DWORD lv[7][64 * 64];
+    for (int y = 0; y < 64; y++) for (int x = 0; x < 64; x++) lv[0][y * 64 + x] = ((x / 2 + y / 2) & 1) ? 0xFFE0E0E0 : (0xFF000000 | (x * 4) << 16 | (y * 4) << 8 | 0x30);
+    for (int l = 1, sz = 32; l < 7; l++, sz /= 2) for (int y = 0; y < sz; y++) for (int x = 0; x < sz; x++) {
+      DWORD o = 0; int ps = sz * 2;
+      for (int k = 0; k < 32; k += 8) { unsigned a = (lv[l - 1][(2 * y) * ps + 2 * x] >> k & 255) + (lv[l - 1][(2 * y) * ps + 2 * x + 1] >> k & 255) +
+                                                   (lv[l - 1][(2 * y + 1) * ps + 2 * x] >> k & 255) + (lv[l - 1][(2 * y + 1) * ps + 2 * x + 1] >> k & 255);
+                                        o |= (DWORD)((a + 2) / 4) << k; }
+      lv[l][y * sz + x] = o; }
+    if (t1 && SUCCEEDED(IDirect3DTexture8_LockRect(t1, 0, &lr, NULL, 0))) { for (int y = 0; y < 64; y++) memcpy((BYTE *)lr.pBits + y * lr.Pitch, &lv[0][y * 64], 256); IDirect3DTexture8_UnlockRect(t1, 0); }
+    for (int l = 0, sz = 64; tm && l < 7; l++, sz /= 2) if (SUCCEEDED(IDirect3DTexture8_LockRect(tm, l, &lr, NULL, 0))) {
+      for (int y = 0; y < sz; y++) memcpy((BYTE *)lr.pBits + y * lr.Pitch, &lv[l][y * sz], sz * 4); IDirect3DTexture8_UnlockRect(tm, l); }
+    for (int pass = 0; pass < 2; pass++) {
+    if (pass == 1) {   /* a write to part of level 0 through LockRect with a rectangle: the levels made again in part
+                          (mip_update) must equal t8's whole chain of the new texels */
+      RECT rc = {9, 20, 31, 43};
+      for (int y = rc.top; y < rc.bottom; y++) for (int x = rc.left; x < rc.right; x++) lv[0][y * 64 + x] = 0xFF000000 | ((x * 37 + y * 11) & 255) << 16 | 0xC000 | (y * 5 & 255);
+      for (int l = 1, sz = 32; l < 7; l++, sz /= 2) for (int y = 0; y < sz; y++) for (int x = 0; x < sz; x++) {
+        DWORD o = 0; int ps = sz * 2;
+        for (int k = 0; k < 32; k += 8) { unsigned a = (lv[l - 1][(2 * y) * ps + 2 * x] >> k & 255) + (lv[l - 1][(2 * y) * ps + 2 * x + 1] >> k & 255) +
+                                                     (lv[l - 1][(2 * y + 1) * ps + 2 * x] >> k & 255) + (lv[l - 1][(2 * y + 1) * ps + 2 * x + 1] >> k & 255);
+                                          o |= (DWORD)((a + 2) / 4) << k; }
+        lv[l][y * sz + x] = o; }
+      if (t1 && SUCCEEDED(IDirect3DTexture8_LockRect(t1, 0, &lr, &rc, 0))) {
+        for (int y = 0; y < rc.bottom - rc.top; y++) memcpy((BYTE *)lr.pBits + y * lr.Pitch, &lv[0][(rc.top + y) * 64 + rc.left], (rc.right - rc.left) * 4);
+        IDirect3DTexture8_UnlockRect(t1, 0); }
+      for (int l = 0, sz = 64; tm && l < 7; l++, sz /= 2) if (SUCCEEDED(IDirect3DTexture8_LockRect(tm, l, &lr, NULL, 0))) {
+        for (int y = 0; y < sz; y++) memcpy((BYTE *)lr.pBits + y * lr.Pitch, &lv[l][y * sz], sz * 4); IDirect3DTexture8_UnlockRect(tm, l); }
+    }
+    for (int side = 0; side < 2; side++) {
+    reset_state(); begin(0xFF102010);
+    D3DMATRIX pr, vw; persp(&pr, 1.0f, 0.5f, 200.0f); memset(&vw, 0, sizeof vw); vw._11 = vw._22 = vw._33 = vw._44 = 1;
+    IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &pr); IDirect3DDevice8_SetTransform(d, D3DTS_VIEW, &vw);
+    IDirect3DDevice8_SetRenderState(d, D3DRS_LIGHTING, FALSE); IDirect3DDevice8_SetRenderState(d, D3DRS_CULLMODE, D3DCULL_NONE);
+    IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
+    IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_TEX1);
+    { float x0 = -1.2f, x1 = 1.2f;
+      struct { float x, y, z, u, v; } q[4] = {{x0, -0.6f, 1.0f, 0, 0}, {x1, -0.6f, 1.0f, 8, 0}, {x0, -0.6f, 60.0f, 0, 40}, {x1, -0.6f, 60.0f, 8, 40}};
+      IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)(side ? tm : t1));
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MAGFILTER, D3DTEXF_LINEAR);
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MINFILTER, side ? D3DTEXF_LINEAR : D3DTEXF_POINT);
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MIPFILTER, side ? D3DTEXF_LINEAR : D3DTEXF_NONE);
+      IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, q, sizeof q[0]);
+    }
+    /* the screen-space strip: the one-level texture minified 4x, POINT */
+    IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)t1);
+    IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MINFILTER, D3DTEXF_POINT); IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MIPFILTER, D3DTEXF_NONE);
+    { VRhwT v[4] = {{0, 0, 0.5f, 1, 0xFFFFFFFF, 0, 0}, {64, 0, 0.5f, 1, 0xFFFFFFFF, 4, 0}, {0, 8, 0.5f, 1, 0xFFFFFFFF, 0, 0.5f}, {64, 8, 0.5f, 1, 0xFFFFFFFF, 4, 0.5f}};
+      IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+      IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v); }
+    IDirect3DDevice8_SetTexture(d, 0, NULL);
+    end(pass ? (side ? "mipmaps_part_ref" : "mipmaps_part_one") : (side ? "mipmaps_ref" : "mipmaps_one")); } }
+    if (t1) IDirect3DTexture8_Release(t1); if (tm) IDirect3DTexture8_Release(tm); }
   /* lazy_depth (18 Nov; d8_exec12.cpp bind_targets): passes into a render-target texture that has a depth surface,
      drawn with depth off (as the game's shadow silhouettes, 0x10033800), between passes on the back buffer with depth
      on; one pass starts with depth off and then draws with depth on (the depth surface must be there for that draw).

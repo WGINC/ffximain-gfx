@@ -721,6 +721,32 @@ if 'thread' in MODES:
     ok = s_on == s_off and 'lazy_depth' in s_on and r_on == r_off and len(r_on) > 0 and used
     print('%s: d3d12 lazy depth: %d scenes and %d random cases identical on and off; passes without depth and a later bind seen (%s)' %
           ('ok' if ok else 'FAIL', len(s_on), len(r_on), m[-1] if m else 'no line')); bad += not ok
+# mipmaps (19 Nov, d8_mip.cpp, d8_res.cpp, d8_ff.cpp): the level builder's own test (native: box averages exact, DXT
+# levels the encoder's output of the averaged level, cutout coverage kept); then in t8, the scene mipmaps_one (a one-level
+# texture, the game's POINT/NONE sampling) with mipmaps=1 must equal mipmaps_ref (the same texels with a mip chain t8
+# makes by the same 2x2 rule, sampled LINEAR/LINEAR), on both executors; the reference scene and the screen-space strip
+# drawn over mipmaps_one are unchanged; after a LockRect with a rectangle rewrites part of level 0 (the levels made
+# again in part, mip_update), mipmaps_part_one equals mipmaps_part_ref (t8's whole chain of the new texels); anisotropy=8 runs. Other scenes that minify a one-level texture change on
+# purpose and are listed
+mt = os.path.join(w, 'mip_test')
+r = subprocess.run(['g++', '-O1', '-Wall', '-DD8_MIP_STANDALONE', '-o', mt, os.path.join(H, 'mip_test.cpp'), os.path.join(D8, 'd8_mip.cpp')], capture_output=True, text=True)
+out = subprocess.run([mt], capture_output=True, text=True).stdout if r.returncode == 0 else r.stderr
+ok = 'ALL OK' in out
+print('%s: mip_test (native): %s' % ('ok' if ok else 'FAIL', out.strip().splitlines()[-1] if out.strip() else 'no output')); bad += not ok
+if 'thread' in MODES:
+    def px(a, b, rows=range(64)): return sum(1 for i, (x, y) in enumerate(zip(a, b)) if i // 64 in rows and x != y)
+    for be in ('d3d11', 'd3d12'):
+        off = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='0'))
+        clear_logs(); on = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='1')); t = logs()
+        an = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='1', D8ON11_ANISOTROPY='8'))
+        a, b = on.get('mipmaps_one'), on.get('mipmaps_ref')
+        pa, pb = on.get('mipmaps_part_one'), on.get('mipmaps_part_ref')
+        ok = bool(a) and a == b and bool(pa) and pa == pb and pa != a and off.get('mipmaps_ref') == b and px(a, off.get('mipmaps_one') or [], range(8)) == 0 and \
+             off.get('mipmaps_one') != a and bool(an.get('mipmaps_one')) and 'mipmaps=1: one-level' in t
+        print('%s: %s: mipmaps=1 draws the one-level texture as its mip chain sampled trilinear (%s pixels differ), and again after a write to part of it (%s differ); the strip and the reference unchanged; anisotropy=8 draws' %
+              ('ok' if ok else 'FAIL', be, px(a, b) if a and b else 'no picture', px(pa, pb) if pa and pb else 'no picture')); bad += not ok
+        ch = sorted(n for n in off if not n.startswith('mipmaps') and off[n] != on.get(n))
+        print('note: %s: scenes that minify a one-level texture in a 3D draw, changed by mipmaps=1: %s' % (be, ', '.join(ch) or 'none'))
 # interp (17 Nov, d8_device.cpp): t8 interp is the step clock and draws a skinned mesh through D8ON11_Skin; each case's
 # picture must equal its reference, drawn with the clock off and the palette and world matrix the case expects
 # (blended between ticks, on a tick frame, over a frame of two ticks; drawn as handed when the game changed it between

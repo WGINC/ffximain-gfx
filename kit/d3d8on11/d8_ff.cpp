@@ -372,6 +372,15 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
         D.stage[i].first_level = first; D.stage[i].nlevels = t[D3DTSS_MIPFILTER] == D3DTEXF_NONE ? 1 : tc.levels - first;
         sd.MinLOD = 0; sd.MaxLOD = D3D11_FLOAT32_MAX;
         sd.ComparisonFunc = D3D11_COMPARISON_NEVER;
+        // mipmaps (19 Nov; d8_mip.cpp): a texture whose levels were made here, in a 3D draw (a screen-space draw keeps
+        // the game's sampling): all its levels, MINFILTER LINEAR and MIPFILTER LINEAR (trilinear), MAGFILTER the game's;
+        // anisotropic where anisotropy > 1 and the game magnifies LINEAR (anisotropic filtering magnifies linearly too)
+        if (mipmaps && tc.gen && !vk.rhw && pk.s[i].tex == 1) {
+          D.stage[i].first_level = 0; D.stage[i].nlevels = tc.xlevels;
+          bool an = anisotropy > 1 && mg;
+          sd.Filter = an ? D3D11_FILTER_ANISOTROPIC : (D3D11_FILTER)(0x10 | (mg ? 0x4 : 0) | 0x1);
+          if (an) sd.MaxAnisotropy = (UINT)anisotropy;
+        }
         // a test only (D8ON11_TEST_TIES, d8_exec.cpp gen_ps): which filters of this stage are POINT, for the tie marker
         if (getenv("D8ON11_TEST_TIES") && !aniso && pk.s[i].tex == 1) {
           if (!mn) pk.tie_minpt |= (uint8_t)(1 << i);

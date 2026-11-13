@@ -5356,6 +5356,29 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   POINT and MINFILTER LINEAR. So distant names and textures are minified with no mip levels: what is drawn skips
   texels, and text breaks up. The standard remedy is mip levels and trilinear (and anisotropic) filtering: next.
 
+## 13 Nov (fifteenth entry): mip levels for the game's one-level textures; occlusion_first=2 on test; the 20 Nov session
+
+- **d3d8on11 `mipmaps=1`, `anisotropy=N` (off by default; d8_mip.cpp, d8_res.cpp, d8_ff.cpp; kit/d3d8on11/README.md):**
+  levels 1.. of every managed one-level 2D texture made on the D3D8 side from level 0 (2x2 box average; DXT decoded,
+  averaged, re-encoded; cutouts keep their alpha-128 coverage, 128 a choice), sampled MIN/MIP LINEAR (and anisotropic
+  where the game magnifies LINEAR) in 3D draws only. A rewrite of part of a 32-bit non-cutout texture rebuilds only the
+  part it reaches (mip_update), because the font atlas costs 45 ms whole (natively; 256x256 DXT: 1.3-1.7 ms). Whether
+  the game writes the atlas with a rectangle is not known: the log counts whole and partial builds and their times.
+- **Tests:** test/mip_test.cpp (native): exact box averages, DXT levels the encoder's output of the averaged level,
+  cutout coverage within 0.012 for round blobs (1-texel bars: 0.309, noted, the worst case), 320 partial writes equal
+  to whole builds byte for byte. t8 scenes mipmaps_one/_ref and mipmaps_part_one/_ref: with mipmaps on the one-level
+  texture draws exactly as t8's own chain sampled trilinear, before and after a partial write, on both executors; off,
+  equal to Wine's d3d8. Scenes that minify a one-level texture in a 3D draw change with it on (skin_cpu, skin_gpu,
+  v15_declaration, decl_short2), as they should.
+- **Replays of the 19 Nov captures with mipmaps=1, anisotropy=8:** about 60% of pixels change, nearly all in the top
+  half (the distant part); the far ground's speckle becomes an even surface; the distant names change little (in the
+  "Synergy Engineer" box 605 of 840 pixels, by at most 21): their glyphs are drawn near their atlas size, so mip levels
+  do not make them more legible. What would is not known yet.
+- **occlusion_first=2** set in every start of the next session; start adv compares it with 0 by speedfix's ab_levers
+  (ab.bat), so the stutter at 0x1006C91F is measured both ways in one place.
+- **Session d12_20nov:** mip (mipmaps=1, anisotropy=16, fcap on request), plain (the same with mipmaps=0), adv
+  (advanced shadows, mipmaps=1, the occlusion A/B).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

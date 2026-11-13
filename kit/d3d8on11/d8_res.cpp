@@ -5,7 +5,9 @@
 // render target, the back buffer) are asked for at LockRect (X_READBACK): that read waits for the executor and the
 // GPU, as the game's occlusion readback does under any D3D8 implementation.
 #include "d8.h"
+#include "d8_mip.h"
 #include <string>
+#include <algorithm>
 
 static const GUID *iid_res_base[] = {&IID_IUnknown, &IID_IDirect3DResource8, &IID_IDirect3DBaseTexture8};
 
@@ -26,7 +28,11 @@ HRESULT TexCore::init(Dev *d, UINT w_, UINT h_, UINT lv, UINT faces_, DWORD u, D
     d8_once("syspool", "a texture in pool %d: kept on the CPU only (no GPU copy)", (int)pool);
   } else {
     id = d->new_id();
-    XTex t = {id, XT_TEXTURE, w, h, levels, faces, (uint32_t)f, usage};
+    xlevels = levels;
+    if (d->mipmaps && pool == D3DPOOL_MANAGED && levels == 1 && faces == 1 && !(usage & (D3DUSAGE_RENDERTARGET | D3DUSAGE_DYNAMIC | D3DUSAGE_DEPTHSTENCIL)) &&
+        mip_format_ok(f) && w >= 4 && h >= 4 && !(fi.block && ((w & 3) || (h & 3))))
+      { xlevels = full; mipped = true; }
+    XTex t = {id, XT_TEXTURE, w, h, xlevels, faces, (uint32_t)f, usage};
     d->link->put(X_TEX, &t, sizeof t);
   }
   cpu.resize(faces * levels); surfs.assign(faces * levels, nullptr);
@@ -65,6 +71,7 @@ HRESULT TexCore::lock(UINT face, UINT l, D3DLOCKED_RECT *lr, const RECT *r, DWOR
     off = fi.block ? (size_t)(r->top / 4) * pitch + (r->left / 4) * fi.block : (size_t)r->top * pitch + r->left * (fi.bpp / 8);
   }
   lr->pBits = b.data() + off; lr->Pitch = pitch;
+  if (mipped && l == 0 && !(flags & D3DLOCK_READONLY)) dirty(r);
   if (readonly.size() < cpu.size()) readonly.resize(cpu.size(), 0);
   readonly[sub] = (flags & D3DLOCK_READONLY) != 0;
   return D3D_OK;
@@ -77,10 +84,61 @@ HRESULT TexCore::unlock(UINT face, UINT l) {
     std::vector<uint8_t> &b = cpu[face * levels + l];
     UINT pitch = d8_pitch(fmt, lw(l)), rows = d8_rows(fmt, lh(l));
     if (b.size() < (size_t)pitch * rows) b.resize((size_t)pitch * rows, 0);
-    XUpTex u = {id, D3D11CalcSubresource(l, face, levels), 0, 0, 0, 0, pitch, rows};
+    XUpTex u = {id, D3D11CalcSubresource(l, face, xlevels ? xlevels : levels), 0, 0, 0, 0, pitch, rows};
     dev->link->upload_tex(u, b.data(), lw(l), lh(l), d8_fmt(fmt).block ? 4 : 1);
+    if (mipped && l == 0) build_mips();
   }
   return D3D_OK;
+}
+// mipmaps (d8_mip.cpp): levels 1 .. xlevels-1 from level 0's CPU copy, sent as the executor's subresources 1 ..
+// A write to part of level 0 (LockRect with a rectangle, CopyRects) makes again only the part of each level it reaches
+// (mip_update: equal to a whole build, mip_test), when the texture is 32-bit and not a cutout; otherwise all of it
+void TexCore::dirty(const RECT *r) {
+  if (!r) { dall = true; dany = true; return; }
+  UINT x0 = r->left < 0 ? 0 : (UINT)r->left, y0 = r->top < 0 ? 0 : (UINT)r->top, x1 = r->right < 0 ? 0 : (UINT)r->right, y1 = r->bottom < 0 ? 0 : (UINT)r->bottom;
+  if (!dany) { dx0 = x0; dy0 = y0; dx1 = x1; dy1 = y1; }
+  else { dx0 = std::min(dx0, x0); dy0 = std::min(dy0, y0); dx1 = std::max(dx1, x1); dy1 = std::max(dy1, y1); }
+  dany = true;
+}
+void TexCore::build_mips() {
+  bool whole = dall || !dany; MipBox box = {dx0, dy0, std::min(dx1, w), std::min(dy1, h)};
+  dall = dany = false;
+  if (!mipped || !id || cpu.empty()) return;
+  if (!whole && (box.x0 >= box.x1 || box.y0 >= box.y1)) return;            // an empty rectangle: nothing written
+  uint64_t texels = whole ? (uint64_t)w * h : (uint64_t)(box.x1 - box.x0) * (box.y1 - box.y0);
+  uint32_t fr = dev->frame_no;                              // (Presents so far, d8_device.cpp)
+  if (regen && fr - regen_frame <= 60) regen += texels; else { regen = texels; regen_frame = fr; }
+  if (regen > 2 * (uint64_t)w * h) { mipped = false; gen = false; mcpu.clear(); mcpu.shrink_to_fit(); dev->sgen++; dev->mip_dropped++;
+    d8_once("mipdrop", "mipmaps: a texture %ux%u rebuilt more than twice its size in 60 frames: no levels for it from now (first case logged)", w, h); return; }
+  std::vector<uint8_t> &b = cpu[0];
+  if (b.size() < (size_t)d8_pitch(fmt, w) * d8_rows(fmt, h)) return;
+  double t0 = qpc_now_ms();
+  std::vector<MipBox> ch;
+  bool part = !whole && gen && !cut && mip_update(fmt, w, h, b.data(), xlevels, box, mcpu, ch);
+  int n;
+  if (part) {
+    for (size_t k = 0; k < ch.size(); k++) {
+      UINT l = (UINT)k + 1, lw_ = w >> l ? w >> l : 1; const MipBox &c = ch[k]; UINT rb = (c.x1 - c.x0) * 4, rows = c.y1 - c.y0;
+      std::vector<uint8_t> rect((size_t)rb * rows);
+      for (UINT y = 0; y < rows; y++) memcpy(&rect[(size_t)y * rb], &mcpu[k][((size_t)(c.y0 + y) * lw_ + c.x0) * 4], rb);
+      XUpTex u = {id, D3D11CalcSubresource(l, 0, xlevels), c.x0, c.y0, c.x1 - c.x0, rows, rb, rows};
+      dev->link->upload_tex(u, rect.data(), lw_, h >> l ? h >> l : 1, 1);
+    }
+    n = (int)xlevels - 1; dev->mip_parts++; dev->mip_parts_t++;
+  } else {
+    n = mip_build(fmt, w, h, b.data(), xlevels, mcpu, &cut);
+    for (int k = 0; k < n; k++) {
+      UINT l = (UINT)k + 1, lw_ = w >> l ? w >> l : 1, lh_ = h >> l ? h >> l : 1;
+      XUpTex u = {id, D3D11CalcSubresource(l, 0, xlevels), 0, 0, 0, 0, d8_pitch(fmt, lw_), d8_rows(fmt, lh_)};
+      dev->link->upload_tex(u, mcpu[k].data(), lw_, lh_, d8_fmt(fmt).block ? 4 : 1);
+    }
+    dev->mip_built++; dev->mip_built_t++;
+    // a texture that is made whole every time keeps no copy (mip_update cannot use it)
+    if (cut || !(fmt == D3DFMT_A8R8G8B8 || fmt == D3DFMT_X8R8G8B8)) { mcpu.clear(); mcpu.shrink_to_fit(); }
+  }
+  double ms = qpc_now_ms() - t0; dev->mip_ms += ms; dev->mip_ms_t += ms; if (ms > dev->mip_ms_max) dev->mip_ms_max = ms; if (ms > dev->mip_ms_max_t) dev->mip_ms_max_t = ms;
+  if (!gen) { dev->mip_textures++; }
+  gen = n == (int)xlevels - 1; dev->sgen++;
 }
 Surf *TexCore::surface(IUnknown *owner, UINT face, UINT l) {
   UINT sub = face * levels + l;

@@ -5178,6 +5178,24 @@ it); D8ON11_D3D12_DIAG=smp0 puts every draw's samplers in the first table (the G
 run_formats.bat now also draws the scenes with smp0 and with Direct3D 11. Under Wine all right, smp0 identical to the
 base.
 
+## 13 Nov (seventh entry): the cause on Parallels, and the fix: sampler tables in heaps of their own
+
+The owner's second formats run (run_formats.bat): the filter check all right (every Filter, MaxAnisotropy 0 and 1).
+The table place check: the LINEAR sampler read right at sampler 0 (128) and as the POINT table before it at samplers
+8, 64, 1024 and 2040 (0). With D8ON11_D3D12_DIAG=smp0 (every draw's samplers at sampler 0) all 35 scenes are identical
+to Direct3D 11 on that machine; without it the four LINEAR scenes differ as before. So the Direct3D 12 driver there
+reads a sampler table at its heap's start whatever place the bound handle names: every draw got the first table
+written (reset_state's POINT / WRAP). That is the cause of the pixelation; whether it is all of the shadow faults is
+not yet seen in the game.
+The fix (d8_exec12.cpp): at the start, where the place check is wrong, a heap check (two heaps bound one after the
+other, the draw must read the second: LINEAR there 128, POINT there 0 or 255); right: each distinct sampler table gets
+a shader-visible heap of eight samplers of its own (smp_heap_new), the table at its start, and a change of table sets
+the descriptor heaps again (the texture table bound again after it); past 1,024 heaps all are released (bury) and made
+again. The heap check wrong: Direct3D 11 runs the stream. Where the place check is right nothing changes. The binds
+line counts the heap changes. Tests: D8ON11_D3D12_DIAG=heaps forces the mode (scenes and 150 random cases identical to
+the usual executor under Wine), heaps,fresh past 1,024 heaps, D8ON11_TEST_D3D12_HEAPS_WRONG the fallback. Not known:
+the cost of a heap change on Parallels (the 15 Nov session measures it). kit/sessions/d12_15nov.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

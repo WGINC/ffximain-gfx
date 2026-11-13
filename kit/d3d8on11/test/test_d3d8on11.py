@@ -720,6 +720,24 @@ if 'thread' in MODES:
     clear_logs(); sf = scenes(ours, True, 'thread', dict(D12, D8ON11_TEST_D3D12_SAMPLERS='1')); t = logs()
     ok = sf == scenes(ours, True, 'thread') and 'does not sample as the stream asks by either way: Direct3D 11 runs the stream' in t
     print('%s: d3d12 whose sampler check fails: the stream runs on Direct3D 11 (logged), the scenes exactly the Direct3D 11 executor\'s' % ('ok' if ok else 'FAIL')); bad += not ok
+    # sampler tables each in a heap of their own (13 Nov: the owner's Parallels reads a sampler table only at its heap's
+    # start; D8ON11_D3D12_DIAG=heaps chooses it here, where the place check is right): the heap check right, logged, and
+    # the scenes and 150 random cases exactly the usual Direct3D 12 executor's
+    clear_logs(); sf = scenes(ours, True, 'thread', dict(D12, D8ON11_D3D12_DIAG='heaps')); t = logs()
+    open(os.path.join(ours, 'cases_heaps.txt'), 'w').write(subprocess.run([sys.executable, os.path.join(H, 'random_cases.py'), '11', '150'], capture_output=True, text=True, check=True).stdout)
+    ra = run(ours, 'random cases_heaps.txt', True, 'thread', D12); rb = run(ours, 'random cases_heaps.txt', True, 'thread', dict(D12, D8ON11_D3D12_DIAG='heaps'))
+    pick = lambda o: [l for l in o.splitlines() if l.startswith('scene ')]
+    ok = sf == scenes(ours, True, 'thread', D12) and 'each in a heap of their own' in t and re.search(r'sampler heap check .*: 128, (0|255): right', t) is not None \
+         and len(pick(ra)) == 150 and pick(ra) == pick(rb)
+    print('%s: d3d12 with sampler tables in heaps of their own: heap check right, the scenes and %d random cases exactly the usual executor\'s' % ('ok' if ok else 'FAIL', len(pick(rb)))); bad += not ok
+    # many tables (fresh: a new one each draw): the heaps are released past 1,024 and made again, and the run goes on
+    clear_logs(); out = run(ours, 'frames 600 draw', True, 'thread', dict(D12, D8ON11_D3D12_DIAG='heaps,fresh')); t = logs()
+    ok = 'presented 599' in out and 'sampler heaps made: all released and made again' in t
+    print('%s: d3d12 with heaps of their own and a new table each draw: past 1,024 heaps all released, t8 frames 600 runs to its end' % ('ok' if ok else 'FAIL')); bad += not ok
+    # a heap check that fails (D8ON11_TEST_D3D12_HEAPS_WRONG): Direct3D 11 runs the stream, its scenes exactly
+    clear_logs(); sf = scenes(ours, True, 'thread', dict(D12, D8ON11_D3D12_DIAG='heaps', D8ON11_TEST_D3D12_HEAPS_WRONG='1')); t = logs()
+    ok = sf == scenes(ours, True, 'thread') and 'reads no sampler table as the stream asks: Direct3D 11 runs the stream' in t
+    print('%s: d3d12 whose sampler heap check fails: the stream runs on Direct3D 11 (logged), the scenes exactly the Direct3D 11 executor\'s' % ('ok' if ok else 'FAIL')); bad += not ok
     # a lost device (D8ON11_TEST_D3D12_LOST=50: from the 50th Present the device counts as removed): logged with the
     # device's reason, and nothing waits for the GPU after it, so the game goes on to its end instead of hanging
     clear_logs()

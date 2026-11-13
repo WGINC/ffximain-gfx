@@ -97,6 +97,15 @@ struct Exec12 {
   // init's sampler check draws through each way and keeps the first that samples right (sampler_check)
   bool smp_copy = true; std::unordered_map<std::string, uint32_t> smp_cpu;
   void write_samplers(uint32_t table, const D3D12_SAMPLER_DESC *s);   // eight descriptions into gv_smp at `table`
+  void write_samplers_at(D3D12_CPU_DESCRIPTOR_HANDLE h, const D3D12_SAMPLER_DESC *s);
+  // (13 Nov) sampler tables each in a heap of their own, at its start: the owner's Parallels reads a sampler table only at
+  // its heap's start, whatever place the table's handle names (the place check: right at sampler 0, POINT's samplers read
+  // at 8, 64, 1024, 2040; D8ON11_D3D12_DIAG=smp0 drew every scene as Direct3D 11). Chosen at the start, only where the
+  // place check is wrong and the heap check right. smp_tables then maps to an index in smp_hv; a change of table sets
+  // the descriptor heaps again
+  bool smp_heaps = false; std::vector<ID3D12DescriptorHeap *> smp_hv; enum { SMP_HEAPS_CAP = 1024 };
+  ID3D12DescriptorHeap *smp_heap_new(const D3D12_SAMPLER_DESC *sd);
+  uint64_t c_heapsw = 0;
   int sampler_check(bool copy, uint32_t px[2]);
   // (13 Nov) the owner's picture check on Parallels: some textures drawn wrong although sampler_check passes; these say
   // what the driver supports for each format the D3D8 side uses, and draw test pixels through those formats
@@ -105,8 +114,8 @@ struct Exec12 {
   // pixels: mode 0 Sample(s0 LINEAR, centre) in pixel 0; mode 1 SampleLevel(s0, centre, i) in pixel i. RGBA of px[0..3]
   bool tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::vector<uint8_t>> &levels, const std::vector<UINT> &pitch,
                  const std::vector<UINT> &rows, int mode, uint32_t px[4], D3D12_FILTER filt = D3D12_FILTER_MIN_MAG_MIP_LINEAR,
-                 UINT aniso = 0, uint32_t smp_at = 0);
-  void filter_checks();
+                 UINT aniso = 0, uint32_t smp_at = 0, int heapsw = 0);
+  bool filter_checks();                            // the place check's result: true where a table's place is honoured
   void tex_checks();   // bit 0: the linear sample blends; bit 1: the clamped sample clamps; -1: not run
   uint32_t null_srv2d = ~0u, null_srvcube = ~0u;   // in h_srv
   ID3D12RootSignature *rs = nullptr;

@@ -307,7 +307,26 @@ int32_t Exec12::init(const XInit &x, bool resize) {
       else if (rb2 == 3) smp_copy = false;
       else { d8_log("D3D12: this driver does not sample as the stream asks by either way: Direct3D 11 runs the stream"); return D3DERR_NOTAVAILABLE; }
       checked:; }
-    format_report(); tex_checks(); filter_checks();
+    format_report(); tex_checks();
+    { bool place = filter_checks();
+      if (place && diag("heaps")) { place = false; d8_log("D3D12: sampler tables in heaps of their own whatever the place check says (D8ON11_D3D12_DIAG=heaps)"); }
+      if (!place) {
+        // the heap check: the LINEAR sampler in the second of two heaps bound (POINT in the first), then the other way
+        // round; the draw must read the heap bound last: ~128, then 0 or 255
+        std::vector<std::vector<uint8_t>> lv(1); lv[0] = {0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 255};
+        uint32_t c1[4] = {}, c2[4] = {};
+        bool o1 = tex_probe(DXGI_FORMAT_B8G8R8A8_UNORM, 2, 2, lv, {8}, {2}, 0, c1, D3D12_FILTER_MIN_MAG_MIP_LINEAR, 0, 0, 1);
+        bool o2 = tex_probe(DXGI_FORMAT_B8G8R8A8_UNORM, 2, 2, lv, {8}, {2}, 0, c2, D3D12_FILTER_MIN_MAG_MIP_LINEAR, 0, 0, 2);
+        int v1 = o1 ? (int)(c1[0] & 255) : -1, v2 = o2 ? (int)(c2[0] & 255) : -1;
+        bool right = v1 >= 60 && v1 <= 195 && (v2 == 0 || v2 == 255);
+        if (getenv("D8ON11_TEST_D3D12_HEAPS_WRONG")) { right = false; d8_log("D3D12 sampler heap check: treated as wrong whatever it draws (D8ON11_TEST_D3D12_HEAPS_WRONG, a test)"); }
+        d8_log("D3D12 sampler heap check (a table at the start of the heap bound last; LINEAR there ~128, POINT there 0 or 255): %d, %d: %s",
+               v1, v2, right ? "right" : "WRONG");
+        if (!right) { d8_log("D3D12: this driver reads no sampler table as the stream asks: Direct3D 11 runs the stream"); return D3DERR_NOTAVAILABLE; }
+        smp_heaps = true;
+        d8_log("D3D12: sampler tables each in a heap of their own (this driver reads a sampler table only at its heap's start)");
+      }
+    }
     ts_init(); ts_begin();
     D3D12_FEATURE_DATA_D3D12_OPTIONS op = {}; dev->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &op, sizeof op);
     d8_log("D3D12 executor: device made; resource binding tier %d; upload ring %d MB; swap chain %ux%u, FLIP_DISCARD, %d buffers; up to %u frames in flight",
@@ -755,6 +774,17 @@ static D3D12_SAMPLER_DESC sampler12(const D3D11_SAMPLER_DESC *s) {
 // ---- samplers ------------------------------------------------------------------------------------------------------------
 void Exec12::write_samplers(uint32_t table, const D3D12_SAMPLER_DESC *sd) {
   D3D12_CPU_DESCRIPTOR_HANDLE h = gv_smp->GetCPUDescriptorHandleForHeapStart(); h.ptr += (SIZE_T)table * smp_inc;
+  write_samplers_at(h, sd);
+}
+ID3D12DescriptorHeap *Exec12::smp_heap_new(const D3D12_SAMPLER_DESC *sd) {
+  D3D12_DESCRIPTOR_HEAP_DESC hd = {}; hd.Type = D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER; hd.NumDescriptors = 8;
+  hd.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
+  ID3D12DescriptorHeap *hp = nullptr;
+  if (FAILED(dev->CreateDescriptorHeap(&hd, __uuidof(ID3D12DescriptorHeap), (void **)&hp))) return nullptr;
+  write_samplers_at(hp->GetCPUDescriptorHandleForHeapStart(), sd);
+  return hp;
+}
+void Exec12::write_samplers_at(D3D12_CPU_DESCRIPTOR_HANDLE h, const D3D12_SAMPLER_DESC *sd) {
   for (uint32_t i = 0; i < 8; i++) {
     D3D12_CPU_DESCRIPTOR_HANDLE hi = h; hi.ptr += (SIZE_T)i * smp_inc;
     if (!smp_copy) { dev->CreateSampler(&sd[i], hi); continue; }
@@ -916,7 +946,7 @@ void Exec12::format_report() {
   d8_log("D3D12 format support: %s", line);
 }
 bool Exec12::tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::vector<uint8_t>> &lv, const std::vector<UINT> &pitch,
-                       const std::vector<UINT> &rows, int mode, uint32_t px[4], D3D12_FILTER filt, UINT aniso, uint32_t smp_at) {
+                       const std::vector<UINT> &rows, int mode, uint32_t px[4], D3D12_FILTER filt, UINT aniso, uint32_t smp_at, int heapsw) {
   if (!compile || lost) return false;
   static const char *src =
     "Texture2D t : register(t0); SamplerState s0 : register(s0);\n"
@@ -932,7 +962,7 @@ bool Exec12::tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::v
   rd.MipLevels = (UINT16)nl; rd.Format = fmt; rd.SampleDesc.Count = 1;
   ID3D12Resource *tex = nullptr, *rt = nullptr, *rb = nullptr; ID3D12PipelineState *pso = nullptr;
   D3D12_RESOURCE_STATES ts = D3D12_RESOURCE_STATE_COPY_DEST, rs_ = D3D12_RESOURCE_STATE_RENDER_TARGET;
-  uint32_t si = ~0u, ri = ~0u; bool ok = false;
+  uint32_t si = ~0u, ri = ~0u; bool ok = false; ID3D12DescriptorHeap *ha = nullptr, *hb = nullptr;
   const bool bc = fmt == DXGI_FORMAT_BC1_UNORM || fmt == DXGI_FORMAT_BC2_UNORM || fmt == DXGI_FORMAT_BC3_UNORM;
   do {
     if (FAILED(dev->CreateCommittedResource(&hp, D3D12_HEAP_FLAG_NONE, &rd, ts, nullptr, __uuidof(ID3D12Resource), (void **)&tex))) break;
@@ -979,8 +1009,14 @@ bool Exec12::tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::v
     D3D12_CPU_DESCRIPTOR_HANDLE rh = h_rtv.at(ri); cl->OMSetRenderTargets(1, &rh, FALSE, nullptr);
     D3D12_VIEWPORT vp = {0, 0, 4, 1, 0, 1}; D3D12_RECT sc = {0, 0, 4, 1};
     cl->RSSetViewports(1, &vp); cl->RSSetScissorRects(1, &sc); cl->SetPipelineState(pso);
+    if (heapsw) {                                          // (the heap check) two heaps bound one after the other: one of
+      D3D12_SAMPLER_DESC pt[8]; for (int i = 0; i < 8; i++) pt[i] = sampler12(nullptr);   // POINT samplers, one with `filt`
+      ha = smp_heap_new(heapsw == 1 ? pt : sd); hb = smp_heap_new(heapsw == 1 ? sd : pt); if (!ha || !hb) break;
+      ID3D12DescriptorHeap *h1[2] = {gv_srv, ha}; cl->SetDescriptorHeaps(2, h1); cl->SetGraphicsRootDescriptorTable(4, ha->GetGPUDescriptorHandleForHeapStart());
+      ID3D12DescriptorHeap *h2[2] = {gv_srv, hb}; cl->SetDescriptorHeaps(2, h2); cl->SetGraphicsRootDescriptorTable(4, hb->GetGPUDescriptorHandleForHeapStart());
+    }
     D3D12_GPU_DESCRIPTOR_HANDLE gt = gv_srv->GetGPUDescriptorHandleForHeapStart(); gt.ptr += phys * gv_inc; cl->SetGraphicsRootDescriptorTable(3, gt);
-    D3D12_GPU_DESCRIPTOR_HANDLE gs = gv_smp->GetGPUDescriptorHandleForHeapStart(); gs.ptr += (UINT64)tab * smp_inc; cl->SetGraphicsRootDescriptorTable(4, gs);
+    if (!heapsw) { D3D12_GPU_DESCRIPTOR_HANDLE gs = gv_smp->GetGPUDescriptorHandleForHeapStart(); gs.ptr += (UINT64)tab * smp_inc; cl->SetGraphicsRootDescriptorTable(4, gs); }
     cl->SetGraphicsRootConstantBufferView(0, ring_va); cl->SetGraphicsRootConstantBufferView(1, ring_va); cl->SetGraphicsRootConstantBufferView(2, ring_va);
     cl->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
     cl->DrawInstanced(3, 1, 0, 0);
@@ -996,7 +1032,8 @@ bool Exec12::tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::v
     D3D12_RANGE none = {0, 0}; rb->Unmap(0, &none); ok = true;
   } while (0);
   if (si != ~0u) h_srv.give(si); if (ri != ~0u) h_rtv.give(ri);
-  bury(tex); bury(rt); bury(rb); bury(pso); rel(vb); rel(pb);
+  bury(tex); bury(rt); bury(rb); bury(pso); rel(vb); rel(pb); if (ha) bury(ha); if (hb) bury(hb);
+  if (heapsw) { ID3D12DescriptorHeap *h0[2] = {gv_srv, gv_smp}; cl->SetDescriptorHeaps(2, h0); }
   smp_tables.clear(); smp_next = 0; memo.smp_ok = false; bd = Bound(); bd.valid = true; tgt_dirty = true;
   return ok;
 }
@@ -1042,7 +1079,7 @@ void Exec12::tex_checks() {
 // MaxAnisotropy (the D3D8 stage's, 1 by default). Each filter d8_ff.cpp can send, with MaxAnisotropy 0 and 1, on a 2x2
 // checker: at the centre (no derivatives) and on a magnified ramp (Sample, 0.01 texel a pixel). A magnification filter
 // of LINEAR gives about 128 at both; POINT gives 0 or 255.
-void Exec12::filter_checks() {
+bool Exec12::filter_checks() {
   static const struct { D3D12_FILTER f; const char *n; bool lin; } fl[] = {
     {D3D12_FILTER_MIN_MAG_MIP_POINT, "00", false}, {D3D12_FILTER_MIN_MAG_POINT_MIP_LINEAR, "01", false},
     {D3D12_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT, "04", true}, {D3D12_FILTER_MIN_POINT_MAG_MIP_LINEAR, "05", true},
@@ -1076,6 +1113,7 @@ void Exec12::filter_checks() {
   }
   d8_log("D3D12 sampler table place check (LINEAR at sampler N of the heap, POINT before it; ~128 is right): %s: %s", line,
          wrong ? "SOME WRONG" : "all right");
+  return wrong == 0;
 }
 
 // ---- a draw --------------------------------------------------------------------------------------------------------------
@@ -1133,7 +1171,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   const bool fresh = diag("fresh");
   // (13 Nov) D8ON11_D3D12_DIAG=smp0: every draw's samplers at the heap's first table, rewritten for each draw, the GPU
   // waited for after each draw (as sync) so no draw in flight reads a table being rewritten. A diagnostic only
-  if (diag("smp0")) {
+  if (diag("smp0") && !smp_heaps) {
     D3D12_SAMPLER_DESC sd[8];
     for (uint32_t i = 0; i < 8; i++) sd[i] = sampler12(i < ns && d.stage[i].tex ? &d.stage[i].sampler : nullptr);
     write_samplers(0, sd); smp_tab = 0; bd.smp_tab = ~0u; memo.smp_ok = false;
@@ -1144,11 +1182,21 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   auto st = fresh ? smp_tables.end() : smp_tables.find(sk);
   if (st != smp_tables.end()) smp_tab = st->second;
   else {
-    if (smp_next + 8 > SMP_CAP) { wait_idle(); smp_tables.clear(); smp_next = 0; memo.smp_ok = false; d8_once("smpfull12", "D3D12: the sampler heap was full: waited for the GPU and started it again"); }
-    smp_tab = smp_next; smp_next += 8;
     D3D12_SAMPLER_DESC sd[8];
     for (uint32_t i = 0; i < 8; i++) sd[i] = sampler12(i < ns && d.stage[i].tex ? &d.stage[i].sampler : nullptr);
-    write_samplers(smp_tab, sd);
+    if (smp_heaps) {
+      if (smp_hv.size() >= SMP_HEAPS_CAP) {              // released once the GPU is past them (bury); bound again below
+        for (auto *h : smp_hv) bury(h);
+        smp_hv.clear(); smp_tables.clear(); bd.smp_tab = ~0u; memo.smp_ok = false; d8_once("smpheaps12", "D3D12: %d sampler heaps made: all released and made again as needed", (int)SMP_HEAPS_CAP);
+      }
+      ID3D12DescriptorHeap *hp = smp_heap_new(sd);
+      if (!hp) { d8_once("smpheap12", "D3D12: a sampler heap could not be made (draw skipped)"); return; }
+      smp_tab = (uint32_t)smp_hv.size(); smp_hv.push_back(hp);
+    } else {
+      if (smp_next + 8 > SMP_CAP) { wait_idle(); smp_tables.clear(); smp_next = 0; memo.smp_ok = false; d8_once("smpfull12", "D3D12: the sampler heap was full: waited for the GPU and started it again"); }
+      smp_tab = smp_next; smp_next += 8;
+      write_samplers(smp_tab, sd);
+    }
     smp_tables[sk] = smp_tab;
   }
   memcpy(memo.skd, skd, sizeof skd); memo.smp = smp_tab; memo.smp_ok = true;
@@ -1414,8 +1462,15 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   D3D12_GPU_VIRTUAL_ADDRESS bones = sks >= 0 ? last_pal_va : last_vca;   // (b1 is read only by a skinning shader)
   if (bd.bones != bones) { cl->SetGraphicsRootConstantBufferView(1, bones); bd.bones = bones; }
   if (bd.pcb != last_pca) { cl->SetGraphicsRootConstantBufferView(2, last_pca); bd.pcb = last_pca; }
+  if (bd.smp_tab != smp_tab) {
+    D3D12_GPU_DESCRIPTOR_HANDLE h;
+    if (smp_heaps && smp_tab < smp_hv.size()) {          // its own heap: the heaps set again (the texture table with them)
+      ID3D12DescriptorHeap *hs[2] = {gv_srv, smp_hv[smp_tab]}; cl->SetDescriptorHeaps(2, hs);
+      h = smp_hv[smp_tab]->GetGPUDescriptorHandleForHeapStart(); bd.srv_tab = ~0ull; c_heapsw++;
+    } else { h = gv_smp->GetGPUDescriptorHandleForHeapStart(); h.ptr += (UINT64)smp_tab * smp_inc; }
+    cl->SetGraphicsRootDescriptorTable(4, h); bd.smp_tab = smp_tab; c_smptab++;
+  }
   if (bd.srv_tab != srv_tab) { D3D12_GPU_DESCRIPTOR_HANDLE h = gv_srv->GetGPUDescriptorHandleForHeapStart(); h.ptr += srv_tab * gv_inc; cl->SetGraphicsRootDescriptorTable(3, h); bd.srv_tab = srv_tab; c_srvtab++; }
-  if (bd.smp_tab != smp_tab) { D3D12_GPU_DESCRIPTOR_HANDLE h = gv_smp->GetGPUDescriptorHandleForHeapStart(); h.ptr += (UINT64)smp_tab * smp_inc; cl->SetGraphicsRootDescriptorTable(4, h); bd.smp_tab = smp_tab; c_smptab++; }
   D3D12_VIEWPORT vp; memcpy(&vp, &d.viewport, sizeof vp);
   if (memcmp(&bd.vp, &vp, sizeof vp)) { cl->RSSetViewports(1, &vp); bd.vp = vp; }
   D3D12_RECT sc = {0, 0, (LONG)(rt_w ? rt_w : width), (LONG)(rt_h ? rt_h : height)};
@@ -1648,14 +1703,14 @@ void Exec12::present() {
   if (!snap_pend.empty()) snap_poll();
   if (++c_frames >= 600) {
     double f = c_frames;
-    d8_log("D3D12 binds, %u frames: %.0f draws, %.0f pipeline switches, %.0f texture tables, %.0f sampler tables, %.0f barriers a frame; "
+    d8_log("D3D12 binds, %u frames: %.0f draws, %.0f pipeline switches, %.0f texture tables, %.0f sampler tables (%.0f heap changes), %.0f barriers a frame; "
            "%u pipelines made (%u from the library), %u shaders compiled (%u from the disk cache): %.1f ms making them in all",
-           c_frames, c_draws / f, c_pso / f, c_srvtab / f, c_smptab / f, c_bars / f, c_pso_new, c_pso_loaded, c_cmp_new, c_cmp_loaded, c_pso_ms + c_cmp_ms);
+           c_frames, c_draws / f, c_pso / f, c_srvtab / f, c_smptab / f, c_heapsw / f, c_bars / f, c_pso_new, c_pso_loaded, c_cmp_new, c_cmp_loaded, c_pso_ms + c_cmp_ms);
     if (merge_on) d8_log("draw_merge (D3D12), %u frames: %.1f merged draws a frame took in %.1f others; %.3f MB copied to the slots a frame; %llu times the slots started again",
                          c_frames, mg_runs / f, mg_saved / f, mg_bytes / f / 1048576.0, (unsigned long long)mg_wraps);
     mg_runs = mg_saved = mg_bytes = 0;
     ts_report();
-    c_draws = c_pso = c_srvtab = c_smptab = c_bars = 0; c_frames = 0; c_pso_new = c_pso_loaded = c_cmp_new = c_cmp_loaded = 0; c_pso_ms = c_cmp_ms = 0;
+    c_draws = c_pso = c_srvtab = c_smptab = c_heapsw = c_bars = 0; c_frames = 0; c_pso_new = c_pso_loaded = c_cmp_new = c_cmp_loaded = 0; c_pso_ms = c_cmp_ms = 0;
   }
   // the game never releases its device at exit (the owner's 13 Nov logs: no shutdown line), so the caches are written
   // while it runs: news, and 1,800 Presents since the last write (or since the start); the write's time is logged
@@ -1689,6 +1744,7 @@ void Exec12::shutdown() {
   for (int i = 0; i < NBB; i++) rel(bb[i]);
   rel(swap);
   for (CpuHeap *c : {&h_srv, &h_rtv, &h_dsv, &h_smp}) { for (auto *p : c->pages) p->Release(); c->pages.clear(); }
+  for (auto *h : smp_hv) rel(h); smp_hv.clear();
   rel(gv_srv); rel(gv_smp); rel(rs);
   if (ring) { ring->Unmap(0, nullptr); rel(ring); }
   rel(cl); for (int i = 0; i < NF; i++) rel(alloc[i]);

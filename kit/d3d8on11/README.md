@@ -258,8 +258,10 @@ upload ring, the root signature or the swap chain cannot be made, the log says w
   texture format the D3D8 side maps (2d, sample, mip, rt, blend) and draws test pixels through B8G8R8A8, B8G8R8X8, the
   mip levels of a B8G8R8A8 texture and those of a BC1 texture, each logged with what is right; then every sampler
   Filter d8_ff.cpp sends (with MaxAnisotropy 0 and 1), and the same LINEAR sampler at several places in the sampler
-  heap. They only log; nothing is chosen from them yet (docs/HISTORY.md, 13 Nov fifth and sixth entries: on the owner's
-  Parallels the formats are right and the draws' LINEAR samplers come out POINT).
+  heap. They log, and one of them chooses: where a sampler table is read only at its heap's start (the owner's
+  Parallels: the place check wrong), and a heap check shows the driver reads the heap bound last, each sampler table
+  gets a heap of its own and a change of table sets the heaps again; the heap check wrong too: Direct3D 11
+  (docs/HISTORY.md, 13 Nov fifth to seventh entries).
 - **The sampler check (13 Nov).** At the start the executor draws two pixels through the same root signature,
   descriptor tables and sampler path as a draw: a LINEAR sample between four texels of a 2x2 checker (128 is right) and
   a CLAMP sample past the edge (255 is right; WRAP gives 0). Samplers are written into the shader-visible heap by

@@ -1205,6 +1205,11 @@ static void ab_set(int i) {
   g_ab_i = i; g_ab_t0 = GetTickCount(); g_ab_seen = 0; g_ab_n = 0;
   set_config(ab_config(ab_label(i) == 'A'));
   LOG("speedfix: ab: phase %d of %d: %c (%s)", i + 1, g_ab_nph, ab_label(i), ab_label(i) == 'A' ? "the levers off" : "the levers as set");
+  // a mark, as mark.bat makes one (xikit_mark.txt next to xikit.dll, measure.c): with frames=1 the kit puts it in its
+  // frame log within 30 frames, on the performance counter PresentMon's CPUStartQPC uses, so each phase's frames can
+  // be cut out of both files (what reaches the screen per phase). Without the measuring kit nothing reads it
+  { char p[MAX_PATH]; snprintf(p, sizeof p, "%s\\xikit_mark.txt", g_host->dir);
+    FILE *f = fopen(p, "w"); if (f) { fprintf(f, "ab %d %c\n", i + 1, ab_label(i)); fclose(f); } }
 }
 static void ab_end_phase(void) {
   int i = g_ab_i, n = g_ab_n; double sum = 0;
@@ -1216,6 +1221,8 @@ static void ab_end_phase(void) {
 }
 static void ab_finish(void) {
   set_config(g_base);
+  { char p[MAX_PATH]; snprintf(p, sizeof p, "%s\\xikit_mark.txt", g_host->dir);       // the end of the last phase (ab_set)
+    FILE *f = fopen(p, "w"); if (f) { fputs("ab end\n", f); fclose(f); } }
   double s[2] = {0, 0}, m[2] = {0, 0}, p[2] = {0, 0}, lo[2] = {1e9, 1e9}, hi[2] = {0, 0}; int c[2] = {0, 0};
   for (int i = 0; i < g_ab_nph; i++) {
     if (!g_ab_cnt[i]) continue;

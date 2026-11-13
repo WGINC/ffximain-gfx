@@ -41,6 +41,12 @@ for mode in ('minimal', 'full', 'lazy', 'blocks', 'pacing', 'step', 'group'):
         ab = re.search(r'speedfix: ab 1 \(lazy_state, bogus\): A \(off\) [0-9.]+ ms, B \(on\) [0-9.]+ ms', log)
         ok = bool(ab) and 'phase 1 of 2: A (the levers off)' in log and 'phase 2 of 2: B' in log and 'bogus (not a lever)' in log
         print('%s: lazy: the lever A/B ran A then B and compared them (an unknown name left out and logged)' % ('ok' if ok else 'FAIL')); bad += not ok
+        # (24 Nov) each phase and the end leave a mark for the measuring kit (xikit_mark.txt, as mark.bat writes it); no kit
+        # reads it here, so the last one written stays: the end
+        mk = os.path.join(d, 'xikit_mark.txt'); mt = open(mk).read().strip() if os.path.exists(mk) else ''
+        ok = mt == 'ab end'
+        print('%s: lazy: the A/B left its marks for the measuring kit (the last: %r)' % ('ok' if ok else 'FAIL', mt)); bad += not ok
+        if os.path.exists(mk): os.remove(mk)
 # shadow_fit=1 (16 Nov): the hook of Shadow_DrawByMode goes in and says so (the minimal host run with the setting)
 for f in ('xikit.log', 'speedfix.ini'):
     if os.path.exists(os.path.join(d, f)): os.remove(os.path.join(d, f))

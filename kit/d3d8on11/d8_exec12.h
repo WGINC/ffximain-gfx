@@ -52,8 +52,10 @@ struct Exec12 {
 
   // ---- device, queue, swap chain ----
   ID3D12Device *dev = nullptr; ID3D12CommandQueue *q = nullptr; IDXGIFactory4 *fac = nullptr; IDXGISwapChain3 *swap = nullptr;
-  enum { NBB = 2, NF = 3 };                        // back buffers; command allocators (frames the CPU may be ahead)
-  ID3D12Resource *bb[NBB] = {}; D3D12_RESOURCE_STATES bb_st[NBB] = {}; uint32_t bbi = 0;   // bbi: the current back buffer
+  enum { NBB_MAX = 4, NF = 3 };                    // back buffers at most; command allocators (frames the CPU may be ahead)
+  // NBB: the swap chain's buffers, 2 unless swap_buffers (OPT_SWAPBUF, before X_INIT) says 3 or 4
+  uint32_t NBB = 2;
+  ID3D12Resource *bb[NBB_MAX] = {}; D3D12_RESOURCE_STATES bb_st[NBB_MAX] = {}; uint32_t bbi = 0;   // bbi: the current back buffer
   uint64_t pres_f[8] = {};                         // the fence value of each of the last Presents
   ID3D12CommandAllocator *alloc[NF] = {}; uint64_t alloc_fence[NF] = {}; uint32_t fi = 0;
   ID3D12GraphicsCommandList *cl = nullptr;

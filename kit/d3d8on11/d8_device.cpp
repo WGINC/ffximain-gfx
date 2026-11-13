@@ -82,6 +82,13 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen
   if (backend12) { int dh = (int)GetPrivateProfileIntA("d3d8on11", "discard_hints", 0, ini); char e[16];   // (22 Nov; Direct3D 12 only)
     DWORD n = GetEnvironmentVariableA("D8ON11_DISCARD_HINTS", e, sizeof e); if (n > 0 && n < sizeof e) dh = atoi(e);
     if (dh) { XOption o = {OPT_DISCARD, 1u, 0}; link->put(X_OPTION, &o, sizeof o); } }
+  // swap_buffers=N (Direct3D 12 only; 2 = as before, 3 or 4): the swap chain's buffers. With 2, one is on the screen
+  // until the compositor's next refresh and the other is being drawn, so Present waits for that refresh before the next
+  // frame can start (24 Nov: Present was 3.6-4.5 ms of the executor's 7.2-7.8 ms a frame at 120 Hz). More buffers let
+  // a finished frame wait in the queue instead; the frames drawn are the same. Before X_INIT. D8ON11_SWAP_BUFFERS overrides it
+  if (backend12) { int sb = (int)GetPrivateProfileIntA("d3d8on11", "swap_buffers", 2, ini); char e[16];
+    DWORD n = GetEnvironmentVariableA("D8ON11_SWAP_BUFFERS", e, sizeof e); if (n > 0 && n < sizeof e) sb = atoi(e);
+    if (sb >= 3 && sb <= 4) { XOption o = {OPT_SWAPBUF, (uint32_t)sb, 0}; link->put(X_OPTION, &o, sizeof o); } }
 
   // d3d12_probe=1 (the default, 12 Nov): once, after the first Present, the executor tries to make a Direct3D 12 device
   // and run a command list on it, and logs each step (Exec::d3d12_probe); 0 turns it off. D8ON11_D3D12_PROBE overrides it

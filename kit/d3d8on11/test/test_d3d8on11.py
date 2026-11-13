@@ -771,6 +771,16 @@ if 'thread' in MODES:
     used = bool(m) and int(m[-1][0]) + int(m[-1][1]) > 0
     ok = s_on == s_off and len(s_on) > 30 and r_on == r_off and len(r_on) > 0 and used
     print('%s: d3d12 discard_hints: %d scenes and %d random cases identical on and off; targets discarded (%s)' % ('ok' if ok else 'FAIL', len(s_on), len(r_on), m[-1] if m else 'no line')); bad += not ok
+# swap_buffers (24 Nov, d8_exec12.cpp): the Direct3D 12 swap chain with 3 and 4 buffers. Every scene and the random
+# cases draw as with 2, and the swap chain says its count
+if 'thread' in MODES:
+    s2 = scenes(ours, True, 'thread', dict(D12, D8ON11_SWAP_BUFFERS='2'))
+    r2 = pick(run(ours, 'random cases.txt', True, 'thread', dict(D12, D8ON11_SWAP_BUFFERS='2')))
+    for nb in ('3', '4'):
+        clear_logs(); sn = scenes(ours, True, 'thread', dict(D12, D8ON11_SWAP_BUFFERS=nb)); t = logs()
+        rn = pick(run(ours, 'random cases.txt', True, 'thread', dict(D12, D8ON11_SWAP_BUFFERS=nb)))
+        ok = sn == s2 and len(sn) > 30 and rn == r2 and len(rn) > 0 and ('FLIP_DISCARD, %s buffers' % nb) in t
+        print('%s: d3d12 swap_buffers=%s: %d scenes and %d random cases identical to 2 buffers; the swap chain made with %s' % ('ok' if ok else 'FAIL', nb, len(sn), len(rn), nb)); bad += not ok
 # snapshot slots (22 Nov): 2,600 copied 16x16 lockable render targets (the owner's zone change: 877 occlusion objects,
 # three surfaces each in speedfix's occlusion_late) all get a slot and are read from their snapshot (1,024 slots before)
 if 'thread' in MODES:

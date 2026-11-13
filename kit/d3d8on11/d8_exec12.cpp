@@ -491,6 +491,8 @@ void Exec12::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::ve
       if (run_n) flush_run();
       merge_on = (x.value & 1) != 0;
       d8_once("merge12", "draw_merge: the Direct3D 12 executor merges runs of delta draws (needs draw_delta=1)");
+    } else if (x.key == OPT_SWAPBUF) {
+      if (!swap && x.value >= 2 && x.value <= NBB_MAX) { NBB = x.value; d8_log("swap_buffers=%u: the Direct3D 12 swap chain gets %u buffers", NBB, NBB); }
     } else if (x.key == OPT_DISCARD) {
       discard_hints = x.value != 0;
       if (discard_hints) d8_log("discard_hints=1: at Present, targets whose next use already sent is a Clear of all of them are discarded (DiscardResource)");

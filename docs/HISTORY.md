@@ -5579,9 +5579,9 @@ before_arm1 arm0's, before_native arm1's, d3d8on11_prev.log native's, d3d8on11.l
   (137.8); 22 Nov final's walk 10.19 (98.1). fast and native ran the same settings: their 11% difference is the
   spread between minutes of play, so a difference between starts smaller than that is not a measured one.
 - **On the screen (PresentMon DisplayedTime, after the first fifth of each start):** the display refreshes at 120 Hz
-  (shown times cluster at 8.33 ms). Start fast: 84% of shown frames held one refresh, 3.9% two, none three; 10% of
+  (shown times cluster at 8.33 ms). Start fast: 94% of shown frames held one refresh (corrected the same day: 84% was a wrong sum of the bins), 3.9% two, none three; 10% of
   presents never shown (made faster than 120 a second); 112.9 shown a second; the change in on-screen time from one
-  frame to the next 1.33 ms on average. 22 Nov final: 66% one refresh, 20% two, 2% three; 85.8 shown a second; 3.49 ms.
+  frame to the next 1.33 ms on average. 22 Nov final: 72% one refresh (not 66%), 20% two, 2% three; 85.8 shown a second; 3.49 ms.
   PresentMon on pol.exe does not see the arm starts' frames (the ARM64 process presents them): its ~60 a second
   "Copy with GPU GDI" presents there are something else in pol.exe, not identified.
 - **Frame to frame (game side, walking):** fast p95 11.0 ms, p99 17.8, max 41.6, mean change 1.16 ms; 22 Nov final

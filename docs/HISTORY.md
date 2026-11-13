@@ -5253,6 +5253,23 @@ the cost of a heap change on Parallels (the 15 Nov session measures it). kit/ses
 - **Session d12_17nov:** advanced shadows on everyone (`mark adv`, the target counts), then simple shadows with
   shadow_fit=1 (`mark simple`).
 
+## 13 Nov (tenth entry): Liminality rewritten as d3d8on11's interp
+
+The owner: rewrite Liminality. What broke the old one, from its design: it wrote the game's own fields (positions,
+directions, motion state) between ticks and put them back, so the game's logic ran into blended values (the 12 Nov
+fixes narrowed that; the 16 Nov run still showed jitter, slow animations, rubber-banding). The new one (d3d8on11
+interp=1, off by default) writes nothing of the game's: between ticks it draws each skinned character at the blend of
+its last two ticks from what the renderer is handed (a skinning job's bone palette through D8ON11_Skin; the world
+matrix of the draws that read the skinned buffer), one tick behind (lim_alpha's rule). speedfix hands it the step's
+clock (D8ON11_InterpClock: xi_step_whole, xi_step_carry, xi_step_mode). Facts it rests on: the palette is the game's
+skinning input (docs/FORMATS.md 2.4); the game's poses change only on ticks (12 Nov: OnMove runs only on ticks) --
+not assumed: between ticks a palette or world matrix that differs from the last tick's is drawn as the game has it and
+counted. Track identity is not known from the code (the game skins into the mesh's buffers with DISCARD, so two
+characters may share them): buffer, variant, bone table address and order in the frame; the log counts jobs told apart
+by order. t8 interp (in test_d3d8on11.py): blend, tick frame, span 2, changed, warp, no clock, each equal to its
+reference, both executors, draw_delta 0 and 1; the blended picture differs from the unblended (127 pixels). Not
+blended: effects, nameplates, rigid models, the camera. Session d12_17nov gets a third start (interp).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

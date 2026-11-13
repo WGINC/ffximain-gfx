@@ -1,6 +1,6 @@
-# The 17 Nov session: what advanced shadows cost, and simple shadows sized to each character
+# The 17 Nov session: what advanced shadows cost, simple shadows sized to each character, and the new in-between frames
 
-Two starts of the game, about 8 minutes, at a busy place (the same as last time if you can).
+Three starts of the game, about 12 minutes, at a busy place (the same as last time if you can).
 
 ## What your 16 Nov run showed
 
@@ -31,6 +31,20 @@ this start counts it.
   note it will be set so that a typical character gets about the size the shadow had before it shrank
   (`shadow_fit_scale` in speedfix.ini).
 
+## The new in-between frames (replacing Liminality)
+
+Above 60 fps about half your frames carry no game time, so the characters stand where the game's last tick (1/60 s)
+left them, and their motion updates 60 times a second however fast the frames come. The old Liminality changed the
+game's own positions between ticks, and the game's logic then ran into them: the jitter, slow animations and
+rubber-banding you saw. The new one (d3d8on11 `interp=1`) leaves the game alone. It takes what the game hands the
+renderer, each character's bone matrices and its placement in the world, keeps the last two ticks of each, and draws
+the frames in between at the blend, one tick (1/60 s) behind the game. speedfix only tells it how far between two
+ticks each frame is. Where the game changes a character between ticks itself, or a character jumps 4 units or more in
+one tick (a warp), it draws what the game has. Tested here: each case draws exactly the expected picture, on Direct3D
+11 and 12. Not covered yet: only the skinned characters (bodies, gear) are blended; spell effects, nameplates and other
+objects move at 60 a second as now, so an effect or a name attached to a running character can trail it by up to one
+tick.
+
 ## Before you start
 
 As before: unzip into the PlayOnlineViewer folder so that `d12_17nov` sits inside it, copy the zip's `kit` files next
@@ -46,6 +60,12 @@ camera still, 2 minutes. Close the game, `restore.bat`.
 Set simple shadows. `start.bat d12` again. `mark simple`: the same place, 1 minute. **Do the round shadows now match
 each character's size (big characters bigger, small ones smaller)? Too big or too small overall?** Close the game,
 `restore.bat`.
+
+## 3. The in-between frames
+
+Shadows as you like. `start.bat interp`. `mark crowd`: the busy place, 1 minute; `mark run`: run around turning the
+camera, 1 minute. **Smoother motion than starts 1 and 2? Any jitter, wrong speeds, rubber-banding, parts (weapons, a
+head) out of place, characters popping?** Close the game, `restore.bat`.
 
 Then close the xiload window, `collect.bat`, and upload `d12_17nov_results.zip` with your notes.
 

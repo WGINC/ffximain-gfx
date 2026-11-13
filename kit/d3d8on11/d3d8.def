@@ -5,3 +5,4 @@ EXPORTS
   D8ON11_DrawSite
   D8ON11_LockDoNotWait
   D8ON11_Skin
+  D8ON11_InterpClock

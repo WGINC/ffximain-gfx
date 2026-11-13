@@ -1097,6 +1097,95 @@ static void churn_test(void) {
   textured_check("churn");
 }
 
+
+/* interp (17 Nov; d8_device.cpp "interp"): t8 is the step clock (D8ON11_InterpClock) and draws one skinned mesh through
+   D8ON11_Skin over a few frames, each case ending on a frame whose picture is dumped. Each case has a reference drawn
+   with the clock off and the palette and world matrix the case expects (computed here as d3d8on11 computes them:
+   p0 + (p1 - p0) * a, entry by entry). Needs D8ON11_GPU_SKIN=1 and D8ON11_INTERP=1. */
+static volatile float ic_whole; static volatile double ic_carry; static volatile int ic_mode;
+typedef struct { unsigned size; void *pos, *nrm, *key; unsigned variant; const float *src; unsigned count1, count2;
+                 const unsigned short *words; unsigned shift; const unsigned short *bonelist; const unsigned short *dups; unsigned ndups;
+                 const float *matrices; } ISkin;
+static void interp_mats(float *M, float an, float tx) {    /* bones 0..2: a rotation about z by an*(b-1) and a shift tx */
+  memset(M, 0, 3 * 64);
+  for (int b = 0; b < 3; b++) { float *m = M + 16 * b, c = cosf(an * (b - 1)), sn = sinf(an * (b - 1));
+    m[0] = c; m[1] = sn; m[4] = -sn; m[5] = c; m[10] = 1; m[15] = 1; m[12] = tx + 0.1f * b; m[13] = 0.15f * b - 0.1f; m[14] = 0.1f * b; }
+}
+static void interp_world(D3DMATRIX *w, float x) { memset(w, 0, sizeof *w); w->_11 = w->_22 = w->_33 = w->_44 = 1; w->_41 = x; }
+static void interp_lerp(float *o, const float *a, const float *b, int n, float t) { for (int i = 0; i < n; i++) o[i] = a[i] + (b[i] - a[i]) * t; }
+static void interp_test(void) {
+  typedef void (__stdcall *PFN_CLK)(volatile float *, volatile double *, volatile int *);
+  typedef int (__stdcall *PFN_SKIN)(const ISkin *);
+  PFN_CLK clk = (PFN_CLK)(void *)GetProcAddress(GetModuleHandleA("d3d8.dll"), "D8ON11_InterpClock");
+  PFN_SKIN pskin = (PFN_SKIN)(void *)GetProcAddress(GetModuleHandleA("d3d8.dll"), "D8ON11_Skin");
+  if (!clk || !pskin) { printf("interp: no D8ON11_InterpClock or D8ON11_Skin\n"); return; }
+  clk(&ic_whole, &ic_carry, &ic_mode);
+  static const DWORD decl[] = {D3DVSD_STREAM(0), D3DVSD_REG(0, D3DVSDT_FLOAT3), D3DVSD_STREAM(1), D3DVSD_REG(3, D3DVSDT_FLOAT3), D3DVSD_END()};
+  enum { C1 = 32, C2 = 32, NV = C1 + C2 };
+  static float src[C1 * 6 + C2 * 14]; static unsigned short words[2 * NV];
+  for (int y = 0; y < 8; y++) for (int x = 0; x < 8; x++) {
+    int k = y * 8 + x; float px = x / 7.0f * 1.2f - 0.6f, py = 0.6f - y / 7.0f * 1.2f, pz = 0.25f * px * px;
+    if (k < C1) { float *f = src + 6 * k; f[0] = px; f[1] = py; f[2] = pz; f[3] = 0; f[4] = 0; f[5] = -1; words[2 * k] = (unsigned short)(x & 1); words[2 * k + 1] = 0; }
+    else { float w = (y - 3) / 5.0f, u = 1 - w, *f = src + 6 * C1 + 14 * (k - C1);
+      f[0] = px * w; f[1] = px * u; f[2] = py * w; f[3] = py * u; f[4] = pz * w; f[5] = pz * u; f[6] = w; f[7] = u;
+      f[8] = 0; f[9] = 0; f[10] = 0; f[11] = 0; f[12] = -w; f[13] = -u; words[2 * k] = 1; words[2 * k + 1] = 2; }
+  }
+  DWORD h = 0; IDirect3DVertexBuffer8 *vp = NULL, *vn = NULL; IDirect3DIndexBuffer8 *ib = NULL; BYTE *p;
+  IDirect3DDevice8_CreateVertexShader(d, decl, NULL, &h, 0);
+  IDirect3DDevice8_CreateVertexBuffer(d, NV * 12, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0, D3DPOOL_DEFAULT, &vp);
+  IDirect3DDevice8_CreateVertexBuffer(d, NV * 12, D3DUSAGE_WRITEONLY | D3DUSAGE_DYNAMIC, 0, D3DPOOL_DEFAULT, &vn);
+  IDirect3DDevice8_CreateIndexBuffer(d, 7 * 7 * 6 * 2, D3DUSAGE_WRITEONLY, D3DFMT_INDEX16, D3DPOOL_MANAGED, &ib);
+  if (ib && SUCCEEDED(IDirect3DIndexBuffer8_Lock(ib, 0, 0, &p, 0))) { WORD *I = (WORD *)p; int n = 0;
+    for (int y = 0; y < 7; y++) for (int x = 0; x < 7; x++) { WORD a0 = (WORD)(y * 8 + x); I[n++] = a0; I[n++] = a0 + 1; I[n++] = a0 + 8; I[n++] = a0 + 1; I[n++] = a0 + 9; I[n++] = a0 + 8; }
+    IDirect3DIndexBuffer8_Unlock(ib); }
+  D3DMATRIX proj, view; persp(&proj, 1.0f, 1.0f, 100.0f);
+  memset(&view, 0, sizeof view); view._11 = view._22 = view._33 = view._44 = 1; view._43 = 5;
+  static float MT[48]; float P0[48], P1[48], P2[48], P3[48], E[48]; D3DMATRIX W0, W1, WE;
+  interp_mats(P0, 0.0f, -0.6f); interp_mats(P1, 0.5f, 0.2f); interp_mats(P2, -0.4f, 0.0f); interp_mats(P3, 0.5f, 10.2f);
+  interp_world(&W0, -0.4f); interp_world(&W1, 0.4f);
+  /* one frame: the clock, the job, the draw (and its picture when named), Present */
+  #define IFRAME(W_, C_, M_, WM_, NAME_) do { ic_whole = (W_); ic_carry = (C_); \
+      reset_state(); begin(0xFF101010); \
+      IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &proj); IDirect3DDevice8_SetTransform(d, D3DTS_VIEW, &view); \
+      IDirect3DDevice8_SetTransform(d, D3DTS_WORLD, (WM_)); \
+      IDirect3DDevice8_SetRenderState(d, D3DRS_LIGHTING, FALSE); IDirect3DDevice8_SetRenderState(d, D3DRS_CULLMODE, D3DCULL_NONE); \
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLOROP, D3DTOP_SELECTARG2); \
+      IDirect3DDevice8_SetVertexShader(d, h); IDirect3DDevice8_SetStreamSource(d, 0, vp, 12); IDirect3DDevice8_SetStreamSource(d, 1, vn, 12); \
+      IDirect3DDevice8_SetIndices(d, ib, 0); \
+      memcpy(MT, (M_), sizeof MT);  /* one bone table, written each frame (as the game's) */ \
+      { ISkin j = {sizeof j, vp, vn, ib, 0, src, C1, C2, words, 0, NULL, NULL, 0, MT}; if (!pskin(&j)) printf("interp: a job refused\n"); } \
+      IDirect3DDevice8_DrawIndexedPrimitive(d, D3DPT_TRIANGLELIST, 0, NV, 0, 7 * 7); \
+      if (NAME_) end(NAME_); else IDirect3DDevice8_EndScene(d); \
+      IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL); } while (0)
+  /* 1 blend: ticks P0/W0, P1/W1, then a frame between ticks at c 0.5 */
+  ic_mode = 3;
+  IFRAME(1, 0.0, P0, &W0, NULL); IFRAME(1, 0.0, P1, &W1, NULL); IFRAME(0, 0.5, P1, &W1, "interp_blend");
+  ic_mode = 0; interp_lerp(E, P0, P1, 48, 0.5f); interp_lerp(&WE._11, &W0._11, &W1._11, 16, 0.5f); IFRAME(0, 0.0, E, &WE, "interp_blend_ref");
+  /* 2 the tick frame itself, c 0.25: P1 arrives, drawn at the blend 0.25 */
+  ic_mode = 3;
+  IFRAME(1, 0.0, P0, &W0, NULL); IFRAME(1, 0.25, P1, &W1, "interp_tick");
+  ic_mode = 0; interp_lerp(E, P0, P1, 48, 0.25f); interp_lerp(&WE._11, &W0._11, &W1._11, 16, 0.25f); IFRAME(0, 0.0, E, &WE, "interp_tick_ref");
+  /* 3 a frame of two ticks, c 0.5: (2 - 1 + 0.5) / 2 = 0.75 */
+  ic_mode = 3;
+  IFRAME(1, 0.0, P0, &W0, NULL); IFRAME(2, 0.5, P1, &W1, "interp_span2");
+  ic_mode = 0; interp_lerp(E, P0, P1, 48, 0.75f); interp_lerp(&WE._11, &W0._11, &W1._11, 16, 0.75f); IFRAME(0, 0.0, E, &WE, "interp_span2_ref");
+  /* 4 the game changes the palette between ticks: drawn as handed */
+  ic_mode = 3;
+  IFRAME(1, 0.0, P0, &W0, NULL); IFRAME(1, 0.0, P1, &W1, NULL); IFRAME(0, 0.5, P2, &W1, "interp_changed");
+  ic_mode = 0; IFRAME(0, 0.0, P2, &W1, "interp_changed_ref");
+  /* 5 a bone moves 10 units in a tick: not blended */
+  ic_mode = 3;
+  IFRAME(1, 0.0, P0, &W0, NULL); IFRAME(1, 0.0, P3, &W1, NULL); IFRAME(0, 0.5, P3, &W1, "interp_warp");
+  ic_mode = 0; IFRAME(0, 0.0, P3, &W1, "interp_warp_ref");
+  /* 6 no clock running (mode 0): as handed */
+  IFRAME(1, 0.0, P0, &W0, NULL); IFRAME(0, 0.5, P1, &W1, "interp_off");
+  IFRAME(0, 0.0, P1, &W1, "interp_off_ref");
+  #undef IFRAME
+  for (int i = 0; i < 3; i++) IDirect3DDevice8_SetStreamSource(d, i, NULL, 0);
+  IDirect3DDevice8_SetIndices(d, NULL, 0); IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_DIFFUSE);
+  IDirect3DDevice8_DeleteVertexShader(d, h);
+  if (vp) IDirect3DVertexBuffer8_Release(vp); if (vn) IDirect3DVertexBuffer8_Release(vn); if (ib) IDirect3DIndexBuffer8_Release(ib);
+}
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
   g_d3d = Direct3DCreate8(D3D_SDK_VERSION);
@@ -1104,6 +1193,11 @@ int main(int argc, char **argv) {
   HWND w = window(); D3DPRESENT_PARAMETERS pp;
   HRESULT hr = make(w, &pp);
   if (FAILED(hr)) { printf("FAIL: CreateDevice 0x%08lX\n", (unsigned long)hr); return 2; }
+  if (argc > 1 && !strcmp(argv[1], "interp")) {
+    interp_test();
+    IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d);
+    return 0;
+  }
   if (argc > 1 && !strcmp(argv[1], "scenes")) {
     scenes();
     IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d);

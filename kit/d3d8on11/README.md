@@ -177,6 +177,21 @@ A draw from the caller's memory reads no stream and is never looked at for this 
 occlusion rectangles were dropped while a skinned buffer was bound: docs/HISTORY.md). The log's periodic `gpu skin`
 line and the totals count the draws not made; 0 is right.
 
+**In-between frames (`interp=1`; 17 Nov; off by default; d8_device.cpp "interp").** Above 60 fps most frames carry
+no game time (speedfix's frame_step: 0 whole ticks), and the game draws its characters where its last tick left them.
+With interp on, those frames draw each skinned character at the blend of its last two ticks, one tick behind the
+game (weight of the newer tick (s - 1 + c) / s, c the carry, s the ticks of the last tick frame; speedfix's
+Liminality rule). The clock comes from a mod: `D8ON11_InterpClock(&whole, &carry, &mode)` (speedfix hands its step's).
+What is blended is only what d3d8on11 is handed: a skinning job's bone palette (needs gpu_skin=1) and the world
+matrix of the draws that read a skinned buffer (by their ordinal after the job). A track is the job's position buffer,
+variant, bone table address and its place among the frame's jobs with those. Between ticks the job's palette and the
+draws' world matrices must be the last tick's, bit for bit; otherwise the game's are drawn (counted). Not blended: a
+track not seen at the tick before, a move of 4 units or more in a tick. The blend is linear entry by entry. A blended
+draw is sent in full (draw_delta's head holds the world matrix), and so is the draw after it. The log's `interp`
+line counts each case every 600 frames. Not blended: anything else (effects, nameplates, rigid models, the camera).
+Tests: `t8 interp`, six cases each equal to a reference drawn with the clock off and the expected palette and world
+(both executors, draw_delta on and off).
+
 **CopyRects into a lockable texture.** A CopyRects from a GPU surface (a render target, the back buffer, another
 texture) into a texture level marks that level's CPU copy stale; the level's next LockRect reads it back first
 (X_READBACK, which waits for the executor to run the copy), so the lock holds the copied texels and its unlock sends

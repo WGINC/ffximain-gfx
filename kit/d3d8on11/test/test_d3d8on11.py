@@ -709,6 +709,21 @@ if 'thread' in MODES:
     bl = re.search(r'D3D12 binds, 600 frames: .*?(\d+) shaders compiled \((\d+) from the disk cache\)', t)
     ok = 'presented 699' in out and bl is not None and bl.group(1) == '0' and int(bl.group(2)) > 0 and re.search(r'D3D12 caches: [1-9]\d* compiled shaders from the last starts', t) is not None
     print('%s: d3d12: a start after one that ran 2,000 frames compiles no shader: %s' % ('ok' if ok else 'FAIL', bl.group(0)[bl.group(0).find('frame;') + 7:] if bl else 'no binds line')); bad += not ok
+# interp (17 Nov, d8_device.cpp): t8 interp is the step clock and draws a skinned mesh through D8ON11_Skin; each case's
+# picture must equal its reference, drawn with the clock off and the palette and world matrix the case expects
+# (blended between ticks, on a tick frame, over a frame of two ticks; drawn as handed when the game changed it between
+# ticks, when a bone moved 10 units, with no clock). With both executors, with and without draw_delta
+if 'thread' in MODES:
+    for be in ('d3d11', 'd3d12'):
+        for dd in ('0', '1'):
+            out = run(ours, 'interp', True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_GPU_SKIN='1', D8ON11_INTERP='1', D8ON11_DRAW_DELTA=dd))
+            pics = {l.split(' ', 2)[1]: l.split(' ', 2)[2].strip() for l in out.splitlines() if l.startswith('scene ') and len(l.split(' ', 2)) == 3}
+            cases = ('interp_blend', 'interp_tick', 'interp_span2', 'interp_changed', 'interp_warp', 'interp_off')
+            bad_c = [c for c in cases if c not in pics or pics.get(c) != pics.get(c + '_ref')]
+            disc = pics.get('interp_blend') != pics.get('interp_off_ref')       # the blend is not the unblended picture
+            ok = not bad_c and disc and 'interp: a job refused' not in out
+            print('%s: interp (%s, draw_delta=%s): every case equals its reference%s' % ('ok' if ok else 'FAIL', be, dd,
+                  '' if ok else ' -- differ: %s, blend differs from unblended: %s' % (bad_c, disc))); bad += not ok
 # when Direct3D 12 cannot start (D8ON11_TEST_D3D12_FAIL), the stream runs on Direct3D 11: logged, and the scenes are the
 # Direct3D 11 executor's exactly
 if 'thread' in MODES:

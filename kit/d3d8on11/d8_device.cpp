@@ -141,6 +141,15 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen
       if (ne > 0 && ne < sizeof env) gs = atoi(env);
       gpu_skin = gs != 0; g_skin_dev = this;
       if (gpu_skin) d8_log("gpu_skin=1: D8ON11_Skin takes skinning jobs (positions and normals made in the vertex shader)"); }
+    // interp (17 Nov): frames between the game's ticks drawn with skinned characters blended between their last two
+    // ticks ("interp" below). Needs gpu_skin=1 and a mod's step clock (speedfix with frame_step and uncap). 0 (the
+    // default until it is seen in the game): off. D8ON11_INTERP overrides.
+    { int it = (int)GetPrivateProfileIntA("d3d8on11", "interp", 0, ini);
+      ne = GetEnvironmentVariableA("D8ON11_INTERP", env, sizeof env);
+      if (ne > 0 && ne < sizeof env) it = atoi(env);
+      interp = it != 0 && gpu_skin;
+      if (it && !gpu_skin) d8_log("interp: needs gpu_skin=1 (off)");
+      if (interp) d8_log("interp=1: between the game's ticks, skinned characters are drawn at the blend of their last two ticks (needs a mod's step clock: D8ON11_InterpClock)"); }
     if (ba > 0 && !dynamic_buffers) d8_log("buffer_arena: needs dynamic_buffers=1 (off)");
     else if (kb) d8_log("buffer_arena=%d: the game's dynamic buffers share one Direct3D 11 buffer (%u KB of vertex data)", ba, kb); }
   draw_sites = (int)GetPrivateProfileIntA("d3d8on11", "draw_sites", 0, ini) != 0;
@@ -351,6 +360,7 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
   if (notReset) return D3DERR_DEVICELOST;
   if (s || d || w) d8_once("presentargs", "Present with rectangles or another window: they are not used in milestone 1");
   link->put(X_PRESENT, nullptr, 0);
+  if (interp) interp_present();
   if (ab.on) ab_frame();
   if (++snap_frames >= 600) {
     if (snap_hits + snap_misses)
@@ -914,6 +924,7 @@ int Dev::skin(const D8Skin *j) {
   // the palette: sent when a bone this mesh uses is not what the executor has
   bool same = skin_table_n > k.maxb;
   const uint8_t *m = (const uint8_t *)j->matrices;
+  if (interp) { interp_frame(); if (i_live) m = (const uint8_t *)interp_palette(j, k.maxb + 1, k.used, vp); }
   for (size_t u = 0; same && u < k.used.size(); u++) same = !memcmp(m + 64u * k.used[u], skin_table.data() + 64u * k.used[u], 64);
   XSkin x = {vp->c.id, vn->c.id, k.id, 0};
   if (same) link->put(X_SKIN, &x, sizeof x);
@@ -926,6 +937,97 @@ int Dev::skin(const D8Skin *j) {
   return 1;
 }
 extern "C" int __stdcall D8ON11_Skin(const D8Skin *j) { return g_skin_dev ? g_skin_dev->skin(j) : 0; }
+
+// ---- interp (17 Nov) --------------------------------------------------------------------------------------------------
+// Above 60 fps most frames carry no game time (speedfix frame_step: 0 whole ticks), and the game draws its characters
+// where its last tick left them: motion at 60 a second, however many frames are drawn. Here those frames are drawn
+// with each skinned character at the blend of its last two ticks, one tick behind the game (the rule speedfix's
+// Liminality settled on, lim_alpha): with c the fraction of a tick since the last whole one and s the ticks the last
+// tick frame covered, the weight of the newer tick is (s - 1 + c) / s. Nothing of the game's is written: what is
+// blended is what d3d8on11 is handed (the bone palette of a skinning job, the world matrix of a draw that reads a
+// skinned buffer), so the game's own logic sees what it always saw (the old Liminality blended the game's own fields).
+// What is blended is checked to be what the game would draw otherwise:
+//   * a track (one mesh of one character) is the job's position buffer, its variant, the bone table's address and its
+//     place among the frame's jobs with those three (two characters wearing the same piece share the buffers);
+//   * on a frame between ticks the job's palette must be the one of the last tick (bit for bit), and a draw's world
+//     matrix the one its ordinal had then: if the game changed it between ticks, what the game has is drawn and counted;
+//   * a track not seen at the tick before has nothing to blend from; a bone or the world moving 4 units or more in a
+//     tick (a warp, a zone change) is not blended.
+// The blend is linear, entry by entry (for the rotation a tick makes, the difference from a true rotation is small;
+// not measured). Everything else (effects, the camera, nameplates) is drawn as the game has it.
+static const volatile float *g_ic_whole; static const volatile double *g_ic_carry; static const volatile int *g_ic_mode;
+extern "C" void __stdcall D8ON11_InterpClock(const volatile float *whole, const volatile double *carry, const volatile int *mode) {
+  g_ic_whole = whole; g_ic_carry = carry; g_ic_mode = mode;
+  d8_log("interp: a step clock was given (whole ticks, carry, mode)");
+}
+void Dev::interp_frame() {
+  if (i_read == i_frame) return;
+  i_read = i_frame; i_live = false;
+  if (!g_ic_whole || !g_ic_carry || !g_ic_mode || !*g_ic_mode) { i_n[0]++; return; }
+  float w = *g_ic_whole; double c = *g_ic_carry;
+  i_istick = w >= 1.0f; if (i_istick) { i_tick++; i_span = w; i_n[1]++; } else i_n[2]++;
+  double sp = i_span >= 1 ? i_span : 1, a = (sp - 1 + c) / sp; i_alpha = a < 0 ? 0.0f : a > 1 ? 1.0f : (float)a;
+  i_live = true;
+}
+static bool far4(const float *a, const float *b) {          // a matrix's translation row moved 4 units or more
+  float dx = a[12] - b[12], dy = a[13] - b[13], dz = a[14] - b[14]; return dx * dx + dy * dy + dz * dz >= 16.0f;
+}
+const float *Dev::interp_palette(const D8Skin *j, uint32_t nb, const std::vector<uint16_t> &used, VB *vp) {
+  const float *m = j->matrices;
+  char kb[sizeof(void *) * 2 + 8]; void *pk[2] = {j->pos, (void *)j->matrices}; memcpy(kb, pk, sizeof pk); memcpy(kb + sizeof pk, &j->variant, 4);
+  std::string k0(kb, sizeof pk + 4);
+  uint32_t occ = i_occ[k0]++; if (occ) i_n[3]++;
+  std::string key = k0; key.append((const char *)&occ, 4);
+  ITrack &t = i_tracks[key]; t.seen = i_frame;
+  vp->c.itrack = &t; vp->c.itrack_frame = i_frame; vp->c.iword = 0;
+  t.blend = false;
+  if (i_istick) {
+    t.hasprev = t.tick == i_tick - 1 && t.nb == nb && !t.pc.empty();
+    if (t.hasprev) t.pp.swap(t.pc);
+    t.pc.assign(m, m + 16 * nb); t.nb = nb; t.tick = i_tick;
+  } else {
+    if (t.tick != i_tick || t.nb != nb) { i_n[4]++; return m; }                       // not seen at the last tick
+    if (memcmp(m, t.pc.data(), 64u * nb)) { i_n[5]++; return m; }                    // the game changed it between ticks
+  }
+  if (!t.hasprev) { i_n[4]++; return m; }
+  for (uint16_t b : used) if (far4(&t.pp[16 * b], &t.pc[16 * b])) { i_n[6]++; return m; }
+  i_blend.resize(16 * nb); const float a = i_alpha, *p0 = t.pp.data(), *p1 = t.pc.data();
+  for (uint32_t i = 0; i < 16 * nb; i++) i_blend[i] = p0[i] + (p1[i] - p0[i]) * a;
+  t.blend = true; i_n[7]++;
+  return i_blend.data();
+}
+bool Dev::interp_world(VB *s0, D3DMATRIX *out) {
+  if (!interp || !s0 || s0->c.virt != 1 || !s0->c.itrack || s0->c.itrack_frame != i_frame) return false;
+  interp_frame(); if (!i_live) return false;
+  ITrack &t = *s0->c.itrack; uint32_t o = s0->c.iword++;
+  if (o >= 8) { i_n[8]++; return false; }
+  const D3DMATRIX &g = st.xf[D3DTS_WORLD];
+  if (i_istick) {
+    t.whas[o] = t.wtick[o] == i_tick - 1;
+    if (t.whas[o]) t.wp[o] = t.wc[o];
+    t.wc[o] = g; t.wtick[o] = i_tick;
+  } else if (t.wtick[o] != i_tick || memcmp(&g, &t.wc[o], sizeof g)) { i_n[9]++; return false; }  // changed between ticks
+  if (!t.whas[o] || !t.blend) return false;                 // (a track whose palette is not blended keeps the game's world too)
+  if (far4(&t.wp[o].m[0][0], &t.wc[o].m[0][0])) { i_n[6]++; return false; }
+  const float *a = &t.wp[o].m[0][0], *b = &t.wc[o].m[0][0]; float *r = &out->m[0][0];
+  if (!memcmp(a, b, 64)) return false;                      // nothing to blend: the draw as it is (and draw_delta keeps working)
+  for (int i = 0; i < 16; i++) r[i] = a[i] + (b[i] - a[i]) * i_alpha;
+  i_n[10]++;
+  return true;
+}
+void Dev::interp_present() {
+  i_frame++; i_occ.clear();
+  if ((i_frame & 1023) == 0) for (auto it = i_tracks.begin(); it != i_tracks.end();) { if (i_frame - it->second.seen > 600) it = i_tracks.erase(it); else ++it; }
+  if (i_frame % 600 == 0) {
+    d8_log("interp, 600 frames: %llu with a tick, %llu between ticks, %llu with no clock; jobs: %llu blended, %llu not seen at the last tick or with nothing before, "
+           "%llu changed by the game between ticks (drawn as the game has them), %llu moved 4 units or more in a tick; %llu jobs shared a buffer and bone table "
+           "(told apart by order); draws: %llu world matrices blended, %llu changed by the game between ticks, %llu past 8 draws a job; %u tracks",
+           (unsigned long long)i_n[1], (unsigned long long)i_n[2], (unsigned long long)i_n[0], (unsigned long long)i_n[7], (unsigned long long)i_n[4],
+           (unsigned long long)i_n[5], (unsigned long long)i_n[6], (unsigned long long)i_n[3], (unsigned long long)i_n[10], (unsigned long long)i_n[9],
+           (unsigned long long)i_n[8], (unsigned)i_tracks.size());
+    memset(i_n, 0, sizeof i_n);
+  }
+}
 // who calls the draws (9 Nov: draw_sites put every draw under a mod in the owner's game, and the hook order between
 // the game, the kit and speedfix there is not traced): each distinct pair (the module this method returns into, the
 // module of the address a mod handed D8ON11_DrawSite) is logged once, with the addresses as module+offset; up to 12

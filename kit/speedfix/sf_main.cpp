@@ -853,7 +853,21 @@ static void sf_lim_set(int on) {
   }
   if (sf_lim_on && !lim_zero()) g_lim_tick++;
 }
+// d3d8on11's interp (17 Nov, kit/d3d8on11 d8_device.cpp): between the game's ticks it draws skinned characters at the
+// blend of their last two ticks, by this step's clock: the frame's whole ticks and the carry (xi_step_make, Frame_Render's
+// fork, before the frame draws) and the step's mode (0: the game's own step, nothing blended). Handed over once d3d8.dll
+// has the export; whether it blends is d3d8on11's setting (interp=1)
+extern "C" { extern float xi_step_whole; extern volatile int xi_step_mode; }
+static void give_interp_clock(void) {
+  static int done; if (done) return;
+  HMODULE m = GetModuleHandleA("d3d8.dll"); if (!m) return;
+  done = 1;
+  typedef void (__stdcall *PFN_CLK)(const volatile float *, const volatile double *, const volatile int *);
+  PFN_CLK f = (PFN_CLK)(void *)GetProcAddress(m, "D8ON11_InterpClock");
+  if (f) { f(&xi_step_whole, &xi_step_carry, &xi_step_mode); LOG("speedfix: the step clock handed to d3d8on11 (D8ON11_InterpClock)"); }
+}
 static void apply_uncap_step(void) {
+  give_interp_clock();
   bool live = sf_frame_no - sf_hooks_frame <= 1;
   xi_uncap = sf_framestep_installed && sf_cfg.uncap && live;
   xi_step_mode = sf_framestep_installed && live ? (sf_cfg.liminality ? 1 : sf_cfg.frame_step) : 0;

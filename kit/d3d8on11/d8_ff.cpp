@@ -129,7 +129,11 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     ~DrawT() { if (on) { LARGE_INTEGER e; QueryPerformanceCounter(&e); d->dt_draw_ticks += (uint64_t)(e.QuadPart - t.QuadPart); d->dt_draw_s++; } } } draw_t(this);
   // draw_delta: nothing a packet's head is built from has changed since the last full packet of a buffer draw: only
   // the tail is made and sent (the checks of the streams and the index buffer are the full path's)
-  bool fastp = draw_delta && fast_ok && fast_gen == sgen && kind <= 1 && type != D3DPT_TRIANGLEFAN;
+  // interp (d8_device.cpp): a draw of a skinned character between ticks gets its world matrix at the blend, for this
+  // draw only: the full packet is made (its head holds the matrix) and the next draw makes one too
+  struct WorldSwap { Dev *d; D3DMATRIX keep; bool on = false; ~WorldSwap() { if (on) { d->st.xf[D3DTS_WORLD] = keep; d->fast_ok = false; } } } wsw{this, {}};
+  if (interp && kind <= 1) { D3DMATRIX bw; if (interp_world(st.stream[0], &bw)) { wsw.keep = st.xf[D3DTS_WORLD]; st.xf[D3DTS_WORLD] = bw; wsw.on = true; } }
+  bool fastp = !wsw.on && draw_delta && fast_ok && fast_gen == sgen && kind <= 1 && type != D3DPT_TRIANGLEFAN;
   if (fastp) {                                             // gpu skinning: the head is a skinned draw's, or it is not
     if (fast_virt) { VB *s0 = st.stream[0], *s1 = st.stream[1]; fastp = s0 && s1 && s0->c.virt == 1 && s1->c.virt == 2 && s0->c.partner == s1->c.id; }
     else for (int i = 0; i < 16 && fastp; i++) if ((fast_mask >> i & 1) && st.stream[i] && st.stream[i]->c.virt) fastp = false;

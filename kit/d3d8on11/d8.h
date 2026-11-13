@@ -14,6 +14,8 @@
 #include <map>
 #include <vector>
 #include <unordered_set>
+#include <unordered_map>
+#include <string>
 
 #include "d8_gen.h"
 
@@ -109,6 +111,12 @@ struct CubeTex final : public IDirect3DCubeTexture8_Stub {
 };
 
 // ---- vertex and index buffers: a CPU copy the game locks, uploaded to the GPU buffer at Unlock ------------------------
+// interp (17 Nov): one skinned character mesh across frames (d8_device.cpp, "interp"): its bone palette at the last
+// two ticks it was seen at, and the world matrices of the draws after its job (by ordinal) at the same ticks
+struct ITrack {
+  uint32_t seen = 0, tick = 0, nb = 0; bool hasprev = false, blend = false; std::vector<float> pp, pc;
+  D3DMATRIX wp[8], wc[8]; uint32_t wtick[8] = {}; bool whas[8] = {};
+};
 struct BufCore {
   Dev *dev; UINT len; DWORD usage, fvf; D3DFORMAT fmt; D3DPOOL pool; bool index;
   std::vector<uint8_t> cpu; uint32_t id = 0;     // the executor's buffer (0: system memory only)
@@ -117,6 +125,9 @@ struct BufCore {
   // gpu skinning (d8_skin.h): this vertex buffer stands for a skinned mesh's positions (virt 1, its normals' buffer in
   // partner) or normals (virt 2) until it is written again; on an index buffer, the static sources made for its mesh
   uint8_t virt = 0; uint32_t partner = 0;
+  // interp (17 Nov): the track of the skinning job that last wrote this buffer, valid in frame itrack_frame only, and
+  // the number of draws that read it since (each draw after a job is an ordinal: its world matrix is tracked apart)
+  struct ITrack *itrack = nullptr; uint32_t itrack_frame = 0; uint8_t iword = 0;
   struct SkinSrc { uint32_t id = 0; const void *src = nullptr, *words = nullptr, *bonelist = nullptr, *dups = nullptr;
                    uint32_t c1 = 0, c2 = 0, nd = 0, shift = 0, maxb = 0; std::vector<uint16_t> used; } skin[2];
   HRESULT init(Dev *d, UINT len_, DWORD u, DWORD fvf_, D3DFORMAT f, D3DPOOL p, bool idx);
@@ -205,6 +216,16 @@ struct Dev final : public IDirect3DDevice8_Stub {
   bool buf_is_live(void *b) { EnterCriticalSection(&buf_lock.cs); bool r = live_bufs.count(b) != 0; LeaveCriticalSection(&buf_lock.cs); return r; }
   uint64_t skin_jobs = 0, skin_pals = 0, skin_built = 0, skin_refused = 0, skin_undrawn = 0, skin_jobs0 = 0, skin_pals0 = 0, skin_built0 = 0; bool gpu_skin = false;
   int skin(const struct D8Skin *j);
+  // interp (17 Nov; d8_device.cpp, "interp"): frames between the game's ticks drawn with each skinned character at the
+  // blend of its last two ticks' bone palettes and world matrices. Needs gpu_skin and the clock of a mod (speedfix's
+  // step: D8ON11_InterpClock). Off by default
+  bool interp = false; uint32_t i_frame = 1, i_read = 0, i_tick = 0; bool i_live = false, i_istick = false; float i_alpha = 1, i_span = 1;
+  std::unordered_map<std::string, struct ITrack> i_tracks; std::unordered_map<std::string, uint32_t> i_occ; std::vector<float> i_blend;
+  uint64_t i_n[12] = {};                       // the counts in the log (d8_device.cpp, interp_log)
+  void interp_frame();                         // the frame's clock, once a frame
+  const float *interp_palette(const struct D8Skin *j, uint32_t nb, const std::vector<uint16_t> &used, VB *vp);
+  bool interp_world(VB *s0, D3DMATRIX *out);  // a skinned draw's world matrix at the blend, if it is to be blended
+  void interp_present();
   std::vector<Block *> blocks; Block *rec = nullptr;
   struct VShader { bool used; DWORD fvf; std::vector<DWORD> decl, code; };
   std::vector<VShader> vshaders;                // handle = (index << 1) | 1, as D3D8 handles have bit 0 set

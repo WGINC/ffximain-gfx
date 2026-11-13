@@ -5110,6 +5110,30 @@ takes 0.1-0.2 ms per 2,000 draws (probe12): nothing to split. The GPU already ru
 at once; what limits it here is not known until the timestamps say which pass costs what. The game's thread could
 only be split by changing its original code, which nothing here proves safe.
 
+## 13 Nov (third entry): the owner's 14 Nov D3D12 run, and a picture check to run on the Mac
+
+**The owner:** still pixelated with jagged edges ("might be a bit better"); advanced shadows still broken; simple
+shadows "multiplied onto what looks like tiles or boxes on the ground".
+
+**The log (d3d8on11.log of the d12 start):**
+- The sampler check on Parallels: linear sample 128, clamped sample 255, right (samplers copied into the shader heap).
+  So sampler state is honoured there: the 13 Nov reading (sampler state ignored) is wrong.
+- D3D12 timestamps: every window "not measured (timestamps zero or out of order)": Parallels gives no GPU time through
+  Direct3D 12 either (as through Direct3D 11, 6 Nov).
+- draw_merge: 7.8 merged draws a frame took in 7.8 others, against about 1,040 delta draws a frame in the 13 Nov crowd:
+  most delta runs are not merged; why is not established (the binds line: 1,672-1,846 draws, 692-891 pipeline switches,
+  991-1,650 texture tables a frame).
+- Pipelines and shaders made: 271 ms and 771 ms in two 600-frame windows (48 and 10 pipelines): hitches.
+- The game's recorded states (data/d3d8_scope.json traces) use ADDRESS WRAP and CLAMP only, MIPFILTER NONE only, no
+  projected texture transforms: features the scenes and the sampler check already cover. What differs is not found.
+
+**The device check (kit/d3d8on11/test/device_check):** t8's 35 scenes and 600 random cases (random_cases.py seed 7, in
+four runs of 150), through Direct3D 11 and Direct3D 12, with the ties marker; cmpcheck.py compares. Under Wine: scenes 30
+identical, 5 at ties only; random 589 identical, 1 at ties, 10 by 1-3 pixels of one level (two rasterizers' rounding).
+Found on the way: in one 32-bit process Wine's Vulkan (lavapipe) fails vkCreateGraphicsPipelines after some hundreds of
+pipelines (winevulkan asserts: the process ends); case r0528 alone draws. Hence the four runs. Whether Parallels' driver
+spends address space per pipeline is not known; the game process had 1,059 MB free at start (xikit_env, 12 Nov).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

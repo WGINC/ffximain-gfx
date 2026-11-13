@@ -5402,6 +5402,24 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   mipmaps_pointmag (a plane magnified near, minified far): with it on, equal to mipmaps_pointmag_ref (the same texels
   with t8's chain, LINEAR/LINEAR/LINEAR) on both executors; mipmaps_point_mag=0 equal to mipmaps off.
 
+## 13 Nov (eighteenth entry): the owner's 20 Nov run (mip 042333_11184, plain 043057_5976, adv 043642_7812)
+
+- **Frame times (xikit frames, by mark):** mip median 9.6 ms (p95 15.2), plain 8.4 ms (p95 12.8), different views, so
+  the difference is not attributed. adv: median 51.3 ms (mark adv) and 48.5 ms (the A/B), 63% and 43% of frames over
+  50 ms; the device's Present takes a median 33-34 ms of that, so the render thread waits on the executor/GPU. 19 Nov
+  adv: 62.3 ms, Present 42.8 ms.
+- **What adv draws:** about 1,250 render-target switches a frame, between the 3024x1898 back buffer (id 3, ~620 binds)
+  and a 3024x1898 target (id 2208, ~620 binds, ~23 clears): the advanced-shadow passes, one pair per character (19 Nov:
+  up to 260). plain: 53-72 switches. So the cost tracks the number of shadow passes in view; per switch it comes to
+  some 35 us (44 ms over ~1,250), but the GPU's time is not measured on this machine ("598 frames not measured").
+  Why a switch costs that much on Parallels' D3D12 is not known.
+- **occlusion_first A/B (ab 1):** A (0) 52.81 ms, B (2) 52.25 ms: -0.56 ms, within the 2.52 ms between phases of one
+  label. In the A phases the game's readback ran once (208.6 ms at 0x1006C91F); in B none. occlusion_first=2 removes
+  that freeze; it does not change the frame rate here.
+- **mipmaps:** the game writes textures whole (0 partial builds): ~475 builds in the first 600 frames (300 ms in all,
+  longest 108-110 ms: the loading), then 0-300 builds per 600 frames, longest 1-25 ms; 2-4 textures dropped (a 1024x512
+  rebuilt more than twice its size in 60 frames). The names pulse in plain too (seventeenth entry).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

@@ -25,6 +25,7 @@
 //     define completely: DirectX 8 SDK, CreateVertexShader) of a declaration already made returns that shader's handle
 //     again; DeleteVertexShader deletes it when the last of them is deleted. The owner's sessions: ~1,450 creations,
 //     3 distinct shaders (d3dprof's shader catalogue).
+#include <algorithm>
 #include <windows.h>
 #include <d3d8.h>
 #include <stdio.h>
@@ -1143,6 +1144,43 @@ static void mot_log(void) {
 // ---- frame pacing (render thread, before Present) ---------------------------------------------------------------
 static LARGE_INTEGER g_qpf; static LONGLONG g_next; static HANDLE g_timer; static bool g_timerTried; static LONGLONG g_lastQpc;
 static LONG g_pcN, g_pcLate; static double g_pcSum, g_pcSum2, g_pcMax;
+// pace_adaptive (27 Nov): each frame's own time (from the moment the frame before was let go to this callback) goes
+// into a ring of the last 120; the frame is held until the pace_pct percentile of them has passed since that moment
+// (at most 50 ms), so frames go out evenly at a rate the scene sustains. A frame that took longer goes at once.
+static LONGLONG g_paceRel; static double g_paceRing[120]; static int g_paceI, g_paceN;
+static LONG g_paceFrames, g_paceHeld, g_paceLate; static double g_paceHeldMs, g_paceTgtMs;
+static void wait_until(LONGLONG due) {           // a high-resolution timer for most of it, a spin for the last ~1 ms
+  LARGE_INTEGER t; QueryPerformanceCounter(&t);
+  double ms = (due - t.QuadPart) * 1000.0 / (double)g_qpf.QuadPart;
+  if (ms <= 0) return;
+  if (!g_timerTried) {
+    g_timerTried = true;
+    typedef HANDLE (WINAPI *CWTEx)(LPSECURITY_ATTRIBUTES, LPCWSTR, DWORD, DWORD);
+    CWTEx f = (CWTEx)(void *)GetProcAddress(GetModuleHandleA("kernel32.dll"), "CreateWaitableTimerExW");
+    g_timer = f ? f(NULL, NULL, 0x2 /* CREATE_WAITABLE_TIMER_HIGH_RESOLUTION */, TIMER_ALL_ACCESS) : NULL;
+  }
+  if (ms > 1.5 && g_timer) {
+    LARGE_INTEGER d; d.QuadPart = -(LONGLONG)((ms - 1.0) * 10000.0);
+    if (SetWaitableTimer(g_timer, &d, 0, NULL, NULL, FALSE)) WaitForSingleObject(g_timer, 200);
+  }
+  do { YieldProcessor(); QueryPerformanceCounter(&t); } while (t.QuadPart < due);
+}
+static void pace_frame(LARGE_INTEGER &now) {
+  if (g_paceRel) {
+    double cost = (now.QuadPart - g_paceRel) * 1000.0 / (double)g_qpf.QuadPart;
+    g_paceRing[g_paceI] = cost; g_paceI = (g_paceI + 1) % 120; if (g_paceN < 120) g_paceN++;
+    if (g_paceN >= 30) {
+      double tmp[120]; memcpy(tmp, g_paceRing, sizeof tmp[0] * g_paceN);
+      std::sort(tmp, tmp + g_paceN);
+      double tgt = tmp[(g_paceN - 1) * sf_cfg.pace_pct / 100]; if (tgt > 50.0) tgt = 50.0;
+      g_paceFrames++; g_paceTgtMs += tgt;
+      LONGLONG due = g_paceRel + (LONGLONG)(tgt * (double)g_qpf.QuadPart / 1000.0);
+      if (due > now.QuadPart) { g_paceHeld++; g_paceHeldMs += (due - now.QuadPart) * 1000.0 / (double)g_qpf.QuadPart; wait_until(due); QueryPerformanceCounter(&now); }
+      else g_paceLate++;
+    }
+  }
+  g_paceRel = now.QuadPart;
+}
 extern "C" void sf_device_frame(void) {
   // Held changes never outlive a frame: the kit may take the hooks off from the next one (F9, a trace, its A/B), and
   // the game would then set state past them. This runs below the hooks (g_prev), whether they are on or not.
@@ -1173,7 +1211,9 @@ extern "C" void sf_device_frame(void) {
       now = t;
     }
     g_next += period;
-  } else g_next = 0;
+    g_paceRel = 0; g_paceN = 0;
+  } else if (sf_cfg.pace_adaptive) { g_next = 0; pace_frame(now); }
+  else { g_next = 0; g_paceRel = 0; g_paceN = 0; }
   if (g_lastQpc) {
     double iv = (now.QuadPart - g_lastQpc) * 1000.0 / (double)g_qpf.QuadPart;
     g_pcN++; g_pcSum += iv; g_pcSum2 += iv * iv; if (iv > g_pcMax) g_pcMax = iv;
@@ -1209,6 +1249,11 @@ extern "C" void sf_device_stats(void) {
   LONG me = InterlockedExchange(&g_mergedEnds, 0);
   if (me) H->log("speedfix: merge_scenes: %ld EndScene/BeginScene pairs inside frames dropped", me);
   if (g_motion) mot_log();
+  if (g_paceFrames) {
+    H->log("speedfix: pace_adaptive: %ld frames paced, the interval aimed at %.2f ms on average (pace_pct %d); %ld held (%.2f ms each), %ld went at once (over the aim)",
+           g_paceFrames, g_paceTgtMs / g_paceFrames, sf_cfg.pace_pct, g_paceHeld, g_paceHeld ? g_paceHeldMs / g_paceHeld : 0.0, g_paceLate);
+    g_paceFrames = g_paceHeld = g_paceLate = 0; g_paceHeldMs = g_paceTgtMs = 0;
+  }
   if (g_pcN > 1) {
     double mean = g_pcSum / g_pcN, var = g_pcSum2 / g_pcN - mean * mean;
     H->log("speedfix: frames %ld, mean %.2f ms, sd %.2f, max %.1f%s", g_pcN, mean, var > 0 ? sqrt(var) : 0.0, g_pcMax,

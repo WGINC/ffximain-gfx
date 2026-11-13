@@ -33,9 +33,41 @@ extern "C" { __attribute__((weak)) void (*volatile xi_lim_cam)(int); }
 static inline int xi_floor(void *self_) { return xi_uncap != 0 ? 0 : *((int *)self_ + 12); }
 // the step without the truncation (floor and cap as the game's) added to the carry; its whole part is this frame's
 // answer. Exported so the host test (kit/speedfix/test/sf_host.c) can run it on the game's own ring average.
+// step_exact (27 Nov; speedfix.ini step_exact, set by sf_main.cpp each frame): the step is this frame's own time by the
+// performance counter instead of the game's average of its last 4. The game's times are whole milliseconds
+// (timeGetTime through the timer's rate 0x10019550: the 26 Nov frame log's ring values 0.24, 0.30, 0.36 = 4, 5, 6 ms),
+// and the average lags a frame that took longer: the step was 7-13% off each frame's real time (the 22 and 26 Nov
+// walks). The counter's time since the previous call here, in the game's ticks (60 / (scale * 1000 / ms): the timer's
+// scale, [this+0x1C]'s slot 0x30, as the wait at 0x10012B1D reads it), kept within one millisecond of this frame's own
+// whole-ms time (the ring's newest entry, just written above the call): what timeGetTime cannot tell apart. So the
+// game's clock still rules: a frame whose timer time is short (its paused time taken out, [t+0x1C]) is not given
+// the counter's longer time. The first call, a scale that is not positive, or a counter gap of over a second: the
+// game's average as before.
+extern "C" { __declspec(dllexport) volatile int xi_step_exact; __declspec(dllexport) double xi_step_exact_last; }
+static LARGE_INTEGER xi_ex_qpf, xi_ex_last;
+static double xi_exact_ticks(void *self_, double avg)
+{
+  LARGE_INTEGER now; QueryPerformanceCounter(&now);
+  if (!xi_ex_qpf.QuadPart) QueryPerformanceFrequency(&xi_ex_qpf);
+  long long d = xi_ex_last.QuadPart ? now.QuadPart - xi_ex_last.QuadPart : -1;
+  xi_ex_last = now;
+  if (!xi_step_exact || d < 0 || d > xi_ex_qpf.QuadPart) return avg;
+  void *t = *((void **)self_ + 7);
+  if (!t) return avg;
+  double sc = ((double (__thiscall *)(void *))(*(void ***)t)[12])(t);
+  if (!(sc > 0.0)) return avg;
+  double ms = (double)d * 1000.0 / (double)xi_ex_qpf.QuadPart;
+  double ex = 0.06 * ms / sc, one = 0.06 / sc;
+  float v; memcpy(&v, (const void *)&g_frameStepRing[g_frameStepRingIndex & 3], 4);
+  if (ex > v + one) ex = v + one;
+  if (ex < v - one) ex = v - one;
+  if (ex < 0.0) ex = 0.0;
+  xi_step_exact_last = ex;
+  return ex;
+}
 extern "C" __declspec(dllexport) void xi_step_make(void *self_, double avg)
 {
-  double f = avg;
+  double f = xi_exact_ticks(self_, avg);
   int fl = xi_floor(self_);
   if ( !(f >= fl) )                            // (a NaN average: the game's _ftol gives INT_MIN, the floor wins)
     f = fl;

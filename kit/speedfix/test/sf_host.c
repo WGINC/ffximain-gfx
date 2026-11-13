@@ -256,6 +256,32 @@ static int pacing_test(void) {
   check(fabs(ticks - span * 0.06) < 1.0, "precise_pacing=0: the game's ticks still add up to the time (within a tick)");
   check(log_has("precise_pacing: ") && log_has(" frames timed by the counter"), "the statistics line counts the frames the counter timed");
   check(log_has("its tick count [+0x30] 1, its timer's scale [+8] 1.0000"), "... and names the limiter's tick count and its timer's scale (this host's: 1, 1.0)");
+  { /* pace_adaptive (27 Nov): frames whose own work takes 2 to 7 ms (a Sleep of 2 + (7i mod 6)); without it, the
+       intervals between Presents follow the work; with it (pace_pct 90, changed while running), each frame is held to
+       the 90th percentile of the last 120 frames' own times: the intervals' spread falls and their median comes near
+       that percentile */
+    double iv[2][200]; int nn[2] = {0, 0};
+    for (int on = 0; on < 2; on++) {
+      touch("speedfix.ini", on ? "[speedfix]\npace_adaptive=1\npace_pct=90\nstats_every=1\n" : "[speedfix]\npace_adaptive=0\nstats_every=1\n");
+      for (int i = 0; i < 70; i++) { begin(); end(); Sleep(2 + (7 * i) % 6); present(); }
+      double prev = qms();
+      for (int i = 0; i < 200; i++) { begin(); end(); Sleep(2 + (7 * i) % 6); present(); double t = qms(); iv[on][nn[on]++] = t - prev; prev = t; }
+    }
+    double m[2], sd[2], med[2];
+    for (int on = 0; on < 2; on++) {
+      double s = 0, s2 = 0, tmp[200]; for (int i = 0; i < nn[on]; i++) { s += iv[on][i]; s2 += iv[on][i] * iv[on][i]; tmp[i] = iv[on][i]; }
+      m[on] = s / nn[on]; sd[on] = sqrt(s2 / nn[on] - m[on] * m[on]);
+      for (int i = 1; i < nn[on]; i++) for (int j = i; j > 0 && tmp[j - 1] > tmp[j]; j--) { double x = tmp[j]; tmp[j] = tmp[j - 1]; tmp[j - 1] = x; }
+      med[on] = tmp[nn[on] / 2];
+    }
+    printf("    pace_adaptive: off: intervals mean %.2f ms, sd %.2f, median %.2f; on: mean %.2f, sd %.2f, median %.2f\n", m[0], sd[0], med[0], m[1], sd[1], med[1]);
+    check(sd[1] < sd[0] * 0.5, "pace_adaptive=1: the intervals between Presents spread less than half as much as without it");
+    check(m[1] >= m[0] && m[1] < m[0] * 1.6, "pace_adaptive=1: the frame rate falls to the 90th percentile's, not further (mean interval under 1.6 times)");
+    Sleep(1100); for (int i = 0; i < 70; i++) { begin(); end(); present(); }   /* (stats_every=1: the next statistics line) */
+    check(log_has("speedfix: pace_adaptive: ") && log_has(" frames paced, the interval aimed at "), "pace_adaptive: the statistics line says how many frames it paced and the interval it aimed at");
+    touch("speedfix.ini", "[speedfix]\npace_adaptive=0\nstats_every=1\n");
+    for (int i = 0; i < 70; i++) { begin(); end(); present(); }
+  }
   printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
   return fails ? 1 : 0;
 }
@@ -399,6 +425,35 @@ static int step_test(void) {
     printf("    frame_step=3, the camera loop's call: %d of 100 not the step, %d a fraction, %d with a factor not 1 - 0.75^(s/ceil s)\n", wrong, frac, kbad);
     check(wrong == 0 && frac > 50, "frame_step=3: the camera loop's getter call gets the fraction (the step, not truncated)");
     check(kbad == 0, "frame_step=3: its factor is 1 - 0.75^(s/ceil s) for the s it was given");
+    { /* step_exact=1 (27 Nov, changed while running): the step is the frame's own time by the counter (since the call
+         before), within one millisecond (0.06 ticks at scale 1) of the game's own whole-ms time for the frame (the
+         ring's newest, 0x10456964 + 4 * [0x10456974]); frames alternating 2 and 9 ms */
+      touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=3\nstep_exact=1\nstats_every=1\n");
+      step_frames(70, 1, 3);
+      volatile int *ex = (volatile int *)GetProcAddress(sf, "xi_step_exact");
+      check(ex && *ex == 1, "step_exact=1 (changed while running): the fork's switch follows");
+      keep = *(uint8_t *)GAME(0x100205B6u); *(uint8_t *)GAME(0x100205B6u) = 0xC3;
+      int near_qpc = 0, in_ms = 0, n = 0; double sum = 0, t_first = 0, t_last = 0, prev = 0;
+      for (int i = 0; i < 120; i++) {
+        begin(); end(); present(); Sleep(i & 1 ? 9 : 2); run_limiter(g_lim);
+        double t = qms(); g_step_make(g_lim, ring_raw());
+        float a = loop(), v = ((const float *)GAME(0x10456964u))[*(const uint8_t *)GAME(0x10456974u) & 3];
+        if (i > 0) {
+          double want = (t - prev) * 0.06; n++; sum += a; if (!t_first) t_first = prev; t_last = t;
+          if (fabs(a - want) <= 0.012 || fabs(a - v) >= 0.0599) near_qpc++;      /* (clamped at v +- 1 ms when the two differ by more) */
+          if (fabs(a - v) <= 0.0601) in_ms++;
+        }
+        prev = t;
+      }
+      *(uint8_t *)GAME(0x100205B6u) = keep;
+      printf("    step_exact=1, frames of 2 and 9 ms: %d of %d within 0.2 ms of the counter's time (or at the 1 ms bound), %d within 1 ms of the game's whole-ms time; the steps add up to %.2f ticks, the counter %.2f\n",
+             near_qpc, n, in_ms, sum, (t_last - t_first) * 0.06);
+      check(near_qpc >= n * 9 / 10 && in_ms == n, "step_exact=1: each frame's step is its own time by the counter, kept within 1 ms of the game's whole-ms time");
+      check(fabs(sum - (t_last - t_first) * 0.06) < 0.06 * 3, "step_exact=1: over 119 frames the steps add up to the counter's time (within 3 ms)");
+      touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=3\nstats_every=1\n");
+      step_frames(70, 1, 3);
+      check(ex && *ex == 0, "step_exact back to 0 (changed while running): the switch follows");
+    }
     touch("speedfix.ini", "[speedfix]\nuncap=1\nframe_step=1\nstats_every=1\n");
     step_frames(70, 1, 3);
     check(*kf == 0.25f, "frame_step=1 again: the camera loop's factor is the game's 0.25");

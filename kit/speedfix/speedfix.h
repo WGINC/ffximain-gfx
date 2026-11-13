@@ -47,6 +47,10 @@ struct SfConfig {
   int frame_step;           // the game's time step: 0 its own, 1 real time in whole ticks, 2 and the fraction where proven
   int shadow_fit;           // (16 Nov) simple shadows (shadow mode 2) sized by each character's own model (sf_game.cpp); 0 the game's
   int name_smooth;          // (21 Nov) names sized from their unrounded depth (sf_game.cpp); 0 the game's 80 steps
+  int step_exact;           // (27 Nov) frame_step's step from this frame's own time by the performance counter, within 1 ms of
+                            // the game's whole-ms time (fork/Frame_Render.fork.cpp, xi_exact_ticks); 0 the game's 4-frame average
+  int pace_adaptive;        // (27 Nov) each frame held to the pace_pct percentile of the last 120 frames' own time (sf_device.cpp)
+  int pace_pct;             // that percentile, 50-99 (90)
   int shadow_fit_scale;     // the shadow's half-width as hundredths of the model footprint's diagonal (default 46: sf_game.cpp says why)
 };
 extern SfConfig sf_cfg;

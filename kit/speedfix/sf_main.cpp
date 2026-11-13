@@ -146,6 +146,12 @@ static const char kDefaultIni[] =
   "shadow_fit=1\r\nshadow_fit_scale=46\r\n"
   "; name_smooth: names shrink with distance continuously; 0 = the game's 80 size steps (the names jump a step at a time)\r\n"
   "name_smooth=1\r\n"
+  "; step_exact: with frame_step, the game moves things by this frame's own time (the performance counter, kept within\r\n"
+  ";   1 ms of the game's whole-millisecond time) instead of its average of the last 4 frames. Live both ways\r\n"
+  "step_exact=0\r\n"
+  "; pace_adaptive: each frame is held until the pace_pct percentile of the last 120 frames' own time has passed since\r\n"
+  ";   the one before: even spacing at a rate that follows the scene; no fixed number. Not with frame_cap_fps. Live\r\n"
+  "pace_adaptive=0\r\npace_pct=90\r\n"
   "; fewer textures CPU-encoded at load (1-15; textures loaded afterwards)\r\n"
   "texture_compression=1\r\ntexture_compression_value=15\r\n"
   "; the SSE math tier on any CPU with SSE (only before the game has chosen its tier)\r\n"
@@ -244,6 +250,8 @@ static SfConfig read_config(void) {
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
   c.name_smooth = rd("name_smooth", 1) ? 1 : 0;
+  c.step_exact = rd("step_exact", 0) ? 1 : 0; c.pace_adaptive = rd("pace_adaptive", 0) ? 1 : 0;
+  c.pace_pct = rd("pace_pct", 90); if (c.pace_pct < 50 || c.pace_pct > 99) c.pace_pct = 90;
   c.shadow_fit = rd("shadow_fit", 1) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
   if (c.shadow_fit_scale < 5 || c.shadow_fit_scale > 300) c.shadow_fit_scale = 46;
   c.occlusion_hold = rd("occlusion_hold", 1); c.occlusion_nowait = rd("occlusion_nowait", 1); c.occlusion_first = rd("occlusion_first", 0); if (c.occlusion_first < 0 || c.occlusion_first > 2) c.occlusion_first = 0; c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
@@ -268,6 +276,7 @@ static void log_config(const SfConfig &c, const char *why) {
       "skip_all_occlusion_readbacks=%d texture_compression=%d(%d) cpu_tier=%d lazy_state=%d block_cache=%d vs_dedupe=%d sse_skinning=%d merge_scenes=%d skin_merge=%d motion_stats=%d precise_pacing=%d null_draws=%d occlusion_late=%d uncap=%d frame_step=%d liminality=%d lim_limbs=%d", why, c.state_cache, c.vs_cache, c.ext_cache,
       c.scene_reset, c.batch_up, c.batch_max_prims, c.batch_max_bytes, c.frame_cap_fps, c.occlusion_stagger, c.skip_actor_occlusion,
       c.skip_all_occlusion_readbacks, c.texture_compression, c.texture_compression_value, c.cpu_tier, c.lazy_state, c.block_cache, c.vs_dedupe, c.sse_skinning, c.merge_scenes, c.skin_merge, c.motion_stats, c.precise_pacing, c.null_draws, c.occlusion_late, c.uncap, c.frame_step, c.liminality, c.lim_limbs);
+  LOG("speedfix: settings (%s): step_exact=%d pace_adaptive=%d pace_pct=%d", why, c.step_exact, c.pace_adaptive, c.pace_pct);
   if (c.uncap && !c.frame_step)
     LOG("speedfix: uncap=1 with frame_step=0: the game advances one tick of 1/60 s every frame, so above 60 fps what its step "
         "drives runs faster than real time (frame_step=1 or 2 ties it to real time)");
@@ -461,6 +470,7 @@ static void pp_stats(void) {
 // switch at 0 (the gate without declarations) and with it on differing only as declared (fork/framestep*.declare.json).
 // Here, each frame (render thread, inside Present): the switches, on only while the kit's hooks are live, and the
 // figures for the statistics line.
+extern "C" { extern volatile int xi_step_exact; }
 extern "C" { extern volatile int xi_step_mode, xi_uncap, xi_step_have; extern float xi_step_whole, xi_step_frac; extern int sf_framestep_installed; }
 static LARGE_INTEGER g_st_qpf; static LONGLONG g_st_last;
 static LONG g_st_frames, g_st_zero; static double g_st_whole, g_st_frac, g_st_game, g_st_ms;
@@ -877,6 +887,7 @@ static void apply_uncap_step(void) {
   bool live = sf_frame_no - sf_hooks_frame <= 1;
   xi_uncap = sf_framestep_installed && sf_cfg.uncap && live;
   xi_step_mode = sf_framestep_installed && live ? (sf_cfg.liminality ? 1 : sf_cfg.frame_step) : 0;
+  xi_step_exact = sf_cfg.step_exact && xi_step_mode;                 // (fork/Frame_Render.fork.cpp: xi_exact_ticks)
   sf_lim_set(sf_cfg.liminality && sf_framestep_installed && live && sf_cfg.uncap);
   if (!sf_framestep_installed || !xi_step_mode || !xi_step_have) { g_st_last = 0; return; }
   if (!g_st_qpf.QuadPart) QueryPerformanceFrequency(&g_st_qpf);
@@ -1183,7 +1194,7 @@ static const Lever kLevers[] = {
   {"skin_merge", &SfConfig::skin_merge, 0}, {"gpu_skin", &SfConfig::gpu_skin, 0}, {"precise_pacing", &SfConfig::precise_pacing, 0},
   {"null_draws", &SfConfig::null_draws, 0}, {"occlusion_late", &SfConfig::occlusion_late, 0},
   {"occlusion_nowait", &SfConfig::occlusion_nowait, 0}, {"occlusion_first", &SfConfig::occlusion_first, 0},
-  {"uncap", &SfConfig::uncap, 0}, {"frame_step", &SfConfig::frame_step, 0},
+  {"uncap", &SfConfig::uncap, 0}, {"frame_step", &SfConfig::frame_step, 0}, {"step_exact", &SfConfig::step_exact, 0}, {"pace_adaptive", &SfConfig::pace_adaptive, 0},
 };
 enum { NLEV = sizeof kLevers / sizeof kLevers[0], AB_MAX = 16384 };
 static SfConfig g_base;                     // the settings as the ini has them (B)
@@ -1209,7 +1220,7 @@ static void ab_set(int i) {
   // frame log within 30 frames, on the performance counter PresentMon's CPUStartQPC uses, so each phase's frames can
   // be cut out of both files (what reaches the screen per phase). Without the measuring kit nothing reads it
   { char p[MAX_PATH]; snprintf(p, sizeof p, "%s\\xikit_mark.txt", g_host->dir);
-    FILE *f = fopen(p, "w"); if (f) { fprintf(f, "ab %d %c\n", i + 1, ab_label(i)); fclose(f); } }
+    FILE *f = fopen(p, "w"); if (f) { fprintf(f, "ab g%d %d %c %s\n", g_ab_grp + 1, i + 1, ab_label(i), g_ab_cur); fclose(f); } }   // group, phase, A/B, the levers
 }
 static void ab_end_phase(void) {
   int i = g_ab_i, n = g_ab_n; double sum = 0;

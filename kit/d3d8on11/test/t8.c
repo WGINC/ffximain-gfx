@@ -901,21 +901,24 @@ static void scenes(void) {
     IDirect3DDevice8_SetTexture(d, 0, NULL);
     end(pass ? (side ? "mipmaps_part_ref" : "mipmaps_part_one") : (side ? "mipmaps_ref" : "mipmaps_one")); } }
     /* mipmaps_pointmag: the one-level texture as the game draws its names (MAGFILTER POINT, MINFILTER LINEAR, no mip
-       filter): with mipmaps=1 (mipmaps_point_mag=0) drawn as the game samples it, the same as with mipmaps off */
-    { reset_state(); begin(0xFF102010);
+       filter), on a plane magnified near and minified far: with mipmaps=1 it uses the levels; mipmaps_point_mag=0: as
+       the game samples it (as with mipmaps off); text_linear=1: magnified LINEAR too, equal to mipmaps_pointmag_ref
+       (the same texels with t8's chain, LINEAR/LINEAR/LINEAR) */
+    for (int side = 0; side < 2; side++) {
+      reset_state(); begin(0xFF102010);
       D3DMATRIX pr, vw; persp(&pr, 1.0f, 0.5f, 200.0f); memset(&vw, 0, sizeof vw); vw._11 = vw._22 = vw._33 = vw._44 = 1;
       IDirect3DDevice8_SetTransform(d, D3DTS_PROJECTION, &pr); IDirect3DDevice8_SetTransform(d, D3DTS_VIEW, &vw);
       IDirect3DDevice8_SetRenderState(d, D3DRS_LIGHTING, FALSE); IDirect3DDevice8_SetRenderState(d, D3DRS_CULLMODE, D3DCULL_NONE);
       IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_COLOROP, D3DTOP_SELECTARG1);
       IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZ | D3DFVF_TEX1);
-      struct { float x, y, z, u, v; } q[4] = {{-1.2f, -0.6f, 1.0f, 0, 0}, {1.2f, -0.6f, 1.0f, 8, 0}, {-1.2f, -0.6f, 60.0f, 0, 40}, {1.2f, -0.6f, 60.0f, 8, 40}};
-      IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)t1);
-      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MAGFILTER, D3DTEXF_POINT);
+      struct { float x, y, z, u, v; } q[4] = {{-1.2f, -0.6f, 1.0f, 0, 0}, {1.2f, -0.6f, 1.0f, 0.25f, 0}, {-1.2f, -0.6f, 60.0f, 0, 6}, {1.2f, -0.6f, 60.0f, 0.25f, 6}};
+      IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)(side ? tm : t1));
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MAGFILTER, side ? D3DTEXF_LINEAR : D3DTEXF_POINT);
       IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MINFILTER, D3DTEXF_LINEAR);
-      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MIPFILTER, D3DTEXF_NONE);
+      IDirect3DDevice8_SetTextureStageState(d, 0, D3DTSS_MIPFILTER, side ? D3DTEXF_LINEAR : D3DTEXF_NONE);
       IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, q, sizeof q[0]);
       IDirect3DDevice8_SetTexture(d, 0, NULL);
-      end("mipmaps_pointmag"); }
+      end(side ? "mipmaps_pointmag_ref" : "mipmaps_pointmag"); }
     if (t1) IDirect3DTexture8_Release(t1); if (tm) IDirect3DTexture8_Release(tm); }
   /* lazy_depth (18 Nov; d8_exec12.cpp bind_targets): passes into a render-target texture that has a depth surface,
      drawn with depth off (as the game's shadow silhouettes, 0x10033800), between passes on the back buffer with depth

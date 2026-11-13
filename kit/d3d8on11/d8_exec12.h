@@ -22,6 +22,7 @@
 //   - D3D11-only levers (OPT_BATCH, OPT_FILTER, OPT_BUFARENA, OPT_MERGE, OPT_GPUTIME) are not used: batching exists
 //     to save Direct3D 11 Map calls, which this executor does not make per draw. They are logged as not applied.
 #pragma once
+#include <unordered_set>
 #include "d8_exec.h"
 #include <d3d12.h>
 #include <dxgi1_4.h>
@@ -146,6 +147,10 @@ struct Exec12 {
 
   // ---- targets ----
   XRef tgt_rt = {}; uint32_t tgt_ds = 0; bool tgt_dirty = true;
+  // discard_hints (22 Nov, OPT_DISCARD): at Present, a render target or depth surface drawn into this frame whose next
+  // use in the records already sent is a Clear of all of it gets DiscardResource (its contents are not needed again)
+  bool discard_hints = false; std::unordered_set<uint32_t> frame_tg; uint64_t c_disc_rt = 0, c_disc_ds = 0, c_disc_keep = 0;
+  void discard_at_present();
   D3D12_CPU_DESCRIPTOR_HANDLE cur_rtv = {}, cur_dsv = {}; bool has_rtv = false, has_dsv = false;
   DXGI_FORMAT rt_fmt = DXGI_FORMAT_UNKNOWN, ds_fmt = DXGI_FORMAT_UNKNOWN; uint32_t rt_w = 0, rt_h = 0;
   ID3D12Resource *rt_res = nullptr; D3D12_RESOURCE_STATES *rt_st = nullptr; Res *ds_res = nullptr;

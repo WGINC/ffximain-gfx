@@ -38,6 +38,7 @@ struct ExecStats {
   double up_ms[2] = {}; uint64_t u0[8] = {};              // upload time: textures, buffers; Exec's upload counters at the last line
   uint64_t m0[4] = {};                                     // draw_merge's counters at the last stats line
   uint64_t b0[6] = {};                                     // the buffer arena's counters at the last stats line
+  double mips_ms = 0, mips_max = 0; uint32_t mips_n = 0;   // mip_exec: the levels made here since the last stats line
   Exec *x = nullptr; uint64_t x0[3] = {};                  // the executor's batch counters at the last stats line
   double s0p = 0, s0a = 0, s0b = 0; uint64_t s0n = 0;          // the split's counters at the last stats line
   static void hook(void *s, uint16_t op, double ms) { ((ExecStats *)s)->ran(op, ms); }
@@ -83,6 +84,7 @@ struct ExecStats {
     int k = kind(op);
     busy[k] += ms; records++;
     if (op == X_UPLOAD_TEX) up_ms[0] += ms; else if (op == X_UPLOAD_BUF) up_ms[1] += ms;
+    if (op == X_MIPS) { mips_ms += ms; mips_n++; if (ms > mips_max) mips_max = ms; }
     if (op == X_DRAW && x && x->sites_on) { SiteT &t = sites[x->last_site]; t.ms += ms; t.n++; }
     if (ab && !settle) pbusy[k] += ms;
     if (op != X_PRESENT) return;
@@ -117,6 +119,8 @@ struct ExecStats {
              (double)(x->up_again[0] - u0[6]) / frames / 1048576.0, (double)(x->up_again[1] - u0[7]) / frames / 1048576.0);
       u0[0] = x->up_bytes[0]; u0[1] = x->up_n[0]; u0[2] = x->up_bytes[1]; u0[3] = x->up_n[1]; u0[4] = x->dyn_discard; u0[5] = x->dyn_noov; u0[6] = x->up_again[0]; u0[7] = x->up_again[1];
       up_ms[0] = up_ms[1] = 0;
+      if (mips_n) d8_log("executor mip levels, %u frames: %u textures' levels made here (mip_exec), %.1f ms in all, the longest %.2f ms", frames, mips_n, mips_ms, mips_max);
+      mips_n = 0; mips_ms = mips_max = 0;
       if (x->arena_kb) {
         // buffer_arena: uploads put at a new place and written in place, the MB written, the arena's Maps, how often it
         // started again, and buffers written back to their own buffer (drawn from a place of an older generation)
@@ -160,6 +164,18 @@ static bool stall_test(uint16_t op) {
   return n > 0 && op == X_PRESENT && ++seen == n;
 }
 
+// ---- the records after the one being run (d8_peek): the reader thread's view, set before each record runs ----------
+static RingHdr *pk_h; static uint8_t *pk_data; static uint32_t pk_from, pk_to;
+bool d8_peek(D8PeekFn f, void *ctx) {
+  if (!pk_h) return false;
+  for (uint32_t pos = pk_from; pos != pk_to;) {
+    const XHdr *hd = (const XHdr *)(pk_data + pos % pk_h->size);
+    uint32_t need = 8 + pad8(hd->bytes);
+    if (hd->op != X_PAD && f(hd->op, (const uint8_t *)(hd + 1), hd->bytes, ctx)) return true;
+    pos += need;
+  }
+  return false;
+}
 // ---- the reader (the executor's side) -----------------------------------------------------------------------------
 void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wake, HANDLE space, HANDLE replied, HANDLE parent) {
   std::vector<uint8_t> out; ExecStats xs; xs.since = qpc_ms(); xs.attach(x);
@@ -194,7 +210,9 @@ void ring_consume(RingHdr *h, uint8_t *data, uint8_t *reply, Exec *x, HANDLE wak
       int32_t hr = 0; out.clear();
       st(&h->exec_since, GetTickCount()); st(&h->exec_op, hd->op);
       if (stall_test(hd->op)) Sleep(8000);
+      pk_h = h; pk_data = data; pk_from = r + need; pk_to = w;          // (what is written up to now: complete records)
       x->run(hd->op, (const uint8_t *)(hd + 1), hd->bytes, &hr, &out);
+      pk_h = nullptr;
       st(&h->exec_op, 0); st(&h->exec_records, ld(&h->exec_records) + 1); st(&h->exec_site, x->last_site);
       if (hd->op == X_OPTION) xs.option((const uint8_t *)(hd + 1));
       if (is_sync(hd->op)) {

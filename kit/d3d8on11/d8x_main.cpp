@@ -14,6 +14,7 @@
 int main(int argc, char **argv) {
   d8_log_name = "d3d8on11_exec.log";
   d8_crash_install();
+  { extern const char *mip_simd_name(); d8_log("executor process: mip levels (mip_exec) averaged with %s", mip_simd_name()); }
   if (argc < 3) { d8_log("usage: d8x MAPPING_NAME GAME_PID"); return 2; }
   const char *nm = argv[1];
   HANDLE map = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, nm);

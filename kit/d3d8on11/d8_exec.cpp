@@ -6,6 +6,7 @@
 // lighting, fog, texture coordinate processing); where the reference leaves a choice open, from Wine 9.0's wined3d,
 // named where used. The picture test (test/test_d3d8on11.py, mode scenes) compares with Wine's d3d8.
 #include "d8_exec.h"
+#include "d8_mip.h"
 #include <algorithm>
 #include <d3dcompiler.h>
 #include <d3d11_1.h>
@@ -860,7 +861,7 @@ void Exec::arena_resolve(ExecRes &r, ID3D11Buffer **b, UINT *off) {
   *b = r.buf; *off = 0;
 }
 static bool holdable(uint16_t op) {
-  return op != X_INIT && op != X_RESIZE && op != X_READBACK && op != X_FINISH && op != X_PRESENT && op != X_OPTION && op != X_QUIT && op != X_PAD;
+  return op != X_INIT && op != X_RESIZE && op != X_READBACK && op != X_FINISH && op != X_PRESENT && op != X_OPTION && op != X_QUIT && op != X_PAD && op != X_MIPS;
 }
 enum { HOLD_MAX = 16384, HOLD_BYTES = 32 << 20 };          // a batch is flushed at this many records or copied bytes
 // the last draw packet's head, copied before its record's bytes go (a flush frees the held records)
@@ -1271,6 +1272,16 @@ void Exec::exec(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vec
     up_bytes[0] += (uint64_t)u.rowbytes * u.rows; up_n[0]++;
     if (it->second.up_frame != ~0ull && presents - it->second.up_frame <= 1) up_again[0] += (uint64_t)u.rowbytes * u.rows;
     it->second.up_frame = presents;
+    break; }
+  case X_MIPS: {                                           // mip_exec: levels 1 .. from level 0 (d8_mip.cpp)
+    const XMips &m = *(const XMips *)p;
+    auto it = res.find(m.id); if (it == res.end() || !it->second.tex || m.levels < 2) break;
+    std::vector<std::vector<uint8_t>> lv;
+    int k = mip_build((D3DFORMAT)m.fmt, m.w, m.h, p + sizeof m, m.levels, lv);
+    for (int i = 0; i < k; i++) {
+      UINT l = (UINT)i + 1, lw = m.w >> l ? m.w >> l : 1;
+      ctx->UpdateSubresource(it->second.tex, D3D11CalcSubresource(l, 0, m.levels), NULL, lv[i].data(), d8_pitch((D3DFORMAT)m.fmt, lw), 0);
+    }
     break; }
   case X_UPLOAD_BUF: {
     const XUpBuf &u = *(const XUpBuf *)p;

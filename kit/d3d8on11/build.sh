@@ -8,7 +8,7 @@ i686-w64-mingw32-g++ -O2 -std=gnu++17 -Wall -Wno-unused-parameter -Wno-misleadin
   -ld3d11 -ldxgi -luuid -static-libgcc -static-libstdc++ -Wl,--no-insert-timestamp -Wl,--enable-stdcall-fixup
 echo "built dist/d3d8.dll"
 # the executor as a process of its own (D8ON11_MODE=remote / mode=remote): x86 here (the tests, under Wine) ...
-X="d8x_main.cpp d8_exec.cpp d8_exec12.cpp d8_link.cpp d8_common.cpp"
+X="d8x_main.cpp d8_exec.cpp d8_exec12.cpp d8_link.cpp d8_common.cpp d8_mip.cpp"
 i686-w64-mingw32-g++ -O2 -std=gnu++17 -Wall -Wno-unused-parameter -Wno-misleading-indentation -o dist/d8x.exe $X \
   -ld3d11 -ldxgi -luuid -static -Wl,--no-insert-timestamp
 echo "built dist/d8x.exe"

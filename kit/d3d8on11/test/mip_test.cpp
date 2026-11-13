@@ -86,6 +86,17 @@ int main() {
     std::vector<std::vector<uint8_t>> lv; std::vector<MipBox> ch; std::vector<uint8_t> t(64 * 64 / 2);
     mip_build(D3DFMT_DXT1, 64, 64, t.data(), 7, lv);
     CHECK(!mip_update(D3DFMT_DXT1, 64, 64, t.data(), 7, MipBox{0, 0, 4, 4}, lv, ch), "mip_update refuses a block format (the caller builds whole)"); }
+  // 6 the SSE2 box filter (mip_simd, where the CPU has it) gives the plain loop's bytes: random 32-bit textures of
+  //   odd and even sizes, every level, both ways
+  { srand(13); bool same = true; int n = 0;
+    const UINT sz[6][2] = {{2, 2}, {3, 5}, {37, 20}, {64, 64}, {255, 3}, {1024, 511}};
+    for (auto &d : sz) { UINT w = d[0], h = d[1], full = 1; for (UINT m = w > h ? w : h; m > 1; m >>= 1) full++;
+      std::vector<uint8_t> t((size_t)w * h * 4); for (auto &b : t) b = (uint8_t)(rand() & 255);
+      std::vector<std::vector<uint8_t>> a, b;
+      mip_simd = 0; mip_build(D3DFMT_A8R8G8B8, w, h, t.data(), full, a);
+      mip_simd = 1; mip_build(D3DFMT_A8R8G8B8, w, h, t.data(), full, b); mip_simd = -1;
+      same = same && a == b; n++; }
+    CHECK(same, "the SSE2 box filter's levels equal the plain loop's, byte for byte (%d textures)", n); }
   printf("%s\n", bad ? "FAILED" : "ALL OK");
   return bad ? 1 : 0;
 }

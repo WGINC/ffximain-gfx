@@ -12,6 +12,8 @@ enum { D3DFMT_A8R8G8B8 = 21, D3DFMT_X8R8G8B8 = 22, D3DFMT_DXT1 = 0x31545844, D3D
 #include <d3d8.h>
 #endif
 bool mip_format_ok(D3DFORMAT f);
+extern int mip_simd;
+const char *mip_simd_name();               // what averages the levels in this process (logged)                       // -1 the CPU decides (SSE2 on x86), 0 the plain loop (d8_mip.cpp)
 // levels 1 .. nlevels-1 of a texture whose level 0 is `level0` (packed rows), each in the texture's format, packed
 // (block formats: whole 4x4 blocks); returns how many were made (0: the format is not handled)
 int mip_build(D3DFORMAT f, UINT w, UINT h, const uint8_t *level0, UINT nlevels, std::vector<std::vector<uint8_t>> &out, bool *cutout = nullptr);

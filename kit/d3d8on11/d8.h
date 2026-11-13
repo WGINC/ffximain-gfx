@@ -231,7 +231,7 @@ struct Dev final : public IDirect3DDevice8_Stub {
   // mip_async (21 Nov, default 1): whole builds run on a worker thread (MipWorker, d8_res.cpp); the game's thread copies
   // level 0, and at Present takes finished builds and sends their levels; until then the texture is drawn with level 0
   struct MipWorker *mipw = nullptr; std::unordered_map<uint32_t, struct TexCore *> mip_live; void mip_take(); uint64_t mip_async_n = 0, mip_void = 0;
-  bool mipmaps = false, mip_point_mag = true; int anisotropy = 0; uint64_t mip_built = 0, mip_parts = 0, mip_textures = 0, mip_dropped = 0, mip_built_t = 0, mip_parts_t = 0; double mip_ms = 0, mip_ms_max = 0, mip_ms_t = 0, mip_ms_max_t = 0;
+  bool mipmaps = false, mip_point_mag = true, mip_exec = false; uint64_t mip_exec_n = 0; int anisotropy = 0; uint64_t mip_built = 0, mip_parts = 0, mip_textures = 0, mip_dropped = 0, mip_built_t = 0, mip_parts_t = 0; double mip_ms = 0, mip_ms_max = 0, mip_ms_t = 0, mip_ms_max_t = 0;
   int skin(const struct D8Skin *j);
   // interp (17 Nov; d8_device.cpp, "interp"): frames between the game's ticks drawn with each skinned character at the
   // blend of its last two ticks' bone palettes and world matrices. Needs gpu_skin and the clock of a mod (speedfix's

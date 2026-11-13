@@ -1,6 +1,6 @@
-# The 22 Nov session: the final settings, measured; the native ARM64 executor once more; the installer
+# The 22 Nov session: the final settings, measured; the architecture tests; the installer
 
-Three parts, about 15 minutes. Advanced shadows stay off throughout (left for another day).
+Four parts, about 20 minutes. Advanced shadows stay off throughout (left for another day).
 
 ## What changed since 21 Nov
 
@@ -14,6 +14,13 @@ Three parts, about 15 minutes. Advanced shadows stay off throughout (left for an
   on a worker thread; a texture shows its levels a frame or two after it loads.
 - **Crashes:** d3d8on11 now logs a crash with where it happened, and keeps the previous start's log
   (`d3d8on11_prev.log`).
+- **Architecture-specific, each switchable:** mip levels are now made by the renderer's executor (in its own thread,
+  or natively on ARM64 in start arm) in the order the game draws, so a texture never shows a frame without them; on
+  x86 the averaging uses SSE2 when the CPU has it (the same bytes as before, tested), and a level build no longer
+  copies each level (the 2048x4096 font texture: 51 ms before, 10 ms now, here). `discard_hints` (start hints, Direct3D
+  12): where the game's next frame clears a render target or depth buffer whole, the driver is told its old contents
+  are not needed, which on tile-based GPUs (Apple's) can save writing it out; whether Parallels passes that on is what
+  the start measures.
 - **Installer** (`ffxi_kit/`): d3d8.dll loads the kit and speedfix itself; nothing to start before the game. If the
   game is a build the kit does not know, the kit stays off, the renderer still runs, and a window says to update.
 
@@ -32,17 +39,22 @@ Your usual settings, simple shadows. A busy town street.
 
 Close the game, `restore.bat`.
 
-## 2. The ARM64 executor (`start.bat arm`; optional)
+## 2. Discard hints (`start.bat hints`)
+
+As part 1 (the same place, the same walk), `mark hints`, 2 minutes. Anything that looks wrong (flicker, black or garbage
+patches)? Close the game, `restore.bat`.
+
+## 3. The ARM64 executor (`start.bat arm`; optional)
 
 The same place. In this start the renderer's back end runs as a native ARM64 process instead of inside the
 (x86-emulated) game. On 17 Nov it crashed after a few seconds, in Windower's Hook.dll; this time the crash, if it
 comes, is logged with where. `mark arm`, 1 minute standing, 1 minute walking. If it crashes: run `collect.bat` at once
 and say so. Close the game, `restore.bat`.
 
-## 3. The installer (no start.bat)
+## 4. The installer (no start.bat)
 
 1. Close xiload's window if it is open.
-2. In `ffxi_kit`: `install.bat /defaults` (as administrator; the settings parts 1 and 2 left are kept as `.before_kit`).
+2. In `ffxi_kit`: `install.bat /defaults` (as administrator; the settings parts 1 to 3 left are kept as `.before_kit`).
 3. Start the game as you always do (nothing else). Play a minute: shadows, names, the picture as in part 1.
 4. Close the game (collect.bat takes this start's `d3d8on11.log` and `xikit.log` from the PlayOnlineViewer folder).
 5. To go back to dgVoodoo: `uninstall.bat` in `ffxi_kit`. (Or keep it installed.)

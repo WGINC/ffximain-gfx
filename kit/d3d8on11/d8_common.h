@@ -10,7 +10,11 @@
 // ---- log (d8_log_name next to the module; each message once unless counted) ------------------------------------
 extern const char *d8_log_name;
 void d8_log(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
-void d8_crash_install();                         // exceptions of the fatal kinds to the log (d8_common.cpp)
+void d8_crash_install();
+// the records already written after the one the executor runs now (ring modes; none in direct mode): f is called for
+// each in order until it returns nonzero; returns whether it did (d8_link.cpp, 22 Nov: discard_hints)
+typedef int (*D8PeekFn)(uint16_t op, const uint8_t *p, uint32_t n, void *ctx);
+bool d8_peek(D8PeekFn f, void *ctx);                         // exceptions of the fatal kinds to the log (d8_common.cpp)
 // once per name and calling module, naming the caller (module+offset): in a process with other Direct3D users (Windower's
 // Hook.dll draws through the same device) the log says whose call it was. ra: the return address in the method itself;
 // called from a helper of ours instead, it names d3d8.dll

@@ -4,6 +4,7 @@
 // copies and read-backs, and keeps every state the game sets and reads back, state blocks included. Milestone 2
 // executes draws through generated shaders (d8_ff.cpp).
 #include "d8.h"
+#include "d8_mip.h"
 #include "d8_skin.h"
 static Dev *g_skin_dev;                       // gpu skinning: the device D8ON11_Skin hands its jobs to (set in init)
 #include <string>
@@ -77,6 +78,11 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen
   { char be[16] = {}; GetPrivateProfileStringA("d3d8on11", "backend", "d3d11", be, sizeof be, ini);
     ne = GetEnvironmentVariableA("D8ON11_BACKEND", env, sizeof env); if (ne > 0 && ne < sizeof env) snprintf(be, sizeof be, "%s", env);
     if (!_stricmp(be, "d3d12")) { XOption o = {OPT_BACKEND, 12u, 0}; link->put(X_OPTION, &o, sizeof o); backend12 = true; } }
+  // discard_hints (22 Nov; Direct3D 12 only): after the backend's option, so that the Direct3D 12 executor gets it
+  if (backend12) { int dh = (int)GetPrivateProfileIntA("d3d8on11", "discard_hints", 0, ini); char e[16];   // (22 Nov; Direct3D 12 only)
+    DWORD n = GetEnvironmentVariableA("D8ON11_DISCARD_HINTS", e, sizeof e); if (n > 0 && n < sizeof e) dh = atoi(e);
+    if (dh) { XOption o = {OPT_DISCARD, 1u, 0}; link->put(X_OPTION, &o, sizeof o); } }
+
   // d3d12_probe=1 (the default, 12 Nov): once, after the first Present, the executor tries to make a Direct3D 12 device
   // and run a command list on it, and logs each step (Exec::d3d12_probe); 0 turns it off. D8ON11_D3D12_PROBE overrides it
   { int p = (int)GetPrivateProfileIntA("d3d8on11", "d3d12_probe", 1, ini);
@@ -162,7 +168,12 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen
       int ma = (int)GetPrivateProfileIntA("d3d8on11", "mip_async", 1, ini);
       ne = GetEnvironmentVariableA("D8ON11_MIP_ASYNC", env, sizeof env); if (ne > 0 && ne < sizeof env) ma = atoi(env);
       mipmaps = mm != 0; mip_point_mag = pm != 0; anisotropy = an < 0 ? 0 : an > 16 ? 16 : an;
+      int me = (int)GetPrivateProfileIntA("d3d8on11", "mip_exec", 1, ini);
+      ne = GetEnvironmentVariableA("D8ON11_MIP_EXEC", env, sizeof env); if (ne > 0 && ne < sizeof env) me = atoi(env);
+      mip_exec = mipmaps && me != 0;
+      if (mip_exec) d8_log("mip_exec=1: level builds in the executor (in its thread, or its own process with mode=remote), sent in stream order; a texture larger than one record is built %s", ma ? "on the worker (mip_async)" : "here");
       if (mipmaps && ma) { extern MipWorker *mip_worker_new(); mipw = mip_worker_new(); d8_log("mip_async=1: whole level builds on a worker thread; a texture is drawn without its levels until its build is taken at a Present"); }
+      if (mipmaps) d8_log("mipmaps: the levels are averaged here with %s", mip_simd_name());
       if (mipmaps) d8_log("mipmaps=1: one-level managed textures get mip levels, sampled trilinear in 3D draws%s",
                           mip_point_mag ? "" : " where the game magnifies LINEAR (mipmaps_point_mag=0: draws that magnify POINT, e.g. the names, as the game samples them)");
       if (mipmaps && anisotropy > 1) d8_log("anisotropy=%d: anisotropic filtering in 3D draws of textures with made levels, where the game magnifies LINEAR", anisotropy); }

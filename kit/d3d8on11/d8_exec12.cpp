@@ -7,6 +7,7 @@
 // returns them in registers on x86 and reads garbage. Defined before every header here.
 #define WIDL_EXPLICIT_AGGREGATE_RETURNS
 #include "d8_exec12.h"
+#include "d8_mip.h"
 #include <d3dcompiler.h>
 #include <d3d12sdklayers.h>
 #include <float.h>
@@ -460,11 +461,23 @@ void Exec12::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::ve
   case X_TARGETS: {
     const XTargets &t = *(const XTargets *)p;
     tgt_rt = t.rt; tgt_ds = t.ds; tgt_dirty = true;
+    if (discard_hints) { if (t.rt.id && t.rt.id != X_BACKBUFFER && !t.rt.level && !t.rt.face) frame_tg.insert(t.rt.id); if (t.ds) frame_tg.insert(t.ds); }
     break; }
   case X_CLEAR: clear(*(const XClear *)p, (const XRect *)((const XClear *)p + 1)); break;
   case X_COPY: copy(*(const XCopy *)p); break;
   case X_DRAW: { const XDraw &d = *(const XDraw *)p; last_site = o.last_site = d.site; draw(d, p + sizeof(XDraw)); o.draws++; break; }
   case X_PRESENT: present(); break;
+  case X_MIPS: {                                           // mip_exec: levels 1 .. from level 0 (d8_mip.cpp)
+    const XMips &m = *(const XMips *)p;
+    Res *x = res_of(m.id); if (!x || !x->r || m.levels < 2) break;
+    std::vector<std::vector<uint8_t>> lv;
+    int k = mip_build((D3DFORMAT)m.fmt, m.w, m.h, p + sizeof m, m.levels, lv);
+    for (int i = 0; i < k; i++) {
+      UINT l = (UINT)i + 1, lw = m.w >> l ? m.w >> l : 1, lh = m.h >> l ? m.h >> l : 1;
+      XUpTex u = {m.id, D3D11CalcSubresource(l, 0, m.levels), 0, 0, 0, 0, d8_pitch((D3DFORMAT)m.fmt, lw), d8_rows((D3DFORMAT)m.fmt, lh)};
+      upload_tex(u, lv[i].data());
+    }
+    break; }
   case X_SNAP: snap(*(const XSnap *)p); break;
   case X_READBACK: *hr = readback(*(const XRef *)p, reply); break;
   case X_FINISH: *hr = D3D_OK; break;
@@ -478,6 +491,9 @@ void Exec12::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::ve
       if (run_n) flush_run();
       merge_on = (x.value & 1) != 0;
       d8_once("merge12", "draw_merge: the Direct3D 12 executor merges runs of delta draws (needs draw_delta=1)");
+    } else if (x.key == OPT_DISCARD) {
+      discard_hints = x.value != 0;
+      if (discard_hints) d8_log("discard_hints=1: at Present, targets whose next use already sent is a Clear of all of them are discarded (DiscardResource)");
     } else if (x.key == OPT_SITES || x.key == OPT_D3D12) {
     } else if (x.key == OPT_FLIP) {
       if (!x.value) d8_once("flip12", "swap_flip=0: Direct3D 12 has only the flip model; it is used");
@@ -1697,9 +1713,53 @@ void Exec12::snap_poll() {
 }
 
 // ---- Present ------------------------------------------------------------------------------------------------------------
+// discard_hints: for each target of this frame, the records after this Present that are already in the ring (d8_peek)
+// are read in order until one decides: a Clear of the target while it is bound, of all of it (no rectangles; a depth
+// surface with a stencil: depth and stencil), says its contents are not needed: DiscardResource now. Anything else
+// that may read it (a draw, a copy, a readback, a snapshot, an upload to it, the next Present) or a partial clear
+// says keep; so does reaching the end of what is written. Binding and resource records are passed over.
+static uint64_t d8_disc_rt_t, d8_disc_ds_t, d8_disc_keep_t;   // totals for the shutdown line
+namespace {
+struct DiscCtx { uint32_t id; bool ds, stencil; uint32_t cur_rt, cur_ds; int verdict; };
+int disc_look(uint16_t op, const uint8_t *p, uint32_t n, void *v) {
+  DiscCtx &c = *(DiscCtx *)v;
+  switch (op) {
+  case X_TARGETS: { const XTargets &t = *(const XTargets *)p; c.cur_rt = (t.rt.level || t.rt.face) ? ~0u : t.rt.id; c.cur_ds = t.ds; return 0; }
+  case X_CLEAR: {
+    const XClear &x = *(const XClear *)p;
+    bool zs = (x.flags & (D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL)) != 0;
+    if (!c.ds && c.cur_rt == c.id && (x.flags & D3DCLEAR_TARGET)) { c.verdict = x.nrects == 0 ? 1 : -1; return 1; }
+    if (c.ds && c.cur_ds == c.id && zs) {
+      c.verdict = x.nrects == 0 && (x.flags & D3DCLEAR_ZBUFFER) && (!c.stencil || (x.flags & D3DCLEAR_STENCIL)) ? 1 : -1; return 1; }
+    return 0; }
+  case X_TEX: case X_BUF: case X_UPLOAD_BUF: case X_OPTION: case X_SKIN: case X_PAD: return 0;
+  case X_UPLOAD_TEX: if (n >= sizeof(XUpTex) && ((const XUpTex *)p)->id == c.id) { c.verdict = -1; return 1; } return 0;
+  case X_MIPS: if (n >= sizeof(XMips) && ((const XMips *)p)->id == c.id) { c.verdict = -1; return 1; } return 0;
+  case X_DESTROY: if (n >= 4 && *(const uint32_t *)p == c.id) { c.verdict = -1; return 1; } return 0;
+  default: c.verdict = -1; return 1;                 // a draw, copy, readback, snapshot, Present, ...: may read it
+  }
+}
+}
+void Exec12::discard_at_present() {
+  for (uint32_t id : frame_tg) {
+    Res *x = res_of(id);
+    if (!x || !x->r || x->levels != 1 || x->faces != 1) { c_disc_keep++; continue; }
+    bool ds = x->dsv != ~0u && x->rtv.empty();
+    uint32_t f = x->d3dfmt;
+    bool stencil = f == D3DFMT_D24S8 || f == D3DFMT_D15S1 || f == D3DFMT_D24X4S4;
+    DiscCtx c = {id, ds, stencil, tgt_rt.level || tgt_rt.face ? ~0u : tgt_rt.id, tgt_ds, 0};
+    d8_peek(disc_look, &c);
+    if (c.verdict != 1) { c_disc_keep++; continue; }
+    to(*x, ds ? D3D12_RESOURCE_STATE_DEPTH_WRITE : D3D12_RESOURCE_STATE_RENDER_TARGET); barriers();
+    cl->DiscardResource(x->r, nullptr);
+    if (ds) c_disc_ds++; else c_disc_rt++;
+  }
+  frame_tg.clear();
+}
 void Exec12::present() {
   Res *b = res_of(X_BACKBUFFER);
   if (!swap || !b) return;
+  if (discard_hints && !frame_tg.empty() && !lost) discard_at_present();
   to(*b, D3D12_RESOURCE_STATE_PRESENT);
   bb_st[bbi] = b->st;
   barriers();
@@ -1735,6 +1795,8 @@ void Exec12::present() {
   if (!snap_pend.empty()) snap_poll();
   if (++c_frames >= 600) {
     double f = c_frames;
+    if (discard_hints) { d8_disc_rt_t += c_disc_rt; d8_disc_ds_t += c_disc_ds; d8_disc_keep_t += c_disc_keep; d8_log("discard_hints, %u frames: %.2f render targets and %.2f depth surfaces discarded a frame, %.2f kept (the next use not a whole clear, or not sent yet)",
+                                c_frames, c_disc_rt / f, c_disc_ds / f, c_disc_keep / f); c_disc_rt = c_disc_ds = c_disc_keep = 0; }
     d8_log("D3D12 binds, %u frames: %.0f draws, %.0f pipeline switches, %.0f texture tables, %.0f sampler tables (%.0f heap changes), %.0f barriers a frame; "
            "%u pipelines made (%u from the library), %u shaders compiled (%u from the disk cache): %.1f ms making them in all",
            c_frames, c_draws / f, c_pso / f, c_srvtab / f, c_smptab / f, c_heapsw / f, c_bars / f, c_pso_new, c_pso_loaded, c_cmp_new, c_cmp_loaded, c_pso_ms + c_cmp_ms);
@@ -1764,6 +1826,9 @@ void Exec12::shutdown() {
   if (qrb) { qrb->Unmap(0, nullptr); rel(qrb); } rel(qh);
   size_t n = 0; for (auto &r : res) n += r.second.kind != 4 && r.first < 0xFFFFFF00u;
   if (started && c_frames) tstat_log(c_frames);              // (the frames since the last line)
+  if (discard_hints) { d8_disc_rt_t += c_disc_rt; d8_disc_ds_t += c_disc_ds; d8_disc_keep_t += c_disc_keep;
+    d8_log("discard_hints totals: %llu render targets and %llu depth surfaces discarded, %llu kept", (unsigned long long)d8_disc_rt_t,
+           (unsigned long long)d8_disc_ds_t, (unsigned long long)d8_disc_keep_t); }
   if (started)
     d8_log("executor shutdown: %u objects still held besides the back buffer (D3D12; %llu pipeline states made, %llu waits for room in the upload ring; "
            "draw_merge: %llu merged draws took in %llu others, the slots started again %llu times)", (unsigned)n, (unsigned long long)pso_made, (unsigned long long)ring_waits,

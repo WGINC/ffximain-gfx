@@ -5493,6 +5493,24 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   with mode=remote, now with crash reporting; optional), and the installer (ffxi_kit, install.bat /defaults, the game
   started with nothing else). install.bat /defaults: the kit's .ini files replace the folder's, kept as .before_kit.
 
+## 13 Nov (twenty-third entry): the architecture items built (the owner: "do all of them")
+
+- **What the program detects:** mode=remote starts d8x_arm64.exe when IsWow64Process2 names an ARM64 machine
+  (d8_link.cpp), else d8x.exe; backend=d3d12 falls back to Direct3D 11; the D3D12 executor checks the driver's sampler
+  heaps; speedfix logs the CPU's SSE and the game's own flag. Not read: the GPU's vendor, the host (Parallels or not).
+- **mip_exec (default 1):** levels made by the executor from X_MIPS records, in stream order (no frame without levels;
+  t8: all 42 scenes equal to the build on the game's thread, D3D11 and D3D12, thread and remote).
+- **SSE2 box filter** (x86, chosen by the CPU check), equal to the plain loop byte for byte (mip_test: 6 textures, odd
+  and even sizes). The averaging was not the cost: the copies of each level were; removed (2048x4096: 51 -> 10 ms).
+- **discard_hints (D3D12, default 0):** DiscardResource at Present for targets whose next use, in the records already
+  written (d8_peek over the ring), is a whole Clear. t8 thread mode: 3 render targets and 3 depth surfaces discarded,
+  every scene identical. Its effect on the owner's Mac is what start hints measures.
+- **Session d12_22nov:** final, hints (discard_hints=1), arm (mode=remote: d8x_arm64.exe with mip_exec in it), and the
+  installer.
+- The d3d8on11 suite of 13 Nov (11:00) failed one check, the D3D12 GPU-time line; it ran alongside speedfix's suite
+  and the crash tests, under which Wine makes no second device (0x887A0004); speedfix's precise_pacing check on
+  6AE818B4 failed in a run alongside other tests. Both rerun alone below.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

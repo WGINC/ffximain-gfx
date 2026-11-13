@@ -136,38 +136,92 @@ static void from_rgba(D3DFORMAT f, UINT w, UINT h, const std::vector<uint8_t> &i
 static double coverage(const std::vector<uint8_t> &p, float scale) {
   size_t n = 0, c = 0; for (size_t i = 3; i < p.size(); i += 4) { n++; c += p[i] * scale >= 127.5f; } return n ? (double)c / n : 0;
 }
+// ---- the 2x2 box average of a level, rows of 4-byte texels (22 Nov: SSE2 on x86 when the CPU has it) ----------------
+// mip_simd: -1 (the default) the CPU decides, 0 the plain loop, 1 SSE2 if the CPU has it. Both give the same bytes:
+// (a + b + c + d + 2) / 4 per channel, in 16-bit lanes that cannot overflow (4 x 255 + 2) (mip_test checks them equal)
+int mip_simd = -1;
+static void box_plain(const uint8_t *cur, UINT cw, UINT ch, uint8_t *nxt, UINT nw, UINT nh) {
+  for (UINT y = 0; y < nh; y++) for (UINT x = 0; x < nw; x++) {
+    UINT x0 = std::min(2 * x, cw - 1), x1 = std::min(2 * x + 1, cw - 1), y0 = std::min(2 * y, ch - 1), y1 = std::min(2 * y + 1, ch - 1);
+    for (int k = 0; k < 4; k++) {
+      unsigned s = cur[((size_t)y0 * cw + x0) * 4 + k] + cur[((size_t)y0 * cw + x1) * 4 + k] + cur[((size_t)y1 * cw + x0) * 4 + k] + cur[((size_t)y1 * cw + x1) * 4 + k];
+      nxt[((size_t)y * nw + x) * 4 + k] = (uint8_t)((s + 2) / 4);
+    }
+  }
+}
+#if defined(__i386__) || defined(__x86_64__)
+#include <emmintrin.h>
+__attribute__((target("sse2"))) static void box_sse2(const uint8_t *cur, UINT cw, UINT ch, uint8_t *nxt, UINT nw, UINT nh) {
+  // with cw, ch >= 2 no texel is read twice (an odd last row or column is never reached: nw = cw / 2): two output
+  // texels at a time from four input columns while 2x + 3 <= cw - 1, the rest by the plain rule
+  const __m128i z = _mm_setzero_si128(), two = _mm_set1_epi16(2);
+  for (UINT y = 0; y < nh; y++) {
+    const uint8_t *r0 = cur + (size_t)(2 * y) * cw * 4, *r1 = cur + (size_t)(2 * y + 1) * cw * 4; uint8_t *o = nxt + (size_t)y * nw * 4;
+    UINT x = 0;
+    for (; x + 1 < nw; x += 2) {
+      __m128i a = _mm_loadu_si128((const __m128i *)(r0 + 8 * x)), b = _mm_loadu_si128((const __m128i *)(r1 + 8 * x));
+      __m128i lo = _mm_add_epi16(_mm_unpacklo_epi8(a, z), _mm_unpacklo_epi8(b, z));   // texels 2x, 2x+1 (rows added)
+      __m128i hi = _mm_add_epi16(_mm_unpackhi_epi8(a, z), _mm_unpackhi_epi8(b, z));   // texels 2x+2, 2x+3
+      lo = _mm_add_epi16(lo, _mm_srli_si128(lo, 8)); hi = _mm_add_epi16(hi, _mm_srli_si128(hi, 8));
+      __m128i s = _mm_srli_epi16(_mm_add_epi16(_mm_unpacklo_epi64(lo, hi), two), 2);
+      _mm_storel_epi64((__m128i *)(o + 4 * x), _mm_packus_epi16(s, z));
+    }
+    for (; x < nw; x++) for (int k = 0; k < 4; k++)
+      o[4 * x + k] = (uint8_t)((r0[8 * x + k] + r0[8 * x + 4 + k] + r1[8 * x + k] + r1[8 * x + 4 + k] + 2) / 4);
+  }
+}
+static bool have_sse2() { static int h = -1; if (h < 0) { __builtin_cpu_init(); h = __builtin_cpu_supports("sse2") ? 1 : 0; } return h != 0; }
+#endif
+const char *mip_simd_name() {
+#if defined(__i386__) || defined(__x86_64__)
+  return mip_simd != 0 && have_sse2() ? "SSE2 (the CPU has it)" : "the plain loop";
+#else
+  return "the plain loop (the compiler's own vectorising on this architecture)";
+#endif
+}
+static void box(const uint8_t *cur, UINT cw, UINT ch, uint8_t *nxt, UINT nw, UINT nh) {
+#if defined(__i386__) || defined(__x86_64__)
+  if (mip_simd != 0 && cw >= 2 && ch >= 2 && have_sse2()) { box_sse2(cur, cw, ch, nxt, nw, nh); return; }
+#endif
+  box_plain(cur, cw, ch, nxt, nw, nh);
+}
 int mip_build(D3DFORMAT f, UINT w, UINT h, const uint8_t *level0, UINT nlevels, std::vector<std::vector<uint8_t>> &out, bool *cutout_out) {
   out.clear(); if (cutout_out) *cutout_out = false;
   if (!mip_format_ok(f) || nlevels < 2) return 0;
-  std::vector<uint8_t> cur, nxt; to_rgba(f, w, h, level0, cur);
+  // A8R8G8B8 is read in place (its level 0 is already B, G, R, A); the others are converted first. Each level is
+  // made into its own buffer once (22 Nov: the copies cost more than the averaging: 51 ms for the 2048x4096 atlas)
+  std::vector<uint8_t> conv, nxt;
+  const uint8_t *cur = level0; size_t cur_n = (size_t)w * h * 4;
+  if (f != D3DFMT_A8R8G8B8) { to_rgba(f, w, h, level0, conv); cur = conv.data(); }
   bool cutout = f != D3DFMT_X8R8G8B8, anyt = false;
-  for (size_t i = 3; i < cur.size() && cutout; i += 4) { if (cur[i] != 0 && cur[i] != 255) cutout = false; if (cur[i] != 255) anyt = true; }
+  for (size_t i = 3; i < cur_n && cutout; i += 4) { if (cur[i] != 0 && cur[i] != 255) cutout = false; if (cur[i] != 255) anyt = true; }
   if (f == D3DFMT_DXT3) {                                   // 4-bit alpha: 0 and 15 only are a cutout
-    cutout = true; anyt = false; for (size_t i = 3; i < cur.size(); i += 4) { if (cur[i] != 0 && cur[i] != 255) { cutout = false; break; } if (cur[i] != 255) anyt = true; }
+    cutout = true; anyt = false; for (size_t i = 3; i < cur_n; i += 4) { if (cur[i] != 0 && cur[i] != 255) { cutout = false; break; } if (cur[i] != 255) anyt = true; }
   }
   cutout = cutout && anyt; if (cutout_out) *cutout_out = cutout;
-  double cov0 = cutout ? coverage(cur, 1.0f) : 0;
+  double cov0 = 0;
+  if (cutout) { std::vector<uint8_t> v(cur, cur + cur_n); cov0 = coverage(v, 1.0f); }
+  bool plain = !is_block(f) && !cutout;                     // the averaged level is the level as stored
+  std::vector<uint8_t> prev;                                // the averaged level before scaling or encoding
   UINT cw = w, ch = h;
   for (UINT l = 1; l < nlevels; l++) {
     UINT nw = std::max(1u, cw / 2), nh = std::max(1u, ch / 2);
-    nxt.assign((size_t)nw * nh * 4, 0);
-    for (UINT y = 0; y < nh; y++) for (UINT x = 0; x < nw; x++) {
-      UINT x0 = std::min(2 * x, cw - 1), x1 = std::min(2 * x + 1, cw - 1), y0 = std::min(2 * y, ch - 1), y1 = std::min(2 * y + 1, ch - 1);
-      for (int k = 0; k < 4; k++) {
-        unsigned s = cur[((size_t)y0 * cw + x0) * 4 + k] + cur[((size_t)y0 * cw + x1) * 4 + k] + cur[((size_t)y1 * cw + x0) * 4 + k] + cur[((size_t)y1 * cw + x1) * 4 + k];
-        nxt[((size_t)y * nw + x) * 4 + k] = (uint8_t)((s + 2) / 4);
+    nxt.resize((size_t)nw * nh * 4);
+    box(cur, cw, ch, nxt.data(), nw, nh);
+    if (plain) { out.push_back(std::move(nxt)); nxt = std::vector<uint8_t>(); cur = out.back().data(); }
+    else {
+      std::vector<uint8_t> lvl = nxt;
+      if (cutout) {                                         // the scale that gives level 0's share of alpha >= 128
+        float lo = 0.0f, hi = 8.0f;
+        for (int it = 0; it < 20; it++) { float m = (lo + hi) / 2; if (coverage(lvl, m) < cov0) lo = m; else hi = m; }
+        // coverage is a step function of the scale: the step nearer level 0's share is taken (either side of it)
+        float sc = fabs(coverage(lvl, lo) - cov0) < fabs(coverage(lvl, hi) - cov0) ? lo : hi;
+        for (size_t i = 3; i < lvl.size(); i += 4) lvl[i] = (uint8_t)std::min(255.0f, lvl[i] * sc + 0.5f);
       }
+      out.emplace_back(); from_rgba(f, nw, nh, lvl, out.back());
+      prev.swap(nxt); cur = prev.data();                      // the next level averages the unscaled one
     }
-    std::vector<uint8_t> lvl = nxt;
-    if (cutout) {                                         // the scale that gives level 0's share of alpha >= 128
-      float lo = 0.0f, hi = 8.0f;
-      for (int it = 0; it < 20; it++) { float m = (lo + hi) / 2; if (coverage(lvl, m) < cov0) lo = m; else hi = m; }
-      // coverage is a step function of the scale: the step nearer level 0's share is taken (either side of it)
-      float sc = fabs(coverage(lvl, lo) - cov0) < fabs(coverage(lvl, hi) - cov0) ? lo : hi;
-      for (size_t i = 3; i < lvl.size(); i += 4) lvl[i] = (uint8_t)std::min(255.0f, lvl[i] * sc + 0.5f);
-    }
-    out.emplace_back(); from_rgba(f, nw, nh, lvl, out.back());
-    cur.swap(nxt); cw = nw; ch = nh;
+    cw = nw; ch = nh;
   }
   return (int)out.size();
 }

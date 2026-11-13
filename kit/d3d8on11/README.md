@@ -232,6 +232,20 @@ becomes even; the distant names change little (their glyphs are drawn near their
 (the one-level texture with mipmaps on draws exactly as t8's own chain sampled trilinear, before and after a write to
 part of it, on both executors) and mip_test.
 
+**Architecture-specific (22 Nov).** `mip_exec=1` (default): a whole mip build is sent as X_MIPS with level 0 and
+made by the executor (d8_mip.cpp is in d8x.exe and d8x_arm64.exe too): in its thread, or natively in d8x_arm64.exe with
+mode=remote on an ARM64 machine; in stream order, so a draw after it has the levels (t8: every scene equal to the
+build on the game's thread, both executors, thread and remote). A level 0 larger than one ring record goes to
+mip_async. The box filter uses SSE2 on x86 when the CPU says it has it (`mip_simd`; the same bytes as the plain loop,
+mip_test), and a build no longer copies each level (2048x4096 A8R8G8B8: 51 ms -> 10 ms natively here). The log names
+the path (`mipmaps: the levels are averaged here with ...`). `discard_hints=1` (Direct3D 12, off by default): at
+Present, each render target and depth surface bound this frame (one subresource, not the back buffer) is checked
+against the records already in the ring after the Present (d8_peek): if its next use is a Clear of all of it while
+bound (a depth surface with stencil: depth and stencil), DiscardResource; anything that may read it first, a partial
+clear, or the end of what is written keeps it. For tile-based GPUs, whose stores of such a target are then not
+needed; whether a translation layer (Parallels to Metal) makes use of it is not known. t8: every scene and the random
+cases identical on and off (D3D12, thread mode; under Wine the remote D3D12 executor falls back to D3D11).
+
 **Crash reporting (21 Nov; d8_common.cpp).** Exceptions of the fatal kinds (access violation, illegal instruction,
 stack overflow, divide by zero, fail-fast, heap corruption ...) are logged with their module and offset, the thread
 and the registers, and the values on the stack that point into a module's code (a scan, not an unwound stack): first

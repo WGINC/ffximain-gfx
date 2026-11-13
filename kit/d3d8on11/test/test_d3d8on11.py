@@ -749,12 +749,28 @@ if 'thread' in MODES:
              off.get('mipmaps_one') != a and bool(an.get('mipmaps_one')) and 'mipmaps=1: one-level' in t
         print('%s: %s: mipmaps=1 draws the one-level texture as its mip chain sampled trilinear (%s pixels differ), and again after a write to part of it (%s differ); the strip and the reference unchanged; anisotropy=8 draws' %
               ('ok' if ok else 'FAIL', be, px(a, b) if a and b else 'no picture', px(pa, pb) if pa and pb else 'no picture')); bad += not ok
-        sy = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='1', D8ON11_MIP_ASYNC='0'))
-        ok = all(sy.get(k) == on.get(k) for k in ('mipmaps_one', 'mipmaps_ref', 'mipmaps_part_one', 'mipmaps_part_ref', 'mipmaps_pointmag')) and 'mip_async=1' in t
-        print('%s: %s: mip_async=1 (levels built on the worker, taken at a Present) draws the mipmaps scenes as mip_async=0 does' % ('ok' if ok else 'FAIL', be)); bad += not ok
-        print('note: %s: scenes that draw a one-level texture in the frame it was made, so with mip_async before its levels come: %s' % (be, ', '.join(sorted(n for n in sy if not n.startswith('mipmaps') and sy[n] != on.get(n))) or 'none'))
+        sy = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='1', D8ON11_MIP_EXEC='0', D8ON11_MIP_ASYNC='0'))
+        asy = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='1', D8ON11_MIP_EXEC='0', D8ON11_MIP_ASYNC='1'))
+        ok = sy == on and 'mip_exec=1' in t and len(on) > 30
+        print('%s: %s: mip_exec=1 (the levels made in the executor, in stream order; the default) draws every scene as the build on the game\'s thread (%d scenes)' % ('ok' if ok else 'FAIL', be, len(on))); bad += not ok
+        ok = all(sy.get(k) == asy.get(k) for k in ('mipmaps_one', 'mipmaps_ref', 'mipmaps_part_one', 'mipmaps_part_ref', 'mipmaps_pointmag'))
+        print('%s: %s: mip_async=1 (mip_exec=0: levels built on the worker, taken at a Present) draws the mipmaps scenes as the build on the game\'s thread' % ('ok' if ok else 'FAIL', be)); bad += not ok
+        print('note: %s: scenes that draw a one-level texture in the frame it was made, so with mip_async before its levels come: %s' % (be, ', '.join(sorted(n for n in sy if not n.startswith('mipmaps') and sy[n] != asy.get(n))) or 'none'))
         ch = sorted(n for n in off if not n.startswith('mipmaps') and off[n] != sy.get(n))
         print('note: %s: scenes that minify a one-level texture in a 3D draw, changed by mipmaps=1: %s' % (be, ', '.join(ch) or 'none'))
+# discard_hints (22 Nov, d8_exec12.cpp): at Present, a target whose next use already sent is a whole Clear is
+# discarded. Every scene and the random cases must draw as without it (Direct3D 12, thread mode: the ring holds the
+# next frame's records), and some targets must have been discarded (the shutdown line)
+if 'thread' in MODES:
+    clear_logs(); s_on = scenes(ours, True, 'thread', dict(D12, D8ON11_DISCARD_HINTS='1')); t = logs()
+    s_off = scenes(ours, True, 'thread', dict(D12, D8ON11_DISCARD_HINTS='0'))
+    pick = lambda o: [l for l in o.splitlines() if l.startswith('scene ')]
+    r_on = pick(run(ours, 'random cases.txt', True, 'thread', dict(D12, D8ON11_DISCARD_HINTS='1')))
+    r_off = pick(run(ours, 'random cases.txt', True, 'thread', dict(D12, D8ON11_DISCARD_HINTS='0')))
+    m = re.findall(r'discard_hints totals: (\d+) render targets and (\d+) depth surfaces discarded, (\d+) kept', t)
+    used = bool(m) and int(m[-1][0]) + int(m[-1][1]) > 0
+    ok = s_on == s_off and len(s_on) > 30 and r_on == r_off and len(r_on) > 0 and used
+    print('%s: d3d12 discard_hints: %d scenes and %d random cases identical on and off; targets discarded (%s)' % ('ok' if ok else 'FAIL', len(s_on), len(r_on), m[-1] if m else 'no line')); bad += not ok
 # crash reporting (21 Nov, d8_common.cpp): t8 crash writes to address 0x10 after making the device; the log must hold
 # the exception with t8.exe and its offset, first chance and unhandled, the filter t8 set before d3d8.dll's must still
 # run (exit 3), and the previous start's log must be kept as d3d8on11_prev.log

@@ -167,6 +167,17 @@ void TexCore::build_mips() {
   double t0 = qpc_now_ms();
   std::vector<MipBox> ch;
   bool part = !whole && gen && !cut && mip_update(fmt, w, h, b.data(), xlevels, box, mcpu, ch);
+  // mip_exec (22 Nov): the executor makes the levels from level 0 sent with them, in stream order, so a draw after
+  // this sees them; not when one record would not hold level 0 (the ring's largest payload): then as below
+  size_t l0n = (size_t)d8_pitch(fmt, w) * d8_rows(fmt, h);
+  if (!part && dev->mip_exec && l0n + sizeof(XMips) <= dev->link->max_payload()) {
+    XMips m = {id, (uint32_t)fmt, w, h, xlevels};
+    dev->link->put(X_MIPS, &m, sizeof m, b.data(), (uint32_t)l0n);
+    mcpu.clear(); cut = false;                              // (no copy here: a later write sends level 0 whole again)
+    if (!gen) dev->mip_textures++;
+    gen = true; dev->sgen++; dev->mip_built++; dev->mip_built_t++; dev->mip_exec_n++;
+    return;
+  }
   if (!part && dev->mipw) {                                 // mip_async: the build on the worker, level 0 as it is now
     MipJob *j = new MipJob; j->id = id; j->serial = mserial; j->f = fmt; j->w = w; j->h = h; j->xl = xlevels;
     j->l0.assign(b.begin(), b.begin() + (size_t)d8_pitch(fmt, w) * d8_rows(fmt, h));

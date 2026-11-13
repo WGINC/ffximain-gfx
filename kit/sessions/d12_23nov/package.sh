@@ -11,7 +11,7 @@ for f in xikit.dll gfx_recon_ingame.dll xikit_manifest.txt xikit_measure.txt xik
 cp "$D"/xikit_manifest_*.txt "$T/kit/"                  # every other build the kit has a manifest for (6AC37846, 6AE818B4, ...)
 cp "$ROOT/kit/speedfix/dist/speedfix.dll" "$ROOT/kit/xiload/dist/xiload.exe" "$T/kit/"
 cp "$ROOT/kit/d3d8on11/dist/d3d8.dll" "$ROOT/kit/d3d8on11/dist/d8x.exe" "$ROOT/kit/d3d8on11/dist/d8x_arm64.exe" "$T/d12_23nov/d3d8on11/"
-( cd "$H" && cp -r README.md _kit.bat start.bat restore.bat mark.bat collect.bat prof capture.bat names.bat "$T/d12_23nov/" )
+( cd "$H" && cp -r README.md _kit.bat start.bat restore.bat mark.bat collect.bat prof arm capture.bat names.bat "$T/d12_23nov/" )
 cp "$PM" "$T/d12_23nov/tools/"
 { echo "PresentMon-2.3.0-x64.exe: Intel's PresentMon 2.3.0 (MIT licence), from"
   echo "https://github.com/GameTechDev/PresentMon/releases/download/v2.3.0/PresentMon-2.3.0-x64.exe"

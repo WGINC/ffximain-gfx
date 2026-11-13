@@ -1,6 +1,6 @@
 # The 23 Nov session: where the game's own thread spends its time; the zone-change fix
 
-One start of the game and the installer, about 10 minutes.
+Two starts of the game and the installer, about 15 minutes.
 
 ## What your 22 Nov run showed
 
@@ -10,7 +10,7 @@ One start of the game and the installer, about 10 minutes.
   renderer's 1,024 snapshot slots (the area had up to 877 occlusion objects, 3 pictures each) and waited for the GPU.
   Now 4,096 slots.
 - The arm crash: in Windower's Hook.dll, on the kit's own measuring thread, while it read window titles. It reads
-  them without a message now. (Not tried again here.)
+  them without a message now; start arm tries it again.
 
 To find what in the game's own code takes the time, this start samples the game's thread every millisecond: where it
 is, and which game functions are on its stack. The sampling costs a little itself, so this start's frame rate is not
@@ -31,7 +31,14 @@ Your usual settings. The same town street as last time.
 
 Close the game, `restore.bat`.
 
-## 2. The installer, updated
+## 2. The ARM64 executor again (`start.bat arm`)
+
+The renderer's back end as a native ARM64 process (mode=remote) instead of inside the x86-emulated game, which leaves
+more of the CPU to the game's own thread. The same town street: `mark walk`, 2 minutes walking, as in part 1. If it
+crashes: wait, close it, `collect.bat` at once, and say so (the crash is logged with where it happened). Close the
+game, `restore.bat`.
+
+## 3. The installer, updated
 
 In `ffxi_kit`: `install.bat /defaults`, start the game as usual, change zone once, and play a minute. Close the game.
 (Keep it installed or `uninstall.bat`, as you like.)

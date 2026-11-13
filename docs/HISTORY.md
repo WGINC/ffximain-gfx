@@ -5145,6 +5145,20 @@ passed on the same machine. So Direct3D 12 there draws some draws with other inp
 established. Next: run_variants.bat runs Direct3D 12 six ways (D8ON11_D3D12_DIAG: sm4, smpdirect, nocheck, fresh,
 sync; d8_exec12.cpp diag()), each against Direct3D 11 (cmpvariants.py). Under Wine every variant draws as the base.
 
+## 13 Nov (fifth entry): the variants run, and format probes at the start
+
+run_variants.bat on Parallels (cmpvariants.py): every Direct3D 12 variant (base, sm4, smpdirect, nocheck, fresh, sync)
+fails the same four scenes (rhw_texture, dxt1_mips_fvf104, rt_downsample, rt_sample_after) and 22-23 of the 150 cases
+of cases1. So the difference is deterministic and is not explained by shader model 5, the sampler copy path, the
+sampler check, descriptor table reuse, or work overlapping between draws. What the passing sampler check and the
+failing scenes do not share: the sampler check's texture is R8G8B8A8; the game's and the failing scenes' textures are
+B8G8R8A8, B8G8R8X8 and BC1, several with mip levels. That is the next thing tested, not an established cause.
+Exec12::format_report() now logs CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT) for each format d8_fmt maps, and
+tex_checks() draws test pixels through B8G8R8A8 and B8G8R8X8 (LINEAR between the four texels of a 2x2 checker), the
+three levels of a B8G8R8A8 4x4 (SampleLevel 0-2) and the four levels of a BC1 8x8 (solid-colour blocks, uploaded with
+whole-block footprints as upload_tex writes them). Under Wine all four come out right; B5G6R5, B5G5R5A1 and B4G4R4A4
+report "query failed" there (vkd3d). device_check/run_formats.bat runs one start and the scenes on Direct3D 12.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

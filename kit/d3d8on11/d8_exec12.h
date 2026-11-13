@@ -97,7 +97,15 @@ struct Exec12 {
   // init's sampler check draws through each way and keeps the first that samples right (sampler_check)
   bool smp_copy = true; std::unordered_map<std::string, uint32_t> smp_cpu;
   void write_samplers(uint32_t table, const D3D12_SAMPLER_DESC *s);   // eight descriptions into gv_smp at `table`
-  int sampler_check(bool copy, uint32_t px[2]);   // bit 0: the linear sample blends; bit 1: the clamped sample clamps; -1: not run
+  int sampler_check(bool copy, uint32_t px[2]);
+  // (13 Nov) the owner's picture check on Parallels: some textures drawn wrong although sampler_check passes; these say
+  // what the driver supports for each format the D3D8 side uses, and draw test pixels through those formats
+  void format_report();
+  // a texture of `fmt` (levels: each level's rows, packed, `pitch` bytes a row of texels or blocks), sampled in four
+  // pixels: mode 0 Sample(s0 LINEAR, centre) in pixel 0; mode 1 SampleLevel(s0, centre, i) in pixel i. RGBA of px[0..3]
+  bool tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::vector<uint8_t>> &levels, const std::vector<UINT> &pitch,
+                 const std::vector<UINT> &rows, int mode, uint32_t px[4]);
+  void tex_checks();   // bit 0: the linear sample blends; bit 1: the clamped sample clamps; -1: not run
   uint32_t null_srv2d = ~0u, null_srvcube = ~0u;   // in h_srv
   ID3D12RootSignature *rs = nullptr;
 

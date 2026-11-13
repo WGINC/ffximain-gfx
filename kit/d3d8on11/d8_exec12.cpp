@@ -307,6 +307,7 @@ int32_t Exec12::init(const XInit &x, bool resize) {
       else if (rb2 == 3) smp_copy = false;
       else { d8_log("D3D12: this driver does not sample as the stream asks by either way: Direct3D 11 runs the stream"); return D3DERR_NOTAVAILABLE; }
       checked:; }
+    format_report(); tex_checks();
     ts_init(); ts_begin();
     D3D12_FEATURE_DATA_D3D12_OPTIONS op = {}; dev->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &op, sizeof op);
     d8_log("D3D12 executor: device made; resource binding tier %d; upload ring %d MB; swap chain %ux%u, FLIP_DISCARD, %d buffers; up to %u frames in flight",
@@ -892,6 +893,146 @@ void Exec12::flush_run() {
   o.draws += n;
   if (n > 1 && !mg_fell) { mg_runs++; mg_saved += n - 1; mg_total_runs++; mg_total_saved += n - 1; }
   { XDraw tl; memcpy(&tl.stream, run_tails.data() + (size_t)(n - 1) * XDRAW_TAIL, XDRAW_TAIL); last_site = o.last_site = tl.site; }
+}
+
+// ---- formats and texture probes (13 Nov) --------------------------------------------------------------------------------
+void Exec12::format_report() {
+  static const struct { DXGI_FORMAT f; const char *n; } fs[] = {
+    {DXGI_FORMAT_B8G8R8A8_UNORM, "B8G8R8A8"}, {DXGI_FORMAT_B8G8R8X8_UNORM, "B8G8R8X8"}, {DXGI_FORMAT_R8G8B8A8_UNORM, "R8G8B8A8"},
+    {DXGI_FORMAT_B5G6R5_UNORM, "B5G6R5"}, {DXGI_FORMAT_B5G5R5A1_UNORM, "B5G5R5A1"}, {DXGI_FORMAT_B4G4R4A4_UNORM, "B4G4R4A4"},
+    {DXGI_FORMAT_A8_UNORM, "A8"}, {DXGI_FORMAT_BC1_UNORM, "BC1"}, {DXGI_FORMAT_BC2_UNORM, "BC2"}, {DXGI_FORMAT_BC3_UNORM, "BC3"},
+    {DXGI_FORMAT_D24_UNORM_S8_UINT, "D24S8"}, {DXGI_FORMAT_D16_UNORM, "D16"}};
+  char line[1400]; size_t at = 0;
+  for (auto &e : fs) {
+    D3D12_FEATURE_DATA_FORMAT_SUPPORT fsup = {}; fsup.Format = e.f;
+    HRESULT h = dev->CheckFeatureSupport(D3D12_FEATURE_FORMAT_SUPPORT, &fsup, sizeof fsup);
+    unsigned s1 = SUCCEEDED(h) ? (unsigned)fsup.Support1 : 0;
+    at += snprintf(line + at, sizeof line - at, "%s%s %s%s%s%s%s%s", at ? "; " : "", e.n, FAILED(h) ? "(query failed)" : "",
+                   (s1 & D3D12_FORMAT_SUPPORT1_TEXTURE2D) ? "2d" : "-", (s1 & D3D12_FORMAT_SUPPORT1_SHADER_SAMPLE) ? " sample" : " NO-sample",
+                   (s1 & D3D12_FORMAT_SUPPORT1_MIP) ? " mip" : " NO-mip", (s1 & D3D12_FORMAT_SUPPORT1_RENDER_TARGET) ? " rt" : "",
+                   (s1 & D3D12_FORMAT_SUPPORT1_BLENDABLE) ? " blend" : "");
+    if (at >= sizeof line - 80) break;
+  }
+  d8_log("D3D12 format support: %s", line);
+}
+bool Exec12::tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::vector<uint8_t>> &lv, const std::vector<UINT> &pitch,
+                       const std::vector<UINT> &rows, int mode, uint32_t px[4]) {
+  if (!compile || lost) return false;
+  static const char *src =
+    "Texture2D t : register(t0); SamplerState s0 : register(s0);\n"
+    "float4 vs(uint i : SV_VertexID) : SV_Position { return float4(i == 1 ? 3 : -1, i == 2 ? -3 : 1, 0, 1); }\n"
+    "float4 ps0(float4 p : SV_Position) : SV_Target { return t.Sample(s0, float2(0.5, 0.5)); }\n"
+    "float4 ps1(float4 p : SV_Position) : SV_Target { return t.SampleLevel(s0, float2(0.5, 0.5), floor(p.x)); }\n";
+  ID3DBlob *vb = compile_hlsl(src, "vs", VS_T()), *pb = compile_hlsl(src, mode ? "ps1" : "ps0", PS_T());
+  if (!vb || !pb) { rel(vb); rel(pb); return false; }
+  UINT nl = (UINT)lv.size();
+  D3D12_HEAP_PROPERTIES hp = {}; hp.Type = D3D12_HEAP_TYPE_DEFAULT;
+  D3D12_RESOURCE_DESC rd = {}; rd.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D; rd.Width = w; rd.Height = h; rd.DepthOrArraySize = 1;
+  rd.MipLevels = (UINT16)nl; rd.Format = fmt; rd.SampleDesc.Count = 1;
+  ID3D12Resource *tex = nullptr, *rt = nullptr, *rb = nullptr; ID3D12PipelineState *pso = nullptr;
+  D3D12_RESOURCE_STATES ts = D3D12_RESOURCE_STATE_COPY_DEST, rs_ = D3D12_RESOURCE_STATE_RENDER_TARGET;
+  uint32_t si = ~0u, ri = ~0u; bool ok = false;
+  const bool bc = fmt == DXGI_FORMAT_BC1_UNORM || fmt == DXGI_FORMAT_BC2_UNORM || fmt == DXGI_FORMAT_BC3_UNORM;
+  do {
+    if (FAILED(dev->CreateCommittedResource(&hp, D3D12_HEAP_FLAG_NONE, &rd, ts, nullptr, __uuidof(ID3D12Resource), (void **)&tex))) break;
+    D3D12_RESOURCE_DESC rr = {}; rr.Dimension = D3D12_RESOURCE_DIMENSION_TEXTURE2D; rr.Width = 4; rr.Height = 1; rr.DepthOrArraySize = 1;
+    rr.MipLevels = 1; rr.Format = DXGI_FORMAT_R8G8B8A8_UNORM; rr.SampleDesc.Count = 1; rr.Flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+    if (FAILED(dev->CreateCommittedResource(&hp, D3D12_HEAP_FLAG_NONE, &rr, rs_, nullptr, __uuidof(ID3D12Resource), (void **)&rt))) break;
+    rb = readback_buffer12(dev, 512); if (!rb) break;
+    bool up = true;
+    for (UINT l = 0; l < nl && up; l++) {                  // each level as upload_tex writes one (block formats: whole blocks)
+      UINT lw = std::max(1u, w >> l), lh = std::max(1u, h >> l);
+      if (bc) { lw = (lw + 3) & ~3u; lh = (lh + 3) & ~3u; }
+      uint64_t pp = ((uint64_t)pitch[l] + 255) & ~255ull;
+      uint8_t *c; D3D12_GPU_VIRTUAL_ADDRESS g; uint64_t off;
+      if (!ring_alloc(pp * rows[l], 512, &c, &g, &off)) { up = false; break; }
+      for (UINT y = 0; y < rows[l]; y++) memcpy(c + y * pp, lv[l].data() + (size_t)y * pitch[l], pitch[l]);
+      D3D12_TEXTURE_COPY_LOCATION dl = {}, sl = {};
+      dl.pResource = tex; dl.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX; dl.SubresourceIndex = l;
+      sl.pResource = ring; sl.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT; sl.PlacedFootprint.Offset = off;
+      sl.PlacedFootprint.Footprint = {fmt, lw, lh, 1, (UINT)pp};
+      cl->CopyTextureRegion(&dl, 0, 0, 0, &sl, nullptr);
+    }
+    if (!up) break;
+    to(tex, ts, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE); barriers();
+    si = h_srv.take(dev); ri = h_rtv.take(dev); if (si == ~0u || ri == ~0u) break;
+    D3D12_SHADER_RESOURCE_VIEW_DESC v = srv_desc(fmt, false, 0, nl); dev->CreateShaderResourceView(tex, &v, h_srv.at(si));
+    dev->CreateRenderTargetView(rt, nullptr, h_rtv.at(ri));
+    D3D12_GRAPHICS_PIPELINE_STATE_DESC gd = {};
+    gd.pRootSignature = rs; gd.VS = {vb->GetBufferPointer(), vb->GetBufferSize()}; gd.PS = {pb->GetBufferPointer(), pb->GetBufferSize()};
+    D3D11_BLEND_DESC b11 = {}; b11.RenderTarget[0].RenderTargetWriteMask = 0xF; gd.BlendState = blend12(b11);
+    D3D11_RASTERIZER_DESC r11 = {}; r11.FillMode = D3D11_FILL_SOLID; r11.CullMode = D3D11_CULL_NONE; gd.RasterizerState = raster12(r11);
+    D3D11_DEPTH_STENCIL_DESC d11 = {}; gd.DepthStencilState = depth12(d11, false);
+    gd.SampleMask = 0xFFFFFFFFu; gd.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE; gd.NumRenderTargets = 1;
+    gd.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; gd.SampleDesc.Count = 1;
+    if (FAILED(dev->CreateGraphicsPipelineState(&gd, __uuidof(ID3D12PipelineState), (void **)&pso))) break;
+    if (smp_next + 8 > SMP_CAP) break;
+    uint32_t tab = smp_next; smp_next += 8;
+    D3D12_SAMPLER_DESC sd[8]; for (int i = 0; i < 8; i++) sd[i] = sampler12(nullptr);
+    sd[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; sd[0].AddressU = sd[0].AddressV = sd[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+    write_samplers(tab, sd);
+    uint64_t start = gv_head, phys = start % gv_cap; if (phys + 8 > gv_cap) { start += gv_cap - phys; phys = 0; } gv_head = start + 8;
+    D3D12_CPU_DESCRIPTOR_HANDLE t0 = gv_srv->GetCPUDescriptorHandleForHeapStart(); t0.ptr += (SIZE_T)phys * gv_inc;
+    for (uint32_t i = 0; i < 8; i++) { D3D12_CPU_DESCRIPTOR_HANDLE di = t0; di.ptr += (SIZE_T)i * gv_inc; dev->CopyDescriptorsSimple(1, di, h_srv.at(i ? null_srv2d : si), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV); }
+    D3D12_CPU_DESCRIPTOR_HANDLE rh = h_rtv.at(ri); cl->OMSetRenderTargets(1, &rh, FALSE, nullptr);
+    D3D12_VIEWPORT vp = {0, 0, 4, 1, 0, 1}; D3D12_RECT sc = {0, 0, 4, 1};
+    cl->RSSetViewports(1, &vp); cl->RSSetScissorRects(1, &sc); cl->SetPipelineState(pso);
+    D3D12_GPU_DESCRIPTOR_HANDLE gt = gv_srv->GetGPUDescriptorHandleForHeapStart(); gt.ptr += phys * gv_inc; cl->SetGraphicsRootDescriptorTable(3, gt);
+    D3D12_GPU_DESCRIPTOR_HANDLE gs = gv_smp->GetGPUDescriptorHandleForHeapStart(); gs.ptr += (UINT64)tab * smp_inc; cl->SetGraphicsRootDescriptorTable(4, gs);
+    cl->SetGraphicsRootConstantBufferView(0, ring_va); cl->SetGraphicsRootConstantBufferView(1, ring_va); cl->SetGraphicsRootConstantBufferView(2, ring_va);
+    cl->IASetPrimitiveTopology(D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+    cl->DrawInstanced(3, 1, 0, 0);
+    to(rt, rs_, D3D12_RESOURCE_STATE_COPY_SOURCE); barriers();
+    D3D12_TEXTURE_COPY_LOCATION rl = {}, ss = {};
+    rl.pResource = rb; rl.Type = D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT; rl.PlacedFootprint.Footprint = {DXGI_FORMAT_R8G8B8A8_UNORM, 4, 1, 1, 256};
+    ss.pResource = rt; ss.Type = D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX;
+    cl->CopyTextureRegion(&rl, 0, 0, 0, &ss, nullptr);
+    submit(); wait(fval);
+    uint8_t *m = nullptr;
+    if (lost || FAILED(rb->Map(0, nullptr, (void **)&m))) break;
+    for (int i = 0; i < 4; i++) memcpy(&px[i], m + 4 * i, 4);   // R8G8B8A8: byte 0 red
+    D3D12_RANGE none = {0, 0}; rb->Unmap(0, &none); ok = true;
+  } while (0);
+  if (si != ~0u) h_srv.give(si); if (ri != ~0u) h_rtv.give(ri);
+  bury(tex); bury(rt); bury(rb); bury(pso); rel(vb); rel(pb);
+  smp_tables.clear(); smp_next = 0; memo.smp_ok = false; bd = Bound(); bd.valid = true; tgt_dirty = true;
+  return ok;
+}
+static uint16_t rgb565(int r, int g, int b) { return (uint16_t)((r >> 3) << 11 | (g >> 2) << 5 | (b >> 3)); }
+void Exec12::tex_checks() {
+  auto rgb = [](uint32_t v) { char b[16]; snprintf(b, sizeof b, "%02x%02x%02x", v & 255, v >> 8 & 255, v >> 16 & 255); return std::string(b); };
+  uint32_t px[4];
+  // linear filtering of a 2x2 checker in BGRA / BGRX (memory: B, G, R, A): 128 grey is right
+  for (int f = 0; f < 2; f++) {
+    DXGI_FORMAT fm = f ? DXGI_FORMAT_B8G8R8X8_UNORM : DXGI_FORMAT_B8G8R8A8_UNORM;
+    std::vector<std::vector<uint8_t>> lv(1); lv[0] = {0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 255};
+    bool ok = tex_probe(fm, 2, 2, lv, {8}, {2}, 0, px);
+    d8_log("D3D12 texture check: %s, LINEAR between four texels: %s (808080 is right)%s", f ? "B8G8R8X8" : "B8G8R8A8",
+           ok ? rgb(px[0]).c_str() : "not drawn", ok && (px[0] & 255) >= 100 && (px[0] & 255) <= 155 ? ": right" : ": WRONG");
+  }
+  // mip levels in BGRA: 4x4 red, 2x2 green, 1x1 blue; SampleLevel 0, 1, 2
+  { std::vector<std::vector<uint8_t>> lv(3);
+    for (int i = 0; i < 16; i++) lv[0].insert(lv[0].end(), {0, 0, 255, 255});
+    for (int i = 0; i < 4; i++) lv[1].insert(lv[1].end(), {0, 255, 0, 255});
+    lv[2] = {255, 0, 0, 255};
+    bool ok = tex_probe(DXGI_FORMAT_B8G8R8A8_UNORM, 4, 4, lv, {16, 8, 4}, {4, 2, 1}, 1, px);
+    bool right = ok && (px[0] & 0xFFFFFF) == 0x0000FF && (px[1] & 0xFFFFFF) == 0x00FF00 && (px[2] & 0xFFFFFF) == 0xFF0000;
+    d8_log("D3D12 texture check: B8G8R8A8 levels 0, 1, 2 by SampleLevel: %s %s %s (ff0000 00ff00 0000ff is right): %s",
+           ok ? rgb(px[0]).c_str() : "-", ok ? rgb(px[1]).c_str() : "-", ok ? rgb(px[2]).c_str() : "-", right ? "right" : "WRONG"); }
+  // mip levels in BC1 (DXT1), 8x8 with four levels, each one solid colour (both block colours equal): red, green, blue, white
+  { static const int cols[4][3] = {{255, 0, 0}, {0, 255, 0}, {0, 0, 255}, {255, 255, 255}};
+    std::vector<std::vector<uint8_t>> lv(4); std::vector<UINT> pitch, rows;
+    for (int l = 0; l < 4; l++) {
+      UINT bw = std::max(1u, (8u >> l) / 4u), bh = bw;
+      uint16_t c = rgb565(cols[l][0], cols[l][1], cols[l][2]);
+      for (UINT b = 0; b < bw * bh; b++) { uint8_t blk[8] = {(uint8_t)c, (uint8_t)(c >> 8), (uint8_t)c, (uint8_t)(c >> 8), 0, 0, 0, 0}; lv[l].insert(lv[l].end(), blk, blk + 8); }
+      pitch.push_back(bw * 8); rows.push_back(bh);
+    }
+    bool ok = tex_probe(DXGI_FORMAT_BC1_UNORM, 8, 8, lv, pitch, rows, 1, px);
+    bool right = ok;
+    for (int l = 0; l < 4 && right; l++) for (int k = 0; k < 3; k++) { int v = (px[l] >> (8 * k)) & 255; right = right && std::abs(v - cols[l][k]) <= 8; }
+    d8_log("D3D12 texture check: BC1 levels 0, 1, 2, 3 (8x8 down to 1x1) by SampleLevel: %s %s %s %s (ff0000 00ff00 0000ff ffffff is right): %s",
+           ok ? rgb(px[0]).c_str() : "-", ok ? rgb(px[1]).c_str() : "-", ok ? rgb(px[2]).c_str() : "-", ok ? rgb(px[3]).c_str() : "-", right ? "right" : "WRONG"); }
 }
 
 // ---- a draw --------------------------------------------------------------------------------------------------------------

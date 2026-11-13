@@ -5628,6 +5628,21 @@ kit/sessions/d12_25nov/read_cap.py (phases from speedfix's marks; PresentMon cut
 - **Loading:** the executor's mip builds while walking, 1.6-4 ms the longest per 600 frames, 50-150 textures; at the
   login one of 155-176 ms per start (which texture is not logged).
 
+## 13 Nov (twenty-eighth entry): the owner's 26 Nov run -- present_interval 1 against 0, three buffers both
+
+Logs: d3d8on11_before_vsync is start free's (SyncInterval 0), d3d8on11.log vsync's (SyncInterval 1). Reader:
+kit/sessions/d12_26nov/read_smooth.py.
+- **Walking (mark 1):** free 6.88 ms frames, 88.1% of shown frames one refresh, 10.8% two, 27% of presents never
+  shown, 106 shown a second, 33.5 frames a minute over twice their neighbours. vsync 8.55 ms, 89.8% one refresh, 9.6%
+  two, 7.5% never shown, 108 a second, 225 a minute over twice their neighbours (with presents held to the refresh, a
+  frame that misses one takes two refreshes, 16.7 ms: the same measure counts those).
+- With SyncInterval 1, 7.5-9.3% of presents were still never shown. Inside Windows the screen pacing barely moved
+  (one refresh 88.1% to 89.8%). The owner: "both better and worse, some of the smooth camera is back, but not much".
+- **What these numbers cannot see:** PresentMon measures Windows' own composition inside the virtual machine.
+  Parallels then hands the picture to macOS on its own schedule; that step is not measured by anything here.
+- present_interval stays at the game's (0). The installer's d3d8on11.ini gets swap_buffers=3 (two starts with it:
+  21 and 34 a minute over twice their neighbours, against 46-187 in four starts with 2).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

@@ -5571,6 +5571,42 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   add to about 12%; what that is in frame time is measured by the 24 Nov session's start fast. Start native
   (sample=2, xisamp_arm64.exe) looks inside the 24%.
 
+## 13 Nov (twenty-sixth entry): the owner's 24 Nov run -- frame rate, what reaches the screen, ARM, the native sampler
+
+Logs: start.bat moves the previous start's d3d8on11.log to `_before_<next start>`, so before_arm0 is start fast's,
+before_arm1 arm0's, before_native arm1's, d3d8on11_prev.log native's, d3d8on11.log the installer's.
+- **Walking (xikit frames, mark 1):** fast 8.06 ms (124.0 fps), arm0 8.13 (123.0), arm1 7.30 (137.0), native 7.26
+  (137.8); 22 Nov final's walk 10.19 (98.1). fast and native ran the same settings: their 11% difference is the
+  spread between minutes of play, so a difference between starts smaller than that is not a measured one.
+- **On the screen (PresentMon DisplayedTime, after the first fifth of each start):** the display refreshes at 120 Hz
+  (shown times cluster at 8.33 ms). Start fast: 84% of shown frames held one refresh, 3.9% two, none three; 10% of
+  presents never shown (made faster than 120 a second); 112.9 shown a second; the change in on-screen time from one
+  frame to the next 1.33 ms on average. 22 Nov final: 66% one refresh, 20% two, 2% three; 85.8 shown a second; 3.49 ms.
+  PresentMon on pol.exe does not see the arm starts' frames (the ARM64 process presents them): its ~60 a second
+  "Copy with GPU GDI" presents there are something else in pol.exe, not identified.
+- **Frame to frame (game side, walking):** fast p95 11.0 ms, p99 17.8, max 41.6, mean change 1.16 ms; 22 Nov final
+  p95 14.5, p99 16.1, max 39.7, 0.76 ms. The installer start has no per-frame record: per 600 frames 2.5-11.7 ms;
+  speedfix's minutes 157, 124, 114 frames a second.
+- **ARM:** arm0 (env=0) and arm1 (env=1, env_windows=0) ran without a crash; arm1's environment file says the
+  display and window lists were not taken. Both earlier crashes were in those USER32 queries; with them off, none.
+  Each start has the same pair of exceptions at exit, after the last frame, since crash logging began (22 Nov, every
+  log): executing 0 with Hook.dll+0x5DBED, FFXiMain.dll+0x15A44 and FFXi.dll on the stack, then Config.dll+0x41F67
+  reading freed memory (Windower).
+- **The renderer is now a limit too:** the executor was busy 89-99% of the time in every start; the game thread waited
+  for it 0.7-1.7 ms a frame (ring pacing, two Presents ahead). Its 7.2-7.8 ms a frame is mostly Present (3.6-4.5 ms),
+  the hand-over to the compositor; draws 2.4 ms on x86, 1.8 on ARM64. Native ARM64 did not shorten the executor's frame.
+- **The native sampler (start native, walking, 92,118 samples):** 47% have the native pc in the emulator's translated
+  code (private executable memory at 0x4000000): the game's x86 code running. Their x86 stacks start with dead slots
+  (NtUserPeekMessage, the CRT's _controlfp at 0x10311C7A), so where in the game is not known from them. 18.4%
+  RingLink::watch in Dev::Present (d8_device.cpp:421): the wait for the renderer. 9.6% polcore.dll waiting
+  (ZwWaitForSingleObject, ZwReleaseMutant) under the game's 0x100E7B20 (calls 0x100F1770 and 0x100F1780, from
+  0x100E6453). Correction: the 23 Nov entry called 0x100E7B37 stale; that check disassembled build 6AE818B4, where
+  the samples' addresses are the analysed build's. In 6A995428 both are calls.
+- **Windower text:** notext (walking) 8.44 ms against walk 8.06 in the same start: unloading the text addons did not
+  make it faster.
+- **The zone change:** no snapshot slot ran out, 0 waiting readbacks in any start; the installer start's slowest
+  600 frames averaged 11.7 ms.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

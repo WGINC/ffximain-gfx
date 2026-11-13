@@ -307,7 +307,7 @@ int32_t Exec12::init(const XInit &x, bool resize) {
       else if (rb2 == 3) smp_copy = false;
       else { d8_log("D3D12: this driver does not sample as the stream asks by either way: Direct3D 11 runs the stream"); return D3DERR_NOTAVAILABLE; }
       checked:; }
-    format_report(); tex_checks();
+    format_report(); tex_checks(); filter_checks();
     ts_init(); ts_begin();
     D3D12_FEATURE_DATA_D3D12_OPTIONS op = {}; dev->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &op, sizeof op);
     d8_log("D3D12 executor: device made; resource binding tier %d; upload ring %d MB; swap chain %ux%u, FLIP_DISCARD, %d buffers; up to %u frames in flight",
@@ -916,14 +916,15 @@ void Exec12::format_report() {
   d8_log("D3D12 format support: %s", line);
 }
 bool Exec12::tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::vector<uint8_t>> &lv, const std::vector<UINT> &pitch,
-                       const std::vector<UINT> &rows, int mode, uint32_t px[4]) {
+                       const std::vector<UINT> &rows, int mode, uint32_t px[4], D3D12_FILTER filt, UINT aniso, uint32_t smp_at) {
   if (!compile || lost) return false;
   static const char *src =
     "Texture2D t : register(t0); SamplerState s0 : register(s0);\n"
     "float4 vs(uint i : SV_VertexID) : SV_Position { return float4(i == 1 ? 3 : -1, i == 2 ? -3 : 1, 0, 1); }\n"
     "float4 ps0(float4 p : SV_Position) : SV_Target { return t.Sample(s0, float2(0.5, 0.5)); }\n"
-    "float4 ps1(float4 p : SV_Position) : SV_Target { return t.SampleLevel(s0, float2(0.5, 0.5), floor(p.x)); }\n";
-  ID3DBlob *vb = compile_hlsl(src, "vs", VS_T()), *pb = compile_hlsl(src, mode ? "ps1" : "ps0", PS_T());
+    "float4 ps1(float4 p : SV_Position) : SV_Target { return t.SampleLevel(s0, float2(0.5, 0.5), floor(p.x)); }\n"
+    "float4 ps2(float4 p : SV_Position) : SV_Target { return t.Sample(s0, float2(0.47 + 0.01 * p.x, 0.5)); }\n";
+  ID3DBlob *vb = compile_hlsl(src, "vs", VS_T()), *pb = compile_hlsl(src, mode == 2 ? "ps2" : mode ? "ps1" : "ps0", PS_T());
   if (!vb || !pb) { rel(vb); rel(pb); return false; }
   UINT nl = (UINT)lv.size();
   D3D12_HEAP_PROPERTIES hp = {}; hp.Type = D3D12_HEAP_TYPE_DEFAULT;
@@ -966,10 +967,11 @@ bool Exec12::tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::v
     gd.SampleMask = 0xFFFFFFFFu; gd.PrimitiveTopologyType = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE; gd.NumRenderTargets = 1;
     gd.RTVFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM; gd.SampleDesc.Count = 1;
     if (FAILED(dev->CreateGraphicsPipelineState(&gd, __uuidof(ID3D12PipelineState), (void **)&pso))) break;
-    if (smp_next + 8 > SMP_CAP) break;
-    uint32_t tab = smp_next; smp_next += 8;
+    if (smp_at + 8 > SMP_CAP) break;
     D3D12_SAMPLER_DESC sd[8]; for (int i = 0; i < 8; i++) sd[i] = sampler12(nullptr);
-    sd[0].Filter = D3D12_FILTER_MIN_MAG_MIP_LINEAR; sd[0].AddressU = sd[0].AddressV = sd[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+    for (uint32_t t = 0; t < smp_at; t += 8) write_samplers(t, sd);     // (offset test) POINT / WRAP tables before it
+    uint32_t tab = smp_at;
+    sd[0].Filter = filt; sd[0].MaxAnisotropy = aniso; sd[0].AddressU = sd[0].AddressV = sd[0].AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
     write_samplers(tab, sd);
     uint64_t start = gv_head, phys = start % gv_cap; if (phys + 8 > gv_cap) { start += gv_cap - phys; phys = 0; } gv_head = start + 8;
     D3D12_CPU_DESCRIPTOR_HANDLE t0 = gv_srv->GetCPUDescriptorHandleForHeapStart(); t0.ptr += (SIZE_T)phys * gv_inc;
@@ -1035,6 +1037,47 @@ void Exec12::tex_checks() {
            ok ? rgb(px[0]).c_str() : "-", ok ? rgb(px[1]).c_str() : "-", ok ? rgb(px[2]).c_str() : "-", ok ? rgb(px[3]).c_str() : "-", right ? "right" : "WRONG"); }
 }
 
+// (13 Nov) the owner's formats run: every texture check right, yet the scenes' LINEAR draws came out point sampled on
+// Parallels. Their sampler differs from the checks' in Filter (D3D8 MIN/MAG LINEAR gives 0x14 or 0x15, d8_ff.cpp) and
+// MaxAnisotropy (the D3D8 stage's, 1 by default). Each filter d8_ff.cpp can send, with MaxAnisotropy 0 and 1, on a 2x2
+// checker: at the centre (no derivatives) and on a magnified ramp (Sample, 0.01 texel a pixel). A magnification filter
+// of LINEAR gives about 128 at both; POINT gives 0 or 255.
+void Exec12::filter_checks() {
+  static const struct { D3D12_FILTER f; const char *n; bool lin; } fl[] = {
+    {D3D12_FILTER_MIN_MAG_MIP_POINT, "00", false}, {D3D12_FILTER_MIN_MAG_POINT_MIP_LINEAR, "01", false},
+    {D3D12_FILTER_MIN_POINT_MAG_LINEAR_MIP_POINT, "04", true}, {D3D12_FILTER_MIN_POINT_MAG_MIP_LINEAR, "05", true},
+    {D3D12_FILTER_MIN_LINEAR_MAG_MIP_POINT, "10", false}, {D3D12_FILTER_MIN_LINEAR_MAG_POINT_MIP_LINEAR, "11", false},
+    {D3D12_FILTER_MIN_MAG_LINEAR_MIP_POINT, "14", true}, {D3D12_FILTER_MIN_MAG_MIP_LINEAR, "15", true},
+    {D3D12_FILTER_ANISOTROPIC, "55", true}};
+  std::vector<std::vector<uint8_t>> lv(1); lv[0] = {0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 0, 0, 0, 255};
+  char line[1200]; size_t at = 0; int wrong = 0;
+  for (auto &e : fl) for (UINT an = 0; an < 2; an++) {
+    UINT a = e.f == D3D12_FILTER_ANISOTROPIC ? (an ? 4 : 1) : an;
+    uint32_t c[4] = {}, r[4] = {};
+    bool ok = tex_probe(DXGI_FORMAT_B8G8R8A8_UNORM, 2, 2, lv, {8}, {2}, 0, c, e.f, a) &&
+              tex_probe(DXGI_FORMAT_B8G8R8A8_UNORM, 2, 2, lv, {8}, {2}, 2, r, e.f, a);
+    auto lin = [](uint32_t v) { int x = v & 255; return x >= 60 && x <= 195; };
+    bool right = ok && lin(c[0]) == e.lin && lin(r[1]) == e.lin;
+    if (!right) wrong++;
+    at += snprintf(line + at, sizeof line - at, "%s0x%s/aniso%u %d,%d%s", at ? "; " : "", e.n, a, ok ? (int)(c[0] & 255) : -1,
+                   ok ? (int)(r[1] & 255) : -1, right ? "" : " WRONG");
+    if (at >= sizeof line - 60) break;
+  }
+  d8_log("D3D12 filter check (filter/MaxAnisotropy centre,ramp; magnified LINEAR ~128, POINT 0 or 255): %s: %s", line,
+         wrong ? "SOME WRONG" : "all right");
+  // where the sampler table is in the heap: the checks above (and the sampler check) put theirs at its start; a draw's
+  // tables follow one another (8 samplers each). The same LINEAR sampler at other places, POINT tables before it
+  at = 0; wrong = 0;
+  for (uint32_t off : {0u, 8u, 64u, 1024u, 2040u}) {
+    uint32_t c[4] = {};
+    bool ok = tex_probe(DXGI_FORMAT_B8G8R8A8_UNORM, 2, 2, lv, {8}, {2}, 0, c, D3D12_FILTER_MIN_MAG_MIP_LINEAR, 0, off);
+    int v = ok ? (int)(c[0] & 255) : -1; bool right = v >= 60 && v <= 195; if (!right) wrong++;
+    at += snprintf(line + at, sizeof line - at, "%s%u: %d%s", at ? "; " : "", off, v, right ? "" : " WRONG");
+  }
+  d8_log("D3D12 sampler table place check (LINEAR at sampler N of the heap, POINT before it; ~128 is right): %s: %s", line,
+         wrong ? "SOME WRONG" : "all right");
+}
+
 // ---- a draw --------------------------------------------------------------------------------------------------------------
 void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   if (!compile) return;
@@ -1088,6 +1131,13 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   for (uint32_t i = 0; i < ns; i++) if (d.stage[i].tex) skd[i] = d.stage[i].sampler;
   uint32_t smp_tab;
   const bool fresh = diag("fresh");
+  // (13 Nov) D8ON11_D3D12_DIAG=smp0: every draw's samplers at the heap's first table, rewritten for each draw, the GPU
+  // waited for after each draw (as sync) so no draw in flight reads a table being rewritten. A diagnostic only
+  if (diag("smp0")) {
+    D3D12_SAMPLER_DESC sd[8];
+    for (uint32_t i = 0; i < 8; i++) sd[i] = sampler12(i < ns && d.stage[i].tex ? &d.stage[i].sampler : nullptr);
+    write_samplers(0, sd); smp_tab = 0; bd.smp_tab = ~0u; memo.smp_ok = false;
+  } else
   if (!fresh && memo.smp_ok && !memcmp(memo.skd, skd, sizeof skd)) smp_tab = memo.smp;
   else {
   std::string sk((const char *)skd, sizeof skd);
@@ -1374,8 +1424,8 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   if (bd.sref != d.stencil_ref) { cl->OMSetStencilRef(d.stencil_ref); bd.sref = d.stencil_ref; }
   for (UINT i = 0; i < nvb; i++) if (memcmp(&bd.vb[i], &vb[i], sizeof vb[i])) { cl->IASetVertexBuffers(i, 1, &vb[i]); bd.vb[i] = vb[i]; }
   if (use_ib && memcmp(&bd.ib, &ib, sizeof ib)) { cl->IASetIndexBuffer(&ib); bd.ib = ib; }
-  if (mi) { cl->DrawIndexedInstanced(mcount, 1, 0, 0, 0); if (diag("sync")) wait_idle(); return; }
-  struct SyncAfter { Exec12 *x; ~SyncAfter() { if (diag("sync")) x->wait_idle(); } } sync_after{this};
+  if (mi) { cl->DrawIndexedInstanced(mcount, 1, 0, 0, 0); if (diag("sync") || diag("smp0")) wait_idle(); return; }
+  struct SyncAfter { Exec12 *x; ~SyncAfter() { if (diag("sync") || diag("smp0")) x->wait_idle(); } } sync_after{this};
   switch (d.kind) {
   case XD_DRAW: cl->DrawInstanced(d.count, 1, d.start, 0); break;
   case XD_UP: cl->DrawInstanced(d.count, 1, 0, 0); break;

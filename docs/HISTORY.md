@@ -5159,6 +5159,25 @@ three levels of a B8G8R8A8 4x4 (SampleLevel 0-2) and the four levels of a BC1 8x
 whole-block footprints as upload_tex writes them). Under Wine all four come out right; B5G6R5, B5G5R5A1 and B4G4R4A4
 report "query failed" there (vkd3d). device_check/run_formats.bat runs one start and the scenes on Direct3D 12.
 
+## 13 Nov (sixth entry): the formats run: formats are right; LINEAR draws come out POINT
+
+run_formats.bat on Parallels: CheckFeatureSupport reports 2d, sample and mip for every format d8_fmt maps (D24S8 and
+D16 not sampleable as typed formats; d3d8on11 does not sample them). All four texture checks right (B8G8R8A8 and
+B8G8R8X8 LINEAR 808080; B8G8R8A8 levels by SampleLevel; BC1 levels 8x8 to 1x1). So the formats and the mip uploads are
+not the cause. The scenes differ exactly as in both earlier runs (same pixels). Where they differ, read from the
+pictures against the owner's Direct3D 11 run: every difference lies inside a draw with MAGFILTER/MINFILTER LINEAR
+(rhw_texture: only its third quad, the LINEAR one; its two POINT quads are identical), and every scene with a LINEAR
+draw differs while every scene without one is identical. The values are point samples: rhw_texture's third quad gives
+FF8080 FF8080 202060 202060 (each texel twice) where Direct3D 11 gives 8F5070 throughout; rt_downsample gives one
+texel's 2040C0 where Direct3D 11 blends to 8F9FDF. So on that machine a draw's LINEAR sampler is sampled as POINT,
+while the startup checks' LINEAR sampler samples right. Not established: why. One difference between them: the checks'
+sampler table always sits at the heap's start (sampler 0; the counter is reset after each check), a draw's at 8, 16,
+and on. New at the start: a filter check (every Filter d8_ff.cpp can send, MaxAnisotropy 0 and 1, at a point and on a
+magnified ramp) and a table place check (the LINEAR sampler at sampler 0, 8, 64, 1024 and 2040, POINT tables before
+it); D8ON11_D3D12_DIAG=smp0 puts every draw's samplers in the first table (the GPU waited for after each draw).
+run_formats.bat now also draws the scenes with smp0 and with Direct3D 11. Under Wine all right, smp0 identical to the
+base.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

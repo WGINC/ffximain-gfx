@@ -104,7 +104,9 @@ struct Exec12 {
   // a texture of `fmt` (levels: each level's rows, packed, `pitch` bytes a row of texels or blocks), sampled in four
   // pixels: mode 0 Sample(s0 LINEAR, centre) in pixel 0; mode 1 SampleLevel(s0, centre, i) in pixel i. RGBA of px[0..3]
   bool tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::vector<uint8_t>> &levels, const std::vector<UINT> &pitch,
-                 const std::vector<UINT> &rows, int mode, uint32_t px[4]);
+                 const std::vector<UINT> &rows, int mode, uint32_t px[4], D3D12_FILTER filt = D3D12_FILTER_MIN_MAG_MIP_LINEAR,
+                 UINT aniso = 0, uint32_t smp_at = 0);
+  void filter_checks();
   void tex_checks();   // bit 0: the linear sample blends; bit 1: the clamped sample clamps; -1: not run
   uint32_t null_srv2d = ~0u, null_srvcube = ~0u;   // in h_srv
   ID3D12RootSignature *rs = nullptr;

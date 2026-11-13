@@ -5509,7 +5509,10 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   installer.
 - The d3d8on11 suite of 13 Nov (11:00) failed one check, the D3D12 GPU-time line; it ran alongside speedfix's suite
   and the crash tests, under which Wine makes no second device (0x887A0004); speedfix's precise_pacing check on
-  6AE818B4 failed in a run alongside other tests. Both rerun alone below.
+  6AE818B4 failed in a run alongside other tests. Rerun alone: the d3d8on11 suite ALL OK (the GPU-time line included);
+  speedfix on 6A995428 ALL OK; on 6AE818B4 precise_pacing missed once more (median 16.723 ms, bound 16.667 +- 0.05),
+  then passed twice alone (16.711, 16.687), ALL OK; the pacing code did not change this session (sf_main.cpp's only
+  change since 10f3bab is name_smooth). A timing bound under Wine with its scheduler's spread, not a code change.
 
 ## 11 Nov: README sections retired (kept here word for word)
 

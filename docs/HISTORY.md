@@ -5420,6 +5420,30 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   longest 108-110 ms: the loading), then 0-300 builds per 600 frames, longest 1-25 ms; 2-4 textures dropped (a 1024x512
   rebuilt more than twice its size in 60 frames). The names pulse in plain too (seventeenth entry).
 
+## 13 Nov (nineteenth entry): the owner's 21 Nov run -- names, Direct3D 11, the captured shadow frame
+
+- **text (045732_4188):** "didn't change a damn thing": names magnified LINEAR pulse as before. The seventeenth
+  entry's reading (the POINT/LINEAR change at the atlas size) is refuted; text_linear removed. The pulse's cause is not
+  known.
+- **adv12 (050255_3988):** mark adv12 median 30.7 ms, p95 62.2, 35.6% of frames over 50 ms, Present median 18.5 ms
+  (the 20 Nov adv: 51.3 ms; the crowds differ).
+- **adv11 (051002_5640, 051123_4040):** two starts on Direct3D 11, both ended by the game stopping: the first after
+  533 frames (its last frame 2.37 s), the second after 6,257 frames, before the crowd (its last 1,500 frames: median
+  5.1 ms). No error, no hang report (none over 5 s) and no stack in either log; the first start's d3d8on11.log was
+  written over by the second's. Why is not known. No comparison with Direct3D 12 in the crowd.
+- **advcap (051403_10512, xikit_fcap_10512_0.fcap, 125 MB):** the back buffer is 1512x949; the game draws its scene
+  into a 3024x1898 render-target texture (its own resolution setting: twice the window each way) and the shadow
+  silhouettes into another 3024x1898 texture. 1,443 SetRenderTarget calls, 1,430 of them to those two. Replayed through
+  Wine's d3d8 with FCAP_PASSBOX=1 (kit/fcap/replay.c; each pass into a target other than the back buffer starts on a
+  sentinel, the texels that differ are boxed): 1,441 passes, 227 writing nothing detectable, 1,019 under 1% of their
+  target, 145 1-5%, 50 larger (the scene passes); median box of the 3024x1898 passes 0.18% (about 121x87 texels),
+  median 2 draws a pass. A blended draw that leaves a texel's value unchanged is not counted, so the boxes are lower
+  bounds for blended passes.
+- So each character's shadow work touches a small patch of two full-size targets, and the cost is the switching. A
+  way to cut it without changing the look would draw each silhouette into a small target and redirect the decal's
+  sampling to it; the decal samples the shared texture with earlier silhouettes in it, so that has to be shown
+  equal first. Not started: the owner's call (21 Nov: leave advanced shadows for another day if nothing simple shows).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

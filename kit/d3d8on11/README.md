@@ -221,7 +221,8 @@ MAGFILTER; with `anisotropy` above 1, anisotropic where the game's MAGFILTER is 
 draws that magnify POINT (the names: the font atlas is drawn MAGFILTER POINT, MINFILTER LINEAR) to the game's sampling.
 The names pulse as one moves with levels and without (the owner's 20 Nov run, start plain too): a likely reading, not
 shown, is that their glyphs are drawn near their atlas size, where the sampling switches between POINT (magnified) and
-LINEAR (minified). `text_linear=1` (an experiment, off by default) magnifies those draws LINEAR too. Measured natively here: a
+LINEAR (minified); the owner's 21 Nov run refuted it (magnifying them LINEAR too changed nothing; that experiment,
+`text_linear`, is removed). The cause is not known. Measured natively here: a
 whole build takes about 1.3-1.7 ms for a 256x256 DXT texture, 45 ms for the 2048x4096 atlas; the log gives the counts
 and times (`mipmaps, 600 frames`, `mipmaps totals`). Replays of the owner's two captures: the far ground's speckle
 becomes even; the distant names change little (their glyphs are drawn near their size). Tests: t8's mipmaps scenes

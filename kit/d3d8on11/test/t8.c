@@ -902,8 +902,8 @@ static void scenes(void) {
     end(pass ? (side ? "mipmaps_part_ref" : "mipmaps_part_one") : (side ? "mipmaps_ref" : "mipmaps_one")); } }
     /* mipmaps_pointmag: the one-level texture as the game draws its names (MAGFILTER POINT, MINFILTER LINEAR, no mip
        filter), on a plane magnified near and minified far: with mipmaps=1 it uses the levels; mipmaps_point_mag=0: as
-       the game samples it (as with mipmaps off); text_linear=1: magnified LINEAR too, equal to mipmaps_pointmag_ref
-       (the same texels with t8's chain, LINEAR/LINEAR/LINEAR) */
+       the game samples it (as with mipmaps off). mipmaps_pointmag_ref: the same texels with t8's chain, LINEAR/LINEAR/LINEAR
+       (it served the text_linear experiment, removed; kept as a scene) */
     for (int side = 0; side < 2; side++) {
       reset_state(); begin(0xFF102010);
       D3DMATRIX pr, vw; persp(&pr, 1.0f, 0.5f, 200.0f); memset(&vw, 0, sizeof vw); vw._11 = vw._22 = vw._33 = vw._44 = 1;

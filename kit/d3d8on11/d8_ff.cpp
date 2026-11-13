@@ -377,11 +377,10 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
         // anisotropic where anisotropy > 1 and the game magnifies LINEAR (anisotropic filtering magnifies linearly too)
         // Where the game magnifies POINT (its names: the font atlas, MAGFILTER POINT, MINFILTER LINEAR) the levels are
         // used too unless mipmaps_point_mag=0. The names pulse as one moves with levels and without (the owner, 20 Nov:
-        // also in start plain), so the levels are not its cause. text_linear=1 (an experiment, off by default): there,
-        // MAGFILTER LINEAR too, so the sampling does not change from point to linear as a name crosses its atlas size
+        // also in start plain), so the levels are not its cause; nor is the change from POINT to LINEAR as a name crosses
+        // its atlas size (21 Nov: magnifying them LINEAR too, an experiment since removed, changed nothing)
         if (mipmaps && tc.gen && !vk.rhw && pk.s[i].tex == 1 && (mg || mip_point_mag)) {
           D.stage[i].first_level = 0; D.stage[i].nlevels = tc.xlevels;
-          if (!mg && text_linear) mg = true;
           bool an = anisotropy > 1 && mg;
           sd.Filter = an ? D3D11_FILTER_ANISOTROPIC : (D3D11_FILTER)(0x10 | (mg ? 0x4 : 0) | 0x1);
           if (an) sd.MaxAnisotropy = (UINT)anisotropy;

@@ -32,8 +32,13 @@ extern "C" __declspec(dllexport) void xikit_mod_frame(void *device) { (void)devi
 // character: 1.0 from the constructor (0x10033710), then whatever 0x100CBDE0 last wrote from one character's light-space
 // extent. Here, for each character, it is set for the call from that character's own box and put back after: the eight
 // world-space corners at actor +0x918 (16 bytes apart; OnMove 0x100C63D0 writes them each tick from the box its model
-// returns, transformed by the actor's world matrix at 0x100C7AE4), and the caller passes actor + 72 (CXiSkeletonActor
-// 0x1002B6E0, Shadow_DrawByMode(self + 72, ...)). The footprint's diagonal (the longest x-z distance between two corners)
+// returns, transformed by the actor's world matrix at 0x100C7AE4). The pointer the function gets is actor + 0x674 + 72:
+// its only caller is DrawModel (0x1002B6E0, at 0x1002C211, Shadow_DrawByMode(self + 72, ...)), whose only callers are
+// the two at 0x100CCDC1 and 0x100CCDF5 in 0x100CBDE0, both with this = actor + 0x674 (lea ecx, [esi+0x674]; esi the
+// actor whose OnMove wrote the corners). (17 Nov: the first build took actor = pointer - 72, so it read 0x674 bytes
+// into the actor; the owner's log had diagonals up to 151 units and the ground went black under the giant shadows.)
+// A diagonal outside 0.05 to 20 units keeps the game's size (counted): a guard against a box that is not there, a
+// chosen range, not a measured one. The footprint's diagonal (the longest x-z distance between two corners)
 // does not change as the character turns. The half-width is shadow_fit_scale/100 of it: 46 is a starting value, not
 // measured (the log's diagonals say what each start saw; the scale is to be set from them).
 static xikit::fn<decltype(&Shadow_DrawByMode)> prev_shadow;
@@ -42,13 +47,13 @@ static undefined4 __thiscall sf_shadow(void *self_, float *pos) {
   if (sf_cfg.shadow_fit && self_) {
     int16_t mode = *(volatile int16_t *)XI_GAME(0x1045B77Au), w = *(volatile int16_t *)XI_GAME(0x1045B814u);
     if (mode == 2 && w != 1) {
-      const float *c = (const float *)((const char *)self_ - 72 + 0x918);
+      const float *c = (const float *)((const char *)self_ - 72 - 0x674 + 0x918);
       float d2 = 0;
       for (int i = 0; i < 8; i++) for (int j = i + 1; j < 8; j++) {
         float dx = c[4 * i] - c[4 * j], dz = c[4 * i + 2] - c[4 * j + 2], e = dx * dx + dz * dz;
         if (e > d2) d2 = e;
       }
-      if (d2 > 1e-6f && d2 < 1e6f) {                  // a box there (an actor whose model gave none keeps the game's size)
+      if (d2 >= 0.05f * 0.05f && d2 <= 20.0f * 20.0f) {   // a box there (otherwise the game's size: no box, or the guard)
         float d; __asm__("fsqrt" : "=t"(d) : "0"(d2));   // (x87 fsqrt: the gate links no C library)
         volatile float *g = (volatile float *)XI_GAME(0x1045B810u); float keep = *g;
         *g = 3.0f * d * (float)sf_cfg.shadow_fit_scale / 100.0f;

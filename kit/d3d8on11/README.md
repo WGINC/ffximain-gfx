@@ -184,8 +184,9 @@ game (weight of the newer tick (s - 1 + c) / s, c the carry, s the ticks of the 
 Liminality rule). The clock comes from a mod: `D8ON11_InterpClock(&whole, &carry, &mode)` (speedfix hands its step's).
 What is blended is only what d3d8on11 is handed: a skinning job's bone palette (needs gpu_skin=1) and the world
 matrix of the draws that read a skinned buffer (by their ordinal after the job). A track is the job's position buffer,
-variant, bone table address and its place among the frame's jobs with those. Between ticks the job's palette and the
-draws' world matrices must be the last tick's, bit for bit; otherwise the game's are drawn (counted). Not blended: a
+variant, bone table address and its place among the frame's jobs with those. Each tick frame's palette and world matrices are keyframes and every frame draws the blend of the last two;
+a change the game makes between ticks is counted and shows at the next tick (17 Nov: drawing the game's change on
+those frames and the blend on the others made what was drawn go back and forth, the owner's jitter and blur). Not blended: a
 track not seen at the tick before, a move of 4 units or more in a tick. The blend is linear entry by entry. A blended
 draw is sent in full (draw_delta's head holds the world matrix), and so is the draw after it. The log's `interp`
 line counts each case every 600 frames. Not blended: anything else (effects, nameplates, rigid models, the camera).

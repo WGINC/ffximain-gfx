@@ -1169,10 +1169,10 @@ static void interp_test(void) {
   ic_mode = 3;
   IFRAME(1, 0.0, P0, &W0, NULL); IFRAME(2, 0.5, P1, &W1, "interp_span2");
   ic_mode = 0; interp_lerp(E, P0, P1, 48, 0.75f); interp_lerp(&WE._11, &W0._11, &W1._11, 16, 0.75f); IFRAME(0, 0.0, E, &WE, "interp_span2_ref");
-  /* 4 the game changes the palette between ticks: drawn as handed */
+  /* 4 the game changes the palette between ticks: still the blend of the last two ticks (the change waits for the next) */
   ic_mode = 3;
   IFRAME(1, 0.0, P0, &W0, NULL); IFRAME(1, 0.0, P1, &W1, NULL); IFRAME(0, 0.5, P2, &W1, "interp_changed");
-  ic_mode = 0; IFRAME(0, 0.0, P2, &W1, "interp_changed_ref");
+  ic_mode = 0; interp_lerp(E, P0, P1, 48, 0.5f); interp_lerp(&WE._11, &W0._11, &W1._11, 16, 0.5f); IFRAME(0, 0.0, E, &WE, "interp_changed_ref");
   /* 5 a bone moves 10 units in a tick: not blended */
   ic_mode = 3;
   IFRAME(1, 0.0, P0, &W0, NULL); IFRAME(1, 0.0, P3, &W1, NULL); IFRAME(0, 0.5, P3, &W1, "interp_warp");

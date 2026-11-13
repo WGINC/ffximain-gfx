@@ -949,8 +949,11 @@ extern "C" int __stdcall D8ON11_Skin(const D8Skin *j) { return g_skin_dev ? g_sk
 // What is blended is checked to be what the game would draw otherwise:
 //   * a track (one mesh of one character) is the job's position buffer, its variant, the bone table's address and its
 //     place among the frame's jobs with those three (two characters wearing the same piece share the buffers);
-//   * on a frame between ticks the job's palette must be the one of the last tick (bit for bit), and a draw's world
-//     matrix the one its ordinal had then: if the game changed it between ticks, what the game has is drawn and counted;
+//   * a tick frame's palette is a keyframe; every frame draws the blend of the last two keyframes. Between ticks the game
+//     may change a palette too (the owner's 17 Nov log: as many changes as blends; speedfix's frame_step=3 runs some
+//     chase loops on the fraction): that is counted and not drawn, it is in the next tick's keyframe. (The first build
+//     drew the game's palette on those frames and the blend on the others: what was drawn went back and forth by up to
+//     a tick, the jitter and blur the owner saw.) A draw's world matrix the same way;
 //   * a track not seen at the tick before has nothing to blend from; a bone or the world moving 4 units or more in a
 //     tick (a warp, a zone change) is not blended.
 // The blend is linear, entry by entry (for the rotation a tick makes, the difference from a true rotation is small;
@@ -987,7 +990,7 @@ const float *Dev::interp_palette(const D8Skin *j, uint32_t nb, const std::vector
     t.pc.assign(m, m + 16 * nb); t.nb = nb; t.tick = i_tick;
   } else {
     if (t.tick != i_tick || t.nb != nb) { i_n[4]++; return m; }                       // not seen at the last tick
-    if (memcmp(m, t.pc.data(), 64u * nb)) { i_n[5]++; return m; }                    // the game changed it between ticks
+    if (memcmp(m, t.pc.data(), 64u * nb)) i_n[5]++;  // the game changed it between ticks: counted, the ticks' blend drawn (below)
   }
   if (!t.hasprev) { i_n[4]++; return m; }
   for (uint16_t b : used) if (far4(&t.pp[16 * b], &t.pc[16 * b])) { i_n[6]++; return m; }
@@ -1006,7 +1009,8 @@ bool Dev::interp_world(VB *s0, D3DMATRIX *out) {
     t.whas[o] = t.wtick[o] == i_tick - 1;
     if (t.whas[o]) t.wp[o] = t.wc[o];
     t.wc[o] = g; t.wtick[o] = i_tick;
-  } else if (t.wtick[o] != i_tick || memcmp(&g, &t.wc[o], sizeof g)) { i_n[9]++; return false; }  // changed between ticks
+  } else if (t.wtick[o] != i_tick) { i_n[9]++; return false; }   // this ordinal not drawn at the last tick
+  else if (memcmp(&g, &t.wc[o], sizeof g)) i_n[9]++;          // changed between ticks: counted, the ticks' blend drawn
   if (!t.whas[o] || !t.blend) return false;                 // (a track whose palette is not blended keeps the game's world too)
   if (far4(&t.wp[o].m[0][0], &t.wc[o].m[0][0])) { i_n[6]++; return false; }
   const float *a = &t.wp[o].m[0][0], *b = &t.wc[o].m[0][0]; float *r = &out->m[0][0];
@@ -1020,8 +1024,8 @@ void Dev::interp_present() {
   if ((i_frame & 1023) == 0) for (auto it = i_tracks.begin(); it != i_tracks.end();) { if (i_frame - it->second.seen > 600) it = i_tracks.erase(it); else ++it; }
   if (i_frame % 600 == 0) {
     d8_log("interp, 600 frames: %llu with a tick, %llu between ticks, %llu with no clock; jobs: %llu blended, %llu not seen at the last tick or with nothing before, "
-           "%llu changed by the game between ticks (drawn as the game has them), %llu moved 4 units or more in a tick; %llu jobs shared a buffer and bone table "
-           "(told apart by order); draws: %llu world matrices blended, %llu changed by the game between ticks, %llu past 8 draws a job; %u tracks",
+           "%llu changed by the game between ticks (the ticks' blend drawn), %llu moved 4 units or more in a tick; %llu jobs shared a buffer and bone table "
+           "(told apart by order); draws: %llu world matrices blended, %llu changed between ticks or not drawn at the last tick, %llu past 8 draws a job; %u tracks",
            (unsigned long long)i_n[1], (unsigned long long)i_n[2], (unsigned long long)i_n[0], (unsigned long long)i_n[7], (unsigned long long)i_n[4],
            (unsigned long long)i_n[5], (unsigned long long)i_n[6], (unsigned long long)i_n[3], (unsigned long long)i_n[10], (unsigned long long)i_n[9],
            (unsigned long long)i_n[8], (unsigned)i_tracks.size());

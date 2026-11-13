@@ -5270,6 +5270,34 @@ by order. t8 interp (in test_d3d8on11.py): blend, tick frame, span 2, changed, w
 reference, both executors, draw_delta 0 and 1; the blended picture differs from the unblended (127 pixels). Not
 blended: effects, nameplates, rigid models, the camera. Session d12_17nov gets a third start (interp).
 
+## 13 Nov (eleventh entry): the owner's 17 Nov run; shadow_fit and interp corrected; the 18 Nov session
+
+- **The owner:** advanced shadows choppy, jumpy, stuttery; simple shadows: all the ground black; interp: jittery,
+  blurry moving characters, no rubber-banding or stutters, black ground as well, occasionally as before the fix.
+- **Advanced shadows (2026-11-13_005400_11344, `adv`):** 32.56 ms mean, p50 9.73, p95 68.84. `D3D12 render targets`:
+  49.1 binds a frame, all to another target; the scene target (3024x1898, id 3) 22.6 binds and 1,527 draws, the
+  shared shadow texture (3024x1898, id 2208) 17.0 binds, 29.0 draws, 1.0 clear a frame. So the 9th entry's reading
+  holds: the shadow texture is the background resolution, and the scene is left and come back to for each character.
+  One clear a frame, not one a character (+4 stays set; what clears it is not traced).
+- **shadow_fit:** its log gave footprint diagonals of 0.03 to 174 units (mean 15-108). The pointer
+  Shadow_DrawByMode gets is not actor + 72: its one caller DrawModel (0x1002B6E0; call at 0x1002C211) passes its own
+  this + 72, and DrawModel's two callers (0x100CCDC1, 0x100CCDF5 in 0x100CBDE0) pass this = actor + 0x674. Fixed:
+  actor = pointer - 72 - 0x674 (from those three calls, found by a scan of every call to both functions). Guard: a
+  diagonal outside 0.05-20 units keeps the game's size (a chosen range). The interp start had shadow_fit=1 too (copied
+  from d12): its black ground was the same fault.
+- **interp:** world matrices never blended (0 in every line: the palette carries the position); jobs: blended 1,560-
+  178,939 per 600 frames, changed by the game between ticks 1,612-32,064 (as many as blended in the busiest minutes),
+  0 shared buffers. So the game changes palettes between ticks (the premise "poses change only on ticks", from the 12
+  Nov Liminality work, does not hold under frame_step=3; which code does it is not traced). Drawing the game's palette
+  on those frames and the blend on the others made the drawn pose go back and forth by up to a tick. Fixed: tick
+  frames give keyframes; every frame draws the blend of the last two; changes between ticks are counted. t8's
+  interp_changed case now expects the blend (all six cases equal their references, both executors).
+- **Session d12_18nov:** simple shadows with the fixed shadow_fit; interp with shadow_fit off.
+- **Tests:** d3d8on11 all pass (interp's four runs too); speedfix all pass on 6A995428; on 6AE818B4 one check failed
+  once, precise_pacing's "median within 0.05 ms of 16.667" (precise_pacing is not changed here). Run alone three times
+  it passed, with medians 16.703, 16.706 and 16.711 ms: 0.006 to 0.014 ms inside the bound. So that check under Wine
+  sits at its edge; the failure is not explained further.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

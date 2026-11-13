@@ -1072,7 +1072,7 @@ static void st_stats(void) {
         "frame %ld (counted under uncap/frame_step, Frame_Render's fork)", n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[0]); }
   if (sf_cfg.shadow_fit) {
     long n, g; float mn, mx, sm; sf_shadow_take(&n, &g, &mn, &mx, &sm);
-    if (n) LOG("speedfix: shadow_fit: %ld simple shadows sized by their model (footprint diagonal %.2f to %.2f, mean %.2f), %ld at the game's size (no box)",
+    if (n) LOG("speedfix: shadow_fit: %ld simple shadows sized by their model (footprint diagonal %.2f to %.2f, mean %.2f), %ld at the game's size (no box, or a diagonal outside 0.05 to 20)",
                n, mn, mx, sm / n, g);
     else LOG("speedfix: shadow_fit: no simple shadow drawn (%ld at the game's size)", g);
   }

@@ -182,8 +182,9 @@ only when a draw or clear uses it (depth or stencil test or write; a depth or st
 stencil off never reads or writes the depth surface, so leaving it unbound changes no pixel; on a tile-based GPU it
 saves the surface's load and store for the pass. Each target remembers whether its last pass used depth and binds it
 at once if so (no extra target switch for the scene); a pass bound without depth that then draws with depth binds it
-then. Why: the game's advanced shadows draw each character's silhouette with depth off (0x10033800) into a shared
-3024x1898 texture with a depth surface bound, 17 passes a frame in the owner's 17 Nov run. The `D3D12 render targets`
+then. Why it was made: the game's advanced shadows draw each character's silhouette with depth off (0x10033800); I had read
+its call as binding a depth surface too. It binds none (the call's depth argument is 0; docs/HISTORY.md, 13 Nov 13th
+entry), so for the shadows it saves nothing; it stays for any depth-off pass that has a depth surface. The `D3D12 render targets`
 line counts passes bound without depth and later binds. Tests: every scene and the random cases identical on and off;
 scene `lazy_depth` (passes with depth off into a texture with a depth surface, one that turns depth on midway).
 

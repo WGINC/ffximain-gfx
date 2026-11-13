@@ -59,6 +59,7 @@ uintptr_t sf_game_addr(uint32_t analysed);      // an analysed address in the ru
 int  sf_hook_query(const XikitHost *host);
 int  sf_hook_shadow(const XikitHost *host);       // shadow_fit: Shadow_DrawByMode hooked
 void sf_shadow_take(long *n, long *g, float *dmin, float *dmax, float *dsum);   // its counts since the last call
+void sf_shadow_branches(long *b);                // Shadow_DrawByMode's branches since the last call (sf_game.cpp)
 int  sf_fork_skinmerge(const XikitHost *host);   // XI_FORK of CYyModelDt::SkinAndDrawV2
 int  sf_fork_framestep(const XikitHost *host);   // XI_FORK of Frame_Render and the two step getters (frame_step, uncap)
 extern volatile int sf_group_on;              // skin_merge=2: sf_device.cpp groups a model's draws

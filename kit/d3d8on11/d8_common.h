@@ -15,7 +15,13 @@ void d8_log(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
 // called from a helper of ours instead, it names d3d8.dll
 void d8_notimpl_at(const char *what, void *ra);
 #define d8_notimpl(what) d8_notimpl_at((what), __builtin_return_address(0))
-const char *d8_caller(void *ra, char *buf, size_t n, char *mod = nullptr, size_t nmod = 0);   // "Module.dll+0x1234"
+const char *d8_caller(void *ra, char *buf, size_t n, char *mod = nullptr, size_t nmod = 0);
+// (18 Nov) readbacks by the game's call site: the public lock and copy methods note their return address, each
+// X_READBACK is counted under it with the time it waited; the top sites logged with the frame stats (d8_device.cpp)
+extern thread_local void *d8_rb_site;
+void d8_rb_count(double ms);
+void d8_rb_log(unsigned frames);
+static inline double qpc_now_ms() { LARGE_INTEGER t, f; QueryPerformanceCounter(&t); QueryPerformanceFrequency(&f); return t.QuadPart * 1000.0 / (double)f.QuadPart; }   // "Module.dll+0x1234"
 void d8_once(const char *key, const char *fmt, ...) __attribute__((format(printf, 2, 3)));
 
 // ---- formats ------------------------------------------------------------------------------------------------------

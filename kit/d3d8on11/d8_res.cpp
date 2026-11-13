@@ -54,7 +54,8 @@ HRESULT TexCore::lock(UINT face, UINT l, D3DLOCKED_RECT *lr, const RECT *r, DWOR
   // D3DXLoadSurfaceFromSurface, which copies with CopyRects and then locks the destination)
   if (id && sub < stale.size() && stale[sub]) {
     std::vector<uint8_t> out; XRef ref = {id, l, face};
-    if (dev->link->call(X_READBACK, &ref, sizeof ref, &out) < 0) return D3DERR_INVALIDCALL;
+    double t0 = qpc_now_ms(); int rc = dev->link->call(X_READBACK, &ref, sizeof ref, &out); d8_rb_count(qpc_now_ms() - t0);
+    if (rc < 0) return D3DERR_INVALIDCALL;
     memcpy(b.data(), out.data(), out.size() < b.size() ? out.size() : b.size());
     stale[sub] = 0;
   }
@@ -108,7 +109,7 @@ HRESULT Tex::GetLevelDesc(UINT l, D3DSURFACE_DESC *d) {
   return D3D_OK;
 }
 HRESULT Tex::GetSurfaceLevel(UINT l, IDirect3DSurface8 **s) { if (l >= c.levels || !s) return D3DERR_INVALIDCALL; *s = c.surface(this, 0, l); return D3D_OK; }
-HRESULT Tex::LockRect(UINT l, D3DLOCKED_RECT *lr, const RECT *r, DWORD f) { return c.lock(0, l, lr, r, f); }
+HRESULT Tex::LockRect(UINT l, D3DLOCKED_RECT *lr, const RECT *r, DWORD f) { d8_rb_site = __builtin_return_address(0); return c.lock(0, l, lr, r, f); }
 HRESULT Tex::UnlockRect(UINT l) { return c.unlock(0, l); }
 
 HRESULT CubeTex::QueryInterface(REFIID r, void **o) { if (is_iid(r, IID_IDirect3DCubeTexture8)) { *o = this; AddRef(); return S_OK; } *o = NULL; return E_NOINTERFACE; }
@@ -125,7 +126,7 @@ HRESULT CubeTex::GetCubeMapSurface(D3DCUBEMAP_FACES f, UINT l, IDirect3DSurface8
   if ((UINT)f >= 6 || l >= c.levels || !s) return D3DERR_INVALIDCALL;
   *s = c.surface(this, (UINT)f, l); return D3D_OK;
 }
-HRESULT CubeTex::LockRect(D3DCUBEMAP_FACES f, UINT l, D3DLOCKED_RECT *lr, const RECT *r, DWORD fl) { return c.lock((UINT)f, l, lr, r, fl); }
+HRESULT CubeTex::LockRect(D3DCUBEMAP_FACES f, UINT l, D3DLOCKED_RECT *lr, const RECT *r, DWORD fl) { d8_rb_site = __builtin_return_address(0); return c.lock((UINT)f, l, lr, r, fl); }
 HRESULT CubeTex::UnlockRect(D3DCUBEMAP_FACES f, UINT l) { return c.unlock((UINT)f, l); }
 
 // ---- surfaces -----------------------------------------------------------------------------------------------------------
@@ -163,7 +164,8 @@ HRESULT Surf::GetDesc(D3DSURFACE_DESC *d) {
 static bool read_back(Surf *s) {
   if (!s->id) return false;
   std::vector<uint8_t> out; XRef r = s->xref();
-  if (s->dev->link->call(X_READBACK, &r, sizeof r, &out) < 0) return false;
+  double t0 = qpc_now_ms(); int rc = s->dev->link->call(X_READBACK, &r, sizeof r, &out); d8_rb_count(qpc_now_ms() - t0);
+  if (rc < 0) return false;
   UINT pitch = d8_pitch(s->fmt, s->w), rows = d8_rows(s->fmt, s->h);
   s->cpu.assign((size_t)pitch * rows, 0);
   memcpy(s->cpu.data(), out.data(), out.size() < s->cpu.size() ? out.size() : s->cpu.size());
@@ -184,6 +186,7 @@ static bool read_snap(Surf *s, bool count = true) {
   return true;
 }
 HRESULT Surf::LockRect(D3DLOCKED_RECT *lr, const RECT *r, DWORD flags) {
+  d8_rb_site = __builtin_return_address(0);
   if (!lr || locked) return D3DERR_INVALIDCALL;
   if (kind == SK_TEXLEVEL) {
     HRESULT hr;

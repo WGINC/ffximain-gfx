@@ -362,6 +362,7 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
   link->put(X_PRESENT, nullptr, 0);
   if (interp) interp_present();
   if (ab.on) ab_frame();
+  if (snap_frames + 1 >= 600) d8_rb_log(600);
   if (++snap_frames >= 600) {
     if (snap_hits + snap_misses)
       d8_log("readback snapshots, %u frames: %u locks of a copied render target read its snapshot (no wait), %u read it "
@@ -510,6 +511,7 @@ static TexCore *core_of(Surf *s) {
   return t->GetType() == D3DRTYPE_CUBETEXTURE ? &((CubeTex *)(IDirect3DCubeTexture8 *)t)->c : &((Tex *)(IDirect3DTexture8 *)t)->c;
 }
 HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirect3DSurface8 *dst, const POINT *pts) {
+  d8_rb_site = __builtin_return_address(0);
   // DirectX 8.1, IDirect3DDevice8::CopyRects: source and destination "must point to a different surface"; "The format
   // of the two surfaces must match"; "this method will fail unless all the source rectangles and their corresponding
   // destination rectangles are completely contained within the source and destination surfaces"; it "cannot be
@@ -542,7 +544,7 @@ HRESULT Dev::CopyRects(IDirect3DSurface8 *src, const RECT *rects, UINT n, IDirec
       }
     } else if (sg && d->kind == SK_IMAGE) {                   // GPU to system memory: a read back
       std::vector<uint8_t> out; XRef ref = s->xref();
-      if (link->call(X_READBACK, &ref, sizeof ref, &out) < 0) return D3DERR_INVALIDCALL;
+      { double t0 = qpc_now_ms(); int rc = link->call(X_READBACK, &ref, sizeof ref, &out); d8_rb_count(qpc_now_ms() - t0); if (rc < 0) return D3DERR_INVALIDCALL; }
       FmtInfo fi = d8_fmt(s->fmt);
       UINT bw = fi.block ? 4 : 1, sw = s->kind == SK_TEXLEVEL ? s->w : s->w;
       UINT sp = d8_pitch(s->fmt, sw), dp = d8_pitch(d->fmt, d->w), rowb = d8_pitch(s->fmt, (UINT)(r.right - r.left)), rows = d8_rows(s->fmt, (UINT)(r.bottom - r.top));

@@ -141,6 +141,9 @@ static const char kDefaultIni[] =
   "occlusion_stagger=8\r\n"
   "; A/B switches: every actor visible without its query; every occlusion query visible without its readback\r\n"
   "skip_actor_occlusion=0\r\nskip_all_occlusion_readbacks=0\r\n"
+  "; round (simple) shadows sized to each character's model instead of the one size the game shares (1 on, 0 the game's);\r\n"
+  "; shadow_fit_scale: the shadow's half-width in hundredths of the model's footprint diagonal\r\n"
+  "shadow_fit=1\r\nshadow_fit_scale=46\r\n"
   "; fewer textures CPU-encoded at load (1-15; textures loaded afterwards)\r\n"
   "texture_compression=1\r\ntexture_compression_value=15\r\n"
   "; the SSE math tier on any CPU with SSE (only before the game has chosen its tier)\r\n"
@@ -238,7 +241,7 @@ static SfConfig read_config(void) {
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
-  c.shadow_fit = rd("shadow_fit", 0) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
+  c.shadow_fit = rd("shadow_fit", 1) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
   if (c.shadow_fit_scale < 5 || c.shadow_fit_scale > 300) c.shadow_fit_scale = 46;
   c.occlusion_hold = rd("occlusion_hold", 1); c.occlusion_nowait = rd("occlusion_nowait", 1); c.occlusion_first = rd("occlusion_first", 0); if (c.occlusion_first < 0 || c.occlusion_first > 2) c.occlusion_first = 0; c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
   if (c.stats_every < 1) c.stats_every = 1;
@@ -1075,6 +1078,9 @@ static void st_stats(void) {
     if (n) LOG("speedfix: shadow_fit: %ld simple shadows sized by their model (footprint diagonal %.2f to %.2f, mean %.2f), %ld at the game's size (no box, or a diagonal outside 0.05 to 20)",
                n, mn, mx, sm / n, g);
     else LOG("speedfix: shadow_fit: no simple shadow drawn (%ld at the game's size)", g);
+    long b[6]; sf_shadow_branches(b);
+    LOG("speedfix: shadow_fit: Shadow_DrawByMode's branches: simple quad %ld, far-caster quad %ld (both sized), projected %ld, decal %ld, nothing drawn or other %ld",
+        b[0], b[1], b[2], b[3], b[4]);
   }
   LONG f = g_st_frames, z = g_st_zero; g_st_frames = g_st_zero = 0;
   double w = g_st_whole, fr = g_st_frac, gm = g_st_game, ms = g_st_ms; g_st_whole = g_st_frac = g_st_game = g_st_ms = 0;

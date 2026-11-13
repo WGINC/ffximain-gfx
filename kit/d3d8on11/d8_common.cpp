@@ -5,6 +5,8 @@
 #include <stdarg.h>
 #include <set>
 #include <string>
+#include <vector>
+#include <algorithm>
 
 const char *d8_log_name = "d3d8on11.log";
 // ---- log --------------------------------------------------------------------------------------------------------------
@@ -71,3 +73,27 @@ FmtInfo d8_fmt(D3DFORMAT f) {
 UINT d8_pitch(D3DFORMAT f, UINT w) { FmtInfo i = d8_fmt(f); return i.block ? ((w + 3) / 4) * i.block : w * (i.bpp / 8); }
 UINT d8_rows(D3DFORMAT f, UINT h) { return d8_fmt(f).block ? (h + 3) / 4 : h; }
 
+
+// ---- readbacks by call site (18 Nov) ----------------------------------------------------------------------------------------
+#include <map>
+thread_local void *d8_rb_site;
+static CRITICAL_SECTION g_rb_cs; static bool g_rb_init;
+static std::map<void *, std::pair<unsigned long, double>> g_rb;
+void d8_rb_count(double ms) {
+  if (!g_rb_init) { InitializeCriticalSection(&g_rb_cs); g_rb_init = true; }
+  EnterCriticalSection(&g_rb_cs); auto &e = g_rb[d8_rb_site]; e.first++; e.second += ms; LeaveCriticalSection(&g_rb_cs);
+}
+void d8_rb_log(unsigned frames) {
+  if (!g_rb_init) return;
+  EnterCriticalSection(&g_rb_cs);
+  std::vector<std::pair<void *, std::pair<unsigned long, double>>> v(g_rb.begin(), g_rb.end()); g_rb.clear();
+  LeaveCriticalSection(&g_rb_cs);
+  if (v.empty()) return;
+  std::sort(v.begin(), v.end(), [](const auto &a, const auto &b) { return a.second.second > b.second.second; });
+  char line[1200]; size_t at = 0;
+  for (size_t i = 0; i < v.size() && i < 6 && at < sizeof line - 160; i++) {
+    char w[MAX_PATH + 16]; d8_caller(v[i].first, w, sizeof w);
+    at += snprintf(line + at, sizeof line - at, "%s%s: %lu, %.1f ms", i ? "; " : "", v[i].first ? w : "(no site)", v[i].second.first, v[i].second.second);
+  }
+  d8_log("readbacks by call site, %u frames (each waits for the GPU): %s", frames, line);
+}

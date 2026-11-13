@@ -5313,6 +5313,27 @@ Tests: all 36 scenes and 600 random cases (device_check cases1-4) identical on a
 without depth, 1.33 later binds in the t8 run; its 19 pixels different from Direct3D 11 are all ties, as with lazy
 depth off). The saving on the owner's Mac is not known: d12_18nov's third start measures it.
 
+## 13 Nov (thirteenth entry): the owner's 18 Nov run; a correction; the 19 Nov session
+
+- **Correction to the 12th entry:** Model_BeginOffscreenPass calls CDx_PushRenderTarget(g_pCDx, [+8], [+12], 0);
+  CDx::PushRenderTarget(a2, a3, a4) passes a4 to SetRenderTarget as the depth stencil (CDx.cpp 0x10009F20). a4 is 0:
+  the shadow passes bind no depth surface. The 12th entry read [+12] as the depth surface; it is not. The owner's
+  log agrees: lazy depth bound 0.0 passes a frame without depth. Lazy depth stays (lossless, and it applies to any
+  depth-off pass with a depth surface), but it saves nothing for the shadows.
+- **The owner:** simple shadows about right, some fell back; advanced stutters like hell but looks right; interp
+  jitters and stutters less than before, nameplates still jitter; the environment maybe more blurry; anti-aliasing
+  not done yet; asks whether these are industry-standard methods.
+- **shadow_fit (023834_5988):** every call sized (0 at the game's size), footprints 0.93-2.99. The only callers of
+  the three shadow draws are in Shadow_DrawByMode (scan of every call): mode 0 with [0x1045B80C] not under 20 draws
+  the same ground quad at the shared size (0x10033E94), unsized until now: now sized too, every branch counted.
+  shadow_fit defaults to 1 and is written to speedfix.ini.
+- **Advanced (adv mark, 41.87 ms mean, p95 78.31):** 109-260 shadow-texture binds a frame (17 on 17 Nov) at this
+  place; executor readbacks 4.7-6.5 ms a frame (up to 50.9) in the busiest minutes, while the occlusion snapshots
+  read without waits. What reads back is not known: d3d8on11 now logs readbacks by the game's call site with their
+  waits ("readbacks by call site", every 600 frames).
+- **interp:** in the busy minutes 535-562 of 600 frames carried a tick (60 fps or below): little to blend.
+- **Session d12_19nov:** d12 (round shadows), adv (readback sites), aa (fcap captures of distant text and edges).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

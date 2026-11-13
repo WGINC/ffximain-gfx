@@ -42,11 +42,21 @@ extern "C" __declspec(dllexport) void xikit_mod_frame(void *device) { (void)devi
 // does not change as the character turns. The half-width is shadow_fit_scale/100 of it: 46 is a starting value, not
 // measured (the log's diagonals say what each start saw; the scale is to be set from them).
 static xikit::fn<decltype(&Shadow_DrawByMode)> prev_shadow;
-static volatile long sh_fit_n, sh_game_n; static float sh_dmin = 1e30f, sh_dmax, sh_dsum;
+static volatile long sh_fit_n, sh_game_n, sh_br[6]; static float sh_dmin = 1e30f, sh_dmax, sh_dsum;
+// The branches of Shadow_DrawByMode (unit_100310A0.cpp, 0x10033DA0), counted (18 Nov: the owner saw some shadows keep
+// the small size; every mode-2 call had been sized, so the round shadows of other branches are counted and sized too):
+//   0 mode 2, the ground quad at [0x1045B810] / 3 (0x10033DE6)             -- sized
+//   1 mode 0 with [0x1045B80C] not under 20 (or NaN): the same quad (0x10033E94) -- sized
+//   2 mode 0 with it under 20: the projected shadow at [0x1045B810] / 3 (0x10033E76) -- the game's size
+//   3 mode 1: the decal (0x10033E2F)                                        -- the game's
+//   4 the word [0x1045B814] = 1 (modes 0 and 2 draw nothing), or another mode
 static undefined4 __thiscall sf_shadow(void *self_, float *pos) {
   if (sf_cfg.shadow_fit && self_) {
     int16_t mode = *(volatile int16_t *)XI_GAME(0x1045B77Au), w = *(volatile int16_t *)XI_GAME(0x1045B814u);
-    if (mode == 2 && w != 1) {
+    float cd = *(volatile float *)XI_GAME(0x1045B80Cu);
+    int br = mode == 2 && w != 1 ? 0 : mode == 0 && w != 1 ? (!(cd < 20.0f) ? 1 : 2) : mode == 1 ? 3 : 4;
+    sh_br[br]++;
+    if (br <= 1) {
       const float *c = (const float *)((const char *)self_ - 72 - 0x674 + 0x918);
       float d2 = 0;
       for (int i = 0; i < 8; i++) for (int j = i + 1; j < 8; j++) {
@@ -67,6 +77,7 @@ static undefined4 __thiscall sf_shadow(void *self_, float *pos) {
   }
   return prev_shadow(self_, pos);
 }
+extern "C" void sf_shadow_branches(long *b) { for (int i = 0; i < 6; i++) { b[i] = sh_br[i]; sh_br[i] = 0; } }
 extern "C" int sf_hook_shadow(const XikitHost *host) { return XI_HOOK(host, Shadow_DrawByMode, sf_shadow, prev_shadow); }
 extern "C" void sf_shadow_take(long *n, long *g, float *dmin, float *dmax, float *dsum) {   // for sf_main.cpp's line
   *n = sh_fit_n; *g = sh_game_n; *dmin = sh_dmin; *dmax = sh_dmax; *dsum = sh_dsum;

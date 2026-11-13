@@ -326,7 +326,13 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
     DWORD sb = r[D3DRS_SRCBLEND], db = r[D3DRS_DESTBLEND];
     if (sb == D3DBLEND_BOTHSRCALPHA) { sb = D3DBLEND_SRCALPHA; db = D3DBLEND_INVSRCALPHA; }
     if (sb == D3DBLEND_BOTHINVSRCALPHA) { sb = D3DBLEND_INVSRCALPHA; db = D3DBLEND_SRCALPHA; }
-    t.SrcBlend = blend(sb, false); t.DestBlend = blend(db, false); t.SrcBlendAlpha = blend(sb, true); t.DestBlendAlpha = blend(db, true);
+    // the four translations of the last (sb, db) pair are kept: the same pair gives the same four (blend() is a pure
+    // function of its arguments). 23 Nov: blend() was 44 of 2,256 samples of the game's thread, 1.95%
+    if (sb != bl_sb || db != bl_db || !bl_have) {
+      bl_out[0] = blend(sb, false); bl_out[1] = blend(db, false); bl_out[2] = blend(sb, true); bl_out[3] = blend(db, true);
+      bl_sb = sb; bl_db = db; bl_have = true;
+    }
+    t.SrcBlend = bl_out[0]; t.DestBlend = bl_out[1]; t.SrcBlendAlpha = bl_out[2]; t.DestBlendAlpha = bl_out[3];
     DWORD bo = r[D3DRS_BLENDOP]; t.BlendOp = t.BlendOpAlpha = bo >= 1 && bo <= 5 ? (D3D11_BLEND_OP)bo : D3D11_BLEND_OP_ADD;
     t.RenderTargetWriteMask = (UINT8)(r[D3DRS_COLORWRITEENABLE] & 0xF);
     D3D11_DEPTH_STENCIL_DESC &dd = D.depth;

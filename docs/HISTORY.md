@@ -5538,6 +5538,39 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
 - **Seen working (the owner):** shadows near and far, names (name_smooth: 77,481 sizes from the unrounded depth a minute,
   none left), hints, the installer (load_kit: build 6AE818B4 has a manifest: xikit.dll loaded; SSE2 averaging).
 
+## 13 Nov (twenty-fifth entry): the owner's 23 Nov run -- the game thread's samples, the second arm crash, the installer
+
+- **The arm crash again:** exception 0xC0000005 executing 0x6E6E7373 on thread 13004, which starts at
+  xikit.dll+0x6B40 (m_envthread, env=1); the stack scan: Hook.dll+0x3210D (Windower), USER32.dll+0x3AFC0,
+  xikit.dll+0x74D5. Both arm crashes (22 and 23 Nov) were on that thread, in Hook.dll, through USER32, while it listed
+  the display and the windows; reading titles with InternalGetWindowText did not stop it. The thread now makes no
+  USER32 call unless `env_windows=1` (measure.c). Why it crashes only with mode=remote is still not known. The 24 Nov
+  session splits it: arm0 (mode=remote, env=0) and arm1 (env=1, env_windows=0).
+- **The installer start:** 143, 132 and 125 frames a second in its three whole minutes (speedfix's lines), against
+  127, 110, 105 and 99 on 22 Nov; the executor's per-600 busy/share mean 7.82 ms against 9.13. The owner found it less
+  smooth. Not measured: the installer start records no per-frame times. A difference that is known: xiload was still
+  running from the session and loaded xikit into it at 09:21:45 (xiload.log; d3d8on11.log "xikit.dll is already
+  loaded (xiload)"). restore.bat now closes xiload.
+- **The game thread (start prof, sample=1, 2,256 samples over 600 frames).** Inclusive (upper estimates):
+  CMoTaskMng::DrawAll 56%, CMoTask::Dispatch 41%, the actor draw-list update 24.4%, CXiSkeletonActor::DrawModel
+  21.4%, CTsZoneMap::Render 13.6%. Self:
+  - 24% at 0x02D90002, no module. The 18 Oct native runs showed the x86 EIP is a placeholder while the thread is in
+    native code under xtajit (0x00010002 then); that this is the same is likely, not shown. The "elsewhere"
+    callers given for these samples are stale (0x100E7B37 is inside an instruction).
+  - 19.8% in d3d8.dll. Mapped by a -g rebuild whose .text has the same size and differs only by the image base:
+    `getenv("D8ON11_TEST_TIES")` per textured stage per draw (both its call sites' return addresses: 137 samples,
+    6.1%), copy_block 2.8%, blend() 1.95%, RingLink::end 1.7%, note_caller 1.1% (two GetModuleHandleExA per draw:
+    its stop after 12 caller pairs is never reached).
+  - 9.9% speedfix (skinning 2.5%, the rest spread over its device hooks), 4.1% gdiplus, 2.2% Hook.dll, 1.6%
+    TextShaping and DWrite (FFXiMain.dll imports none of these), 2.3% xikit (kit_front's GetCurrentThreadId, 44
+    samples).
+- **Changed:** the test switch read once; note_caller skips the lookups while the draw comes from the same modules;
+  copy_block walks index lists made once per finished block; blend()'s four results kept for the last (src, dest)
+  pair; kit_front, xikit_device_caller and speedfix's render_thread compare NtCurrentTeb() (winnt.h) with the
+  render thread's instead of calling GetCurrentThreadId. All give the same results as before. Their sample shares
+  add to about 12%; what that is in frame time is measured by the 24 Nov session's start fast. Start native
+  (sample=2, xisamp_arm64.exe) looks inside the 24%.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

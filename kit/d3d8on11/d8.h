@@ -201,6 +201,7 @@ struct Block {
 struct D8;
 struct Dev final : public IDirect3DDevice8_Stub {
   bool draw_sites = false;                  // d3d8on11.ini draw_sites
+  DWORD bl_sb = 0, bl_db = 0; bool bl_have = false; D3D11_BLEND bl_out[4] = {};   // ff_draw: the last blend pair's translations
   bool dynamic_buffers = false;             // d3d8on11.ini dynamic_buffers
   uint32_t draw_site = ~0u;                 // the game's call site of the draw being made (Draw* methods; XDraw::site)
   LONG ref = 1; D8 *d3d; HWND wnd; DWORD behavior; D3DPRESENT_PARAMETERS pp;

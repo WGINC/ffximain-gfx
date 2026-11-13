@@ -95,6 +95,10 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
         cmd = ['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 'host.exe', 'realdev']
         if mode == 'realdev_ours':
             shutil.copy(os.path.join(H, '..', '..', 'd3d8on11', 'dist', 'd3d8.dll'), d); env['WINEDLLOVERRIDES'] = 'd3d8=n'
+            # load_kit=0: since 22 Nov d3d8.dll loads xikit.dll itself at Direct3DCreate8, before host.exe writes its
+            # xikit.ini, so the kit started with its defaults (log_folder=1: the timing file in xikit_logs\, not here).
+            # This mode tests the host's own load on our device; d3d8on11's load_kit has its test (test_d3d8on11.py)
+            with open(os.path.join(d, 'd3d8on11.ini'), 'w') as f: f.write('[d3d8on11]\r\nload_kit=0\r\n')
     r = subprocess.run(cmd, cwd=d, capture_output=True, text=True, timeout=600, env=env)
     print('== %s (exit %d)' % (mode, r.returncode)); print(r.stdout.strip())
     if mode in ('base', 'relocated'):           # build translation: the ranges the reconstruction got are the build's own

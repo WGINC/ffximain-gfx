@@ -90,6 +90,39 @@ static HRESULT call(int slot, const uint32_t *a, int n) {
   }
   return E_FAIL;
 }
+/* FCAP_PASSBOX=1 (21 Nov): for each pass into a render target other than the back buffer, the part of the target its
+   draws wrote. The target is cleared to a sentinel when the pass starts (and after a Clear of the game's within it), and
+   read back when the pass ends: the box of the texels that differ from the sentinel. The replayed picture is not the
+   game's then (the target loses what earlier passes left in it); only the boxes are the result */
+#define PB_SENT 0x5A3C1E0Fu
+static int g_pb, g_pb_n, g_pb_draws, g_pb_clears; static IDirect3DSurface8 *g_pb_rt, *g_pb_bb;
+static double g_pb_area; static int g_pb_hist[6];
+static void pb_sentinel(void) { IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, PB_SENT, 1.0f, 0); }
+static void pb_end(void) {
+  if (!g_pb_rt) return;
+  D3DSURFACE_DESC sd; IDirect3DSurface8_GetDesc(g_pb_rt, &sd);
+  IDirect3DSurface8 *img = NULL; D3DLOCKED_RECT lr; int x0 = 1 << 30, y0 = 1 << 30, x1 = -1, y1 = -1;
+  uint32_t mask = sd.Format == D3DFMT_X8R8G8B8 ? 0x00FFFFFFu : 0xFFFFFFFFu;
+  if ((sd.Format == D3DFMT_A8R8G8B8 || sd.Format == D3DFMT_X8R8G8B8) && SUCCEEDED(IDirect3DDevice8_CreateImageSurface(d, sd.Width, sd.Height, sd.Format, &img)) &&
+      SUCCEEDED(IDirect3DDevice8_CopyRects(d, g_pb_rt, NULL, 0, img, NULL)) && SUCCEEDED(IDirect3DSurface8_LockRect(img, &lr, NULL, D3DLOCK_READONLY))) {
+    for (uint32_t y = 0; y < sd.Height; y++) { const uint32_t *row = (const uint32_t *)((uint8_t *)lr.pBits + (int)y * lr.Pitch);
+      for (uint32_t x = 0; x < sd.Width; x++) if ((row[x] & mask) != (PB_SENT & mask)) { if ((int)x < x0) x0 = x; if ((int)x > x1) x1 = x; if ((int)y < y0) y0 = y; if ((int)y > y1) y1 = y; } }
+    IDirect3DSurface8_UnlockRect(img);
+    double fr = x1 < 0 ? 0 : (double)(x1 - x0 + 1) * (y1 - y0 + 1) / ((double)sd.Width * sd.Height);
+    g_pb_area += fr; g_pb_hist[fr == 0 ? 0 : fr < 0.01 ? 1 : fr < 0.05 ? 2 : fr < 0.2 ? 3 : fr < 0.6 ? 4 : 5]++;
+    if (x1 < 0) printf("passbox %d: %ux%u target, %d draws, %d game clears: nothing written\n", g_pb_n, sd.Width, sd.Height, g_pb_draws, g_pb_clears);
+    else printf("passbox %d: %ux%u target, %d draws, %d game clears: box %d,%d-%d,%d (%dx%d, %.2f%% of the target)\n", g_pb_n, sd.Width, sd.Height,
+                g_pb_draws, g_pb_clears, x0, y0, x1, y1, x1 - x0 + 1, y1 - y0 + 1, 100 * fr);
+    g_pb_n++;
+  } else printf("passbox: a %ux%u target in format %u: not measured\n", sd.Width, sd.Height, sd.Format);
+  if (img) IDirect3DSurface8_Release(img);
+  IDirect3DSurface8_Release(g_pb_rt); g_pb_rt = NULL;
+}
+static void pb_after_setrt(void) {
+  IDirect3DSurface8 *rt = NULL; IDirect3DDevice8_GetRenderTarget(d, &rt);
+  if (rt && rt != g_pb_bb) { g_pb_rt = rt; g_pb_draws = 0; g_pb_clears = 0; pb_sentinel(); }
+  else if (rt) IDirect3DSurface8_Release(rt);
+}
 static const char *slot_name(int s) {
   static char b[16];
   switch (s) {
@@ -156,6 +189,8 @@ int main(int argc, char **argv) {
   IDirect3DSurface8 *sepds = NULL;
   if (sep_ds && SUCCEEDED(IDirect3DDevice8_CreateDepthStencilSurface(d, hd->ds_width, hd->ds_height, (D3DFORMAT)hd->ds_format, D3DMULTISAMPLE_NONE, &sepds))) {}
 
+  { char e[8]; g_pb = GetEnvironmentVariableA("FCAP_PASSBOX", e, sizeof e) > 0 && e[0] == '1';
+    if (g_pb) IDirect3DDevice8_GetBackBuffer(d, 0, D3DBACKBUFFER_TYPE_MONO, &g_pb_bb); }
   uint32_t ncalls = 0, nobj = 0; int ended = 0;
   int reps = argc > 3 ? atoi(argv[3]) : 0, pass = 0;
   uint8_t *p = buf + sizeof *hd, *end = buf + size, *first_call = NULL;
@@ -277,8 +312,15 @@ int main(int argc, char **argv) {
       case FS_DIPUP: a[4] = (uint32_t)(uintptr_t)dat[0]; a[6] = (uint32_t)(uintptr_t)dat[1]; break;
       case FS_PROCESSVERTICES: case FS_SETPS: case FS_CREATEPS: continue;   /* noted by the capture */
       }
+      if (g_pb && slot == FS_SETRT) pb_end();
       hr = call(slot, a, (int)n);
       ncalls++;
+      if (g_pb && pass == 0) {
+        if (slot == FS_SETRT) pb_after_setrt();
+        else if (g_pb_rt && (slot == FS_DP || slot == FS_DIP || slot == FS_DPUP || slot == FS_DIPUP)) g_pb_draws++;
+        else if (g_pb_rt && slot == FS_CLEAR && (a[2] & D3DCLEAR_TARGET)) { g_pb_clears++; pb_sentinel(); }
+        else if (slot == FS_PRESENT) pb_end();
+      }
       if (FAILED(hr) && slot != FS_SETRS && slot != FS_SETTSS) { char b[96]; snprintf(b, sizeof b, "%s%s", slot_name(slot), (u[0] & FC_SYNTH) ? " (start state / state block)" : ""); fail(b, hr); }
       break; }
     case FC_PICTURE: {
@@ -291,6 +333,9 @@ int main(int argc, char **argv) {
     default: printf("replay: unknown record %u\n", tag);
     }
   }
+  if (g_pb && pass == 0) { pb_end();
+    printf("passbox: %d passes into targets other than the back buffer; mean box %.2f%% of its target; boxes: nothing %d, under 1%% %d, 1-5%% %d, 5-20%% %d, 20-60%% %d, 60%% or more %d\n",
+           g_pb_n, g_pb_n ? 100 * g_pb_area / g_pb_n : 0.0, g_pb_hist[0], g_pb_hist[1], g_pb_hist[2], g_pb_hist[3], g_pb_hist[4], g_pb_hist[5]); }
   if (pass == 0) save_picture(argv[2]);
   else {
     IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL);

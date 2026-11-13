@@ -5607,6 +5607,27 @@ before_arm1 arm0's, before_native arm1's, d3d8on11_prev.log native's, d3d8on11.l
 - **The zone change:** no snapshot slot ran out, 0 waiting readbacks in any start; the installer start's slowest
   600 frames averaged 11.7 ms.
 
+## 13 Nov (twenty-seventh entry): the owner's 25 Nov run -- the 120 cap A/B, three buffers, microstutter
+
+Logs: d3d8on11_before_cap3 is start cap2's (2 buffers), d3d8on11.log cap3's (its "swap_buffers=3" line). Reader:
+kit/sessions/d12_25nov/read_cap.py (phases from speedfix's marks; PresentMon cut by the same performance counter).
+- **The cap (frame_cap_fps=120, A/B inside each start, 4 phases of 30 s):** on the screen no difference. cap2: one
+  refresh 70.7% off, 70.1% on; cap3: 84.8% and 84.0%. With the cap, fewer presents never shown (cap3 28.6% to 12.2%);
+  shown frames a second the same (102-103). It is not used.
+- **Two against three buffers (one start each, minutes apart):** cap2 ran 10.9 ms frames, the executor busy 98-99%,
+  its Present 5.4-7.1 ms, the game waiting 3.2-6.2 ms a frame for it; cap3 8.3 ms with the cap and 6.95 without, the
+  executor busy 21-93%, Present 0.2-2.4 ms, the game's wait 0-0.8 ms. Why cap2's Present took longer than 24 Nov
+  fast's (3.6 ms, 2 buffers, the same settings but the cap) is not known.
+- **Microstutter, counted the same way in each start (frames over 16 ms and over twice the median of the 60 around
+  them, from the first mark):** 22 Nov final 28 a minute (up to 430 ms: the zone change of that run), 24 Nov fast 46,
+  24 Nov native 127, cap2 187 (36-40 ms) -- all two buffers; cap3 21 (22-31 ms).
+- **What reaches the screen with three buffers:** cap3 made about 144 frames a second without the cap; 102 a second
+  were shown, 14% of them for two refreshes, 29% of the presents never shown. That is frames arriving unevenly against
+  the 120 Hz refresh. present_interval (d8_device.cpp, existing) sets the swap chain's SyncInterval; the 26 Nov session
+  compares 0 (the game's) and 1, both with three buffers.
+- **Loading:** the executor's mip builds while walking, 1.6-4 ms the longest per 600 frames, 50-150 textures; at the
+  login one of 155-176 ms per start (which texture is not logged).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

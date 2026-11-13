@@ -1,6 +1,8 @@
 // d8_main.cpp -- d3d8on11: the module, the log, formats, caps and the IDirect3D8 object.
 #include "d8.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <string>
 
 // ---- caps ---------------------------------------------------------------------------------------------------------------
@@ -78,7 +80,63 @@ HRESULT D8::CreateDevice(UINT a, D3DDEVTYPE t, HWND focus, DWORD beh, D3DPRESENT
   *out = d; return D3D_OK;
 }
 
+// ---- the kit, loaded by this DLL (21 Nov; the owner: install once, no loader to start) -------------------------------
+// The game loads d3d8.dll from its folder (FFXiMain.dll imports it), so the first Direct3DCreate8 runs inside the game
+// with FFXiMain.dll in memory. If xikit.dll is next to this DLL and not loaded yet (xiload may have loaded it), and
+// d3d8on11.ini's load_kit is not 0: the game's build (FFXiMain.dll's TimeDateStamp in memory) is looked up -- a
+// manifest of its own (xikit_manifest_<stamp>.txt) or the analysed build's (!game_timestamp in xikit_manifest.txt). With
+// one, xikit.dll is loaded (it loads speedfix and the other mods itself). Without: nothing of the kit is loaded, the
+// game runs with this renderer alone, and a console window says so and where to get a kit for the build
+// (update_url in d3d8on11.ini). Making a manifest for a new build (pipeline/build_translate.py) runs offline, in Python
+// on an unpacked copy of the game: it is not done here.
+static void kit_dir(char *d, size_t n) {
+  HMODULE m = NULL; GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)&kit_dir, &m);
+  GetModuleFileNameA(m, d, (DWORD)n); char *s = strrchr(d, '\\'); if (s) *s = 0;
+}
+static uint32_t manifest_stamp(const char *path) {
+  FILE *f = fopen(path, "r"); if (!f) return 0;
+  char line[256]; uint32_t ts = 0;
+  for (int i = 0; i < 40 && fgets(line, sizeof line, f); i++) if (!strncmp(line, "!game_timestamp ", 16)) { ts = (uint32_t)strtoul(line + 16, NULL, 16); break; }
+  fclose(f); return ts;
+}
+static void kit_load() {
+  static bool done; if (done) return; done = true;
+  char dir[MAX_PATH], ini[MAX_PATH + 32], kit[MAX_PATH + 32], url[512];
+  kit_dir(dir, sizeof dir);
+  snprintf(ini, sizeof ini, "%s\\d3d8on11.ini", dir); snprintf(kit, sizeof kit, "%s\\xikit.dll", dir);
+  if (!GetPrivateProfileIntA("d3d8on11", "load_kit", 1, ini)) { d8_log("load_kit=0: the kit is not loaded by d3d8.dll"); return; }
+  if (GetFileAttributesA(kit) == INVALID_FILE_ATTRIBUTES) return;            // no kit installed: the renderer alone
+  if (GetModuleHandleA("xikit.dll")) { d8_log("load_kit: xikit.dll is already loaded (xiload): left as it is"); return; }
+  HMODULE game = GetModuleHandleA("FFXiMain.dll");
+  if (!game) { d8_log("load_kit: no FFXiMain.dll in this process: the kit is not loaded"); return; }
+  IMAGE_NT_HEADERS *nt = (IMAGE_NT_HEADERS *)((char *)game + ((IMAGE_DOS_HEADER *)game)->e_lfanew);
+  uint32_t ts = nt->FileHeader.TimeDateStamp;
+  char m1[MAX_PATH + 48], m0[MAX_PATH + 32];
+  snprintf(m1, sizeof m1, "%s\\xikit_manifest_%08X.txt", dir, (unsigned)ts); snprintf(m0, sizeof m0, "%s\\xikit_manifest.txt", dir);
+  bool known = manifest_stamp(m1) == ts || manifest_stamp(m0) == ts;
+  if (known) {
+    HMODULE k = LoadLibraryA(kit);
+    d8_log("load_kit: FFXiMain.dll build %08X has a manifest: xikit.dll %s", (unsigned)ts, k ? "loaded" : "could not be loaded");
+    if (!k) d8_log("load_kit: LoadLibrary error %lu", (unsigned long)GetLastError());
+    return;
+  }
+  GetPrivateProfileStringA("d3d8on11", "update_url", "the project's GitHub page", url, sizeof url, ini);
+  d8_log("load_kit: FFXiMain.dll build %08X: this kit has no manifest for it; the kit and its mods are not loaded (the renderer runs alone). Update: %s", (unsigned)ts, url);
+  if (GetPrivateProfileIntA("d3d8on11", "update_notice", 1, ini) && AllocConsole()) {
+    SetConsoleTitleA("FFXI graphics kit: update needed");
+    HANDLE o = GetStdHandle(STD_OUTPUT_HANDLE); char msg[1400]; DWORD w;
+    int n = snprintf(msg, sizeof msg,
+      "This copy of FFXiMain.dll (build %08X) is newer or other than the builds this kit knows.\r\n\r\n"
+      "The game runs with the new renderer, but speedfix and the kit's other changes are off,\r\n"
+      "because their addresses for this build are not known.\r\n\r\n"
+      "Please update the kit from: %s\r\n\r\n"
+      "(This window can be closed; the game goes on. To stop this notice: update_notice=0 in d3d8on11.ini.)\r\n", (unsigned)ts, url);
+    WriteConsoleA(o, msg, (DWORD)n, &w, NULL);
+  }
+}
 extern "C" __declspec(dllexport) IDirect3D8 *WINAPI Direct3DCreate8(UINT sdk) {
   d8_log("d3d8on11: Direct3DCreate8(%u)", sdk);
+  d8_crash_install();
+  kit_load();
   return new D8();
 }

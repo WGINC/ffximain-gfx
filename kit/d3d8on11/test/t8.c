@@ -1315,13 +1315,21 @@ static void interp_test(void) {
   IDirect3DDevice8_DeleteVertexShader(d, h);
   if (vp) IDirect3DVertexBuffer8_Release(vp); if (vn) IDirect3DVertexBuffer8_Release(vn); if (ib) IDirect3DIndexBuffer8_Release(ib);
 }
+/* t8 crash (21 Nov): an access violation after the device is made; d3d8on11's crash reporting must log it (first chance
+   and unhandled, with t8.exe and its offset) and hand on to the filter that was there before it: this one, which exits 3 */
+static LONG WINAPI t8_filter(EXCEPTION_POINTERS *e) { (void)e; printf("t8: the filter set before d3d8.dll's was reached\n"); ExitProcess(3); return 0; }
 int main(int argc, char **argv) {
   setvbuf(stdout, NULL, _IONBF, 0);
+  if (argc > 1 && !strcmp(argv[1], "crash")) SetUnhandledExceptionFilter(t8_filter);
+  /* t8 kit (21 Nov): a stand-in FFXiMain.dll is loaded first, as the game is when it calls Direct3DCreate8 (load_kit) */
+  if (argc > 1 && !strcmp(argv[1], "kit") && !LoadLibraryA("FFXiMain.dll")) { printf("FAIL: no FFXiMain.dll next to t8\n"); return 2; }
   g_d3d = Direct3DCreate8(D3D_SDK_VERSION);
   if (!g_d3d) { printf("FAIL: Direct3DCreate8\n"); return 2; }
   HWND w = window(); D3DPRESENT_PARAMETERS pp;
   HRESULT hr = make(w, &pp);
   if (FAILED(hr)) { printf("FAIL: CreateDevice 0x%08lX\n", (unsigned long)hr); return 2; }
+  if (argc > 1 && !strcmp(argv[1], "kit")) { printf("t8: kit done\n"); IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d); return 0; }
+  if (argc > 1 && !strcmp(argv[1], "crash")) { printf("t8: crashing on purpose\n"); *(volatile int *)(uintptr_t)0x10 = 1; return 0; }
   if (argc > 1 && !strcmp(argv[1], "interp")) {
     interp_test();
     IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d);

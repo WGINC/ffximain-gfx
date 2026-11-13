@@ -232,6 +232,19 @@ becomes even; the distant names change little (their glyphs are drawn near their
 (the one-level texture with mipmaps on draws exactly as t8's own chain sampled trilinear, before and after a write to
 part of it, on both executors) and mip_test.
 
+**Crash reporting (21 Nov; d8_common.cpp).** Exceptions of the fatal kinds (access violation, illegal instruction,
+stack overflow, divide by zero, fail-fast, heap corruption ...) are logged with their module and offset, the thread
+and the registers, and the values on the stack that point into a module's code (a scan, not an unwound stack): first
+chance (a vectored handler, once per address, at most 24 lines; such an exception may still be handled) and unhandled
+(a filter chained to the one before it). The previous start's log is kept as `d3d8on11_prev.log`. Test: t8 crash.
+
+**Loading the kit (`load_kit=1`; 21 Nov; d8_main.cpp).** At the first Direct3DCreate8, if xikit.dll is next to d3d8.dll
+and not loaded yet, the game's build (FFXiMain.dll's TimeDateStamp in memory) is looked up in `xikit_manifest_<stamp>.txt`
+or xikit_manifest.txt's `!game_timestamp`: found, xikit.dll is loaded (it waits for the device and loads speedfix); not
+found, the kit is not loaded, the log says so, and (`update_notice=1`) a console window says the kit needs an update
+and where (`update_url`). The renderer runs either way. kit/install installs it all into the game's folder. Tests:
+t8 kit with stand-in FFXiMain.dll and xikit.dll (test/kitload).
+
 **CopyRects into a lockable texture.** A CopyRects from a GPU surface (a render target, the back buffer, another
 texture) into a texture level marks that level's CPU copy stale; the level's next LockRect reads it back first
 (X_READBACK, which waits for the executor to run the copy), so the lock holds the copied texels and its unlock sends

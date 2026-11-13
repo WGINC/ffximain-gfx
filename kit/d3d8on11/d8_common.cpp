@@ -18,6 +18,9 @@ static void log_open() {
   GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)&log_open, &m);
   GetModuleFileNameA(m, p, sizeof p);
   char *s = strrchr(p, '\\'); strcpy(s ? s + 1 : p, d8_log_name);
+  // the last start's log is kept beside it (_prev): a game started again without start.bat wrote over it (21 Nov,
+  // the owner's first adv11 start)
+  { char q[MAX_PATH]; snprintf(q, sizeof q, "%s", p); char *e = strrchr(q, '.'); if (e && (size_t)(e - q) + 10 < sizeof q) { strcpy(e, "_prev.log"); MoveFileExA(p, q, MOVEFILE_REPLACE_EXISTING); } }
   g_log = fopen(p, "w");
 }
 void d8_log(const char *fmt, ...) {
@@ -96,4 +99,74 @@ void d8_rb_log(unsigned frames) {
     at += snprintf(line + at, sizeof line - at, "%s%s: %lu, %.1f ms", i ? "; " : "", v[i].first ? w : "(no site)", v[i].second.first, v[i].second.second);
   }
   d8_log("readbacks by call site, %u frames (each waits for the GPU): %s", frames, line);
+}
+
+// ---- crash reporting (21 Nov; the owner's two Direct3D 11 starts ended with nothing in the log) ----------------------
+// A vectored handler sees every exception first, also those the code that raised them handles (the game, Windows,
+// the drivers may use some on purpose): each fatal-kind code is logged as "first chance (it may be handled)", once per
+// address, at most 24 lines. An unhandled-exception filter, chained to the one before it, logs "unhandled". With the
+// address: its module and offset, the thread, the registers, and the values on the stack that point into a module's
+// code (a scan of 1 KB of stack, not an unwound call stack: some are stale). Each line is flushed at once.
+static LONG g_crash_lines; static LPTOP_LEVEL_EXCEPTION_FILTER g_prev_filter;
+static bool crash_kind(DWORD c) {
+  return c == EXCEPTION_ACCESS_VIOLATION || c == EXCEPTION_STACK_OVERFLOW || c == EXCEPTION_ILLEGAL_INSTRUCTION ||
+         c == EXCEPTION_PRIV_INSTRUCTION || c == EXCEPTION_INT_DIVIDE_BY_ZERO || c == 0xC0000409u || c == 0xC0000374u ||
+         c == EXCEPTION_ARRAY_BOUNDS_EXCEEDED || c == EXCEPTION_IN_PAGE_ERROR;
+}
+static bool in_code(uintptr_t v) {
+  HMODULE m = NULL; MEMORY_BASIC_INFORMATION mb;
+  if (v < 0x10000 || !VirtualQuery((void *)v, &mb, sizeof mb) || mb.State != MEM_COMMIT || !(mb.Protect & (PAGE_EXECUTE | PAGE_EXECUTE_READ | PAGE_EXECUTE_READWRITE | PAGE_EXECUTE_WRITECOPY))) return false;
+  return GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)v, &m) && m;
+}
+static void crash_report(EXCEPTION_POINTERS *e, const char *kind) {
+  static uintptr_t seen[24]; static LONG nseen;
+  uintptr_t at = (uintptr_t)e->ExceptionRecord->ExceptionAddress;
+  for (LONG i = 0; i < nseen && i < 24; i++) if (seen[i] == at && kind[0] == 'f') return;
+  LONG n = InterlockedIncrement(&g_crash_lines); if (n > 24) return;
+  if (nseen < 24) seen[nseen++] = at;
+  char where[MAX_PATH + 16]; d8_caller((void *)at, where, sizeof where);
+  const EXCEPTION_RECORD *r = e->ExceptionRecord;
+  char extra[64] = "";
+  if (r->ExceptionCode == EXCEPTION_ACCESS_VIOLATION && r->NumberParameters >= 2)
+    snprintf(extra, sizeof extra, " (%s 0x%08lX)", r->ExceptionInformation[0] == 0 ? "reading" : r->ExceptionInformation[0] == 8 ? "executing" : "writing", (unsigned long)r->ExceptionInformation[1]);
+#if defined(__i386__)
+  const CONTEXT *c = e->ContextRecord;
+  d8_log("exception 0x%08lX%s at %s, thread %lu, %s; eax %08lX ebx %08lX ecx %08lX edx %08lX esi %08lX edi %08lX ebp %08lX esp %08lX",
+         (unsigned long)r->ExceptionCode, extra, where, (unsigned long)GetCurrentThreadId(), kind, c->Eax, c->Ebx, c->Ecx, c->Edx, c->Esi, c->Edi, c->Ebp, c->Esp);
+  uintptr_t sp = c->Esp;
+#else
+  d8_log("exception 0x%08lX%s at %s, thread %lu, %s", (unsigned long)r->ExceptionCode, extra, where, (unsigned long)GetCurrentThreadId(), kind);
+#if defined(__x86_64__)
+  uintptr_t sp = (uintptr_t)e->ContextRecord->Rsp;
+#elif defined(__aarch64__)
+  uintptr_t sp = (uintptr_t)e->ContextRecord->Sp;
+#else
+  uintptr_t sp = 0;
+#endif
+#endif
+  if (r->ExceptionCode == EXCEPTION_STACK_OVERFLOW || !sp) return;      // (little stack left)
+  char line[640]; size_t L = 0; int k = 0;
+  L += snprintf(line + L, sizeof line - L, "  stack values pointing into code (a scan, not an unwound stack):");
+  for (int i = 0; i < 256 && k < 12 && L < sizeof line - 64; i++) {
+    uintptr_t v; MEMORY_BASIC_INFORMATION mb;
+    uintptr_t a = sp + (uintptr_t)i * sizeof(void *);
+    if (!VirtualQuery((void *)a, &mb, sizeof mb) || mb.State != MEM_COMMIT || (mb.Protect & (PAGE_NOACCESS | PAGE_GUARD))) break;
+    v = *(uintptr_t *)a;
+    if (in_code(v)) { char w[MAX_PATH + 16]; d8_caller((void *)v, w, sizeof w); L += snprintf(line + L, sizeof line - L, " %s", w); k++; }
+  }
+  d8_log("%s", line);
+}
+static LONG CALLBACK crash_vectored(EXCEPTION_POINTERS *e) {
+  if (e && e->ExceptionRecord && crash_kind(e->ExceptionRecord->ExceptionCode)) crash_report(e, "first chance (it may be handled)");
+  return EXCEPTION_CONTINUE_SEARCH;
+}
+static LONG WINAPI crash_filter(EXCEPTION_POINTERS *e) {
+  if (e && e->ExceptionRecord) crash_report(e, "unhandled: the process ends here unless an earlier filter handles it");
+  return g_prev_filter ? g_prev_filter(e) : EXCEPTION_CONTINUE_SEARCH;
+}
+void d8_crash_install() {
+  static bool done; if (done) return; done = true;
+  AddVectoredExceptionHandler(0, crash_vectored);
+  g_prev_filter = SetUnhandledExceptionFilter(crash_filter);
+  d8_log("crash reporting: exceptions of the fatal kinds logged with their module and offset (first chance, and unhandled)");
 }

@@ -755,6 +755,51 @@ if 'thread' in MODES:
         print('note: %s: scenes that draw a one-level texture in the frame it was made, so with mip_async before its levels come: %s' % (be, ', '.join(sorted(n for n in sy if not n.startswith('mipmaps') and sy[n] != on.get(n))) or 'none'))
         ch = sorted(n for n in off if not n.startswith('mipmaps') and off[n] != sy.get(n))
         print('note: %s: scenes that minify a one-level texture in a 3D draw, changed by mipmaps=1: %s' % (be, ', '.join(ch) or 'none'))
+# crash reporting (21 Nov, d8_common.cpp): t8 crash writes to address 0x10 after making the device; the log must hold
+# the exception with t8.exe and its offset, first chance and unhandled, the filter t8 set before d3d8.dll's must still
+# run (exit 3), and the previous start's log must be kept as d3d8on11_prev.log
+if 'thread' in MODES:
+    open(log, 'w').write('the previous start\n')
+    env = dict(os.environ, WINEDEBUG='-all', WINEDLLOVERRIDES='d3d8=n', D8ON11_MODE='thread')
+    r = subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', 'crash'], cwd=ours, capture_output=True, text=True, timeout=300, env=env)
+    t = open(log).read() if os.path.exists(log) else ''
+    prev = open(os.path.join(ours, 'd3d8on11_prev.log')).read() if os.path.exists(os.path.join(ours, 'd3d8on11_prev.log')) else ''
+    ok = r.returncode == 3 and re.search(r'exception 0xC0000005 \(writing 0x00000010\) at t8\.exe\+0x[0-9A-F]+, thread \d+, first chance', t) is not None and \
+         re.search(r'exception 0xC0000005 \(writing 0x00000010\) at t8\.exe\+0x[0-9A-F]+, thread \d+, unhandled', t) is not None and prev.startswith('the previous start')
+    print('%s: crash reporting: an access violation logged with its module and offset (first chance and unhandled), the earlier filter reached (exit %s), the previous log kept' % ('ok' if ok else 'FAIL', r.returncode)); bad += not ok
+# load_kit (21 Nov, d8_main.cpp): d3d8.dll loads xikit.dll at the first Direct3DCreate8 when a manifest names the
+# game's build, and not otherwise. Stand-ins (test/kitload): an FFXiMain.dll whose TimeDateStamp is set here, and an
+# xikit.dll that writes fake_kit_loaded.txt when loaded. Three runs: the build in a manifest of its own; in none
+# (logged, the notice off); no xikit.dll (nothing said)
+if 'thread' in MODES:
+    import struct
+    kd = os.path.join(w, 'kit'); os.makedirs(kd, exist_ok=True)
+    for f in ('t8.exe',): shutil.copy(os.path.join(ours, f), kd)
+    for f in ('d3d8.dll', 'd8x.exe'): shutil.copy(os.path.join(D8, 'dist', f), kd)
+    subprocess.run(['i686-w64-mingw32-gcc', '-shared', '-O1', '-o', os.path.join(kd, 'FFXiMain.dll'), os.path.join(H, 'kitload', 'fake_game.c')], check=True)
+    subprocess.run(['i686-w64-mingw32-gcc', '-shared', '-O1', '-o', os.path.join(kd, 'xikit.dll'), os.path.join(H, 'kitload', 'fake_kit.c')], check=True)
+    g = bytearray(open(os.path.join(kd, 'FFXiMain.dll'), 'rb').read()); pe = struct.unpack_from('<I', g, 0x3c)[0]
+    struct.pack_into('<I', g, pe + 8, 0x6AE818B4); open(os.path.join(kd, 'FFXiMain.dll'), 'wb').write(bytes(g))
+    open(os.path.join(kd, 'd3d8on11.ini'), 'w').write('[d3d8on11]\nupdate_notice=0\nupdate_url=https://example.invalid/kit\n')
+    def kit_run():
+        for f in ('fake_kit_loaded.txt', 'd3d8on11.log'):
+            if os.path.exists(os.path.join(kd, f)): os.remove(os.path.join(kd, f))
+        r = subprocess.run(['xvfb-run', '-a', '-s', '-screen 0 1024x768x24', 'wine', 't8.exe', 'kit'], cwd=kd, capture_output=True, text=True, timeout=300,
+                           env=dict(os.environ, WINEDEBUG='-all', WINEDLLOVERRIDES='d3d8=n', D8ON11_MODE='thread'))
+        t = open(os.path.join(kd, 'd3d8on11.log')).read() if os.path.exists(os.path.join(kd, 'd3d8on11.log')) else ''
+        return 'kit done' in r.stdout, os.path.exists(os.path.join(kd, 'fake_kit_loaded.txt')), t
+    open(os.path.join(kd, 'xikit_manifest_6AE818B4.txt'), 'w').write('# test\n!game_timestamp 6AE818B4\n')
+    ran, loaded, t = kit_run()
+    ok = ran and loaded and 'load_kit: FFXiMain.dll build 6AE818B4 has a manifest: xikit.dll loaded' in t
+    print('%s: load_kit: a build with a manifest of its own: xikit.dll loaded by d3d8.dll' % ('ok' if ok else 'FAIL')); bad += not ok
+    os.remove(os.path.join(kd, 'xikit_manifest_6AE818B4.txt')); open(os.path.join(kd, 'xikit_manifest.txt'), 'w').write('!game_timestamp 6A995428\n')
+    ran, loaded, t = kit_run()
+    ok = ran and not loaded and 'load_kit: FFXiMain.dll build 6AE818B4: this kit has no manifest for it' in t and 'https://example.invalid/kit' in t
+    print('%s: load_kit: a build with no manifest: the kit not loaded, logged with the update address, the game goes on' % ('ok' if ok else 'FAIL')); bad += not ok
+    os.remove(os.path.join(kd, 'xikit.dll'))
+    ran, loaded, t = kit_run()
+    ok = ran and not loaded and 'load_kit' not in t
+    print('%s: load_kit: no xikit.dll: the renderer alone, nothing said' % ('ok' if ok else 'FAIL')); bad += not ok
 # interp (17 Nov, d8_device.cpp): t8 interp is the step clock and draws a skinned mesh through D8ON11_Skin; each case's
 # picture must equal its reference, drawn with the clock off and the palette and world matrix the case expects
 # (blended between ticks, on a tick frame, over a frame of two ticks; drawn as handed when the game changed it between

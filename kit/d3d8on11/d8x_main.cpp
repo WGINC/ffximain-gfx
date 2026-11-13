@@ -13,6 +13,7 @@
 
 int main(int argc, char **argv) {
   d8_log_name = "d3d8on11_exec.log";
+  d8_crash_install();
   if (argc < 3) { d8_log("usage: d8x MAPPING_NAME GAME_PID"); return 2; }
   const char *nm = argv[1];
   HANDLE map = OpenFileMappingA(FILE_MAP_ALL_ACCESS, FALSE, nm);

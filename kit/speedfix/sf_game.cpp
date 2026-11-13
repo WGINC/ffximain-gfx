@@ -85,3 +85,41 @@ extern "C" void sf_shadow_take(long *n, long *g, float *dmin, float *dmax, float
   *n = sh_fit_n; *g = sh_game_n; *dmin = sh_dmin; *dmax = sh_dmax; *dsum = sh_dsum;
   sh_fit_n = sh_game_n = 0; sh_dmin = 1e30f; sh_dmax = 0; sh_dsum = 0;
 }
+
+// name_smooth (21 Nov). The owner: names pulse as one moves, in the game as shipped too (dgVoodoo). CXiActor::NameCalc
+// (0x100830C0) sets the name's size from its depth as Unit10082F60_ProjectThroughCamera (0x10082FB0) leaves it: the
+// post-projection z times 4096, truncated by _ftol (0x10311C2C) to an integer; under [0x103581D4] (4020 in 6AE818B4)
+// the size is 1, over [0x103581D8] (4100) the name is not drawn, between them (4100 - depth) / 80. So a name's size
+// moves in 80 steps of 1/80 over that range (Actor_DrawWorldText 0x10086210 multiplies the glyph size by it). With
+// name_smooth=1 the same size is made from the depth before the truncation: the game's own function runs first, then
+// the hook repeats the projection with the same game functions in the same order and, only when the truncation of its
+// depth equals the integer the game stored (a check that it is the same number), replaces the size by
+// (4100 - depth) / 80 unrounded, kept between 0 and 1. Otherwise the game's size stays (counted).
+static xikit::fn<decltype(&CXiActor::NameCalc)> prev_namecalc;
+static volatile long nc_smooth, nc_kept;
+static uint32_t __thiscall sf_namecalc(void *self, undefined4 *pos, int out, float *scale, uint32_t *color) {
+  uint32_t r = prev_namecalc(self, pos, out, scale, color);
+  if (!sf_cfg.name_smooth || !scale || !out || !pos) return r;
+  int32_t *o = (int32_t *)out; uint32_t nearz = *(volatile uint32_t *)XI_GAME(0x103581D4u), farz = *(volatile uint32_t *)XI_GAME(0x103581D8u);
+  uint32_t zi = (uint32_t)o[2];
+  if (farz <= nearz || zi > farz || zi < nearz) return r;              // hidden, or size 1: nothing to smooth
+  alignas(16) uint8_t m[64]; float v[4];
+  orig::Unit10026C70_ReturnThis_v1(m);
+  orig::Vec3_Copy_v1(v, pos); v[3] = 1.0f;
+  orig::Mat4_Copy_v1(m, orig::Camera_GetViewMatrixPtr_v1());
+  orig::Mat4_TransformPointInPlace_v2(m, v);
+  if (!(v[2] < 0.0f)) { nc_kept++; return r; }
+  orig::Vec3_Copy_v1(v, pos);
+  orig::Mat4_PostMultiply_v1(m, orig::Camera_GetMatrix154Ptr_v1());
+  orig::Mat4_TransformCoordInPlace_v1(m, v);
+  if (!(v[3] >= 1.0f)) { nc_kept++; return r; }
+  long double zf = (long double)v[2] * 4096.0L;
+  if ((int32_t)zf != o[2]) { nc_kept++; return r; }                    // not the game's number: its size stays
+  long double sz = ((long double)farz - zf) / (long double)(int32_t)(farz - nearz);
+  *scale = (float)(sz < 0 ? 0 : sz > 1 ? 1 : sz);
+  nc_smooth++;
+  return r;
+}
+extern "C" void sf_name_take(long *s, long *k) { *s = nc_smooth; *k = nc_kept; nc_smooth = 0; nc_kept = 0; }
+extern "C" int sf_hook_name(const XikitHost *host) { return XI_HOOK(host, CXiActor::NameCalc, sf_namecalc, prev_namecalc); }
+

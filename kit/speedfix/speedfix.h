@@ -46,6 +46,7 @@ struct SfConfig {
   int uncap;                // the game's minimum ticks a frame [g_pCamera+0x30] kept at 0: no 60 fps wait (sf_main.cpp)
   int frame_step;           // the game's time step: 0 its own, 1 real time in whole ticks, 2 and the fraction where proven
   int shadow_fit;           // (16 Nov) simple shadows (shadow mode 2) sized by each character's own model (sf_game.cpp); 0 the game's
+  int name_smooth;          // (21 Nov) names sized from their unrounded depth (sf_game.cpp); 0 the game's 80 steps
   int shadow_fit_scale;     // the shadow's half-width as hundredths of the model footprint's diagonal (default 46: sf_game.cpp says why)
 };
 extern SfConfig sf_cfg;
@@ -57,7 +58,9 @@ void sf_frame(void);
 // sf_game.cpp
 uintptr_t sf_game_addr(uint32_t analysed);      // an analysed address in the running game (XI_GAME, build translation)
 int  sf_hook_query(const XikitHost *host);
-int  sf_hook_shadow(const XikitHost *host);       // shadow_fit: Shadow_DrawByMode hooked
+int  sf_hook_shadow(const XikitHost *host);
+int  sf_hook_name(const XikitHost *host);         // name_smooth: CXiActor::NameCalc hooked
+void sf_name_take(long *smooth, long *kept);       // shadow_fit: Shadow_DrawByMode hooked
 void sf_shadow_take(long *n, long *g, float *dmin, float *dmax, float *dsum);   // its counts since the last call
 void sf_shadow_branches(long *b);                // Shadow_DrawByMode's branches since the last call (sf_game.cpp)
 int  sf_fork_skinmerge(const XikitHost *host);   // XI_FORK of CYyModelDt::SkinAndDrawV2

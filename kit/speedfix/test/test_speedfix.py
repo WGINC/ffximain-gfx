@@ -45,10 +45,12 @@ for mode in ('minimal', 'full', 'lazy', 'blocks', 'pacing', 'step', 'group'):
 for f in ('xikit.log', 'speedfix.ini'):
     if os.path.exists(os.path.join(d, f)): os.remove(os.path.join(d, f))
 r = subprocess.run(['wine', 'sf_host.exe', 'minimal'], cwd=d, capture_output=True, text=True, timeout=900,
-                   env=dict(os.environ, WINEDEBUG='-all', SF_HOST_INI='[speedfix]\nshadow_fit=1\nstats_every=1\n'))
+                   env=dict(os.environ, WINEDEBUG='-all', SF_HOST_INI='[speedfix]\nshadow_fit=1\nname_smooth=1\nstats_every=1\n'))
 slog = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
 ok = r.returncode == 0 and 'speedfix: shadow_fit=1: simple shadows sized by each character' in slog
 print('%s: shadow_fit=1: Shadow_DrawByMode hooked (logged)' % ('ok' if ok else 'FAIL')); bad += not ok
+ok = r.returncode == 0 and 'speedfix: name_smooth=1: names sized from their unrounded depth' in slog
+print('%s: name_smooth=1: CXiActor::NameCalc hooked (logged)' % ('ok' if ok else 'FAIL')); bad += not ok
 print('-- xikit.log (speedfix lines) --'); print('\n'.join(l for l in log.splitlines() if 'speedfix' in l or 'mod ' in l)[-4000:])
 ok = 'speedfix.dll (the speedfix mod) is loaded' in log
 print('%s: the kit leaves the functions speedfix changes inside to the game\'s code (respect_speedfix)' % ('ok' if ok else 'FAIL')); bad += not ok
@@ -64,6 +66,12 @@ g = subprocess.run([sys.executable, os.path.join(ROOT, 'sdk', 'fork.py'), 'gate-
 print(g.stdout.strip(), g.stderr.strip()[-2000:])
 ok = g.returncode == 0 and ': PASS;' in g.stdout
 print('%s: the gate: speedfix\'s Shadow_DrawByMode hook, shadow_fit off, is the game\'s function' % ('ok' if ok else 'FAIL')); bad += not ok
+g = subprocess.run([sys.executable, os.path.join(ROOT, 'sdk', 'fork.py'), 'gate-hook', 'CXiActor::NameCalc',
+                    os.path.join(SF, 'sf_game.cpp'), os.path.join(H, 'gate_stub.cpp'), '--trials', '30',
+                    '--work', os.path.join(d, 'w3')], capture_output=True, text=True)
+print(g.stdout.strip(), g.stderr.strip()[-2000:])
+ok = g.returncode == 0 and ': PASS;' in g.stdout
+print('%s: the gate: speedfix\'s CXiActor::NameCalc hook, name_smooth off, is the game\'s function' % ('ok' if ok else 'FAIL')); bad += not ok
 if os.environ.get('KEEP'): print('kept', d)
 else: shutil.rmtree(d, ignore_errors=True)
 print('ALL OK' if not bad else 'FAILED'); sys.exit(1 if bad else 0)

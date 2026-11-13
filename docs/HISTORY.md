@@ -5460,6 +5460,23 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   mipmaps scenes (which Present twice around a 300 ms wait first) equal mip_async=0 on both executors; skin_cpu,
   skin_gpu, v15_declaration and decl_short2 draw a texture in the frame it was made, so with mip_async without levels.
 
+## 13 Nov (twenty-first entry): names in 80 steps; crash reporting; the kit loaded by d3d8.dll; an installer
+
+- **Names (owner, 21 Nov: the pulse is in the game as shipped; the owner's reading: how names scale with distance).** The
+  source: CXiSkeletonActor::OnDrawName (0x100D0510) -> GetNamePos (0x100D04C0) -> CXiActor::NameCalc (0x100830C0) sets
+  the size from Unit10082F60_ProjectThroughCamera's depth, post-projection z x 4096 truncated by _ftol; 1 under
+  [0x103581D4] = 4020, hidden over [0x103581D8] = 4100 (6AE818B4, read from the unpacked file), (4100 - depth) / 80
+  between; Actor_DrawWorldText (0x10086210) scales the glyphs by it (viewport width / 426.67 x size). So a name's size
+  takes 80 values, 1/80 apart. That this is the pulse the owner sees is the reading that fits, not shown in the game.
+  NameCalc also blinks the alpha of actors with flag 4 at +0x88 by the frame counter (sin of frame x 16 degrees): a
+  different, deliberate effect. speedfix name_smooth=1 (default 1): the size from the unrounded depth, only when its
+  truncation equals the game's integer. Gate: the hook with name_smooth off is the game's function (both builds).
+- **Crash reporting** in d3d8on11 (d3d8.dll and d8x.exe), and the previous start's log kept as d3d8on11_prev.log.
+- **load_kit:** d3d8.dll loads xikit.dll at the first Direct3DCreate8 when a manifest names the game's build; for a
+  build without one the kit stays out and a console window says to update (update_url). kit/install: install.bat,
+  uninstall.bat, default .ini files, package.sh. The owner's idea also had the kit translate itself to a new build on
+  the owner's machine: that runs offline in Python on an unpacked game (pipeline/build_translate.py) and is not done.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

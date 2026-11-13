@@ -144,6 +144,8 @@ static const char kDefaultIni[] =
   "; round (simple) shadows sized to each character's model instead of the one size the game shares (1 on, 0 the game's);\r\n"
   "; shadow_fit_scale: the shadow's half-width in hundredths of the model's footprint diagonal\r\n"
   "shadow_fit=1\r\nshadow_fit_scale=46\r\n"
+  "; name_smooth: names shrink with distance continuously; 0 = the game's 80 size steps (the names jump a step at a time)\r\n"
+  "name_smooth=1\r\n"
   "; fewer textures CPU-encoded at load (1-15; textures loaded afterwards)\r\n"
   "texture_compression=1\r\ntexture_compression_value=15\r\n"
   "; the SSE math tier on any CPU with SSE (only before the game has chosen its tier)\r\n"
@@ -241,6 +243,7 @@ static SfConfig read_config(void) {
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
+  c.name_smooth = rd("name_smooth", 1) ? 1 : 0;
   c.shadow_fit = rd("shadow_fit", 1) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
   if (c.shadow_fit_scale < 5 || c.shadow_fit_scale > 300) c.shadow_fit_scale = 46;
   c.occlusion_hold = rd("occlusion_hold", 1); c.occlusion_nowait = rd("occlusion_nowait", 1); c.occlusion_first = rd("occlusion_first", 0); if (c.occlusion_first < 0 || c.occlusion_first > 2) c.occlusion_first = 0; c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
@@ -1073,6 +1076,8 @@ static void st_stats(void) {
     LOG("speedfix: draw calls by Frame_Render's world pass since the last line: XiZone_GetInstance %ld, sub_1018C2B0 %ld, "
         "StDancer_Update %ld, XiZone_DrawScene %ld, the task pass (OnMove) %ld, sub_102515F0 %ld, sound %ld, the rest of the "
         "frame %ld (counted under uncap/frame_step, Frame_Render's fork)", n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[0]); }
+  if (sf_cfg.name_smooth) { long ns, nk; sf_name_take(&ns, &nk);
+    LOG("speedfix: name_smooth: %ld name sizes made from the unrounded depth, %ld left at the game's (the depth did not match the game's)", ns, nk); }
   if (sf_cfg.shadow_fit) {
     long n, g; float mn, mx, sm; sf_shadow_take(&n, &g, &mn, &mx, &sm);
     if (n) LOG("speedfix: shadow_fit: %ld simple shadows sized by their model (footprint diagonal %.2f to %.2f, mean %.2f), %ld at the game's size (no box, or a diagonal outside 0.05 to 20)",
@@ -1295,6 +1300,10 @@ extern "C" int sf_init(const XikitHost *host) {
   sf_occl_init(host);
   if (sf_device_install(host) != 0) return 1;
   if (sf_hook_query(host) != XIKIT_OK) LOG("speedfix: Occlusion_QueryScreenRect not hooked: skip_actor_occlusion does nothing");
+  if (sf_cfg.name_smooth) {
+    if (sf_hook_name(host) != XIKIT_OK) LOG("speedfix: CXiActor::NameCalc not hooked: name_smooth does nothing");
+    else LOG("speedfix: name_smooth=1: names sized from their unrounded depth (the game: 80 steps)");
+  }
   if (sf_cfg.shadow_fit) {
     if (sf_hook_shadow(host) != XIKIT_OK) LOG("speedfix: Shadow_DrawByMode not hooked: shadow_fit does nothing");
     else LOG("speedfix: shadow_fit=1: simple shadows sized by each character's model (half-width %d%% of its footprint's diagonal)", sf_cfg.shadow_fit_scale);

@@ -5298,6 +5298,21 @@ blended: effects, nameplates, rigid models, the camera. Session d12_17nov gets a
   it passed, with medians 16.703, 16.706 and 16.711 ms: 0.006 to 0.014 ms inside the bound. So that check under Wine
   sits at its edge; the failure is not explained further.
 
+## 13 Nov (twelfth entry): advanced shadows -- what can be cut without changing the look
+
+The owner: build what is needed, without changing the look. The 17 Nov counts: the shared shadow texture (3024x1898,
+id 2208) is bound 17 times a frame with 29 draws and 1.0 clear a frame. So it is not cleared between characters: each
+character's decal (XiZone_DrawDecalOnTriangles) samples the texture as it stands after that character's silhouette,
+earlier silhouettes included. Batching the silhouette passes (the 11th entry's proposal) would change what each decal
+samples unless each character got a snapshot copy, which costs about what it saves: not done. What is lossless: the
+silhouettes are drawn with depth off (Model_BeginOffscreenPass sets ZENABLE and ZWRITEENABLE FALSE) while the game
+binds a depth surface with the texture (CDx_PushRenderTarget's third argument, +12 of the shadow block, which becomes
+SetRenderTarget's depth stencil); its size is not known. d3d8on11's Direct3D 12 executor now binds a depth surface
+only when a draw or clear uses it ("lazy depth", on by default), remembering per target whether its last pass did.
+Tests: all 36 scenes and 600 random cases (device_check cases1-4) identical on and off, and in test_d3d8on11.py the scenes and its 12 random cases; new scene lazy_depth (2.7 passes a frame bound
+without depth, 1.33 later binds in the t8 run; its 19 pixels different from Direct3D 11 are all ties, as with lazy
+depth off). The saving on the owner's Mac is not known: d12_18nov's third start measures it.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

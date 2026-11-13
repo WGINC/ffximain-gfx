@@ -841,6 +841,54 @@ static void scenes(void) {
     end("buffer_arena");
     IDirect3DDevice8_SetStreamSource(d, 0, NULL, 0); IDirect3DDevice8_SetIndices(d, NULL, 0);
     if (vb) IDirect3DVertexBuffer8_Release(vb); if (keep) IDirect3DVertexBuffer8_Release(keep); if (ib) IDirect3DIndexBuffer8_Release(ib); }
+  /* lazy_depth (18 Nov; d8_exec12.cpp bind_targets): passes into a render-target texture that has a depth surface,
+     drawn with depth off (as the game's shadow silhouettes, 0x10033800), between passes on the back buffer with depth
+     on; one pass starts with depth off and then draws with depth on (the depth surface must be there for that draw).
+     Four frames, so a target's pass is seen again; the last frame's picture is the scene's */
+  { IDirect3DTexture8 *rt = NULL; IDirect3DSurface8 *rs = NULL, *rds = NULL, *bbs = NULL, *ds = NULL;
+    if (SUCCEEDED(IDirect3DDevice8_CreateTexture(d, 64, 64, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &rt)) && rt &&
+        SUCCEEDED(IDirect3DDevice8_CreateDepthStencilSurface(d, 64, 64, D3DFMT_D24S8, D3DMULTISAMPLE_NONE, &rds))) {
+      IDirect3DTexture8_GetSurfaceLevel(rt, 0, &rs);
+      IDirect3DDevice8_GetRenderTarget(d, &bbs); IDirect3DDevice8_GetDepthStencilSurface(d, &ds);
+      for (int frame = 0; frame < 4; frame++) {
+        reset_state();
+        IDirect3DDevice8_SetRenderTarget(d, rs, rds);
+        IDirect3DDevice8_BeginScene(d);
+        IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, 0xFF000000, 0.25f, 0);   /* depth 0.25 in the target's surface */
+        IDirect3DDevice8_EndScene(d);
+        for (int pass = 0; pass < 3; pass++) {
+          /* the back buffer, depth on */
+          IDirect3DDevice8_SetRenderTarget(d, bbs, ds);
+          if (pass == 0) begin(0xFF102030); else IDirect3DDevice8_BeginScene(d);
+          IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_TRUE);
+          quad_rhw(4.0f + 8 * pass, 4, 20.0f + 8 * pass, 20, 0.5f, 0xFF40A040, 0xFF40A040, 0xFF40A040, 0xFF40A040);
+          IDirect3DDevice8_EndScene(d);
+          /* the texture, depth off: a silhouette */
+          IDirect3DDevice8_SetRenderTarget(d, rs, rds);
+          IDirect3DDevice8_BeginScene(d);
+          IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_FALSE);
+          quad_rhw(8.0f * pass, 8.0f * pass, 8.0f * pass + 24, 8.0f * pass + 24, 0.9f, 0xFFC0C0C0, 0xFFC0C0C0, 0xFFC0C0C0, 0xFFC0C0C0);
+          if (pass == 2) {          /* then depth on: z 0.1 passes the 0.25 there, z 0.5 does not */
+            IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_TRUE);
+            quad_rhw(30, 4, 60, 20, 0.1f, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000, 0xFFFF0000);
+            quad_rhw(30, 30, 60, 46, 0.5f, 0xFF0000FF, 0xFF0000FF, 0xFF0000FF, 0xFF0000FF);
+          }
+          IDirect3DDevice8_EndScene(d);
+        }
+        /* the texture onto the back buffer */
+        IDirect3DDevice8_SetRenderTarget(d, bbs, ds);
+        IDirect3DDevice8_BeginScene(d);
+        IDirect3DDevice8_SetRenderState(d, D3DRS_ZENABLE, D3DZB_FALSE);
+        IDirect3DDevice8_SetTexture(d, 0, (IDirect3DBaseTexture8 *)rt);
+        { VRhwT v[4] = {{0, 24, 0.5f, 1, 0xFFFFFFFF, 0, 0}, {40, 24, 0.5f, 1, 0xFFFFFFFF, 1, 0}, {0, 64, 0.5f, 1, 0xFFFFFFFF, 0, 1}, {40, 64, 0.5f, 1, 0xFFFFFFFF, 1, 1}};
+          IDirect3DDevice8_SetVertexShader(d, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1);
+          IDirect3DDevice8_DrawPrimitiveUP(d, D3DPT_TRIANGLESTRIP, 2, v, sizeof *v); }
+        IDirect3DDevice8_SetTexture(d, 0, NULL);
+        if (frame == 3) end("lazy_depth"); else { IDirect3DDevice8_EndScene(d); IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL); }
+      }
+      if (bbs) IDirect3DSurface8_Release(bbs); if (ds) IDirect3DSurface8_Release(ds); if (rs) IDirect3DSurface8_Release(rs);
+    } else printf("scene lazy_depth none\n");
+    if (rds) IDirect3DSurface8_Release(rds); if (rt) IDirect3DTexture8_Release(rt); }
   /* rt_downsample (13 Nov): what the game's "background resolution" twice the window does (the owner's registry:
      3024x1898 for a 1512x949 window): the scene drawn into a render-target texture twice the size, then that texture
      drawn onto the back buffer at half size with linear filtering. Here a one-pixel checker in a 128x128 render target,

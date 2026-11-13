@@ -709,6 +709,18 @@ if 'thread' in MODES:
     bl = re.search(r'D3D12 binds, 600 frames: .*?(\d+) shaders compiled \((\d+) from the disk cache\)', t)
     ok = 'presented 699' in out and bl is not None and bl.group(1) == '0' and int(bl.group(2)) > 0 and re.search(r'D3D12 caches: [1-9]\d* compiled shaders from the last starts', t) is not None
     print('%s: d3d12: a start after one that ran 2,000 frames compiles no shader: %s' % ('ok' if ok else 'FAIL', bl.group(0)[bl.group(0).find('frame;') + 7:] if bl else 'no binds line')); bad += not ok
+# lazy depth (18 Nov, d8_exec12.cpp bind_targets): every scene and the random cases identical with it on and off, and
+# the scene lazy_depth makes it bind passes without their depth surface and bind it later in one (the shutdown line)
+if 'thread' in MODES:
+    clear_logs(); s_on = scenes(ours, True, 'thread', D12); t = logs()
+    s_off = scenes(ours, True, 'thread', dict(D12, D8ON11_D3D12_LAZY_DEPTH='0'))
+    pick = lambda o: [l for l in o.splitlines() if l.startswith('scene ')]
+    r_on = pick(run(ours, 'random cases.txt', True, 'thread', D12)); r_off = pick(run(ours, 'random cases.txt', True, 'thread', dict(D12, D8ON11_D3D12_LAZY_DEPTH='0')))
+    m = re.findall(r'lazy depth on: ([0-9.]+) passes a frame bound without their depth surface, ([0-9.]+) bound it later', t)
+    used = bool(m) and float(m[-1][0]) > 0 and float(m[-1][1]) > 0
+    ok = s_on == s_off and 'lazy_depth' in s_on and r_on == r_off and len(r_on) > 0 and used
+    print('%s: d3d12 lazy depth: %d scenes and %d random cases identical on and off; passes without depth and a later bind seen (%s)' %
+          ('ok' if ok else 'FAIL', len(s_on), len(r_on), m[-1] if m else 'no line')); bad += not ok
 # interp (17 Nov, d8_device.cpp): t8 interp is the step clock and draws a skinned mesh through D8ON11_Skin; each case's
 # picture must equal its reference, drawn with the clock off and the palette and world matrix the case expects
 # (blended between ticks, on a tick frame, over a frame of two ticks; drawn as handed when the game changed it between

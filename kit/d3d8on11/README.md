@@ -177,6 +177,16 @@ A draw from the caller's memory reads no stream and is never looked at for this 
 occlusion rectangles were dropped while a skinned buffer was bound: docs/HISTORY.md). The log's periodic `gpu skin`
 line and the totals count the draws not made; 0 is right.
 
+**Lazy depth (Direct3D 12; 18 Nov; on; `D8ON11_D3D12_LAZY_DEPTH=0` turns it off).** A target's depth surface is bound
+only when a draw or clear uses it (depth or stencil test or write; a depth or stencil clear). A draw with depth and
+stencil off never reads or writes the depth surface, so leaving it unbound changes no pixel; on a tile-based GPU it
+saves the surface's load and store for the pass. Each target remembers whether its last pass used depth and binds it
+at once if so (no extra target switch for the scene); a pass bound without depth that then draws with depth binds it
+then. Why: the game's advanced shadows draw each character's silhouette with depth off (0x10033800) into a shared
+3024x1898 texture with a depth surface bound, 17 passes a frame in the owner's 17 Nov run. The `D3D12 render targets`
+line counts passes bound without depth and later binds. Tests: every scene and the random cases identical on and off;
+scene `lazy_depth` (passes with depth off into a texture with a depth surface, one that turns depth on midway).
+
 **In-between frames (`interp=1`; 17 Nov; off by default; d8_device.cpp "interp").** Above 60 fps most frames carry
 no game time (speedfix's frame_step: 0 whole ticks), and the game draws its characters where its last tick left them.
 With interp on, those frames draw each skinned character at the blend of its last two ticks, one tick behind the

@@ -149,7 +149,16 @@ struct Exec12 {
   D3D12_CPU_DESCRIPTOR_HANDLE cur_rtv = {}, cur_dsv = {}; bool has_rtv = false, has_dsv = false;
   DXGI_FORMAT rt_fmt = DXGI_FORMAT_UNKNOWN, ds_fmt = DXGI_FORMAT_UNKNOWN; uint32_t rt_w = 0, rt_h = 0;
   ID3D12Resource *rt_res = nullptr; D3D12_RESOURCE_STATES *rt_st = nullptr; Res *ds_res = nullptr;
-  void bind_targets();                              // resolves X_TARGETS (the back buffer is the current one) and binds
+  // (18 Nov) lazy depth: a target's depth surface is bound only when a draw or clear uses it (depth or stencil test
+  // or write, a depth or stencil clear); bound at once for a target whose pass used it last time. A draw with depth
+  // and stencil off never reads or writes the depth surface, so not binding it changes no pixel; on a tile-based GPU
+  // it saves the surface's load and store for the pass (the game's advanced shadows: 17 passes a frame into a
+  // 3024x1898 target with depth off, 0x10033800). D8ON11_D3D12_LAZY_DEPTH=0: always bound, as before
+  bool lazy_depth = true, ds_have = false, pass_depth = false; uint64_t pass_key = ~0ull;
+  std::unordered_map<uint64_t, bool> depth_used;     // by target (rt id, level, face, ds id): its last pass used depth
+  uint64_t c_nodepth = 0, c_latedepth = 0;           // passes bound without depth; depth bound after the pass began
+  Res *ds_cand = nullptr; D3D12_CPU_DESCRIPTOR_HANDLE ds_cand_h = {}; DXGI_FORMAT ds_cand_fmt = DXGI_FORMAT_UNKNOWN;
+  void bind_targets(bool want_depth = false);       // resolves X_TARGETS (the back buffer is the current one) and binds
 
   // ---- shaders and pipelines ----
   typedef HRESULT (WINAPI *PFN_Compile)(const void *, SIZE_T, const char *, const D3D_SHADER_MACRO *, ID3DInclude *,

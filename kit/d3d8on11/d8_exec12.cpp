@@ -182,23 +182,32 @@ D3D12_CPU_DESCRIPTOR_HANDLE Exec12::rtv_of(const XRef &ref, DXGI_FORMAT *fmt, ui
 }
 // X_TARGETS, resolved now (the back buffer is whichever is current) and bound; each draw and clear also moves the targets
 // into their states again (a copy may have moved them)
-void Exec12::bind_targets() {
+void Exec12::bind_targets(bool want_depth) {
   if (tgt_dirty) {
+    if (pass_key != ~0ull) depth_used[pass_key] = pass_depth;          // what the pass that ends here needed
     Res *rr = nullptr; has_rtv = false; rt_res = nullptr; rt_st = nullptr; rt_fmt = DXGI_FORMAT_UNKNOWN; rt_w = rt_h = 0;
     if (tgt_rt.id) {
       cur_rtv = rtv_of(tgt_rt, &rt_fmt, &rt_w, &rt_h, &rr);
       if (cur_rtv.ptr && rr) { has_rtv = true; rt_res = rr->r; rt_st = &rr->st; }
     }
-    ds_res = tgt_ds ? res_of(tgt_ds) : nullptr; has_dsv = false; ds_fmt = DXGI_FORMAT_UNKNOWN;
-    if (ds_res && ds_res->r && ds_res->dsv != ~0u) { cur_dsv = h_dsv.at(ds_res->dsv); has_dsv = true; ds_fmt = ds_res->fmt; if (!has_rtv) { rt_w = ds_res->w; rt_h = ds_res->h; } }
-    else ds_res = nullptr;
+    ds_cand = tgt_ds ? res_of(tgt_ds) : nullptr; ds_have = false; has_dsv = false; ds_fmt = DXGI_FORMAT_UNKNOWN; ds_res = nullptr;
+    if (ds_cand && ds_cand->r && ds_cand->dsv != ~0u) { ds_cand_h = h_dsv.at(ds_cand->dsv); ds_cand_fmt = ds_cand->fmt; ds_have = true; if (!has_rtv) { rt_w = ds_cand->w; rt_h = ds_cand->h; } }
+    else ds_cand = nullptr;
+    pass_key = (uint64_t)tgt_rt.id << 40 ^ (uint64_t)tgt_rt.level << 32 ^ (uint64_t)tgt_rt.face << 28 ^ (uint64_t)tgt_ds; pass_depth = false;
+    bool bind_ds = ds_have;
+    if (ds_have && lazy_depth && has_rtv && !want_depth) { auto it = depth_used.find(pass_key); bind_ds = it == depth_used.end() || it->second; }
+    if (bind_ds) { has_dsv = true; cur_dsv = ds_cand_h; ds_fmt = ds_cand_fmt; ds_res = ds_cand; } else if (ds_have) c_nodepth++;
     tgt_dirty = false;
     cl->OMSetRenderTargets(has_rtv ? 1 : 0, has_rtv ? &cur_rtv : nullptr, FALSE, has_dsv ? &cur_dsv : nullptr);
     ts_mark(tgt_key());                                      // the GPU's time from here on is this target's
     uint64_t k = (uint64_t)tgt_rt.id << 32 | tgt_rt.level << 8 | tgt_rt.face;
     TStat &ts = tstat[k]; ts.w = rt_w; ts.h = rt_h; ts.rtv = has_rtv; ts.binds++; tcur = &ts;
     t_binds++; if (k != t_last) t_changes++; t_last = k;
+  } else if (want_depth && ds_have && !has_dsv) {            // a draw in a pass bound without depth needs it: bound now
+    has_dsv = true; cur_dsv = ds_cand_h; ds_fmt = ds_cand_fmt; ds_res = ds_cand; c_latedepth++;
+    cl->OMSetRenderTargets(has_rtv ? 1 : 0, has_rtv ? &cur_rtv : nullptr, FALSE, &cur_dsv);
   }
+  if (want_depth) pass_depth = true;
   if (rt_res && rt_st) to(rt_res, *rt_st, D3D12_RESOURCE_STATE_RENDER_TARGET);
   if (ds_res) to(*ds_res, D3D12_RESOURCE_STATE_DEPTH_WRITE);
 }
@@ -217,6 +226,8 @@ int32_t Exec12::init(const XInit &x, bool resize) {
     HRESULT h = swap->ResizeBuffers(NBB, x.width, x.height, DXGI_FORMAT_B8G8R8A8_UNORM, 0);
     if (FAILED(h)) { d8_log("D3D12: ResizeBuffers %ux%u: 0x%08lX", x.width, x.height, (unsigned long)h); return D3DERR_NOTAVAILABLE; }
   } else {
+    { const char *ld = getenv("D8ON11_D3D12_LAZY_DEPTH"); lazy_depth = !(ld && atoi(ld) == 0);
+      d8_log("D3D12: lazy depth %s (a target's depth surface bound only when a draw or clear uses it)", lazy_depth ? "on" : "off (D8ON11_D3D12_LAZY_DEPTH=0)"); }
     if (getenv("D8ON11_TEST_D3D12_FAIL")) { d8_log("D3D12: not started (D8ON11_TEST_D3D12_FAIL, a test)"); return D3DERR_NOTAVAILABLE; }
     HMODULE m = LoadLibraryA("d3d12.dll");
     PFN_D3D12_CREATE_DEVICE create = m ? (PFN_D3D12_CREATE_DEVICE)(void *)GetProcAddress(m, "D3D12CreateDevice") : nullptr;
@@ -429,7 +440,7 @@ void Exec12::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::ve
     auto it = res.find(id);
     if (it == res.end()) { d8_once("destroyunknown12", "stream error: object %u destroyed but not held (its creation failed, or a stream error)", id); break; }
     for (size_t i = 0; i < snap_pend.size(); i++) if (snap_pend[i].id == id) { snap_pend.erase(snap_pend.begin() + i); break; }
-    if (id == tgt_rt.id || id == tgt_ds) { tgt_dirty = true; rt_res = nullptr; rt_st = nullptr; ds_res = nullptr; }
+    if (id == tgt_rt.id || id == tgt_ds) { tgt_dirty = true; rt_res = nullptr; rt_st = nullptr; ds_res = nullptr; ds_cand = nullptr; ds_have = false; has_dsv = false; }
     if (id == tgt_rt.id) tgt_rt = XRef(); if (id == tgt_ds) tgt_ds = 0;
     free_res(it->second, false); res.erase(it);
     last_srv_epoch = ~0ull;                                // a view the last table holds may be this object's
@@ -938,8 +949,10 @@ void Exec12::tstat_log(uint32_t frames) {
     at += snprintf(line + at, sizeof line - at, "%s%s%ux%u (id %u): %.1f binds, %.1f draws, %.1f clears", i ? "; " : "", t.rtv ? "" : "depth only ",
                    t.w, t.h, (unsigned)(v[i].first >> 32), t.binds / f, t.draws / f, t.clears / f);
   }
-  d8_log("D3D12 render targets, %u frames: %.1f binds a frame, %.1f to another target, %.1f copies, %u targets used; by target: %s",
-         frames, t_binds / f, t_changes / f, t_copies / f, (unsigned)tstat.size(), at ? line : "none");
+  d8_log("D3D12 render targets, %u frames: %.1f binds a frame, %.1f to another target, %.1f copies, %u targets used; lazy depth %s: %.1f passes "
+         "a frame bound without their depth surface, %.2f bound it later; by target: %s",
+         frames, t_binds / f, t_changes / f, t_copies / f, (unsigned)tstat.size(), lazy_depth ? "on" : "off", c_nodepth / f, c_latedepth / f, at ? line : "none");
+  c_nodepth = c_latedepth = 0;
   tstat.clear(); tcur = nullptr; t_binds = t_changes = t_copies = 0; t_last = ~0ull;
 }
 
@@ -1317,7 +1330,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     }
     for (int s = 0; s < 4; s++) to(sa[s], sa_st[s], D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
   }
-  bind_targets(); if (tcur) tcur->draws += mi ? mi->n : 1;
+  bind_targets(d.depth.DepthEnable || d.depth.StencilEnable); if (tcur) tcur->draws += mi ? mi->n : 1;
 
   // ---- the pipeline state, cached by everything it is made of
   struct PKey { uint32_t vs, ps; D3D11_BLEND_DESC b; D3D11_DEPTH_STENCIL_DESC ds; D3D11_RASTERIZER_DESC r; uint32_t tt, rtf, dsf, nrt; } k;
@@ -1511,7 +1524,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
 // ---- clears and copies -----------------------------------------------------------------------------------------------------
 // D3D8's Clear, rectangles or not: Direct3D 12's clears take the rectangles themselves (target pixels, as XRect)
 void Exec12::clear(const XClear &c, const XRect *r) {
-  bind_targets(); barriers(); if (tcur) tcur->clears++;
+  bind_targets((c.flags & (D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL)) != 0); barriers(); if (tcur) tcur->clears++;
   const D3D12_RECT *rects = c.nrects ? (const D3D12_RECT *)r : nullptr;
   static_assert(sizeof(D3D12_RECT) == sizeof(XRect), "XRect is a D3D12_RECT");
   if ((c.flags & D3DCLEAR_TARGET) && has_rtv) {
@@ -1750,6 +1763,7 @@ void Exec12::shutdown() {
   for (auto *&a : sa) rel(a);
   if (qrb) { qrb->Unmap(0, nullptr); rel(qrb); } rel(qh);
   size_t n = 0; for (auto &r : res) n += r.second.kind != 4 && r.first < 0xFFFFFF00u;
+  if (started && c_frames) tstat_log(c_frames);              // (the frames since the last line)
   if (started)
     d8_log("executor shutdown: %u objects still held besides the back buffer (D3D12; %llu pipeline states made, %llu waits for room in the upload ring; "
            "draw_merge: %llu merged draws took in %llu others, the slots started again %llu times)", (unsigned)n, (unsigned long long)pso_made, (unsigned long long)ring_waits,

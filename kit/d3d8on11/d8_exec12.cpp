@@ -25,6 +25,16 @@ static double qpc12() {
   LARGE_INTEGER t; QueryPerformanceCounter(&t); return (double)t.QuadPart * 1000.0 / (double)f.QuadPart;
 }
 template <class T> static void rel(T *&p) { if (p) { p->Release(); p = nullptr; } }
+// diagnostic switches (13 Nov; the owner's picture check on Parallels): each turns off one thing that could make a draw
+// read the wrong inputs. D8ON11_D3D12_DIAG=list of: sm4 (shader model 4.0 code, as the Direct3D 11 executor's),
+// smpdirect (samplers made in the shader heap), nocheck (no sampler check at the start), fresh (a new texture table and
+// sampler table for every draw), sync (the CPU waits for the GPU after every draw)
+static bool diag(const char *what) {
+  static const char *e = getenv("D8ON11_D3D12_DIAG");
+  return e && strstr(e, what) != nullptr;
+}
+static const char *VS_T() { return diag("sm4") ? "vs_4_0" : "vs_5_0"; }
+static const char *PS_T() { return diag("sm4") ? "ps_4_0" : "ps_5_0"; }
 static uint64_t fnv64(const void *p, size_t n, uint64_t h = 14695981039346656037ull) {
   const uint8_t *b = (const uint8_t *)p; for (size_t i = 0; i < n; i++) { h ^= b[i]; h *= 1099511628211ull; } return h;
 }
@@ -285,14 +295,18 @@ int32_t Exec12::init(const XInit &x, bool resize) {
     // the sampler check (sampler_check): the copied descriptors first, then made in place; neither right: Direct3D 11
     { uint32_t a[2] = {0, 0}, b[2] = {0, 0};
       const bool force_wrong = getenv("D8ON11_TEST_D3D12_SAMPLERS") != nullptr;   // a test: both ways count as wrong
-      int ra = sampler_check(true, a), rb2 = ra == 3 && !force_wrong ? 3 : sampler_check(false, b);
+      if (getenv("D8ON11_D3D12_DIAG")) d8_log("D3D12 diagnostic switches: %s", getenv("D8ON11_D3D12_DIAG"));
+      int ra, rb2;
+      if (diag("nocheck") || diag("smpdirect")) { ra = rb2 = -1; smp_copy = !diag("smpdirect"); d8_log("D3D12 sampler check: not run (diagnostic); samplers %s", smp_copy ? "copied" : "made in the shader heap"); goto checked; }
+      ra = sampler_check(true, a); rb2 = ra == 3 && !force_wrong ? 3 : sampler_check(false, b);
       if (force_wrong) { ra = rb2 = 0; d8_log("D3D12 sampler check: both ways treated as wrong whatever they draw (D8ON11_TEST_D3D12_SAMPLERS, a test)"); }
       d8_log("D3D12 sampler check: samplers copied into the shader heap: linear sample %u (128 is right), clamped sample %u (255 is right): %s%s",
              a[0], a[1], ra == 3 ? "right" : ra < 0 ? "not run" : "WRONG", ra == 3 ? "" : "");
       if (ra != 3) d8_log("D3D12 sampler check: samplers made in the shader heap: linear sample %u, clamped sample %u: %s", b[0], b[1], rb2 == 3 ? "right" : rb2 < 0 ? "not run" : "WRONG");
       if (ra == 3) smp_copy = true;
       else if (rb2 == 3) smp_copy = false;
-      else { d8_log("D3D12: this driver does not sample as the stream asks by either way: Direct3D 11 runs the stream"); return D3DERR_NOTAVAILABLE; } }
+      else { d8_log("D3D12: this driver does not sample as the stream asks by either way: Direct3D 11 runs the stream"); return D3DERR_NOTAVAILABLE; }
+      checked:; }
     ts_init(); ts_begin();
     D3D12_FEATURE_DATA_D3D12_OPTIONS op = {}; dev->CheckFeatureSupport(D3D12_FEATURE_D3D12_OPTIONS, &op, sizeof op);
     d8_log("D3D12 executor: device made; resource binding tier %d; upload ring %d MB; swap chain %ux%u, FLIP_DISCARD, %d buffers; up to %u frames in flight",
@@ -760,7 +774,7 @@ int Exec12::sampler_check(bool copy, uint32_t px[2]) {
     "Texture2D t : register(t0); SamplerState s0 : register(s0); SamplerState s1 : register(s1);\n"
     "float4 vs(uint i : SV_VertexID) : SV_Position { return float4(i == 1 ? 3 : -1, i == 2 ? -3 : 1, 0, 1); }\n"
     "float4 ps(float4 p : SV_Position) : SV_Target { return p.x < 1 ? t.Sample(s0, float2(0.5, 0.5)) : t.Sample(s1, float2(1.25, 0.25)); }\n";
-  ID3DBlob *vb = compile_hlsl(src, "vs", "vs_5_0"), *pb = compile_hlsl(src, "ps", "ps_5_0");
+  ID3DBlob *vb = compile_hlsl(src, "vs", VS_T()), *pb = compile_hlsl(src, "ps", PS_T());
   if (!vb || !pb) { rel(vb); rel(pb); return -1; }
   bool was = smp_copy; smp_copy = copy;
   D3D12_HEAP_PROPERTIES hp = {}; hp.Type = D3D12_HEAP_TYPE_DEFAULT;
@@ -893,7 +907,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   if (!Pp) pks.assign((const char *)&d.pk, sizeof d.pk);
   auto vi = Vp ? vsh.end() : vsh.find(vks);
   if (!Vp && vi == vsh.end()) {
-    VSh v; v.id = (uint32_t)vsh.size() + 1; v.code = compile_hlsl(gen_vs(d.vk), "main", "vs_5_0");
+    VSh v; v.id = (uint32_t)vsh.size() + 1; v.code = compile_hlsl(gen_vs(d.vk), "main", VS_T());
     static const char *sn[] = {"POSITION", "POSITION", "NORMAL", "COLOR", "TEXCOORD", "PSIZE", "BLENDWEIGHT"};
     for (int i = 0; i < d.vk.nel; i++) {
       const VElem &e = d.vk.el[i];
@@ -919,7 +933,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   }
   if (!Pp) {
     auto pi = psh.find(pks);
-    if (pi == psh.end()) { PSh s; s.id = (uint32_t)psh.size() + 1; s.code = compile_hlsl(gen_ps(d.pk), "main", "ps_5_0"); pi = psh.emplace(pks, s).first; }
+    if (pi == psh.end()) { PSh s; s.id = (uint32_t)psh.size() + 1; s.code = compile_hlsl(gen_ps(d.pk), "main", PS_T()); pi = psh.emplace(pks, s).first; }
     Pp = &pi->second; memo.pk = d.pk; memo.p = Pp; memo.pk_ok = true;
     if (!Pp->h && Pp->code) Pp->h = fnv64(Pp->code->GetBufferPointer(), Pp->code->GetBufferSize()) | 1;
   }
@@ -932,10 +946,11 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   D3D11_SAMPLER_DESC skd[8]; memset(skd, 0, sizeof skd);
   for (uint32_t i = 0; i < ns; i++) if (d.stage[i].tex) skd[i] = d.stage[i].sampler;
   uint32_t smp_tab;
-  if (memo.smp_ok && !memcmp(memo.skd, skd, sizeof skd)) smp_tab = memo.smp;
+  const bool fresh = diag("fresh");
+  if (!fresh && memo.smp_ok && !memcmp(memo.skd, skd, sizeof skd)) smp_tab = memo.smp;
   else {
   std::string sk((const char *)skd, sizeof skd);
-  auto st = smp_tables.find(sk);
+  auto st = fresh ? smp_tables.end() : smp_tables.find(sk);
   if (st != smp_tables.end()) smp_tab = st->second;
   else {
     if (smp_next + 8 > SMP_CAP) { wait_idle(); smp_tables.clear(); smp_next = 0; memo.smp_ok = false; d8_once("smpfull12", "D3D12: the sampler heap was full: waited for the GPU and started it again"); }
@@ -1107,7 +1122,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     to(*r, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
   }
   uint64_t srv_tab;
-  if (last_srv_epoch == submits && !memcmp(idx, last_srv_ids, sizeof idx)) srv_tab = last_srv_tab;
+  if (!diag("fresh") && last_srv_epoch == submits && !memcmp(idx, last_srv_ids, sizeof idx)) srv_tab = last_srv_tab;
   else {
     uint64_t start = gv_head, phys = start % gv_cap;
     if (phys + 8 > gv_cap) { start += gv_cap - phys; phys = 0; }
@@ -1218,7 +1233,8 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   if (bd.sref != d.stencil_ref) { cl->OMSetStencilRef(d.stencil_ref); bd.sref = d.stencil_ref; }
   for (UINT i = 0; i < nvb; i++) if (memcmp(&bd.vb[i], &vb[i], sizeof vb[i])) { cl->IASetVertexBuffers(i, 1, &vb[i]); bd.vb[i] = vb[i]; }
   if (use_ib && memcmp(&bd.ib, &ib, sizeof ib)) { cl->IASetIndexBuffer(&ib); bd.ib = ib; }
-  if (mi) { cl->DrawIndexedInstanced(mcount, 1, 0, 0, 0); return; }
+  if (mi) { cl->DrawIndexedInstanced(mcount, 1, 0, 0, 0); if (diag("sync")) wait_idle(); return; }
+  struct SyncAfter { Exec12 *x; ~SyncAfter() { if (diag("sync")) x->wait_idle(); } } sync_after{this};
   switch (d.kind) {
   case XD_DRAW: cl->DrawInstanced(d.count, 1, d.start, 0); break;
   case XD_UP: cl->DrawInstanced(d.count, 1, 0, 0); break;
@@ -1264,7 +1280,7 @@ void Exec12::copy_draw(Res &dst, UINT dsub, UINT x, UINT y, Res &src, UINT ssub,
       "Texture2D t : register(t0);\n"
       "float4 vs(uint id : SV_VertexID) : SV_Position { return float4((id & 1) ? 1 : -1, (id >> 1) ? -1 : 1, 0, 1); }\n"
       "float4 ps(float4 p : SV_Position) : SV_Target { return t.Load(int3(p.xy, 0)); }\n";
-    cpy_vs = compile_hlsl(s, "vs", "vs_5_0"); cpy_ps = compile_hlsl(s, "ps", "ps_5_0");
+    cpy_vs = compile_hlsl(s, "vs", VS_T()); cpy_ps = compile_hlsl(s, "ps", PS_T());
   }
   if (!cpy_vs || !cpy_ps) return;
   UINT w = bx.right - bx.left, h = bx.bottom - bx.top;

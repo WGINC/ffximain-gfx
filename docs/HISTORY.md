@@ -5134,6 +5134,17 @@ Found on the way: in one 32-bit process Wine's Vulkan (lavapipe) fails vkCreateG
 pipelines (winevulkan asserts: the process ends); case r0528 alone draws. Hence the four runs. Whether Parallels' driver
 spends address space per pipeline is not known; the game process had 1,059 MB free at start (xikit_env, 12 Nov).
 
+## 13 Nov (fourth entry): the picture check on the owner's Mac
+
+run_check.bat on Parallels (cmpcheck.py): scenes 31 identical, 1 at ties, 3 differ: dxt1_mips_fvf104 (1,210 pixels:
+other mip levels read, the test texture's magenta level among them), rhw_texture (640: the 2x-stretched point-filtered
+quad patterned), rt_sample_after (64 sampled rows: the one-pixel checker unblended where D3D11 blends it, LINEAR with
+CLAMP). Random cases: 504 identical, 11 at ties, 85 differ, many over the whole picture (r0022: black on D3D11, coloured
+texels on D3D12). No single texture state goes with the failing cases (each 10-20%). The sampler check at the start had
+passed on the same machine. So Direct3D 12 there draws some draws with other inputs than asked; which part is not
+established. Next: run_variants.bat runs Direct3D 12 six ways (D8ON11_D3D12_DIAG: sm4, smpdirect, nocheck, fresh,
+sync; d8_exec12.cpp diag()), each against Direct3D 11 (cmpvariants.py). Under Wine every variant draws as the base.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

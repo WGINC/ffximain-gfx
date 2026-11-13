@@ -471,6 +471,11 @@ static void pp_stats(void) {
 // Here, each frame (render thread, inside Present): the switches, on only while the kit's hooks are live, and the
 // figures for the statistics line.
 extern "C" { extern volatile int xi_step_exact; }
+// the performance counter for the fork's step_exact (fork/Frame_Render.fork.cpp xi_exact_ticks), from speedfix's own imports
+extern "C" long long sf_qpc(long long *freq) {
+  static LARGE_INTEGER f; if (!f.QuadPart) QueryPerformanceFrequency(&f);
+  LARGE_INTEGER n; QueryPerformanceCounter(&n); if (freq) *freq = f.QuadPart; return n.QuadPart;
+}
 extern "C" { extern volatile int xi_step_mode, xi_uncap, xi_step_have; extern float xi_step_whole, xi_step_frac; extern int sf_framestep_installed; }
 static LARGE_INTEGER g_st_qpf; static LONGLONG g_st_last;
 static LONG g_st_frames, g_st_zero; static double g_st_whole, g_st_frac, g_st_game, g_st_ms;

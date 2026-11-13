@@ -44,19 +44,21 @@ static inline int xi_floor(void *self_) { return xi_uncap != 0 ? 0 : *((int *)se
 // the counter's longer time. The first call, a scale that is not positive, or a counter gap of over a second: the
 // game's average as before.
 extern "C" { __declspec(dllexport) volatile int xi_step_exact; __declspec(dllexport) double xi_step_exact_last; }
-static LARGE_INTEGER xi_ex_qpf, xi_ex_last;
+// (the counter is read by speedfix's own code, sf_main.cpp sf_qpc: a Windows call written here would go through the
+// game's import table, as the reconstruction's calls do, which the test host does not bind)
+extern "C" long long sf_qpc(long long *freq);
+static long long xi_ex_last;
 static double xi_exact_ticks(void *self_, double avg)
 {
-  LARGE_INTEGER now; QueryPerformanceCounter(&now);
-  if (!xi_ex_qpf.QuadPart) QueryPerformanceFrequency(&xi_ex_qpf);
-  long long d = xi_ex_last.QuadPart ? now.QuadPart - xi_ex_last.QuadPart : -1;
+  long long qf = 0, now = sf_qpc(&qf);
+  long long d = xi_ex_last ? now - xi_ex_last : -1;
   xi_ex_last = now;
-  if (!xi_step_exact || d < 0 || d > xi_ex_qpf.QuadPart) return avg;
+  if (!xi_step_exact || d < 0 || d > qf || qf <= 0) return avg;
   void *t = *((void **)self_ + 7);
   if (!t) return avg;
   double sc = ((double (__thiscall *)(void *))(*(void ***)t)[12])(t);
   if (!(sc > 0.0)) return avg;
-  double ms = (double)d * 1000.0 / (double)xi_ex_qpf.QuadPart;
+  double ms = (double)d * 1000.0 / (double)qf;
   double ex = 0.06 * ms / sc, one = 0.06 / sc;
   float v; memcpy(&v, (const void *)&g_frameStepRing[g_frameStepRingIndex & 3], 4);
   if (ex > v + one) ex = v + one;

@@ -904,7 +904,11 @@ static void env_modules(void) {
 static BOOL CALLBACK env_win(HWND w, LPARAM lp) {
   DWORD pid = 0; GetWindowThreadProcessId(w, &pid);
   if (pid != GetCurrentProcessId() || !IsWindowVisible(w)) return TRUE;
-  char cls[128] = "", title[128] = ""; GetClassNameA(w, cls, sizeof cls); GetWindowTextA(w, title, sizeof title);
+  // the title by InternalGetWindowText, which reads it without sending the window a message: GetWindowTextA sends
+  // WM_GETTEXT, and on 22 Nov the owner's game crashed in Windower's Hook.dll (+0x611C1) on this thread, through USER32
+  // (d3d8on11's crash line; this thread starts at xikit.dll+0x6AE0, the thread list)
+  char cls[128] = "", title[128] = ""; GetClassNameA(w, cls, sizeof cls);
+  { WCHAR wt[128] = L""; if (InternalGetWindowText(w, wt, 128) > 0) WideCharToMultiByte(CP_ACP, 0, wt, -1, title, sizeof title, NULL, NULL); }
   RECT r, c; GetWindowRect(w, &r); GetClientRect(w, &c);
   envp("  window %p class \"%s\" title \"%s\": %ldx%ld at %ld,%ld, client %ldx%ld, style %08lX exstyle %08lX", (void *)w, cls, title,
        r.right - r.left, r.bottom - r.top, r.left, r.top, c.right, c.bottom, (unsigned long)GetWindowLongA(w, GWL_STYLE), (unsigned long)GetWindowLongA(w, GWL_EXSTYLE));

@@ -73,7 +73,9 @@ struct XCopy { XRef src, dst; int32_t left, top, right, bottom, x, y; };
 // bytes, since nothing has written the surface since that copy (d8_res.cpp, Surf::LockRect). A sequence lock: ver is
 // odd while the executor writes.
 struct XSnap { XRef dst; uint32_t slot, wseq; };
-enum : uint32_t { SNAP_SLOTS = 1024, SNAP_BYTES = 1024 };    // 16x16 at 32 bits: the occlusion target (HISTORY, 11 Oct)
+enum : uint32_t { SNAP_SLOTS = 4096, SNAP_BYTES = 1024 };    // 16x16 at 32 bits: the occlusion target (HISTORY, 11 Oct)
+// (4096 from 22 Nov: the owner's zone change had 706-877 occlusion objects, 3 surfaces each in speedfix's occlusion_late;
+// past 1024 a surface had no slot and its do-not-wait lock waited, 3.3-3.6 ms each, 6,000-7,400 a minute)
 struct SnapSlot { volatile uint32_t ver, id, wseq, bytes; uint8_t data[SNAP_BYTES]; };
 
 // ---- draws: the fixed-function pipeline as generated shaders (d8_ff.cpp decides, d8_exec.cpp draws) ------------------

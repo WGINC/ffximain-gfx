@@ -344,6 +344,8 @@ ULONG Dev::Release() {
   if (gpu_skin) d8_log("gpu skin totals: %llu jobs, %llu palettes sent, %llu sources made, %llu refused, %llu draws not made", (unsigned long long)skin_jobs,
                        (unsigned long long)skin_pals, (unsigned long long)skin_built, (unsigned long long)skin_refused, (unsigned long long)skin_undrawn);
   g_skin_dev = nullptr;
+  if (snap_next) d8_log("readback snapshots totals: %d of %u slots taken (%u locks read a snapshot, %u read back, %u told not yet since the last line)",
+                        snap_next, (unsigned)SNAP_SLOTS, snap_hits, snap_misses, snap_notyet);
   if (mipmaps) d8_log("mipmaps totals: levels built whole %llu times, in part %llu times, %.1f ms in all, the longest %.2f ms; %llu textures with made levels, %llu dropped",
                       (unsigned long long)mip_built_t, (unsigned long long)mip_parts_t, mip_ms_t, mip_ms_max_t, (unsigned long long)mip_textures, (unsigned long long)mip_dropped);
   if (draw_delta) d8_log("draw delta totals: %llu draws sent as deltas, %llu in full", (unsigned long long)delta_tot, (unsigned long long)full_tot);

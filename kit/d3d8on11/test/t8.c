@@ -1328,6 +1328,28 @@ int main(int argc, char **argv) {
   HWND w = window(); D3DPRESENT_PARAMETERS pp;
   HRESULT hr = make(w, &pp);
   if (FAILED(hr)) { printf("FAIL: CreateDevice 0x%08lX\n", (unsigned long)hr); return 2; }
+  /* t8 manysnap N (22 Nov): N 16x16 lockable render targets, each copied from the back buffer, as speedfix's
+     occlusion_late keeps three per occlusion object; after two Presents each do-not-wait lock must find its snapshot
+     (none told "not yet"): prints how many of N did */
+  if (argc > 2 && !strcmp(argv[1], "manysnap")) {
+    int n = atoi(argv[2]), okn = 0, notyet = 0, fail = 0; IDirect3DSurface8 **rt = calloc(n, sizeof *rt), *bb = NULL;
+    RECT r16 = {0, 0, 16, 16}; POINT p0 = {0, 0};
+    { IDirect3DTexture8 *tx = NULL;                /* the source as speedfix's: a 16x16 render-target texture's level */
+      if (SUCCEEDED(IDirect3DDevice8_CreateTexture(d, 16, 16, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &tx)) && tx) {
+        IDirect3DTexture8_GetSurfaceLevel(tx, 0, &bb); IDirect3DTexture8_Release(tx); } }
+    if (bb) { IDirect3DSurface8 *keep = NULL; IDirect3DDevice8_GetRenderTarget(d, &keep); IDirect3DDevice8_SetRenderTarget(d, bb, NULL);
+      IDirect3DDevice8_Clear(d, 0, NULL, D3DCLEAR_TARGET, 0xFF102030, 1.0f, 0); IDirect3DDevice8_SetRenderTarget(d, keep, NULL); if (keep) IDirect3DSurface8_Release(keep); }
+    for (int i = 0; i < n; i++) if (SUCCEEDED(IDirect3DDevice8_CreateRenderTarget(d, 16, 16, D3DFMT_A8R8G8B8, D3DMULTISAMPLE_NONE, TRUE, &rt[i])))
+      IDirect3DDevice8_CopyRects(d, bb, &r16, 1, rt[i], &p0);
+    for (int k = 0; k < 3; k++) { IDirect3DDevice8_Present(d, NULL, NULL, NULL, NULL); Sleep(200); }
+    for (int i = 0; i < n; i++) { D3DLOCKED_RECT q; if (!rt[i]) { fail++; continue; }
+      HRESULT h = IDirect3DSurface8_LockRect(rt[i], &q, NULL, D3DLOCK_READONLY | 0x4000u);
+      if (h == (HRESULT)0x8876021CL) notyet++; else if (SUCCEEDED(h)) { okn++; IDirect3DSurface8_UnlockRect(rt[i]); } else fail++; }
+    printf("manysnap: %d surfaces: %d locked from their snapshot or read, %d told not yet, %d failed\n", n, okn, notyet, fail);
+    for (int i = 0; i < n; i++) if (rt[i]) IDirect3DSurface8_Release(rt[i]);
+    if (bb) IDirect3DSurface8_Release(bb); free(rt);
+    IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d); return 0;
+  }
   if (argc > 1 && !strcmp(argv[1], "kit")) { printf("t8: kit done\n"); IDirect3DDevice8_Release(d); IDirect3D8_Release(g_d3d); return 0; }
   if (argc > 1 && !strcmp(argv[1], "crash")) { printf("t8: crashing on purpose\n"); *(volatile int *)(uintptr_t)0x10 = 1; return 0; }
   if (argc > 1 && !strcmp(argv[1], "interp")) {

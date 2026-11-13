@@ -272,7 +272,9 @@ struct Dev final : public IDirect3DDevice8_Stub {
   int snap_take() {
     if (!link || !link->snaps) return -1;
     if (!snap_free.empty()) { int s = snap_free.back(); snap_free.pop_back(); return s; }
-    return snap_next < (int)SNAP_SLOTS ? snap_next++ : -1;
+    if (snap_next < (int)SNAP_SLOTS) return snap_next++;
+    d8_once("snapfull", "readback snapshots: all %u slots in use: a copied render target without one is read back by waiting (its do-not-wait lock waits too)", (unsigned)SNAP_SLOTS);
+    return -1;
   }
 
   HRESULT STDMETHODCALLTYPE QueryInterface(REFIID, void **);

@@ -771,6 +771,12 @@ if 'thread' in MODES:
     used = bool(m) and int(m[-1][0]) + int(m[-1][1]) > 0
     ok = s_on == s_off and len(s_on) > 30 and r_on == r_off and len(r_on) > 0 and used
     print('%s: d3d12 discard_hints: %d scenes and %d random cases identical on and off; targets discarded (%s)' % ('ok' if ok else 'FAIL', len(s_on), len(r_on), m[-1] if m else 'no line')); bad += not ok
+# snapshot slots (22 Nov): 2,600 copied 16x16 lockable render targets (the owner's zone change: 877 occlusion objects,
+# three surfaces each in speedfix's occlusion_late) all get a slot and are read from their snapshot (1,024 slots before)
+if 'thread' in MODES:
+    clear_logs(); out = run(ours, 'manysnap 2600', True, 'thread', D12); t = logs()
+    ok = 'manysnap: 2600 surfaces: 2600 locked' in out and 'readback snapshots totals: 2600 of 4096 slots taken (2600 locks read a snapshot, 0 read back' in t
+    print('%s: 2,600 copied lockable render targets each read from a snapshot slot (none waits)' % ('ok' if ok else 'FAIL')); bad += not ok
 # crash reporting (21 Nov, d8_common.cpp): t8 crash writes to address 0x10 after making the device; the log must hold
 # the exception with t8.exe and its offset, first chance and unhandled, the filter t8 set before d3d8.dll's must still
 # run (exit 3), and the previous start's log must be kept as d3d8on11_prev.log

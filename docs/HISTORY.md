@@ -5514,6 +5514,30 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   then passed twice alone (16.711, 16.687), ALL OK; the pacing code did not change this session (sf_main.cpp's only
   change since 10f3bab is name_smooth). A timing bound under Wine with its scheduler's spread, not a code change.
 
+## 13 Nov (twenty-fourth entry): the owner's 22 Nov run -- frame times, what made them, the arm crash
+
+- **Mean frame times (xikit frames; the installer start from d3d8on11's executor stats, busy / share of the time):**
+  final 10.70 ms (93.4 fps; marks: 0 login and loading 10.86, 1 walking 10.19, 2 names 0 10.04, 3 names 1 and a zone
+  change 11.26), hints 9.22 (108.5; mark 0 8.39, mark 1 10.92), arm 4.18 over 528 frames before the crash (not in the
+  game's scene), the installer start 9.13 (109.5; 27,000 frames, loading screens in).
+- **Where the time goes:** the game thread's cycles (rt_cycles at 3.06 GHz, the p99 of cycles over frame time) are
+  9.1-9.9 ms of the 10.0-10.9 ms walking frames; the device's Present takes 0.03-0.12 ms of them. So in play the
+  frame is the game's own code on its thread (x86, emulated on the owner's Mac), not the renderer. What in the game's
+  code is not split further here.
+- **The zone change (final mark 3, 110-170 s):** 33-42 ms frames. speedfix's late occlusion read (sf_occlusion.cpp
+  read_pic, speedfix.dll+0x10158) waited 3,418-5,309 times per 600 frames, 11.7-16.1 s in all; speedfix's line: 706-877
+  query objects seen, its late read 3.3-3.6 ms on average. occlusion_late keeps three 16x16 surfaces per object; past
+  d3d8on11's 1,024 snapshot slots a surface had none, and its do-not-wait lock is a waiting readback (d8_res.cpp: only
+  a surface with a slot is told "not yet"). SNAP_SLOTS is 4,096 now, and running out is logged. t8 manysnap 2600: every
+  surface read from its snapshot.
+- **The arm crash:** exception 0xC0000005 reading 0x98B0007E at Hook.dll+0x611C1 (Windower), first chance and
+  unhandled, thread 11424; the thread list: 11424 starts at xikit.dll+0x6AE0, m_envthread (env=1); the stack scan
+  shows USER32 and xikit.dll+0x7475 (in m_envthread). That thread lists the process's windows and read titles with
+  GetWindowTextA, which sends WM_GETTEXT. It now reads them with InternalGetWindowText (no message). Why this happens
+  with mode=remote (d8x_arm64.exe) and not in thread mode is not known. The installed settings run no env thread.
+- **Seen working (the owner):** shadows near and far, names (name_smooth: 77,481 sizes from the unrounded depth a minute,
+  none left), hints, the installer (load_kit: build 6AE818B4 has a manifest: xikit.dll loaded; SSE2 averaging).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

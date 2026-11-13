@@ -35,6 +35,7 @@
 static const XikitHost *H;
 static IDirect3DDevice8 *g_dev;
 static DWORD g_render_tid;              // the thread of the first Present
+static void *g_render_teb;              // its TEB (NtCurrentTeb, winnt.h): unique per live thread, read without a call
 static void *g_prev[97];                // per slot: the next layer (another mod, d3dprof, Direct3D)
 
 enum {
@@ -137,7 +138,9 @@ static void flush(void) {
   g_upOut++;
 }
 
-static inline bool render_thread(void) { return g_render_tid && GetCurrentThreadId() == g_render_tid; }
+// 23 Nov: the TEB, not GetCurrentThreadId (a call into kernel32 on every hooked device call; under the Mac's x86
+// emulation a switch to native code)
+static inline bool render_thread(void) { return g_render_teb && NtCurrentTeb() == g_render_teb; }
 static void apply_pending(void);
 // a call from another thread: whatever is pending goes out first, and nothing seen so far is trusted any more
 static inline void foreign(void) { flush(); apply_pending(); forget_all(); g_recording = 0; g_recOk = false; g_foreign++; }
@@ -369,7 +372,7 @@ static HRESULT __stdcall h_Reset(void *d, D3DPRESENT_PARAMETERS *pp) {
 }
 static HRESULT __stdcall h_Present(void *d, const RECT *a, const RECT *b, HWND w, const RGNDATA *r) {
   if (g_grp) grp_order();
-  if (!g_render_tid) { g_render_tid = GetCurrentThreadId(); H->log("speedfix: render thread %lu", (unsigned long)g_render_tid); }
+  if (!g_render_tid) { g_render_tid = GetCurrentThreadId(); g_render_teb = NtCurrentTeb(); H->log("speedfix: render thread %lu", (unsigned long)g_render_tid); }
   else if (!render_thread()) foreign();
   commit();
   close_held();

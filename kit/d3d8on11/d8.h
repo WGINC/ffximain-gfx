@@ -192,6 +192,10 @@ struct Block {
   bool rs[256], tss[8][32], tex[8], xf[512], vp, mat, stream[16], ib, vs, ps, clip[6], palette;
   std::vector<int> lights;                      // indices set or enabled
   State s;
+  // the indices of rs, tss (stage * 32 + state) and xf that are set, made from the flags at the block's first copy
+  // after it is complete (EndStateBlock or CreateStateBlock; the flags do not change after): copy_block walks these
+  // instead of all 1,024 flags (23 Nov: copy_block was 2.8% of the game thread's samples)
+  std::vector<uint16_t> irs, itss, ixf; bool indexed = false;
 };
 
 struct D8;

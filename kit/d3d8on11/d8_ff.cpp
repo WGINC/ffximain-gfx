@@ -385,8 +385,10 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
           sd.Filter = an ? D3D11_FILTER_ANISOTROPIC : (D3D11_FILTER)(0x10 | (mg ? 0x4 : 0) | 0x1);
           if (an) sd.MaxAnisotropy = (UINT)anisotropy;
         }
-        // a test only (D8ON11_TEST_TIES, d8_exec.cpp gen_ps): which filters of this stage are POINT, for the tie marker
-        if (getenv("D8ON11_TEST_TIES") && !aniso && pk.s[i].tex == 1) {
+        // a test only (D8ON11_TEST_TIES, d8_exec.cpp gen_ps): which filters of this stage are POINT, for the tie marker.
+        // Read once (23 Nov: getenv here, per stage and draw, was 137 of 2,256 samples of the game's thread, 6.1%)
+        static const bool test_ties = getenv("D8ON11_TEST_TIES") != nullptr;
+        if (test_ties && !aniso && pk.s[i].tex == 1) {
           if (!mn) pk.tie_minpt |= (uint8_t)(1 << i);
           if (!mg) pk.tie_magpt |= (uint8_t)(1 << i);
           if (mp) pk.tie_miplin |= (uint8_t)(1 << i);

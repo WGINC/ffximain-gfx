@@ -904,11 +904,7 @@ static void env_modules(void) {
 static BOOL CALLBACK env_win(HWND w, LPARAM lp) {
   DWORD pid = 0; GetWindowThreadProcessId(w, &pid);
   if (pid != GetCurrentProcessId() || !IsWindowVisible(w)) return TRUE;
-  // the title by InternalGetWindowText, which reads it without sending the window a message: GetWindowTextA sends
-  // WM_GETTEXT, and on 22 Nov the owner's game crashed in Windower's Hook.dll (+0x611C1) on this thread, through USER32
-  // (d3d8on11's crash line; this thread starts at xikit.dll+0x6AE0, the thread list)
-  char cls[128] = "", title[128] = ""; GetClassNameA(w, cls, sizeof cls);
-  { WCHAR wt[128] = L""; if (InternalGetWindowText(w, wt, 128) > 0) WideCharToMultiByte(CP_ACP, 0, wt, -1, title, sizeof title, NULL, NULL); }
+  char cls[128] = "", title[128] = ""; GetClassNameA(w, cls, sizeof cls); GetWindowTextA(w, title, sizeof title);
   RECT r, c; GetWindowRect(w, &r); GetClientRect(w, &c);
   envp("  window %p class \"%s\" title \"%s\": %ldx%ld at %ld,%ld, client %ldx%ld, style %08lX exstyle %08lX", (void *)w, cls, title,
        r.right - r.left, r.bottom - r.top, r.left, r.top, c.right, c.bottom, (unsigned long)GetWindowLongA(w, GWL_STYLE), (unsigned long)GetWindowLongA(w, GWL_EXSTYLE));
@@ -931,11 +927,17 @@ static DWORD WINAPI m_envthread(LPVOID u) {
   DWORD_PTR pa = 0, sa = 0; GetProcessAffinityMask(GetCurrentProcess(), &pa, &sa);
   envp("  process %08lX, system %08lX; priority class %08lX", (unsigned long)pa, (unsigned long)sa, (unsigned long)GetPriorityClass(GetCurrentProcess()));
   MEMORYSTATUSEX mx; mx.dwLength = sizeof mx; if (GlobalMemoryStatusEx(&mx)) envp("  memory %.0f MB total, %.0f MB free; this process's address space %.0f MB free", mx.ullTotalPhys / 1048576.0, mx.ullAvailPhys / 1048576.0, mx.ullAvailVirtual / 1048576.0);
+  // (23 Nov) the display and window queries go through USER32, which Windower's Hook.dll hooks: the owner's game
+  // crashed on this thread twice with mode=remote (22 Nov: Hook.dll+0x611C1 reading 0x98B0007E; 23 Nov: executing
+  // 0x6E6E7373, Hook.dll+0x3210D and USER32 on the stack; the title read without a message did not help). Off unless
+  // env_windows=1 in xikit.ini
+  if (GetPrivateProfileIntA("xikit", "env_windows", 0, g_ini)) {
   DEVMODEA dm; memset(&dm, 0, sizeof dm); dm.dmSize = sizeof dm;
   if (EnumDisplaySettingsA(NULL, ENUM_CURRENT_SETTINGS, &dm)) envp("[display] %lux%lu, %lu bits, %lu Hz", (unsigned long)dm.dmPelsWidth, (unsigned long)dm.dmPelsHeight, (unsigned long)dm.dmBitsPerPel, (unsigned long)dm.dmDisplayFrequency);
   DISPLAY_DEVICEA dd; dd.cb = sizeof dd;
   for (DWORD i = 0; EnumDisplayDevicesA(NULL, i, &dd, 0); i++) envp("  adapter %lu: \"%s\" (%s), flags %08lX", (unsigned long)i, dd.DeviceString, dd.DeviceName, (unsigned long)dd.StateFlags);
   EnumWindows(env_win, 0);
+  } else envp("[display, windows] not listed (env_windows=0: USER32 calls from this thread crashed with Windower's Hook.dll)");
   /* the game's settings: PlayOnline's keys (the 32-bit view: this process is 32-bit) */
   static const char *const keys[] = {"SOFTWARE\\PlayOnlineUS\\SquareEnix\\FinalFantasyXI", "SOFTWARE\\PlayOnlineEU\\SquareEnix\\FinalFantasyXI",
                                      "SOFTWARE\\PlayOnline\\SquareEnix\\FinalFantasyXI", "SOFTWARE\\PlayOnlineUS\\InstallFolder", "SOFTWARE\\PlayOnlineUS\\SquareEnix\\PlayOnlineViewer\\Settings"};

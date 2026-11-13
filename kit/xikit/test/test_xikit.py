@@ -187,10 +187,9 @@ for mode in [m for m in ALL_MODES if m in os.environ.get('MODES', ' '.join(ALL_M
         env_txt = open([os.path.join(d, f) for f in os.listdir(d) if f.startswith('xikit_env_')][0]).read()
         ok = '[wine] version' in env_txt and 'Sleep(1), 200 calls:' in env_txt and 'timeGetTime steps' in env_txt and ' ns a call' in env_txt
         print('%s: env=1: xikit_env names Wine, the measured Sleep(1) and timeGetTime steps, and call costs' % ('ok' if ok else 'FAIL')); bad += not ok
-        # (22 Nov) the window list's titles read without a message (InternalGetWindowText): the measure host's window
-        wl = [l for l in env_txt.splitlines() if l.strip().startswith('window ')]
-        ok = bool(wl) and all('title "' in l for l in wl)
-        print('%s: env=1: the process\'s windows listed with class and title (%d)' % ('ok' if ok else 'FAIL', len(wl))); bad += not ok
+        # (23 Nov) the display and window lists are off by default (env_windows=0): said so
+        ok = 'not listed (env_windows=0' in env_txt
+        print('%s: env=1: no USER32 queries from the environment thread by default (said in the file)' % ('ok' if ok else 'FAIL')); bad += not ok
         r = subprocess.run([sys.executable, os.path.join(H, '..', 'measure_read.py'), d, '--measure', os.path.join(d, 'xikit_measure.txt')], capture_output=True, text=True)
         rep = open(os.path.join(d, 'report.md')).read() if os.path.exists(os.path.join(d, 'report.md')) else ''
         ok = r.returncode == 0 and '## Frames' in rep and '## Wrapped calls on the render thread' in rep and '## Samples' in rep and '| Sleep | I | wait |' in rep

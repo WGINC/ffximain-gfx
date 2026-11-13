@@ -765,11 +765,17 @@ HRESULT Dev::GetIndices(IDirect3DIndexBuffer8 **b, UINT *base) {
 }
 
 // ---- state blocks -----------------------------------------------------------------------------------------------------
-static void copy_block(State &to, const State &from, const Block &b) {
-  for (int i = 0; i < 256; i++) if (b.rs[i]) to.rs[i] = from.rs[i];
-  for (int s = 0; s < 8; s++) for (int t = 0; t < 32; t++) if (b.tss[s][t]) to.tss[s][t] = from.tss[s][t];
+static void copy_block(State &to, const State &from, Block &b) {
+  if (!b.indexed) {
+    for (int i = 0; i < 256; i++) if (b.rs[i]) b.irs.push_back((uint16_t)i);
+    for (int s = 0; s < 8; s++) for (int t = 0; t < 32; t++) if (b.tss[s][t]) b.itss.push_back((uint16_t)(s * 32 + t));
+    for (int i = 0; i < 512; i++) if (b.xf[i]) b.ixf.push_back((uint16_t)i);
+    b.indexed = true;
+  }
+  for (uint16_t i : b.irs) to.rs[i] = from.rs[i];
+  for (uint16_t k : b.itss) to.tss[k >> 5][k & 31] = from.tss[k >> 5][k & 31];
   for (int s = 0; s < 8; s++) if (b.tex[s]) rebind(to.tex[s], from.tex[s]);
-  for (int i = 0; i < 512; i++) if (b.xf[i]) to.xf[i] = from.xf[i];
+  for (uint16_t i : b.ixf) to.xf[i] = from.xf[i];
   if (b.vp) to.vp = from.vp;
   if (b.mat) to.mat = from.mat;
   for (int i = 0; i < 6; i++) if (b.clip[i]) memcpy(to.clip[i], from.clip[i], 16);
@@ -1085,13 +1091,28 @@ static void mod_of(const void *a, char *out, size_t n) {
     snprintf(out, n, "%s+0x%X", b ? b + 1 : path, (unsigned)((uintptr_t)a - (uintptr_t)m));
   } else snprintf(out, n, a ? "%p (no module)" : "none", a);
 }
+// The image range [base, base + SizeOfImage) of a loaded module (its own headers: winnt.h IMAGE_NT_HEADERS)
+static void mod_range(HMODULE m, uintptr_t &lo, uintptr_t &hi) {
+  lo = hi = 0; if (!m) return;
+  const IMAGE_DOS_HEADER *dh = (const IMAGE_DOS_HEADER *)m;
+  const IMAGE_NT_HEADERS *nh = (const IMAGE_NT_HEADERS *)((const uint8_t *)m + dh->e_lfanew);
+  lo = (uintptr_t)m; hi = lo + nh->OptionalHeader.SizeOfImage;
+}
 static void note_caller(void *ra) {
   static HMODULE seen[12][2]; static int nseen; static LONG draws;
+  // the modules of the last pair looked up: a draw from the same two modules needs no lookup (23 Nov: the two
+  // GetModuleHandleExA calls ran on every draw, since fewer than 12 pairs are ever seen; the game's thread profile)
+  static uintptr_t r1lo, r1hi, r2lo, r2hi; static bool have;
   LONG d = InterlockedIncrement(&draws);
   if (nseen >= 12) return;
-  void *ext = g_ext_site; HMODULE m1 = NULL, m2 = NULL;
+  void *ext = g_ext_site;
+  uintptr_t ua = (uintptr_t)ra, e = (uintptr_t)ext;
+  if (have && ua - r1lo < r1hi - r1lo && (e ? e - r2lo < r2hi - r2lo : r2hi == 0)) return;
+  HMODULE m1 = NULL, m2 = NULL;
   GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)ra, &m1);
   if (ext) GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)ext, &m2);
+  mod_range(m1, r1lo, r1hi); mod_range(m2, r2lo, r2hi);
+  have = m1 && (!ext || m2);               // an address in no module is looked up each time, as before
   for (int i = 0; i < nseen; i++) if (seen[i][0] == m1 && seen[i][1] == m2) return;
   seen[nseen][0] = m1; seen[nseen][1] = m2; nseen++;
   char a[300], b[300]; mod_of(ra, a, sizeof a); mod_of(ext, b, sizeof b);

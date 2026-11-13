@@ -100,6 +100,7 @@ static uint32_t g_rel, g_game_lo, g_game_hi, g_recon_lo, g_recon_hi;
 static uint8_t *g_stubs;
 static void **g_orig_vt; static void *g_vt[NSLOTS];
 static DWORD g_render_thread;
+static void *g_render_teb;             /* that thread's TEB (NtCurrentTeb, winnt.h): one per live thread, read without a call */
 static uint32_t g_frame; static int g_master_off, g_hotkey_down, g_dirty = 1, g_speedfix_loaded;
 static uint32_t g_game_ts, g_recon_size, g_recon_crc;
 /* Another build of the game (kit/xikit/builds/<stamp>.json, pipeline/build_translate.py): its manifest,
@@ -1199,7 +1200,7 @@ static void watch_frame(void) {            /* on the render thread, each frame, 
 
 static void measure_frame(double frame_ms, double present_ms, double kit_ms, LARGE_INTEGER t0);   /* (measure.c) */
 static HRESULT __stdcall kit_present(void *dev, const RECT *a, const RECT *b, HWND w, const void *r) {
-  if (!g_render_thread) g_render_thread = GetCurrentThreadId();
+  if (!g_render_thread) { g_render_thread = GetCurrentThreadId(); g_render_teb = NtCurrentTeb(); }
   if (g_sampling == 2 && !g_native_started) start_native_sampler();
   LARGE_INTEGER t0, t1, t2; int mine = GetCurrentThreadId() == g_render_thread;
   QueryPerformanceCounter(&t0);
@@ -1485,7 +1486,9 @@ static int g_front_on;                  /* g_fvt is on the device */
 static void *__cdecl kit_front(int slot, uint32_t *a) {
   int i = g_dh_top[slot];
   if (i < 0 || g_master_off) return g_below[slot];
-  if (GetCurrentThreadId() == g_render_thread && d3dprof_via_depth < 64) {
+  /* the render thread: its TEB, not GetCurrentThreadId (23 Nov: that call, once per hooked device call, was 44 of
+     2,256 samples of the game's thread, 2%; a call into kernel32 is a switch to native code under the Mac's x86 emulation) */
+  if (g_render_teb && NtCurrentTeb() == g_render_teb && d3dprof_via_depth < 64) {
     d3dprof_via_stk[d3dprof_via_depth] = a[0]; d3dprof_via_depth++;
     a[0] = (uint32_t)(uintptr_t)DH_PAD;
   }
@@ -1521,7 +1524,7 @@ static int make_dcode(void) {
    thread kit_front replaced that call's return address with DH_PAD and kept the game's on d3dprof_via_stk; a mod that
    reads its own return address gets DH_PAD, and this gives the one it stands for. Anything else is given back as it is */
 __declspec(dllexport) void *__cdecl xikit_device_caller(void *ra) {
-  if (g_dcode && (uint8_t *)ra == DH_PAD && d3dprof_via_depth && d3dprof_via_depth <= 64 && GetCurrentThreadId() == g_render_thread)
+  if (g_dcode && (uint8_t *)ra == DH_PAD && d3dprof_via_depth && d3dprof_via_depth <= 64 && g_render_teb && NtCurrentTeb() == g_render_teb)
     return (void *)(uintptr_t)d3dprof_via_stk[d3dprof_via_depth - 1];
   return ra;
 }

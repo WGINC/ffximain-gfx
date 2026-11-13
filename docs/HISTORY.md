@@ -5334,6 +5334,28 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
 - **interp:** in the busy minutes 535-562 of 600 frames carried a tick (60 fps or below): little to blend.
 - **Session d12_19nov:** d12 (round shadows), adv (readback sites), aa (fcap captures of distant text and edges).
 
+## 13 Nov (fourteenth entry): the owner's 19 Nov run -- shadows shrinking near, the stutter's source, the text
+
+- **Round shadows (032925_2096):** the branch counts per minute: simple quad 12,612-50,299, far-caster quad 6,122-43,960
+  (both sized), projected round shadow 5,298-30,230 (the game's size), decal 5,113-7,852, nothing/other 9,727-14,891.
+  The owner: some shadows get smaller as he comes near them. Mode 0 draws the projected shadow while the caster
+  distance is under 20 (0x10033E76), with [0x1045B810] / 3; DrawProjectedShadow (0x10184FE0) scales its texture matrix
+  by 1 / that size, so it takes the same per-character size: sized now too.
+- **The stutter (advanced shadows):** d3d8on11's new line names one call site: FFXiMain.dll+0x6C91F (no shift there in
+  6AE818B4: 0x1006C91F, inside 0x1006C8B0, the game's occlusion readback: the surface's LockRect, vtable +0x24). 11-64
+  readbacks per 600 frames, 302-7,028 ms waited: over 100 ms each in the busiest minutes. These are the probes
+  occlusion_late cannot answer from a previous picture (a first probe), which occlusion_first=0 sends to the game's
+  waiting readback; under the advanced shadows' GPU load the wait is for everything queued before it. occlusion_first=2
+  answers those probes "visible" without a wait (16 Nov: no fewer long frames when they cost ~12 ms each); it is a
+  chosen answer, not the game's, so it is the owner's choice.
+- **Frame captures (034339_11616, two):** replayed through d3d8on11 under Wine: 904 objects, 18,877 calls, 0
+  failures; 4.3% and 4.9% of pixels differ from the game's picture, all on the characters (with gpu_skin the game
+  never writes skinned vertices, so the capture has none). Every texture in the frame has one level (148 of them:
+  122 DXT3, 8 DXT1, 18 A8R8G8B8; the game asks for one), no draw has a mip filter, many world draws minify with POINT.
+  The names come from a 2048x4096 A8R8G8B8 font atlas (dumped: the game's glyphs), drawn as 3D quads with MAGFILTER
+  POINT and MINFILTER LINEAR. So distant names and textures are minified with no mip levels: what is drawn skips
+  texels, and text breaks up. The standard remedy is mip levels and trilinear (and anisotropic) filtering: next.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

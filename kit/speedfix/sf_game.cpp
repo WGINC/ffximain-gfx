@@ -47,7 +47,9 @@ static volatile long sh_fit_n, sh_game_n, sh_br[6]; static float sh_dmin = 1e30f
 // the small size; every mode-2 call had been sized, so the round shadows of other branches are counted and sized too):
 //   0 mode 2, the ground quad at [0x1045B810] / 3 (0x10033DE6)             -- sized
 //   1 mode 0 with [0x1045B80C] not under 20 (or NaN): the same quad (0x10033E94) -- sized
-//   2 mode 0 with it under 20: the projected shadow at [0x1045B810] / 3 (0x10033E76) -- the game's size
+//   2 mode 0 with it under 20: the projected round shadow at [0x1045B810] / 3 (0x10033E76) -- sized (19 Nov: the
+//     owner saw shadows shrink as he came near them, and the log had 5,298-30,230 of these a minute; DrawProjectedShadow
+//     0x10184FE0 scales its texture matrix by 1 / that size, so it is the same size as the quad's)
 //   3 mode 1: the decal (0x10033E2F)                                        -- the game's
 //   4 the word [0x1045B814] = 1 (modes 0 and 2 draw nothing), or another mode
 static undefined4 __thiscall sf_shadow(void *self_, float *pos) {
@@ -56,7 +58,7 @@ static undefined4 __thiscall sf_shadow(void *self_, float *pos) {
     float cd = *(volatile float *)XI_GAME(0x1045B80Cu);
     int br = mode == 2 && w != 1 ? 0 : mode == 0 && w != 1 ? (!(cd < 20.0f) ? 1 : 2) : mode == 1 ? 3 : 4;
     sh_br[br]++;
-    if (br <= 1) {
+    if (br <= 2) {
       const float *c = (const float *)((const char *)self_ - 72 - 0x674 + 0x918);
       float d2 = 0;
       for (int i = 0; i < 8; i++) for (int j = i + 1; j < 8; j++) {

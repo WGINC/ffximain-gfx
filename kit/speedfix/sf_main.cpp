@@ -1079,7 +1079,7 @@ static void st_stats(void) {
                n, mn, mx, sm / n, g);
     else LOG("speedfix: shadow_fit: no simple shadow drawn (%ld at the game's size)", g);
     long b[6]; sf_shadow_branches(b);
-    LOG("speedfix: shadow_fit: Shadow_DrawByMode's branches: simple quad %ld, far-caster quad %ld (both sized), projected %ld, decal %ld, nothing drawn or other %ld",
+    LOG("speedfix: shadow_fit: Shadow_DrawByMode's branches: simple quad %ld, far-caster quad %ld, projected round shadow %ld (the three sized), decal %ld, nothing drawn or other %ld",
         b[0], b[1], b[2], b[3], b[4]);
   }
   LONG f = g_st_frames, z = g_st_zero; g_st_frames = g_st_zero = 0;

@@ -5219,6 +5219,40 @@ the cost of a heap change on Parallels (the 15 Nov session measures it). kit/ses
 - **Session d12_16nov:** a look without the kit (dgVoodoo), then d12 (as 15 Nov), noskin (gpu_skin=0), lim (Liminality
   with the 12 Nov fixes, never run: liminality=1, lim_limbs=1, task_draws=1, gpu_skin=0 as in ab_15nov).
 
+## 13 Nov (ninth entry): the owner's 16 Nov run; advanced shadows traced; shadow_fit; render-target counts
+
+- **The owner:** simple shadows shrink the same way with dgVoodoo (so the game's own); asks for round shadows sized to
+  each model, cheaper than advanced shadows. Advanced shadows work on both but "chug" with everyone's on. noskin:
+  choppy, things breaking. Liminality: jitter, slow animations, rubber-banding; suggests writing it anew.
+- **Starts:** d12 (233326_10728): before the mark 9.27 ms mean; `shadows` (advanced shadows for everyone) 28.44 ms
+  mean, p95 31.76. d3d8on11: draws 3.5-4.2 ms, Present 20.7-22.3 ms a frame (waiting for the GPU), 1,987-2,363 draws,
+  65-67 barriers a frame (5-10 before); PresentMon GPUBusy p95 29.56 ms. noskin (233800_9756): 12.12 ms mean, p95
+  32.61, no mark. lim (234157_11016): 21.92 ms mean (45.6 fps); crowd 56.78, run 20.23.
+- **Advanced shadows in the code (shadow mode 1, not 0 as the 8th entry implied):** Model_BeginOffscreenPass
+  (0x10033800) runs when [0x1045B77A] = 1 and [0x1045B80C] < 4: it pushes the character's shadow target (+8, +12 of
+  the shadow block at actor + 72), clears it the first time a frame (+4), and draws the model flat (TFACTOR 0x80FFFFFF,
+  no z, fog or lighting) through a perspective of 0.196 rad from the light. Shadow_DrawByMode then draws it onto the
+  ground triangles (XiZone_DrawDecalOnTriangles 0x10185CA0, size x 2.4) and clears +4. The target is one texture for
+  every character, made once at the viewport's width and height (Unit100310A0_Construct 0x10033710:
+  CDx_CreateTexture(Camera_GetViewportWidth(), Camera_GetViewportHeight())). So each character with an advanced
+  shadow costs a clear of a viewport-sized texture and two target changes a frame. Not measured yet: the viewport's
+  size there (the background resolution, 3024x1898, is likely, not shown), and what the changes cost on the owner's
+  GPU (no timestamps on Parallels).
+- **d3d8on11:** `D3D12 render targets` line every 600 frames: binds, binds to another target, copies, and by target
+  (id, size) binds, draws and clears a frame.
+- **speedfix shadow_fit (default 0):** Shadow_DrawByMode hooked (sf_game.cpp); for mode 2 (simple), the shared size
+  [0x1045B810] is set for the call to 3 x scale x the character's footprint diagonal (the longest x-z distance between
+  its eight world-space box corners at actor + 0x918, written by OnMove) and put back. The quad's vertices (0x10377360)
+  are +-1 and XiZone_DrawGroundShadowQuad (0x10184C90) scales x and z by size / 3, so the half-width is scale x
+  diagonal. shadow_fit_scale 46 is a starting value, not measured. Gate: with it off, the hook is the game's function
+  (fork.py gate-hook: PASS on 30 trials on 6A995428, 66 of 77 instructions covered; on 6AE818B4 8 trials returned
+  and 22 were unresolved, 27 instructions covered); test_speedfix.py checks it installs, on both builds (all pass).
+- **speedfix's build was broken since tree round r20** (df794e7 renamed CYyModelDt's field_8, field_33, field_34 to
+  modelResourceHandle, renderVariant, extraStreamFlags, the same offsets); the fork of SkinAndDrawV2 now uses the new
+  names. The shipped speedfix.dll was built before r20 and matched BUILD.lock.
+- **Session d12_17nov:** advanced shadows on everyone (`mark adv`, the target counts), then simple shadows with
+  shadow_fit=1 (`mark simple`).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

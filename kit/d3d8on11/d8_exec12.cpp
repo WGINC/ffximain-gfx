@@ -195,6 +195,9 @@ void Exec12::bind_targets() {
     tgt_dirty = false;
     cl->OMSetRenderTargets(has_rtv ? 1 : 0, has_rtv ? &cur_rtv : nullptr, FALSE, has_dsv ? &cur_dsv : nullptr);
     ts_mark(tgt_key());                                      // the GPU's time from here on is this target's
+    uint64_t k = (uint64_t)tgt_rt.id << 32 | tgt_rt.level << 8 | tgt_rt.face;
+    TStat &ts = tstat[k]; ts.w = rt_w; ts.h = rt_h; ts.rtv = has_rtv; ts.binds++; tcur = &ts;
+    t_binds++; if (k != t_last) t_changes++; t_last = k;
   }
   if (rt_res && rt_st) to(rt_res, *rt_st, D3D12_RESOURCE_STATE_RENDER_TARGET);
   if (ds_res) to(*ds_res, D3D12_RESOURCE_STATE_DEPTH_WRITE);
@@ -925,6 +928,21 @@ void Exec12::flush_run() {
   { XDraw tl; memcpy(&tl.stream, run_tails.data() + (size_t)(n - 1) * XDRAW_TAIL, XDRAW_TAIL); last_site = o.last_site = tl.site; }
 }
 
+void Exec12::tstat_log(uint32_t frames) {
+  double f = frames ? frames : 1;
+  std::vector<std::pair<uint64_t, TStat>> v(tstat.begin(), tstat.end());
+  std::sort(v.begin(), v.end(), [](const std::pair<uint64_t, TStat> &a, const std::pair<uint64_t, TStat> &b) { return a.second.binds > b.second.binds; });
+  char line[1400]; size_t at = 0;
+  for (size_t i = 0; i < v.size() && i < 10 && at < sizeof line - 120; i++) {
+    const TStat &t = v[i].second;
+    at += snprintf(line + at, sizeof line - at, "%s%s%ux%u (id %u): %.1f binds, %.1f draws, %.1f clears", i ? "; " : "", t.rtv ? "" : "depth only ",
+                   t.w, t.h, (unsigned)(v[i].first >> 32), t.binds / f, t.draws / f, t.clears / f);
+  }
+  d8_log("D3D12 render targets, %u frames: %.1f binds a frame, %.1f to another target, %.1f copies, %u targets used; by target: %s",
+         frames, t_binds / f, t_changes / f, t_copies / f, (unsigned)tstat.size(), at ? line : "none");
+  tstat.clear(); tcur = nullptr; t_binds = t_changes = t_copies = 0; t_last = ~0ull;
+}
+
 // ---- formats and texture probes (13 Nov) --------------------------------------------------------------------------------
 void Exec12::format_report() {
   static const struct { DXGI_FORMAT f; const char *n; } fs[] = {
@@ -1299,7 +1317,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     }
     for (int s = 0; s < 4; s++) to(sa[s], sa_st[s], D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
   }
-  bind_targets();
+  bind_targets(); if (tcur) tcur->draws += mi ? mi->n : 1;
 
   // ---- the pipeline state, cached by everything it is made of
   struct PKey { uint32_t vs, ps; D3D11_BLEND_DESC b; D3D11_DEPTH_STENCIL_DESC ds; D3D11_RASTERIZER_DESC r; uint32_t tt, rtf, dsf, nrt; } k;
@@ -1493,7 +1511,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
 // ---- clears and copies -----------------------------------------------------------------------------------------------------
 // D3D8's Clear, rectangles or not: Direct3D 12's clears take the rectangles themselves (target pixels, as XRect)
 void Exec12::clear(const XClear &c, const XRect *r) {
-  bind_targets(); barriers();
+  bind_targets(); barriers(); if (tcur) tcur->clears++;
   const D3D12_RECT *rects = c.nrects ? (const D3D12_RECT *)r : nullptr;
   static_assert(sizeof(D3D12_RECT) == sizeof(XRect), "XRect is a D3D12_RECT");
   if ((c.flags & D3DCLEAR_TARGET) && has_rtv) {
@@ -1505,6 +1523,7 @@ void Exec12::clear(const XClear &c, const XRect *r) {
 }
 static UINT sub12(const Exec12::Res &x, const XRef &r) { return r.level + r.face * x.levels; }
 void Exec12::copy(const XCopy &c) {
+  t_copies++;
   Res *s = res_of(c.src.id), *d = res_of(c.dst.id);
   if (!s || !d || !s->r || !d->r) return;
   D3D12_BOX bx = {(UINT)c.left, (UINT)c.top, 0, (UINT)c.right, (UINT)c.bottom, 1};
@@ -1706,6 +1725,7 @@ void Exec12::present() {
     d8_log("D3D12 binds, %u frames: %.0f draws, %.0f pipeline switches, %.0f texture tables, %.0f sampler tables (%.0f heap changes), %.0f barriers a frame; "
            "%u pipelines made (%u from the library), %u shaders compiled (%u from the disk cache): %.1f ms making them in all",
            c_frames, c_draws / f, c_pso / f, c_srvtab / f, c_smptab / f, c_heapsw / f, c_bars / f, c_pso_new, c_pso_loaded, c_cmp_new, c_cmp_loaded, c_pso_ms + c_cmp_ms);
+    tstat_log(c_frames);
     if (merge_on) d8_log("draw_merge (D3D12), %u frames: %.1f merged draws a frame took in %.1f others; %.3f MB copied to the slots a frame; %llu times the slots started again",
                          c_frames, mg_runs / f, mg_saved / f, mg_bytes / f / 1048576.0, (unsigned long long)mg_wraps);
     mg_runs = mg_saved = mg_bytes = 0;

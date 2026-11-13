@@ -41,6 +41,14 @@ for mode in ('minimal', 'full', 'lazy', 'blocks', 'pacing', 'step', 'group'):
         ab = re.search(r'speedfix: ab 1 \(lazy_state, bogus\): A \(off\) [0-9.]+ ms, B \(on\) [0-9.]+ ms', log)
         ok = bool(ab) and 'phase 1 of 2: A (the levers off)' in log and 'phase 2 of 2: B' in log and 'bogus (not a lever)' in log
         print('%s: lazy: the lever A/B ran A then B and compared them (an unknown name left out and logged)' % ('ok' if ok else 'FAIL')); bad += not ok
+# shadow_fit=1 (16 Nov): the hook of Shadow_DrawByMode goes in and says so (the minimal host run with the setting)
+for f in ('xikit.log', 'speedfix.ini'):
+    if os.path.exists(os.path.join(d, f)): os.remove(os.path.join(d, f))
+r = subprocess.run(['wine', 'sf_host.exe', 'minimal'], cwd=d, capture_output=True, text=True, timeout=900,
+                   env=dict(os.environ, WINEDEBUG='-all', SF_HOST_INI='[speedfix]\nshadow_fit=1\nstats_every=1\n'))
+slog = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
+ok = r.returncode == 0 and 'speedfix: shadow_fit=1: simple shadows sized by each character' in slog
+print('%s: shadow_fit=1: Shadow_DrawByMode hooked (logged)' % ('ok' if ok else 'FAIL')); bad += not ok
 print('-- xikit.log (speedfix lines) --'); print('\n'.join(l for l in log.splitlines() if 'speedfix' in l or 'mod ' in l)[-4000:])
 ok = 'speedfix.dll (the speedfix mod) is loaded' in log
 print('%s: the kit leaves the functions speedfix changes inside to the game\'s code (respect_speedfix)' % ('ok' if ok else 'FAIL')); bad += not ok
@@ -50,6 +58,12 @@ g = subprocess.run([sys.executable, os.path.join(ROOT, 'sdk', 'fork.py'), 'gate-
 print(g.stdout.strip(), g.stderr.strip()[-2000:])
 ok = g.returncode == 0 and ': PASS;' in g.stdout
 print('%s: the gate: speedfix\'s Occlusion_QueryScreenRect hook, switches off, is the game\'s function' % ('ok' if ok else 'FAIL')); bad += not ok
+g = subprocess.run([sys.executable, os.path.join(ROOT, 'sdk', 'fork.py'), 'gate-hook', 'Shadow_DrawByMode',
+                    os.path.join(SF, 'sf_game.cpp'), os.path.join(H, 'gate_stub.cpp'), '--trials', '30',
+                    '--work', os.path.join(d, 'w2')], capture_output=True, text=True)
+print(g.stdout.strip(), g.stderr.strip()[-2000:])
+ok = g.returncode == 0 and ': PASS;' in g.stdout
+print('%s: the gate: speedfix\'s Shadow_DrawByMode hook, shadow_fit off, is the game\'s function' % ('ok' if ok else 'FAIL')); bad += not ok
 if os.environ.get('KEEP'): print('kept', d)
 else: shutil.rmtree(d, ignore_errors=True)
 print('ALL OK' if not bad else 'FAILED'); sys.exit(1 if bad else 0)

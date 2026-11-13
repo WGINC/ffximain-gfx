@@ -238,6 +238,8 @@ static SfConfig read_config(void) {
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
+  c.shadow_fit = rd("shadow_fit", 0) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
+  if (c.shadow_fit_scale < 5 || c.shadow_fit_scale > 300) c.shadow_fit_scale = 46;
   c.occlusion_hold = rd("occlusion_hold", 1); c.occlusion_nowait = rd("occlusion_nowait", 1); c.occlusion_first = rd("occlusion_first", 0); if (c.occlusion_first < 0 || c.occlusion_first > 2) c.occlusion_first = 0; c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
   if (c.stats_every < 1) c.stats_every = 1;
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
@@ -1054,6 +1056,12 @@ static void st_stats(void) {
     LOG("speedfix: draw calls by Frame_Render's world pass since the last line: XiZone_GetInstance %ld, sub_1018C2B0 %ld, "
         "StDancer_Update %ld, XiZone_DrawScene %ld, the task pass (OnMove) %ld, sub_102515F0 %ld, sound %ld, the rest of the "
         "frame %ld (counted under uncap/frame_step, Frame_Render's fork)", n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[0]); }
+  if (sf_cfg.shadow_fit) {
+    long n, g; float mn, mx, sm; sf_shadow_take(&n, &g, &mn, &mx, &sm);
+    if (n) LOG("speedfix: shadow_fit: %ld simple shadows sized by their model (footprint diagonal %.2f to %.2f, mean %.2f), %ld at the game's size (no box)",
+               n, mn, mx, sm / n, g);
+    else LOG("speedfix: shadow_fit: no simple shadow drawn (%ld at the game's size)", g);
+  }
   LONG f = g_st_frames, z = g_st_zero; g_st_frames = g_st_zero = 0;
   double w = g_st_whole, fr = g_st_frac, gm = g_st_game, ms = g_st_ms; g_st_whole = g_st_frac = g_st_game = g_st_ms = 0;
   if (!sf_framestep_installed || !f) return;
@@ -1267,6 +1275,10 @@ extern "C" int sf_init(const XikitHost *host) {
   sf_occl_init(host);
   if (sf_device_install(host) != 0) return 1;
   if (sf_hook_query(host) != XIKIT_OK) LOG("speedfix: Occlusion_QueryScreenRect not hooked: skip_actor_occlusion does nothing");
+  if (sf_cfg.shadow_fit) {
+    if (sf_hook_shadow(host) != XIKIT_OK) LOG("speedfix: Shadow_DrawByMode not hooked: shadow_fit does nothing");
+    else LOG("speedfix: shadow_fit=1: simple shadows sized by each character's model (half-width %d%% of its footprint's diagonal)", sf_cfg.shadow_fit_scale);
+  }
   if ((sf_cfg.skin_merge || sf_cfg.gpu_skin) && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge and gpu_skin do nothing");
   if (sf_cfg.gpu_skin && sf_skinmerge_installed) LOG("speedfix: gpu_skin: SkinAndDrawV2 runs speedfix's fork; a model's skinning is handed to d3d8on11 (D8ON11_Skin) where it takes it");
   if (sf_cfg.task_draws || sf_cfg.liminality) { if (sf_hook_dispatch(host) != XIKIT_OK) LOG("speedfix: CMoTask::Dispatch not hooked: task_draws does nothing"); }

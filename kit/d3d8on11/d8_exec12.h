@@ -228,6 +228,11 @@ struct Exec12 {
   struct PassT { double ms = 0; uint32_t n = 0; };
   std::map<uint32_t, PassT> tq_pass; std::vector<float> tq_ms; uint32_t tq_frames = 0, tq_bad = 0;
   void ts_init(); void ts_mark(uint32_t key); void ts_begin(); void ts_end(); void ts_collect(); void ts_report();
+  // (16 Nov) render passes, counted where the targets are bound: on a tile-based GPU (the owner's Mac) each change of
+  // target ends a pass. By target (id, size): binds, draws, clears a frame; the scene target left and come back to
+  struct TStat { uint32_t w = 0, h = 0; uint64_t binds = 0, draws = 0, clears = 0; bool rtv = true; };
+  std::unordered_map<uint64_t, TStat> tstat; TStat *tcur = nullptr; uint64_t t_last = ~0ull, t_binds = 0, t_changes = 0, t_copies = 0;
+  void tstat_log(uint32_t frames);
   uint32_t tgt_key() const { return has_rtv ? (rt_w << 16 | (rt_h & 0xFFFF)) : (0x80000000u | rt_w << 16 | (rt_h & 0xFFFF)); }
   // what the list did, every 600 Presents: pipeline switches, table changes, barriers; pipelines and shaders made
   // (and the time it took: a first use of a state combination costs the frame it happens in)

@@ -756,6 +756,7 @@ int main(int argc, char **argv) {
   else if (pacing) touch("speedfix.ini", "[speedfix]\nprecise_pacing=1\nstats_every=1\n");
   else if (step) touch("speedfix.ini", "[speedfix]\nframe_step=2\nstats_every=1\ntask_draws=1\n");
   else if (group) touch("speedfix.ini", "[speedfix]\nskin_merge=2\nstats_every=1\n");
+  else if (getenv("SF_HOST_INI")) touch("speedfix.ini", getenv("SF_HOST_INI"));   /* a test's own settings (test_speedfix.py) */
   else if (!minimal) touch("speedfix.ini", "[speedfix]\nbatch_up_draws=1\nmotion_stats=1\nskin_merge=1\n");
   if (!LoadLibraryA("xikit.dll")) { printf("FAIL: xikit.dll not loaded\n"); return 2; }
   for (int i = 0; i < 300 && g_dev.vt == g_vt; i++) Sleep(20);        /* the kit puts its vtable copy on the device */

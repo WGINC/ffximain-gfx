@@ -32,7 +32,7 @@ static void xm_flush(CYyModelDt *self, int v10, unsigned first, unsigned prims, 
   orig::Gfx_SetStreamSourceCached(3u, 0, 0);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetIndices((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), *(IDirect3DIndexBuffer8 **)(v10 + 64), 0);
   orig::CDx_DrawIndexedPrimitive(g_pCDx, 4, 0, nv, first, prims);
-  if ( (self->field_34 & 1) != 0 )
+  if ( (self->extraStreamFlags & 1) != 0 )
   {
     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
     orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
@@ -107,7 +107,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
     if ( v11 == 0 )
       return v11;
     // gpu skinning: the device takes the job (never when the mirrored set's buffers are missing: the game returns there)
-    if ( xi_gpuskin_on && sf_gpu_skin && ((this->field_34 & 1) == 0 || (*(_DWORD *)(v10 + 80) != 0 && *(_DWORD *)(v10 + 84) != 0))
+    if ( xi_gpuskin_on && sf_gpu_skin && ((this->extraStreamFlags & 1) == 0 || (*(_DWORD *)(v10 + 80) != 0 && *(_DWORD *)(v10 + 84) != 0))
          && sf_gpu_skin((void *)self, v10) )
     {
       *(_BYTE *)(a3 + 184) = 1;
@@ -128,7 +128,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
               v10 + 146,
               0x2000) != 0 )
       Sleep(0);
-    if ( (this->field_34 & 1) != 0 )
+    if ( (this->extraStreamFlags & 1) != 0 )
     {
       if ( *(_DWORD *)(v10 + 80) == 0 || *(_DWORD *)(v10 + 84) == 0 )
       {
@@ -165,7 +165,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
       Sleep(0);
     while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 72) + 48))(*(_DWORD *)(v10 + 72)) != 0 )
       Sleep(0);
-    if ( (this->field_34 & 1) != 0 )
+    if ( (this->extraStreamFlags & 1) != 0 )
     {
       while ( (*(int (__stdcall **)(_DWORD))(**(_DWORD **)(v10 + 80) + 48))(*(_DWORD *)(v10 + 80)) != 0 )
         Sleep(0);
@@ -190,7 +190,7 @@ xi_skinned:
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_ALPHAARG2, 3u);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXTURETRANSFORMFLAGS, 0);
   (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXCOORDINDEX, 0);
-  switch ( this->field_33 )
+  switch ( this->renderVariant )
   {
     case 2:
       *(_BYTE *)(a3 + 169) = 1;
@@ -261,7 +261,7 @@ xi_skinned:
                 v26);
               ++g_modelDrawCallCount;
               g_modelPrimitiveCount += v26;
-              if ( (this->field_34 & 1) != 0 )
+              if ( (this->extraStreamFlags & 1) != 0 )
               {
                 orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
                 orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
@@ -295,7 +295,7 @@ LABEL_125:
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
-                  if ( (this->field_34 & 1) != 0 )
+                  if ( (this->extraStreamFlags & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
                     orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
@@ -330,7 +330,7 @@ LABEL_125:
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
-                  if ( (this->field_34 & 1) != 0 )
+                  if ( (this->extraStreamFlags & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
                     orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
@@ -365,7 +365,7 @@ LABEL_125:
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
-                  if ( (this->field_34 & 1) != 0 )
+                  if ( (this->extraStreamFlags & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
                     orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
@@ -429,7 +429,7 @@ LABEL_125:
                 xm_n++;
                 g_modelPrimitiveCount += v26;       // the counters as the game's draws keep them
                 ++g_modelDrawCallCount;
-                if ( (this->field_34 & 1) != 0 )
+                if ( (this->extraStreamFlags & 1) != 0 )
                 {
                   g_modelPrimitiveCount += v26;
                   ++g_modelDrawCallCount;
@@ -460,7 +460,7 @@ LABEL_125:
                   v26);
                 g_modelPrimitiveCount += v26;
                 ++g_modelDrawCallCount;
-                if ( (this->field_34 & 1) != 0 )
+                if ( (this->extraStreamFlags & 1) != 0 )
                 {
                   orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
                   orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
@@ -498,7 +498,7 @@ LABEL_125:
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
-                  if ( (this->field_34 & 1) != 0 )
+                  if ( (this->extraStreamFlags & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
                     orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
@@ -533,7 +533,7 @@ LABEL_125:
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
-                  if ( (this->field_34 & 1) != 0 )
+                  if ( (this->extraStreamFlags & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
                     orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);
@@ -568,7 +568,7 @@ LABEL_125:
                     a4,
                     v26);
                   ++g_modelDrawCallCount;
-                  if ( (this->field_34 & 1) != 0 )
+                  if ( (this->extraStreamFlags & 1) != 0 )
                   {
                     orig::Gfx_SetStreamSourceCached(0, *(_DWORD *)(v10 + 80), 12);
                     orig::Gfx_SetStreamSourceCached(1u, *(_DWORD *)(v10 + 84), 12);

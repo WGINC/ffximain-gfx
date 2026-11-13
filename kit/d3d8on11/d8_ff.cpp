@@ -375,7 +375,10 @@ HRESULT Dev::ff_draw(int kind, D3DPRIMITIVETYPE type, UINT prims, UINT startVert
         // mipmaps (19 Nov; d8_mip.cpp): a texture whose levels were made here, in a 3D draw (a screen-space draw keeps
         // the game's sampling): all its levels, MINFILTER LINEAR and MIPFILTER LINEAR (trilinear), MAGFILTER the game's;
         // anisotropic where anisotropy > 1 and the game magnifies LINEAR (anisotropic filtering magnifies linearly too)
-        if (mipmaps && tc.gen && !vk.rhw && pk.s[i].tex == 1) {
+        // Not where the game magnifies POINT (mipmaps_point_mag=0, the default; 20 Nov): the game's names are drawn so
+        // (the owner's captures: the font atlas, MAGFILTER POINT, MINFILTER LINEAR), and with levels they pulsed in
+        // sharpness as one moved (the owner, 20 Nov run); such draws keep the game's sampling
+        if (mipmaps && tc.gen && !vk.rhw && pk.s[i].tex == 1 && (mg || mip_point_mag)) {
           D.stage[i].first_level = 0; D.stage[i].nlevels = tc.xlevels;
           bool an = anisotropy > 1 && mg;
           sd.Filter = an ? D3D11_FILTER_ANISOTROPIC : (D3D11_FILTER)(0x10 | (mg ? 0x4 : 0) | 0x1);

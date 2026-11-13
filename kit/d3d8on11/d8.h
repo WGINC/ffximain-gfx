@@ -227,7 +227,7 @@ struct Dev final : public IDirect3DDevice8_Stub {
   // mipmaps (19 Nov; d8_mip.cpp, d8_ff.cpp): levels made for the game's one-level managed textures, sampled trilinear
   // (anisotropic when `anisotropy` > 1 and the game magnifies LINEAR) in 3D draws; screen-space draws as the game has them
   uint32_t frame_no = 0;                       // Presents so far
-  bool mipmaps = false; int anisotropy = 0; uint64_t mip_built = 0, mip_parts = 0, mip_textures = 0, mip_dropped = 0, mip_built_t = 0, mip_parts_t = 0; double mip_ms = 0, mip_ms_max = 0, mip_ms_t = 0, mip_ms_max_t = 0;
+  bool mipmaps = false, mip_point_mag = false; int anisotropy = 0; uint64_t mip_built = 0, mip_parts = 0, mip_textures = 0, mip_dropped = 0, mip_built_t = 0, mip_parts_t = 0; double mip_ms = 0, mip_ms_max = 0, mip_ms_t = 0, mip_ms_max_t = 0;
   int skin(const struct D8Skin *j);
   // interp (17 Nov; d8_device.cpp, "interp"): frames between the game's ticks drawn with each skinned character at the
   // blend of its last two ticks' bone palettes and world matrices. Needs gpu_skin and the clock of a mod (speedfix's

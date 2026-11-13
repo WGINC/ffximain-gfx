@@ -157,8 +157,11 @@ HRESULT Dev::init(D8 *o, HWND focus, DWORD beh, D3DPRESENT_PARAMETERS *p) { sgen
     { int mm = (int)GetPrivateProfileIntA("d3d8on11", "mipmaps", 0, ini), an = (int)GetPrivateProfileIntA("d3d8on11", "anisotropy", 0, ini);
       ne = GetEnvironmentVariableA("D8ON11_MIPMAPS", env, sizeof env); if (ne > 0 && ne < sizeof env) mm = atoi(env);
       ne = GetEnvironmentVariableA("D8ON11_ANISOTROPY", env, sizeof env); if (ne > 0 && ne < sizeof env) an = atoi(env);
-      mipmaps = mm != 0; anisotropy = an < 0 ? 0 : an > 16 ? 16 : an;
-      if (mipmaps) d8_log("mipmaps=1: one-level managed textures get mip levels, sampled trilinear in 3D draws%s", "");
+      int pm = (int)GetPrivateProfileIntA("d3d8on11", "mipmaps_point_mag", 0, ini);
+      ne = GetEnvironmentVariableA("D8ON11_MIPMAPS_POINT_MAG", env, sizeof env); if (ne > 0 && ne < sizeof env) pm = atoi(env);
+      mipmaps = mm != 0; mip_point_mag = pm != 0; anisotropy = an < 0 ? 0 : an > 16 ? 16 : an;
+      if (mipmaps) d8_log("mipmaps=1: one-level managed textures get mip levels, sampled trilinear in 3D draws%s",
+                          mip_point_mag ? " (mipmaps_point_mag=1: also where the game magnifies POINT, e.g. the names)" : " where the game magnifies LINEAR (draws that magnify POINT, e.g. the names, as the game samples them)");
       if (mipmaps && anisotropy > 1) d8_log("anisotropy=%d: anisotropic filtering in 3D draws of textures with made levels, where the game magnifies LINEAR", anisotropy); }
     if (ba > 0 && !dynamic_buffers) d8_log("buffer_arena: needs dynamic_buffers=1 (off)");
     else if (kb) d8_log("buffer_arena=%d: the game's dynamic buffers share one Direct3D 11 buffer (%u KB of vertex data)", ba, kb); }

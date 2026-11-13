@@ -5379,6 +5379,19 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
 - **Session d12_20nov:** mip (mipmaps=1, anisotropy=16, fcap on request), plain (the same with mipmaps=0), adv
   (advanced shadows, mipmaps=1, the occlusion A/B).
 
+## 13 Nov (sixteenth entry): the owner's 20 Nov mip run -- the names pulse; names keep the game's sampling
+
+- The owner: with mip levels on, the nameplates visibly pulse as one moves. The levels were already a full chain (the
+  atlas: 13 levels, down to 1x1), so more levels are not possible. What is known: the names are drawn from the font
+  atlas with MAGFILTER POINT and MINFILTER LINEAR (19 Nov captures), and their glyphs are drawn near their atlas size,
+  where trilinear sampling moves between level 0 (sharp) and level 1 (half resolution) as the size on screen changes.
+  That this is the pulse is the likely reading, not shown.
+- Change: made levels are used only where the game magnifies LINEAR (`mipmaps_point_mag=1` restores them for POINT).
+  In the captured frame the atlas's 3D draws are the only 3D draws that magnify POINT, so the names are drawn as
+  before and the world keeps its levels. t8 scene mipmaps_pointmag: equal with mipmaps on and off, different with
+  mipmaps_point_mag=1, on both executors. The scenes skin_cpu, skin_gpu, v15_declaration and decl_short2 (POINT
+  magnification) no longer change with mipmaps on.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

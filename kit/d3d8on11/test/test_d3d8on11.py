@@ -739,6 +739,9 @@ if 'thread' in MODES:
         off = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='0'))
         clear_logs(); on = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='1')); t = logs()
         an = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='1', D8ON11_ANISOTROPY='8'))
+        pm = scenes(ours, True, 'thread', dict(D8ON11_BACKEND=be, D8ON11_MIPMAPS='1', D8ON11_MIPMAPS_POINT_MAG='1'))
+        ok = bool(on.get('mipmaps_pointmag')) and on.get('mipmaps_pointmag') == off.get('mipmaps_pointmag') and pm.get('mipmaps_pointmag') != off.get('mipmaps_pointmag')
+        print('%s: %s: a draw that magnifies POINT (as the names are drawn) keeps the game\'s sampling with mipmaps=1, and uses the levels with mipmaps_point_mag=1' % ('ok' if ok else 'FAIL', be)); bad += not ok
         a, b = on.get('mipmaps_one'), on.get('mipmaps_ref')
         pa, pb = on.get('mipmaps_part_one'), on.get('mipmaps_part_ref')
         ok = bool(a) and a == b and bool(pa) and pa == pb and pa != a and off.get('mipmaps_ref') == b and px(a, off.get('mipmaps_one') or [], range(8)) == 0 and \

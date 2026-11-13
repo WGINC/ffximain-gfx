@@ -8,7 +8,8 @@ speedfix itself.
 
 1. Close the game.
 2. Command Prompt **as administrator**, in this folder: `install.bat` (or `install.bat "D:\path\to\PlayOnlineViewer"`
-   if the game is somewhere else).
+   if the game is somewhere else). `install.bat /defaults` also replaces the .ini files there with the kit's (yours
+   are kept as `NAME.ini.before_kit`).
 3. Start the game as you always do.
 
 What was there is kept: the `d3d8.dll` that was in the folder (dgVoodoo's) becomes `d3d8_before_kit.dll`, and an `.ini`

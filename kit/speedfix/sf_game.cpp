@@ -47,7 +47,7 @@ static volatile long sh_fit_n, sh_game_n, sh_br[6]; static float sh_dmin = 1e30f
 // the small size; every mode-2 call had been sized, so the round shadows of other branches are counted and sized too):
 //   0 mode 2, the ground quad at [0x1045B810] / 3 (0x10033DE6)             -- sized
 //   1 mode 0 with [0x1045B80C] not under 20 (or NaN): the same quad (0x10033E94) -- sized
-//   2 mode 0 with it under 20: the projected round shadow at [0x1045B810] / 3 (0x10033E76) -- sized (19 Nov: the
+//   2 mode 0 with it under 20: the projected round shadow at [0x1045B810] / 3 (0x10033E76) -- sized, at twice the number (21 Nov, below) (19 Nov: the
 //     owner saw shadows shrink as he came near them, and the log had 5,298-30,230 of these a minute; DrawProjectedShadow
 //     0x10184FE0 scales its texture matrix by 1 / that size, so it is the same size as the quad's)
 //   3 mode 1: the decal (0x10033E2F)                                        -- the game's
@@ -68,7 +68,12 @@ static undefined4 __thiscall sf_shadow(void *self_, float *pos) {
       if (d2 >= 0.05f * 0.05f && d2 <= 20.0f * 20.0f) {   // a box there (otherwise the game's size: no box, or the guard)
         float d; __asm__("fsqrt" : "=t"(d) : "0"(d2));   // (x87 fsqrt: the gate links no C library)
         volatile float *g = (volatile float *)XI_GAME(0x1045B810u); float keep = *g;
-        *g = 3.0f * d * (float)sf_cfg.shadow_fit_scale / 100.0f;
+        // branch 2 (the projected shadow, a caster under 20 away) twice the number: DrawProjectedShadow (0x10184FE0)
+        // maps the world to the texture as u = (x - px) / s + 0.5 (s = [0x1045B810] / 3, the 0.5s at 0x103773C0), so
+        // the texture spans s; XiZone_DrawGroundShadowQuad spreads the same texture (CTsZoneMap +0x343E4) over the
+        // quad at 0x10377360, x and z from -s to +s with u, v from 0 to 1: 2s. With one number the near shadow is
+        // half the far one's width, and halves when its caster comes within 20 (21 Nov: the owner, still smaller near)
+        *g = (br == 2 ? 2.0f : 1.0f) * 3.0f * d * (float)sf_cfg.shadow_fit_scale / 100.0f;
         undefined4 r = prev_shadow(self_, pos);
         *g = keep;
         sh_fit_n++; sh_dsum += d; if (d < sh_dmin) sh_dmin = d; if (d > sh_dmax) sh_dmax = d;

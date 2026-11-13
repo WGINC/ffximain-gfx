@@ -5477,6 +5477,22 @@ depth off). The saving on the owner's Mac is not known: d12_18nov's third start 
   uninstall.bat, default .ini files, package.sh. The owner's idea also had the kit translate itself to a new build on
   the owner's machine: that runs offline in Python on an unpacked game (pipeline/build_translate.py) and is not done.
 
+## 13 Nov (twenty-second entry): the near round shadow is half the far one's width; the 22 Nov session
+
+- The owner (21 Nov run): round shadows still get smaller as one comes near. The 21 Nov log: every round shadow
+  sized, none at the game's size (simple quad 20,000-25,731, far-caster quad 24,867-42,556, projected 11,081-23,873
+  a minute). The cause, in the game's code: Shadow_DrawByMode gives the far-caster quad and the projected shadow the
+  same s = [0x1045B810] / 3. XiZone_DrawGroundShadowQuad spreads the overlay texture (CTsZoneMap +0x343E4) over its
+  quad (0x10377360: x, z from -1 to 1 times s, u, v from 0 to 1), 2s across; DrawProjectedShadow (0x10184FE0) maps
+  the world to that texture as u = (x - px) / s + 0.5 (the 0.5, 0, 0.5 at 0x103773C0), s across. So the projected
+  shadow, drawn while the caster is under 20 away, is half the quad's width, in the game as shipped too. shadow_fit
+  now gives branch 2 twice the number. That this is what the owner sees is the reading that fits; the run says.
+- Correction: the native ARM64 executor (mode=remote) was run on the owner's Mac on 17 Nov (the "arm start": 445-476
+  frames at 2.5 ms, then the game crashed in Windower's Hook.dll, twice); the 21 Nov reply called it unmeasured.
+- **Session d12_22nov:** final (the installed defaults, measured; names.bat switches name_smooth live), arm (the same
+  with mode=remote, now with crash reporting; optional), and the installer (ffxi_kit, install.bat /defaults, the game
+  started with nothing else). install.bat /defaults: the kit's .ini files replace the folder's, kept as .before_kit.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

@@ -5778,6 +5778,22 @@ Scripts: kit/sessions/d12_01dec/video/ (as run).
   later with 2 (GPULatency median 16.7 against 13.8 ms). The mechanism inside Windows' compositor and Parallels'
   display is not known.
 
+## 14 Nov (thirty-fifth entry): ProMotion against a fixed refresh -- the loss after Windows stays
+
+The owner's second 1 Dec run: start `one` (2 buffers), `mark promotion`, then the Mac set to a fixed 60 Hz (120 was
+not offered), `mark fixed`; a phone clip (240 fps, ~22 s) in each half. New pictures counted from the change of one
+pixel row between phone frames (a local peak 1.5 above the window's floor; kit/sessions/d12_01dec/video/
+panel_pictures.py), in moving stretches. Windows from PresentMon (screen time = CPUStart + DisplayLatency), whole half.
+- ProMotion: Windows 81 new pictures a second, gaps of 33+ ms 0.8 a second, 50+ ms 0.2; the panel 72 a second, 33+
+  ms 3.7, 50+ ms 2.3; 26% of the panel's gaps over one 120 Hz refresh.
+- Fixed 60 Hz: the guest followed (screen intervals median 16.67 ms). Windows 59 a second, a refresh skipped in 2% of
+  intervals, 33+ ms 1.1 a second; the panel 53 a second, a refresh skipped in 11%, 33+ ms 5.5 a second, 50+ 0.3.
+  The owner: 60 Hz "looked more troubled".
+- So the loss between Windows and the panel happens with a fixed refresh too: ProMotion is not its cause (it may add
+  the 50+ ms gaps). Where it happens is not known. The phone clips cover ~22 s of each half, Windows the whole half;
+  the clip in the 60 Hz half was not aligned to the log (its row lies on the floor, which walking zooms rather than
+  shifts), so its frames are not paired with Windows' one by one.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

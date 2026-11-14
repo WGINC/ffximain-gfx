@@ -5723,6 +5723,40 @@ ab_levers, waits 3 s, then sets it, so each run starts a fresh A/B; its mark is 
 - The settings that measured best and are installed: pace_adaptive=1, precise_pacing=1, uncap=1 frame_step=3,
   swap_buffers=3; no cap, no present_interval, step_exact 0.
 
+## 14 Nov (thirty-third entry): the 30 Nov and 1 Dec runs -- what the felt stutters are, and where frames are lost
+
+**30 Nov (one start, the native sampler on frames of 25 ms or more).**
+- The owner's 19 `mark felt`: 17 had no game frame of 25 ms or more in the 8 s before. No backward step of the
+  character or the camera near any of them (39 backward character steps in 50,595 moving frames, in two bursts; one
+  camera step). In the 5 s before a mark, PresentMon: ~30 frames a second shown for 2+ refreshes, ~20 elsewhere.
+- The renderer's own counts rule out "a Present without a redraw shows an old buffer": the scene target is cleared
+  and drawn once per frame, the back buffer bound once per frame. The readback snapshots are the 16x16 occlusion
+  pictures, exact by write count, never on screen.
+- The 91 long frames (kit/xisamp/read.py, which now lists each group's frames): login-time MD5 (1.9 s), Windower's
+  LuaCore (22 frames, the 15 s after login), ground-height lookups; 25 frames waiting in Dev::Present -> RingLink::end
+  (pacing: 3 frames queued). The largest of these, 0.8 s at ~10 fps in the new area: PresentMon GPUBusy 94-106 ms on
+  every other frame, the game's CPU frame 3-5 ms, and nothing else in the renderer's block rose (no level builds,
+  pipelines, shaders or uploads). The GPU was slow on ordinary frames; why is not visible from Windows. The other
+  cases: no high GPU time, little or no time in Present; not settled.
+
+**1 Dec (two starts, blind: `one` swap_buffers=2, `two` swap_buffers=3; 180 s from `mark go` each).**
+- PresentMon: one 111 frames a second, 94% shown, 15.0 a second held 2+ refreshes, 33 frames over 25 ms; two 127, 76%
+  shown, 22.6 held, 3 over 25 ms. The owner: one "no stutters, but slowdowns" (no `mark felt`); two "judders as
+  usual, more blurry when turning" (8 `mark felt`). One's long frames (25-31 ms, every few seconds) are not in the
+  renderer's Present; the sampler was off, so where they are is not known.
+- **The phone (240 fps, slow motion) against the logs.** One pixel row per phone frame; the shift between consecutive
+  rows (correlation, +-40 px). Aligned to the frame log by the camera's turning: three turns give phone 0 s =
+  `mark rec` + 11.670, 11.675, 11.700 s (correlation 0.83, 0.85, 0.67). In the three turns: the game made 104-143
+  frames a second (longest 10, 10, 25 ms); Windows showed 89-113 a second, none held over 3 refreshes; the panel got
+  58-86 new pictures a second, with gaps of 4+ refreshes (33+ ms) 6, 18 and 20 times in 2 s. Those gaps are real
+  losses, not missed small steps: the step after one is 25-36 px against ~8 after a 1-refresh gap. Gaps of 2-3
+  refreshes (steps 9-12 px) are not certain. The picture never stepped backward.
+- So frames Windows composed did not reach the Mac's screen: lost after the guest's compositor, in Parallels or
+  macOS. Which, and why, is not known. The Mac screen recording (57 frames a second average, variable rate) is not
+  used: whether its rate is the recorder's or the screen's is not known.
+- Installed now: swap_buffers=2 (kit/install/config/d3d8on11.ini). The 25-26 Nov measurement that favoured 3 was
+  before pace_adaptive and precise_pacing.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

@@ -5850,6 +5850,9 @@ of the game's goblin; strip unneeded logging, with a debug mode that has it.
     runs once per rendered frame instead of up to 60 a second. Its code read so far empties a request queue (up to
     64 elements gathered) and counts no frames; the per-element update (0x100364A0) is not read. So a link to the
     frame rate is not established; frame_cap=60 against no cap is the test.
+    The owner (14 Nov): with frame_cap=60 the rain still cuts out and sounds still double. So the frame count alone is
+    not it; uncap, frame_step and the fork stay on at a cap. Next: dgVoodoo without gobbiefix, then load_kit=0 (the
+    renderer alone).
   - The frame rate swinging between 60 and 120: the minute averages (7-10 ms) cannot show it; debug mode's per-frame
     statistics, or a capture, are needed.
 

@@ -1149,9 +1149,17 @@ static LONG g_pcN, g_pcLate; static double g_pcSum, g_pcSum2, g_pcMax;
 // (at most 50 ms), so frames go out evenly at a rate the scene sustains. A frame that took longer goes at once.
 static LONGLONG g_paceRel; static double g_paceRing[120]; static int g_paceI, g_paceN;
 static LONG g_paceFrames, g_paceHeld, g_paceLate; static double g_paceHeldMs, g_paceTgtMs;
-static void wait_until(LONGLONG due) {           // a high-resolution timer for most of it, a spin for the last ~1 ms
+// sf_sleep_until (28 Nov): to the counter's moment `due`, sleeping on a high-resolution timer and spinning the last
+// part. How long before the moment the sleep ends (the margin) follows how much this machine's timer oversleeps: the
+// largest oversleep of the last 64 sleeps plus 0.25 ms, at least 1 ms, at most 4 ms. (Under Wine here a 15.667 ms timer
+// wait overslept 0.88 ms at the median, over 1 ms in 12-21% of waits, so a fixed 1 ms margin let those frames end late;
+// what the owner's machine does is in the log: sf_sleep_stats.) Both waits use it: precise_pacing's (sf_main.cpp
+// sf_wait) and pace_adaptive's. One thread at a time (the render thread).
+static double g_ovr[64]; static int g_ovrI, g_ovrN; static double g_margin = 1.0;
+static LONG g_slSleeps, g_slLate; static double g_slOverMax, g_slLateMs;
+extern "C" void sf_sleep_until(LONGLONG due, LONGLONG qpf) {
   LARGE_INTEGER t; QueryPerformanceCounter(&t);
-  double ms = (due - t.QuadPart) * 1000.0 / (double)g_qpf.QuadPart;
+  double ms = (due - t.QuadPart) * 1000.0 / (double)qpf;
   if (ms <= 0) return;
   if (!g_timerTried) {
     g_timerTried = true;
@@ -1159,12 +1167,29 @@ static void wait_until(LONGLONG due) {           // a high-resolution timer for 
     CWTEx f = (CWTEx)(void *)GetProcAddress(GetModuleHandleA("kernel32.dll"), "CreateWaitableTimerExW");
     g_timer = f ? f(NULL, NULL, 0x2 /* CREATE_WAITABLE_TIMER_HIGH_RESOLUTION */, TIMER_ALL_ACCESS) : NULL;
   }
-  if (ms > 1.5 && g_timer) {
-    LARGE_INTEGER d; d.QuadPart = -(LONGLONG)((ms - 1.0) * 10000.0);
-    if (SetWaitableTimer(g_timer, &d, 0, NULL, NULL, FALSE)) WaitForSingleObject(g_timer, 200);
+  if (ms > g_margin + 0.5) {
+    double sleep_ms = ms - g_margin;
+    LARGE_INTEGER d; d.QuadPart = -(LONGLONG)(sleep_ms * 10000.0);
+    if (g_timer && SetWaitableTimer(g_timer, &d, 0, NULL, NULL, FALSE)) WaitForSingleObject(g_timer, 1100);
+    else Sleep((DWORD)sleep_ms);
+    LARGE_INTEGER w; QueryPerformanceCounter(&w);
+    double over = (w.QuadPart - t.QuadPart) * 1000.0 / (double)qpf - sleep_ms;
+    if (over < 0) over = 0;
+    g_ovr[g_ovrI] = over; g_ovrI = (g_ovrI + 1) & 63; if (g_ovrN < 64) g_ovrN++;
+    double mx = 0; for (int i = 0; i < g_ovrN; i++) if (g_ovr[i] > mx) mx = g_ovr[i];
+    g_margin = mx + 0.25; if (g_margin < 1.0) g_margin = 1.0; if (g_margin > 4.0) g_margin = 4.0;
+    g_slSleeps++; if (over > g_slOverMax) g_slOverMax = over;
+    if (w.QuadPart > due) { g_slLate++; g_slLateMs += (w.QuadPart - due) * 1000.0 / (double)qpf; }
   }
   do { YieldProcessor(); QueryPerformanceCounter(&t); } while (t.QuadPart < due);
 }
+extern "C" void sf_sleep_stats(void) {
+  if (!g_slSleeps) return;
+  H->log("speedfix: waits: %ld timer sleeps, the largest oversleep %.2f ms; %ld woke after their moment (%.2f ms late on average); the spin margin now %.2f ms",
+         g_slSleeps, g_slOverMax, g_slLate, g_slLate ? g_slLateMs / g_slLate : 0.0, g_margin);
+  g_slSleeps = g_slLate = 0; g_slOverMax = g_slLateMs = 0;
+}
+static void wait_until(LONGLONG due) { sf_sleep_until(due, g_qpf.QuadPart); }
 static void pace_frame(LARGE_INTEGER &now) {
   if (g_paceRel) {
     double cost = (now.QuadPart - g_paceRel) * 1000.0 / (double)g_qpf.QuadPart;
@@ -1249,6 +1274,7 @@ extern "C" void sf_device_stats(void) {
   LONG me = InterlockedExchange(&g_mergedEnds, 0);
   if (me) H->log("speedfix: merge_scenes: %ld EndScene/BeginScene pairs inside frames dropped", me);
   if (g_motion) mot_log();
+  sf_sleep_stats();
   if (g_paceFrames) {
     H->log("speedfix: pace_adaptive: %ld frames paced, the interval aimed at %.2f ms on average (pace_pct %d); %ld held (%.2f ms each), %ld went at once (over the aim)",
            g_paceFrames, g_paceTgtMs / g_paceFrames, sf_cfg.pace_pct, g_paceHeld, g_paceHeld ? g_paceHeldMs / g_paceHeld : 0.0, g_paceLate);

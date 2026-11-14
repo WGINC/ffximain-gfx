@@ -372,7 +372,7 @@ extern "C" float __cdecl sf_rate(uint8_t *timer, uintptr_t ret) {
   if (ret == sf_pp_ret[2]) g_pp_frames++;
   return r;
 }
-static HANDLE g_pp_timer; static bool g_pp_timer_tried;
+extern "C" void sf_sleep_until(LONGLONG due, LONGLONG qpf);
 static volatile int32_t g_pp_ticks; static volatile float g_pp_scale;   // as the last wait read them, for the log
 extern "C" void __cdecl sf_wait(uint8_t *obj, DWORD ms) {
   if (!g_pp_thread) g_pp_thread = GetCurrentThreadId();
@@ -390,20 +390,8 @@ extern "C" void __cdecl sf_wait(uint8_t *obj, DWORD ms) {
     LONGLONG end = g_pp_base + (LONGLONG)(want * (double)g_pp_qpf.QuadPart / 1000.0);
     double remain = (end - t0.QuadPart) * 1000.0 / (double)g_pp_qpf.QuadPart;
     if (remain > 1000.0) { remain = 1000.0; end = t0.QuadPart + g_pp_qpf.QuadPart; }   // the game asks again
-    if (remain > 0) {
-      if (!g_pp_timer_tried) {
-        g_pp_timer_tried = true;
-        typedef HANDLE (WINAPI *CWTEx)(LPSECURITY_ATTRIBUTES, LPCWSTR, DWORD, DWORD);
-        CWTEx f = (CWTEx)(void *)GetProcAddress(GetModuleHandleA("kernel32.dll"), "CreateWaitableTimerExW");
-        g_pp_timer = f ? f(NULL, NULL, 0x2 /* CREATE_WAITABLE_TIMER_HIGH_RESOLUTION */, TIMER_ALL_ACCESS) : NULL;
-      }
-      if (remain > 1.5 && g_pp_timer) {         // sleep most of it on a high-resolution timer, spin the last ~1 ms
-        LARGE_INTEGER due; due.QuadPart = -(LONGLONG)((remain - 1.0) * 10000.0);
-        if (SetWaitableTimer(g_pp_timer, &due, 0, NULL, NULL, FALSE)) WaitForSingleObject(g_pp_timer, 1100);
-      } else if (remain > 1.5) ((void (WINAPI *)(DWORD))g_pp_sleep)((DWORD)(remain - 1.0));
-      LARGE_INTEGER t;
-      do { YieldProcessor(); QueryPerformanceCounter(&t); } while (t.QuadPart < end);
-    } else g_pp_late++;
+    if (remain > 0) sf_sleep_until(end, g_pp_qpf.QuadPart);   // (sf_device.cpp: the timer sleep, its margin measured)
+    else g_pp_late++;
     g_pp_waits++;
   }
   LARGE_INTEGER t1; QueryPerformanceCounter(&t1);

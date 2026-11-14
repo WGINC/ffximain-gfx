@@ -149,6 +149,8 @@ static const char kDefaultIni[] =
   "; sound_retry: a looping sound (rain, wind) that finds every voice busy is kept and tried again at the next update;\r\n"
   "; 0 = the game's: it is deleted, and stays silent until the zone or weather starts it again\r\n"
   "sound_retry=1\r\n"
+  "; sphere_shine: sphere-mapped metal (an evev texture) at the PS2's mapping and strength; 0 = the game's (dull)\r\n"
+  "sphere_shine=1\r\n"
   "; step_exact: with frame_step, the game moves things by this frame's own time (the performance counter, kept within\r\n"
   ";   1 ms of the game's whole-millisecond time) instead of its average of the last 4 frames. Live both ways\r\n"
   "step_exact=0\r\n"
@@ -252,7 +254,7 @@ static SfConfig read_config(void) {
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
-  c.name_smooth = rd("name_smooth", 1) ? 1 : 0; c.sound_retry = rd("sound_retry", 1) ? 1 : 0;
+  c.name_smooth = rd("name_smooth", 1) ? 1 : 0; c.sound_retry = rd("sound_retry", 1) ? 1 : 0; c.sphere_shine = rd("sphere_shine", 1) ? 1 : 0;
   c.step_exact = rd("step_exact", 0) ? 1 : 0; c.pace_adaptive = rd("pace_adaptive", 0) ? 1 : 0;
   c.pace_pct = rd("pace_pct", 90); if (c.pace_pct < 50 || c.pace_pct > 99) c.pace_pct = 90;
   c.shadow_fit = rd("shadow_fit", 1) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
@@ -1088,6 +1090,7 @@ static void st_stats(void) {
         "frame %ld (counted under uncap/frame_step, Frame_Render's fork)", n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[0]); }
   if (sf_cfg.name_smooth) { long ns, nk; sf_name_take(&ns, &nk);
     LOG("speedfix: name_smooth: %ld name sizes made from the unrounded depth, %ld left at the game's (the depth did not match the game's)", ns, nk); }
+  if (sf_cfg.sphere_shine) LOG("speedfix: sphere_shine: %ld sphere-mapped batches drawn the PS2's way since the last line", (long)InterlockedExchange(&xi_sphere_draws, 0));
   { long q, k, g; sf_sound_take(&q, &k, &g);
     LOG("speedfix: sound_retry=%d: %ld sound restarts asked for a voice since the last line; refused a voice: %ld kept to ask again, %ld deleted (the game's way)", sf_cfg.sound_retry, q, k, g); }
   if (sf_cfg.shadow_fit) {
@@ -1125,6 +1128,7 @@ static void apply_code(void) {                      // render thread, inside Pre
   apply_sse_skinning();
   xi_skinmerge_on = sf_cfg.skin_merge && sf_skinmerge_installed && sf_hooks_live();   // the game's draws otherwise
   xi_gpuskin_on = sf_cfg.gpu_skin && sf_skinmerge_installed && sf_hooks_live();        // the game's skinning otherwise
+  xi_sphere_on = sf_cfg.sphere_shine && sf_skinmerge_installed && sf_hooks_live();     // (14 Nov) the PS2's sphere-map shine
   sf_group_on = sf_cfg.skin_merge >= 2 && sf_skinmerge_installed && sf_hooks_live();   // skin_merge=2: a model's draws grouped (sf_device.cpp)
   log_cpu_tier();
 }
@@ -1330,7 +1334,8 @@ extern "C" int sf_init(const XikitHost *host) {
     if (sf_hook_shadow(host) != XIKIT_OK) LOG("speedfix: Shadow_DrawByMode not hooked: shadow_fit does nothing");
     else LOG("speedfix: shadow_fit=1: simple shadows sized by each character's model (half-width %d%% of its footprint's diagonal)", sf_cfg.shadow_fit_scale);
   }
-  if ((sf_cfg.skin_merge || sf_cfg.gpu_skin) && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge and gpu_skin do nothing");
+  if ((sf_cfg.skin_merge || sf_cfg.gpu_skin || sf_cfg.sphere_shine) && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge, gpu_skin and sphere_shine do nothing");
+  if (sf_cfg.sphere_shine && sf_skinmerge_installed) LOG("speedfix: sphere_shine=1: sphere-mapped model parts drawn with the PS2's mapping and strength (SkinAndDrawV2's fork)");
   if (sf_cfg.gpu_skin && sf_skinmerge_installed) LOG("speedfix: gpu_skin: SkinAndDrawV2 runs speedfix's fork; a model's skinning is handed to d3d8on11 (D8ON11_Skin) where it takes it");
   if (sf_cfg.task_draws || sf_cfg.liminality) { if (sf_hook_dispatch(host) != XIKIT_OK) LOG("speedfix: CMoTask::Dispatch not hooked: task_draws does nothing"); }
   if ((sf_cfg.frame_step || sf_cfg.uncap) && sf_fork_framestep(host) != XIKIT_OK) LOG("speedfix: Frame_Render and the step getters not forked: frame_step and uncap do nothing");

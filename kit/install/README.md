@@ -86,6 +86,12 @@ the next update, the sameway the game already does when too many sounds ask in o
 voice is free. Only sounds the game itself keep while youuu cannot hear them is kept; the rest go as before. **0** = the
 game's way.
 
+### sphere_shine (1)
+*Pshhh...* Some metal, like Warlord Rojgnoj's gold armour, is meant to shine with a reflection. On PC the game read the
+wrong corner of the reflection picture at half the PS2's strength, so the metal look dull. **1** = gobbie draw it the
+PS2's way: right part of the picture, full strength. **0** = the game's dull way. (How the PS2 does it was measured by
+voetre for portfix; gobbie made its own version inside gobbie's model drawing.)
+
 ### renderer (d3d12)
 **d3d12** = gobbie's fastfast renderer. If Direct3D 12 no start on a machine, it use Direct3D 11 by itself. **d3d11** =
 always the olderway (try this only if d3d12 give youuu trouble).

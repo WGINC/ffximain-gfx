@@ -18,6 +18,55 @@ extern "C" { volatile int xi_skinmerge_on; }
 // device does not take the job, and the game's own calls run). speedfix sets it in the game (the lever gpu_skin); in
 // the gate it is 0.
 extern "C" { volatile int xi_gpuskin_on; int sf_gpu_skin(void *self, int v10) __attribute__((weak)); }
+// ---- sphere_shine (14 Nov; the technique from voetre's portfix, MIT, docs/TECHNICAL.md "Sphere-map shine", our own
+// version in the game's own setup of the draw). The sphere-mapped batch (this function's branch a1 = 2, below: stage 1
+// MODULATEALPHA_ADDCOLOR of the model's environment texture at TCI_CAMERASPACENORMAL | 1 through g_texture1Matrix,
+// TEXTUREFACTOR alpha the batch's strength / 2) reads the map at (nx, ny) and adds it at the 0xFF = 1.0 scale. The PS2,
+// as portfix measured it in PCSX2: u = 0.5 + 0.5 nx, v = 0.5 - 0.5 ny, added at the 0x80 = 1.0 scale (twice). With
+// xi_sphere_on the batch gets that matrix, stage 1 puts 2 x map x the stage-0 alpha in TEMP (its alpha stays the game's)
+// and stage 2 adds TEMP to the colour. The states it changes are read from the device first and put back at the next
+// batch that is not sphere-mapped and at the end of the function; the texture matrix as the game would have left it.
+// speedfix sets xi_sphere_on (the setting sphere_shine); in the gate it is 0 and the batch is the game's.
+#ifdef XI_SPHERE_GATE
+extern "C" { volatile int xi_sphere_on = 1; volatile long xi_sphere_draws; }   // the gate's run of the sphere path (test_skinmerge.py)
+#else
+extern "C" { volatile int xi_sphere_on; volatile long xi_sphere_draws; }
+#endif
+struct SmKeep { int on, tm; DWORD v[10]; };
+static const struct { DWORD st; D3DTEXTURESTAGESTATETYPE ty; DWORD val; } kSmSet[10] = {
+  {1, D3DTSS_COLOROP, D3DTOP_MODULATE2X}, {1, D3DTSS_COLORARG1, D3DTA_CURRENT | D3DTA_ALPHAREPLICATE}, {1, D3DTSS_RESULTARG, D3DTA_TEMP},
+  {2, D3DTSS_COLOROP, D3DTOP_ADD}, {2, D3DTSS_COLORARG1, D3DTA_CURRENT}, {2, D3DTSS_COLORARG2, D3DTA_TEMP},
+  {2, D3DTSS_ALPHAOP, D3DTOP_SELECTARG1}, {2, D3DTSS_ALPHAARG1, D3DTA_TEMP}, {3, D3DTSS_COLOROP, D3DTOP_DISABLE}, {3, D3DTSS_ALPHAOP, D3DTOP_DISABLE}};
+static const D3DMATRIX kSmPs2 = {{{0.5f, 0, 0, 0, 0, -0.5f, 0, 0, 0, 0, 0, 0, 0.5f, 0.5f, 0, 1}}};
+static void sm_apply(SmKeep *k)
+{
+  IDirect3DDevice8 *d = *(IDirect3DDevice8 **)((char *)g_pCDx + 0xC);
+  if ( !k->on )
+  {
+    for ( int i = 0; i < 10; i++ )
+      d->lpVtbl->GetTextureStageState(d, kSmSet[i].st, kSmSet[i].ty, &k->v[i]);
+    k->on = 1;
+  }
+  for ( int i = 0; i < 10; i++ )               // (stage 1's COLOROP last of stage 1: after the game set it)
+    d->lpVtbl->SetTextureStageState(d, kSmSet[i].st, kSmSet[i].ty, kSmSet[i].val);
+  d->lpVtbl->SetTransform(d, D3DTS_TEXTURE1, (D3DMATRIX *)&kSmPs2);
+  k->tm = 1; xi_sphere_draws++;
+}
+static void sm_restore(SmKeep *k)
+{
+  IDirect3DDevice8 *d = *(IDirect3DDevice8 **)((char *)g_pCDx + 0xC);
+  if ( k->on )
+  {
+    for ( int i = 10; i-- > 0; )
+      d->lpVtbl->SetTextureStageState(d, kSmSet[i].st, kSmSet[i].ty, k->v[i]);
+    k->on = 0;
+  }
+  if ( k->tm )                                // the matrix the game set for the batch
+  {
+    d->lpVtbl->SetTransform(d, D3DTS_TEXTURE1, (D3DMATRIX *)g_texture1Matrix);
+    k->tm = 0;
+  }
+}
 enum { XM_MAX = 256 };
 // the held records go out: one draw per stream set for the whole run, or, for a run of one, the game's own calls
 static void xm_flush(CYyModelDt *self, int v10, unsigned first, unsigned prims, int *n)
@@ -78,6 +127,7 @@ __int16 CYyModelDt::SkinAndDrawV2(int a2, int a3, int _180, int a5, _DWORD *a6, 
   float v39[11];
   unsigned xm_first = 0, xm_prims = 0;          // the held run: its first index, its triangles
   int xm_n = 0;                                 // records held
+  SmKeep smk = {};                              // sphere_shine: what it changed, to put back
   orig::Gfx_SetVertexShaderCached(0);
   g_boneWeightMatrixTableCur = g_boneWeightMatrixTable;
   v8 = (*(unsigned __int8 *)((char *)g_pCDx + 0x921));
@@ -684,6 +734,12 @@ LABEL_145:
           (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTransform((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), D3DTS_TEXTURE1, g_texture1Matrix);
           (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXTURETRANSFORMFLAGS, 3u);
           (*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC))->lpVtbl->SetTextureStageState((*(IDirect3DDevice8 * *)((char *)g_pCDx + 0xC)), 1u, D3DTSS_TEXCOORDINDEX, 65537u);
+          if ( xi_sphere_on )
+          {
+            if ( xm_n != 0 )                   // (held records go out under the states they were held under)
+              xm_flush(this, v10, xm_first, xm_prims, &xm_n);
+            sm_apply(&smk);
+          }
           dword_1045B64C = 0;
           if ( dword_1045745C == 0 )
             goto LABEL_77;
@@ -700,6 +756,12 @@ LABEL_145:
         }
         else
         {
+          if ( smk.on || smk.tm )
+          {
+            if ( xm_n != 0 )
+              xm_flush(this, v10, xm_first, xm_prims, &xm_n);
+            sm_restore(&smk);
+          }
           if ( v39[10] == 0.0 || v30 != 1 )
           {
             a1 = 0;
@@ -745,5 +807,6 @@ LABEL_146:
     v11 = (int)(((uint32_t)(v11) & 0xFFFF0000u) | ((uint32_t)(uint16_t)(*v32) << 0));
   }
   xm_flush(this, v10, xm_first, xm_prims, &xm_n);
+  sm_restore(&smk);
   return v11;
 }

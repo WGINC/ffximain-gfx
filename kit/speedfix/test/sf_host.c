@@ -870,7 +870,9 @@ int main(int argc, char **argv) {
     int forked = m && m == GetModuleHandleA("speedfix.dll");
     if (group) {}
     else if (!minimal && !lazy && !blocks && !pacing && !step) check(forked, "skin_merge=1 at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
-    else check(!forked, "skin_merge off at the start: SkinAndDrawV2 is the game's code");
+    /* (14 Nov) sphere_shine (default 1) is drawn in the fork too: with skin_merge off it is still in, and every switch
+       of it off draws as the game (test_skinmerge.py: the gate with them off PASSes) */
+    else check(forked, "skin_merge off, sphere_shine on (the default) at the start: SkinAndDrawV2's entry jumps into speedfix.dll (the fork)");
   }
   if (pacing) { frames(1); return pacing_test(); }
   if (step) { frames(1); return step_test(); }

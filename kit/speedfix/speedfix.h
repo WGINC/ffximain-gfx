@@ -51,6 +51,7 @@ struct SfConfig {
                             // the game's whole-ms time (fork/Frame_Render.fork.cpp, xi_exact_ticks); 0 the game's 4-frame average
   int pace_adaptive;        // (27 Nov) each frame held to the pace_pct percentile of the last 120 frames' own time (sf_device.cpp)
   int pace_pct;             // that percentile, 50-99 (90)
+  int sphere_shine;         // (14 Nov) sphere-mapped batches at the PS2 mapping (fork/CYyModelDt__SkinAndDrawV2.fork.cpp); 0 the game's
   int sound_retry;          // (14 Nov) a looping sound refused a voice kept and asked again next update (sf_game.cpp); 0 the game deletes it
   int shadow_fit_scale;     // the shadow's half-width as hundredths of the model footprint's diagonal (default 46: sf_game.cpp says why)
 };
@@ -73,7 +74,8 @@ void sf_shadow_branches(long *b);                // Shadow_DrawByMode's branches
 int  sf_fork_skinmerge(const XikitHost *host);   // XI_FORK of CYyModelDt::SkinAndDrawV2
 int  sf_fork_framestep(const XikitHost *host);   // XI_FORK of Frame_Render and the two step getters (frame_step, uncap)
 extern volatile int sf_group_on;              // skin_merge=2: sf_device.cpp groups a model's draws
-extern volatile int xi_gpuskin_on;            // the fork's gpu skinning switch (the same file)
+extern volatile int xi_gpuskin_on; extern volatile int xi_sphere_on; extern volatile long xi_sphere_draws;   // (sphere_shine)
+            // the fork's gpu skinning switch (the same file)
 extern volatile long sf_gs_jobs, sf_gs_refused; extern int sf_gpuskin_api;   // sf_fork.cpp: models handed to the device, declined; D8ON11_Skin found
 extern volatile int xi_skinmerge_on;          // the fork's switch (fork/CYyModelDt__SkinAndDrawV2.fork.cpp)
 extern int sf_skinmerge_installed;

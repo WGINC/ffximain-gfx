@@ -710,6 +710,12 @@ if 'thread' in MODES:
                    r'textures [0-9.]+, buffers [0-9.]+, commands [0-9.]+ us \((\d+) sampled; each stage includes one timer mark, ([0-9.]+) us\)', got_logs[0])
     ok = dt is not None and int(dt.group(2)) > 0 and int(dt.group(4)) > 0 and 0 < float(dt.group(3)) <= float(dt.group(1))
     print('%s: d3d12: the draw time line (a record %s us, in draw() %s us, timer mark %s us)' % ('ok' if ok else 'FAIL', *(dt.group(1, 3, 5) if dt else ('-', '-', '-')))); bad += not ok
+    # (14 Nov) the texture tables reused within a submission, and the vertex constants written only as the shader reads them
+    # (a block holds at most the whole VSConst, 1808 bytes)
+    tc = re.search(r'texture tables a frame: ([0-9.]+) made, ([0-9.]+) reused \(made earlier in the same submission\); '
+                   r'vertex constant blocks a frame: ([0-9.]+), ([0-9]+) bytes written each', got_logs[0])
+    ok = tc is not None and float(tc.group(1)) > 0 and float(tc.group(3)) > 0 and 0 < int(tc.group(4)) <= 1808
+    print('%s: d3d12: texture tables and constant blocks counted (%s)' % ('ok' if ok else 'FAIL', tc.group(0) if tc else 'no line')); bad += not ok
     clear_logs(); run(ours, 'frames 2000 draw', True, 'thread', D12)
     clear_logs(); out = run(ours, 'frames 700 draw', True, 'thread', D12); t = logs()
     bl = re.search(r'D3D12 binds, 600 frames: .*?(\d+) shaders compiled \((\d+) from the disk cache\)', t)
@@ -907,7 +913,7 @@ if 'thread' in MODES:
     res = []
     mk = os.path.join(ours, 'gobbiefix_debug.on')
     for dbg, marker in (('0', False), ('1', False), ('1', False), ('0', True), ('0', False)):
-        open(gob, 'w').write('[gobbiefix]\nrenderer = d3d12\nswap_buffers=3\nanisotropy=4\nframe_cap=60\nsmooth_names=0\ndebug=%s\n' % dbg)
+        open(gob, 'w').write('[gobbiefix]\nrenderer = d3d12\nswap_buffers=3\nanisotropy=4\nframe_cap=60\nsmooth_names=0\nsound_retry=0\ndebug=%s\n' % dbg)
         if marker: open(mk, 'w').write('on\n')
         elif os.path.exists(mk): os.remove(mk)
         clear_logs(); out = run(ours, 'frames 1300', True, 'thread'); t = logs()
@@ -919,7 +925,7 @@ if 'thread' in MODES:
     ok = 'presented 1299' in o4 and d4.get('log_stats') == '0' and s4.get('stats_every') == '0' and 'ring stats, 600 frames' not in t4
     print('%s: the marker gone (gobbiefix_debug.bat off), debug=0: the statistics lines off again' % ('ok' if ok else 'FAIL')); bad += not ok
     ok = ('presented 1299' in o0 and d0.get('backend') == 'd3d12' and d0.get('swap_buffers') == '3' and d0.get('anisotropy') == '4'
-          and d0.get('log_stats') == '0' and s0.get('frame_cap_fps') == '60' and s0.get('name_smooth') == '0' and s0.get('stats_every') == '0' and s0.get('log_hooks') == '0'
+          and d0.get('log_stats') == '0' and s0.get('frame_cap_fps') == '60' and s0.get('name_smooth') == '0' and s0.get('sound_retry') == '0' and s0.get('stats_every') == '0' and s0.get('log_hooks') == '0'
           and 'gobbiefix.ini applied:' in t0 and 'FLIP_DISCARD, 3 buffers' in t0 and 'D3D12 executor: device made' in t0
           and 'ring stats, 600 frames' not in t0 and 'executor stats, 600 frames' not in t0 and 'D3D12 binds, 600 frames' not in t0)
     print('%s: gobbiefix.ini debug=0: the keys written through (d3d8on11 %s; speedfix %s), this start used them (Direct3D 12, 3 buffers), no statistics lines' % ('ok' if ok else 'FAIL', d0, s0)); bad += not ok

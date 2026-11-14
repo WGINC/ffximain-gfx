@@ -77,6 +77,15 @@ names pulse bigger and smaller as people move).
 ### fitted_shadows (1)
 **1** = the round shadows under people sized to each body. **0** = the game's own shadowsize.
 
+### sound_retry (1)
+*Shkohhh...* Youuu hear the rain stop after a while, and it no come back? The game has only so many voices (12, or what
+youuu set in the registry, at most 20). When a looping sound like rain or wind lose its voice and ask for a new one while
+all of them is busy, the game no wait: it throw the sound away for good, until the weather or zone start it again. Gobbie
+found that in the game's own code (it happen with no gobbiefix too). **1** = gobbie keep such a sound and it ask again at
+the next update, the sameway the game already does when too many sounds ask in one update, so it come back as soon as a
+voice is free. Only sounds the game itself keep while youuu cannot hear them is kept; the rest go as before. **0** = the
+game's way.
+
 ### renderer (d3d12)
 **d3d12** = gobbie's fastfast renderer. If Direct3D 12 no start on a machine, it use Direct3D 11 by itself. **d3d11** =
 always the olderway (try this only if d3d12 give youuu trouble).

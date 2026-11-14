@@ -128,3 +128,46 @@ static uint32_t __thiscall sf_namecalc(void *self, undefined4 *pos, int out, flo
 extern "C" void sf_name_take(long *s, long *k) { *s = nc_smooth; *k = nc_kept; nc_smooth = 0; nc_kept = 0; }
 extern "C" int sf_hook_name(const XikitHost *host) { return XI_HOOK(host, CXiActor::NameCalc, sf_namecalc, prev_namecalc); }
 
+
+// sound_retry (14 Nov). The owner: the rain's sound stops after a minute (in the game as shipped too), after 5-10 minutes
+// with the registry's voice limit (0029) at 20 instead of 12. What the game's code does (analysed build 6A995428):
+// CYySoundElem::UpdateTimerAndPosition (0x100364E0) restarts an element whose handle [+0x1E0] is 0 with 0x100363B0
+// (at 0x1003664A, its only direct call), which stores the handle Unit10036B90_SetVolumeVector (0x10036F50, called at
+// 0x100363FF) returns. That returns 0 when the request does not fit this update's queue (Unit10035B00_AddUniqueId,
+// 0x10036460, fails: 0x10036F96), and the element is kept with handle 0, so the next update asks again; it returns -1 when
+// Unit10037AC0_QueueSoundCmdIfChannelsBelowLimit (0x10038330) refuses: no sound system ([0x1046393C] 0) or the voices
+// playing (0x10246160) are not under the limit ([0x10456A94], the registry's 0029; 20 when 0x10087060 and [0x10463924])
+// (0x100383CD). A negative handle takes the jl at 0x10036657 to 0x10036741, which calls the element's vtable+0x18 with
+// 1 (0x10036AD0, its destructor and free): the element, and the sound, are gone for good.
+// With sound_retry=1 a refusal at that call (the return address 0x10036404) is answered as the queue-full case is: 0,
+// so the element is kept and asks again at the next update -- but only for an element the game itself keeps when it is
+// not heard: its vtable+0x40 (0x10036770 for CYySoundElem) true, the test at 0x10036723 that sends such an element to
+// CYySoundElem::ClearHandle instead of the destructor. Any other element is deleted as before. Counted.
+static xikit::fn<decltype(&Unit10036B90_SetVolumeVector)> prev_setvol;
+static xikit::fn<decltype(&CYySoundElem::UpdateTimerAndPosition)> prev_elemupd;
+static void *snd_elem;                                    // the element UpdateTimerAndPosition is running for (game thread)
+static volatile long snd_kept, snd_gone;
+static undefined4 __thiscall sf_setvol(void *self_, undefined4 a1, undefined4 a2) {
+  undefined4 r = prev_setvol(self_, a1, a2);
+  if ((uintptr_t)__builtin_return_address(0) != XI_GAME(0x10036404u) || !snd_elem) return r;
+  void *e = snd_elem;
+  if ((int32_t)r < 0) {
+    if (!sf_cfg.sound_retry) { snd_gone++; return r; }
+    typedef uint32_t (__thiscall *KeepFn)(void *);
+    if ((uint8_t)((KeepFn)((*(void ***)e)[0x40 / 4]))(e)) { snd_kept++; return 0; }   // (the call 0x10036723 makes: al tested)
+    snd_gone++;
+  }
+  return r;
+}
+static undefined4 __thiscall sf_elemupd(void *self) {
+  void *was = snd_elem; snd_elem = self;
+  undefined4 r = prev_elemupd(self);
+  snd_elem = was;
+  return r;
+}
+extern "C" int sf_hook_sound(const XikitHost *host) {
+  int r = XI_HOOK(host, Unit10036B90_SetVolumeVector, sf_setvol, prev_setvol);
+  if (r != XIKIT_OK) return r;
+  return XI_HOOK(host, CYySoundElem::UpdateTimerAndPosition, sf_elemupd, prev_elemupd);
+}
+extern "C" void sf_sound_take(long *kept, long *gone) { *kept = snd_kept; *gone = snd_gone; snd_kept = snd_gone = 0; }

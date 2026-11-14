@@ -190,6 +190,15 @@ struct Exec12 {
   VSConst last_vc; PSConst last_pc; D3D12_GPU_VIRTUAL_ADDRESS last_vca = 0, last_pca = 0; uint64_t last_c_epoch = ~0ull;
   uint64_t last_pal = 0, last_pal_epoch = ~0ull; D3D12_GPU_VIRTUAL_ADDRESS last_pal_va = 0;
   uint32_t last_srv_ids[8] = {}; uint64_t last_srv_tab = ~0ull, last_srv_epoch = ~0ull;
+  // (14 Nov) the texture tables made in this submission, by their eight views (a direct-mapped cache of 256): a set seen
+  // before in it reuses its table instead of eight descriptor copies. An entry holds only while the submission and the
+  // views' generation are its own: srv_gen goes up whenever a view's place is given back (a later view may take it)
+  struct SrvTab { uint32_t ids[8]; uint64_t tab, epoch, gen; };
+  SrvTab srv_cache[256] = {}; uint64_t srv_gen = 1;
+  // (14 Nov) the vertex constants written to the last block: only the parts the draw's shader reads (vc_need), so a
+  // draw compares and copies those; vc_have: the parts the last block holds
+  uint32_t vc_have = 0;
+  uint64_t c_srv_made = 0, c_srv_cached = 0, c_vc_blocks = 0, c_vc_bytes = 0;
   std::vector<uint8_t> head, same;                  // X_DRAW_SAME: the last packet's head; the packet made from it
   std::shared_ptr<SkinPal> last_skin_pal; uint64_t pal_serial = 0;
 

@@ -57,6 +57,11 @@ ok = r.returncode == 0 and 'speedfix: shadow_fit=1: simple shadows sized by each
 print('%s: shadow_fit=1: Shadow_DrawByMode hooked (logged)' % ('ok' if ok else 'FAIL')); bad += not ok
 ok = r.returncode == 0 and 'speedfix: name_smooth=1: names sized from their unrounded depth' in slog
 print('%s: name_smooth=1: CXiActor::NameCalc hooked (logged)' % ('ok' if ok else 'FAIL')); bad += not ok
+# sound_retry (14 Nov): on by default, the two hooks go in and say so (this run), and the counts line is written (the last
+# mode's run, whose statistics lines are on)
+ok = r.returncode == 0 and 'speedfix: sound_retry=1: a sound the game keeps when unheard is kept when refused a voice' in slog and \
+     re.search(r'speedfix: sound_retry=1: sounds refused a voice since the last line: \d+ kept to ask again, \d+ deleted', log) is not None
+print('%s: sound_retry=1 (the default): the voice request and the element update hooked, the counts logged' % ('ok' if ok else 'FAIL')); bad += not ok
 print('-- xikit.log (speedfix lines) --'); print('\n'.join(l for l in log.splitlines() if 'speedfix' in l or 'mod ' in l)[-4000:])
 ok = 'speedfix.dll (the speedfix mod) is loaded' in log
 print('%s: the kit leaves the functions speedfix changes inside to the game\'s code (respect_speedfix)' % ('ok' if ok else 'FAIL')); bad += not ok
@@ -78,6 +83,13 @@ g = subprocess.run([sys.executable, os.path.join(ROOT, 'sdk', 'fork.py'), 'gate-
 print(g.stdout.strip(), g.stderr.strip()[-2000:])
 ok = g.returncode == 0 and ': PASS;' in g.stdout
 print('%s: the gate: speedfix\'s CXiActor::NameCalc hook, name_smooth off, is the game\'s function' % ('ok' if ok else 'FAIL')); bad += not ok
+for fn, what in (('Unit10036B90_SetVolumeVector', 'the voice request'), ('CYySoundElem::UpdateTimerAndPosition', 'the sound element update')):
+    g = subprocess.run([sys.executable, os.path.join(ROOT, 'sdk', 'fork.py'), 'gate-hook', fn,
+                        os.path.join(SF, 'sf_game.cpp'), os.path.join(H, 'gate_stub.cpp'), '--trials', '30',
+                        '--work', os.path.join(d, 'w_' + fn.replace(':', '_'))], capture_output=True, text=True)
+    print(g.stdout.strip(), g.stderr.strip()[-2000:])
+    ok = g.returncode == 0 and ': PASS;' in g.stdout
+    print('%s: the gate: speedfix\'s %s hook (%s), sound_retry off, is the game\'s function' % ('ok' if ok else 'FAIL', fn, what)); bad += not ok
 if os.environ.get('KEEP'): print('kept', d)
 else: shutil.rmtree(d, ignore_errors=True)
 print('ALL OK' if not bad else 'FAILED'); sys.exit(1 if bad else 0)

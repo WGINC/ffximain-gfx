@@ -146,6 +146,9 @@ static const char kDefaultIni[] =
   "shadow_fit=1\r\nshadow_fit_scale=46\r\n"
   "; name_smooth: names shrink with distance continuously; 0 = the game's 80 size steps (the names jump a step at a time)\r\n"
   "name_smooth=1\r\n"
+  "; sound_retry: a looping sound (rain, wind) that finds every voice busy is kept and tried again at the next update;\r\n"
+  "; 0 = the game's: it is deleted, and stays silent until the zone or weather starts it again\r\n"
+  "sound_retry=1\r\n"
   "; step_exact: with frame_step, the game moves things by this frame's own time (the performance counter, kept within\r\n"
   ";   1 ms of the game's whole-millisecond time) instead of its average of the last 4 frames. Live both ways\r\n"
   "step_exact=0\r\n"
@@ -249,7 +252,7 @@ static SfConfig read_config(void) {
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
-  c.name_smooth = rd("name_smooth", 1) ? 1 : 0;
+  c.name_smooth = rd("name_smooth", 1) ? 1 : 0; c.sound_retry = rd("sound_retry", 1) ? 1 : 0;
   c.step_exact = rd("step_exact", 0) ? 1 : 0; c.pace_adaptive = rd("pace_adaptive", 0) ? 1 : 0;
   c.pace_pct = rd("pace_pct", 90); if (c.pace_pct < 50 || c.pace_pct > 99) c.pace_pct = 90;
   c.shadow_fit = rd("shadow_fit", 1) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
@@ -1085,6 +1088,8 @@ static void st_stats(void) {
         "frame %ld (counted under uncap/frame_step, Frame_Render's fork)", n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[0]); }
   if (sf_cfg.name_smooth) { long ns, nk; sf_name_take(&ns, &nk);
     LOG("speedfix: name_smooth: %ld name sizes made from the unrounded depth, %ld left at the game's (the depth did not match the game's)", ns, nk); }
+  { long k, g; sf_sound_take(&k, &g);
+    LOG("speedfix: sound_retry=%d: sounds refused a voice since the last line: %ld kept to ask again, %ld deleted (the game's way)", sf_cfg.sound_retry, k, g); }
   if (sf_cfg.shadow_fit) {
     long n, g; float mn, mx, sm; sf_shadow_take(&n, &g, &mn, &mx, &sm);
     if (n) LOG("speedfix: shadow_fit: %ld simple shadows sized by their model (footprint diagonal %.2f to %.2f, mean %.2f), %ld at the game's size (no box, or a diagonal outside 0.05 to 20)",
@@ -1318,6 +1323,9 @@ extern "C" int sf_init(const XikitHost *host) {
     if (sf_hook_name(host) != XIKIT_OK) LOG("speedfix: CXiActor::NameCalc not hooked: name_smooth does nothing");
     else LOG("speedfix: name_smooth=1: names sized from their unrounded depth (the game: 80 steps)");
   }
+  if (sf_hook_sound(host) != XIKIT_OK) LOG("speedfix: the sound element update not hooked: sound_retry does nothing");
+  else LOG("speedfix: sound_retry=%d: %s", sf_cfg.sound_retry, sf_cfg.sound_retry ? "a sound the game keeps when unheard is kept when refused a voice, and asks again next update"
+                                                                                : "a sound refused a voice is deleted (the game's); refusals counted");
   if (sf_cfg.shadow_fit) {
     if (sf_hook_shadow(host) != XIKIT_OK) LOG("speedfix: Shadow_DrawByMode not hooked: shadow_fit does nothing");
     else LOG("speedfix: shadow_fit=1: simple shadows sized by each character's model (half-width %d%% of its footprint's diagonal)", sf_cfg.shadow_fit_scale);

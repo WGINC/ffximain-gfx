@@ -147,6 +147,7 @@ void Exec12::free_res(Res &r, bool now) {
   for (auto &v : r.rtv) h_rtv.give(v.second);
   for (auto &v : r.srv_levels) h_srv.give(v.second);
   if (r.srv != ~0u) h_srv.give(r.srv);
+  srv_gen++;                                               // (a cached texture table may name a view given back here)
   if (r.dsv != ~0u) h_dsv.give(r.dsv);
   r.rtv.clear(); r.srv_levels.clear(); r.srv = r.dsv = ~0u;
   if (r.kind != 4) {                                       // (the back buffers are the swap chain's)
@@ -909,7 +910,7 @@ int Exec12::sampler_check(bool copy, uint32_t px[2]) {
     D3D12_RANGE none = {0, 0}; rb->Unmap(0, &none);
     result = (px[0] >= 100 && px[0] <= 155 ? 1 : 0) | (px[1] >= 200 ? 2 : 0);
   } while (0);
-  if (si != ~0u) h_srv.give(si); if (ri != ~0u) h_rtv.give(ri);
+  if (si != ~0u) { h_srv.give(si); srv_gen++; } if (ri != ~0u) h_rtv.give(ri);
   bury(tex); bury(rt); bury(rb); bury(pso);
   rel(vb); rel(pb);
   smp_tables.clear(); smp_cpu.clear(); smp_next = 0; memo.smp_ok = false;   // (the check's samplers are not the stream's)
@@ -1086,7 +1087,7 @@ bool Exec12::tex_probe(DXGI_FORMAT fmt, UINT w, UINT h, const std::vector<std::v
     for (int i = 0; i < 4; i++) memcpy(&px[i], m + 4 * i, 4);   // R8G8B8A8: byte 0 red
     D3D12_RANGE none = {0, 0}; rb->Unmap(0, &none); ok = true;
   } while (0);
-  if (si != ~0u) h_srv.give(si); if (ri != ~0u) h_rtv.give(ri);
+  if (si != ~0u) { h_srv.give(si); srv_gen++; } if (ri != ~0u) h_rtv.give(ri);
   bury(tex); bury(rt); bury(rb); bury(pso); rel(vb); rel(pb); if (ha) bury(ha); if (hb) bury(hb);
   if (heapsw) { ID3D12DescriptorHeap *h0[2] = {gv_srv, gv_smp}; cl->SetDescriptorHeaps(2, h0); }
   smp_tables.clear(); smp_next = 0; memo.smp_ok = false; bd = Bound(); bd.valid = true; tgt_dirty = true;
@@ -1398,13 +1399,34 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   dprof.mark();                                            // 6: pipeline
 
   // ---- constants (equal to the last draw's in this submission: the same place)
-  if (last_c_epoch != submits || memcmp(&last_vc, &d.vc, sizeof d.vc)) {
-    uint8_t *c; D3D12_GPU_VIRTUAL_ADDRESS g; ring_alloc(2048, 256, &c, &g); memcpy(c, &d.vc, sizeof d.vc); last_vc = d.vc; last_vca = g;
-  }
+  // the parts of VSConst this draw's shader reads (gen_vs, d8_exec.cpp): the matrices, viewport and offset always; the
+  // texture matrix i when stage i transforms (tc[i].count); ambient and material, and each light i < nlights, when lit;
+  // fog when vertex fog is on. A block is reused when it holds those parts with these values; else a new block gets
+  // exactly those parts (the rest of it unwritten: no shader reads them)
+  { struct Part { uint16_t off, len; }; Part parts[2 + 8 + 1 + 8 * 7 + 1]; int np = 0; uint32_t need = 1;
+    parts[np++] = {(uint16_t)offsetof(VSConst, wvp), (uint16_t)(offsetof(VSConst, tex))};                // wvp wv wvn proj
+    parts[np++] = {(uint16_t)offsetof(VSConst, vp), (uint16_t)(offsetof(VSConst, ambient) - offsetof(VSConst, vp))};   // vp fix
+    for (int i = 0; i < d.vk.ntc && i < 8; i++) if (d.vk.tc[i].count) { parts[np++] = {(uint16_t)(offsetof(VSConst, tex) + 64 * i), 64}; need |= 2u << i; }
+    if (d.vk.lighting && !d.vk.rhw) {
+      parts[np++] = {(uint16_t)offsetof(VSConst, ambient), (uint16_t)(offsetof(VSConst, ldiff) - offsetof(VSConst, ambient))}; need |= 1u << 9;
+      static const uint16_t larr[7] = {(uint16_t)offsetof(VSConst, ldiff), (uint16_t)offsetof(VSConst, lspec), (uint16_t)offsetof(VSConst, lamb),
+        (uint16_t)offsetof(VSConst, lpos), (uint16_t)offsetof(VSConst, ldir), (uint16_t)offsetof(VSConst, latt), (uint16_t)offsetof(VSConst, lspot)};
+      for (int i = 0; i < d.vk.nlights && i < 8; i++) { for (int a = 0; a < 7; a++) parts[np++] = {(uint16_t)(larr[a] + 16 * i), 16}; need |= 1u << (10 + i); }
+    }
+    if (d.vk.vfog) { parts[np++] = {(uint16_t)offsetof(VSConst, fog), 16}; need |= 1u << 18; }
+    bool same = last_c_epoch == submits && (need & ~vc_have) == 0;
+    const uint8_t *nv = (const uint8_t *)&d.vc; uint8_t *lv = (uint8_t *)&last_vc;
+    for (int i = 0; same && i < np; i++) if (memcmp(nv + parts[i].off, lv + parts[i].off, parts[i].len)) same = false;
+    if (!same) {
+      uint8_t *c; D3D12_GPU_VIRTUAL_ADDRESS g; ring_alloc(2048, 256, &c, &g);
+      for (int i = 0; i < np; i++) { memcpy(c + parts[i].off, nv + parts[i].off, parts[i].len); memcpy(lv + parts[i].off, nv + parts[i].off, parts[i].len); c_vc_bytes += parts[i].len; }
+      vc_have = need; last_vca = g; c_vc_blocks++;
+    } }
   if (last_c_epoch != submits || memcmp(&last_pc, &d.pc, sizeof d.pc)) {
     uint8_t *c; D3D12_GPU_VIRTUAL_ADDRESS g; ring_alloc(256, 256, &c, &g); memcpy(c, &d.pc, sizeof d.pc); last_pc = d.pc; last_pca = g;
   }
   last_c_epoch = submits;
+  static_assert(sizeof(VSConst) <= 2048 && offsetof(VSConst, fog) + 16 == sizeof(VSConst), "the constants' parts");
   dprof.mark();                                            // 7: constants
 
   // ---- textures: each stage's view (or the null one), into a table of eight; the same views as the last draw's: its table
@@ -1431,8 +1453,12 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     to(*r, D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE);
   }
   uint64_t srv_tab;
+  SrvTab *ce = nullptr;
   if (!diag("fresh") && last_srv_epoch == submits && !memcmp(idx, last_srv_ids, sizeof idx)) srv_tab = last_srv_tab;
-  else {
+  else if (!diag("fresh") && (ce = &srv_cache[(idx[0] * 2654435761u ^ idx[1] * 40503u ^ idx[2] * 9973u ^ idx[3] * 31u ^ idx[4] ^ idx[5] << 7 ^ idx[6] << 13 ^ idx[7] << 19) & 255],
+           ce->epoch == submits && ce->gen == srv_gen && !memcmp(ce->ids, idx, sizeof idx))) {
+    srv_tab = ce->tab; memcpy(last_srv_ids, idx, sizeof idx); last_srv_tab = srv_tab; last_srv_epoch = submits; c_srv_cached++;
+  } else {
     uint64_t start = gv_head, phys = start % gv_cap;
     if (phys + 8 > gv_cap) { start += gv_cap - phys; phys = 0; }
     gv_head = start + 8; srv_tab = phys;
@@ -1441,7 +1467,8 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
       D3D12_CPU_DESCRIPTOR_HANDLE di = dst; di.ptr += (SIZE_T)i * gv_inc;
       dev->CopyDescriptorsSimple(1, di, h_srv.at(idx[i]), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
     }
-    memcpy(last_srv_ids, idx, sizeof idx); last_srv_tab = srv_tab; last_srv_epoch = submits;
+    memcpy(last_srv_ids, idx, sizeof idx); last_srv_tab = srv_tab; last_srv_epoch = submits; c_srv_made++;
+    if (ce) { memcpy(ce->ids, idx, sizeof idx); ce->tab = srv_tab; ce->epoch = submits; ce->gen = srv_gen; }
   }
 
   dprof.mark();                                            // 8: textures
@@ -1834,11 +1861,13 @@ void Exec12::present() {
       // the timer's own cost: 256 marks in a row, measured here (each stage above includes about one)
       double c0 = qpc12(); for (int i = 0; i < 256; i++) (void)qpc12(); double mark_us = 1000.0 * (qpc12() - c0) / 257;
       d8_log("D3D12 draw time, %u frames (1 record in 32 sampled): a draw record's handling %.2f us (%llu sampled); in draw() %.2f us: %s us "
-             "(%llu sampled; each stage includes one timer mark, %.3f us); waits for the GPU inside draws %.3f ms a frame (%llu waits)",
+             "(%llu sampled; each stage includes one timer mark, %.3f us); waits for the GPU inside draws %.3f ms a frame (%llu waits); "
+             "texture tables a frame: %.1f made, %.1f reused (made earlier in the same submission); vertex constant blocks a frame: %.1f, %.0f bytes written each",
              c_frames, 1000.0 * prof_run_ms / prof_run_n, (unsigned long long)prof_run_n, sum, line, (unsigned long long)prof_n, mark_us,
-             prof_wait_ms / f, (unsigned long long)prof_wait_n);
+             prof_wait_ms / f, (unsigned long long)prof_wait_n, c_srv_made / f, c_srv_cached / f, c_vc_blocks / f, c_vc_blocks ? (double)c_vc_bytes / c_vc_blocks : 0.0);
     }
     prof_run_ms = prof_wait_ms = 0; prof_run_n = prof_n = prof_wait_n = 0; for (double &x : prof_st) x = 0;
+    c_srv_made = c_srv_cached = c_vc_blocks = c_vc_bytes = 0;
     if (merge_on) d8_log("draw_merge (D3D12), %u frames: %.1f merged draws a frame took in %.1f others; %.3f MB copied to the slots a frame; %llu times the slots started again",
                          c_frames, mg_runs / f, mg_saved / f, mg_bytes / f / 1048576.0, (unsigned long long)mg_wraps);
     mg_runs = mg_saved = mg_bytes = 0;

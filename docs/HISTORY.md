@@ -5909,6 +5909,36 @@ which is what this measures.
   gives the real split.
 - Test: test_d3d8on11.py checks the line (stages, counts, in draw() <= the record).
 
+## 14 Nov (forty-first entry): the two costliest draw stages cut; sound_retry
+
+The owner's 1110 debug run in the city (~2,300-3,000 draws a frame): a record 2.5-3 us; textures 0.65-0.75 us,
+constants 0.50-0.55, pipeline 0.30, commands 0.28-0.33, the rest under 0.2 each.
+- **Constants (d8_exec12 draw()).** The whole VSConst (1,808 bytes) was compared and copied whenever any part differed.
+  Now only the parts the draw's vertex shader reads, from its key as gen_vs (d8_exec.cpp) writes the shader: the
+  matrices, viewport and offset always; texture matrix i when stage i transforms; ambient, material and lights i <
+  nlights when lit and not pretransformed; fog when vertex fog is on. A block is reused when it holds those parts with
+  the same values (in this submission); else a new block gets exactly those parts. What any shader reads is unchanged.
+- **Textures.** A texture table (eight descriptors copied) was reused only when the previous draw had the same eight
+  views. Now the tables made in the current submission are kept (direct-mapped, 256) by their eight views; an entry
+  holds only in its own submission, and only while no view's place has been given back since it was made (srv_gen,
+  raised in free_res and the two probe frees), since a later view may take that place.
+- Counted in the draw time line (debug): tables made / reused a frame, constant blocks a frame and bytes each.
+- Offline: test_d3d8on11.py ALL OK, the Direct3D 12 scenes still exactly the Direct3D 11 executor's. The time saved is
+  not known until the owner's run at the same city spot (before: the 1110 figures above).
+
+**sound_retry (speedfix, default 1, public in gobbiefix.ini).** The owner: the rain's sound stops after about a minute,
+in the game as shipped too; with the registry's voice limit (0029) at 20 instead of 12 it lasts 5-10 minutes and still
+stops. In the game's code (6A995428): CYySoundElem::UpdateTimerAndPosition (0x100364E0) restarts an element with handle
+0 through 0x100363B0, which stores what Unit10036B90_SetVolumeVector (0x10036F50) returns. That is 0 when this update's
+request queue is full (the element is kept and asks again next update), and -1 when 0x10038330 refuses (no sound system,
+or the voices playing not under the limit); -1 takes the jl at 0x10036657 to the element's destructor (vtable+0x18
+with 1): the sound is gone until the zone or weather makes it again. With sound_retry=1 the refusal at that call
+(return address 0x10036404) is answered 0, as the queue-full case, for an element the game itself keeps when unheard
+(its vtable+0x40, the test at 0x10036723); others are deleted as before. Counted in speedfix's statistics line.
+Offline: the hooks go in (logged), and with sound_retry=0 both hooked functions are the game's (sdk/fork.py gate-hook).
+Not known offline: that this is the rain's cause in the owner's game (the line's counts in a debug run will say whether
+refusals happen when the rain stops).
+
 ## 14 Nov: the 11 Nov status retired (kept here word for word)
 
 ### Where things stood (11 Nov 2026)

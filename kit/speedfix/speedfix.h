@@ -51,6 +51,7 @@ struct SfConfig {
                             // the game's whole-ms time (fork/Frame_Render.fork.cpp, xi_exact_ticks); 0 the game's 4-frame average
   int pace_adaptive;        // (27 Nov) each frame held to the pace_pct percentile of the last 120 frames' own time (sf_device.cpp)
   int pace_pct;             // that percentile, 50-99 (90)
+  int sound_retry;          // (14 Nov) a looping sound refused a voice kept and asked again next update (sf_game.cpp); 0 the game deletes it
   int shadow_fit_scale;     // the shadow's half-width as hundredths of the model footprint's diagonal (default 46: sf_game.cpp says why)
 };
 extern SfConfig sf_cfg;
@@ -63,6 +64,8 @@ void sf_frame(void);
 uintptr_t sf_game_addr(uint32_t analysed);      // an analysed address in the running game (XI_GAME, build translation)
 int  sf_hook_query(const XikitHost *host);
 int  sf_hook_shadow(const XikitHost *host);
+int  sf_hook_sound(const XikitHost *host);        // sound_retry: Unit10036B90_SetVolumeVector and CYySoundElem::UpdateTimerAndPosition hooked
+void sf_sound_take(long *kept, long *gone);       // sound_retry: refusals answered 0 (element kept), refusals left (element deleted)
 int  sf_hook_name(const XikitHost *host);         // name_smooth: CXiActor::NameCalc hooked
 void sf_name_take(long *smooth, long *kept);       // shadow_fit: Shadow_DrawByMode hooked
 void sf_shadow_take(long *n, long *g, float *dmin, float *dmax, float *dsum);   // its counts since the last call

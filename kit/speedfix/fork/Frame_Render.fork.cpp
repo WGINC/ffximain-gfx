@@ -45,12 +45,15 @@ static inline int xi_floor(void *self_) { return xi_uncap != 0 ? 0 : *((int *)se
 // game's average as before.
 extern "C" { __declspec(dllexport) volatile int xi_step_exact; __declspec(dllexport) double xi_step_exact_last; }
 // (the counter is read by speedfix's own code, sf_main.cpp sf_qpc: a Windows call written here would go through the
-// game's import table, as the reconstruction's calls do, which the test host does not bind)
-extern "C" long long sf_qpc(long long *freq);
+// game's import table, as the reconstruction's calls do, which the test host does not bind.)
+// It is handed over as a pointer (sf_main.cpp sets it at the start), so the fork also links alone, as fork.py's gate
+// builds it; without it (the gate) the step is the game's average, as with the switch off
+extern "C" { __declspec(dllexport) long long (*volatile xi_qpc)(long long *freq); }
 static long long xi_ex_last;
 static double xi_exact_ticks(void *self_, double avg)
 {
-  long long qf = 0, now = sf_qpc(&qf);
+  if (!xi_qpc) return avg;
+  long long qf = 0, now = xi_qpc(&qf);
   long long d = xi_ex_last ? now - xi_ex_last : -1;
   xi_ex_last = now;
   if (!xi_step_exact || d < 0 || d > qf || qf <= 0) return avg;

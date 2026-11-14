@@ -470,7 +470,7 @@ static void pp_stats(void) {
 // switch at 0 (the gate without declarations) and with it on differing only as declared (fork/framestep*.declare.json).
 // Here, each frame (render thread, inside Present): the switches, on only while the kit's hooks are live, and the
 // figures for the statistics line.
-extern "C" { extern volatile int xi_step_exact; }
+extern "C" { extern volatile int xi_step_exact; extern long long (*volatile xi_qpc)(long long *); }
 // the performance counter for the fork's step_exact (fork/Frame_Render.fork.cpp xi_exact_ticks), from speedfix's own imports
 extern "C" long long sf_qpc(long long *freq) {
   static LARGE_INTEGER f; if (!f.QuadPart) QueryPerformanceFrequency(&f);
@@ -892,6 +892,7 @@ static void apply_uncap_step(void) {
   bool live = sf_frame_no - sf_hooks_frame <= 1;
   xi_uncap = sf_framestep_installed && sf_cfg.uncap && live;
   xi_step_mode = sf_framestep_installed && live ? (sf_cfg.liminality ? 1 : sf_cfg.frame_step) : 0;
+  xi_qpc = sf_qpc;                                                    // (the fork reads the counter through it)
   xi_step_exact = sf_cfg.step_exact && xi_step_mode;                 // (fork/Frame_Render.fork.cpp: xi_exact_ticks)
   sf_lim_set(sf_cfg.liminality && sf_framestep_installed && live && sf_cfg.uncap);
   if (!sf_framestep_installed || !xi_step_mode || !xi_step_have) { g_st_last = 0; return; }

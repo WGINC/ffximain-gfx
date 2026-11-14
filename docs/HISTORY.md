@@ -5826,6 +5826,33 @@ of the game's goblin; strip unneeded logging, with a debug mode that has it.
   are kept, so an earlier install upgrades and uninstalls. The zip: longthinx_gobbiefix.zip, folder gobbiefix/.
 - The logs keep plain technical English (they are for finding problems); only what players read is in gobbiespeak.
 
+## 14 Nov (thirty-seventh entry): gobbiefix, more gobbiespeak and a licence; the owner's first gobbiefix start
+
+- **Text:** the player-facing text (install, uninstall and debug scripts, gobbiefix.ini, README, the update notice in
+  d3d8.dll) got the mask's breathing ("Pshhh...", "Shkohhh...") and run-together words; the logs stay plain.
+- **LICENSE.txt** (in the zip): MIT for the original work (renderer, kit, speedfix's own code, scripts, docs); section
+  2 says gfx_recon_ingame.dll and speedfix's forks are reconstructed from FFXiMain.dll, (c) SQUARE ENIX, and that no
+  rights in them are granted; trademarks and the goblin design are SQUARE ENIX's; no affiliation; use with the game is
+  the user's responsibility (terms of service); toolchain runtimes under their own licences. xikit needs
+  gfx_recon_ingame.dll (xikit.c: it checks its size and CRC before loading any mod, speedfix included), so it cannot
+  simply be left out of the zip.
+- **Quieter still:** xikit `log_hooks` (default 1; installed 0; debug=1 sets 1): the ~80 lines "device hook X (slot
+  N)" each start are left out, the summary line stays.
+- **The owner's logs of the first gobbiefix start (00:51):** d3d8on11.log 78 lines (gobbiefix.ini applied, Direct3D 12,
+  2 buffers, no statistics lines); xikit.log's section for that start has no statistics lines either.
+- **The owner's reports, what is known:**
+  - Distant mountains "half-loaded": not explained. The log names two renderer behaviours that change pictures (a
+    1024x512 texture rebuilt often enough to lose its made levels; a draw that reads the texture it draws into, read
+    as no texture), neither shown to be this. A same-spot comparison with dgVoodoo, mipmaps=0 and renderer=d3d11 is
+    owed.
+  - Rain that stops after a minute, and doubled sounds: the game's sound queue (0x10036230, CYySoundElem_UpdateQueue)
+    is called once per Frame_Render (speedfix's fork calls it where the game does, fork line 491), so with uncap it
+    runs once per rendered frame instead of up to 60 a second. Its code read so far empties a request queue (up to
+    64 elements gathered) and counts no frames; the per-element update (0x100364A0) is not read. So a link to the
+    frame rate is not established; frame_cap=60 against no cap is the test.
+  - The frame rate swinging between 60 and 120: the minute averages (7-10 ms) cannot show it; debug mode's per-frame
+    statistics, or a capture, are needed.
+
 ## 14 Nov: the 11 Nov status retired (kept here word for word)
 
 ### Where things stood (11 Nov 2026)

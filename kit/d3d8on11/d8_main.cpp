@@ -123,14 +123,14 @@ static void kit_load() {
   GetPrivateProfileStringA("d3d8on11", "update_url", "the project's GitHub page", url, sizeof url, ini);
   d8_log("load_kit: FFXiMain.dll build %08X: this kit has no manifest for it; the kit and its mods are not loaded (the renderer runs alone). Update: %s", (unsigned)ts, url);
   if (GetPrivateProfileIntA("d3d8on11", "update_notice", 1, ini) && AllocConsole()) {
-    SetConsoleTitleA("Longthinx gobbiefix: gobbie need update");
+    SetConsoleTitleA("Longthinx gobbiefix: gobbie needs update");
     HANDLE o = GetStdHandle(STD_OUTPUT_HANDLE); char msg[1400]; DWORD w;
     int n = snprintf(msg, sizeof msg,
-      "Hmmm! Gobbie sniff this FFXiMain.dll (build %08X)... gobbie no know this one!\r\n\r\n"
+      "Pshhh... Shkohhh... Gobbie sniffsniff this FFXiMain.dll (build %08X)... gobbie no know this one!\r\n\r\n"
       "Game still go, with gobbie's shiny renderer. But gobbie's other fixings (speedfix and friends)\r\n"
-      "stay in sack, because gobbie no know where things is in this build.\r\n\r\n"
+      "stay in the sack, because gobbie no know where things is in this build. Pshhh...\r\n\r\n"
       "Youuu fetch new gobbiefix from: %s\r\n\r\n"
-      "(Close this window, game keep going. No want this notice? update_notice=0 in gobbiefix.ini.)\r\n", (unsigned)ts, url);
+      "(Close this window, game keep going. No want this notice? update_notice=0 in gobbiefix.ini.) Shkohhh...\r\n", (unsigned)ts, url);
     WriteConsoleA(o, msg, (DWORD)n, &w, NULL);
   }
 }
@@ -140,7 +140,7 @@ static void kit_load() {
 // log and Dev::init, later in this start) and speedfix.ini (read when the kit loads speedfix, in kit_load below). Only
 // keys present in gobbiefix.ini, and only when the value differs. No gobbiefix.ini: nothing changes (the sessions'
 // own ini files rule). debug=1, or the file gobbiefix_debug.on, turns the statistics lines on (log_stats=1 here,
-// stats_every=60 in speedfix).
+// stats_every=60 in speedfix, log_hooks=1 in xikit: a line per device method hooked).
 struct PubKey { const char *pub, *file, *sect, *key; };
 static const PubKey kPub[] = {
   {"frame_cap", "speedfix.ini", "speedfix", "frame_cap_fps"},
@@ -176,7 +176,8 @@ void d8_apply_public(const char *dir) {
   bool marker = GetFileAttributesA(mk) != INVALID_FILE_ATTRIBUTES;
   if (*v || marker) { bool dbg = marker || atoi(v) != 0;
     pub_put(dir, "d3d8on11.ini", "d3d8on11", "log_stats", dbg ? "1" : "0");
-    pub_put(dir, "speedfix.ini", "speedfix", "stats_every", dbg ? "60" : "0"); }
+    pub_put(dir, "speedfix.ini", "speedfix", "stats_every", dbg ? "60" : "0");
+    pub_put(dir, "xikit.ini", "xikit", "log_hooks", dbg ? "1" : "0"); }
   if (g_pub_note.empty()) g_pub_note = " (all as they were)";
 }
 extern "C" __declspec(dllexport) IDirect3D8 *WINAPI Direct3DCreate8(UINT sdk) {

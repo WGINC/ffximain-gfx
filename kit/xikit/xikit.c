@@ -78,7 +78,7 @@ typedef struct {
 } Fn;
 
 typedef struct {
-  int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each, bisect, trace;
+  int swap, count_calls, profile, respect_speedfix, include_flagged, include_untested, report_every, hotkey, log_each, bisect, trace, log_hooks;
   int set_render;                       /* swap_set=render_path: only the manifest's flag-16 functions, untested included */
   int ab, ab_after, ab_phase, ab_rounds, ab_settle, spike_ms;
   char only[4096], exclude[4096];
@@ -301,6 +301,8 @@ static void read_cfg(void) {
   c.log_each = GetPrivateProfileIntA("xikit", "log_each", 0, g_ini);
   c.bisect = GetPrivateProfileIntA("xikit", "bisect", 0, g_ini);
   c.trace = GetPrivateProfileIntA("xikit", "trace", 0, g_ini);
+  /* (14 Nov) one line per device method a mod hooks; 0: only the summary ("device hooks: N methods") -- the installer's quiet logs */
+  c.log_hooks = GetPrivateProfileIntA("xikit", "log_hooks", 1, g_ini);
   c.ab = GetPrivateProfileIntA("xikit", "ab", 0, g_ini);
   c.spike_ms = GetPrivateProfileIntA("xikit", "spike_ms", 50, g_ini);
   c.ab_after = GetPrivateProfileIntA("xikit", "ab_after", 60, g_ini);
@@ -1545,7 +1547,7 @@ static int __cdecl host_device_hook(const char *method, int slot, void *repl, vo
   g_dh_top[slot] = i;
   if (g_front_on) g_fvt[slot] = DH_THUNK(slot);
   if (prev) *prev = DH_STUB(i);
-  host_log("device hook %s (slot %d)%s", method, slot, e->below >= 0 ? "; another mod's hook of it runs after this one" : "");
+  if (g_cfg.log_hooks) host_log("device hook %s (slot %d)%s", method, slot, e->below >= 0 ? "; another mod's hook of it runs after this one" : "");
   return XIKIT_OK;
 }
 

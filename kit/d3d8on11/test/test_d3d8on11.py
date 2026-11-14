@@ -892,8 +892,8 @@ if 'thread' in MODES:
 # speedfix.ini before anything reads them, so this very start uses them (3 swap buffers, Direct3D 12); debug=0 keeps the
 # periodic statistics out of the log (log_stats=0), debug=1 brings them back; a start with nothing new changes nothing
 if 'thread' in MODES:
-    gob = os.path.join(ours, 'gobbiefix.ini'); sfi = os.path.join(ours, 'speedfix.ini')
-    for f in (ini, sfi):
+    gob = os.path.join(ours, 'gobbiefix.ini'); sfi = os.path.join(ours, 'speedfix.ini'); xki = os.path.join(ours, 'xikit.ini')
+    for f in (ini, sfi, xki):
         if os.path.exists(f): os.remove(f)
     import configparser
     def keys(f, sect):
@@ -905,7 +905,7 @@ if 'thread' in MODES:
         if marker: open(mk, 'w').write('on\n')
         elif os.path.exists(mk): os.remove(mk)
         clear_logs(); out = run(ours, 'frames 1300', True, 'thread'); t = logs()
-        res.append((out, t, keys(ini, 'd3d8on11'), keys(sfi, 'speedfix')))
+        res.append((out, t, keys(ini, 'd3d8on11'), dict(keys(sfi, 'speedfix'), log_hooks=keys(xki, 'xikit').get('log_hooks'))))
     if os.path.exists(mk): os.remove(mk)
     (o0, t0, d0, s0), (o1, t1, d1, s1), (o2, t2, d2, s2), (o3, t3, d3, s3), (o4, t4, d4, s4) = res
     ok = 'presented 1299' in o3 and d3.get('log_stats') == '1' and s3.get('stats_every') == '60' and 'ring stats, 600 frames' in t3
@@ -913,15 +913,15 @@ if 'thread' in MODES:
     ok = 'presented 1299' in o4 and d4.get('log_stats') == '0' and s4.get('stats_every') == '0' and 'ring stats, 600 frames' not in t4
     print('%s: the marker gone (gobbiefix_debug.bat off), debug=0: the statistics lines off again' % ('ok' if ok else 'FAIL')); bad += not ok
     ok = ('presented 1299' in o0 and d0.get('backend') == 'd3d12' and d0.get('swap_buffers') == '3' and d0.get('anisotropy') == '4'
-          and d0.get('log_stats') == '0' and s0.get('frame_cap_fps') == '60' and s0.get('name_smooth') == '0' and s0.get('stats_every') == '0'
+          and d0.get('log_stats') == '0' and s0.get('frame_cap_fps') == '60' and s0.get('name_smooth') == '0' and s0.get('stats_every') == '0' and s0.get('log_hooks') == '0'
           and 'gobbiefix.ini applied:' in t0 and 'FLIP_DISCARD, 3 buffers' in t0 and 'D3D12 executor: device made' in t0
           and 'ring stats, 600 frames' not in t0 and 'executor stats, 600 frames' not in t0 and 'D3D12 binds, 600 frames' not in t0)
     print('%s: gobbiefix.ini debug=0: the keys written through (d3d8on11 %s; speedfix %s), this start used them (Direct3D 12, 3 buffers), no statistics lines' % ('ok' if ok else 'FAIL', d0, s0)); bad += not ok
-    ok = 'presented 1299' in o1 and d1.get('log_stats') == '1' and s1.get('stats_every') == '60' and 'ring stats, 600 frames' in t1 and 'executor stats, 600 frames' in t1 and 'D3D12 binds, 600 frames' in t1
+    ok = 'presented 1299' in o1 and d1.get('log_stats') == '1' and s1.get('stats_every') == '60' and s1.get('log_hooks') == '1' and 'ring stats, 600 frames' in t1 and 'executor stats, 600 frames' in t1 and 'D3D12 binds, 600 frames' in t1
     print('%s: gobbiefix.ini debug=1: log_stats=1, stats_every=60, the statistics lines written' % ('ok' if ok else 'FAIL')); bad += not ok
     ok = 'presented 1299' in o2 and 'gobbiefix.ini applied: (all as they were)' in t2
     print('%s: gobbiefix.ini unchanged: the next start changes nothing' % ('ok' if ok else 'FAIL')); bad += not ok
-    for f in (gob, ini, sfi):
+    for f in (gob, ini, sfi, xki):
         if os.path.exists(f): os.remove(f)
 
 if os.path.exists(log):

@@ -11,8 +11,8 @@ cp "$D/xikit.dll" "$D/gfx_recon_ingame.dll" "$D/xikit_manifest.txt" "$D"/xikit_m
 cp "$ROOT/kit/speedfix/dist/speedfix.dll" "$F/"
 cp "$ROOT/kit/d3d8on11/dist/d3d8.dll" "$ROOT/kit/d3d8on11/dist/d8x.exe" "$ROOT/kit/d3d8on11/dist/d8x_arm64.exe" "$F/"
 cp "$H/config/"*.ini "$F/"
-cp "$H/install.bat" "$H/uninstall.bat" "$H/gobbiefix_debug.bat" "$H/README.md" "$H/logo.txt" "$P/"
+cp "$H/install.bat" "$H/uninstall.bat" "$H/gobbiefix_debug.bat" "$H/README.md" "$H/logo.txt" "$H/LICENSE.txt" "$P/"
 ( cd "$F" && sha256sum * > ../SHA256SUMS.txt )
-for f in "$P"/*.bat "$P"/logo.txt "$F"/*.ini; do sed -i 's/\r*$/\r/' "$f"; done      # Windows line ends
+for f in "$P"/*.bat "$P"/logo.txt "$P"/LICENSE.txt "$F"/*.ini; do sed -i 's/\r*$/\r/' "$f"; done      # Windows line ends
 rm -f "$OUT"; ( cd "$T" && zip -qr "$OUT" gobbiefix ); rm -rf "$T"
 echo "wrote $OUT"; unzip -l "$OUT" | tail -1

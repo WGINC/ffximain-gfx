@@ -15,16 +15,16 @@ if "%V%"=="1" >"%DST%\gobbiefix_debug.on" echo gobbiefix debug mode: d3d8.dll se
 if "%V%"=="0" if exist "%DST%\gobbiefix_debug.on" del /q "%DST%\gobbiefix_debug.on"
 if "%V%"=="1" if not exist "%DST%\gobbiefix_debug.on" goto failed
 if "%V%"=="0" if exist "%DST%\gobbiefix_debug.on" goto failed
-if "%V%"=="1" echo  Debug on! Gobbie scribble lots of stats in d3d8on11.log and xikit.log next game start.
-if "%V%"=="0" echo  Debug off. Gobbie keep logs short and tidy next game start.
-echo  (Logs is in "%DST%".)
+if "%V%"=="1" echo  Pshhh... Debug on! Gobbie scribblescribble lotsa stats in d3d8on11.log and xikit.log next gamestart.
+if "%V%"=="0" echo  Shkohhh... Debug off. Gobbie keep logs shortshort and tidy next gamestart.
+echo  Logs is in "%DST%".
 exit /b 0
 :usage
-echo  Youuu tell gobbie: gobbiefix_debug.bat on   or   gobbiefix_debug.bat off
+echo  Pshhh... youuu tell gobbie: gobbiefix_debug.bat on   or   gobbiefix_debug.bat off
 exit /b 2
 :noini
-echo  Gobbie no find gobbiefix in "%DST%". Install gobbiefix first (install.bat).
+echo  Shkohhh... gobbie no smell gobbiefix in "%DST%". Youuu install gobbiefix first: install.bat
 exit /b 2
 :failed
-echo  Gobbie no could write in the game folder. Run this as administrator.
+echo  Pshhh! Gobbie no could scribble in the gamefolder. Run this as administrator.
 exit /b 2

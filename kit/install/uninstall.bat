@@ -14,13 +14,13 @@ popd
 if exist "%DST%\d3d8_before_kit.dll" move /y "%DST%\d3d8_before_kit.dll" "%DST%\d3d8.dll" >nul
 del /q "%DST%\kit_installed.txt"
 if exist "%DST%\gobbiefix_debug.on" del /q "%DST%\gobbiefix_debug.on"
-echo  Gobbie pack up the shiny bits. Old d3d8.dll come back out of the sack.
-echo  (Gobbie leave the .ini files and logs, in case youuu want gobbie back.)
-echo  Bye bye!
+echo  Pshhh... gobbie packpack the shinybits. Old d3d8.dll come back outta the sack.
+echo  Shkohhh... gobbie leave the .ini files and logs, in case youuu want gobbie back.
+echo  Byebye, adventurer! Pshhh...
 exit /b 0
 :notinstalled
-echo  Gobbie no find gobbiefix in "%DST%" (no kit_installed.txt). Nothing to take.
+echo  Pshhh... gobbie no smell gobbiefix in "%DST%" (no kit_installed.txt). Nothing to take.
 exit /b 2
 :running
-echo  Game still running! Close it first, then gobbie work.
+echo  Shkohhh! Game still running! Youuu close it first, then gobbie workwork.
 exit /b 2

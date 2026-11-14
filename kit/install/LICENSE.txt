@@ -1,6 +1,6 @@
 Longthinx gobbiefix -- licence and notices
 
-1. THE ORIGINAL WORK: MIT LICENSE
+1. THE ORIGINAL WORK: GNU GENERAL PUBLIC LICENSE, VERSION 3 ONLY
 
 Copyright (c) 2026 Longthinx
 
@@ -8,18 +8,16 @@ The "Original Work" is the source code and binaries of the d3d8on11 renderer (d3
 kit's own code (xikit.dll), speedfix's own code (speedfix.dll, except the parts named in section 2), the installer
 scripts, the settings files and the documentation, excluding everything named in sections 2 and 3.
 
-Permission is hereby granted, free of charge, to any person obtaining a copy of the Original Work and associated
-documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
-rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit
-persons to whom the Software is furnished to do so, subject to the following conditions:
+This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public
+License as published by the Free Software Foundation, version 3 of the License only (GPL-3.0-only).
 
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
-Software.
+This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
+warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
+The full text of the licence is in COPYING.txt.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
-WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
-COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+Changes made to work this project is built on (GPL-3.0 section 5):
+- speedfix: rewritten from speedfix_hook (GPL-3.0-only) as a mod of the kit: its device fixes moved onto the kit's
+  device hooks, its changes to the game's code re-derived from the game's binary, and new settings added.
 
 2. MATERIAL DERIVED FROM THE GAME: NOT COVERED BY THIS LICENSE
 

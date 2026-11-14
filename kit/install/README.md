@@ -119,5 +119,5 @@ where it happened) and `xikit.log`. Something wrong? Turn debug on, play until i
 
 ## Legalstuff
 
-Gobbie's own work is under the MIT licence; FINAL FANTASY XI and everything of it belong to SQUARE ENIX, and gobbie no
+Gobbie's own work is under the GNU GPL, version 3 only (`COPYING.txt` has the whole thing); FINAL FANTASY XI and everything of it belong to SQUARE ENIX, and gobbie no
 belong to them. The real words is in `LICENSE.txt` (plain English, no gobbiespeak, *Shkohhh...*), and they is what count.

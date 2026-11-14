@@ -199,6 +199,8 @@ static int measure_run(HMODULE g, uint32_t rel) {
   {   /* the clock test's arithmetic (measure_read.py): Frame_Render's this with the step +0x28 = 1.0; a reference segment
          moving 0.25 a frame (a tick a frame) and a test segment moving 15 a second of real time: the ratio must be 1 */
     static float cam[0x40]; cam[0x28 / 4] = 1.0f; *(uint32_t *)(uintptr_t)ga(0x104568FCu) = (uint32_t)(uintptr_t)cam;
+    /* (28 Nov) the camera object at [this+0x50]: its eye +0x44 moves 0.5 a frame in x below (the frame log's cex..ctz) */
+    static float vcam[0x20]; vcam[0x50 / 4] = 7.0f; *(uint32_t *)&cam[0x50 / 4] = (uint32_t)(uintptr_t)vcam;
     LARGE_INTEGER fq, a, b, last; QueryPerformanceFrequency(&fq);
     for (int seg = 0; seg < 2; seg++) {
       FILE *mk = fopen("xikit_mark.txt", "w"); if (mk) { fputs(seg ? "clock test\n" : "clock reference\n", mk); fclose(mk); }
@@ -206,7 +208,7 @@ static int measure_run(HMODULE g, uint32_t rel) {
       QueryPerformanceCounter(&a); last = a;
       do { QueryPerformanceCounter(&b);
            ment[1] += seg ? (float)(15.0 * (double)(b.QuadPart - last.QuadPart) / (double)fq.QuadPart) : 0.25f; last = b;
-           present(1); Sleep(7); } while ((double)(b.QuadPart - a.QuadPart) / (double)fq.QuadPart < 9.0);
+           vcam[0x44 / 4] += 0.5f; present(1); Sleep(7); } while ((double)(b.QuadPart - a.QuadPart) / (double)fq.QuadPart < 9.0);
     }
     FILE *mk = fopen("xikit_mark.txt", "w"); if (mk) { fputs("clock done\n", mk); fclose(mk); }
   }
@@ -215,7 +217,7 @@ static int measure_run(HMODULE g, uint32_t rel) {
   Sleep(1500);                                      /* the writer thread's last flush; the sampler and sys threads' lines */
   char name[MAX_PATH], line[2048]; DWORD pid = GetCurrentProcessId();
   snprintf(name, sizeof name, "xikit_frames_%lu.csv", pid); FILE *fr = fopen(name, "r"); int rows = 0, pace = 0, waitcol = 0;
-  if (fr) { while (fgets(line, sizeof line, fr)) { if (line[0] >= '0' && line[0] <= '9') { rows++; char *c = line; for (int k = 0; k < 28 && c; k++) c = strchr(c + 1, ',');   /* field 28: wait_ms (after frames_player's 6) */ if (c && atof(c + 1) > 1.5) waitcol++; }
+  if (fr) { while (fgets(line, sizeof line, fr)) { if (line[0] >= '0' && line[0] <= '9') { rows++; char *c = line; for (int k = 0; k < 34 && c; k++) c = strchr(c + 1, ',');   /* field 34: wait_ms (after frames_player's 6 and the camera's 6) */ if (c && atof(c + 1) > 1.5) waitcol++; }
                                                   if (strstr(line, ",p28,p2c,p30,")) pace = 1; } fclose(fr); }
   printf("  (frames rows %d, header %d, rows with wait_ms > 1.5 %d)\n", rows, pace, waitcol);
   check(rows >= 300 && pace, "frames=1: xikit_frames_<pid>.csv has a line per frame and the pacing columns");
@@ -229,6 +231,17 @@ static int measure_run(HMODULE g, uint32_t rel) {
         if (prev >= 0 && v > prev) { steps++; if (v - prev > 0.24f && v - prev < 0.26f) good++; } prev = v; } fclose(fp); }
     printf("  (frames_player: me4 column %d, %d increases, %d of them by 0.25)\n", col, steps, good);
     check(col > 0 && good >= 295, "frames_player=1: the entity's +0x04 in the frame log moves by the 0.25 a frame the host writes"); }
+  { FILE *fp = fopen(name, "r"); char l2[2048]; int col = -1, tcol = -1, steps = 0, good = 0, tgt = 0; float prev = -1;
+    if (fp) { while (fgets(l2, sizeof l2, fp)) {
+        if (!strncmp(l2, "frame,", 6)) { int c = 0; for (char *t = strtok(l2, ",\n"); t; t = strtok(NULL, ",\n"), c++) { if (!strcmp(t, "cex")) col = c; if (!strcmp(t, "ctx")) tcol = c; } continue; }
+        if (col < 0 || l2[0] < '0' || l2[0] > '9') continue;
+        char *fld[64]; int nf = 0; char *q = l2; fld[nf++] = q; for (; *q && nf < 64; q++) if (*q == ',') { *q = 0; fld[nf++] = q + 1; }
+        if (col >= nf || !*fld[col]) continue;
+        uint32_t u = (uint32_t)strtoul(fld[col], NULL, 16); float v; memcpy(&v, &u, 4);
+        if (tcol < nf && *fld[tcol]) { uint32_t w = (uint32_t)strtoul(fld[tcol], NULL, 16); float tv; memcpy(&tv, &w, 4); if (tv == 0.0f) tgt++; }
+        if (prev >= 0 && v > prev) { steps++; if (v - prev > 0.49f && v - prev < 0.51f) good++; } prev = v; } fclose(fp); }
+    printf("  (camera: cex column %d, %d increases, %d of them by 0.5)\n", col, steps, good);
+    check(col > 0 && good >= 500 && good >= steps * 9 / 10, "frames_player=1: the camera's eye (+0x44 of [this+0x50]) in the frame log moves by the 0.5 a frame the host writes"); }
   { FILE *lg = fopen("xikit.log", "r"); char l[600]; int said = 0;
     if (lg) { while (fgets(l, sizeof l, lg)) if (strstr(l, "measure: mark 1 at frame") && strstr(l, "(mark.bat): plaza")) said = 1; fclose(lg); }
     check(said && GetFileAttributesA("xikit_mark.txt") == INVALID_FILE_ATTRIBUTES, "frames=1: xikit_mark.txt (mark.bat) is a mark, with its name, and is deleted"); }

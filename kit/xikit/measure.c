@@ -58,7 +58,7 @@ typedef struct {
 } Probe;
 static Probe *m_p; static int m_np;
 static uint8_t *m_stubs;
-static int m_player; static uint32_t m_ent_ok_for;
+static int m_player; static uint32_t m_ent_ok_for, m_cam_ok_for;
 static int m_frames, m_imports, m_callsites, m_sysstats, m_env = 1, m_callsite_max = 500, m_rawsample;
 static volatile LONG m_on;          /* call timing records (the stubs always pass the call on) */
 static DWORD m_tls = TLS_OUT_OF_INDEXES;
@@ -436,6 +436,17 @@ static void m_frame_write(double frame_ms, double present_ms, double kit_ms, LAR
       }
     }
   }
+  /* (28 Nov) frames_player=1 also: the camera the game builds its view from, [[0x104568FC]+0x50], its eye +0x44 and
+     target +0x50 (three floats each, raw; FUN_10021B70 builds the view from them: docs/RENDERER.md 3d, speedfix
+     sf_main.cpp lim_cam), as they are at the kit's Present */
+  uint32_t cv[6] = {0}; int have_c = 0;
+  if (m_player && obj && m_readable(obj + 0x50, 4)) {
+    uint32_t cam = *(volatile uint32_t *)(uintptr_t)(obj + 0x50);
+    if (cam && (cam == m_cam_ok_for || m_readable(cam + 0x44, 24))) {
+      m_cam_ok_for = cam; have_c = 1;
+      for (int i = 0; i < 6; i++) cv[i] = *(volatile uint32_t *)(uintptr_t)(cam + 0x44 + 4 * i);
+    }
+  }
   /* the render thread's wrapped calls this frame, by group (exclusive time), and the longest one */
   double gms[G_N] = {0}; uint32_t gcalls[G_N] = {0}; int longest = -1; uint64_t lmax = 0;
   for (int i = 0; i < m_np; i++) {
@@ -450,6 +461,8 @@ static void m_frame_write(double frame_ms, double present_ms, double kit_ms, LAR
   n += have_t ? snprintf(line + n, sizeof line - n, "%08X", tf) : 0;
   if (m_player) {
     if (have_p) n += snprintf(line + n, sizeof line - n, ",%08X,%08X,%08X,%08X,%08X,%08X", pv[0], pv[1], pv[2], pv[3], pv[4], pv[5]);
+    else n += snprintf(line + n, sizeof line - n, ",,,,,,");
+    if (have_c) n += snprintf(line + n, sizeof line - n, ",%08X,%08X,%08X,%08X,%08X,%08X", cv[0], cv[1], cv[2], cv[3], cv[4], cv[5]);
     else n += snprintf(line + n, sizeof line - n, ",,,,,,");
   }
   if (m_imports || m_callsites) {
@@ -998,15 +1011,15 @@ static void measure_start(void) {
   if (!any) return;
   if (!g_nrd) { readable_ranges(g_game_lo, g_game_hi); readable_ranges(g_recon_lo, g_recon_hi); }
   if (m_frames) {
-    char head[2048]; int n = snprintf(head, sizeof head,
+    char head[4096]; int n = snprintf(head, sizeof head,
       "# xikit frames: one line per Present on the render thread. qpc = QueryPerformanceCounter at the kit's Present (frequency %lld);"
       " frame_ms = Present to Present; present_ms = inside the device's Present; kit_ms = the kit's own time before it; rt_cycles and rt_cpu_ms = the render"
       " thread's CPU since the last frame (QueryThreadCycleTime, GetThreadTimes); pf = page faults of the process; mark = the mark's number;"
-      " me4..me2C (frames_player=1) = your entity's dwords +0x04..+0x0C, +0x24..+0x2C raw;"
+      " me4..me2C (frames_player=1) = your entity's dwords +0x04..+0x0C, +0x24..+0x2C raw; cex..ctz (frames_player=1) = the camera [[0x104568FC]+0x50]: eye +0x44..+0x4C, target +0x50..+0x58, raw floats;"
       " p28..p3c = Frame_Render's this+0x28, +0x2C, +0x30, +0x38, +0x3C raw; ring0..3 = 0x10456964.. raw; tfps = [[this+0x1C]+4] raw (docs/RENDERER.md 3)%s\n"
       "frame,qpc,frame_ms,present_ms,kit_ms,rt_cycles,rt_cpu_ms,pf,mark,swaps_off,p28,p2c,p30,p38,p3c,ring0,ring1,ring2,ring3,tfps%s",
       (long long)g_qpf.QuadPart, m_imports || m_callsites ? "; then per group of wrapped calls on the render thread this frame: exclusive ms and calls; the longest wrapped import call" : "",
-      m_player ? ",me4,me8,meC,me24,me28,me2C" : "");
+      m_player ? ",me4,me8,meC,me24,me28,me2C,cex,cey,cez,ctx,cty,ctz" : "");
     if (m_imports || m_callsites) { for (int g = 0; g < G_N; g++) n += snprintf(head + n, sizeof head - n, ",%s_ms,%s_calls", m_gname[g], m_gname[g]); n += snprintf(head + n, sizeof head - n, ",longest_import,longest_ms"); }
     snprintf(head + n, sizeof head - n, "\n");
     ms_open(&m_sframes, "xikit_frames", 4 << 20, head);

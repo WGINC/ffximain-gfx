@@ -5955,6 +5955,26 @@ Same build as the 41st entry, debug on, 25 minutes (xikit.log 06:23-06:48), the 
   says that was not this setting (no restart was refused a voice). Which restarts happened is not known: the line did not
   count them. Now it does (the restarts asking a voice at 0x10036404, besides the refusals).
 
+## 14 Nov (forty-third entry): the public build without game material; two more per-draw cuts
+
+The owner: strip what could be dangerous from the public build; it goes to WGINC/Longthinx-Gobbiefix.
+- What the public zip held of the game: gfx_recon_ingame.dll (6.9 MB, the reconstructed game code), and in each
+  manifest, per function, 20 bytes of the game's code (the check before a jmp is written). The public kit (swap=0)
+  runs no reconstructed function; the kit still required the DLL.
+- xikit: a manifest entry may hold H + 16 hex digits, the FNV-1a 64 fingerprint of those 20 bytes (relocations undone,
+  the bytes not compared set to 0), checked the same way against the live entry. With swap=0 and no
+  gfx_recon_ingame.dll the kit starts and runs the mods' hooks and forks on the game's own code (trampolines).
+- kit/install: package.sh writes the manifests through public_manifest.py (fingerprints; no !code lines), ships no
+  reconstruction DLL and a VERSION.txt of its own (the kit's named the private build's files and source commit);
+  install.bat and uninstall.bat remove an older gfx_recon_ingame.dll; update_url points at the public repository.
+- Still in the public build, named in LICENSE.txt: speedfix's four forks (Frame_Render, the two step getters,
+  SkinAndDrawV2), reconstructed game functions: uncap, frame_step and gpu_skin are built on them.
+- Tests: test_speedfix.py, the public layout (no DLL, fingerprints only; the step mode's forks pass; the name, shadow
+  and sound hooks go in; a fingerprint one bit off is refused): ALL OK.
+- d3d8on11 Exec12: the light arrays compared and copied as one range each (7 instead of 7 x lights); a direct-mapped
+  key cache (1024, a 64-bit hash, the whole key compared) in front of the shader and pipeline maps, so a key seen before
+  is found without making a std::string of it. test_d3d8on11.py ALL OK. Not measured on the owner's machine.
+
 ## 14 Nov: the 11 Nov status retired (kept here word for word)
 
 ### Where things stood (11 Nov 2026)

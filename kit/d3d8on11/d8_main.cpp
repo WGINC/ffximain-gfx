@@ -123,19 +123,66 @@ static void kit_load() {
   GetPrivateProfileStringA("d3d8on11", "update_url", "the project's GitHub page", url, sizeof url, ini);
   d8_log("load_kit: FFXiMain.dll build %08X: this kit has no manifest for it; the kit and its mods are not loaded (the renderer runs alone). Update: %s", (unsigned)ts, url);
   if (GetPrivateProfileIntA("d3d8on11", "update_notice", 1, ini) && AllocConsole()) {
-    SetConsoleTitleA("FFXI graphics kit: update needed");
+    SetConsoleTitleA("Longthinx gobbiefix: gobbie need update");
     HANDLE o = GetStdHandle(STD_OUTPUT_HANDLE); char msg[1400]; DWORD w;
     int n = snprintf(msg, sizeof msg,
-      "This copy of FFXiMain.dll (build %08X) is newer or other than the builds this kit knows.\r\n\r\n"
-      "The game runs with the new renderer, but speedfix and the kit's other changes are off,\r\n"
-      "because their addresses for this build are not known.\r\n\r\n"
-      "Please update the kit from: %s\r\n\r\n"
-      "(This window can be closed; the game goes on. To stop this notice: update_notice=0 in d3d8on11.ini.)\r\n", (unsigned)ts, url);
+      "Hmmm! Gobbie sniff this FFXiMain.dll (build %08X)... gobbie no know this one!\r\n\r\n"
+      "Game still go, with gobbie's shiny renderer. But gobbie's other fixings (speedfix and friends)\r\n"
+      "stay in sack, because gobbie no know where things is in this build.\r\n\r\n"
+      "Youuu fetch new gobbiefix from: %s\r\n\r\n"
+      "(Close this window, game keep going. No want this notice? update_notice=0 in gobbiefix.ini.)\r\n", (unsigned)ts, url);
     WriteConsoleA(o, msg, (DWORD)n, &w, NULL);
   }
 }
+// ---- gobbiefix.ini: the public settings (14 Nov) ------------------------------------------------------------------
+// The handful of settings meant for players live in gobbiefix.ini (kit/install/README.md says what each does). Each is
+// written through to the component file and key that reads it, before anything reads them: d3d8on11.ini (read by the
+// log and Dev::init, later in this start) and speedfix.ini (read when the kit loads speedfix, in kit_load below). Only
+// keys present in gobbiefix.ini, and only when the value differs. No gobbiefix.ini: nothing changes (the sessions'
+// own ini files rule). debug=1, or the file gobbiefix_debug.on, turns the statistics lines on (log_stats=1 here,
+// stats_every=60 in speedfix).
+struct PubKey { const char *pub, *file, *sect, *key; };
+static const PubKey kPub[] = {
+  {"frame_cap", "speedfix.ini", "speedfix", "frame_cap_fps"},
+  {"smooth_pacing", "speedfix.ini", "speedfix", "pace_adaptive"},
+  {"smooth_names", "speedfix.ini", "speedfix", "name_smooth"},
+  {"fitted_shadows", "speedfix.ini", "speedfix", "shadow_fit"},
+  {"swap_buffers", "d3d8on11.ini", "d3d8on11", "swap_buffers"},
+  {"mipmaps", "d3d8on11.ini", "d3d8on11", "mipmaps"},
+  {"anisotropy", "d3d8on11.ini", "d3d8on11", "anisotropy"},
+  {"renderer", "d3d8on11.ini", "d3d8on11", "backend"},
+  {"update_notice", "d3d8on11.ini", "d3d8on11", "update_notice"},
+};
+static std::string g_pub_note;                              // what was applied, logged once the log is open
+static void pub_put(const char *dir, const char *file, const char *sect, const char *key, const char *val) {
+  char path[MAX_PATH + 32], cur[64]; snprintf(path, sizeof path, "%s\\%s", dir, file);
+  GetPrivateProfileStringA(sect, key, "\x01", cur, sizeof cur, path);
+  if (!strcmp(cur, val)) return;
+  WritePrivateProfileStringA(sect, key, val, path);
+  g_pub_note += std::string(" ") + file + ":" + key + "=" + val;
+}
+void d8_apply_public(const char *dir) {
+  char gob[MAX_PATH + 32]; snprintf(gob, sizeof gob, "%s\\gobbiefix.ini", dir);
+  if (GetFileAttributesA(gob) == INVALID_FILE_ATTRIBUTES) return;
+  for (const PubKey &k : kPub) {
+    char v[64]; GetPrivateProfileStringA("gobbiefix", k.pub, "", v, sizeof v, gob);
+    char *e = v + strlen(v); while (e > v && (e[-1] == ' ' || e[-1] == '\t')) *--e = 0;
+    const char *b = v; while (*b == ' ' || *b == '\t') b++;
+    if (*b) pub_put(dir, k.file, k.sect, k.key, b);
+  }
+  // debug: gobbiefix.ini's debug=1, or the marker file gobbiefix_debug.on (what gobbiefix_debug.bat on makes)
+  char v[16], mk[MAX_PATH + 32]; GetPrivateProfileStringA("gobbiefix", "debug", "", v, sizeof v, gob);
+  snprintf(mk, sizeof mk, "%s\\gobbiefix_debug.on", dir);
+  bool marker = GetFileAttributesA(mk) != INVALID_FILE_ATTRIBUTES;
+  if (*v || marker) { bool dbg = marker || atoi(v) != 0;
+    pub_put(dir, "d3d8on11.ini", "d3d8on11", "log_stats", dbg ? "1" : "0");
+    pub_put(dir, "speedfix.ini", "speedfix", "stats_every", dbg ? "60" : "0"); }
+  if (g_pub_note.empty()) g_pub_note = " (all as they were)";
+}
 extern "C" __declspec(dllexport) IDirect3D8 *WINAPI Direct3DCreate8(UINT sdk) {
+  { static bool pub; if (!pub) { pub = true; char dir[MAX_PATH]; kit_dir(dir, sizeof dir); d8_apply_public(dir); } }
   d8_log("d3d8on11: Direct3DCreate8(%u)", sdk);
+  if (!g_pub_note.empty()) { d8_log("gobbiefix.ini applied:%s", g_pub_note.c_str()); g_pub_note.clear(); }
   d8_crash_install();
   kit_load();
   return new D8();

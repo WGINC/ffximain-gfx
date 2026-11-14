@@ -223,7 +223,7 @@ static const char kDefaultIni[] =
   ";   other device call stay. Live both ways; use it with skip_all_occlusion_readbacks=1 (what the game reads back\r\n"
   ";   from an undrawn frame is wrong)\r\n"
   "null_draws=0\r\n"
-  "; seconds between speedfix's statistics lines in xikit.log\r\n"
+  "; seconds between speedfix's statistics lines in xikit.log (0: none)\r\n"
   "stats_every=60\r\n"
   "; A/B of levers with no keys: ab_levers takes the NAMES of settings above, e.g.\r\n"
   ";     ab_levers=merge_scenes; skip_all_occlusion_readbacks; sse_skinning\r\n"
@@ -255,7 +255,7 @@ static SfConfig read_config(void) {
   c.shadow_fit = rd("shadow_fit", 1) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
   if (c.shadow_fit_scale < 5 || c.shadow_fit_scale > 300) c.shadow_fit_scale = 46;
   c.occlusion_hold = rd("occlusion_hold", 1); c.occlusion_nowait = rd("occlusion_nowait", 1); c.occlusion_first = rd("occlusion_first", 0); if (c.occlusion_first < 0 || c.occlusion_first > 2) c.occlusion_first = 0; c.occlusion_late = rd("occlusion_late", 0); if (c.occlusion_late < 0 || c.occlusion_late > 2) c.occlusion_late = 0;
-  if (c.stats_every < 1) c.stats_every = 1;
+  if (c.stats_every < 0) c.stats_every = 0;            // 0: no statistics lines (14 Nov: the installer's quiet logs)
   if (c.batch_max_prims < 0) c.batch_max_prims = 0;
   if (c.batch_max_bytes < 0) c.batch_max_bytes = 0;
   if (c.frame_cap_fps < 0 || (c.frame_cap_fps > 0 && c.frame_cap_fps < 10)) c.frame_cap_fps = 0;
@@ -1353,7 +1353,7 @@ extern "C" void sf_frame(void) {
   apply_code();
   sf_occl_frame(sf_cfg.skip_all_occlusion_readbacks && sf_hooks_live() ? -1 : sf_cfg.occlusion_late && sf_hooks_live());
   sf_device_frame();
-  if (GetTickCount() - last_stats >= (DWORD)sf_cfg.stats_every * 1000) {
+  if (sf_cfg.stats_every && GetTickCount() - last_stats >= (DWORD)sf_cfg.stats_every * 1000) {
     last_stats = GetTickCount();
     sf_device_stats();
     { long gj = __atomic_exchange_n(&sf_gs_jobs, 0L, __ATOMIC_SEQ_CST), gr = __atomic_exchange_n(&sf_gs_refused, 0L, __ATOMIC_SEQ_CST);

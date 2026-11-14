@@ -10,6 +10,12 @@
 // ---- log (d8_log_name next to the module; each message once unless counted) ------------------------------------
 extern const char *d8_log_name;
 void d8_log(const char *fmt, ...) __attribute__((format(printf, 1, 2)));
+// (14 Nov) the periodic statistics lines (every 600 frames, and the like) are written only with log_stats=1 in
+// d3d8on11.ini (default 1; the installer sets 0, its debug mode 1). Each such block holds a D8StatsScope: d8_log drops
+// what that thread writes inside one while log_stats is 0. Read by each process when it opens its log.
+extern thread_local int d8_stats_depth;
+struct D8StatsScope { D8StatsScope() { d8_stats_depth++; } ~D8StatsScope() { d8_stats_depth--; } };
+bool d8_log_stats_on();
 void d8_crash_install();
 // the records already written after the one the executor runs now (ring modes; none in direct mode): f is called for
 // each in order until it returns nonzero; returns whether it did (d8_link.cpp, 22 Nov: discard_hints)

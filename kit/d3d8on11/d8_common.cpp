@@ -3,6 +3,7 @@
 #include "d8_common.h"
 #include <stdio.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include <set>
 #include <string>
 #include <vector>
@@ -11,13 +12,19 @@
 const char *d8_log_name = "d3d8on11.log";
 // ---- log --------------------------------------------------------------------------------------------------------------
 static FILE *g_log; static CRITICAL_SECTION g_logLock; static bool g_logInit;
+thread_local int d8_stats_depth; static bool g_logStats = true;
+bool d8_log_stats_on() { return g_logStats; }
 static void log_open() {
   if (g_logInit) return;
   g_logInit = true; InitializeCriticalSection(&g_logLock);
   char p[MAX_PATH]; HMODULE m = NULL;
   GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS | GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT, (LPCSTR)&log_open, &m);
   GetModuleFileNameA(m, p, sizeof p);
-  char *s = strrchr(p, '\\'); strcpy(s ? s + 1 : p, d8_log_name);
+  char *s = strrchr(p, '\\');
+  { char ini[MAX_PATH + 16]; snprintf(ini, sizeof ini, "%.*s\\d3d8on11.ini", s ? (int)(s - p) : 0, p);
+    g_logStats = GetPrivateProfileIntA("d3d8on11", "log_stats", 1, ini) != 0;
+    char e[8]; DWORD n = GetEnvironmentVariableA("D8ON11_LOG_STATS", e, sizeof e); if (n > 0 && n < sizeof e) g_logStats = atoi(e) != 0; }
+  strcpy(s ? s + 1 : p, d8_log_name);
   // the last start's log is kept beside it (_prev): a game started again without start.bat wrote over it (21 Nov,
   // the owner's first adv11 start)
   { char q[MAX_PATH]; snprintf(q, sizeof q, "%s", p); char *e = strrchr(q, '.'); if (e && (size_t)(e - q) + 10 < sizeof q) { strcpy(e, "_prev.log"); MoveFileExA(p, q, MOVEFILE_REPLACE_EXISTING); } }
@@ -25,6 +32,7 @@ static void log_open() {
 }
 void d8_log(const char *fmt, ...) {
   log_open(); if (!g_log) return;
+  if (d8_stats_depth > 0 && !g_logStats) return;
   EnterCriticalSection(&g_logLock);
   va_list a; va_start(a, fmt); vfprintf(g_log, fmt, a); va_end(a); fputc('\n', g_log); fflush(g_log);
   LeaveCriticalSection(&g_logLock);

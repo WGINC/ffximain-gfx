@@ -1,6 +1,6 @@
 @echo off
-rem uninstall.bat [FOLDER] -- removes what install.bat put in the PlayOnlineViewer folder and puts back the d3d8.dll that
-rem was there (d3d8_before_kit.dll). Your .ini files and logs stay. Run it as administrator.
+rem uninstall.bat [FOLDER] -- Longthinx gobbiefix: removes what install.bat put in the PlayOnlineViewer folder and puts
+rem back the d3d8.dll that was there (d3d8_before_kit.dll). The .ini files and logs stay. Run it as administrator.
 setlocal
 set "SRC=%~dp0files"
 set "DST=%~1"
@@ -8,14 +8,19 @@ if "%DST%"=="" set "DST=C:\Program Files (x86)\PlayOnline\SquareEnix\PlayOnlineV
 if not exist "%DST%\kit_installed.txt" goto notinstalled
 tasklist /fi "imagename eq pol.exe" | find /i "pol.exe" >nul
 if not errorlevel 1 goto running
-for %%f in ("%SRC%\*.dll" "%SRC%\*.exe" "%SRC%\*.txt") do if exist "%DST%\%%~nxf" del /q "%DST%\%%~nxf"
+pushd "%SRC%"
+for %%f in (*.dll *.exe *.txt) do if exist "%DST%\%%f" del /q "%DST%\%%f"
+popd
 if exist "%DST%\d3d8_before_kit.dll" move /y "%DST%\d3d8_before_kit.dll" "%DST%\d3d8.dll" >nul
 del /q "%DST%\kit_installed.txt"
-echo Removed. The d3d8.dll from before is back.
+if exist "%DST%\gobbiefix_debug.on" del /q "%DST%\gobbiefix_debug.on"
+echo  Gobbie pack up the shiny bits. Old d3d8.dll come back out of the sack.
+echo  (Gobbie leave the .ini files and logs, in case youuu want gobbie back.)
+echo  Bye bye!
 exit /b 0
 :notinstalled
-echo The kit is not installed in "%DST%" (no kit_installed.txt).
+echo  Gobbie no find gobbiefix in "%DST%" (no kit_installed.txt). Nothing to take.
 exit /b 2
 :running
-echo The game (pol.exe) is running: close it first.
+echo  Game still running! Close it first, then gobbie work.
 exit /b 2

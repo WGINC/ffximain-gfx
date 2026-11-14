@@ -20,33 +20,27 @@ This is private work: nothing here is published, and no game bytes are in the re
 | `run.sh` | The pipeline, end to end |
 | `runs/` | Scratch output of `run.sh` (ignored) |
 
-## Where things stand (11 Nov 2026)
+## Where things stand (14 Nov 2026): shipped as Longthinx gobbiefix
 
-- **The game's builds:** three are known to the kit: 6A995428 (analysed), 6AC37846 and 6AE818B4 (2 Nov; translated,
-  docs/KIT.md). On 6AE818B4 speedfix and the kit's measuring work; the reconstruction is not swapped in (61 of its
-  addresses are not proven there).
-- **Frame time, Port Jeuno plaza, d3d8on11 with speedfix (the owner's run of 16 Nov):** median frame 14.5 ms standing
-  and 12.5 running with the late occlusion read that never waits (`occlusion_nowait`, the default) and the buffer
-  arena (`buffer_arena=1`); 16.9 and 19.0 without them. 0.7 to 4.2% of frames are over 33 ms.
-- **What limits it:** the number of draws. d3d8on11's worker spends about 7.7 us on each (Present's time is 4.9 us a
-  draw) and the game's thread 2.3 us, at 1,500 to 1,700 draws a frame.
-- **Run once in the game (the owner's 18 Nov session), not yet measured:** draw merging (`draw_merge`), delta draws
-  (`draw_delta`) and GPU skinning (`gpu_skin`). GPU skinning hid every character but the owner's: d3d8on11 dropped
-  the game's occlusion rectangles while a skinned buffer was bound. Fixed and tested on 11 Nov; not yet run again
-  (`kit/sessions/ab_19nov`). In that run the graphics device was lost once (0x887A0005) and the game crashed; the
-  cause is not known, and the build now logs the device's reason.
-- **The long frames while running (that run's samples, 191 frames of 33 ms or more in 145 s):** 97 were the game's
-  thread waiting inside Windower's Lua runtime, entered from Windower's hook on a packet from the server; 84 were
-  the game's waiting readback for a first occlusion test. Both counts are from the start with the defect above;
-  ab_19nov repeats them and switches each cause off in turn.
-- **Not explained:** shimmering in the distance and nameplates jittering while the camera moves (both also with the
-  new pieces off).
-- **Above 60 fps:** the game's time follows real time (`uncap`, `frame_step=3`). Liminality (`liminality=1`) is built
-  and passes its offline tests; its last version has not run in the game (`kit/sessions/ab_15nov`).
-- **Not working:** d3d8on11's worker as a native ARM64 process (`mode=remote`) crashed in Windower's Hook.dll in the
-  owner's game on 16 Nov; cause not established.
+- **What ships:** `kit/install` packages the renderer (d3d8on11 on Direct3D 12), the kit (xikit) and speedfix as
+  **Longthinx gobbiefix**: one installer, nothing to start before the game, a public settings file (`gobbiefix.ini`,
+  each setting written up in `kit/install/README.md`), quiet logs, and `gobbiefix_debug.bat` for the statistics.
+- **Installed settings, each measured on the owner's M5 Mac (Parallels, Windows on ARM):** no frame cap (a 120 cap
+  and vsync measured no better), `smooth_pacing` (frames over twice their neighbours 67 -> 19 a minute), 2 swap
+  buffers (1 Dec, blind: Windows showed 94% of frames against 76% with 3; the owner felt no stutter), `precise_pacing`
+  under `uncap` with `frame_step=3` (the character's step variation 15-19% -> 10-11%), mip levels with 16x anisotropy.
+- **Known, not ours to fix from inside Windows:** frames Windows has shown are lost before the Mac's panel (phone at
+  240 fps against PresentMon: the panel 58-86 new pictures a second while Windows showed 89-113; the same with the Mac
+  fixed at 60 Hz). Where between Parallels and the panel is not known (docs/HISTORY.md, 33rd-35th entries).
+- **Open, cause not known:** frames of 25-31 ms every few seconds in some starts (not in the renderer; the sampler was
+  off); 25 frames where the game waited on the renderer, one burst of which PresentMon shows as the GPU busy ~100 ms a
+  frame on ordinary frames; Windower's Config addon faulting at exit (Config.dll+0x41F67, 30 Nov log); Windows
+  composing the game instead of flipping it directly; `mode=remote` (the ARM64 executor process) crashed once in
+  Windower's Hook.dll (16 Nov).
+- **The game's builds:** 6A995428 (analysed), 6AC37846 and 6AE818B4 are known to the kit (manifests); a build it does
+  not know runs with the renderer alone and a window says to update.
 
-Earlier status sections of this file (5 Nov, 1 Nov) are in docs/HISTORY.md, "11 Nov: README sections retired".
+Earlier status sections of this file (11 Nov, 5 Nov, 1 Nov) are in docs/HISTORY.md, "11 Nov: README sections retired" and "14 Nov: the 11 Nov status retired".
 Every document and what it is for: docs/README.md. The devkit's map: docs/DEVKIT.md.
 
 ## Reproduce

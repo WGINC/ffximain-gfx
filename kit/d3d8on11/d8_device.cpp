@@ -403,11 +403,11 @@ HRESULT Dev::Present(const RECT *s, const RECT *d, HWND w, const RGNDATA *) {
   if (mipw) mip_take();
   if (interp) interp_present();
   if (ab.on) ab_frame();
-  if (snap_frames + 1 >= 600) { d8_rb_log(600);
+  if (snap_frames + 1 >= 600) { D8StatsScope q; d8_rb_log(600);
     if (mipmaps) { d8_log("mipmaps, 600 frames: levels built whole %llu times, in part %llu times, %.1f ms in all, the longest %.2f ms (on the worker with mip_async); %llu textures with made levels so far, %llu dropped (rebuilt more than twice their size in 60 frames)",
                           (unsigned long long)mip_built, (unsigned long long)mip_parts, mip_ms, mip_ms_max, (unsigned long long)mip_textures, (unsigned long long)mip_dropped);
                    mip_built = mip_parts = 0; mip_ms = mip_ms_max = 0; } }
-  if (++snap_frames >= 600) {
+  if (++snap_frames >= 600) { D8StatsScope q;
     if (snap_hits + snap_misses)
       d8_log("readback snapshots, %u frames: %u locks of a copied render target read its snapshot (no wait), %u read it "
              "back (the snapshot was not there yet), %u do-not-wait locks were told it was not there yet (no wait)",
@@ -1078,7 +1078,7 @@ bool Dev::interp_world(VB *s0, D3DMATRIX *out) {
 void Dev::interp_present() {
   i_frame++; i_occ.clear();
   if ((i_frame & 1023) == 0) for (auto it = i_tracks.begin(); it != i_tracks.end();) { if (i_frame - it->second.seen > 600) it = i_tracks.erase(it); else ++it; }
-  if (i_frame % 600 == 0) {
+  if (i_frame % 600 == 0) { D8StatsScope q;
     d8_log("interp, 600 frames: %llu with a tick, %llu between ticks, %llu with no clock; jobs: %llu blended, %llu not seen at the last tick or with nothing before, "
            "%llu changed by the game between ticks (the ticks' blend drawn), %llu moved 4 units or more in a tick; %llu jobs shared a buffer and bone table "
            "(told apart by order); draws: %llu world matrices blended, %llu changed between ticks or not drawn at the last tick, %llu past 8 draws a job; %u tracks",

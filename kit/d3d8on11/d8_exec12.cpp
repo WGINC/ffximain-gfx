@@ -1795,7 +1795,7 @@ void Exec12::present() {
   begin_list();
   ts_collect(); ts_begin();
   if (!snap_pend.empty()) snap_poll();
-  if (++c_frames >= 600) {
+  if (++c_frames >= 600) { D8StatsScope q;
     double f = c_frames;
     if (discard_hints) { d8_disc_rt_t += c_disc_rt; d8_disc_ds_t += c_disc_ds; d8_disc_keep_t += c_disc_keep; d8_log("discard_hints, %u frames: %.2f render targets and %.2f depth surfaces discarded a frame, %.2f kept (the next use not a whole clear, or not sent yet)",
                                 c_frames, c_disc_rt / f, c_disc_ds / f, c_disc_keep / f); c_disc_rt = c_disc_ds = c_disc_keep = 0; }

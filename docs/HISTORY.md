@@ -5794,6 +5794,66 @@ panel_pictures.py), in moving stretches. Windows from PresentMon (screen time = 
   the clip in the 60 Hz half was not aligned to the log (its row lies on the floor, which walking zooms rather than
   shifts), so its frames are not paired with Windows' one by one.
 
+## 14 Nov (thirty-sixth entry): shipped as Longthinx gobbiefix -- one public settings file, quiet logs, debug mode
+
+The owner's request: streamline the settings players may change, with a write-up for each; rename the program
+Longthinx gobbiefix, with its documentation and terminal text in "gobbiespeak"; a logo drawn from two public pictures
+of the game's goblin; strip unneeded logging, with a debug mode that has it.
+- **gobbiefix.ini** (kit/install/config): frame_cap, smooth_pacing, swap_buffers, mipmaps, anisotropy, smooth_names,
+  fitted_shadows, renderer, update_notice, debug. d3d8.dll (d8_main.cpp d8_apply_public) writes each present key
+  through to the component file and key that reads it (speedfix.ini frame_cap_fps, pace_adaptive, name_smooth,
+  shadow_fit; d3d8on11.ini swap_buffers, mipmaps, anisotropy, backend, update_notice) at the first Direct3DCreate8,
+  before its log opens, Dev::init reads d3d8on11.ini, or kit_load loads speedfix; only when the value differs. debug
+  (debug=1, or the marker file gobbiefix_debug.on) sets d3d8on11.ini log_stats and speedfix.ini stats_every (60 or
+  0). No gobbiefix.ini: nothing changes (sessions).
+- **Quiet logs:** d3d8on11 `log_stats` (default 1; installed 0): each periodic statistics block holds a D8StatsScope,
+  and d8_log drops what its thread writes inside one when log_stats is 0 (each process reads the key when it opens
+  its log, so the executor process too). speedfix `stats_every=0` now means none (it was forced to at least 1).
+  Start-up lines, crash reports, the hang watch and once-only notices stay.
+- **Tests:** test_d3d8on11.py: gobbiefix.ini with debug=0 -- the keys written through, that very start on Direct3D 12
+  with 3 buffers, no statistics lines in 1,300 frames; debug=1 -- log_stats=1, stats_every=60, the lines written; the
+  next start with nothing new changes nothing; the marker with debug=0 turns them on, and its removal off again.
+  sf_host.c (pacing): stats_every=0 writes no statistics line in 2 s, and 1 brings them back. The scripts run under
+  Wine's cmd on a fake game folder: install (the old d3d8.dll kept, the files in, gobbiefix.ini kept or replaced with
+  /defaults), gobbiefix_debug.bat on/off (the marker made and removed), uninstall (the old d3d8.dll back). Found that
+  way: Wine's cmd does not expand a quoted wildcard in `for` (Windows' does; the loops now run from inside the folder,
+  unquoted), Wine's findstr ignores /v /b /i, and Wine has no PowerShell -- hence the marker file instead of editing
+  gobbiefix.ini from the script.
+- **The installer** (kit/install): install.bat shows logo.txt and speaks gobbie; gobbiefix.ini is kept on reinstall
+  (`/defaults` replaces it), the internal .ini files are replaced (an older one kept once as .before_gobbiefix);
+  gobbiefix_debug.bat on|off (the marker); README.md with a write-up per setting from the measurements; the update notice window
+  in gobbiespeak. Internal file names (d3d8.dll, xikit.dll, speedfix.dll, kit_installed.txt, d3d8_before_kit.dll)
+  are kept, so an earlier install upgrades and uninstalls. The zip: longthinx_gobbiefix.zip, folder gobbiefix/.
+- The logs keep plain technical English (they are for finding problems); only what players read is in gobbiespeak.
+
+## 14 Nov: the 11 Nov status retired (kept here word for word)
+
+### Where things stood (11 Nov 2026)
+
+- **The game's builds:** three are known to the kit: 6A995428 (analysed), 6AC37846 and 6AE818B4 (2 Nov; translated,
+  docs/KIT.md). On 6AE818B4 speedfix and the kit's measuring work; the reconstruction is not swapped in (61 of its
+  addresses are not proven there).
+- **Frame time, Port Jeuno plaza, d3d8on11 with speedfix (the owner's run of 16 Nov):** median frame 14.5 ms standing
+  and 12.5 running with the late occlusion read that never waits (`occlusion_nowait`, the default) and the buffer
+  arena (`buffer_arena=1`); 16.9 and 19.0 without them. 0.7 to 4.2% of frames are over 33 ms.
+- **What limits it:** the number of draws. d3d8on11's worker spends about 7.7 us on each (Present's time is 4.9 us a
+  draw) and the game's thread 2.3 us, at 1,500 to 1,700 draws a frame.
+- **Run once in the game (the owner's 18 Nov session), not yet measured:** draw merging (`draw_merge`), delta draws
+  (`draw_delta`) and GPU skinning (`gpu_skin`). GPU skinning hid every character but the owner's: d3d8on11 dropped
+  the game's occlusion rectangles while a skinned buffer was bound. Fixed and tested on 11 Nov; not yet run again
+  (`kit/sessions/ab_19nov`). In that run the graphics device was lost once (0x887A0005) and the game crashed; the
+  cause is not known, and the build now logs the device's reason.
+- **The long frames while running (that run's samples, 191 frames of 33 ms or more in 145 s):** 97 were the game's
+  thread waiting inside Windower's Lua runtime, entered from Windower's hook on a packet from the server; 84 were
+  the game's waiting readback for a first occlusion test. Both counts are from the start with the defect above;
+  ab_19nov repeats them and switches each cause off in turn.
+- **Not explained:** shimmering in the distance and nameplates jittering while the camera moves (both also with the
+  new pieces off).
+- **Above 60 fps:** the game's time follows real time (`uncap`, `frame_step=3`). Liminality (`liminality=1`) is built
+  and passes its offline tests; its last version has not run in the game (`kit/sessions/ab_15nov`).
+- **Not working:** d3d8on11's worker as a native ARM64 process (`mode=remote`) crashed in Windower's Hook.dll in the
+  owner's game on 16 Nov; cause not established.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

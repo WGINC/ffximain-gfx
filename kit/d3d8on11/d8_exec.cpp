@@ -589,7 +589,7 @@ void Exec::gpu_frame_begin() {                             // after a Present: t
 void Exec::gpu_frame_end() {                               // before a Present: the frame's work ends here
   if (!gpu_on || !q_open) return;
   ctx->End(q_end[q_i]); ctx->End(q_dis[q_i]); q_used[q_i] = true; q_open = false; gpu_frames++;
-  if (gpu_frames >= 600) {
+  if (gpu_frames >= 600) { D8StatsScope q;
     std::vector<float> v = gpu_ms; std::sort(v.begin(), v.end());
     double sum = 0; for (float f : v) sum += f;
     if (!v.empty())

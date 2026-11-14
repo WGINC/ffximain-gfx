@@ -162,6 +162,12 @@ static int count(int slot, LONG from) { int c = 0; for (LONG i = from; i < g_n; 
 static const char *seq(LONG from) { static char b[512]; int o = 0; b[0] = 0;
   for (LONG i = from; i < g_n && o < 500; i++) o += sprintf(b + o, o ? " %d" : "%d", g_log[i].slot); return b; }
 static Call *last(int slot) { for (LONG i = g_n - 1; i >= 0; i--) if (g_log[i].slot == slot) return &g_log[i]; return NULL; }
+static int log_count(const char *what) {                  /* how many times xikit.log has `what` */
+  FILE *f = fopen("xikit.log", "rb"); if (!f) return 0;
+  static char b[1 << 20]; size_t n = fread(b, 1, sizeof b - 1, f); fclose(f); b[n] = 0;
+  int c = 0; for (char *p = b; (p = strstr(p, what)); p++) c++;
+  return c;
+}
 static int log_has(const char *what) {
   FILE *f = fopen("xikit.log", "rb"); if (!f) return 0;
   static char b[1 << 20]; size_t n = fread(b, 1, sizeof b - 1, f); fclose(f); b[n] = 0;
@@ -306,6 +312,16 @@ static int pacing_test(void) {
     check(log_has("speedfix: pace_adaptive: ") && log_has(" frames paced, the interval aimed at "), "pace_adaptive: the statistics line says how many frames it paced and the interval it aimed at");
     touch("speedfix.ini", "[speedfix]\npace_adaptive=0\nstats_every=1\n");
     for (int i = 0; i < 70; i++) { begin(); end(); present(); }
+  }
+  { /* stats_every=0 (14 Nov, the installer's quiet logs): no statistics line however long; 1 again: they come back */
+    touch("speedfix.ini", "[speedfix]\nstats_every=0\n"); for (int i = 0; i < 70; i++) { begin(); end(); present(); }
+    Sleep(1100); for (int i = 0; i < 70; i++) { begin(); end(); present(); }
+    int before = log_count("speedfix: frames ");
+    Sleep(2100); for (int i = 0; i < 70; i++) { begin(); end(); present(); }
+    check(log_count("speedfix: frames ") == before, "stats_every=0: no statistics line in 2 s");
+    touch("speedfix.ini", "[speedfix]\nstats_every=1\n"); Sleep(1100); for (int i = 0; i < 70; i++) { begin(); end(); present(); }
+    Sleep(1100); for (int i = 0; i < 70; i++) { begin(); end(); present(); }
+    check(log_count("speedfix: frames ") > before, "stats_every=1 again: the statistics lines come back");
   }
   printf(fails ? "FAILED (%d)\n" : "ALL OK\n", fails);
   return fails ? 1 : 0;

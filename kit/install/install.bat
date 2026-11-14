@@ -1,35 +1,52 @@
 @echo off
-rem install.bat [FOLDER] -- installs the kit into the game's PlayOnlineViewer folder (FOLDER, or the usual place).
-rem Once installed, nothing has to be started before the game: the game loads d3d8.dll from that folder, and d3d8.dll
-rem loads the kit (and speedfix) itself when it knows the game's build. If the game is a build it does not know, the
-rem game runs with the new renderer only and a window says to update the kit.
-rem What is there before is kept: the d3d8.dll there (dgVoodoo's) as d3d8_before_kit.dll, and your own .ini files
-rem (the kit's defaults go in only where there is none; with /defaults first they replace yours, which are kept as
-rem NAME.ini.before_kit). uninstall.bat puts it back. Run it as administrator.
+rem install.bat [/defaults] [FOLDER] -- Longthinx gobbiefix: installs into the game's PlayOnlineViewer folder (FOLDER, or
+rem the usual place). Once installed nothing has to be started before the game: the game loads d3d8.dll from that
+rem folder, and d3d8.dll applies gobbiefix.ini and loads the kit (and speedfix) itself when it knows the game's build.
+rem Kept: the d3d8.dll that was there (dgVoodoo's) as d3d8_before_kit.dll; your gobbiefix.ini (with /defaults it is
+rem replaced, yours kept as gobbiefix.ini.before_gobbiefix). The other .ini files are gobbiefix's own and are replaced
+rem (an older one is kept once as NAME.ini.before_gobbiefix). uninstall.bat puts it back. Run it as administrator.
 setlocal
 set "SRC=%~dp0files"
 set "DEF="
 if /i "%~1"=="/defaults" (set "DEF=1" & shift)
 set "DST=%~1"
 if "%DST%"=="" set "DST=C:\Program Files (x86)\PlayOnline\SquareEnix\PlayOnlineViewer"
+if exist "%~dp0logo.txt" type "%~dp0logo.txt"
+echo  Gobbie look for game in "%DST%"...
 if not exist "%DST%\pol.exe" if not exist "%DST%\polcore.dll" goto nofolder
 tasklist /fi "imagename eq pol.exe" | find /i "pol.exe" >nul
 if not errorlevel 1 goto running
+echo  Found it! Yes yes.
 if exist "%DST%\d3d8_before_kit.dll" goto copyfiles
 if not exist "%DST%\d3d8.dll" goto copyfiles
 copy /y "%DST%\d3d8.dll" "%DST%\d3d8_before_kit.dll" >nul
-echo The d3d8.dll that was there is kept as d3d8_before_kit.dll.
+echo  Old d3d8.dll go in gobbie's sack, safe safe (d3d8_before_kit.dll).
 :copyfiles
-for %%f in ("%SRC%\*.dll" "%SRC%\*.exe" "%SRC%\*.txt") do copy /y "%%~f" "%DST%\" >nul
-if defined DEF for %%f in ("%SRC%\*.ini") do if exist "%DST%\%%~nxf" copy /y "%DST%\%%~nxf" "%DST%\%%~nxf.before_kit" >nul
-if defined DEF for %%f in ("%SRC%\*.ini") do copy /y "%%~f" "%DST%\" >nul
-for %%f in ("%SRC%\*.ini") do if not exist "%DST%\%%~nxf" copy /y "%%~f" "%DST%\" >nul
->"%DST%\kit_installed.txt" echo installed by kit/install/install.bat
-echo Installed into %DST%. Start the game as you always do.
+rem (wildcards unquoted, from inside the folder: some cmd versions do not expand a quoted pattern)
+pushd "%SRC%"
+for %%f in (*.dll *.exe *.txt) do copy /y "%%f" "%DST%\" >nul
+popd
+echo  Gobbie put in the shiny bits.
+for %%f in (d3d8on11.ini speedfix.ini xikit.ini) do if exist "%DST%\%%f" if not exist "%DST%\%%f.before_gobbiefix" copy /y "%DST%\%%f" "%DST%\%%f.before_gobbiefix" >nul
+for %%f in (d3d8on11.ini speedfix.ini xikit.ini) do copy /y "%SRC%\%%f" "%DST%\" >nul
+if defined DEF if exist "%DST%\gobbiefix.ini" copy /y "%DST%\gobbiefix.ini" "%DST%\gobbiefix.ini.before_gobbiefix" >nul
+if defined DEF copy /y "%SRC%\gobbiefix.ini" "%DST%\" >nul
+if exist "%DST%\gobbiefix.ini" goto keepknobs
+copy /y "%SRC%\gobbiefix.ini" "%DST%\" >nul
+echo  Gobbie leave you knobs: gobbiefix.ini. Poke them if youuu want.
+goto marked
+:keepknobs
+if not defined DEF echo  Youuu already have gobbiefix.ini. Gobbie no touch your knobs.
+if defined DEF echo  gobbiefix.ini back to gobbie's way. Yours wait in gobbiefix.ini.before_gobbiefix.
+:marked
+>"%DST%\kit_installed.txt" echo installed by Longthinx gobbiefix (install.bat)
+echo(
+echo  All fixed! Youuu go play now. Start game same as always.
 exit /b 0
 :nofolder
-echo No PlayOnlineViewer folder at "%DST%". Give it: install.bat "C:\path\to\PlayOnlineViewer"
+echo  Hmmm. Gobbie no find game there. Youuu tell gobbie where:
+echo      install.bat "C:\path\to\PlayOnlineViewer"
 exit /b 2
 :running
-echo The game (pol.exe) is running: close it first.
+echo  Game still running! Close it first, then gobbie work.
 exit /b 2

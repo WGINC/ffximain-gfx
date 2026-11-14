@@ -96,6 +96,7 @@ struct ExecStats {
   // STATS_EVERY Presents (a replay) still gets one, and the A/B's last phase is logged
   void finish() { phase_end(); if (frames) report(); }
   void report() {
+    D8StatsScope q;
     double now = qpc_ms(), span = since ? now - since : 0;
     d8_log("executor stats, %u frames: busy %.3f ms a frame (%.1f%% of the time; draws %.3f, uploads %.3f, Present %.3f, "
            "readbacks %.3f, other %.3f), %u records a frame", frames, sum(busy) / frames, span > 0 ? 100.0 * sum(busy) / span : 0.0,
@@ -317,6 +318,7 @@ struct RingLink : Link {
   uint32_t max_payload() const override { return h->size / 2 - 8; }   // begin's limit: 8 + pad8(bytes) <= size / 2
   void stats_frame() {
     if (++frames < STATS_EVERY) return;
+    D8StatsScope q;
     double now = qpc_ms();
     d8_log("ring stats, %u frames: the game waited %.3f ms a frame for room, %.3f for pacing (%d frames ahead), %.3f for "
            "answers; sent %.2f MB and %u records a frame", frames, waited[0] / frames,

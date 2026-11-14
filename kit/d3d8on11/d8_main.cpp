@@ -150,6 +150,7 @@ static const PubKey kPub[] = {
   {"sound_retry", "speedfix.ini", "speedfix", "sound_retry"},
   {"sphere_shine", "speedfix.ini", "speedfix", "sphere_shine"},
   {"flare_fix", "speedfix.ini", "speedfix", "flare_fix"},
+  {"aura_size", "speedfix.ini", "speedfix", "aura_size"},
   {"swap_buffers", "d3d8on11.ini", "d3d8on11", "swap_buffers"},
   {"mipmaps", "d3d8on11.ini", "d3d8on11", "mipmaps"},
   {"anisotropy", "d3d8on11.ini", "d3d8on11", "anisotropy"},

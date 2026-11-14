@@ -53,6 +53,24 @@ __asm__(
   "  popl %edx\n  popl %ecx\n  popl %eax\n  popfl\n  ret\n"
   "1:\n  jmp *_sf_cf0_prev\n");
 
+// aura_size (fork/Post_CreateScreenEffectTargets.fork.cpp says why): the aura's capture texture made larger and the
+// capture's quad that size. The game makes the texture with its device, before mods load, so the first frame remakes
+// it as the game's own device-reset path does (0x100298D0: Unit10038930_ReleaseTextures, then
+// Post_CreateScreenEffectTargets), now through the fork.
+extern "C" { extern volatile unsigned xi_aura_size; int sf_aura_installed; }
+extern "C" int sf_fork_aura(const XikitHost *host) {
+  int r = XI_FORK(host, Post_CreateScreenEffectTargets);
+  if (r == XIKIT_OK) r = XI_FORK(host, Post_CaptureSceneToTarget);
+  sf_aura_installed = r == XIKIT_OK;
+  return r;
+}
+extern "C" unsigned sf_aura_remake(void) {             // render thread, between two frames; the size it has now
+  orig::Unit10038930_ReleaseTextures();
+  orig::Post_CreateScreenEffectTargets();
+  IDirect3DTexture8 *t = (IDirect3DTexture8 *)(uintptr_t)(unsigned)g_sceneCaptureTex; uint32_t dd[8];   // D3DSURFACE_DESC: Width at [6]
+  return t && t->lpVtbl->GetLevelDesc(t, 0, dd) >= 0 ? dd[6] : 0;
+}
+
 extern "C" int sf_framestep_installed;
 int sf_framestep_installed;
 extern "C" int sf_fork_framestep(const XikitHost *host) {

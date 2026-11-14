@@ -153,6 +153,8 @@ static const char kDefaultIni[] =
   "sphere_shine=1\r\n"
   "; flare_fix: lamp and lantern glows drawn in front of their lamp (from dagnyfix); 0 = the game's (they flicker behind it)\r\n"
   "flare_fix=1\r\n"
+  "; aura_size: actor auras drawn from a picture this big (256, 512, 1024, 2048, 4096); 256 = the game's (jagged)\r\n"
+  "aura_size=2048\r\n"
   "; step_exact: with frame_step, the game moves things by this frame's own time (the performance counter, kept within\r\n"
   ";   1 ms of the game's whole-millisecond time) instead of its average of the last 4 frames. Live both ways\r\n"
   "step_exact=0\r\n"
@@ -256,7 +258,8 @@ static SfConfig read_config(void) {
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
-  c.name_smooth = rd("name_smooth", 1) ? 1 : 0; c.sound_retry = rd("sound_retry", 1) ? 1 : 0; c.sphere_shine = rd("sphere_shine", 1) ? 1 : 0; c.flare_fix = rd("flare_fix", 1) ? 1 : 0;
+  c.name_smooth = rd("name_smooth", 1) ? 1 : 0; c.sound_retry = rd("sound_retry", 1) ? 1 : 0; c.sphere_shine = rd("sphere_shine", 1) ? 1 : 0; c.flare_fix = rd("flare_fix", 1) ? 1 : 0; c.aura_size = rd("aura_size", 2048);
+  if (c.aura_size != 256 && c.aura_size != 512 && c.aura_size != 1024 && c.aura_size != 2048 && c.aura_size != 4096) c.aura_size = 2048;
   c.step_exact = rd("step_exact", 0) ? 1 : 0; c.pace_adaptive = rd("pace_adaptive", 0) ? 1 : 0;
   c.pace_pct = rd("pace_pct", 90); if (c.pace_pct < 50 || c.pace_pct > 99) c.pace_pct = 90;
   c.shadow_fit = rd("shadow_fit", 1) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
@@ -1343,6 +1346,10 @@ extern "C" int sf_init(const XikitHost *host) {
     else LOG("speedfix: shadow_fit=1: simple shadows sized by each character's model (half-width %d%% of its footprint's diagonal)", sf_cfg.shadow_fit_scale);
   }
   if ((sf_cfg.skin_merge || sf_cfg.gpu_skin || sf_cfg.sphere_shine) && sf_fork_skinmerge(host) != XIKIT_OK) LOG("speedfix: SkinAndDrawV2 not forked: skin_merge, gpu_skin and sphere_shine do nothing");
+  if (sf_cfg.aura_size != 256) {
+    if (sf_fork_aura(host) != XIKIT_OK) LOG("speedfix: the aura capture functions not forked: aura_size does nothing");
+    else { xi_aura_size = (unsigned)sf_cfg.aura_size; LOG("speedfix: aura_size=%d: the aura's capture texture %dx%d (the game: 256), remade at the first frame", sf_cfg.aura_size, sf_cfg.aura_size, sf_cfg.aura_size); }
+  }
   if (sf_cfg.sphere_shine && sf_skinmerge_installed) LOG("speedfix: sphere_shine=1: sphere-mapped model parts drawn with the PS2's mapping and strength (SkinAndDrawV2's fork)");
   if (sf_cfg.gpu_skin && sf_skinmerge_installed) LOG("speedfix: gpu_skin: SkinAndDrawV2 runs speedfix's fork; a model's skinning is handed to d3d8on11 (D8ON11_Skin) where it takes it");
   if (sf_cfg.task_draws || sf_cfg.liminality) { if (sf_hook_dispatch(host) != XIKIT_OK) LOG("speedfix: CMoTask::Dispatch not hooked: task_draws does nothing"); }
@@ -1353,6 +1360,11 @@ extern "C" int sf_init(const XikitHost *host) {
 
 extern "C" void sf_frame(void) {
   static int n; static DWORD last_stats = GetTickCount();
+  // aura_size: the capture texture remade once the forks are in the game's code (the kit writes them at a Present)
+  { static int aura_done; if (xi_aura_size && sf_aura_installed && !aura_done && n >= 1) {
+      unsigned w = sf_aura_remake();
+      if (w == xi_aura_size || n >= 30) { aura_done = 1;
+        LOG("speedfix: aura_size: the aura's capture texture remade at frame %d: %ux%u%s", n + 1, w, w, w == xi_aura_size ? "" : " (not the size asked: the game's)"); } } }
   if (++n % 60 == 0) {                                 // the settings, when the file changed
     FILETIME t; ini_time(&t);
     if (CompareFileTime(&t, &g_ini_time)) {

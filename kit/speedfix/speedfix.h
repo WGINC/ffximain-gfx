@@ -51,6 +51,7 @@ struct SfConfig {
                             // the game's whole-ms time (fork/Frame_Render.fork.cpp, xi_exact_ticks); 0 the game's 4-frame average
   int pace_adaptive;        // (27 Nov) each frame held to the pace_pct percentile of the last 120 frames' own time (sf_device.cpp)
   int pace_pct;             // that percentile, 50-99 (90)
+  int aura_size;            // (14 Nov) the aura capture texture's size, 256 the game's (fork/Post_CreateScreenEffectTargets.fork.cpp; from SpectralFix via dagnyfix)
   int flare_fix;            // (14 Nov) lamp glows drawn 0.4 nearer along their local z (sf_device.cpp; from dagnyfix); 0 the game's
   int sphere_shine;         // (14 Nov) sphere-mapped batches at the PS2 mapping (fork/CYyModelDt__SkinAndDrawV2.fork.cpp); 0 the game's
   int sound_retry;          // (14 Nov) a looping sound refused a voice kept and asked again next update (sf_game.cpp); 0 the game deletes it
@@ -73,6 +74,9 @@ void sf_name_take(long *smooth, long *kept);       // shadow_fit: Shadow_DrawByM
 void sf_shadow_take(long *n, long *g, float *dmin, float *dmax, float *dsum);   // its counts since the last call
 void sf_shadow_branches(long *b);                // Shadow_DrawByMode's branches since the last call (sf_game.cpp)
 int  sf_fork_skinmerge(const XikitHost *host);   // XI_FORK of CYyModelDt::SkinAndDrawV2
+int  sf_fork_aura(const XikitHost *host);        // aura_size: XI_FORK of the aura capture texture's creation and capture
+unsigned sf_aura_remake(void);                   // the texture remade through the fork (early frames); its width now
+extern int sf_aura_installed; extern volatile unsigned xi_aura_size;
 int  sf_fork_framestep(const XikitHost *host);   // XI_FORK of Frame_Render and the two step getters (frame_step, uncap)
 extern volatile int sf_group_on;              // skin_merge=2: sf_device.cpp groups a model's draws
 extern volatile long sf_flare_n, sf_flare_unknown; extern void *sf_flare_site[8]; extern long sf_flare_site_n[8];   // flare_fix (sf_device.cpp)

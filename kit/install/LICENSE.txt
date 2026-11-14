@@ -20,13 +20,17 @@ Changes made to work this project is built on (GPL-3.0 section 5):
   device hooks, its changes to the game's code re-derived from the game's binary, and new settings added.
 - flare_fix (speedfix): ported from dagnyfix's flarefix v3.1 (Dellingr, GPL-3.0-only): the same draws matched by the
   same states; the glow moved by the world transform for the draw instead of a copy of its vertices.
+- aura_size (speedfix): the aura fix of dagnyfix (Dellingr, GPL-3.0-only), which ports Krauerlabs's SpectralFix,
+  made at its source instead: the game's aura capture texture created at a larger size and its capture drawn at that
+  size (two of the game's functions rewritten, see section 2), instead of enlarging it from outside and rewriting the
+  draws.
 - sphere_shine (speedfix): our own version of a technique from portfix (voetre, MIT licence: Copyright (c) 2026
   voetre), made in the game's own model drawing (SkinAndDrawV2's fork); portfix's measurements of the PS2 are its
   source.
 
 2. MATERIAL DERIVED FROM THE GAME: NOT COVERED BY THIS LICENSE
 
-The parts of speedfix.dll that replace functions of the game (its "forks": four functions) are reconstructed from
+The parts of speedfix.dll that replace functions of the game (its "forks": six functions) are reconstructed from
 the program code of FINAL FANTASY XI (FFXiMain.dll), (c) SQUARE ENIX CO., LTD. The xikit_manifest*.txt files
 describe where functions are located in that program and hold a fingerprint of each one's first bytes (not the bytes
 themselves), so that the software can check the game is the build it expects. No rights in any of this material

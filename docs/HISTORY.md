@@ -5703,6 +5703,22 @@ in the minutes precise_pacing was on: the fork's marked calls are answered in th
 - Installer: precise_pacing=1 (with pace_adaptive=1; step_exact stays 0: no effect measured on movement, and the
   camera is not in the frame log).
 
+## 14 Nov (thirty-second entry): the owner's 29 Nov run -- the camera measured; step_exact closed
+
+One start (cam), installed settings + step_exact, ab.bat: step_exact off/on, 8 phases of 30 s. The frame log's camera
+columns (cex..ctz) in the game: eye and target each frame. Reader kit/sessions/d12_29nov/read_ab.py. (ab.bat's own
+mark still says 'ab smooth'; ab.bat was run twice, 14 s apart: phase 1 is partly in the second mark.)
+- **Camera, per phase (change of the measure from one frame to the next, as a share of its mean):** eye speed off
+  24.7, 12.3%; on 22.0, 9.2, 11.2%. Turning rate (angle between consecutive view directions) off 12.6, 14.6%; on 12.7,
+  13.6, 12.5%. Phases 7 and 8: the camera did not move. The spread between phases of one label is larger than the
+  difference between labels: no effect of step_exact on the camera is measured. Character movement 11.4% off, 10.2% on
+  (per phase 8.6-12.6% either way). step_exact stays out of the installer.
+- **The owner's timer (sf_sleep_until, 'speedfix: waits'):** the largest oversleep per minute 1.48-7.96 ms; 1-17
+  sleeps a minute woke after their moment (0.14-2.11 ms late on average); the margin 1.12-2.70 ms. A fixed 1 ms margin
+  would have been passed in every minute logged.
+- The settings that measured best and are installed: pace_adaptive=1, precise_pacing=1, uncap=1 frame_step=3,
+  swap_buffers=3; no cap, no present_interval, step_exact 0.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

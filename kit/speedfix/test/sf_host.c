@@ -238,25 +238,6 @@ static int pacing_test(void) {
     int lo = (int)(a - *(DWORD *)(g_tim + 0xC)), hi = (int)(b - *(DWORD *)(g_tim + 0xC)); int ok = 0;
     for (int e = lo; e <= hi; e++) ok |= r == (float)(1000.0 / e) && *(float *)(g_tim + 4) == r;
     check(ok, "another caller of the timer's rate runs the game's function (1000 / whole ms since the lap, stored at +4)"); }
-  { /* (28 Nov) the fork of Frame_Render makes the game's three rate calls from speedfix.dll and says which
-       (xi_rate_site, fork/Frame_Render.fork.cpp): a call marked 3 sets the base, a call marked 1 then answers the
-       counter's ms since it (not whole ms); unmarked, from here, the game's function */
-    typedef float (__attribute__((thiscall)) *Rate)(void *);
-    volatile int *site = (volatile int *)GetProcAddress(GetModuleHandleA("speedfix.dll"), "xi_rate_site");
-    int frac = 0, close = 0, k;
-    frames(2);                                         /* (the frame through the hooks: precise_pacing's switch) */
-    for (k = 0; k < 5 && site; k++) {
-      *(int *)(g_tim + 0x1C) = 0;
-      *site = 3; ((Rate)vt[9])(g_tim); *site = 0; double t0 = qms();
-      Sleep(3 + k);
-      double t1 = qms(); *site = 1; float r = ((Rate)vt[9])(g_tim); *site = 0;
-      double ms = 1000.0 / r;
-      if (fabs(ms - floor(ms + 0.5)) > 0.001) frac++;
-      if (fabs(ms - (t1 - t0)) < 0.3) close++;
-    }
-    printf("    the fork's marked rate calls: %d of 5 answered in fractional ms, %d of 5 within 0.3 ms of the counter's time\n", frac, close);
-    check(site && frac >= 4 && close >= 4, "precise_pacing=1: the timer's rate called as the fork's site 1 after its site 3 answers the counter's ms between them, not whole ms");
-  }
   double mean, ticks, span, med;
   lim_frames(10, 1, &mean, &ticks, &span);           /* the counter's first base */
   med = lim_frames(240, 1, &mean, &ticks, &span);
@@ -275,6 +256,27 @@ static int pacing_test(void) {
   check(fabs(ticks - span * 0.06) < 1.0, "precise_pacing=0: the game's ticks still add up to the time (within a tick)");
   check(log_has("precise_pacing: ") && log_has(" frames timed by the counter"), "the statistics line counts the frames the counter timed");
   check(log_has("its tick count [+0x30] 1, its timer's scale [+8] 1.0000"), "... and names the limiter's tick count and its timer's scale (this host's: 1, 1.0)");
+  /* (after the limiter's checks: these calls move precise_pacing's base outside the frame's own order) */
+  { /* (28 Nov) the fork of Frame_Render makes the game's three rate calls from speedfix.dll and says which
+       (xi_rate_site, fork/Frame_Render.fork.cpp): a call marked 3 sets the base, a call marked 1 then answers the
+       counter's ms since it (not whole ms); unmarked, from here, the game's function */
+    typedef float (__attribute__((thiscall)) *Rate)(void *);
+    volatile int *site = (volatile int *)GetProcAddress(GetModuleHandleA("speedfix.dll"), "xi_rate_site");
+    int frac = 0, close = 0, k; int32_t paused = *(int32_t *)(g_tim + 0x1C);
+    touch("speedfix.ini", "[speedfix]\nprecise_pacing=1\nstats_every=1\n"); frames(70);   /* (on again; a frame through the hooks) */
+    for (k = 0; k < 5 && site; k++) {
+      *(int *)(g_tim + 0x1C) = 0;
+      *site = 3; ((Rate)vt[9])(g_tim); *site = 0; double t0 = qms();
+      Sleep(3 + k);
+      double t1 = qms(); *site = 1; float r = ((Rate)vt[9])(g_tim); *site = 0;
+      double ms = 1000.0 / r;
+      if (fabs(ms - floor(ms + 0.5)) > 0.001) frac++;
+      if (fabs(ms - (t1 - t0)) < 0.3) close++;
+    }
+    *(int32_t *)(g_tim + 0x1C) = paused;
+    printf("    the fork's marked rate calls: %d of 5 answered in fractional ms, %d of 5 within 0.3 ms of the counter's time\n", frac, close);
+    check(site && frac >= 4 && close >= 4, "precise_pacing=1: the timer's rate called as the fork's site 1 after its site 3 answers the counter's ms between them, not whole ms");
+  }
   { /* pace_adaptive (27 Nov): frames whose own work takes 2 to 7 ms (a Sleep of 2 + (7i mod 6)); without it, the
        intervals between Presents follow the work; with it (pace_pct 90, changed while running), each frame is held to
        the 90th percentile of the last 120 frames' own times: the intervals' spread falls and their median comes near

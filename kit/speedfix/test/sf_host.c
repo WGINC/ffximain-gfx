@@ -267,15 +267,19 @@ static int pacing_test(void) {
       double prev = qms();
       for (int i = 0; i < 200; i++) { begin(); end(); Sleep(2 + (7 * i) % 6); present(); double t = qms(); iv[on][nn[on]++] = t - prev; prev = t; }
     }
-    double m[2], sd[2], med[2];
+    double m[2], sd[2], med[2]; int nearmed[2];
     for (int on = 0; on < 2; on++) {
       double s = 0, s2 = 0, tmp[200]; for (int i = 0; i < nn[on]; i++) { s += iv[on][i]; s2 += iv[on][i] * iv[on][i]; tmp[i] = iv[on][i]; }
       m[on] = s / nn[on]; sd[on] = sqrt(s2 / nn[on] - m[on] * m[on]);
       for (int i = 1; i < nn[on]; i++) for (int j = i; j > 0 && tmp[j - 1] > tmp[j]; j--) { double x = tmp[j]; tmp[j] = tmp[j - 1]; tmp[j - 1] = x; }
       med[on] = tmp[nn[on] / 2];
+      nearmed[on] = 0; for (int i = 0; i < nn[on]; i++) nearmed[on] += fabs(iv[on][i] - med[on]) <= 0.5;
     }
-    printf("    pace_adaptive: off: intervals mean %.2f ms, sd %.2f, median %.2f; on: mean %.2f, sd %.2f, median %.2f\n", m[0], sd[0], med[0], m[1], sd[1], med[1]);
-    check(sd[1] < sd[0] * 0.5, "pace_adaptive=1: the intervals between Presents spread less than half as much as without it");
+    printf("    pace_adaptive: off: intervals mean %.2f ms, sd %.2f, median %.2f, %d of %d within 0.5 ms of it; on: mean %.2f, sd %.2f, median %.2f, %d of %d within 0.5 ms\n",
+           m[0], sd[0], med[0], nearmed[0], nn[0], m[1], sd[1], med[1], nearmed[1], nn[1]);
+    /* what the pacer does: a frame done before the aim is let go at the aim, so most intervals sit at one value (those
+       over the aim, about 1 in 10 at pace_pct 90, go at their own time) */
+    check(nearmed[1] >= nn[1] * 3 / 4 && nearmed[1] > 2 * nearmed[0], "pace_adaptive=1: three in four intervals between Presents or more within 0.5 ms of their median, over twice as many as without it");
     check(m[1] >= m[0] && m[1] < m[0] * 1.6, "pace_adaptive=1: the frame rate falls to the 90th percentile's, not further (mean interval under 1.6 times)");
     Sleep(1100); for (int i = 0; i < 70; i++) { begin(); end(); present(); }   /* (stats_every=1: the next statistics line) */
     check(log_has("speedfix: pace_adaptive: ") && log_has(" frames paced, the interval aimed at "), "pace_adaptive: the statistics line says how many frames it paced and the interval it aimed at");

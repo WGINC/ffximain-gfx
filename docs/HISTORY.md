@@ -5676,8 +5676,14 @@ of everything frame-wise".
   since its restart the median comes out at one of two values, run alone, with the speedfix before the marking and
   the one after alike: before 16.675, 16.721, 16.675; after 16.714, 16.674, 16.734 (the game's ticks add up to the
   counter's time in every run). Earlier the same day the build before the step_exact change measured 16.672-16.676
-  in three runs. Why the second value appears is not known. Under uncap the wait does not run (its floor is 0). The
-  suites' remaining failure on both builds is this check.
+  in three runs. Under uncap the wait does not run (its floor is 0).
+- **Found the same day:** not two values: four runs of the check gave 16.678-16.810 ms, every wait precise (none
+  late at its start). The high-resolution waitable timer under Wine here (a test program, tt.c): a 15.667 ms wait
+  overslept 0.886 and 0.879 ms at the median, over 1 ms in 43 and 24 of 200, up to 6.5 ms; the wait spun only its
+  last 1 ms. sf_sleep_until (sf_device.cpp) now keeps the largest oversleep of the last 64 sleeps plus 0.25 ms as the
+  margin (1-4 ms), for precise_pacing's wait and pace_adaptive's, and logs it ('speedfix: waits:'). Four runs:
+  16.672-16.673 ms. Suites: test_framestep ALL OK; test_speedfix ALL OK on both builds (the limiter 16.672 ms;
+  pace_adaptive 189 and 191 of 200 intervals within 0.5 ms of their median, sd 0.56 and 0.53, before 0.84-0.89).
 - Installer speedfix.ini: pace_adaptive=1 (no cap). The 28 Nov session: precise_pacing, step_exact, both, A/B.
 
 ## 11 Nov: README sections retired (kept here word for word)

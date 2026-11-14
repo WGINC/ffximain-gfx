@@ -238,6 +238,25 @@ static int pacing_test(void) {
     int lo = (int)(a - *(DWORD *)(g_tim + 0xC)), hi = (int)(b - *(DWORD *)(g_tim + 0xC)); int ok = 0;
     for (int e = lo; e <= hi; e++) ok |= r == (float)(1000.0 / e) && *(float *)(g_tim + 4) == r;
     check(ok, "another caller of the timer's rate runs the game's function (1000 / whole ms since the lap, stored at +4)"); }
+  { /* (28 Nov) the fork of Frame_Render makes the game's three rate calls from speedfix.dll and says which
+       (xi_rate_site, fork/Frame_Render.fork.cpp): a call marked 3 sets the base, a call marked 1 then answers the
+       counter's ms since it (not whole ms); unmarked, from here, the game's function */
+    typedef float (__attribute__((thiscall)) *Rate)(void *);
+    volatile int *site = (volatile int *)GetProcAddress(GetModuleHandleA("speedfix.dll"), "xi_rate_site");
+    int frac = 0, near = 0, k;
+    frames(2);                                         /* (the frame through the hooks: precise_pacing's switch) */
+    for (k = 0; k < 5 && site; k++) {
+      *(int *)(g_tim + 0x1C) = 0;
+      *site = 3; ((Rate)vt[9])(g_tim); *site = 0; double t0 = qms();
+      Sleep(3 + k);
+      double t1 = qms(); *site = 1; float r = ((Rate)vt[9])(g_tim); *site = 0;
+      double ms = 1000.0 / r;
+      if (fabs(ms - floor(ms + 0.5)) > 0.001) frac++;
+      if (fabs(ms - (t1 - t0)) < 0.3) near++;
+    }
+    printf("    the fork's marked rate calls: %d of 5 answered in fractional ms, %d of 5 within 0.3 ms of the counter's time\n", frac, near);
+    check(site && frac >= 4 && near >= 4, "precise_pacing=1: the timer's rate called as the fork's site 1 after its site 3 answers the counter's ms between them, not whole ms");
+  }
   double mean, ticks, span, med;
   lim_frames(10, 1, &mean, &ticks, &span);           /* the counter's first base */
   med = lim_frames(240, 1, &mean, &ticks, &span);

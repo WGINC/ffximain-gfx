@@ -412,7 +412,9 @@ extern "C" void __cdecl sf_wait(uint8_t *obj, DWORD ms) {
 // thiscall, the timer in ECX: the limiter's three calls (by their return address) to sf_rate, every other to the game's
 asm(".text\n.globl _sf_rate_thunk\n_sf_rate_thunk:\n"
     "  movl (%esp), %eax\n  cmpl _sf_pp_ret, %eax\n  je 1f\n  cmpl _sf_pp_ret+4, %eax\n  je 1f\n  cmpl _sf_pp_ret+8, %eax\n  je 1f\n"
-    "  jmp *_sf_pp_rate_orig\n"
+    // (28 Nov) the fork of Frame_Render makes the same three calls and says which (xi_rate_site 1-3): as the game's
+    "  movl _xi_rate_site, %eax\n  testl %eax, %eax\n  jz 2f\n  cmpl $3, %eax\n  ja 2f\n  movl _sf_pp_ret-4(,%eax,4), %eax\n  jmp 1f\n"
+    "2:\n  jmp *_sf_pp_rate_orig\n"
     "1:\n  pushl %eax\n  pushl %ecx\n  call _sf_rate\n  addl $8, %esp\n  ret\n");
 // in place of Sleep (stdcall, one argument), called with the limiter object in ESI
 asm(".text\n.globl _sf_wait_thunk\n_sf_wait_thunk:\n"

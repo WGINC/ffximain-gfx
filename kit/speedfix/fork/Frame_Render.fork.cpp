@@ -44,6 +44,21 @@ static inline int xi_floor(void *self_) { return xi_uncap != 0 ? 0 : *((int *)se
 // the counter's longer time. The first call, a scale that is not positive, or a counter gap of over a second: the
 // game's average as before.
 extern "C" { __declspec(dllexport) volatile int xi_step_exact; __declspec(dllexport) double xi_step_exact_last; }
+// precise_pacing under uncap (28 Nov): the game's three calls of its timer's rate in the frame wait are answered from
+// the performance counter by sf_rate_thunk (sf_main.cpp), which knows them by their return addresses in the game
+// (0x10012B2B, 0x10012B94, 0x10012BCE). This fork makes the same three calls from speedfix.dll, so it says which one it
+// is making: xi_rate_site 1, 2, 3 just before each, 0 after (speedfix's own memory, not the game's). The owner's 27 Nov
+// frame log: the character moves by exactly this frame's time from the first of them ([this+0x2C], whole ms: 0.1-0.7%
+// off proportional), so whole ms there is a step of up to +-14% at 7 ms frames.
+extern "C" { __declspec(dllexport) volatile int xi_rate_site; }
+// the timer's rate (its vtable slot 0x24) called as one of the three: the value as the call returns it
+static double xi_rate_at(int site, void *t)
+{
+  xi_rate_site = site;
+  double r = ((double (__thiscall *)(void *))(*(void ***)t)[9])(t);
+  xi_rate_site = 0;
+  return r;
+}
 // (the counter is read by speedfix's own code, sf_main.cpp sf_qpc: a Windows call written here would go through the
 // game's import table, as the reconstruction's calls do, which the test host does not bind.)
 // It is handed over as a pointer (sf_main.cpp sets it at the start), so the fork also links alone, as fork.py's gate
@@ -732,7 +747,9 @@ LABEL_102:
     v35 = ((double (__thiscall *)(int *))*(_DWORD *)(*(_DWORD *)a4 + 48))(v34);
     v36 = *v34;
     *(float *)&a4 = v35;
+    xi_rate_site = 1;                          // (the game's 0x10012B28: see xi_rate_site)
     v37 = ((double (__thiscall *)(int *))*(_DWORD *)(v36 + 36))(v34);
+    xi_rate_site = 0;
     g_frameStepFps = v37 * *(float *)&a4;
     v38 = 60.0 / g_frameStepFps;
     *((float *)self_ + 11) = v38;
@@ -755,7 +772,9 @@ LABEL_102:
       v45 = ((double (__thiscall *)(int *))*(_DWORD *)(*(_DWORD *)a4 + 48))(v44);
       v46 = *v44;
       *(float *)&a4 = v45;
+      xi_rate_site = 2;                        // (0x10012B91)
       v47 = ((double (__thiscall *)(int *))*(_DWORD *)(v46 + 36))(v44);
+      xi_rate_site = 0;
       g_frameStepFps = v47 * *(float *)&a4;
       v48 = 60.0 / g_frameStepFps;
       *((float *)self_ + 11) = v48;
@@ -768,7 +787,7 @@ LABEL_102:
     }
     while ( ((__int16)(((v51 || xi_fpu_unord) ? 0x100 : 0) | ((xi_fpu_unord) ? 0x400 : 0) | ((v53 || xi_fpu_unord) ? 0x4000 : 0)) & 0x4100) == 0 );
   }
-  v54 = 60.0 / ((double (__thiscall *)(_DWORD))*(_DWORD *)(**((_DWORD **)self_ + 7) + 36))(*((_DWORD *)self_ + 7))
+  v54 = 60.0 / xi_rate_at(3, *((void **)self_ + 7))   // (0x10012BCB; the game's expression otherwise)
       + *((float *)self_ + 15);
   v55 = *((_DWORD *)self_ + 7);
   a4 = (__int64)v54;

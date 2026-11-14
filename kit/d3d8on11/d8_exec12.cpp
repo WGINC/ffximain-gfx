@@ -1173,6 +1173,21 @@ bool Exec12::filter_checks() {
 }
 
 // ---- a draw --------------------------------------------------------------------------------------------------------------
+
+// (14 Nov) the key caches in front of vsh, psh and psos (d8_exec12.h, KCache): a 64-bit hash of the key's bytes, eight
+// at a time; a hit still compares the whole key
+static inline uint64_t key_hash(const void *p, size_t n) {
+  const uint8_t *b = (const uint8_t *)p; uint64_t h = 0x9E3779B97F4A7C15ull ^ n;
+  for (; n >= 8; n -= 8, b += 8) { uint64_t w; memcpy(&w, b, 8); h = (h ^ w) * 0xFF51AFD7ED558CCDull; h ^= h >> 32; }
+  if (n) { uint64_t w = 0; memcpy(&w, b, n); h = (h ^ w) * 0xFF51AFD7ED558CCDull; h ^= h >> 32; }
+  return h | 1;
+}
+template <class C> static inline typename C::E *kc_find(C &c, const void *key, size_t n, uint64_t h) {
+  auto &e = c.e[(h >> 7) & 1023];
+  return e.h == h && e.k && e.k->size() == n && !memcmp(e.k->data(), key, n) ? &e : nullptr;
+}
+template <class C, class V> static inline void kc_put(C &c, uint64_t h, const std::string *k, V v) { auto &e = c.e[(h >> 7) & 1023]; e.h = h; e.k = k; e.v = v; }
+
 void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   if (!compile) return;
   // (14 Nov) the stages' times of a sampled draw (prof_cur, set by run()); counted only when it reaches its draw call
@@ -1188,6 +1203,9 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   VSh *Vp = nullptr; PSh *Pp = nullptr;
   if (memo.vk_ok && !memcmp(&memo.vk, &d.vk, sizeof d.vk)) Vp = memo.v;
   if (memo.pk_ok && !memcmp(&memo.pk, &d.pk, sizeof d.pk)) Pp = memo.p;
+  uint64_t vkh = 0, pkh = 0;
+  if (!Vp) { vkh = key_hash(&d.vk, sizeof d.vk); if (auto *e = kc_find(vs_kc, &d.vk, sizeof d.vk, vkh)) { Vp = e->v; c_kc_hit++; memo.vk = d.vk; memo.v = Vp; memo.vk_ok = true; } else c_kc_miss++; }
+  if (!Pp) { pkh = key_hash(&d.pk, sizeof d.pk); if (auto *e = kc_find(ps_kc, &d.pk, sizeof d.pk, pkh)) { Pp = e->v; c_kc_hit++; memo.pk = d.pk; memo.p = Pp; memo.pk_ok = true; } else c_kc_miss++; }
   std::string vks, pks;
   if (!Vp) vks.assign((const char *)&d.vk, sizeof d.vk);
   if (!Pp) pks.assign((const char *)&d.pk, sizeof d.pk);
@@ -1210,7 +1228,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     vi = vsh.emplace(vks, std::move(v)).first;
   }
   if (!Vp) {
-    Vp = &vi->second; memo.vk = d.vk; memo.v = Vp; memo.vk_ok = true;
+    Vp = &vi->second; memo.vk = d.vk; memo.v = Vp; memo.vk_ok = true; kc_put(vs_kc, vkh, &vi->first, Vp);
     if (!Vp->h && Vp->code) {                                  // the code's and the input layout's hash (the pipeline library's names)
       uint64_t h = fnv64(Vp->code->GetBufferPointer(), Vp->code->GetBufferSize());
       for (auto &e : Vp->il) { h = fnv64(e.SemanticName, strlen(e.SemanticName), h); h = fnv64(&e.SemanticIndex, sizeof(UINT) * 4, h); h = fnv64(&e.Format, sizeof e.Format, h); }
@@ -1220,7 +1238,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   if (!Pp) {
     auto pi = psh.find(pks);
     if (pi == psh.end()) { PSh s; s.id = (uint32_t)psh.size() + 1; s.code = compile_hlsl(gen_ps(d.pk), "main", PS_T()); pi = psh.emplace(pks, s).first; }
-    Pp = &pi->second; memo.pk = d.pk; memo.p = Pp; memo.pk_ok = true;
+    Pp = &pi->second; memo.pk = d.pk; memo.p = Pp; memo.pk_ok = true; kc_put(ps_kc, pkh, &pi->first, Pp);
     if (!Pp->h && Pp->code) Pp->h = fnv64(Pp->code->GetBufferPointer(), Pp->code->GetBufferSize()) | 1;
   }
   VSh &V = *Vp; PSh &P = *Pp;
@@ -1376,11 +1394,15 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   memset(&k, 0, sizeof k);
   k.vs = V.id; k.ps = P.id; k.b = d.blend; k.ds = d.depth; k.r = d.raster; k.tt = topo_type(d.topology); k.rtf = rt_fmt; k.dsf = ds_fmt; k.nrt = has_rtv;
   ID3D12PipelineState *pso;
+  uint64_t kh = 0; decltype(pso_kc)::E *pe = nullptr;
   if (memo.pso_ok && !memcmp(&memo.pkey, &k, sizeof k)) pso = memo.pso;
-  else {
+  else if (kh = key_hash(&k, sizeof k), (pe = kc_find(pso_kc, &k, sizeof k, kh)) != nullptr) {
+    pso = pe->v; c_kc_hit++; memcpy(memo.pkey, &k, sizeof k); memo.pso = pso; memo.pso_ok = true;
+  } else {
+  c_kc_miss++;
   std::string pk((const char *)&k, sizeof k);
   auto pit = psos.find(pk);
-  if (pit != psos.end()) pso = pit->second;
+  if (pit != psos.end()) { pso = pit->second; kc_put(pso_kc, kh, &pit->first, pso); }
   else {
     D3D12_GRAPHICS_PIPELINE_STATE_DESC g = {};
     g.pRootSignature = rs; g.VS = {V.code->GetBufferPointer(), V.code->GetBufferSize()}; g.PS = {P.code->GetBufferPointer(), P.code->GetBufferSize()};
@@ -1390,7 +1412,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     if (has_rtv) g.RTVFormats[0] = rt_fmt;
     g.DSVFormat = has_dsv ? ds_fmt : DXGI_FORMAT_UNKNOWN; g.SampleDesc.Count = 1;
     pso = make_pso(g, V.h, P.h);
-    psos[pk] = pso; pso_made++;
+    auto ins = psos.emplace(pk, pso).first; pso_made++; kc_put(pso_kc, kh, &ins->first, pso);
     if (pso_made == 256 || pso_made == 1024 || pso_made == 4096) d8_log("D3D12: %llu pipeline states made so far", (unsigned long long)pso_made);
   }
   memcpy(memo.pkey, &k, sizeof k); memo.pso = pso; memo.pso_ok = true;
@@ -1411,7 +1433,8 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
       parts[np++] = {(uint16_t)offsetof(VSConst, ambient), (uint16_t)(offsetof(VSConst, ldiff) - offsetof(VSConst, ambient))}; need |= 1u << 9;
       static const uint16_t larr[7] = {(uint16_t)offsetof(VSConst, ldiff), (uint16_t)offsetof(VSConst, lspec), (uint16_t)offsetof(VSConst, lamb),
         (uint16_t)offsetof(VSConst, lpos), (uint16_t)offsetof(VSConst, ldir), (uint16_t)offsetof(VSConst, latt), (uint16_t)offsetof(VSConst, lspot)};
-      for (int i = 0; i < d.vk.nlights && i < 8; i++) { for (int a = 0; a < 7; a++) parts[np++] = {(uint16_t)(larr[a] + 16 * i), 16}; need |= 1u << (10 + i); }
+      int nl = d.vk.nlights < 8 ? d.vk.nlights : 8;        // (each light array [8][4] is contiguous: lights 0..nl-1 are one part)
+      if (nl > 0) { for (int a = 0; a < 7; a++) parts[np++] = {larr[a], (uint16_t)(16 * nl)}; need |= ((1u << nl) - 1) << 10; }
     }
     if (d.vk.vfog) { parts[np++] = {(uint16_t)offsetof(VSConst, fog), 16}; need |= 1u << 18; }
     bool same = last_c_epoch == submits && (need & ~vc_have) == 0;
@@ -1862,12 +1885,13 @@ void Exec12::present() {
       double c0 = qpc12(); for (int i = 0; i < 256; i++) (void)qpc12(); double mark_us = 1000.0 * (qpc12() - c0) / 257;
       d8_log("D3D12 draw time, %u frames (1 record in 32 sampled): a draw record's handling %.2f us (%llu sampled); in draw() %.2f us: %s us "
              "(%llu sampled; each stage includes one timer mark, %.3f us); waits for the GPU inside draws %.3f ms a frame (%llu waits); "
-             "texture tables a frame: %.1f made, %.1f reused (made earlier in the same submission); vertex constant blocks a frame: %.1f, %.0f bytes written each",
+             "texture tables a frame: %.1f made, %.1f reused (made earlier in the same submission); vertex constant blocks a frame: %.1f, %.0f bytes written each; "
+             "shader and pipeline keys a frame (the last draw's differed): %.1f found by the key cache, %.1f looked up in the maps",
              c_frames, 1000.0 * prof_run_ms / prof_run_n, (unsigned long long)prof_run_n, sum, line, (unsigned long long)prof_n, mark_us,
-             prof_wait_ms / f, (unsigned long long)prof_wait_n, c_srv_made / f, c_srv_cached / f, c_vc_blocks / f, c_vc_blocks ? (double)c_vc_bytes / c_vc_blocks : 0.0);
+             prof_wait_ms / f, (unsigned long long)prof_wait_n, c_srv_made / f, c_srv_cached / f, c_vc_blocks / f, c_vc_blocks ? (double)c_vc_bytes / c_vc_blocks : 0.0, c_kc_hit / f, c_kc_miss / f);
     }
     prof_run_ms = prof_wait_ms = 0; prof_run_n = prof_n = prof_wait_n = 0; for (double &x : prof_st) x = 0;
-    c_srv_made = c_srv_cached = c_vc_blocks = c_vc_bytes = 0;
+    c_srv_made = c_srv_cached = c_vc_blocks = c_vc_bytes = c_kc_hit = c_kc_miss = 0;
     if (merge_on) d8_log("draw_merge (D3D12), %u frames: %.1f merged draws a frame took in %.1f others; %.3f MB copied to the slots a frame; %llu times the slots started again",
                          c_frames, mg_runs / f, mg_saved / f, mg_bytes / f / 1048576.0, (unsigned long long)mg_wraps);
     mg_runs = mg_saved = mg_bytes = 0;

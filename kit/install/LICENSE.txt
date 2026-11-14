@@ -23,9 +23,10 @@ OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 
 2. MATERIAL DERIVED FROM THE GAME: NOT COVERED BY THIS LICENSE
 
-gfx_recon_ingame.dll, and the parts of speedfix.dll that replace functions of the game (its "forks"), are
-reconstructed from the program code of FINAL FANTASY XI (FFXiMain.dll), (c) SQUARE ENIX CO., LTD. The
-xikit_manifest*.txt files describe where functions are located in that program. No rights in any of this material
+The parts of speedfix.dll that replace functions of the game (its "forks": four functions) are reconstructed from
+the program code of FINAL FANTASY XI (FFXiMain.dll), (c) SQUARE ENIX CO., LTD. The xikit_manifest*.txt files
+describe where functions are located in that program and hold a fingerprint of each one's first bytes (not the bytes
+themselves), so that the software can check the game is the build it expects. No rights in any of this material
 are granted by this licence or by anyone involved in this project. It is provided only so that the Original Work can
 operate with a copy of the game that its user has obtained and uses lawfully.
 

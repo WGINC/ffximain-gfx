@@ -26,6 +26,8 @@ rem (wildcards unquoted, from inside the folder: some cmd versions do not expand
 pushd "%SRC%"
 for %%f in (*.dll *.exe *.txt) do copy /y "%%f" "%DST%\" >nul
 popd
+rem (an older gobbiefix put the reconstruction DLL here; this one runs without it)
+if exist "%DST%\gfx_recon_ingame.dll" del /q "%DST%\gfx_recon_ingame.dll"
 echo  Shkohhh... gobbie stuff in the shinybits.
 for %%f in (d3d8on11.ini speedfix.ini xikit.ini) do if exist "%DST%\%%f" if not exist "%DST%\%%f.before_gobbiefix" copy /y "%DST%\%%f" "%DST%\%%f.before_gobbiefix" >nul
 for %%f in (d3d8on11.ini speedfix.ini xikit.ini) do copy /y "%SRC%\%%f" "%DST%\" >nul

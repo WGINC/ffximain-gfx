@@ -61,6 +61,7 @@ typedef struct {
   int flags;                           /* 1 SEH, 2 speedfix site, 4 untested, 8 register input (no mod hook), 16 render path */
   char exp[256], name[96];
   uint8_t expect[20];                  /* analysed bytes, entry-4 .. entry+16 */
+  int hashed; uint64_t ehash;          /* (14 Nov) a public manifest: only the bytes' fingerprint (bytes_hash), not the bytes */
   int nrel; int8_t rel[8];             /* relocated dwords touching that window (offsets -3..19) */
   uint8_t *site;                       /* live entry */
   void *target;                        /* the reconstruction's export */
@@ -398,11 +399,15 @@ static int load_manifest(const char *path) {
     if (g_nfn >= MAXFN) { klog("manifest: more than %d functions; the rest are left out (MAXFN)", MAXFN); break; }
     Fn *f = &g_fn[g_nfn]; memset(f, 0, sizeof *f);
     char hex[64], rels[64]; unsigned rva;
-    if (sscanf(line, "%x %d %255s %63s %63s %95s", &rva, &f->flags, f->exp, hex, rels, f->name) != 6 || strlen(hex) != 40) {
+    if (sscanf(line, "%x %d %255s %63s %63s %95s", &rva, &f->flags, f->exp, hex, rels, f->name) != 6
+        || (strlen(hex) != 40 && !(strlen(hex) == 17 && hex[0] == 'H'))) {
       klog("manifest: bad line ignored: %.80s", line); continue;
     }
     f->rva = rva;
-    for (int i = 0; i < 20; i++) f->expect[i] = (uint8_t)(hexval(hex[2 * i]) << 4 | hexval(hex[2 * i + 1]));
+    if (hex[0] == 'H') {                            /* H + 16 hex digits: the fingerprint of the 20 bytes (bytes_hash) */
+      f->hashed = 1; f->ehash = 0;
+      for (int i = 1; i < 17; i++) f->ehash = f->ehash << 4 | (uint64_t)hexval(hex[i]);
+    } else for (int i = 0; i < 20; i++) f->expect[i] = (uint8_t)(hexval(hex[2 * i]) << 4 | hexval(hex[2 * i + 1]));
     if (strcmp(rels, "-")) for (char *p = rels; *p && f->nrel < 8;) { f->rel[f->nrel++] = (int8_t)strtol(p, &p, 10); if (*p == ',') p++; }
     char *t = strstr(line, " T=");                  /* (a manifest from before the SDK has none: no trampolines) */
     if (t && t[3] >= '0' && t[3] <= '9') {
@@ -428,8 +433,15 @@ static uint32_t crc32_file(const char *path, uint32_t *size) {
 }
 
 /* ------------------------------------------------------------------------------------------------ checks */
+/* (14 Nov) the fingerprint a public manifest holds instead of the bytes: FNV-1a 64 over the 20 bytes, the ones not
+   compared set to 0 (kit/install/public_manifest.py makes it the same way from the analysed bytes) */
+static uint64_t bytes_hash(const uint8_t *b, const uint8_t *care) {
+  uint64_t h = 0xCBF29CE484222325ull;
+  for (int i = 0; i < 20; i++) { h ^= care[i] ? b[i] : 0; h *= 0x100000001B3ull; }
+  return h;
+}
 /* the live 20-byte window, relocations undone, against the analysed bytes; returns -1 if equal, else the
-   first differing offset (relative to the entry) */
+   first differing offset (relative to the entry); with a fingerprint only, 99 (it differs, where is not known) */
 static int check_bytes(const Fn *f) {
   uint8_t live[20], care[20];
   memcpy(live, f->site - 4, 20); memset(care, 1, 20);
@@ -438,6 +450,7 @@ static int check_bytes(const Fn *f) {
     if (p >= 0 && p + 4 <= 20) { uint32_t v; memcpy(&v, live + p, 4); v -= g_rel; memcpy(live + p, &v, 4); }
     else for (int k = 0; k < 4; k++) if (p + k >= 0 && p + k < 20) care[p + k] = 0;   /* straddles the window: not compared */
   }
+  if (f->hashed) return bytes_hash(live, care) == f->ehash ? -1 : 99;
   for (int i = 0; i < 20; i++) if (care[i] && live[i] != f->expect[i]) return i - 4;
   return -1;
 }
@@ -2168,7 +2181,11 @@ static DWORD WINAPI start(LPVOID self) {
   }
   snprintf(recon, sizeof recon, "%s\\gfx_recon_ingame.dll", g_dir);
   uint32_t size = 0, crc = crc32_file(recon, &size);
-  if (!size || size != g_recon_size || crc != g_recon_crc) {
+  /* (14 Nov) no reconstruction DLL and swap=0 (the public kit, kit/install): the mods' hooks run on the game's own code
+     (their trampolines); nothing can be swapped in. With swap=1 the reconstruction is needed, as before */
+  int no_recon = !size && GetFileAttributesA(recon) == INVALID_FILE_ATTRIBUTES && !g_cfg.swap;
+  if (no_recon) klog("no gfx_recon_ingame.dll and swap=0: nothing is swapped in; mods' hooks run on the game's own code");
+  else if (!size || size != g_recon_size || crc != g_recon_crc) {
     klog("gfx_recon_ingame.dll is not the one the manifest was made from (size %u, CRC-32 %08X; manifest %u, %08X): nothing done",
          size, crc, g_recon_size, g_recon_crc);
     return 0;
@@ -2179,10 +2196,11 @@ static DWORD WINAPI start(LPVOID self) {
   }
   g_rel = (uint32_t)(uintptr_t)game - ANALYSED_BASE;
   g_game_lo = (uint32_t)(uintptr_t)game; g_game_hi = g_game_lo + nt->OptionalHeader.SizeOfImage;
-  HMODULE rec = LoadLibraryA(recon);
-  if (!rec) { klog("could not load %s (error %lu): nothing done", recon, GetLastError()); return 0; }
+  HMODULE rec = no_recon ? NULL : LoadLibraryA(recon);
+  if (!rec && !no_recon) { klog("could not load %s (error %lu): nothing done", recon, GetLastError()); return 0; }
   HMODULE pin;
   GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_PIN | GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCSTR)start, &pin);
+  if (rec) {
   GetModuleHandleExA(GET_MODULE_HANDLE_EX_FLAG_PIN, recon, &pin);
   uintptr_t *xi_rel = (uintptr_t *)GetProcAddress(rec, "xi_rel");
   if (!xi_rel) { klog("the reconstruction DLL exports no xi_rel (not the XI_INGAME build): nothing done"); return 0; }
@@ -2192,12 +2210,13 @@ static DWORD WINAPI start(LPVOID self) {
   else if (g_shift[0]) { klog("the reconstruction DLL exports no xi_shift (built before build translation): nothing done on this build"); return 0; }
   IMAGE_NT_HEADERS *rnt = (IMAGE_NT_HEADERS *)((char *)rec + ((IMAGE_DOS_HEADER *)rec)->e_lfanew);
   g_recon_lo = (uint32_t)(uintptr_t)rec; g_recon_hi = g_recon_lo + rnt->OptionalHeader.SizeOfImage;
+  }
   g_speedfix_loaded = GetModuleHandleA("speedfix_hook.dll") != NULL;
   int missing = 0;
   for (int i = 0; i < g_nfn; i++) {
     Fn *f = &g_fn[i];
     f->site = (uint8_t *)(uintptr_t)live_of(f->rva + ANALYSED_BASE);
-    f->target = (void *)GetProcAddress(rec, f->exp);
+    f->target = rec ? (void *)GetProcAddress(rec, f->exp) : NULL;
     if (!f->target) { missing++; f->refused = 1; }
     g_by_target[i] = f;
   }

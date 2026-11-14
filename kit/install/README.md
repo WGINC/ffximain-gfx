@@ -112,8 +112,10 @@ where it happened) and `xikit.log`. Something wrong? Turn debug on, play until i
 - On a Mac with Parallels, gobbie measured with a slowmotion phone that some frames Windows show never reach the Mac's
   screen (lost after Windows hand them over). That is outside the game: gobbie cannot fixit from inside. Setting the
   Mac's screen to a fixed 60 Hz instead of ProMotion no fixit either.
-- Gobbiefiles: `d3d8.dll`, `d8x.exe`, `d8x_arm64.exe` (the renderer), `xikit.dll` and `gfx_recon_ingame.dll` (the kit),
-  `speedfix.dll`, and the `xikit_manifest*.txt` files (where things is in each gamebuild gobbie know).
+- Gobbiefiles: `d3d8.dll`, `d8x.exe`, `d8x_arm64.exe` (the renderer), `xikit.dll` (the kit),
+  `speedfix.dll`, and the `xikit_manifest*.txt` files (where things is in each gamebuild gobbie know, and a
+  sniffprint of each place so gobbie can check it is the build gobbie know; no game code in them). An older
+  gobbiefix also put `gfx_recon_ingame.dll` there: install.bat take it away, this one no need it.
 
 ## Legalstuff
 

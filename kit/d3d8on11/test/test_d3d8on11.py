@@ -713,7 +713,8 @@ if 'thread' in MODES:
     # (14 Nov) the texture tables reused within a submission, and the vertex constants written only as the shader reads them
     # (a block holds at most the whole VSConst, 1808 bytes)
     tc = re.search(r'texture tables a frame: ([0-9.]+) made, ([0-9.]+) reused \(made earlier in the same submission\); '
-                   r'vertex constant blocks a frame: ([0-9.]+), ([0-9]+) bytes written each', got_logs[0])
+                   r'vertex constant blocks a frame: ([0-9.]+), ([0-9]+) bytes written each; '
+                   r'shader and pipeline keys a frame \(the last draw\'s differed\): ([0-9.]+) found by the key cache, ([0-9.]+) looked up in the maps', got_logs[0])
     ok = tc is not None and float(tc.group(1)) > 0 and float(tc.group(3)) > 0 and 0 < int(tc.group(4)) <= 1808
     print('%s: d3d12: texture tables and constant blocks counted (%s)' % ('ok' if ok else 'FAIL', tc.group(0) if tc else 'no line')); bad += not ok
     clear_logs(); run(ours, 'frames 2000 draw', True, 'thread', D12)

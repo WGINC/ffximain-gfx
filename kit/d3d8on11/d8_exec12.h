@@ -175,6 +175,13 @@ struct Exec12 {
   struct PSh { ID3DBlob *code = nullptr; uint32_t id = 0; uint64_t h = 0; };
   std::unordered_map<std::string, VSh> vsh; std::unordered_map<std::string, PSh> psh;
   std::unordered_map<std::string, ID3D12PipelineState *> psos;
+  // (14 Nov) in front of the three maps: a direct-mapped cache (1024) by a 64-bit hash of the key, each entry pointing at
+  // the map's own key (node-based: it stays put) and value, so a key seen before is found without making a std::string
+  // of it; an entry is used only when its key equals this one byte for byte, else the map is asked as before. The maps
+  // are only emptied at shutdown, and the cache with them
+  template <class V> struct KCache { struct E { uint64_t h = 0; const std::string *k = nullptr; V v{}; }; E e[1024]; };
+  KCache<VSh *> vs_kc; KCache<PSh *> ps_kc; KCache<ID3D12PipelineState *> pso_kc;
+  uint64_t c_kc_hit = 0, c_kc_miss = 0;
   ID3DBlob *compile_hlsl(const std::string &src, const char *entry, const char *target);
   ID3DBlob *cpy_vs = nullptr, *cpy_ps = nullptr;
   std::unordered_map<uint32_t, ID3D12PipelineState *> cpy_psos;   // per destination format

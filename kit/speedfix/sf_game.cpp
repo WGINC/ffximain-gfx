@@ -146,11 +146,11 @@ extern "C" int sf_hook_name(const XikitHost *host) { return XI_HOOK(host, CXiAct
 static xikit::fn<decltype(&Unit10036B90_SetVolumeVector)> prev_setvol;
 static xikit::fn<decltype(&CYySoundElem::UpdateTimerAndPosition)> prev_elemupd;
 static void *snd_elem;                                    // the element UpdateTimerAndPosition is running for (game thread)
-static volatile long snd_kept, snd_gone;
+static volatile long snd_kept, snd_gone, snd_req;
 static undefined4 __thiscall sf_setvol(void *self_, undefined4 a1, undefined4 a2) {
   undefined4 r = prev_setvol(self_, a1, a2);
   if ((uintptr_t)__builtin_return_address(0) != XI_GAME(0x10036404u) || !snd_elem) return r;
-  void *e = snd_elem;
+  void *e = snd_elem; snd_req++;
   if ((int32_t)r < 0) {
     if (!sf_cfg.sound_retry) { snd_gone++; return r; }
     typedef uint32_t (__thiscall *KeepFn)(void *);
@@ -170,4 +170,4 @@ extern "C" int sf_hook_sound(const XikitHost *host) {
   if (r != XIKIT_OK) return r;
   return XI_HOOK(host, CYySoundElem::UpdateTimerAndPosition, sf_elemupd, prev_elemupd);
 }
-extern "C" void sf_sound_take(long *kept, long *gone) { *kept = snd_kept; *gone = snd_gone; snd_kept = snd_gone = 0; }
+extern "C" void sf_sound_take(long *req, long *kept, long *gone) { *req = snd_req; *kept = snd_kept; *gone = snd_gone; snd_req = snd_kept = snd_gone = 0; }

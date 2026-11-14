@@ -1088,8 +1088,8 @@ static void st_stats(void) {
         "frame %ld (counted under uncap/frame_step, Frame_Render's fork)", n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[0]); }
   if (sf_cfg.name_smooth) { long ns, nk; sf_name_take(&ns, &nk);
     LOG("speedfix: name_smooth: %ld name sizes made from the unrounded depth, %ld left at the game's (the depth did not match the game's)", ns, nk); }
-  { long k, g; sf_sound_take(&k, &g);
-    LOG("speedfix: sound_retry=%d: sounds refused a voice since the last line: %ld kept to ask again, %ld deleted (the game's way)", sf_cfg.sound_retry, k, g); }
+  { long q, k, g; sf_sound_take(&q, &k, &g);
+    LOG("speedfix: sound_retry=%d: %ld sound restarts asked for a voice since the last line; refused a voice: %ld kept to ask again, %ld deleted (the game's way)", sf_cfg.sound_retry, q, k, g); }
   if (sf_cfg.shadow_fit) {
     long n, g; float mn, mx, sm; sf_shadow_take(&n, &g, &mn, &mx, &sm);
     if (n) LOG("speedfix: shadow_fit: %ld simple shadows sized by their model (footprint diagonal %.2f to %.2f, mean %.2f), %ld at the game's size (no box, or a diagonal outside 0.05 to 20)",

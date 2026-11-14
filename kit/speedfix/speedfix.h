@@ -65,7 +65,7 @@ uintptr_t sf_game_addr(uint32_t analysed);      // an analysed address in the ru
 int  sf_hook_query(const XikitHost *host);
 int  sf_hook_shadow(const XikitHost *host);
 int  sf_hook_sound(const XikitHost *host);        // sound_retry: Unit10036B90_SetVolumeVector and CYySoundElem::UpdateTimerAndPosition hooked
-void sf_sound_take(long *kept, long *gone);       // sound_retry: refusals answered 0 (element kept), refusals left (element deleted)
+void sf_sound_take(long *req, long *kept, long *gone);   // sound_retry: restarts asking a voice; refusals answered 0 (kept); refusals left (deleted)
 int  sf_hook_name(const XikitHost *host);         // name_smooth: CXiActor::NameCalc hooked
 void sf_name_take(long *smooth, long *kept);       // shadow_fit: Shadow_DrawByMode hooked
 void sf_shadow_take(long *n, long *g, float *dmin, float *dmax, float *dsum);   // its counts since the last call

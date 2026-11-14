@@ -5939,6 +5939,22 @@ Offline: the hooks go in (logged), and with sound_retry=0 both hooked functions 
 Not known offline: that this is the rain's cause in the owner's game (the line's counts in a debug run will say whether
 refusals happen when the rain stops).
 
+## 14 Nov (forty-second entry): the owner's 1210 run -- the per-draw cut measured; sound_retry did not act
+
+Same build as the 41st entry, debug on, 25 minutes (xikit.log 06:23-06:48), the city and rain.
+- Sampled draw record (the city windows, 2,000-4,500 draws a frame): 1.75-1.9 us, from 2.5-3 us in 1110. Textures
+  0.11-0.13 us (0.65-0.75 before): 30-65 tables made and 2,800-4,500 reused a frame. Constants 0.35-0.37 us (0.50-0.55):
+  one block per 4-5 draws, ~600 bytes written each instead of 1,808. Pipeline 0.30-0.33 and commands 0.26-0.29 now
+  take as long as the constants.
+- The executor's draw time a frame, by draws a frame (executor stats lines, windows paired with their binds line; not
+  the same spot or minute in the two runs): 1,500-2,500 draws 2.06 -> 1.50 us a draw (3.77 -> 2.82 ms a frame),
+  frame 10.0 ms in both; 2,500-3,500 draws 1.79 -> 1.16 us (4.98 -> 3.37 ms), frame 11.5 -> 10.7 ms (87 -> 93 fps).
+  Over 3,500 draws only in 1210 (8 windows): 1.1-1.4 us a draw, 69-74 fps. Below 2,500 draws the frame did not get
+  shorter: the executor is busy 7.5 of 10 ms there, so something else (the game thread or pacing) sets it.
+- sound_retry: every one of the 25 lines says 0 kept, 0 deleted. The owner heard the rain keep going; this run's log
+  says that was not this setting (no restart was refused a voice). Which restarts happened is not known: the line did not
+  count them. Now it does (the restarts asking a voice at 0x10036404, besides the refusals).
+
 ## 14 Nov: the 11 Nov status retired (kept here word for word)
 
 ### Where things stood (11 Nov 2026)

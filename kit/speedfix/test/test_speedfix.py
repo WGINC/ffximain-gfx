@@ -60,7 +60,7 @@ print('%s: name_smooth=1: CXiActor::NameCalc hooked (logged)' % ('ok' if ok else
 # sound_retry (14 Nov): on by default, the two hooks go in and say so (this run), and the counts line is written (the last
 # mode's run, whose statistics lines are on)
 ok = r.returncode == 0 and 'speedfix: sound_retry=1: a sound the game keeps when unheard is kept when refused a voice' in slog and \
-     re.search(r'speedfix: sound_retry=1: sounds refused a voice since the last line: \d+ kept to ask again, \d+ deleted', log) is not None
+     re.search(r'speedfix: sound_retry=1: \d+ sound restarts asked for a voice since the last line; refused a voice: \d+ kept to ask again, \d+ deleted', log) is not None
 print('%s: sound_retry=1 (the default): the voice request and the element update hooked, the counts logged' % ('ok' if ok else 'FAIL')); bad += not ok
 print('-- xikit.log (speedfix lines) --'); print('\n'.join(l for l in log.splitlines() if 'speedfix' in l or 'mod ' in l)[-4000:])
 ok = 'speedfix.dll (the speedfix mod) is loaded' in log

@@ -211,7 +211,7 @@ def main():
     table('chains: the modules on the x86 stack, nearest first (adjacent repeats as one)', heads)
     table('chains: the return addresses on the x86 stack, nearest first, %d deep' % o.chain, chains)
     if stutter:
-        kind, kms = collections.Counter(), collections.Counter()
+        kind, kms, kfr = collections.Counter(), collections.Counter(), collections.defaultdict(list)
         for w in sel:
             n = sum(c for c, *_ in w.rows); at = collections.Counter()
             for c, eip, xc, pc, lr, nc in w.rows:
@@ -222,9 +222,11 @@ def main():
                 at[' < '.join(mods_[:3])] += c
             k, c = at.most_common(1)[0] if at else ('(no samples)', 0)
             if n and c * 2 < n: k = '(no one chain with half the frame\'s samples)'
-            kind[k] += 1; kms[k] += w.ms
+            kind[k] += 1; kms[k] += w.ms; kfr[k].append((w.n, w.ms))
         print('\nstutters: the frames by the module chain most of their samples were in (frames, their ms in all)')
-        for k, c in kind.most_common(o.top): print('  %5d frames  %8.0f ms  %s' % (c, kms[k], k))
+        for k, c in kind.most_common(o.top):
+            print('  %5d frames  %8.0f ms  %s' % (c, kms[k], k))
+            print('                            ' + ', '.join('%d (%.0f)' % fm for fm in sorted(kfr[k])))
     table('x86: the module the x86 code was in', x86)
     table('native: the module the native code was in', nat)
     table('joint: x86 module | native module', joint)

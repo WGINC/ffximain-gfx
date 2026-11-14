@@ -8,9 +8,6 @@
           \  o  ||  o  /
            | o  ||  o |
             \o  ||  o/
-             |  ||  |
-              \ || /
-               '--'
 ```
 
 Hullo, adventurer! Gobbie bring fixings for your game: a new renderer (d3d8on11, on Direct3D 12), a faster game

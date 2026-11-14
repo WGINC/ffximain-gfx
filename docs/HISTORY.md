@@ -5757,6 +5757,27 @@ ab_levers, waits 3 s, then sets it, so each run starts a fresh A/B; its mark is 
 - Installed now: swap_buffers=2 (kit/install/config/d3d8on11.ini). The 25-26 Nov measurement that favoured 3 was
   before pace_adaptive and precise_pacing.
 
+## 14 Nov (thirty-fourth entry): the 1 Dec run tested further -- the Mac recording, and why 2 buffers show more
+
+Scripts: kit/sessions/d12_01dec/video/ (as run).
+- **The Mac screen recording against the log and the phone.** Aligned by the camera's turns: Mac 0 s = `mark rec`
+  - 5.950, 5.960, 5.965, 5.950 s in four parts (correlation 0.68-0.87). Against the phone on step timing: within 3-11
+  ms. In the three turns, the phone's gaps of 40+ ms (1, 8, 8) each hold a Mac recording frame whose content moved;
+  the recording has no gap of 40+ ms there, and 51-54 pictures a second against the panel's 58-86. So: the recording
+  keeps fewer pictures than the panel showed (its rate is the recorder's; the judder the owner sees in it is its own
+  sampling), and during the panel's long gaps macOS had a new picture. The 33rd entry's "lost after the guest's
+  compositor, in Parallels or macOS" narrows to: lost between macOS having the picture and the panel showing it. Why
+  is not known; the Mac's variable refresh (ProMotion) is a candidate, not tested.
+- **Why 2 buffers show more frames (PresentMon, both starts, past the first fifth).** Tested and refuted: Presents
+  locked to the refresh with 2 (phase concentration 0.012 and 0.002; the shown frames' screen times 0.98, so the grid
+  is real); the difference being only frame rate (at 100-110 frames a second, shown 99% with 2 against 85% with 3,
+  held 2+ refreshes 16% against 31%); bunched Presents with 3 (under 2 ms apart: 0.4% in both); the GPU held to the
+  refresh with 2 (GPU busy median 8.33 ms, but spread evenly from 6 to 10.5 ms: a coincidence). What holds: a dropped
+  frame is one with the next Present close behind (78% / 91% under one refresh, against 33% / 60% of shown frames);
+  yet with 2 buffers a frame followed 2-6 ms later is still shown 92-96%, with 3 only 39-47%; the GPU starts a frame
+  later with 2 (GPULatency median 16.7 against 13.8 ms). The mechanism inside Windows' compositor and Parallels'
+  display is not known.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

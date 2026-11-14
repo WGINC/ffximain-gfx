@@ -5664,6 +5664,22 @@ of everything frame-wise".
 - step_exact's group: step_exact changes how far things move, not frame times; its 31.4 against 11.2 a minute is not
   attributed to it (the pace is on in both halves; the scene differs between phases).
 
+## 14 Nov (thirtieth entry): precise_pacing under uncap; the limiter check's two values on this machine
+
+- **Movement:** in the 27 Nov frame log the player's position moves each frame by exactly [g_pCamera+0x2C], the
+  frame's own time from the game's timer (whole ms; 0.1-0.7% off proportional over every A/B phase), not the
+  4-frame average and not speedfix's step. precise_pacing answers that timer from the counter, but only for calls
+  returning to 0x10012B2B, 0x10012B94, 0x10012BCE; under uncap the fork of Frame_Render makes them. The fork now
+  marks them (xi_rate_site, the game's arithmetic kept); sf_rate_thunk routes a marked call as that site. Test:
+  5 of 5 marked calls answered in fractional ms within 0.3 ms of the counter, both builds. test_framestep ALL OK.
+- **The limiter check (precise_pacing=1, the game's 60 fps wait, median within 0.05 of 16.667):** on this machine
+  since its restart the median comes out at one of two values, run alone, with the speedfix before the marking and
+  the one after alike: before 16.675, 16.721, 16.675; after 16.714, 16.674, 16.734 (the game's ticks add up to the
+  counter's time in every run). Earlier the same day the build before the step_exact change measured 16.672-16.676
+  in three runs. Why the second value appears is not known. Under uncap the wait does not run (its floor is 0). The
+  suites' remaining failure on both builds is this check.
+- Installer speedfix.ini: pace_adaptive=1 (no cap). The 28 Nov session: precise_pacing, step_exact, both, A/B.
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

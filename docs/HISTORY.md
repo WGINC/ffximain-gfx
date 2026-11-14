@@ -5891,6 +5891,24 @@ fps, Present 4-5 ms of 6-7.6 (waiting on Present). So the swings are the scene's
 them. Steady rate now: frame_cap=60. Higher in crowds: the executor's cost per draw (the open item "the number of
 draws").
 
+## 14 Nov (fortieth entry): where a Direct3D 12 draw's time goes -- the measurement
+
+The owner's city stretch (39th entry): executor draws 18.9 of 19.4 ms a frame for 4,767 draws (~4 us each); 14.8 MB
+and 4,852 records a frame through the ring; 34 of 4,767 draws as deltas; 1,584 pipeline switches and 4,268 texture
+tables a frame. Before this, the per-draw split (preparing / submitting) was measured for the Direct3D 11 executor
+only (12 Nov); probe12 (12 Nov) had already shown that recording on more threads is not the lever on the owner's Mac,
+and that simple Direct3D 12 draws cost 0.05-0.1 us of CPU there -- so the ~4 us is most likely our own per-draw work,
+which is what this measures.
+- d8_exec12: with log_stats=1 (debug), one draw record in 32 is timed through run() (the record's handling: the delta
+  head kept, merging) and, when drawn there, by stage in draw(): shaders, samplers, room, merge slots, targets,
+  pipeline, constants, textures, buffers, commands. GPU waits inside draw() are timed (all of them). One line every
+  600 frames, "D3D12 draw time", with the timer's own cost per mark (256 marks measured at the line). Off with
+  log_stats=0 (the installer's default): one branch per record.
+- Under Wine (t8 frames 700 draw, 40 draws a frame): a record 4.28 us, in draw() 3.46 us (commands 1.21, constants
+  0.39, the rest 0.14-0.29 each); timer 0.088 us a mark. Not the owner's machine: the owner's debug run in the city
+  gives the real split.
+- Test: test_d3d8on11.py checks the line (stages, counts, in draw() <= the record).
+
 ## 14 Nov: the 11 Nov status retired (kept here word for word)
 
 ### Where things stood (11 Nov 2026)

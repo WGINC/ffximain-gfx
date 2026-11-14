@@ -81,6 +81,7 @@ void Exec12::wait(uint64_t v) {
   if (lost || !fence || fence->GetCompletedValue() >= v) return;
   if (FAILED(fence->SetEventOnCompletion(v, fev))) { check_lost("SetEventOnCompletion", E_FAIL); return; }
   double t0 = qpc12(); bool said = false;
+  struct WaitProf { Exec12 *x; double t0; ~WaitProf() { if (x->prof_on && x->in_draw) { x->prof_wait_ms += qpc12() - t0; x->prof_wait_n++; } } } wprof{this, t0};
   while (WaitForSingleObject(fev, 5000) == WAIT_TIMEOUT) {
     check_lost("waiting for the GPU", S_OK);
     if (lost) return;
@@ -218,6 +219,7 @@ typedef HRESULT (WINAPI *PFN_Serialize12)(const D3D12_ROOT_SIGNATURE_DESC *, D3D
 typedef HRESULT (WINAPI *PFN_DebugIf12)(REFIID, void **);
 int32_t Exec12::init(const XInit &x, bool resize) {
   wnd = (HWND)(uintptr_t)x.hwnd; sync = x.interval <= 4 ? x.interval : 0; width = x.width; height = x.height;
+  prof_on = d8_log_stats_on();                             // the draw time line: with the statistics lines only
   if (resize) {
     if (!swap) return D3DERR_NOTAVAILABLE;
     wait_idle();
@@ -359,6 +361,10 @@ int32_t Exec12::init(const XInit &x, bool resize) {
 
 // ---- records -------------------------------------------------------------------------------------------------------------
 void Exec12::run(uint16_t op, const uint8_t *p, uint32_t n, int32_t *hr, std::vector<uint8_t> *reply) {
+  struct RunProf { Exec12 *x; double t0; bool on;
+    ~RunProf() { if (on) { x->prof_run_ms += qpc12() - t0; x->prof_run_n++; x->prof_cur = false; } } }
+    rprof{this, 0, prof_on && (op == X_DRAW || op == X_DRAW_SAME) && (++prof_ctr & 31) == 0};
+  if (rprof.on) { rprof.t0 = qpc12(); prof_cur = true; }
   bool was_same = false;
   if (op == X_DRAW_SAME) {                                 // draw_delta: the last packet's head, then this tail
     if (n < XDRAW_TAIL || head.size() != XDRAW_HEAD) { d8_once("samenohead12", "stream error: X_DRAW_SAME with no draw before it (skipped)"); return; }
@@ -1168,6 +1174,14 @@ bool Exec12::filter_checks() {
 // ---- a draw --------------------------------------------------------------------------------------------------------------
 void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   if (!compile) return;
+  // (14 Nov) the stages' times of a sampled draw (prof_cur, set by run()); counted only when it reaches its draw call
+  struct DrawProf { Exec12 *x; bool on; int k = 0; double t[PROF_ST + 1];
+    void mark() { if (on && k <= PROF_ST) t[k++] = qpc12(); }
+    ~DrawProf() { x->in_draw = false;
+      if (on && k == PROF_ST + 1) { for (int i = 0; i < PROF_ST; i++) x->prof_st[i] += t[i + 1] - t[i]; x->prof_n++; } } }
+    dprof{this, prof_cur && !in_draw};
+  if (dprof.on) prof_cur = false;                        // (a merged run's draws one by one: the first only)
+  in_draw = true; dprof.mark();
   // shaders (the Direct3D 11 executor's HLSL), compiled once per key
   // the last draw's shaders, pipeline state and sampler table, when this draw's keys equal its (most draws: no lookup)
   VSh *Vp = nullptr; PSh *Pp = nullptr;
@@ -1210,6 +1224,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   }
   VSh &V = *Vp; PSh &P = *Pp;
   if (!V.code || !P.code) return;
+  dprof.mark();                                            // 1: shaders
 
   // ---- what may wait for the GPU comes first: the sampler table, then room in the ring and the descriptor ring. A wait
   // that submits re-opens the list, so everything this draw binds is bound after these
@@ -1250,6 +1265,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   }
   memcpy(memo.skd, skd, sizeof skd); memo.smp = smp_tab; memo.smp_ok = true;
   }
+  dprof.mark();                                            // 2: samplers
   int sks = -1; for (int e = 0; e < d.vk.nel; e++) if (d.vk.el[e].sem == SE_SKIN) sks = d.vk.el[e].stream;
   { uint64_t need = 2048 + 256 + 512;                      // the constants
     if (sks >= 0) need += 64u * SKIN_BONES + 256;
@@ -1283,6 +1299,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
       wait(gv_marks.front().fence);
     }
   }
+  dprof.mark();                                            // 3: room
   // ---- draw merging: each draw's vertex slot (its buffers copied there once per version); may wait for the GPU when the
   // slot buffers are full, so before anything is bound
   std::vector<uint32_t> mslot;
@@ -1348,7 +1365,9 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     }
     for (int s = 0; s < 4; s++) to(sa[s], sa_st[s], D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
   }
+  dprof.mark();                                            // 4: merge slots
   bind_targets(d.depth.DepthEnable || d.depth.StencilEnable); if (tcur) tcur->draws += mi ? mi->n : 1;
+  dprof.mark();                                            // 5: targets
 
   // ---- the pipeline state, cached by everything it is made of
   struct PKey { uint32_t vs, ps; D3D11_BLEND_DESC b; D3D11_DEPTH_STENCIL_DESC ds; D3D11_RASTERIZER_DESC r; uint32_t tt, rtf, dsf, nrt; } k;
@@ -1376,6 +1395,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   memcpy(memo.pkey, &k, sizeof k); memo.pso = pso; memo.pso_ok = true;
   }
   if (!pso) return;
+  dprof.mark();                                            // 6: pipeline
 
   // ---- constants (equal to the last draw's in this submission: the same place)
   if (last_c_epoch != submits || memcmp(&last_vc, &d.vc, sizeof d.vc)) {
@@ -1385,6 +1405,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     uint8_t *c; D3D12_GPU_VIRTUAL_ADDRESS g; ring_alloc(256, 256, &c, &g); memcpy(c, &d.pc, sizeof d.pc); last_pc = d.pc; last_pca = g;
   }
   last_c_epoch = submits;
+  dprof.mark();                                            // 7: constants
 
   // ---- textures: each stage's view (or the null one), into a table of eight; the same views as the last draw's: its table
   uint32_t idx[8];
@@ -1423,6 +1444,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     memcpy(last_srv_ids, idx, sizeof idx); last_srv_tab = srv_tab; last_srv_epoch = submits;
   }
 
+  dprof.mark();                                            // 8: textures
   // ---- buffers
   D3D12_VERTEX_BUFFER_VIEW vb[16] = {}; UINT nvb = 0;
   D3D12_INDEX_BUFFER_VIEW ib = {}; bool use_ib = false;
@@ -1503,6 +1525,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
     }
   }
 
+  dprof.mark();                                            // 9: buffers
   // ---- bind what differs from what the list has, and draw
   barriers();
   c_draws++;
@@ -1528,7 +1551,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   if (bd.sref != d.stencil_ref) { cl->OMSetStencilRef(d.stencil_ref); bd.sref = d.stencil_ref; }
   for (UINT i = 0; i < nvb; i++) if (memcmp(&bd.vb[i], &vb[i], sizeof vb[i])) { cl->IASetVertexBuffers(i, 1, &vb[i]); bd.vb[i] = vb[i]; }
   if (use_ib && memcmp(&bd.ib, &ib, sizeof ib)) { cl->IASetIndexBuffer(&ib); bd.ib = ib; }
-  if (mi) { cl->DrawIndexedInstanced(mcount, 1, 0, 0, 0); if (diag("sync") || diag("smp0")) wait_idle(); return; }
+  if (mi) { cl->DrawIndexedInstanced(mcount, 1, 0, 0, 0); dprof.mark(); if (diag("sync") || diag("smp0")) wait_idle(); return; }
   struct SyncAfter { Exec12 *x; ~SyncAfter() { if (diag("sync") || diag("smp0")) x->wait_idle(); } } sync_after{this};
   switch (d.kind) {
   case XD_DRAW: cl->DrawInstanced(d.count, 1, d.start, 0); break;
@@ -1537,6 +1560,7 @@ void Exec12::draw(const XDraw &d, const uint8_t *data, const MergeIn *mi) {
   case XD_INLINE_INDEXED: cl->DrawIndexedInstanced(d.count, 1, 0, (INT)d.base, 0); break;
   default: cl->DrawIndexedInstanced(d.count, 1, d.start, (INT)d.base, 0); break;
   }
+  dprof.mark();                                            // 10: commands
 }
 
 // ---- clears and copies -----------------------------------------------------------------------------------------------------
@@ -1803,6 +1827,18 @@ void Exec12::present() {
            "%u pipelines made (%u from the library), %u shaders compiled (%u from the disk cache): %.1f ms making them in all",
            c_frames, c_draws / f, c_pso / f, c_srvtab / f, c_smptab / f, c_heapsw / f, c_bars / f, c_pso_new, c_pso_loaded, c_cmp_new, c_cmp_loaded, c_pso_ms + c_cmp_ms);
     tstat_log(c_frames);
+    if (prof_on && prof_run_n) {
+      static const char *nm[PROF_ST] = {"shaders", "samplers", "room", "merge slots", "targets", "pipeline", "constants", "textures", "buffers", "commands"};
+      char line[900]; int o2 = 0; double sum = 0;
+      for (int i = 0; i < PROF_ST; i++) { double us = prof_n ? 1000.0 * prof_st[i] / prof_n : 0; sum += us; o2 += snprintf(line + o2, sizeof line - o2, "%s%s %.2f", i ? ", " : "", nm[i], us); }
+      // the timer's own cost: 256 marks in a row, measured here (each stage above includes about one)
+      double c0 = qpc12(); for (int i = 0; i < 256; i++) (void)qpc12(); double mark_us = 1000.0 * (qpc12() - c0) / 257;
+      d8_log("D3D12 draw time, %u frames (1 record in 32 sampled): a draw record's handling %.2f us (%llu sampled); in draw() %.2f us: %s us "
+             "(%llu sampled; each stage includes one timer mark, %.3f us); waits for the GPU inside draws %.3f ms a frame (%llu waits)",
+             c_frames, 1000.0 * prof_run_ms / prof_run_n, (unsigned long long)prof_run_n, sum, line, (unsigned long long)prof_n, mark_us,
+             prof_wait_ms / f, (unsigned long long)prof_wait_n);
+    }
+    prof_run_ms = prof_wait_ms = 0; prof_run_n = prof_n = prof_wait_n = 0; for (double &x : prof_st) x = 0;
     if (merge_on) d8_log("draw_merge (D3D12), %u frames: %.1f merged draws a frame took in %.1f others; %.3f MB copied to the slots a frame; %llu times the slots started again",
                          c_frames, mg_runs / f, mg_saved / f, mg_bytes / f / 1048576.0, (unsigned long long)mg_wraps);
     mg_runs = mg_saved = mg_bytes = 0;

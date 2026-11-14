@@ -691,19 +691,25 @@ for m in MODES:
 if 'thread' in MODES:
     for f in os.listdir(ours):
         if f.startswith('d3d8on11_d3d12_') and f.endswith('.bin'): os.remove(os.path.join(ours, f))
-    got = []
+    got = []; got_logs = []
     for k in range(2):
         clear_logs(); out = run(ours, 'frames 700 draw', True, 'thread', D12); t = logs()
         gt = re.search(r'D3D12 gpu time, 600 frames: a frame\'s GPU work ([0-9.]+) ms on average.*?by render target: (.*)', t)
         bl = re.search(r'D3D12 binds, 600 frames: .*?(\d+) shaders compiled \((\d+) from the disk cache\)', t)
         sv = 'D3D12 caches written' in t or os.path.exists(os.path.join(ours, 'd3d8on11_d3d12_shaders.bin'))
-        got.append((gt, bl, sv, 'presented 699' in out))
+        got.append((gt, bl, sv, 'presented 699' in out)); got_logs.append(t)
     (g1, b1, s1, p1), (g2, b2, s2, p2) = got
     # (700 frames is under the 1,800 Presents after which the cache is written while running; the first run writes it at
     # shutdown only if its device is released, which t8 frames does not do: so the first run's file is made here by a
     # longer run when it is missing)
     ok = p1 and p2 and g1 is not None and float(g1.group(1)) > 0 and b1 is not None
     print('%s: d3d12: the GPU\'s time per frame and by render target is logged (%s), and the binds line' % ('ok' if ok else 'FAIL', (g1.group(1) + ' ms; ' + g1.group(2)[:80]) if g1 else 'no line')); bad += not ok
+    # (14 Nov) where a draw's time goes: the record's handling and the ten stages of draw(), sampled 1 record in 32
+    dt = re.search(r'D3D12 draw time, 600 frames \(1 record in 32 sampled\): a draw record\'s handling ([0-9.]+) us \((\d+) sampled\); in draw\(\) ([0-9.]+) us: '
+                   r'shaders [0-9.]+, samplers [0-9.]+, room [0-9.]+, merge slots [0-9.]+, targets [0-9.]+, pipeline [0-9.]+, constants [0-9.]+, '
+                   r'textures [0-9.]+, buffers [0-9.]+, commands [0-9.]+ us \((\d+) sampled; each stage includes one timer mark, ([0-9.]+) us\)', got_logs[0])
+    ok = dt is not None and int(dt.group(2)) > 0 and int(dt.group(4)) > 0 and 0 < float(dt.group(3)) <= float(dt.group(1))
+    print('%s: d3d12: the draw time line (a record %s us, in draw() %s us, timer mark %s us)' % ('ok' if ok else 'FAIL', *(dt.group(1, 3, 5) if dt else ('-', '-', '-')))); bad += not ok
     clear_logs(); run(ours, 'frames 2000 draw', True, 'thread', D12)
     clear_logs(); out = run(ours, 'frames 700 draw', True, 'thread', D12); t = logs()
     bl = re.search(r'D3D12 binds, 600 frames: .*?(\d+) shaders compiled \((\d+) from the disk cache\)', t)

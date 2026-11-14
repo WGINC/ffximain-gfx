@@ -253,6 +253,13 @@ struct Exec12 {
   // what the list did, every 600 Presents: pipeline switches, table changes, barriers; pipelines and shaders made
   // (and the time it took: a first use of a state combination costs the frame it happens in)
   uint64_t c_pso = 0, c_srvtab = 0, c_smptab = 0, c_bars = 0, c_draws = 0; uint32_t c_frames = 0;
+  // (14 Nov) where a draw's time goes, with log_stats=1 only: one draw record in 32 is timed through run() (the
+  // record's handling: delta head, merging) and, for a draw drawn there, by stage in draw(); every GPU wait inside
+  // draw() is timed. Logged with the binds line. Stages: shaders, samplers, room, merge slots, targets, pipeline,
+  // constants, textures, buffers, commands (the list calls and the draw)
+  enum { PROF_ST = 10 };
+  bool prof_on = false, prof_cur = false, in_draw = false; uint32_t prof_ctr = 0;
+  double prof_run_ms = 0, prof_st[PROF_ST] = {}, prof_wait_ms = 0; uint64_t prof_run_n = 0, prof_n = 0, prof_wait_n = 0;
   double c_pso_ms = 0, c_cmp_ms = 0; uint32_t c_pso_new = 0, c_pso_loaded = 0, c_cmp_new = 0, c_cmp_loaded = 0;
   // ---- caches on disk, next to the executor's module (13 Nov): compiled shaders by their HLSL text's hash
   // (d3d8on11_d3d12_shaders.bin) and the driver's own pipeline library (d3d8on11_d3d12_pipelines.bin), so a state

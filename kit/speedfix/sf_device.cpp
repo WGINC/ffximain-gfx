@@ -765,12 +765,48 @@ static inline void draw_enter(int id) {          // what stub_enter does for a d
   if (g_npl) apply_pending();
   if (g_motion) mot_count(id);
 }
+// flare_fix (14 Nov; dagnyfix's flarefix v3.1 by Dellingr, GPL-3.0-only, ported: kit/install/LICENSE.txt). The lamp and
+// lantern glows: DrawPrimitive from a 36-byte-stride vertex buffer, at most 8 vertices, depth test on and depth write off,
+// alpha blending SRCALPHA / ONE (dagnyfix's diagnostics measured that signature). Their glow sits behind the lamp's own
+// surface and flickers in and out; dagnyfix moves each vertex's local z by -0.4 (a copy of the buffer drawn with
+// DrawPrimitiveUP). Here the same move is made by the world transform for the one draw: WORLD' = T(0, 0, -0.4) x WORLD
+// (D3D's row vectors: v' = v T W), the same vertices without a lock or a copy, then WORLD put back. Only when the
+// states, the stride and WORLD are known here (speedfix's shadows), and the vertices are not pre-transformed. The
+// game's call sites of the matched draws are counted (a later fix at the source).
+extern "C" { volatile long sf_flare_n, sf_flare_unknown; void *sf_flare_site[8]; long sf_flare_site_n[8]; }
+static bool flare_match(D3DPRIMITIVETYPE t, UINT prims) {
+  UINT nv = t == D3DPT_TRIANGLELIST ? prims * 3 : t == D3DPT_TRIANGLESTRIP || t == D3DPT_TRIANGLEFAN ? prims + 2 : 0;
+  if (!nv || nv > 8 || !g_ssV[0] || g_ssStride[0] != 36 || fvf_rhw(g_curVS)) return false;
+  static const D3DRENDERSTATETYPE k[5] = {D3DRS_ZENABLE, D3DRS_ZWRITEENABLE, D3DRS_ALPHABLENDENABLE, D3DRS_SRCBLEND, D3DRS_DESTBLEND};
+  static const DWORD want[5] = {D3DZB_TRUE, FALSE, TRUE, D3DBLEND_SRCALPHA, D3DBLEND_ONE};
+  for (int i = 0; i < 5; i++) {
+    if (!g_rsV[k[i]] || g_isP[k[i]]) { if (g_rsV[D3DRS_DESTBLEND] && g_rs[D3DRS_DESTBLEND] == D3DBLEND_ONE) sf_flare_unknown++; return false; }
+    if (g_rs[k[i]] != want[i]) return false;
+  }
+  if (!g_xfV[D3DTS_WORLD]) { sf_flare_unknown++; return false; }
+  return true;
+}
+static void flare_site(void *ra) {
+  for (int i = 0; i < 8; i++) {
+    if (sf_flare_site[i] == ra) { sf_flare_site_n[i]++; return; }
+    if (!sf_flare_site[i]) { sf_flare_site[i] = ra; sf_flare_site_n[i] = 1; return; }
+  }
+}
 static HRESULT __stdcall h_DP(void *d, D3DPRIMITIVETYPE t, UINT start, UINT prims) {
   if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPr4, S_DP)(d, t, start, prims); }
   draw_enter(S_DP);
   if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
   site(__builtin_return_address(0));
+  if (sf_cfg.flare_fix && !g_recording && flare_match(t, prims)) {
+    D3DMATRIX w = g_xf[D3DTS_WORLD], n = w;
+    for (int c = 0; c < 4; c++) n.m[3][c] = w.m[3][c] - 0.4f * w.m[2][c];   // row 3 += -0.4 x row 2
+    PREV(PFN_DP, S_SetTransform)(d, D3DTS_WORLD, &n);
+    HRESULT hr = PREV(PFN_DPr4, S_DP)(d, t, start, prims);
+    PREV(PFN_DP, S_SetTransform)(d, D3DTS_WORLD, &w);
+    sf_flare_n++; flare_site(site_ra(__builtin_return_address(0)));
+    return hr;
+  }
   return PREV(PFN_DPr4, S_DP)(d, t, start, prims);
 }
 static HRESULT __stdcall h_DIP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv, UINT startIdx, UINT prims) {
@@ -1046,7 +1082,8 @@ extern "C" int sf_device_install(const XikitHost *host) {
   for (int s = 3; s < NSLOT; s++) {
     bool scene_slot = s == 28 || s == 29 || s == 30;                     // merge_scenes closes a held scene before them
     bool motion_slot = g_motion && ((s >= 20 && s <= 28) || s == S_SetTransform || (s >= S_DP && s <= S_DIPUP));
-    if (!(g_level == 2 || core_slot(s) || scene_slot || motion_slot || (g_level == 1 && !other_state(s)))) continue;
+    bool flare_slot = sf_cfg.flare_fix && (s == S_SetStream || s == S_SetTransform);   // flare_fix reads their shadows
+    if (!(g_level == 2 || core_slot(s) || scene_slot || motion_slot || flare_slot || (g_level == 1 && !other_state(s)))) continue;
     void *h = hook_for(s), *prev = NULL;
     if (h) {
       if (host->device_hook(kName[s], s, h, &prev) == XIKIT_OK) { g_prev[s] = prev; hooked++; }

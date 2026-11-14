@@ -34,6 +34,7 @@ static int fails;
 static void check(int c, const char *what) { printf("%s: %s\n", c ? "ok" : "FAIL", what); if (!c) fails++; }
 static void task_dispatch_test(HMODULE sf);
 static void occl_hold_test(HMODULE sf);
+static void flare_test(void);
 static void gpu_skin_test(void);
 
 /* ---- the fake device: what reaches it is recorded ---- */
@@ -116,7 +117,8 @@ static HRESULT __stdcall d_applysb(void *d, DWORD t) { rec(54, t, 0, 0, 0, 0, 0)
 static HRESULT __stdcall d_capturesb(void *d, DWORD t) { rec(55, t, 0, 0, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_deletesb(void *d, DWORD t) { rec(56, t, 0, 0, 0, 0, 0); return 0; }
 static HRESULT __stdcall d_createsb(void *d, DWORD ty, DWORD *t) { *t = g_ntok++; rec(57, *t, ty, 0, 0, 0, 0); return 0; }
-static HRESULT __stdcall d_settransform(void *d, DWORD st, const float *m) { rec(37, st, 0, 0, 0, 0, 0); return 0; }
+static HRESULT __stdcall d_settransform(void *d, DWORD st, const float *m) { rec(37, st, 0, 0, 0, m, m ? 64 : 0); return 0; }
+static HRESULT __stdcall d_setss(void *d, UINT n, void *vb, UINT stride) { rec(83, n, (uint32_t)(uintptr_t)vb, stride, 0, 0, 0); return 0; }
 static void __stdcall d_other(void) { printf("FAIL: a device method the test does not provide was called\n"); ExitProcess(3); }
 static void *g_vt[97];
 static struct { void **vt; } g_dev = { g_vt };
@@ -806,7 +808,7 @@ int main(int argc, char **argv) {
   if (rel) { printf("FAIL: the test needs the game DLL at its analysed base\n"); return 2; }
   for (int k = 0; k < 97; k++) g_vt[k] = (void *)d_other;
   g_vt[7] = (void *)d_caps; g_vt[15] = (void *)d_present; g_vt[34] = (void *)d_begin; g_vt[35] = (void *)d_end; g_vt[36] = (void *)d_clear;
-  g_vt[28] = (void *)d_copyrects; g_vt[37] = (void *)d_settransform;
+  g_vt[28] = (void *)d_copyrects; g_vt[37] = (void *)d_settransform; g_vt[83] = (void *)d_setss;
   g_vt[14] = (void *)d_reset; g_vt[25] = (void *)d_creatert;
   for (int k = 0; k < 11; k++) g_svt[k] = (void *)d_other;
   g_svt[1] = (void *)s_addref; g_svt[2] = (void *)s_release; g_svt[8] = (void *)s_getdesc; g_svt[9] = (void *)s_lock; g_svt[10] = (void *)s_unlock;
@@ -878,6 +880,7 @@ int main(int argc, char **argv) {
   if (step) { frames(1); return step_test(); }
   if (group) { frames(1); return group_test(); }
   if (minimal) {
+    flare_test();
     check(GetFileAttributesA("speedfix.ini") != INVALID_FILE_ATTRIBUTES, "speedfix.ini written with the defaults");
     LONG m = g_n; begin(); setrs(7, 1); setrs(7, 1); settex(0, &g_tex1); settex(0, &g_tex1);
     float v[12] = {0}; dpup(4, 1, v, 16); dpup(4, 1, v, 16); end(); present();
@@ -1283,4 +1286,33 @@ static void gpu_skin_test(void) {
   settest(NULL);
   *(void **)GAME(0x1045B774u) = old774; *(uint32_t *)GAME(0x1045B618u) = old618; *(void **)GAME(0x10457550u) = old550;
   #undef RNDF
+}
+
+/* flare_fix (14 Nov, sf_device.cpp): a DrawPrimitive with the glow's signature (stride 36, at most 8 vertices, depth
+   test on, no depth write, SRCALPHA / ONE) reaches the device between a WORLD moved -0.4 along its local z (row 3 minus
+   0.4 x row 2) and the game's WORLD again; one with another blend reaches it with no transform around it */
+/* (d3d8.h values: ZENABLE 7, ZWRITEENABLE 14, ALPHABLENDENABLE 27, SRCBLEND 19, DESTBLEND 20; SRCALPHA 5, INVSRCALPHA 6, ONE 2; WORLD 256; TRIANGLELIST 4) */
+static void flare_test(void) {
+  typedef HRESULT (__stdcall *SS)(void *, UINT, void *, UINT); typedef HRESULT (__stdcall *XF)(void *, DWORD, const float *);
+  typedef HRESULT (__stdcall *DP)(void *, DWORD, UINT, UINT);
+  float w[16] = {2, 0, 0, 0, 0, 3, 0, 0, 0, 0, 5, 0, 10, 20, 30, 1};
+  begin();
+  setrs(7, 1); setrs(14, 0); setrs(27, 1); setrs(19, 5);
+  setrs(20, 2);
+  DEV(83, SS)(&g_dev, 0, (void *)0x1234, 36); DEV(37, XF)(&g_dev, 256, w);
+  LONG from = g_n; DEV(70, DP)(&g_dev, 4, 0, 2);
+  int seen = 0, ok = 0;
+  for (LONG i = from; i < g_n; i++) {
+    const Call *c = &g_log[i];
+    if (seen == 0 && c->slot == 37 && c->a[0] == 256 && c->nbytes == 64) {
+      float m[16]; memcpy(m, c->bytes, 64);
+      ok = m[12] == 10 && m[13] == 20 && m[14] == 30 - 0.4f * 5 && m[0] == 2 && m[10] == 5; seen = 1;
+    } else if (seen == 1 && c->slot == 70) seen = 2;
+    else if (seen == 2 && c->slot == 37 && c->a[0] == 256) { float m[16]; memcpy(m, c->bytes, 64); if (!memcmp(m, w, 64)) seen = 3; }
+  }
+  check(seen == 3 && ok, "flare_fix: the glow draw goes out under WORLD moved -0.4 along its local z, then the game's WORLD again");
+  setrs(20, 6);
+  from = g_n; DEV(70, DP)(&g_dev, 4, 0, 2);
+  check(count(37, from) == 0 && count(70, from) == 1, "flare_fix: a draw with another blend is drawn as the game draws it (no transform around it)");
+  end(); present();
 }

@@ -18,6 +18,11 @@ The full text of the licence is in COPYING.txt.
 Changes made to work this project is built on (GPL-3.0 section 5):
 - speedfix: rewritten from speedfix_hook (GPL-3.0-only) as a mod of the kit: its device fixes moved onto the kit's
   device hooks, its changes to the game's code re-derived from the game's binary, and new settings added.
+- flare_fix (speedfix): ported from dagnyfix's flarefix v3.1 (Dellingr, GPL-3.0-only): the same draws matched by the
+  same states; the glow moved by the world transform for the draw instead of a copy of its vertices.
+- sphere_shine (speedfix): our own version of a technique from portfix (voetre, MIT licence: Copyright (c) 2026
+  voetre), made in the game's own model drawing (SkinAndDrawV2's fork); portfix's measurements of the PS2 are its
+  source.
 
 2. MATERIAL DERIVED FROM THE GAME: NOT COVERED BY THIS LICENSE
 

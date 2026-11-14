@@ -151,6 +151,8 @@ static const char kDefaultIni[] =
   "sound_retry=1\r\n"
   "; sphere_shine: sphere-mapped metal (an evev texture) at the PS2's mapping and strength; 0 = the game's (dull)\r\n"
   "sphere_shine=1\r\n"
+  "; flare_fix: lamp and lantern glows drawn in front of their lamp (from dagnyfix); 0 = the game's (they flicker behind it)\r\n"
+  "flare_fix=1\r\n"
   "; step_exact: with frame_step, the game moves things by this frame's own time (the performance counter, kept within\r\n"
   ";   1 ms of the game's whole-millisecond time) instead of its average of the last 4 frames. Live both ways\r\n"
   "step_exact=0\r\n"
@@ -254,7 +256,7 @@ static SfConfig read_config(void) {
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
-  c.name_smooth = rd("name_smooth", 1) ? 1 : 0; c.sound_retry = rd("sound_retry", 1) ? 1 : 0; c.sphere_shine = rd("sphere_shine", 1) ? 1 : 0;
+  c.name_smooth = rd("name_smooth", 1) ? 1 : 0; c.sound_retry = rd("sound_retry", 1) ? 1 : 0; c.sphere_shine = rd("sphere_shine", 1) ? 1 : 0; c.flare_fix = rd("flare_fix", 1) ? 1 : 0;
   c.step_exact = rd("step_exact", 0) ? 1 : 0; c.pace_adaptive = rd("pace_adaptive", 0) ? 1 : 0;
   c.pace_pct = rd("pace_pct", 90); if (c.pace_pct < 50 || c.pace_pct > 99) c.pace_pct = 90;
   c.shadow_fit = rd("shadow_fit", 1) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
@@ -1090,6 +1092,12 @@ static void st_stats(void) {
         "frame %ld (counted under uncap/frame_step, Frame_Render's fork)", n[1], n[2], n[3], n[4], n[5], n[6], n[7], n[0]); }
   if (sf_cfg.name_smooth) { long ns, nk; sf_name_take(&ns, &nk);
     LOG("speedfix: name_smooth: %ld name sizes made from the unrounded depth, %ld left at the game's (the depth did not match the game's)", ns, nk); }
+  if (sf_cfg.flare_fix) {
+    char b[400]; int o = 0;
+    for (int i = 0; i < 8 && sf_flare_site[i] && o < 360; i++) o += snprintf(b + o, sizeof b - o, " %p x%ld", sf_flare_site[i], (long)sf_flare_site_n[i]);
+    LOG("speedfix: flare_fix: %ld glow draws moved since the last line (%ld possible ones skipped, a state not known here); call sites:%s",
+        (long)InterlockedExchange(&sf_flare_n, 0), (long)InterlockedExchange(&sf_flare_unknown, 0), o ? b : " none");
+  }
   if (sf_cfg.sphere_shine) LOG("speedfix: sphere_shine: %ld sphere-mapped batches drawn the PS2's way since the last line", (long)InterlockedExchange(&xi_sphere_draws, 0));
   { long q, k, g; sf_sound_take(&q, &k, &g);
     LOG("speedfix: sound_retry=%d: %ld sound restarts asked for a voice since the last line; refused a voice: %ld kept to ask again, %ld deleted (the game's way)", sf_cfg.sound_retry, q, k, g); }

@@ -27,8 +27,8 @@ for mode in ('minimal', 'full', 'lazy', 'blocks', 'pacing', 'step', 'group'):
     log = open(os.path.join(d, 'xikit.log')).read() if os.path.exists(os.path.join(d, 'xikit.log')) else ''
     if r.returncode != 0 or 'ALL OK' not in r.stdout: bad += 1
     if mode == 'minimal':
-        ok = 'speedfix: 20 device methods hooked, 3 flush guards' in log
-        print('%s: minimal: 20 device methods hooked (the four draws for null_draws), 3 flush guards (CopyRects, UpdateTexture, GetFrontBuffer: merge_scenes)' % ('ok' if ok else 'FAIL')); bad += not ok
+        ok = 'speedfix: 22 device methods hooked, 3 flush guards' in log
+        print('%s: minimal: 22 device methods hooked (the four draws for null_draws; SetStreamSource and SetTransform for flare_fix, on by default), 3 flush guards (CopyRects, UpdateTexture, GetFrontBuffer: merge_scenes)' % ('ok' if ok else 'FAIL')); bad += not ok
     import re
     if mode == 'full':
         ok = 'speedfix: cpu tier in use: x87' in log

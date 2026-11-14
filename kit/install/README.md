@@ -92,6 +92,11 @@ wrong corner of the reflection picture at half the PS2's strength, so the metal 
 PS2's way: right part of the picture, full strength. **0** = the game's dull way. (How the PS2 does it was measured by
 voetre for portfix; gobbie made its own version inside gobbie's model drawing.)
 
+### flare_fix (1)
+Lamps and lanterns far away have a glow that blinkblink behind its own lamp. *Shkohhh...* **1** = gobbie draw the glow a
+tiny bit nearer (0.4, along the glow's own depth), so it stay in front. **0** = the game's blinky way. (From dagnyfix, by
+Dellingr; gobbie move it with the glow's position instead of copying its points.)
+
 ### renderer (d3d12)
 **d3d12** = gobbie's fastfast renderer. If Direct3D 12 no start on a machine, it use Direct3D 11 by itself. **d3d11** =
 always the olderway (try this only if d3d12 give youuu trouble).

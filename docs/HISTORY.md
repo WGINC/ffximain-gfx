@@ -5856,6 +5856,30 @@ of the game's goblin; strip unneeded logging, with a debug mode that has it.
   - The frame rate swinging between 60 and 120: the minute averages (7-10 ms) cannot show it; debug mode's per-frame
     statistics, or a capture, are needed.
 
+## 14 Nov (thirty-eighth entry): why the game's ambient sounds stop -- read from its code (analysed build 6A995428)
+
+The owner: the rain stopping after a while and doubled sounds happen on vanilla too (dgVoodoo, no gobbiefix); the
+distant mountains are fine. What the code says about sounds that stop (each step disassembled here):
+- CYySoundElem_UpdateQueue (0x10036230, once per Frame_Render) walks the sound elements (head 0x104638F8, next at
+  +0x194). For each with a handle ([+0x1E0] > 0) it asks the sound system whether the handle is still among its
+  voices (0x10246160 case 0: a table at [0x106690C8] of 0x1310 / 0xF4 = 20 voice entries, handle at +0xC0) and lists
+  the live ones in a 64-entry array (0x10462590; the loop stops at 0x40). Then each element's update (0x100364A0).
+- An element's update (0x100364E0): a new sound gets a countdown of 3.0 ([+0x1E4], 0x100363B0), less 1.0 (0x1032961C)
+  per update. Past it, 0x100367C0 asks whether the handle is in the live list; if not, and the element's vtable +0x40
+  (0x10036770: true for a resource whose [+0x3C] bit 31 is set, or by its owner's 0x100539E0) says so, 0x10036420
+  releases the handle (0x10036B90, the sound system's 0x10246000) and sets it 0.
+- A handle of 0 is started again on a later update when the sound is in range (0x10036C70): 0x100363B0 -> 0x10036F50
+  (refused, 0, when 20 requests are already queued in that update: 0x10036460) -> 0x10038330, which returns -1 when the
+  voices in use (0x10246160 case 5) are at or over the limit in 0x10456A94 (or 20, when 0x10087060 and the byte
+  0x10463924). A handle below 0 takes the "finished" path (0x10036741): vtable +0x18 = 0x10036AD0, the destructor with
+  free (0x10028710). The element is gone; nothing in this path makes it again.
+- The limit 0x10456A94: default 12 (0x10017992); the game's settings table (0x103508CC: address 0x10456A94, key 0x1D)
+  loads it from registry value 0029 (key 7 beside it is the sound on/off, 0x10456A88). The owner's registry (xikit
+  environment report, 5 Nov): HKLM\SOFTWARE\PlayOnlineUS\SquareEnix\FinalFantasyXI 0029 = 12.
+- So: a looping sound whose voice ends or is taken, and that finds all voices of the limit busy when it tries again,
+  is destroyed. That this is what stops the owner's rain is not measured; raising 0029 to 20 (the size of the voice
+  table and the code's other limit) is the test. The doubled sounds are not traced.
+
 ## 14 Nov: the 11 Nov status retired (kept here word for word)
 
 ### Where things stood (11 Nov 2026)

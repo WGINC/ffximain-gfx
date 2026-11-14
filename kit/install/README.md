@@ -97,11 +97,11 @@ Lamps and lanterns far away have a glow that blinkblink behind its own lamp. *Sh
 tiny bit nearer (0.4, along the glow's own depth), so it stay in front. **0** = the game's blinky way. (From dagnyfix, by
 Dellingr; gobbie move it with the glow's position instead of copying its points.)
 
-### aura_size (2048)
+### aura_size (256)
 *Pshhh...* The glowy auras around people (and their ghosty copies) is drawn from a small picture of the scene, only
-256 dots across, then blown up big, so the edges come out jaggy. Gobbie make that picture bigger: **2048** (gobbiepick)
-is what SpectralFix used. **256** = the game's jaggy size. 512, 1024 and 4096 also work (a bigger one cost a little
-more of the graphics card). (SpectralFix by Krauerlabs found the problem; dagnyfix by Dellingr brought it over; gobbie
+256 dots across, then blown up big. With dgVoodoo the edges come out jaggy; with gobbie's renderer youuu see them
+smooth already (why, gobbie no know yet), so gobbie leave the game's **256**. **512, 1024, 2048, 4096** = a bigger
+picture, if youuu still see jaggies (2048 is what SpectralFix used; bigger cost a little more of the graphics card). (SpectralFix by Krauerlabs found the problem; dagnyfix by Dellingr brought it over; gobbie
 fixed it where the game make the picture.)
 
 ### renderer (d3d12)

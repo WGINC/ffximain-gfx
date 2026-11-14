@@ -154,7 +154,7 @@ static const char kDefaultIni[] =
   "; flare_fix: lamp and lantern glows drawn in front of their lamp (from dagnyfix); 0 = the game's (they flicker behind it)\r\n"
   "flare_fix=1\r\n"
   "; aura_size: actor auras drawn from a picture this big (256, 512, 1024, 2048, 4096); 256 = the game's (jagged)\r\n"
-  "aura_size=2048\r\n"
+  "aura_size=256\r\n"
   "; step_exact: with frame_step, the game moves things by this frame's own time (the performance counter, kept within\r\n"
   ";   1 ms of the game's whole-millisecond time) instead of its average of the last 4 frames. Live both ways\r\n"
   "step_exact=0\r\n"
@@ -258,8 +258,8 @@ static SfConfig read_config(void) {
   c.precise_pacing = rd("precise_pacing", 0);
   c.uncap = rd("uncap", 0) ? 1 : 0; c.frame_step = rd("frame_step", 0); if (c.frame_step < 0 || c.frame_step > 3) c.frame_step = 0;
   c.null_draws = rd("null_draws", 0);
-  c.name_smooth = rd("name_smooth", 1) ? 1 : 0; c.sound_retry = rd("sound_retry", 1) ? 1 : 0; c.sphere_shine = rd("sphere_shine", 1) ? 1 : 0; c.flare_fix = rd("flare_fix", 1) ? 1 : 0; c.aura_size = rd("aura_size", 2048);
-  if (c.aura_size != 256 && c.aura_size != 512 && c.aura_size != 1024 && c.aura_size != 2048 && c.aura_size != 4096) c.aura_size = 2048;
+  c.name_smooth = rd("name_smooth", 1) ? 1 : 0; c.sound_retry = rd("sound_retry", 1) ? 1 : 0; c.sphere_shine = rd("sphere_shine", 1) ? 1 : 0; c.flare_fix = rd("flare_fix", 1) ? 1 : 0; c.aura_size = rd("aura_size", 256);
+  if (c.aura_size != 256 && c.aura_size != 512 && c.aura_size != 1024 && c.aura_size != 2048 && c.aura_size != 4096) c.aura_size = 256;
   c.step_exact = rd("step_exact", 0) ? 1 : 0; c.pace_adaptive = rd("pace_adaptive", 0) ? 1 : 0;
   c.pace_pct = rd("pace_pct", 90); if (c.pace_pct < 50 || c.pace_pct > 99) c.pace_pct = 90;
   c.shadow_fit = rd("shadow_fit", 1) ? 1 : 0; c.shadow_fit_scale = rd("shadow_fit_scale", 46);
@@ -1101,6 +1101,12 @@ static void st_stats(void) {
     LOG("speedfix: flare_fix: %ld glow draws moved since the last line (%ld possible ones skipped, a state not known here); call sites:%s",
         (long)InterlockedExchange(&sf_flare_n, 0), (long)InterlockedExchange(&sf_flare_unknown, 0), o ? b : " none");
   }
+  { char b[400]; int o = 0;
+    for (int i = 0; i < 8 && sf_decal_site[i] && o < 360; i++) o += snprintf(b + o, sizeof b - o, " %p x%ld", sf_decal_site[i], sf_decal_site_n[i]);
+    long n = InterlockedExchange(&sf_decal_n, 0);
+    if (n) LOG("speedfix: decal probe: %ld draws under the decal view with a DXT3 texture since the last line; projection _11 %.4f to %.4f, _22 %.4f to %.4f; call sites:%s",
+               n, sf_decal_p11[0], sf_decal_p11[1], sf_decal_p22[0], sf_decal_p22[1], o ? b : " none");
+    else LOG("speedfix: decal probe: no draw under the decal view with a DXT3 texture since the last line"); }
   if (sf_cfg.sphere_shine) LOG("speedfix: sphere_shine: %ld sphere-mapped batches drawn the PS2's way since the last line", (long)InterlockedExchange(&xi_sphere_draws, 0));
   { long q, k, g; sf_sound_take(&q, &k, &g);
     LOG("speedfix: sound_retry=%d: %ld sound restarts asked for a voice since the last line; refused a voice: %ld kept to ask again, %ld deleted (the game's way)", sf_cfg.sound_retry, q, k, g); }

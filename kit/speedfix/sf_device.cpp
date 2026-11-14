@@ -792,12 +792,46 @@ static void flare_site(void *ra) {
     if (!sf_flare_site[i]) { sf_flare_site[i] = ra; sf_flare_site_n[i] = 1; return; }
   }
 }
+// decal probe (14 Nov, a measurement only: with the statistics lines on). dagnyfix's decal fix (from Daleterrence's
+// prototype) finds the ground decals by the VIEW they are drawn under, [-1 0 0 0; 0 0 -1 0; 0 -1 0 0; 0 0 -2 1] (its
+// matches_decal_view_signature), and a DXT3 texture of at most 256 in stage 0 or 1, and scales WORLD by 1.529 / proj._22
+// (and x by proj._22 / proj._11): a constant calibrated by eye, not derived. Before a fix at the source, the game's call
+// sites of those draws are counted here, with the projection's _11 and _22 when they were drawn
+extern "C" { volatile long sf_decal_n; void *sf_decal_site[8]; long sf_decal_site_n[8]; float sf_decal_p11[2] = {1e9f, -1e9f}, sf_decal_p22[2] = {1e9f, -1e9f}; }
+static bool decal_view(const D3DMATRIX &m) {
+  return fabsf(m._11) >= 0.95f && fabsf(m._22) <= 0.05f && fabsf(m._33) <= 0.05f && (fabsf(m._23) >= 0.95f || fabsf(m._32) >= 0.95f)
+      && fabsf(m._41) <= 0.1f && fabsf(m._42) <= 0.1f && fabsf(m._43 + 2.0f) <= 0.1f;
+}
+static void decal_probe(void *ra) {
+  if (!g_xfV[D3DTS_VIEW] || !decal_view(g_xf[D3DTS_VIEW])) return;
+  bool dxt3 = false;
+  for (int s = 0; s < 2 && !dxt3; s++) {
+    if (!g_texV[s] || !g_tex[s]) continue;
+    IDirect3DBaseTexture8 *b = (IDirect3DBaseTexture8 *)g_tex[s];
+    if (b->GetType() != D3DRTYPE_TEXTURE) continue;
+    D3DSURFACE_DESC dd;
+    if (SUCCEEDED(((IDirect3DTexture8 *)b)->GetLevelDesc(0, &dd)) && dd.Format == D3DFMT_DXT3 && dd.Width <= 256 && dd.Height <= 256) dxt3 = true;
+  }
+  if (!dxt3) return;
+  sf_decal_n++;
+  void *g = site_ra(ra);
+  for (int i = 0; i < 8; i++) {
+    if (sf_decal_site[i] == g) { sf_decal_site_n[i]++; break; }
+    if (!sf_decal_site[i]) { sf_decal_site[i] = g; sf_decal_site_n[i] = 1; break; }
+  }
+  if (g_xfV[D3DTS_PROJECTION]) {
+    float a = g_xf[D3DTS_PROJECTION]._11, b = g_xf[D3DTS_PROJECTION]._22;
+    if (a < sf_decal_p11[0]) sf_decal_p11[0] = a; if (a > sf_decal_p11[1]) sf_decal_p11[1] = a;
+    if (b < sf_decal_p22[0]) sf_decal_p22[0] = b; if (b > sf_decal_p22[1]) sf_decal_p22[1] = b;
+  }
+}
 static HRESULT __stdcall h_DP(void *d, D3DPRIMITIVETYPE t, UINT start, UINT prims) {
   if (g_grp) grp_order();
   if (!render_thread()) { if (g_render_tid) foreign(); return PREV(PFN_DPr4, S_DP)(d, t, start, prims); }
   draw_enter(S_DP);
   if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
   site(__builtin_return_address(0));
+  if (sf_cfg.stats_every && !g_recording) decal_probe(__builtin_return_address(0));
   if (sf_cfg.flare_fix && !g_recording && flare_match(t, prims)) {
     D3DMATRIX w = g_xf[D3DTS_WORLD], n = w;
     for (int c = 0; c < 4; c++) n.m[3][c] = w.m[3][c] - 0.4f * w.m[2][c];   // row 3 += -0.4 x row 2
@@ -815,6 +849,7 @@ static HRESULT __stdcall h_DIP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv
   draw_enter(S_DIP);
   if (sf_cfg.null_draws) { g_nullDrawn++; return D3D_OK; }
   site(__builtin_return_address(0));
+  if (sf_cfg.stats_every && !g_recording) decal_probe(__builtin_return_address(0));
   return PREV(PFN_DIP6, S_DIP)(d, t, minIdx, nv, startIdx, prims);
 }
 static HRESULT __stdcall h_DIPUP(void *d, D3DPRIMITIVETYPE t, UINT minIdx, UINT nv, UINT prims, const void *idx, D3DFORMAT fmt,

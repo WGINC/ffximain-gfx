@@ -79,6 +79,7 @@ unsigned sf_aura_remake(void);                   // the texture remade through t
 extern int sf_aura_installed; extern volatile unsigned xi_aura_size;
 int  sf_fork_framestep(const XikitHost *host);   // XI_FORK of Frame_Render and the two step getters (frame_step, uncap)
 extern volatile int sf_group_on;              // skin_merge=2: sf_device.cpp groups a model's draws
+extern volatile long sf_decal_n; extern void *sf_decal_site[8]; extern long sf_decal_site_n[8]; extern float sf_decal_p11[2], sf_decal_p22[2];   // decal probe (sf_device.cpp)
 extern volatile long sf_flare_n, sf_flare_unknown; extern void *sf_flare_site[8]; extern long sf_flare_site_n[8];   // flare_fix (sf_device.cpp)
 extern volatile int xi_gpuskin_on; extern volatile int xi_sphere_on; extern volatile long xi_sphere_draws;   // (sphere_shine)
             // the fork's gpu skinning switch (the same file)

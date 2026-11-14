@@ -5706,8 +5706,12 @@ in the minutes precise_pacing was on: the fork's marked calls are answered in th
 ## 14 Nov (thirty-second entry): the owner's 29 Nov run -- the camera measured; step_exact closed
 
 One start (cam), installed settings + step_exact, ab.bat: step_exact off/on, 8 phases of 30 s. The frame log's camera
-columns (cex..ctz) in the game: eye and target each frame. Reader kit/sessions/d12_29nov/read_ab.py. (ab.bat's own
-mark still says 'ab smooth'; ab.bat was run twice, 14 s apart: phase 1 is partly in the second mark.)
+columns (cex..ctz) in the game: eye and target each frame. Reader kit/sessions/d12_29nov/read_ab.py. (The owner ran
+ab.bat three times: 20:43:20, 20:43:40, 21:02:47. Only the first started an A/B; the second wrote the same
+ab_levers while it ran, which speedfix reads as no change, so the run went on, phase 1 split by its mark; the third
+came after the run had finished, and the same value again starts nothing ('empty it and set it again'). So the data
+is the first run's, and during the third nothing was switched: step_exact on throughout. ab.bat now empties
+ab_levers, waits 3 s, then sets it, so each run starts a fresh A/B; its mark is 'ab start'.)
 - **Camera, per phase (change of the measure from one frame to the next, as a share of its mean):** eye speed off
   24.7, 12.3%; on 22.0, 9.2, 11.2%. Turning rate (angle between consecutive view directions) off 12.6, 14.6%; on 12.7,
   13.6, 12.5%. Phases 7 and 8: the camera did not move. The spread between phases of one label is larger than the

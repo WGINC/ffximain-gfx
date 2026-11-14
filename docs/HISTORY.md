@@ -5880,6 +5880,17 @@ distant mountains are fine. What the code says about sounds that stop (each step
   is destroyed. That this is what stops the owner's rain is not measured; raising 0029 to 20 (the size of the voice
   table and the code's other limit) is the test. The doubled sounds are not traced.
 
+## 14 Nov (thirty-ninth entry): the owner's debug run -- the 60-to-120 swings follow the draws per frame
+
+One start with debug=1 (gobbiefix), grassland, a city, a desert in a sandstorm; 9 minutes. speedfix's minutes: mean
+frame 6.7-15.6 ms (148-64 fps), sd 1.7-3.2 ms in the calm minutes; pace_adaptive's aim within 0.2-0.6 ms of each
+minute's mean (it follows the scene, as built). d3d8on11's 600-frame blocks (span = busy x frames / busy share): ~300
+draws a frame 170-184 fps (executor busy 3-4 ms); 800-1,200 draws 105-140 fps (5-8 ms); 3,500-5,200 draws 43-70 fps
+(12-21 ms, Present 0.2 ms: the executor's draws are the limit, ~4 us a draw); the last 90 s ~540-790 draws, 106-116
+fps, Present 4-5 ms of 6-7.6 (waiting on Present). So the swings are the scene's draw count; the pacer does not make
+them. Steady rate now: frame_cap=60. Higher in crowds: the executor's cost per draw (the open item "the number of
+draws").
+
 ## 14 Nov: the 11 Nov status retired (kept here word for word)
 
 ### Where things stood (11 Nov 2026)

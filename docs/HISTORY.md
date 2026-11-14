@@ -5686,6 +5686,23 @@ of everything frame-wise".
   pace_adaptive 189 and 191 of 200 intervals within 0.5 ms of their median, sd 0.56 and 0.53, before 0.84-0.89).
 - Installer speedfix.ini: pace_adaptive=1 (no cap). The 28 Nov session: precise_pacing, step_exact, both, A/B.
 
+## 14 Nov (thirty-first entry): the owner's 28 Nov run -- precise_pacing reaches the uncapped frame
+
+One start (smooth2), ab.bat: precise_pacing; step_exact; both (A off, B on; pace_adaptive on throughout). The owner
+changed zone once during it and back (in group 3's B phases: 3,074 moving frames, p95 17 ms, 35% of presents never
+shown: that half is partly a loading period). speedfix's lines: 3,028-8,195 frames a minute 'timed by the counter'
+in the minutes precise_pacing was on: the fork's marked calls are answered in the game.
+- **The game's frame time ([g_pCamera+0x2C], p2c):** whole ms in 100% of group 1's A frames, in 1% of its B frames.
+  The character's movement over it: 0.1% (A) and 0.6% (B) off proportional.
+- **Movement over the kit's Present-to-Present time, frame to frame:** precise_pacing off 15.2%, on 11.1%; step_exact
+  (precise on in both) 10.7% / 12.2%; both off 18.9%, both on 10.2%. The kit's Present time is taken before
+  pace_adaptive's hold and the game's after its Present (0.51 ms apart on average with precise_pacing on): what is left
+  of the 11% is between the two clocks, not in the game's time.
+- **On the screen:** one refresh 79.0/78.7% (precise_pacing), 78.2/80.4% (step_exact): unchanged.
+- **Frames over twice their neighbours:** 23.4/18.3, 27.7/18.3 a minute; group 3 9.1/17.3 (the zone change in B).
+- Installer: precise_pacing=1 (with pace_adaptive=1; step_exact stays 0: no effect measured on movement, and the
+  camera is not in the frame log).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later

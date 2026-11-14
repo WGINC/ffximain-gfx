@@ -5643,6 +5643,27 @@ kit/sessions/d12_26nov/read_smooth.py.
 - present_interval stays at the game's (0). The installer's d3d8on11.ini gets swap_buffers=3 (two starts with it:
   21 and 34 a minute over twice their neighbours, against 46-187 in four starts with 2).
 
+## 14 Nov (twenty-ninth entry): the owner's 27 Nov run -- step_exact and pace_adaptive, A/B in one start
+
+One start (smooth), ab.bat: three groups of 4 phases of 30 s (A B B A): step_exact (pace on in both), pace_adaptive
+(step_exact on in both), both. Reader: kit/sessions/d12_27nov/read_ab.py (marks 'ab gG P X'). The owner: "a little bit
+of everything frame-wise".
+- **Frames over twice their neighbours (and 16 ms), a minute:** step_exact group 31.4 off, 11.2 on; pace_adaptive
+  group 66.8 off, 19.4 on; both 77.1 off, 22.4 on. Mean frame time 7.80/8.28, 7.63/8.09, 6.71/7.59 ms (speedfix's own
+  A/B lines: each difference within the spread between phases of one label). The pacer aimed at 7.4-8.7 ms on average;
+  88% of frames held (about 1 ms each), 12% over the aim.
+- **On the screen (PresentMon):** one refresh 83.5/82.4%, 81.8/87.3%, 85.5/84.2%; never shown 20.8/17.0%, 22.9/14.4%,
+  29.8/21.8% (off/on). The pacer's aim (about 135 a second) is above the 120 Hz refresh.
+- **Character movement (frames_player: the player's entity position each frame, me4/me8/meC):** mean speed the same
+  off and on (5.9-6.2 a second: the game's clock is kept). The change of speed from one frame to the next, dividing
+  each frame's movement by: that frame's time 15.7% (step_exact off) / 16.7% (on); the game's 4-frame average step
+  12.4% / 13.1%. With step_exact on, movement still follows the game's own average: the code that moves the character
+  does not read the step through what frame_step answers (the getters 0x10014CF0, 0x10014D20, the 24 loop changes).
+  Which game code moves it, and what it reads, is not established here. step_exact's effect on what does read the
+  getters (the camera follow among them) is not measured: the frame log has no camera position.
+- step_exact's group: step_exact changes how far things move, not frame times; its 31.4 against 11.2 a minute is not
+  attributed to it (the pace is on in both halves; the scene differs between phases).
+
 ## 11 Nov: README sections retired (kept here word for word)
 
 The README's status list of 11 Nov replaced these two sections; where they differ from later entries, the later
